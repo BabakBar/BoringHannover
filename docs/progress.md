@@ -52,15 +52,36 @@ KinoWeek/
   - **Modern Package Structure**: Proper src/ layout following Python best practices
   - **Enhanced CLI**: Added command-line arguments for development mode
 
-### 🔄 Phase 4: Local Testing & Validation (IN PROGRESS)
-- **Status**: 🔄 In Progress
+### ✅ Phase 3.5: Environment & Dependency Correction (COMPLETED)
+- **Status**: ✅ Complete
+- **Date**: 2025-11-14
+- **Achievements**:
+  - Corrected `pyproject.toml` to use standard `[project.optional-dependencies]` for development dependencies.
+  - Resolved critical `uv` virtual environment issues preventing package installation.
+  - Established a reliable dependency installation workflow using `uv`.
+  - Installed Playwright browsers required for testing and execution.
+  - Successfully ran the project's test suite, identifying a code-level bug.
+
+### 🔄 Phase 4: Local Testing & Validation (BLOCKED)
+- **Status**: 🔴 Blocked
 - **Date**: 2025-11-14
 - **Tasks**:
-  - [ ] Update project configuration for new package structure
-  - [ ] Adapt test suite to work with refactored modules
-  - [ ] Create development testing workflow
-  - [ ] Validate functionality with local file output
+  - [x] Update project configuration for new package structure
+  - [x] Adapt test suite to work with refactored modules
+  - [x] Create development testing workflow
+  - [ ] Validate functionality with local file output - **Blocked by anti-scraping measures.**
   - [ ] Create testing documentation
+
+### ⚠️ Phase 4.5: Scraping Blocker Investigation (ON HOLD)
+- **Status**: 🔴 **Blocked**
+- **Date**: 2025-11-15
+- **Summary**: The `scraper.py` module is currently **non-functional**. The target website (`hannover.premiumkino.de`) has undergone a major redesign and now employs sophisticated anti-scraping measures.
+- **Investigation Details**:
+  - The new website is a Single-Page Application (SPA) that requires JavaScript to render.
+  - Extensive debugging efforts were made using Playwright to adapt to the new structure.
+  - The scraper was updated to handle multiple dynamic elements, including a cookie consent dialog and an intro overlay.
+  - Despite successfully navigating these elements, the website still detects and blocks the automated browser from accessing the movie schedule data.
+- **Conclusion**: The website is actively preventing automated access. Bypassing this would require more advanced techniques (e.g., residential proxies, CAPTCHA solving, or deeper browser fingerprinting emulation) which are beyond the scope of the current implementation. The scraping functionality is on hold until a new strategy is developed.
 
 ### 📋 Phase 5: Containerization (PLANNED)
 - **Status**: 📋 Planned

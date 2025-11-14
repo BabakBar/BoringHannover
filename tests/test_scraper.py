@@ -122,18 +122,18 @@ class TestSendTelegram:
 class TestIntegration:
     """Integration tests for the complete workflow."""
 
-    @patch('src.kinoweek.notifier.send_telegram')
-    @patch('src.kinoweek.scraper.scrape_movies')
-    def test_full_workflow(self, mock_scrape, mock_send):
+    @patch('src.kinoweek.main.notify')
+    @patch('src.kinoweek.main.scrape_movies')
+    def test_full_workflow(self, mock_scrape, mock_notify):
         """Test the complete scraping and notification workflow."""
         mock_scrape.return_value = {"Mon 24.11": {"Wicked": ["19:30 (Cinema 10, 2D OV)"]}}
-        mock_send.return_value = True
+        mock_notify.return_value = True
         
         # Test the main() function
-        result = run_scraper(local_only=True)
+        result = run_scraper(local_only=False)
         assert result is True
         mock_scrape.assert_called_once()
-        mock_send.assert_called_once()
+        mock_notify.assert_called_once_with(mock_scrape.return_value, local_only=False)
 
 
 class TestDataValidation:

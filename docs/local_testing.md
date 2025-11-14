@@ -10,16 +10,36 @@ This guide explains how to test the refactored KinoWeek scraper locally before m
 
 ## Installation & Setup
 
-```bash
-# Install dependencies
-uv sync
+Setting up the project involves creating a virtual environment, installing dependencies, and downloading the necessary browser binaries for Playwright.
 
-# Install Playwright browsers (if not already installed)
-playwright install chromium
+1.  **Create Environment & Install Dependencies**
 
-# Copy environment template
-cp .env.example .env
-```
+    This project uses `uv` to manage dependencies. The following command will create a virtual environment, and install all required main and development packages from the `uv.lock` file.
+
+    ```bash
+    # Create the virtual environment and install all dependencies
+    uv sync --dev
+    ```
+
+2.  **Install Playwright Browsers**
+
+    Playwright requires separate browser binaries to function. After installing the Python packages, run the following command to download them:
+
+    ```bash
+    # Download and install browsers (Chromium, Firefox, WebKit)
+    uv run playwright install
+    ```
+    *Note: This step is only required once, unless you update the Playwright package.*
+
+3.  **Set Up Environment Variables**
+
+    For notifications to work, you need to provide Telegram API credentials.
+
+    ```bash
+    # Copy the environment variable template
+    cp .env.example .env
+    ```
+    Then, edit the `.env` file and add your `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`.
 
 ## Local Testing
 
@@ -168,8 +188,8 @@ The test suite includes comprehensive mocking for:
 **Solution:** Run from project root directory
 
 ### Issue: Playwright Browser Not Found
-**Symptom:** Browser launch fails
-**Solution:** Install browsers with `playwright install chromium`
+**Symptom:** Browser launch fails with an "Executable doesn't exist" error.
+**Solution:** The browser binaries need to be installed. Run `uv run playwright install`.
 
 ### Issue: No Data Extracted
 **Symptom:** Empty results despite website having content
