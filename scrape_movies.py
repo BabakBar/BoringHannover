@@ -29,14 +29,14 @@ logger = logging.getLogger(__name__)
 def scrape_movies() -> Dict[str, Dict[str, List[str]]]:
     """
     Scrape movie schedules from Astor Grand Cinema Hannover website.
-    
+
     Returns:
         Dictionary with dates as keys and movies/showtimes as values.
-        Example: {"Mon 24.11": {"Wicked": ["19:30 (Cinema 10, 2D OV)"]}}
+        Example: {"Mon 24.11": {"Wicked": ["19:30 (Cinema 10, 2D OV)"]}]}
     """
     url = "https://hannover.premiumkino.de/programm/originalfassung"
     schedule_data: Dict[str, Dict[str, List[str]]] = {}
-    
+
     with sync_playwright() as p:
         try:
             # Launch browser
