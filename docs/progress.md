@@ -100,6 +100,19 @@ KinoWeek/
   - **End-to-End Testing**: Complete workflow verified working
   - **Output Validation**: Confirmed OV-only filtering working correctly
 
+### ✅ Phase 4.7: Output Formatting Enhancement (COMPLETED)
+- **Status**: ✅ **Complete**
+- **Date**: 2025-11-17
+- **Achievements**:
+  - **Rich Metadata Extraction**: Now displaying duration, age rating (FSK), year, and country
+  - **Chronological Sorting**: Dates sorted by actual date instead of alphabetically
+  - **Compact Language Codes**: Abbreviated to EN, JP, IT, ES, RU, DE for space efficiency
+  - **Summary Statistics**: Total films, showtimes, and days displayed at the top
+  - **Improved Data Structure**: Added `MovieInfo` and `Showtime` classes for better type safety
+  - **Enhanced JSON Output**: Full metadata structure stored in schedule.json
+  - **Telegram Optimization**: Better handling of 4096 character limit with clear truncation
+  - **Professional Formatting**: Cleaner, more polished presentation suitable for production
+
 ### 📋 Phase 5: Containerization (NEXT)
 - **Status**: 📋 Planned
 - **Next Phase**
@@ -113,22 +126,29 @@ KinoWeek/
 
 ### Module Responsibilities
 
-#### `scraper.py` (105 lines)
-- **Purpose**: API-based data fetching and OV filtering
+#### `scraper.py` (159 lines)
+- **Purpose**: API-based data fetching with rich metadata extraction
+- **Key Classes**:
+  - `MovieInfo`: Data class for movie metadata (duration, rating, year, country, genres)
+  - `Showtime`: Data class for showtime information with datetime objects
 - **Key Functions**:
   - `scrape_movies()`: Main API orchestration, fetches from backend.premiumkino.de
   - `is_original_version()`: Smart filtering to identify OV vs. dubbed movies
   - Filters out 85% of German-dubbed content automatically
-  - Returns only Original Version (OV) movies in various languages
+  - Returns chronologically sorted data with full movie metadata
+  - Extracts duration, FSK ratings, release year, country, and genres
 
-#### `notifier.py` (148 lines)
-- **Purpose**: Message formatting and notifications
+#### `notifier.py` (195 lines)
+- **Purpose**: Message formatting and notifications with enhanced presentation
 - **Key Functions**:
-  - `format_message()`: Human-readable message creation
+  - `format_message()`: Polished, compact message creation with metadata
+    - Displays duration (e.g., "2h17m"), FSK ratings, and release year
+    - Uses abbreviated language codes (EN, JP, IT, ES, RU, DE)
+    - Summary statistics at the top (total films, showtimes, days)
+    - Smart truncation for Telegram's 4096 character limit
   - `send_telegram()`: Telegram Bot API integration using httpx
-  - `save_to_file()`: Local file output for development
+  - `save_to_file()`: Enhanced JSON output with full metadata structure
   - `notify()`: Unified notification interface
-- **Updated**: Now uses httpx instead of requests for consistency
 
 #### `main.py` (48 lines)
 - **Purpose**: Application orchestration and CLI
@@ -145,6 +165,10 @@ KinoWeek/
 3. **Development Support**: Local testing without Telegram dependency
 4. **Clean Architecture**: Clear separation of concerns
 5. **Enhanced CLI**: Better user experience for development
+6. **Rich Metadata**: Movie duration, ratings, year, and country information
+7. **Chronological Sorting**: Dates displayed in actual date order
+8. **Professional Formatting**: Compact, polished output optimized for Telegram
+9. **Type Safety**: Data classes for structured information handling
 
 ### Testing Strategy
 
@@ -168,26 +192,40 @@ PYTHONPATH=src uv run python -m kinoweek.main
 ### ✅ Completed & Working
 - API-based scraper with direct backend access
 - Intelligent OV (Original Version) filtering
-- Telegram notification system
-- Local testing mode
+- Rich metadata extraction (duration, ratings, year, genres)
+- Chronological date sorting
+- Professional, compact output formatting
+- Telegram notification system with optimized message format
+- Local testing mode with enhanced JSON output
 - Comprehensive test suite framework
-- Clean, modular architecture
+- Clean, modular architecture with type-safe data classes
 - Documentation updated and polished
 
 ### 📊 Current Metrics
 - **Filtering Efficiency**: 85% of content filtered (355/419 showtimes)
-- **OV Results**: 68 showtimes across 46 unique movies
+- **OV Results**: 67 showtimes across 45 unique films
 - **Date Coverage**: 34 dates with OV content
+- **Message Size**: ~4050 characters (optimized for Telegram's 4096 limit)
 - **Dependencies**: Minimal (httpx, python-dotenv)
 - **No Browser Automation**: No Playwright/Selenium needed
+
+### 📱 Output Format Highlights
+- **Summary Stats**: Films, showtimes, and days displayed prominently
+- **Movie Metadata**: Duration (e.g., "2h17m"), FSK ratings, release year
+- **Compact Language Codes**: EN, JP, IT, ES, RU, DE for space efficiency
+- **Chronological Order**: Dates sorted from earliest to latest
+- **Professional Layout**: Clean separators, consistent formatting
+- **Smart Truncation**: Clear handling when content exceeds limits
 
 ### ✅ Ready for Production
 The application is **fully functional** and ready for deployment:
 - All core functionality working
 - OV filtering accurate and tested
-- Output format validated
+- Output format polished and validated
+- Metadata extraction complete
 - Error handling implemented
 - Logging configured
+- Production-ready presentation
 
 ## Next Steps - Phase 5: Containerization & Deployment
 
@@ -229,14 +267,20 @@ Choose deployment platform:
 - **Smart Filtering is Key**: 85% of content was German dubs - filtering at the source saves bandwidth and improves UX
 - **Modern Python Packaging**: Using `src/` layout and `pyproject.toml` improved project organization significantly
 - **httpx Over requests**: Single HTTP library for consistency (both scraper and notifier)
+- **Metadata Extraction Adds Value**: Duration, ratings, and year make the output more informative and professional
+- **Chronological Sorting is Essential**: Users care about when movies play, not alphabetical day names
+- **Compact Formatting Matters**: Telegram's 4096 char limit requires thoughtful abbreviation and layout
 
 ### Development Process
 - **TDD Approach**: Writing tests first helped identify edge cases early
 - **Local Testing Mode**: `--local` flag was crucial for development without spamming Telegram
 - **Documentation as Code**: Keeping `docs/progress.md` up-to-date helped track decision rationale
 - **KISS Principle**: Simple, focused modules are easier to debug and maintain
+- **Iterative Polish**: First get it working, then make it beautiful
+- **Data Classes Improve Clarity**: `MovieInfo` and `Showtime` classes made code more maintainable
 
 ### Project Management
 - **Pivoting is OK**: When Playwright was blocked, switching to API was the right call
 - **Incremental Progress**: Each phase built on the previous, making rollback safer
 - **User-Focused**: OV filtering addresses the real user need (only original version movies)
+- **Polish Matters**: Professional formatting makes the difference between MVP and production-ready

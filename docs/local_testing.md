@@ -66,44 +66,82 @@ success = run_scraper(local_only=False)
 ## Expected Output
 
 ### output/latest_message.txt
-Formatted Telegram message with OV movies:
+Formatted Telegram message with OV movies and rich metadata:
 ```
-🎬 *Astor Grand Cinema - OV Schedule*
+🎬 *Astor Grand Cinema - OV Movies*
+📊 45 films • 67 showtimes • 34 days
 
 📅 *Mon 17.11.*
-🎭 *Sneak Preview (OV)*
-  • 20:30 (Sprache: Englisch)
-🎭 *Wicked*
-  • 19:45 (Sprache: Englisch)
+🎬 *Sneak Preview (OV)*
+  _FSK18_
+  ⏰ 20:30 (EN)
 
+───────────────────────────────────
+📅 *Tue 18.11.*
+🎬 *Die Unfassbaren 3 - Now You See Me* (2025)
+  _1h53m • FSK12_
+  ⏰ 17:45 (EN)
+
+🎬 *The Birth of Kitaro - The Mystery of Gegege* (2023)
+  _1h44m • FSK16_
+  ⏰ 20:30 (JP, UT:DE)
+
+───────────────────────────────────
 📅 *Fri 21.11.*
-🎭 *Wicked: Teil 2*
-  • 16:45 (Sprache: Englisch, Untertitel: Deutsch)
-  • 19:50 (Sprache: Englisch)
+🎬 *Wicked: Teil 2* (2025)
+  _2h17m • FSK12_
+  ⏰ 16:45 (EN, UT:DE) • 19:50 (EN)
 ```
 
 ### output/schedule.json
-Raw structured data:
+Enhanced structured data with full metadata:
 ```json
 {
   "Mon 17.11.": {
-    "Sneak Preview (OV)": ["20:30 (Sprache: Englisch)"],
-    "Wicked": ["19:45 (Sprache: Englisch)"]
+    "Sneak Preview (OV)": {
+      "metadata": {
+        "duration": 0,
+        "rating": 18,
+        "year": 0,
+        "country": "",
+        "genres": []
+      },
+      "showtimes": [
+        {
+          "time": "20:30",
+          "version": "Sprache: Englisch",
+          "datetime": "2025-11-17T20:30:00"
+        }
+      ]
+    }
   },
-  "Fri 21.11.": {
-    "Wicked: Teil 2": [
-      "16:45 (Sprache: Englisch, Untertitel: Deutsch)",
-      "19:50 (Sprache: Englisch)"
-    ]
+  "Tue 18.11.": {
+    "Die Unfassbaren 3 - Now You See Me": {
+      "metadata": {
+        "duration": 113,
+        "rating": 12,
+        "year": 2025,
+        "country": "USA",
+        "genres": [""]
+      },
+      "showtimes": [
+        {
+          "time": "17:45",
+          "version": "Sprache: Englisch",
+          "datetime": "2025-11-18T17:45:00"
+        }
+      ]
+    }
   }
 }
 ```
 
 ### Current Results
-- **34 dates** with OV movies
-- **46 unique** OV movies
-- **68 OV showtimes** total
+- **34 dates** with OV movies (chronologically sorted)
+- **45 unique** OV films
+- **67 OV showtimes** total
 - **355 German-dubbed** showtimes filtered out
+- **Full metadata** for each movie (duration, rating, year, country)
 
 ## Validation Steps
 

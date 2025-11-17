@@ -9,6 +9,9 @@ Automated API-based scraper for Astor Grand Cinema Hannover **Original Version (
 - 📱 **Telegram Integration**: Weekly notifications with formatted movie schedules
 - 🧪 **Local Testing Mode**: Test without sending Telegram messages
 - 🎯 **Accurate**: Filters out 85% of German-dubbed content, keeping only OV films
+- 📊 **Rich Metadata**: Displays duration, FSK ratings, release year, and country
+- 📅 **Chronological Sorting**: Shows dates in actual order, not alphabetically
+- 💎 **Polished Output**: Professional, compact formatting optimized for Telegram
 
 ## Quick Start
 
@@ -53,16 +56,39 @@ cat output/schedule.json
 ## How It Works
 
 1. **Fetches** movie data from `backend.premiumkino.de` API
-2. **Filters** for Original Version (OV) movies:
+2. **Extracts** rich metadata: duration, FSK ratings, release year, country, and genres
+3. **Filters** for Original Version (OV) movies:
    - Includes: English, Japanese, Italian, Spanish, Russian films
    - Includes: Original versions with German subtitles
    - Excludes: German-dubbed movies (355 of 419 total showtimes filtered out)
-3. **Formats** into readable Telegram message
-4. **Sends** weekly notification or saves locally for testing
+4. **Sorts** chronologically by date for easy planning
+5. **Formats** into polished, compact Telegram message with metadata
+6. **Sends** weekly notification or saves locally for testing
+
+## Output Example
+
+```
+🎬 *Astor Grand Cinema - OV Movies*
+📊 45 films • 67 showtimes • 34 days
+
+📅 *Mon 17.11.*
+🎬 *Sneak Preview (OV)*
+  _FSK18_
+  ⏰ 20:30 (EN)
+
+📅 *Tue 18.11.*
+🎬 *Die Unfassbaren 3 - Now You See Me* (2025)
+  _1h53m • FSK12_
+  ⏰ 17:45 (EN)
+
+🎬 *The Birth of Kitaro - The Mystery of Gegege* (2023)
+  _1h44m • FSK16_
+  ⏰ 20:30 (JP, UT:DE)
+```
 
 ## Results
 
-Current output: **68 OV showtimes** across **46 unique movies** and **34 dates**
+Current output: **67 OV showtimes** across **45 unique films** and **34 dates**
 
 ## Deployment
 
