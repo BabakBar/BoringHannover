@@ -1,66 +1,93 @@
-"""
-Simple data models for KinoWeek events.
+"""Data models for KinoWeek events.
 
 This module defines the core Event dataclass used across all scrapers.
-No database needed - this is a stateless, weekly script.
+Uses modern Python 3.13+ features for type safety and performance.
 """
 
-from dataclasses import dataclass
-from datetime import datetime
-from typing import Optional
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from typing import TYPE_CHECKING, Literal
+
+if TYPE_CHECKING:
+    from typing import Self
+
+__all__ = ["Event", "EventCategory", "EventMetadata"]
+
+# Type aliases for clarity
+EventCategory = Literal["movie", "culture", "radar"]
+EventMetadata = dict[str, str | int | list[str]]
 
 
-@dataclass
+@dataclass(slots=True, kw_only=True)
 class Event:
-    """
-    Unified event structure for all sources (movies, culture, concerts).
+    """Unified event structure for all sources.
+
+    Represents events from various sources (movies, culture, concerts)
+    with a consistent interface for categorization and formatting.
 
     Attributes:
-        title: Event title/name
-        date: Event date and time
-        venue: Venue name
-        url: Link to event details
-        category: Event type - "movie", "culture", or "radar"
-        metadata: Optional additional info (duration, FSK, language, etc.)
+        title: Event title or name.
+        date: Event date and time.
+        venue: Venue name where the event takes place.
+        url: Link to event details or tickets.
+        category: Event type - must be "movie", "culture", or "radar".
+        metadata: Additional info like duration, rating, language, etc.
+
+    Example:
+        >>> event = Event(
+        ...     title="Inception",
+        ...     date=datetime.now(),
+        ...     venue="Astor Grand Cinema",
+        ...     url="https://example.com",
+        ...     category="movie",
+        ...     metadata={"duration": 148, "rating": 12},
+        ... )
     """
+
     title: str
     date: datetime
     venue: str
     url: str
-    category: str  # "movie", "culture", "radar"
-    metadata: Optional[dict] = None
-
-    def __post_init__(self):
-        """Validate category and initialize metadata if None."""
-        valid_categories = {"movie", "culture", "radar"}
-        if self.category not in valid_categories:
-            raise ValueError(
-                f"Invalid category '{self.category}'. "
-                f"Must be one of {valid_categories}"
-            )
-
-        if self.metadata is None:
-            self.metadata = {}
+    category: EventCategory
+    metadata: EventMetadata = field(default_factory=dict)
 
     def format_date_short(self) -> str:
-        """Format date as 'Mon 24.11.'"""
+        """Format date as weekday and date (e.g., 'Mon 24.11.').
+
+        Returns:
+            Formatted date string with weekday abbreviation.
+        """
         return self.date.strftime("%a %d.%m.")
 
     def format_date_long(self) -> str:
-        """Format date as '12. Dec' or '15. Mar 2026'"""
-        # Include year if not current year
+        """Format date with month name and optional year.
+
+        Includes year only if the event is not in the current year.
+
+        Returns:
+            Formatted date like '12. Dec' or '15. Mar 2026'.
+        """
         today = datetime.now()
         if self.date.year != today.year:
             return self.date.strftime("%d. %b %Y")
         return self.date.strftime("%d. %b")
 
     def format_time(self) -> str:
-        """Format time as 'Fri 19:30'"""
+        """Format as weekday and time (e.g., 'Fri 19:30').
+
+        Returns:
+            Formatted time string with weekday abbreviation.
+        """
         return self.date.strftime("%a %H:%M")
 
     def is_this_week(self) -> bool:
-        """Check if event is within the next 7 days."""
-        from datetime import timedelta
+        """Check if event occurs within the next 7 days.
+
+        Returns:
+            True if event date is between now and 7 days from now.
+        """
         today = datetime.now()
         next_week = today + timedelta(days=7)
         return today <= self.date <= next_week

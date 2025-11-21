@@ -1,62 +1,94 @@
-"""
-Main orchestration module for KinoWeek scraper.
+"""Main orchestration module for KinoWeek.
 
-This is a stateless, weekly script that fetches events from three sources:
-1. Astor Grand Cinema (OV movies)
-2. Staatstheater Hannover (Opera/Ballet)
-3. Hannover-Concerts.de (Big events)
+Entry point for the weekly event aggregation workflow:
+1. Fetch events from all configured sources
+2. Categorize into "This Week" and "On The Radar"
+3. Send formatted digest via Telegram (or save locally for development)
 """
 
+from __future__ import annotations
+
+import argparse
 import logging
-import os
 import sys
-from typing import Dict, List
+from typing import NoReturn
 
-from kinoweek.scrapers import get_all_events
 from kinoweek.notifier import notify
+from kinoweek.scrapers import fetch_all_events
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler('kinoweek.log', encoding='utf-8')
-    ]
-)
+__all__ = ["main", "run"]
+
+
+# =============================================================================
+# Logging Configuration
+# =============================================================================
+
+
+def _configure_logging() -> None:
+    """Configure logging for the application.
+
+    Sets up both console and file logging with consistent formatting.
+    """
+    log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format=log_format,
+        handlers=[
+            logging.StreamHandler(sys.stdout),
+            logging.FileHandler("kinoweek.log", encoding="utf-8"),
+        ],
+    )
+
+
 logger = logging.getLogger(__name__)
 
 
-def validate_environment(local_only: bool) -> None:
-    """
-    Validate required environment variables at startup.
+# =============================================================================
+# Environment Validation
+# =============================================================================
 
-    Fails fast if environment variables are missing when sending to Telegram.
+
+def _validate_environment(*, local_only: bool) -> None:
+    """Validate required environment variables.
+
+    Performs fail-fast validation of Telegram credentials when running
+    in production mode.
 
     Args:
-        local_only: If True, skip validation (running in local test mode)
+        local_only: Skip validation if True (development mode).
 
     Raises:
-        SystemExit: If required environment variables are missing
+        SystemExit: If required environment variables are missing.
     """
+    import os
+
     if local_only:
         return
 
-    missing = []
+    missing: list[str] = []
+
     if not os.getenv("TELEGRAM_BOT_TOKEN"):
         missing.append("TELEGRAM_BOT_TOKEN")
     if not os.getenv("TELEGRAM_CHAT_ID"):
         missing.append("TELEGRAM_CHAT_ID")
 
     if missing:
-        logger.error(f"❌ Missing required environment variables: {', '.join(missing)}")
+        logger.error(
+            "Missing required environment variables: %s",
+            ", ".join(missing),
+        )
         logger.error("Set these in .env file or export them before running")
         sys.exit(1)
 
 
-def run_scraper(local_only: bool = False) -> bool:
-    """
-    Run the complete scraping and notification workflow.
+# =============================================================================
+# Main Workflow
+# =============================================================================
+
+
+def run(*, local_only: bool = False) -> bool:
+    """Execute the complete scraping and notification workflow.
 
     This is the main orchestration function that:
     1. Fetches events from all three sources
@@ -64,80 +96,96 @@ def run_scraper(local_only: bool = False) -> bool:
     3. Sends a formatted Telegram message (or saves locally)
 
     Args:
-        local_only: If True, save results locally instead of sending to Telegram
+        local_only: Save results locally instead of sending to Telegram.
 
     Returns:
-        True if successful, False otherwise
+        True if workflow completed successfully.
     """
-    # Validate environment before proceeding
-    validate_environment(local_only)
+    _validate_environment(local_only=local_only)
 
     try:
-        logger.info("🚀 Starting KinoWeek scraper")
-        logger.info("📡 Fetching events from all sources...")
+        logger.info("Starting KinoWeek scraper")
+        logger.info("Fetching events from all sources...")
 
         # Step 1: Gather all events
-        events_data = get_all_events()
+        events_data = fetch_all_events()
 
         # Log summary
-        movies_count = len(events_data.get('movies_this_week', []))
-        culture_count = len(events_data.get('culture_this_week', []))
-        radar_count = len(events_data.get('big_events_radar', []))
+        movies_count = len(events_data.get("movies_this_week", []))
+        culture_count = len(events_data.get("culture_this_week", []))
+        radar_count = len(events_data.get("big_events_radar", []))
 
-        logger.info(f"📊 Summary:")
-        logger.info(f"   - Movies (This Week): {movies_count}")
-        logger.info(f"   - Culture (This Week): {culture_count}")
-        logger.info(f"   - Big Events (Radar): {radar_count}")
+        logger.info("Summary:")
+        logger.info("  - Movies (This Week): %d", movies_count)
+        logger.info("  - Culture (This Week): %d", culture_count)
+        logger.info("  - Big Events (Radar): %d", radar_count)
 
         # Step 2: Send notification or save locally
-        logger.info("📨 Sending notification...")
+        logger.info("Sending notification...")
         success = notify(events_data, local_only=local_only)
 
         if success:
-            logger.info("✅ Workflow completed successfully")
+            logger.info("Workflow completed successfully")
             return True
-        else:
-            logger.error("❌ Failed to send notification")
-            return False
 
-    except Exception as e:
-        logger.error(f"💥 Workflow failed: {e}", exc_info=True)
+        logger.error("Failed to send notification")
+        return False
+
+    except Exception:
+        logger.exception("Workflow failed")
         return False
 
 
-def main() -> int:
-    """
-    Main entry point for the application.
+# Backward compatibility alias
+run_scraper = run
+
+
+# =============================================================================
+# CLI Entry Point
+# =============================================================================
+
+
+def _parse_args() -> argparse.Namespace:
+    """Parse command-line arguments.
 
     Returns:
-        Exit code (0 for success, 1 for failure)
+        Parsed arguments namespace.
     """
-    import argparse
-
     parser = argparse.ArgumentParser(
         description="KinoWeek - Weekly event digest for Hannover",
-        epilog="Run with --local flag to test without sending to Telegram"
+        epilog="Run with --local flag to test without sending to Telegram",
     )
     parser.add_argument(
         "--local",
         action="store_true",
-        help="Save results locally instead of sending to Telegram"
+        help="Save results locally instead of sending to Telegram",
     )
+    return parser.parse_args()
 
-    args = parser.parse_args()
 
-    # Load environment variables from .env file
+def _load_environment() -> None:
+    """Load environment variables from .env file if available."""
     try:
         from dotenv import load_dotenv
+
         load_dotenv()
     except ImportError:
         logger.debug("python-dotenv not available, using system environment")
 
-    success = run_scraper(local_only=args.local)
 
-    return 0 if success else 1
+def main() -> NoReturn:
+    """Main entry point for the application.
+
+    Parses arguments, loads environment, runs the workflow,
+    and exits with appropriate status code.
+    """
+    _configure_logging()
+    args = _parse_args()
+    _load_environment()
+
+    success = run(local_only=args.local)
+    sys.exit(0 if success else 1)
 
 
 if __name__ == "__main__":
-    exit_code = main()
-    sys.exit(exit_code)
+    main()
