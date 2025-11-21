@@ -68,7 +68,9 @@ The script generates a compact weekly digest with two sections:
 
 ## Architecture
 
-### The Two Sources
+### Modular Plugin-Based Sources
+
+KinoWeek uses a **plugin-based architecture** for event sources. Each source is a self-contained module that registers itself automatically:
 
 1. **Astor Grand Cinema** (OV Movies)
    - Source: Direct API access to `backend.premiumkino.de`
@@ -90,55 +92,69 @@ The script generates a compact weekly digest with two sections:
 │   (Stateless)   │
 └────────┬────────┘
          │
-         ├──► Fetch Astor Movies    ─┐
-         └──► Fetch Concert Events  ─┘ Parallel
-                    │
-                    ▼
-         ┌──────────────────┐
-         │  Filter & Sort   │
-         │  • This Week     │
-         │  • On The Radar  │
-         └────────┬─────────┘
-                  │
-                  ▼
-         ┌────────────────┐
-         │  Format Message│
-         │  (2 Sections)  │
-         └────────┬───────┘
-                  │
-                  ▼
-         ┌────────────────┐
-         │Send to Telegram│
-         └────────────────┘
+         ▼
+┌─────────────────────────────┐
+│   Source Registry           │
+│   (Auto-discovered plugins) │
+├─────────────────────────────┤
+│  • astor_hannover (cinema)  │
+│  • zag_arena (concert)      │
+│  • swiss_life_hall (concert)│
+│  • capitol_hannover (concert)│
+└────────┬────────────────────┘
+         │
+         ▼
+┌─────────────────────────────┐
+│   Aggregator                │
+│   • Fetch from all sources  │
+│   • Categorize by time      │
+└────────┬────────────────────┘
+         │
+         ▼
+┌─────────────────────────────┐
+│   Notifier                  │
+│   • Format message          │
+│   • Send to Telegram        │
+└─────────────────────────────┘
 ```
 
 ## Configuration
 
-Edit `src/kinoweek/config.py` to customize:
+### Source Configuration (TOML)
+
+Sources are configured in `src/kinoweek/sources.toml`:
+
+```toml
+[sources.zag_arena]
+enabled = true
+source_type = "concert"
+display_name = "ZAG Arena"
+url = "https://www.zag-arena-hannover.de/veranstaltungen/"
+max_events = 15
+
+[sources.zag_arena.metadata]
+address = "Expo Plaza 7, 30539 Hannover"
+```
+
+### Adding a New Source
+
+Create a module in `sources/` and use the `@register_source` decorator:
 
 ```python
-# Concert sources (enable/disable as needed)
-CONCERT_VENUES = (
-    {
-        "name": "ZAG Arena",
-        "url": "https://www.zag-arena-hannover.de/veranstaltungen/",
-        "enabled": True,
-        "selectors": {...}
-    },
-    {
-        "name": "Swiss Life Hall",
-        "url": "https://www.swisslife-hall.de/events/",
-        "enabled": True,
-        "selectors": {...}
-    },
-    {
-        "name": "Capitol Hannover",
-        "url": "https://www.capitol-hannover.de/events/",
-        "enabled": True,
-        "selectors": {...}
-    },
-)
+# sources/concerts/new_venue.py
+from kinoweek.sources import BaseSource, register_source
+
+@register_source("new_venue")
+class NewVenueSource(BaseSource):
+    source_name = "New Venue"
+    source_type = "concert"
+
+    def fetch(self) -> list[Event]:
+        # Your implementation
+        ...
 ```
+
+No other code changes needed - the source is auto-discovered!
 
 ## Environment Variables
 
@@ -166,19 +182,33 @@ cat output/events.json
 
 ```
 src/kinoweek/
-├── __init__.py    # Package exports and lazy imports
-├── models.py      # Event dataclass (unified data structure)
-├── config.py      # URLs, venues, and settings
-├── scrapers.py    # AstorMovieScraper + ConcertVenueScraper classes
-├── notifier.py    # Message formatting + Telegram API
-└── main.py        # Orchestration + CLI
+├── __init__.py       # Package exports and lazy imports
+├── models.py         # Event dataclass (unified data structure)
+├── config.py         # Global settings and constants
+├── sources.toml      # Source configuration (TOML)
+├── aggregator.py     # Central orchestration for all sources
+├── sources/          # Plugin-based source modules
+│   ├── __init__.py   # Registry & autodiscovery
+│   ├── base.py       # BaseSource ABC + @register_source
+│   ├── cinema/       # Cinema sources
+│   │   └── astor.py  # Astor Grand Cinema
+│   └── concerts/     # Concert venue sources
+│       ├── zag_arena.py
+│       ├── swiss_life_hall.py
+│       └── capitol.py
+├── notifier.py       # Message formatting + Telegram API
+├── output.py         # Multi-format export (CSV, JSON, Markdown)
+└── main.py           # CLI entry point
 
 tests/
-└── test_scraper.py  # 26 unit and integration tests
+└── test_scraper.py   # 26 unit and integration tests
 
 output/
-├── latest_message.txt  # Formatted message
-└── events.json         # Structured event data
+├── latest_message.txt  # Formatted Telegram message
+├── events.json         # Enhanced JSON with metadata
+├── movies.csv          # Movie showtimes
+├── concerts.csv        # Concert events
+└── archive/            # Weekly snapshots (YYYY-WXX.json)
 ```
 
 ## Deployment

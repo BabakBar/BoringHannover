@@ -1,0 +1,150 @@
+# KinoWeek Source Configuration
+# ================================
+# This file defines all event sources that KinoWeek can scrape.
+# Sources are auto-discovered from the sources/ package, but this file
+# provides configuration overrides and enables/disables sources.
+#
+# To add a new source:
+# 1. Create a module in sources/cinema/ or sources/concerts/
+# 2. Use the @register_source decorator with a unique name
+# 3. Add configuration here to customize behavior
+
+[meta]
+version = "1.0"
+description = "KinoWeek source configuration"
+
+# =============================================================================
+# Cinema Sources
+# =============================================================================
+
+[sources.astor_hannover]
+enabled = true
+source_type = "cinema"
+display_name = "Astor Grand Cinema"
+api_url = "https://backend.premiumkino.de/v1/de/hannover/program"
+ticket_base_url = "https://hannover.premiumkino.de/film/"
+# Filter settings
+filter_ov_only = true  # Only show Original Version movies
+max_events = 100       # No limit for movies
+
+[sources.astor_hannover.metadata]
+address = "Nikolaistraße 8, 30159 Hannover"
+website = "https://hannover.premiumkino.de/"
+notes = "Premium cinema with OV (Original Version) screenings"
+
+# =============================================================================
+# Concert Venue Sources
+# =============================================================================
+
+[sources.zag_arena]
+enabled = true
+source_type = "concert"
+display_name = "ZAG Arena"
+url = "https://www.zag-arena-hannover.de/veranstaltungen/"
+base_url = "https://www.zag-arena-hannover.de"
+max_events = 15
+
+[sources.zag_arena.selectors]
+# WordPress Event Manager (WPEM) plugin selectors
+event = ".wpem-event-layout-wrapper"
+title = ".wpem-heading-text"
+date_time = ".wpem-event-date-time-text"
+date = ".wpem-date"
+month = ".wpem-month"
+link = "a.wpem-event-action-url"
+
+[sources.zag_arena.metadata]
+address = "Expo Plaza 7, 30539 Hannover"
+capacity = 11000
+notes = "Largest arena in Hannover for major concerts and events"
+
+[sources.swiss_life_hall]
+enabled = true
+source_type = "concert"
+display_name = "Swiss Life Hall"
+url = "https://www.swisslife-hall.de/events/"
+base_url = "https://www.swisslife-hall.de"
+max_events = 15
+
+[sources.swiss_life_hall.selectors]
+# HC-Kartenleger card system selectors
+event = "a.hc-card-link-wrapper"
+title = "h4, h3"
+date = "time"
+subtitle = ".hc-card-subtitle, .subtitle, p"
+
+[sources.swiss_life_hall.metadata]
+address = "Ferdinand-Wilhelm-Fricke-Weg 8, 30169 Hannover"
+capacity = 4500
+notes = "Multi-purpose arena for concerts and shows"
+
+[sources.capitol_hannover]
+enabled = true
+source_type = "concert"
+display_name = "Capitol Hannover"
+url = "https://www.capitol-hannover.de/events/"
+base_url = "https://www.capitol-hannover.de"
+max_events = 15
+
+[sources.capitol_hannover.selectors]
+# Same HC-Kartenleger system as Swiss Life Hall
+event = "a.hc-card-link-wrapper"
+title = "h4, h3"
+date = "time"
+subtitle = ".hc-card-subtitle, .subtitle, p"
+
+[sources.capitol_hannover.metadata]
+address = "Schwarzer Bär 2, 30449 Hannover"
+capacity = 1800
+notes = "Historic venue for concerts and cultural events"
+
+# =============================================================================
+# Future Sources (Disabled)
+# =============================================================================
+
+[sources.cinemaxx_hannover]
+enabled = false
+source_type = "cinema"
+display_name = "CinemaxX Hannover"
+url = "https://www.cinemaxx.de/hannover/programm"
+notes = "Multiplex cinema - scraper not yet implemented"
+
+[sources.pavillon_hannover]
+enabled = false
+source_type = "concert"
+display_name = "Pavillon Hannover"
+url = "https://www.pavillon-hannover.de/programm/"
+notes = "Cultural center - scraper not yet implemented"
+
+[sources.gop_variete]
+enabled = false
+source_type = "theater"
+display_name = "GOP Varieté"
+url = "https://www.variete.de/hannover"
+notes = "Varieté theater - scraper not yet implemented"
+
+[sources.schauspiel_hannover]
+enabled = false
+source_type = "theater"
+display_name = "Schauspiel Hannover"
+url = "https://www.staatstheater-hannover.de/de_DE/spielplan"
+notes = "State theater - scraper not yet implemented"
+
+# =============================================================================
+# HTTP Client Settings
+# =============================================================================
+
+[http]
+timeout_seconds = 30.0
+user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+max_retries = 3
+retry_delay_seconds = 2.0
+
+# =============================================================================
+# Output Settings
+# =============================================================================
+
+[output]
+telegram_max_length = 4096
+date_format = "%d.%m.%Y"
+time_format = "%H:%M"

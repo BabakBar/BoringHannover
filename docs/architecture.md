@@ -2,21 +2,23 @@
 
 ## Executive Summary
 
-KinoWeek is a stateless, weekly event aggregator for Hannover that fetches OV movies and concerts from two sources and delivers a formatted digest via Telegram. The system uses modern Python (3.13+) with class-based scrapers, type hints, and comprehensive testing.
+KinoWeek is a stateless, weekly event aggregator for Hannover that fetches OV movies and concerts from multiple sources and delivers a formatted digest via Telegram. The system uses modern Python (3.13+) with a **plugin-based source architecture**, type hints, and comprehensive testing.
 
 ## System Overview
 
 ```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Scheduler     │───▶│   Scrapers       │───▶│   Notifier      │
-│  (Cron/Manual)  │    │  (httpx/BS4)     │    │  (Telegram)     │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Weekly Job    │    │  • Astor API     │    │   Bot API       │
-│   (Stateless)   │    │  • Venue HTML    │    │   + File Backup │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
+┌─────────────────┐    ┌──────────────────────────────┐    ┌─────────────────┐
+│   Scheduler     │───▶│   Source Registry            │───▶│   Notifier      │
+│  (Cron/Manual)  │    │   (Plugin-based, auto-disco) │    │  (Telegram)     │
+└─────────────────┘    └──────────────────────────────┘    └─────────────────┘
+         │                           │                              │
+         ▼                           ▼                              ▼
+┌─────────────────┐    ┌──────────────────────────────┐    ┌─────────────────┐
+│   Weekly Job    │    │  sources/cinema/astor.py     │    │   Bot API       │
+│   (Stateless)   │    │  sources/concerts/zag_arena  │    │   + Multi-format│
+└─────────────────┘    │  sources/concerts/swiss_life │    │     Output      │
+                       │  sources/concerts/capitol    │    └─────────────────┘
+                       └──────────────────────────────┘
 ```
 
 ## Component Architecture
@@ -52,47 +54,75 @@ class Event:
 - `GERMAN_MONTH_MAP`: Date parsing support
 - `Final` constants for immutability
 
-### 3. Scrapers (`scrapers.py`)
+### 3. Source Registry (`sources/`)
 
-**Architecture**: Class-based with abstract base
+**Architecture**: Plugin-based with decorator registration and autodiscovery
 
 ```python
-class BaseScraper(ABC):
-    @property
-    @abstractmethod
-    def source_name(self) -> str: ...
+# sources/base.py
+class BaseSource(ABC):
+    source_name: ClassVar[str]   # Human-readable name
+    source_type: ClassVar[str]   # "cinema", "concert", "theater"
+    enabled: ClassVar[bool] = True
+    max_events: ClassVar[int | None] = None
 
     @abstractmethod
     def fetch(self) -> list[Event]: ...
+
+# Decorator for automatic registration
+@register_source("source_id")
+class MySource(BaseSource):
+    ...
 ```
+
+**Autodiscovery**: Sources are automatically discovered on import via `pkgutil.iter_modules()`.
+
+**Registry Functions**:
+- `get_all_sources()`: Returns all registered sources
+- `get_sources_by_type(type)`: Filter by category
+- `get_source(name)`: Get specific source class
 
 **Implementations**:
 
-#### AstorMovieScraper
+#### AstorSource (`sources/cinema/astor.py`)
 - **Source**: `backend.premiumkino.de` JSON API
 - **Filter**: Original Version only (no German dubs)
 - **Output**: Events with `category="movie"`
-- **Metadata**: duration, rating, year, country, genres, language
+- **Metadata**: duration, rating, year, country, genres, language, poster, trailer
 
 ```python
-# OV Detection Logic
-def _is_original_version(language: str) -> bool:
+# OV Detection Logic in sources/base.py
+def is_original_version(language: str) -> bool:
     if "Deutsch" in language:
         return "Untertitel:" in language  # German subs = OV
     return True  # All other languages are OV
 ```
 
-#### ConcertVenueScraper
-- **Sources**: ZAG Arena, Swiss Life Hall, Capitol Hannover
-- **Method**: HTML scraping with BeautifulSoup
-- **Output**: Events with `category="radar"`
-- **Metadata**: time, location/subtitle
+#### Concert Sources (`sources/concerts/`)
+Each venue has its own module:
+- `zag_arena.py`: ZAG Arena (WPEM selectors)
+- `swiss_life_hall.py`: Swiss Life Hall (HC-Kartenleger)
+- `capitol.py`: Capitol Hannover (HC-Kartenleger)
 
 **Venue-Specific Parsing**:
 - ZAG Arena: `.wpem-event-layout-wrapper` containers
 - Swiss Life Hall / Capitol: `.hc-card-link-wrapper` cards
 
-### 4. Notifier (`notifier.py`)
+### 4. Aggregator (`aggregator.py`)
+
+**Purpose**: Central orchestration for all registered sources
+
+```python
+def fetch_all_events() -> dict[str, list[Event]]:
+    """Fetch from all registered and enabled sources."""
+    for name, source_cls in get_all_sources().items():
+        source = source_cls()
+        if source.enabled:
+            events = source.fetch()
+            # Categorize by type and time...
+```
+
+### 5. Notifier (`notifier.py`)
 
 **Purpose**: Message formatting and delivery
 
@@ -115,7 +145,7 @@ _GERMAN_MONTHS = {1: "Jan", 2: "Feb", ..., 12: "Dez"}
 # Output: "Sa, 29. Nov | 20:00 @ ZAG Arena"
 ```
 
-### 5. Main Orchestration (`main.py`)
+### 6. Main Orchestration (`main.py`)
 
 **Entry Point**: `main()` → `run(local_only=False)`
 
@@ -292,19 +322,31 @@ on:
 ```
 KinoWeek/
 ├── src/kinoweek/
-│   ├── __init__.py      # Package with lazy imports
-│   ├── models.py        # Event dataclass
-│   ├── config.py        # URLs, venues, settings
-│   ├── scrapers.py      # AstorMovieScraper, ConcertVenueScraper
-│   ├── notifier.py      # Format + Telegram + file output
-│   └── main.py          # CLI and orchestration
+│   ├── __init__.py       # Package with lazy imports
+│   ├── models.py         # Event dataclass
+│   ├── config.py         # Global settings and constants
+│   ├── sources.toml      # Source configuration (TOML)
+│   ├── aggregator.py     # Central orchestration
+│   ├── sources/          # Plugin-based source modules
+│   │   ├── __init__.py   # Registry & autodiscovery
+│   │   ├── base.py       # BaseSource ABC + @register_source
+│   │   ├── cinema/
+│   │   │   └── astor.py  # Astor Grand Cinema
+│   │   └── concerts/
+│   │       ├── zag_arena.py
+│   │       ├── swiss_life_hall.py
+│   │       └── capitol.py
+│   ├── notifier.py       # Format + Telegram output
+│   ├── output.py         # Multi-format export
+│   └── main.py           # CLI entry point
 ├── tests/
-│   └── test_scraper.py  # 26 tests
+│   └── test_scraper.py   # 26 tests
 ├── docs/
-│   └── architecture.md  # This document
-├── output/              # Generated files
-├── pyproject.toml       # Modern Python config
-└── README.md            # Quick start guide
+│   ├── architecture.md   # This document
+│   └── extension-strategy.md
+├── output/               # Generated files
+├── pyproject.toml        # Modern Python config
+└── README.md             # Quick start guide
 ```
 
 ## Conclusion
