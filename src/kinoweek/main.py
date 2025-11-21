@@ -13,8 +13,8 @@ import logging
 import sys
 from typing import NoReturn
 
+from kinoweek.aggregator import fetch_all_events
 from kinoweek.notifier import notify
-from kinoweek.scrapers import fetch_all_events
 
 __all__ = ["main", "run"]
 
