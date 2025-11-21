@@ -8,18 +8,33 @@ KinoWeek - A weekly event aggregator for Hannover that fetches OV movies from As
 
 ```
 KinoWeek/
-├── src/kinoweek/           # Main package
-│   ├── __init__.py        # Package exports with lazy imports
-│   ├── models.py          # Event dataclass (unified structure)
-│   ├── config.py          # URLs, venues, settings
-│   ├── scrapers.py        # AstorMovieScraper + ConcertVenueScraper
-│   ├── notifier.py        # Message formatting & Telegram integration
-│   └── main.py            # Orchestration & CLI
-├── tests/                 # Test suite (26 tests)
-├── docs/                  # Documentation
-├── output/                # Local test results
-├── pyproject.toml         # Modern Python config with ruff/mypy
-└── .env.example          # Environment variables template
+├── src/kinoweek/             # Main package
+│   ├── __init__.py           # Package exports with lazy imports
+│   ├── models.py             # Event dataclass (unified structure)
+│   ├── config.py             # URLs, venues, settings
+│   ├── aggregator.py         # Central orchestration for all sources
+│   ├── sources/              # Plugin-based source modules
+│   │   ├── __init__.py       # Registry & autodiscovery
+│   │   ├── base.py           # BaseSource ABC + @register_source
+│   │   ├── cinema/
+│   │   │   └── astor.py      # Astor Grand Cinema
+│   │   └── concerts/
+│   │       ├── zag_arena.py
+│   │       ├── swiss_life_hall.py
+│   │       └── capitol.py
+│   ├── notifier.py           # Telegram notification & orchestration
+│   ├── formatting.py         # Message formatting helpers & language mappings
+│   ├── output.py             # OutputManager & movie grouping logic
+│   ├── exporters.py          # JSON, Markdown, and archive exports
+│   ├── csv_exporters.py      # CSV export implementations
+│   ├── main.py               # Orchestration & CLI
+│   └── _archive/             # Archived legacy code
+│       └── scrapers.py       # Old monolithic scraper (replaced by sources/)
+├── tests/                    # Test suite (26 tests)
+├── docs/                     # Documentation
+├── output/                   # Local test results
+├── pyproject.toml            # Modern Python config with ruff/mypy
+└── .env.example              # Environment variables template
 ```
 
 ## Development Phases
@@ -61,6 +76,26 @@ KinoWeek/
   - **Increased Event Limit**: 15 concerts per venue (up from 10)
   - **Two-Source Architecture**: Movies + Concerts (simpler, more reliable)
 
+### Phase 9: Modular Refactoring
+- **Status**: Completed
+- **Date**: 2025-11-21
+- **Achievements**:
+  - **Archived scrapers.py**: Moved to `_archive/` (replaced by plugin-based sources)
+  - **Split notifier.py** (543 → 292 lines):
+    - Extracted `formatting.py` (282 lines) with language/venue mappings and formatters
+  - **Split output.py** (657 → 218 lines):
+    - Extracted `exporters.py` (325 lines) for JSON, Markdown, and archive exports
+    - Extracted `csv_exporters.py` (188 lines) for CSV export functions
+  - **All modules under 400 lines**: Better maintainability
+  - **Final file sizes**:
+    | Module | Lines |
+    |--------|-------|
+    | notifier.py | 292 |
+    | formatting.py | 282 |
+    | output.py | 218 |
+    | exporters.py | 325 |
+    | csv_exporters.py | 188 |
+
 ## Current Architecture
 
 ### Two Event Sources
@@ -79,30 +114,71 @@ KinoWeek/
 
 ### Module Responsibilities
 
-#### `models.py`
+#### Core Modules
+
+**`models.py`** - Data structures
 - `Event` dataclass with slots and kw_only
 - `Literal["movie", "culture", "radar"]` for category
 - Helper methods for date formatting
 
-#### `config.py`
+**`config.py`** - Configuration
 - `ASTOR_API_URL`: Movie API endpoint
 - `CONCERT_VENUES`: Tuple of VenueConfig TypedDicts
 - `GERMAN_MONTH_MAP`: Date parsing support
 - HTTP client settings
 
-#### `scrapers.py`
-- `BaseScraper`: Abstract base class
-- `AstorMovieScraper`: JSON API client
-- `ConcertVenueScraper`: HTML scraper with venue-specific parsing
-- `fetch_all_events()`: Orchestration function
+**`aggregator.py`** - Orchestration
+- `fetch_all_events()`: Central fetching from all sources
+- Categorization by time horizon
 
-#### `notifier.py`
-- German day/month mappings for localized output
-- Section formatters for movies and concerts
-- Telegram API integration
-- File backup (JSON + text)
+#### Source Modules (`sources/`)
 
-#### `main.py`
+**`sources/base.py`** - Plugin foundation
+- `BaseSource`: Abstract base class
+- `@register_source`: Decorator for auto-registration
+- Registry functions: `get_source()`, `get_all_sources()`, `get_sources_by_type()`
+- Helper functions: `is_original_version()`, `parse_german_date()`
+
+**`sources/cinema/astor.py`** - Astor Grand Cinema
+**`sources/concerts/zag_arena.py`** - ZAG Arena
+**`sources/concerts/swiss_life_hall.py`** - Swiss Life Hall
+**`sources/concerts/capitol.py`** - Capitol Hannover
+
+#### Notification Modules
+
+**`notifier.py`** - Telegram orchestration
+- `format_message()`: Creates Telegram message
+- `send_telegram_message()`: Posts to Telegram Bot API
+- `save_to_file()`: JSON and text backup
+- `notify()`: Main notification entry point
+
+**`formatting.py`** - Message formatting helpers
+- Language/venue abbreviation mappings
+- `format_duration()`, `format_movie_metadata()`
+- `format_concert_date()`: German date formatting
+- `format_movies_section()`, `format_radar_section()`
+
+#### Output Modules
+
+**`output.py`** - Data structures & manager
+- `Showtime`, `GroupedMovie` dataclasses
+- `group_movies_by_film()`: Consolidate showtimes
+- `OutputManager`: Manages all export formats
+- `export_all_formats()`: Convenience function
+
+**`exporters.py`** - JSON, Markdown, Archives
+- `export_enhanced_json()`: Structured JSON with metadata
+- `export_markdown_digest()`: Human-readable weekly digest
+- `archive_weekly_data()`: Timestamped weekly snapshot
+
+**`csv_exporters.py`** - CSV exports
+- `export_movies_csv()`: One row per showtime
+- `export_movies_grouped_csv()`: One row per unique film
+- `export_concerts_csv()`: Concert events
+
+#### CLI
+
+**`main.py`** - Entry point
 - CLI with `--local` flag
 - Environment validation
 - Logging configuration

@@ -122,15 +122,25 @@ def fetch_all_events() -> dict[str, list[Event]]:
             # Categorize by type and time...
 ```
 
-### 5. Notifier (`notifier.py`)
+### 5. Notifier & Formatting (`notifier.py`, `formatting.py`)
 
-**Purpose**: Message formatting and delivery
+**Purpose**: Message formatting and delivery (split into two modules)
 
-**Key Functions**:
+**notifier.py - Orchestration**:
 - `format_message()`: Creates Telegram-ready message
 - `send_telegram_message()`: Posts to Telegram Bot API
 - `save_to_file()`: JSON and text backup
+- `save_all_formats()`: Delegates to exporters for full export
 - `notify()`: Orchestrates local/remote delivery
+
+**formatting.py - Message Helpers**:
+- Language abbreviations: EN, JP, DE, IT, ES, RU, FR, KR, ZH
+- Venue abbreviations
+- `format_duration()`: Convert minutes to "2h17m"
+- `format_movie_metadata()`: Extract and format movie details
+- `format_concert_date()`: German date formatting ("Sa, 29. Nov")
+- `format_movies_section()`: Format "Movies (This Week)" block
+- `format_radar_section()`: Format "On The Radar" block
 
 **Message Sections**:
 1. **Movies (This Week)**: Grouped by date, with metadata
@@ -144,6 +154,27 @@ _GERMAN_MONTHS = {1: "Jan", 2: "Feb", ..., 12: "Dez"}
 
 # Output: "Sa, 29. Nov | 20:00 @ ZAG Arena"
 ```
+
+### 5b. Output & Exports (`output.py`, `exporters.py`, `csv_exporters.py`)
+
+**Purpose**: Multi-format data export (split into three modules)
+
+**output.py - Data Structures & Manager**:
+- `Showtime` dataclass: Single movie showing
+- `GroupedMovie` dataclass: Movie with consolidated showtimes
+- `group_movies_by_film()`: Consolidate showtimes per unique film
+- `OutputManager`: Manages all export formats
+- `export_all_formats()`: Convenience function
+
+**exporters.py - JSON, Markdown, Archives**:
+- `export_enhanced_json()`: Structured JSON with metadata & stats
+- `export_markdown_digest()`: Human-readable weekly digest
+- `archive_weekly_data()`: Create timestamped weekly snapshot
+
+**csv_exporters.py - CSV Exports**:
+- `export_movies_csv()`: Flat list (one row per showtime)
+- `export_movies_grouped_csv()`: One row per unique film
+- `export_concerts_csv()`: Concert events with metadata
 
 ### 6. Main Orchestration (`main.py`)
 
@@ -336,9 +367,14 @@ KinoWeek/
 │   │       ├── zag_arena.py
 │   │       ├── swiss_life_hall.py
 │   │       └── capitol.py
-│   ├── notifier.py       # Format + Telegram output
-│   ├── output.py         # Multi-format export
-│   └── main.py           # CLI entry point
+│   ├── notifier.py       # Telegram notification & orchestration
+│   ├── formatting.py     # Message formatting helpers & language mappings
+│   ├── output.py         # OutputManager & movie grouping logic
+│   ├── exporters.py      # JSON, Markdown, and archive exports
+│   ├── csv_exporters.py  # CSV export implementations
+│   ├── main.py           # CLI entry point
+│   └── _archive/         # Archived legacy code
+│       └── scrapers.py   # Old monolithic scraper (replaced by sources/)
 ├── tests/
 │   └── test_scraper.py   # 26 tests
 ├── docs/

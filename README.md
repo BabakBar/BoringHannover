@@ -196,9 +196,14 @@ src/kinoweek/
 │       ├── zag_arena.py
 │       ├── swiss_life_hall.py
 │       └── capitol.py
-├── notifier.py       # Message formatting + Telegram API
-├── output.py         # Multi-format export (CSV, JSON, Markdown)
-└── main.py           # CLI entry point
+├── notifier.py       # Telegram notification & orchestration
+├── formatting.py     # Message formatting helpers & language mappings
+├── output.py         # OutputManager & movie grouping logic
+├── exporters.py      # JSON, Markdown, and archive exports
+├── csv_exporters.py  # CSV export implementations
+├── main.py           # CLI entry point
+└── _archive/         # Archived legacy code
+    └── scrapers.py   # Old monolithic scraper (replaced by sources/)
 
 tests/
 └── test_scraper.py   # 26 unit and integration tests
@@ -206,8 +211,10 @@ tests/
 output/
 ├── latest_message.txt  # Formatted Telegram message
 ├── events.json         # Enhanced JSON with metadata
-├── movies.csv          # Movie showtimes
+├── movies.csv          # Movie showtimes (one row per showtime)
+├── movies_grouped.csv  # Grouped movies (one row per film)
 ├── concerts.csv        # Concert events
+├── weekly_digest.md    # Human-readable Markdown digest
 └── archive/            # Weekly snapshots (YYYY-WXX.json)
 ```
 
