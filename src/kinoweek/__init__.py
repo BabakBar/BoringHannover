@@ -1,11 +1,17 @@
 """KinoWeek - Weekly event aggregator for Hannover.
 
-A stateless, weekly script that fetches cultural events from three sources
+A stateless, weekly script that fetches cultural events from multiple sources
 and delivers a formatted digest via Telegram:
 
 1. Astor Grand Cinema - OV (Original Version) movies
-2. Staatstheater Hannover - Opera, ballet, and theater
-3. Concert Venues - Major concerts and big events
+2. Concert Venues - Major concerts and big events (ZAG Arena, Swiss Life Hall, Capitol)
+
+Outputs multiple formats:
+- Telegram message (Markdown)
+- CSV files (movies.csv, movies_grouped.csv, concerts.csv)
+- Enhanced JSON (events.json)
+- Markdown digest (weekly_digest.md)
+- Weekly archive (archive/YYYY-WXX.json)
 
 Usage:
     # Run in development mode (saves to local files)
@@ -17,15 +23,16 @@ Usage:
 Example:
     >>> from kinoweek.scrapers import fetch_all_events
     >>> from kinoweek.notifier import format_message
+    >>> from kinoweek.output import export_all_formats
     >>>
     >>> events = fetch_all_events()
     >>> message = format_message(events)
-    >>> print(message)
+    >>> export_all_formats(events["movies_this_week"], events["big_events_radar"])
 """
 
 from __future__ import annotations
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Sia"
 
 __all__ = [
@@ -44,6 +51,10 @@ __all__ = [
     # Notifier
     "notify",
     "format_message",
+    # Output
+    "OutputManager",
+    "export_all_formats",
+    "group_movies_by_film",
 ]
 
 # Lazy imports to avoid circular dependencies
@@ -68,6 +79,10 @@ def __getattr__(name: str):
     if name in ("notify", "format_message"):
         from kinoweek import notifier
         return getattr(notifier, name)
+
+    if name in ("OutputManager", "export_all_formats", "group_movies_by_film"):
+        from kinoweek import output
+        return getattr(output, name)
 
     msg = f"module {__name__!r} has no attribute {name!r}"
     raise AttributeError(msg)

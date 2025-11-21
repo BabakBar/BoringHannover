@@ -252,22 +252,71 @@ class AstorMovieScraper(BaseScraper):
             if not begin_str:
                 continue
 
+            # Extract genres properly (filter empty strings)
+            genre_names = [
+                genres_map.get(gid, "")
+                for gid in movie.get("genreIds", [])
+            ]
+            genre_names = [g for g in genre_names if g]  # Remove empty strings
+
+            # Extract poster URL if available
+            poster = movie.get("poster", {})
+            poster_url = poster.get("src", "") if isinstance(poster, dict) else ""
+
+            # Extract synopsis from translations
+            synopsis = ""
+            translations = movie.get("translations", [])
+            if translations:
+                # Prefer German, fall back to any available
+                for trans in translations:
+                    if trans.get("language") == "de":
+                        synopsis = trans.get("descShort", "") or trans.get("descLong", "")
+                        break
+                if not synopsis and translations:
+                    synopsis = translations[0].get("descShort", "") or translations[0].get("descLong", "")
+
+            # Extract trailer URL (prefer 720p)
+            trailer_url = ""
+            trailers = movie.get("trailers", [])
+            if trailers:
+                for trailer in trailers:
+                    if trailer.get("url720"):
+                        trailer_url = trailer["url720"]
+                        break
+                    if trailer.get("url1080"):
+                        trailer_url = trailer["url1080"]
+                        break
+
+            # Extract cast (directors and main actors)
+            cast = []
+            for person in movie.get("casts", []):
+                cast.append({
+                    "role": person.get("function", ""),
+                    "name": person.get("name", ""),
+                })
+
+            # Build ticket URL with movie slug
+            slug = movie.get("slug", "")
+            ticket_url = f"https://hannover.premiumkino.de/film/{slug}" if slug else "https://hannover.premiumkino.de/"
+
             event = Event(
                 title=title,
                 date=datetime.fromisoformat(begin_str),
                 venue=self.source_name,
-                url="https://hannover.premiumkino.de/",
+                url=ticket_url,
                 category="movie",
                 metadata={
                     "duration": movie.get("minutes", 0),
                     "rating": movie.get("rating", 0),
                     "year": movie.get("year", 0),
                     "country": movie.get("country", ""),
-                    "genres": [
-                        genres_map.get(gid, "")
-                        for gid in movie.get("genreIds", [])
-                    ],
+                    "genres": genre_names,
                     "language": language,
+                    "poster_url": poster_url,
+                    "synopsis": synopsis,
+                    "trailer_url": trailer_url,
+                    "cast": cast,
+                    "movie_id": movie_id,
                 },
             )
             events.append(event)
@@ -431,9 +480,20 @@ class ConcertVenueScraper(BaseScraper):
             if not event_url.startswith("http"):
                 event_url = f"https://www.zag-arena-hannover.de{event_url}"
 
-            # Extract location info if available
-            location_elem = item.select_one(".wpem-event-infomation")
-            location = location_elem.get_text(strip=True) if location_elem else ""
+            # Extract image URL if available
+            img_elem = item.select_one("img")
+            image_url = ""
+            if img_elem:
+                image_url = img_elem.get("src", "") or img_elem.get("data-src", "")
+                if image_url and not image_url.startswith("http"):
+                    image_url = f"https://www.zag-arena-hannover.de{image_url}"
+
+            # Extract category from URL pattern if available
+            category_type = "concert"  # default
+            if "sport" in event_url.lower():
+                category_type = "sport"
+            elif "show" in event_url.lower() or "comedy" in event_url.lower():
+                category_type = "show"
 
             return Event(
                 title=title,
@@ -443,7 +503,9 @@ class ConcertVenueScraper(BaseScraper):
                 category="radar",
                 metadata={
                     "time": time_str,
-                    "location": location,
+                    "event_type": category_type,
+                    "image_url": image_url,
+                    "address": "Expo Plaza 7, 30539 Hannover",
                 },
             )
 
@@ -523,6 +585,31 @@ class ConcertVenueScraper(BaseScraper):
             subtitle_elem = item.select_one(".hc-card-subtitle, .subtitle, p")
             subtitle = subtitle_elem.get_text(strip=True) if subtitle_elem else ""
 
+            # Extract image URL
+            img_elem = item.select_one("img")
+            image_url = ""
+            if img_elem:
+                image_url = img_elem.get("src", "") or img_elem.get("data-src", "")
+                if image_url and not image_url.startswith("http"):
+                    image_url = f"{base_url}{image_url}"
+
+            # Check for sold out status
+            status = "available"
+            status_elem = item.select_one(".sold-out, .ausverkauft, [class*='sold']")
+            if status_elem:
+                status = "sold_out"
+            # Also check for text content
+            item_text = item.get_text().lower()
+            if "ausverkauft" in item_text or "sold out" in item_text:
+                status = "sold_out"
+
+            # Determine address based on venue
+            address = ""
+            if venue["name"] == "Swiss Life Hall":
+                address = "Ferdinand-Wilhelm-Fricke-Weg 8, 30169 Hannover"
+            elif venue["name"] == "Capitol Hannover":
+                address = "Schwarzer Bär 2, 30449 Hannover"
+
             return Event(
                 title=title,
                 date=event_date,
@@ -531,7 +618,11 @@ class ConcertVenueScraper(BaseScraper):
                 category="radar",
                 metadata={
                     "time": event_date.strftime("%H:%M"),
-                    "subtitle": subtitle,
+                    "subtitle": subtitle if subtitle != title else "",
+                    "image_url": image_url,
+                    "status": status,
+                    "event_type": "concert",
+                    "address": address,
                 },
             )
 

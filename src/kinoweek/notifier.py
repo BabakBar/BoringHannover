@@ -18,6 +18,7 @@ import httpx
 
 from kinoweek.config import TELEGRAM_MESSAGE_MAX_LENGTH
 from kinoweek.models import Event
+from kinoweek.output import OutputManager, export_all_formats
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -26,6 +27,7 @@ __all__ = [
     "format_message",
     "send_telegram_message",
     "save_to_file",
+    "save_all_formats",
     "notify",
 ]
 
@@ -464,6 +466,33 @@ def save_to_file(
         logger.exception("Failed to save results: %s", exc)
 
 
+def save_all_formats(
+    events_data: EventsData,
+    output_dir: str | Path = "output",
+) -> dict[str, Path]:
+    """Save all output formats (CSV, JSON, Markdown, Archive).
+
+    Creates multiple files:
+    - movies.csv: Flat movie showtimes
+    - movies_grouped.csv: Unique movies with consolidated showtimes
+    - concerts.csv: All concerts
+    - events.json: Enhanced structured data
+    - weekly_digest.md: Human-readable markdown
+    - archive/YYYY-WXX.json: Weekly snapshot
+
+    Args:
+        events_data: Dictionary of event lists.
+        output_dir: Output directory path.
+
+    Returns:
+        Dictionary mapping format names to output paths.
+    """
+    movies = events_data.get("movies_this_week", [])
+    concerts = events_data.get("big_events_radar", [])
+
+    return export_all_formats(movies, concerts, output_dir)
+
+
 # =============================================================================
 # Main Notification Interface
 # =============================================================================
@@ -487,15 +516,26 @@ def notify(events_data: EventsData, *, local_only: bool = False) -> bool:
         message = format_message(events_data)
 
         if local_only:
+            # Save Telegram message format
             save_to_file(message, events_data)
+
+            # Also export all enhanced formats (CSV, Markdown, Archive)
+            output_paths = save_all_formats(events_data)
             logger.info("Results saved locally (development mode)")
+            logger.info("Output files: %s", ", ".join(str(p) for p in output_paths.values()))
+
             print(f"\n{message}\n")
+            print("\nAdditional outputs generated:")
+            for fmt, path in output_paths.items():
+                print(f"  - {fmt}: {path}")
+
             return True
 
         success = send_telegram_message(message)
         if success:
-            # Create backup even when sending
+            # Create backup and full export when sending
             save_to_file(message, events_data, "backup")
+            save_all_formats(events_data, "backup")
         return success
 
     except Exception as exc:
