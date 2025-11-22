@@ -1,22 +1,6 @@
 # KinoWeek - Weekly Event Digest for Hannover
 
-A stateless, weekly script that aggregates cultural events in Hannover from two curated sources and delivers a formatted digest via Telegram.
-
-## The Lean MVP Philosophy
-
-**Complexity kills side projects.** KinoWeek is intentionally simple:
-- **No Database**: Stateless - just run it weekly
-- **No Deduplication**: Simple is better than perfect
-- **No Real-time Alerts**: One message per week, every Monday
-- **Two Quality Sources**: High signal, low noise
-
-## Features
-
-- **Movies (This Week)**: OV (original version) movies at Astor Grand Cinema
-- **On The Radar**: Big upcoming concerts at ZAG Arena, Swiss Life Hall, Capitol
-- **Telegram Integration**: Weekly digest delivered to your phone
-- **Local Testing Mode**: Test without sending messages
-- **Easy Configuration**: All URLs and settings in one file
+A stateless, weekly script that aggregates events in Hannover from curated sources and delivers a formatted digest.
 
 ## Quick Start
 
