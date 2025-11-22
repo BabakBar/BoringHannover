@@ -13,10 +13,10 @@ cp .env.example .env
 # Edit .env with your Telegram bot token and chat ID
 
 # Test locally (saves to output/ directory)
-uv run python -m kinoweek.main --local
+uv run kinoweek --local
 
 # Run with Telegram notifications
-uv run python -m kinoweek.main
+uv run kinoweek
 ```
 
 ## Message Format
@@ -157,10 +157,10 @@ LOG_LEVEL=INFO  # Optional
 
 ```bash
 # Run tests
-uv run python -m pytest tests/ -v
+uv run pytest tests/ -v
 
 # Test the full workflow locally
-uv run python -m kinoweek.main --local
+uv run kinoweek --local
 
 # Check output files
 cat output/latest_message.txt
@@ -243,11 +243,12 @@ All 26 tests passing. End-to-end workflow verified.
 
 ## Roadmap
 
-1. Lean MVP with stateless architecture
-2. Configure all concert venue scrapers
-3. Schedule weekly cron job
-4. Consider movie deduplication (group showtimes per film)
-5. Add ticket links to concert output
+1. ~~Lean MVP with stateless architecture~~ ✅
+2. ~~Configure all concert venue scrapers~~ ✅ (7 venues)
+3. ~~Web frontend (Astro + TailwindCSS)~~ ✅ MVP complete
+4. Deploy web frontend to Coolify
+5. Schedule weekly cron job / GitHub Actions
+6. Add ticket links to concert output
 
 ## Philosophy
 

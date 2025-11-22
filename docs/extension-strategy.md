@@ -53,9 +53,13 @@ src/kinoweek/sources/
 ├── cinema/
 │   └── astor.py         # @register_source("astor_hannover")
 └── concerts/
-    ├── zag_arena.py     # @register_source("zag_arena")
+    ├── bei_chez_heinz.py   # @register_source("bei_chez_heinz")
+    ├── capitol.py          # @register_source("capitol_hannover")
+    ├── faust.py            # @register_source("faust_hannover")
+    ├── musikzentrum.py     # @register_source("musikzentrum")
+    ├── pavillon.py         # @register_source("pavillon")
     ├── swiss_life_hall.py  # @register_source("swiss_life_hall")
-    └── capitol.py       # @register_source("capitol_hannover")
+    └── zag_arena.py        # @register_source("zag_arena")
 ```
 
 #### 1. Source Configuration (TOML) ✅
@@ -133,15 +137,16 @@ class NewVenueSource(BaseSource):
 ### 🎵 Concerts & Live Music
 | Venue | Status | Access Pattern |
 |-------|--------|----------------|
-| ZAG Arena | ✅ Implemented | HTML (WPEM) |
-| Swiss Life Hall | ✅ Implemented | HTML (HC-Kartenleger) |
+| Béi Chéz Heinz | ✅ Implemented | HTML (custom, div.pane) |
 | Capitol Hannover | ✅ Implemented | HTML (HC-Kartenleger) |
 | Faust | ✅ Implemented | HTML (REDAXO CMS) |
-| Pavillon | ✅ Implemented | HTML (WordPress) |
 | MusikZentrum | ✅ Implemented | JSON-LD Schema |
-| Béi Chéz Heinz | ✅ Implemented | HTML (custom) |
+| Pavillon | ✅ Implemented | HTML (WordPress) |
+| Swiss Life Hall | ✅ Implemented | HTML (HC-Kartenleger) |
+| ZAG Arena | ✅ Implemented | HTML (WPEM) |
 | Café Glocksee | 📋 Planned | HTML |
 | Indiego Glocksee | 📋 Planned | HTML |
+| Lux | 📋 Planned | HTML |
 
 ### 🎪 Festivals & Special Events
 | Venue | Status | Access Pattern |
@@ -195,6 +200,7 @@ class NewVenueSource(BaseSource):
 2. ~~Design data schema~~ ✅ Done - `Event` dataclass with rich metadata
 3. ~~Build registry system~~ ✅ Done - `@register_source` decorator
 4. ~~Update notifier~~ ✅ Done - Works with new architecture
-5. **Add more sources**: CinemaxX, Pavillon, GOP Varieté
-6. **Async scraping**: Parallel fetching with `asyncio`
-7. **Source health dashboard**: Monitor source availability
+5. ~~Add Pavillon~~ ✅ Done - WordPress-based scraper
+6. **Add more sources**: CinemaxX, Lux, Café Glocksee, GOP Varieté
+7. **Async scraping**: Parallel fetching with `asyncio`
+8. **Source health dashboard**: Monitor source availability

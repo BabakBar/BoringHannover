@@ -19,9 +19,13 @@ KinoWeek/
 │   │   ├── cinema/
 │   │   │   └── astor.py      # Astor Grand Cinema
 │   │   └── concerts/
-│   │       ├── zag_arena.py
-│   │       ├── swiss_life_hall.py
-│   │       └── capitol.py
+│   │       ├── bei_chez_heinz.py   # Béi Chéz Heinz
+│   │       ├── capitol.py          # Capitol Hannover
+│   │       ├── faust.py            # Kulturzentrum Faust
+│   │       ├── musikzentrum.py     # MusikZentrum
+│   │       ├── pavillon.py         # Pavillon
+│   │       ├── swiss_life_hall.py  # Swiss Life Hall
+│   │       └── zag_arena.py        # ZAG Arena
 │   ├── notifier.py           # Telegram notification & orchestration
 │   ├── formatting.py         # Message formatting helpers & language mappings
 │   ├── output.py             # OutputManager & movie grouping logic
@@ -30,6 +34,8 @@ KinoWeek/
 │   ├── main.py               # Orchestration & CLI
 │   └── _archive/             # Archived legacy code
 │       └── scrapers.py       # Old monolithic scraper (replaced by sources/)
+├── web/                      # Astro frontend
+│   └── src/
 ├── tests/                    # Test suite (26 tests)
 ├── docs/                     # Documentation
 ├── output/                   # Local test results
@@ -98,7 +104,7 @@ KinoWeek/
 
 ## Current Architecture
 
-### Two Event Sources
+### Event Sources (8 Total)
 
 1. **Astor Grand Cinema** (Movies)
    - Direct JSON API access
@@ -106,10 +112,12 @@ KinoWeek/
    - Metadata: duration, rating, year, country, genres, language
    - Timeframe: This week (7 days)
 
-2. **Concert Venues** (Concerts)
-   - HTML scraping with BeautifulSoup
-   - Venues: ZAG Arena, Swiss Life Hall, Capitol Hannover
-   - Metadata: time, venue
+2. **Concert Venues** (7 Venues)
+   - HTML scraping with BeautifulSoup / JSON-LD
+   - **Large Venues**: ZAG Arena, Swiss Life Hall, Capitol Hannover
+   - **Cultural Centers**: Faust, Pavillon, MusikZentrum
+   - **Clubs**: Béi Chéz Heinz
+   - Metadata: time, venue, status
    - Timeframe: Beyond 7 days (on the radar)
 
 ### Module Responsibilities
@@ -140,9 +148,13 @@ KinoWeek/
 - Helper functions: `is_original_version()`, `parse_german_date()`
 
 **`sources/cinema/astor.py`** - Astor Grand Cinema
-**`sources/concerts/zag_arena.py`** - ZAG Arena
-**`sources/concerts/swiss_life_hall.py`** - Swiss Life Hall
+**`sources/concerts/bei_chez_heinz.py`** - Béi Chéz Heinz
 **`sources/concerts/capitol.py`** - Capitol Hannover
+**`sources/concerts/faust.py`** - Kulturzentrum Faust
+**`sources/concerts/musikzentrum.py`** - MusikZentrum
+**`sources/concerts/pavillon.py`** - Pavillon
+**`sources/concerts/swiss_life_hall.py`** - Swiss Life Hall
+**`sources/concerts/zag_arena.py`** - ZAG Arena
 
 #### Notification Modules
 
@@ -184,15 +196,21 @@ KinoWeek/
 - Logging configuration
 - Workflow orchestration
 
-## Current Status (2025-11-21)
+## Current Status (2025-11-22)
 
 ### Working Features
-- Astor Movies: 57 OV showtimes, ~27 this week
-- ZAG Arena: 9 concerts
-- Swiss Life Hall: 10 concerts
-- Capitol Hannover: 10 concerts
+- **Astor Movies**: ~57 OV showtimes, ~27 this week
+- **Concert Sources** (7 venues):
+  - Béi Chéz Heinz: ~3 events
+  - Capitol Hannover: ~10 events
+  - Faust: ~12 events
+  - MusikZentrum: ~16 events
+  - Pavillon: ~20 events
+  - Swiss Life Hall: ~10 events
+  - ZAG Arena: ~9 events
 - All 26 tests passing
 - End-to-end workflow verified
+- Web frontend (Astro) connected to data pipeline
 
 ### Output Format
 
@@ -213,7 +231,7 @@ Sa, 29. Nov | 20:00 @ ZAG Arena
 ### Technical Metrics
 - **Test Coverage**: 26 passing tests
 - **Execution Time**: ~6 seconds
-- **API Calls**: 4 total (1 Astor + 3 venues)
+- **API Calls**: 8 total (1 Astor + 7 concert venues)
 - **Python Version**: 3.13+
 - **Dependencies**: httpx, beautifulsoup4, python-dotenv
 

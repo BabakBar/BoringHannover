@@ -23,7 +23,7 @@ cp .env.example .env
 ### Quick Test (No Telegram)
 ```bash
 # Test locally - saves results to output/ folder
-PYTHONPATH=src uv run python -m kinoweek.main --local
+uv run kinoweek --local
 ```
 
 This generates:
@@ -83,7 +83,7 @@ To test the complete flow (scraper → frontend):
 
 ```bash
 # 1. Run the scraper to generate data
-PYTHONPATH=src uv run python -m kinoweek.main --local
+uv run kinoweek --local
 
 # 2. Start the frontend (reads from output/web_events.json)
 cd web && bun run dev

@@ -100,13 +100,21 @@ def is_original_version(language: str) -> bool:
 
 #### Concert Sources (`sources/concerts/`)
 Each venue has its own module:
-- `zag_arena.py`: ZAG Arena (WPEM selectors)
-- `swiss_life_hall.py`: Swiss Life Hall (HC-Kartenleger)
+- `bei_chez_heinz.py`: Béi Chéz Heinz (custom HTML)
 - `capitol.py`: Capitol Hannover (HC-Kartenleger)
+- `faust.py`: Kulturzentrum Faust (REDAXO CMS)
+- `musikzentrum.py`: MusikZentrum (JSON-LD)
+- `pavillon.py`: Pavillon (WordPress)
+- `swiss_life_hall.py`: Swiss Life Hall (HC-Kartenleger)
+- `zag_arena.py`: ZAG Arena (WPEM selectors)
 
 **Venue-Specific Parsing**:
 - ZAG Arena: `.wpem-event-layout-wrapper` containers
 - Swiss Life Hall / Capitol: `.hc-card-link-wrapper` cards
+- Béi Chéz Heinz: `div.pane` with category filtering
+- Faust: URL-based date parsing (DDMMYY format)
+- MusikZentrum: `<script type="application/ld+json">` JSON-LD
+- Pavillon: `a[href*="/event/details/"]` links
 
 ### 4. Aggregator (`aggregator.py`)
 
@@ -286,7 +294,7 @@ uv run python -m pytest tests/ -v
 ### Current Metrics
 - **Execution Time**: ~6 seconds (network dependent)
 - **Memory Usage**: < 100MB
-- **API Calls**: 4 total (1 Astor + 3 venues)
+- **API Calls**: 8 total (1 Astor + 7 concert venues)
 
 ### Optimizations
 - Single API call for all Astor data
@@ -356,7 +364,6 @@ KinoWeek/
 │   ├── __init__.py       # Package with lazy imports
 │   ├── models.py         # Event dataclass
 │   ├── config.py         # Global settings and constants
-│   ├── sources.toml      # Source configuration (TOML)
 │   ├── aggregator.py     # Central orchestration
 │   ├── sources/          # Plugin-based source modules
 │   │   ├── __init__.py   # Registry & autodiscovery
@@ -364,9 +371,13 @@ KinoWeek/
 │   │   ├── cinema/
 │   │   │   └── astor.py  # Astor Grand Cinema
 │   │   └── concerts/
-│   │       ├── zag_arena.py
-│   │       ├── swiss_life_hall.py
-│   │       └── capitol.py
+│   │       ├── bei_chez_heinz.py   # Béi Chéz Heinz
+│   │       ├── capitol.py          # Capitol Hannover
+│   │       ├── faust.py            # Kulturzentrum Faust
+│   │       ├── musikzentrum.py     # MusikZentrum
+│   │       ├── pavillon.py         # Pavillon
+│   │       ├── swiss_life_hall.py  # Swiss Life Hall
+│   │       └── zag_arena.py        # ZAG Arena
 │   ├── notifier.py       # Telegram notification & orchestration
 │   ├── formatting.py     # Message formatting helpers & language mappings
 │   ├── output.py         # OutputManager & movie grouping logic
@@ -375,10 +386,13 @@ KinoWeek/
 │   ├── main.py           # CLI entry point
 │   └── _archive/         # Archived legacy code
 │       └── scrapers.py   # Old monolithic scraper (replaced by sources/)
+├── web/                  # Astro frontend
+│   └── src/
 ├── tests/
 │   └── test_scraper.py   # 26 tests
 ├── docs/
 │   ├── architecture.md   # This document
+│   ├── technical_context.md
 │   └── extension-strategy.md
 ├── output/               # Generated files
 ├── pyproject.toml        # Modern Python config
