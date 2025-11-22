@@ -8,6 +8,7 @@ export interface Movie {
   language?: string | null;
   subtitles?: string | null;
   rating?: string | null;
+  genre?: string | null;
   url?: string | null;
 }
 
@@ -24,6 +25,10 @@ export interface Concert {
   time?: string | null;
   venue: string;
   url?: string | null;
+  eventType?: string | null;    // "concert", "sport", "show"
+  genre?: string | null;        // "Konzert", "Festival", etc.
+  description?: string | null;  // Short description/subtitle
+  status?: string | null;       // "available", "sold_out"
 }
 
 export interface EventMeta {

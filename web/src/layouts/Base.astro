@@ -28,15 +28,29 @@ const {
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="de_DE" />
 
-    <!-- Theme -->
-    <meta name="theme-color" content="#0a0a0a" />
-    <meta name="color-scheme" content="dark" />
+    <!-- Theme - dynamic based on preference -->
+    <meta name="theme-color" id="theme-color" content="#fafaf9" />
+    <meta name="color-scheme" content="light dark" />
 
     <!-- Mobile web app -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
     <title>{title}</title>
+
+    <!-- Theme initialization (prevents flash) -->
+    <script is:inline>
+      (function() {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = saved === 'dark' || (!saved && prefersDark);
+
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+          document.getElementById('theme-color')?.setAttribute('content', '#0a0a0a');
+        }
+      })();
+    </script>
   </head>
   <body class="bg-bg-primary min-h-screen">
     <div class="max-w-mobile mx-auto px-4 py-6">

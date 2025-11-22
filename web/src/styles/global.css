@@ -5,10 +5,42 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Theme CSS Variables */
+:root {
+  /* Light theme (default) - subtle warm paper */
+  --bg-primary: #fafaf9;
+  --bg-secondary: #f0efed;
+  --bg-tertiary: #e8e7e5;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --accent: #dc2626;
+  --accent-hover: #ef4444;
+  --accent-dim: rgba(220, 38, 38, 0.1);
+  --border: #e0dfdd;
+  --theme-color: #fafaf9;
+}
+
+:root.dark {
+  /* Dark theme - Nothing inspired */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1a1a1a;
+  --text-primary: #e5e5e5;
+  --text-secondary: #888888;
+  --text-muted: #555555;
+  --accent: #ff3b3b;
+  --accent-hover: #ff5555;
+  --accent-dim: rgba(255, 59, 59, 0.13);
+  --border: #2a2a2a;
+  --theme-color: #0a0a0a;
+}
+
 @layer base {
   html {
     @apply bg-bg-primary text-text-primary antialiased;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   body {
@@ -22,7 +54,8 @@
 
   /* Selection color */
   ::selection {
-    @apply bg-accent/30 text-text-primary;
+    background-color: var(--accent-dim);
+    color: var(--text-primary);
   }
 }
 

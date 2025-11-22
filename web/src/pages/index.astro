@@ -33,6 +33,7 @@ const { meta, movies, concerts } = eventData;
             language={movie.language}
             subtitles={movie.subtitles}
             rating={movie.rating}
+            genre={movie.genre}
             url={movie.url}
           />
         ))}
@@ -46,7 +47,7 @@ const { meta, movies, concerts } = eventData;
 
   <!-- Concerts Section -->
   <section class="mb-10">
-    <SectionHeader title="On The Radar" />
+    <SectionHeader title="Events On The Radar" />
 
     {concerts.map((concert) => (
       <ConcertCard
@@ -56,6 +57,10 @@ const { meta, movies, concerts } = eventData;
         time={concert.time}
         venue={concert.venue}
         url={concert.url}
+        eventType={concert.eventType}
+        genre={concert.genre}
+        description={concert.description}
+        status={concert.status}
       />
     ))}
 

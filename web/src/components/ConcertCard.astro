@@ -1,14 +1,31 @@
 ---
 interface Props {
   title: string;
-  date: string;       // e.g., "29 Nov"
-  day: string;        // e.g., "Sa"
-  time?: string;      // e.g., "20:00"
-  venue: string;      // e.g., "ZAG Arena"
+  date: string;          // e.g., "29 Nov"
+  day: string;           // e.g., "Sa" (German) or "Sat" (English)
+  time?: string;         // e.g., "20:00"
+  venue: string;         // e.g., "ZAG Arena"
   url?: string;
+  eventType?: string;    // e.g., "concert", "sport", "show"
+  genre?: string;        // e.g., "Konzert", "Festival"
+  description?: string;  // Short description/subtitle
+  status?: string;       // e.g., "available", "sold_out"
 }
 
-const { title, date, day, time, venue, url } = Astro.props;
+const { title, date, day, time, venue, url, eventType, genre, description, status } = Astro.props;
+
+// Convert German day abbreviations to English
+const dayMap: Record<string, string> = {
+  'Mo': 'Mon', 'Di': 'Tue', 'Mi': 'Wed', 'Do': 'Thu',
+  'Fr': 'Fri', 'Sa': 'Sat', 'So': 'Sun'
+};
+const dayDisplay = dayMap[day] || day;
+
+// Determine what info tag to show (genre or event type)
+const infoTag = genre || (eventType && eventType !== 'concert' ? eventType : null);
+
+// Check if sold out
+const isSoldOut = status === 'sold_out';
 ---
 
 <a
@@ -21,21 +38,39 @@ const { title, date, day, time, venue, url } = Astro.props;
   <div class="flex gap-4">
     <!-- Date block -->
     <div class="flex-shrink-0 w-14 text-center">
-      <div class="font-display text-xs text-text-muted uppercase">{day}</div>
+      <div class="font-display text-xs text-text-muted uppercase">{dayDisplay}</div>
       <div class="font-display text-sm text-text-secondary">{date}</div>
     </div>
 
     <!-- Content -->
     <div class="flex-1 min-w-0">
-      <h3 class="font-body text-base font-semibold text-text-primary truncate">
-        {title}
-      </h3>
+      <div class="flex items-center gap-2">
+        <h3 class="font-body text-base font-semibold text-text-primary truncate">
+          {title}
+        </h3>
+        {isSoldOut && (
+          <span class="font-display text-[10px] uppercase text-accent px-1.5 py-0.5 bg-accent-dim rounded">
+            Sold Out
+          </span>
+        )}
+      </div>
       <div class="mt-0.5 font-display text-xs text-text-muted">
+        {infoTag && (
+          <>
+            <span class="text-text-secondary">{infoTag}</span>
+            <span class="text-text-muted"> &middot; </span>
+          </>
+        )}
         {time && <span class="text-text-secondary">{time}</span>}
         {time && <span> @ </span>}
         {!time && <span>@ </span>}
         <span>{venue}</span>
       </div>
+      {description && (
+        <p class="mt-1 font-body text-xs text-text-muted line-clamp-1">
+          {description}
+        </p>
+      )}
     </div>
   </div>
 </a>

@@ -7,17 +7,18 @@ interface Props {
   language?: string;    // e.g., "JP"
   subtitles?: string;   // e.g., "DE"
   rating?: string;      // e.g., "FSK16"
+  genre?: string;       // e.g., "Drama"
   url?: string;
 }
 
 const {
   title,
-  year,
   time,
   duration,
   language,
   subtitles,
   rating,
+  genre,
   url
 } = Astro.props;
 
@@ -37,7 +38,6 @@ const langDisplay = language && subtitles
   <div class="flex items-start justify-between gap-2">
     <h3 class="font-body text-lg font-semibold text-text-primary leading-tight">
       {title}
-      {year && <span class="text-text-muted font-normal text-base ml-1">({year})</span>}
     </h3>
   </div>
 
@@ -48,6 +48,12 @@ const langDisplay = language && subtitles
       <>
         <span class="text-text-muted">&middot;</span>
         <span>{langDisplay}</span>
+      </>
+    )}
+    {genre && (
+      <>
+        <span class="text-text-muted">&middot;</span>
+        <span class="text-text-secondary">{genre}</span>
       </>
     )}
     {duration && (

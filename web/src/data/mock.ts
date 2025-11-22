@@ -24,6 +24,7 @@ export const mockData: EventData = {
           language: "JP",
           subtitles: "DE",
           rating: "FSK16",
+          genre: "Animation",
           url: "https://example.com/chainsaw-man"
         }
       ]
@@ -40,6 +41,7 @@ export const mockData: EventData = {
           language: "EN",
           subtitles: "DE",
           rating: "FSK16",
+          genre: "Action",
           url: "https://example.com/gladiator"
         },
         {
@@ -50,6 +52,7 @@ export const mockData: EventData = {
           language: "EN",
           subtitles: "DE",
           rating: "FSK6",
+          genre: "Musical",
           url: "https://example.com/wicked"
         },
         {
@@ -60,6 +63,7 @@ export const mockData: EventData = {
           language: "EN",
           subtitles: "DE",
           rating: "FSK12",
+          genre: "Drama",
           url: "https://example.com/conclave"
         }
       ]
@@ -75,6 +79,7 @@ export const mockData: EventData = {
           duration: "2h20m",
           language: "EN",
           rating: "FSK18",
+          genre: "Horror",
           url: "https://example.com/substance"
         }
       ]
@@ -87,7 +92,10 @@ export const mockData: EventData = {
       day: "Sa",
       time: "20:00",
       venue: "ZAG Arena",
-      url: "https://example.com/luciano"
+      url: "https://example.com/luciano",
+      eventType: "concert",
+      genre: "Electronic",
+      description: "The Swiss-Chilean DJ brings his iconic sound to Hannover"
     },
     {
       title: "Simply Red",
@@ -95,7 +103,10 @@ export const mockData: EventData = {
       day: "Fr",
       time: "20:00",
       venue: "Swiss Life Hall",
-      url: "https://example.com/simply-red"
+      url: "https://example.com/simply-red",
+      eventType: "concert",
+      genre: "Pop",
+      status: "sold_out"
     },
     {
       title: "Mat Kearney",
@@ -103,7 +114,9 @@ export const mockData: EventData = {
       day: "Fr",
       time: "19:30",
       venue: "MusikZentrum",
-      url: "https://example.com/mat-kearney"
+      url: "https://example.com/mat-kearney",
+      eventType: "concert",
+      genre: "Indie"
     },
     {
       title: "Scooter",
@@ -111,15 +124,20 @@ export const mockData: EventData = {
       day: "Sa",
       time: "20:00",
       venue: "ZAG Arena",
-      url: "https://example.com/scooter"
+      url: "https://example.com/scooter",
+      eventType: "concert",
+      genre: "Techno",
+      description: "Hyper Hyper Tour 2025"
     },
     {
-      title: "Deichkind",
+      title: "Comedy Night",
       date: "21 Dec",
       day: "Sa",
       time: "19:30",
-      venue: "ZAG Arena",
-      url: "https://example.com/deichkind"
+      venue: "Capitol Hannover",
+      url: "https://example.com/comedy",
+      eventType: "show",
+      description: "Stand-up comedy featuring local and international acts"
     },
     {
       title: "Helene Fischer",
@@ -127,7 +145,9 @@ export const mockData: EventData = {
       day: "Fr",
       time: "20:00",
       venue: "ZAG Arena",
-      url: "https://example.com/helene-fischer"
+      url: "https://example.com/helene-fischer",
+      eventType: "concert",
+      genre: "Schlager"
     }
   ]
 };

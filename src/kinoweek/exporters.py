@@ -211,6 +211,10 @@ def export_web_json(
 
         lang_display = "→".join(lang_parts) if len(lang_parts) == 2 else (lang_parts[0] if lang_parts else "")
 
+        # Get primary genre (first one if available)
+        genres = event.metadata.get("genres", [])
+        primary_genre = genres[0] if genres else None
+
         movies_by_date[date_key].append({
             "title": event.title,
             "year": event.metadata.get("year"),
@@ -219,6 +223,7 @@ def export_web_json(
             "language": lang_parts[0] if lang_parts else None,
             "subtitles": "DE" if len(lang_parts) == 2 else None,
             "rating": f"FSK{event.metadata.get('rating')}" if event.metadata.get("rating") else None,
+            "genre": primary_genre,
             "url": event.url,
         })
 
@@ -245,6 +250,12 @@ def export_web_json(
         else:
             date_display = f"{dt.day} {month_name}"
 
+        # Extract optional event details
+        event_type = event.metadata.get("event_type", "concert")
+        genre = event.metadata.get("genre")
+        subtitle = event.metadata.get("subtitle")
+        status = event.metadata.get("status", "available")
+
         concerts_list.append({
             "title": event.title,
             "date": date_display,
@@ -252,6 +263,10 @@ def export_web_json(
             "time": event.metadata.get("time", "20:00"),
             "venue": event.venue,
             "url": event.url,
+            "eventType": event_type,
+            "genre": genre if genre else None,
+            "description": subtitle if subtitle else None,
+            "status": status,
         })
 
     # Build final structure

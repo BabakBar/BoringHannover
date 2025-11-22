@@ -1,29 +1,27 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Background colors
+        // Theme colors using CSS variables
         bg: {
-          primary: '#0a0a0a',
-          secondary: '#141414',
-          tertiary: '#1a1a1a',
+          primary: 'var(--bg-primary)',
+          secondary: 'var(--bg-secondary)',
+          tertiary: 'var(--bg-tertiary)',
         },
-        // Text colors
         text: {
-          primary: '#e5e5e5',
-          secondary: '#888888',
-          muted: '#555555',
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          muted: 'var(--text-muted)',
         },
-        // Accent (Nothing red)
         accent: {
-          DEFAULT: '#ff3b3b',
-          hover: '#ff5555',
-          dim: 'rgba(255, 59, 59, 0.13)',
+          DEFAULT: 'var(--accent)',
+          hover: 'var(--accent-hover)',
+          dim: 'var(--accent-dim)',
         },
-        // Border
-        border: '#2a2a2a',
+        border: 'var(--border)',
       },
       fontFamily: {
         display: ['"Space Mono"', '"SF Mono"', 'monospace'],
