@@ -1,0 +1,30 @@
+---
+interface Props {
+  week: number;
+  year: number;
+}
+
+const { week, year } = Astro.props;
+---
+
+<header class="mb-8">
+  <!-- Logo with dot-matrix style -->
+  <div class="flex items-center gap-2 mb-2">
+    <span class="text-accent text-lg">&#9642;&#9642;&#9642;</span>
+    <h1 class="font-display text-xl font-bold tracking-dot uppercase text-text-primary">
+      boringhannover
+    </h1>
+    <span class="text-accent text-lg">&#9642;&#9642;&#9642;</span>
+  </div>
+
+  <!-- Week info -->
+  <div class="font-display text-xs text-text-secondary tracking-wide">
+    W{week} &middot; {year}
+  </div>
+</header>
+
+<style>
+  header {
+    text-align: center;
+  }
+</style>

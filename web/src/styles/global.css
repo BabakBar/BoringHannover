@@ -1,0 +1,93 @@
+/* Import fonts - must come before @tailwind */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-bg-primary text-text-primary antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  body {
+    @apply min-h-screen;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Selection color */
+  ::selection {
+    @apply bg-accent/30 text-text-primary;
+  }
+}
+
+@layer components {
+  /* Dot matrix decorative element */
+  .dot-matrix {
+    @apply font-display tracking-dot uppercase;
+  }
+
+  /* Dot separator */
+  .dot-sep::before {
+    content: ' \00B7 ';
+    @apply text-text-muted;
+  }
+
+  /* Section divider */
+  .divider {
+    @apply border-t border-border my-6;
+  }
+
+  /* Card hover effect */
+  .card-hover {
+    @apply transition-colors duration-200;
+  }
+
+  .card-hover:hover {
+    @apply bg-bg-secondary;
+  }
+
+  /* Accent underline */
+  .accent-underline {
+    @apply border-b-2 border-accent pb-1;
+  }
+
+  /* Time badge */
+  .time-badge {
+    @apply font-display text-xs text-text-secondary bg-bg-tertiary px-2 py-1 rounded;
+  }
+
+  /* FSK rating badge */
+  .fsk-badge {
+    @apply font-display text-xs text-text-muted;
+  }
+
+  /* Language arrow */
+  .lang-arrow::before {
+    content: '\2192';
+    @apply mx-1;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Dot pattern background (subtle) */
+  .dot-bg {
+    background-image: radial-gradient(circle, #2a2a2a 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+}

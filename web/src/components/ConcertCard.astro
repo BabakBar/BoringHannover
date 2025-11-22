@@ -1,0 +1,47 @@
+---
+interface Props {
+  title: string;
+  date: string;       // e.g., "29 Nov"
+  day: string;        // e.g., "Sa"
+  time?: string;      // e.g., "20:00"
+  venue: string;      // e.g., "ZAG Arena"
+  url?: string;
+}
+
+const { title, date, day, time, venue, url } = Astro.props;
+---
+
+<a
+  href={url}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="concert-card block py-3 -mx-2 px-2 rounded card-hover"
+>
+  <!-- Date column + content -->
+  <div class="flex gap-4">
+    <!-- Date block -->
+    <div class="flex-shrink-0 w-14 text-center">
+      <div class="font-display text-xs text-text-muted uppercase">{day}</div>
+      <div class="font-display text-sm text-text-secondary">{date}</div>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 min-w-0">
+      <h3 class="font-body text-base font-semibold text-text-primary truncate">
+        {title}
+      </h3>
+      <div class="mt-0.5 font-display text-xs text-text-muted">
+        {time && <span class="text-text-secondary">{time}</span>}
+        {time && <span> @ </span>}
+        {!time && <span>@ </span>}
+        <span>{venue}</span>
+      </div>
+    </div>
+  </div>
+</a>
+
+<style>
+  .concert-card:hover h3 {
+    color: theme('colors.accent.DEFAULT');
+  }
+</style>

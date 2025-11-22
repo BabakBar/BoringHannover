@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import DateHeader from '../components/DateHeader.astro';
+import MovieCard from '../components/MovieCard.astro';
+import ConcertCard from '../components/ConcertCard.astro';
+import Footer from '../components/Footer.astro';
+
+// Import mock data (will be replaced with events.json)
+import { mockData } from '../data/mock';
+
+const { meta, movies, concerts } = mockData;
+---
+
+<Base title="boringhannover - What's on in Hannover">
+  <Header week={meta.week} year={meta.year} />
+
+  <!-- Movies Section -->
+  <section class="mb-10">
+    <SectionHeader title="Movies This Week" />
+
+    {movies.map((dayGroup) => (
+      <div>
+        <DateHeader day={dayGroup.day} date={dayGroup.date} />
+        {dayGroup.movies.map((movie) => (
+          <MovieCard
+            title={movie.title}
+            year={movie.year}
+            time={movie.time}
+            duration={movie.duration}
+            language={movie.language}
+            subtitles={movie.subtitles}
+            rating={movie.rating}
+            url={movie.url}
+          />
+        ))}
+      </div>
+    ))}
+
+    {movies.length === 0 && (
+      <p class="text-text-muted text-sm py-4">No OV movies this week.</p>
+    )}
+  </section>
+
+  <!-- Concerts Section -->
+  <section class="mb-10">
+    <SectionHeader title="On The Radar" />
+
+    {concerts.map((concert) => (
+      <ConcertCard
+        title={concert.title}
+        date={concert.date}
+        day={concert.day}
+        time={concert.time}
+        venue={concert.venue}
+        url={concert.url}
+      />
+    ))}
+
+    {concerts.length === 0 && (
+      <p class="text-text-muted text-sm py-4">No upcoming concerts.</p>
+    )}
+  </section>
+
+  <Footer updatedAt={meta.updatedAt} />
+</Base>

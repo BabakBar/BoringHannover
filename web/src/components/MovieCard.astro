@@ -1,0 +1,72 @@
+---
+interface Props {
+  title: string;
+  year?: number;
+  time: string;         // e.g., "22:50"
+  duration?: string;    // e.g., "1h41m"
+  language?: string;    // e.g., "JP"
+  subtitles?: string;   // e.g., "DE"
+  rating?: string;      // e.g., "FSK16"
+  url?: string;
+}
+
+const {
+  title,
+  year,
+  time,
+  duration,
+  language,
+  subtitles,
+  rating,
+  url
+} = Astro.props;
+
+// Format language display (JP→DE)
+const langDisplay = language && subtitles
+  ? `${language}\u2192${subtitles}`
+  : language || '';
+---
+
+<a
+  href={url}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="movie-card block py-3 -mx-2 px-2 rounded card-hover"
+>
+  <!-- Title row -->
+  <div class="flex items-start justify-between gap-2">
+    <h3 class="font-body text-lg font-semibold text-text-primary leading-tight">
+      {title}
+      {year && <span class="text-text-muted font-normal text-base ml-1">({year})</span>}
+    </h3>
+  </div>
+
+  <!-- Details row -->
+  <div class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 font-display text-xs text-text-muted">
+    <span class="text-text-secondary">{time}</span>
+    {langDisplay && (
+      <>
+        <span class="text-text-muted">&middot;</span>
+        <span>{langDisplay}</span>
+      </>
+    )}
+    {duration && (
+      <>
+        <span class="text-text-muted">&middot;</span>
+        <span>{duration}</span>
+      </>
+    )}
+    {rating && (
+      <>
+        <span class="text-text-muted">&middot;</span>
+        <span class="fsk-badge">{rating}</span>
+      </>
+    )}
+  </div>
+</a>
+
+<style>
+  .movie-card:hover h3 {
+    color: theme('colors.accent.DEFAULT');
+  }
+</style>

@@ -1,10 +1,22 @@
-# KinoWeek Frontend Plan
+# boringhannover Frontend Plan
 
 > "You're in the metro on a rainy, cold day. You don't know what's happening in Hannover this week. You check the plan."
 
 ## Overview
 
-This document outlines the frontend vision for KinoWeek - a modern, minimal web interface inspired by Nothing's design language. The goal is to deliver event information fast, with a sleek aesthetic that feels at home on a phone screen.
+This document outlines the frontend vision for **boringhannover** - a modern, minimal web interface inspired by Nothing's design language. The goal is to deliver event information fast, with a sleek aesthetic that feels at home on a phone screen.
+
+---
+
+## Final Decisions
+
+| Decision | Choice |
+|----------|--------|
+| **Name** | boringhannover |
+| **Domain** | boringhannover.de ✓ (registered) |
+| **Accent Color** | `#ff3b3b` (Nothing red) |
+| **Deployment** | Hetzner + Coolify |
+| **Analytics** | Plausible / Umami (TBD) |
 
 ---
 
@@ -51,8 +63,8 @@ Combining **"Glyph Matrix"** (dot-matrix aesthetic) with **"Digital Brutalism"**
 ```
 ┌─────────────────────────────┐
 │                             │
-│  ▪▪▪ KINOWEEK ▪▪▪          │
-│  Hannover · W47 · 2025      │
+│  ▪▪▪ BORINGHANNOVER ▪▪▪    │
+│  W47 · 2025                 │
 │                             │
 ├─────────────────────────────┤
 │                             │
@@ -177,15 +189,16 @@ Framework:    Astro (static site generator)
 Styling:      TailwindCSS + custom CSS
 Fonts:        Space Mono (Google Fonts) + Inter (system/Google)
 Build:        Python exports JSON → Astro builds HTML
-Deploy:       GitHub Pages (free, simple)
+Deploy:       Hetzner + Coolify (Docker)
+Domain:       boringhannover.de (Cloudflare DNS)
 ```
 
 ### Build Pipeline
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Python    │     │    Astro    │     │   GitHub    │
-│  Scraper    │────▶│   Build     │────▶│   Pages     │
+│   Python    │     │    Astro    │     │   Coolify   │
+│  Scraper    │────▶│   Build     │────▶│   Deploy    │
 │             │     │             │     │             │
 │ events.json │     │ index.html  │     │  Live Site  │
 └─────────────┘     └─────────────┘     └─────────────┘
@@ -270,7 +283,7 @@ Instead of sections (Movies / Concerts), present a unified timeline. Scroll = tr
 
 ```
 ┌─────────────────────────────┐
-│  KINOWEEK · Hannover        │
+│  BORINGHANNOVER             │
 │                             │
 │         ┃                   │
 │    NOW ─╋─ ─ ─ ─ ─ ─ ─ ─   │
@@ -370,26 +383,6 @@ Instead of sections (Movies / Concerts), present a unified timeline. Scroll = tr
 
 ---
 
-## Open Questions
-
-1. **Domain/URL?**
-   - kinoweek.de? hannover.events? planz.app?
-
-2. **Branding?**
-   - Keep "KinoWeek" or rebrand? (it's more than kino now)
-   - "planz" mentioned in requirements - is that the name?
-
-3. **Accent color?**
-   - Nothing red (#ff3b3b)?
-   - Electric blue (#3b82f6)?
-   - Hannover-themed?
-
-4. **Analytics?**
-   - Track usage? (Plausible, Umami - privacy-friendly)
-   - Or pure static, no tracking?
-
----
-
 ## Next Steps
 
 1. [ ] Set up Astro project structure
@@ -426,4 +419,4 @@ Instead of sections (Movies / Concerts), present a unified timeline. Scroll = tr
 ---
 
 *Last updated: 2025-11-21*
-*Status: Planning → Ready for Phase 1 implementation*
+*Status: Phase 1 implementation in progress*

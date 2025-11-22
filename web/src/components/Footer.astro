@@ -1,0 +1,28 @@
+---
+interface Props {
+  updatedAt?: string;   // e.g., "Mon 18 Nov 09:00"
+}
+
+const { updatedAt } = Astro.props;
+---
+
+<footer class="mt-12 pt-6 border-t border-border text-center">
+  {updatedAt && (
+    <div class="font-display text-xs text-text-muted mb-2">
+      Updated: {updatedAt}
+    </div>
+  )}
+
+  <!-- Dot decoration -->
+  <div class="flex justify-center gap-1 text-accent text-xs mb-4">
+    <span>&#9642;</span>
+    <span>&#9642;</span>
+    <span>&#9642;</span>
+  </div>
+
+  <!-- Sources info -->
+  <div class="font-display text-xs text-text-muted">
+    <p>OV Movies &middot; Concerts &middot; Events</p>
+    <p class="mt-1">Hannover, Germany</p>
+  </div>
+</footer>
