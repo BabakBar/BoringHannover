@@ -65,8 +65,8 @@ KinoWeek uses a **plugin-based architecture** for event sources. Each source is 
 2. **Concert Venues** (Live Music)
    - **Large Venues**: ZAG Arena, Swiss Life Hall, Capitol Hannover
    - **Cultural Centers**: Faust, Pavillon, MusikZentrum
-   - **Clubs**: Béi Chéz Heinz
-   - Content: Concerts, festivals, live music events
+   - **Clubs & Cafés**: Béi Chéz Heinz, Erhardt Café
+   - Content: Concerts, festivals, live music, cultural events
    - Timeframe: Events beyond 7 days (on the radar)
 
 ### How It Works
@@ -85,6 +85,7 @@ KinoWeek uses a **plugin-based architecture** for event sources. Each source is 
 │  • astor_hannover (cinema)  │
 │  • bei_chez_heinz (concert) │
 │  • capitol_hannover (concert)│
+│  • erhardt_cafe (concert)   │
 │  • faust_hannover (concert) │
 │  • musikzentrum (concert)   │
 │  • pavillon (concert)       │
@@ -184,6 +185,7 @@ src/kinoweek/
 │   └── concerts/     # Concert venue sources
 │       ├── bei_chez_heinz.py
 │       ├── capitol.py
+│       ├── erhardt.py
 │       ├── faust.py
 │       ├── musikzentrum.py
 │       ├── pavillon.py
@@ -226,13 +228,14 @@ Ready for GitHub Actions with scheduled workflows.
 
 ## Current Status
 
-**8 Sources Active** (1 cinema + 7 concert venues):
+**9 Sources Active** (1 cinema + 8 concert venues):
 
 | Source | Type | Events | Notes |
 |--------|------|--------|-------|
 | Astor Grand Cinema | Cinema | ~56 | OV movies via API |
 | Béi Chéz Heinz | Club | ~3 | Punk/indie/metal |
 | Capitol Hannover | Large | ~10 | HC-Kartenleger |
+| Erhardt Café | Café | ~7 | Wix Events + Google Calendar (hybrid) |
 | Faust | Cultural | ~12 | Livemusik category |
 | MusikZentrum | Medium | ~16 | JSON-LD data |
 | Pavillon | Cultural | ~20 | World music focus |

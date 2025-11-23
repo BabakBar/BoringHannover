@@ -102,6 +102,7 @@ def is_original_version(language: str) -> bool:
 Each venue has its own module:
 - `bei_chez_heinz.py`: Béi Chéz Heinz (custom HTML)
 - `capitol.py`: Capitol Hannover (HC-Kartenleger)
+- `erhardt.py`: Erhardt Café (Wix Events + Google Calendar hybrid)
 - `faust.py`: Kulturzentrum Faust (REDAXO CMS)
 - `musikzentrum.py`: MusikZentrum (JSON-LD)
 - `pavillon.py`: Pavillon (WordPress)
@@ -112,6 +113,7 @@ Each venue has its own module:
 - ZAG Arena: `.wpem-event-layout-wrapper` containers
 - Swiss Life Hall / Capitol: `.hc-card-link-wrapper` cards
 - Béi Chéz Heinz: `div.pane` with category filtering
+- Erhardt Café: Wix Events JSON in `<script type="application/json">` + static Google Calendar data
 - Faust: URL-based date parsing (DDMMYY format)
 - MusikZentrum: `<script type="application/ld+json">` JSON-LD
 - Pavillon: `a[href*="/event/details/"]` links
@@ -427,6 +429,7 @@ KinoWeek/
 │   │   └── concerts/
 │   │       ├── bei_chez_heinz.py   # Béi Chéz Heinz
 │   │       ├── capitol.py          # Capitol Hannover
+│   │       ├── erhardt.py          # Erhardt Café (Wix + Google Calendar)
 │   │       ├── faust.py            # Kulturzentrum Faust
 │   │       ├── musikzentrum.py     # MusikZentrum
 │   │       ├── pavillon.py         # Pavillon

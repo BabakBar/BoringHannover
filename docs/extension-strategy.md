@@ -9,6 +9,7 @@ KinoWeek is a production-ready aggregator with a **modular plugin-based architec
 | Cinema | Astor Grand Cinema | ✅ Implemented | JSON API |
 | Concert | Béi Chéz Heinz | ✅ Implemented | HTML (div.pane) |
 | Concert | Capitol Hannover | ✅ Implemented | HTML (HC-Kartenleger) |
+| Concert | Erhardt Café | ✅ Implemented | Wix Events JSON + Google Calendar (hybrid) |
 | Concert | Faust | ✅ Implemented | HTML (REDAXO CMS) |
 | Concert | MusikZentrum | ✅ Implemented | JSON-LD Schema |
 | Concert | Pavillon | ✅ Implemented | HTML (WordPress) |
@@ -55,6 +56,7 @@ src/kinoweek/sources/
 └── concerts/
     ├── bei_chez_heinz.py   # @register_source("bei_chez_heinz")
     ├── capitol.py          # @register_source("capitol_hannover")
+    ├── erhardt.py          # @register_source("erhardt_cafe")
     ├── faust.py            # @register_source("faust_hannover")
     ├── musikzentrum.py     # @register_source("musikzentrum")
     ├── pavillon.py         # @register_source("pavillon")
@@ -139,6 +141,7 @@ class NewVenueSource(BaseSource):
 |-------|--------|----------------|
 | Béi Chéz Heinz | ✅ Implemented | HTML (custom, div.pane) |
 | Capitol Hannover | ✅ Implemented | HTML (HC-Kartenleger) |
+| Erhardt Café | ✅ Implemented | Wix Events JSON + Google Calendar (hybrid) |
 | Faust | ✅ Implemented | HTML (REDAXO CMS) |
 | MusikZentrum | ✅ Implemented | JSON-LD Schema |
 | Pavillon | ✅ Implemented | HTML (WordPress) |
@@ -188,8 +191,8 @@ class NewVenueSource(BaseSource):
 
 | Metric | Target | Current |
 |--------|--------|---------|
-| Sources besides movies | 2-3 | ✅ 7 concert venues |
-| Total events on radar | 20+ | ✅ ~39 events |
+| Sources besides movies | 2-3 | ✅ 8 concert venues |
+| Total events on radar | 20+ | ✅ ~46 events |
 | Uptime across sources | 80%+ | ✅ Monitored via logs |
 | Time to add new venue | < 30 mins | ✅ ~15-30 mins |
 | Tests passing | 100% | ✅ 26/26 tests |
