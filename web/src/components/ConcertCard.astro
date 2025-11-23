@@ -48,11 +48,11 @@ const isSoldOut = status === 'sold_out';
 >
   <!-- Date column + content -->
   <div class="flex items-start gap-4">
-    <!-- Date block - structured for consistent alignment -->
-    <div class="flex-shrink-0 w-14 text-center pt-0.5">
-      <div class="font-display text-xs text-text-date uppercase tracking-wide">{dayDisplay}</div>
-      <div class="font-display text-lg text-text-date leading-tight">{dayNum} {month}</div>
-      {year && <div class="font-display text-xs text-text-date">{year}</div>}
+    <!-- Date block - fixed width for consistent vertical alignment -->
+    <div class="flex-shrink-0 w-16 text-center">
+      <div class="font-display text-xs text-text-muted uppercase tracking-wide">{dayDisplay}</div>
+      <div class="font-display text-base text-text-date leading-tight">{dayNum} {month}</div>
+      {year && <div class="font-display text-xs text-text-muted opacity-70">{year}</div>}
     </div>
 
     <!-- Content -->
@@ -74,7 +74,7 @@ const isSoldOut = status === 'sold_out';
             <span class="text-text-muted"> &middot; </span>
           </>
         )}
-        {time && <span class="text-text-secondary">{time}</span>}
+        {time && <span class="text-text-secondary tabular-nums">{time}</span>}
         {time && <span> @ </span>}
         {!time && <span>@ </span>}
         <span>{venue}</span>
