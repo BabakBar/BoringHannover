@@ -127,7 +127,7 @@ None. Stateless execution. Scheduled via external cron/GitHub Actions.
 | `capitol_hannover` | `CapitolSource` | concert | HTML (HC-Kartenleger) | `capitol-hannover.de/events/` | 15 |
 | `bei_chez_heinz` | `BeiChezHeinzSource` | concert | HTML (custom) | `beichezheinz.de/programm` | 20 |
 | `erhardt_cafe` | `ErhardtCafeSource` | concert | Wix Events + Static | `erhardt.cafe/events` | 20 |
-| `faust_hannover` | `FaustSource` | concert | HTML (REDAXO) | `kulturzentrum-faust.de/veranstaltungen.html?rub=2` | 20 |
+| `faust_hannover` | `FaustSource` | concert | HTML (REDAXO) | `kulturzentrum-faust.de/veranstaltungen.html` (multi-category) | 40 |
 | `pavillon` | `PavillonSource` | concert | HTML (custom) | `pavillon-hannover.de/programm` | 20 |
 | `musikzentrum` | `MusikZentrumSource` | concert | JSON-LD | `musikzentrum-hannover.de/veranstaltungen/` | 20 |
 
@@ -164,10 +164,12 @@ None. Stateless execution. Scheduled via external cron/GitHub Actions.
 **Faust (REDAXO CMS)**
 - URL pattern: `/veranstaltungen/november/211125-le-fly.html`
 - Date from URL: DDMMYY format (211125 = 21.11.25)
-- Category filter: `?rub=2` (Livemusik only)
-- **Limitation**: Only fetches Livemusik category (rub=2)
-- Available categories: 1=Party, 2=Livemusik, 3=Ausstellung, 4=Bühne, 5=Markt, 6=Gesellschaft, 7=Literatur, 8=Fest
-- Missing categories: Party events, theater/comedy (Bühne), literature readings
+- Multi-category fetching:
+  - rub=2 (Livemusik): All events
+  - rub=1 (Party): All events
+  - rub=4 (Bühne): English language events only
+- English detection: Keywords "english", "englisch", "(en)", "in english"
+- Event types in metadata: concert, party, theater
 
 **Pavillon (Custom)**
 - Link selector: `a[href*="/event/details/"]`
@@ -563,9 +565,9 @@ Fallback: `mock.ts` if no JSON file
 |-------|-------|------------|
 | Some concerts missing dates | Inconsistent venue HTML | Skip events without parseable dates |
 | CSP requires `unsafe-inline` | Astro 4.x inline script bundling | Upgrade to Astro 5.9+ for experimental CSP |
-| Faust missing Party/Bühne events | Only fetches Livemusik (rub=2) | Expand to fetch multiple categories |
 | Erhardt shows 0 Wix Events | Wix JS rendering, no server-side data | Uses static Google Calendar data fallback |
 | Erhardt static events outdated | Requires manual updates | Update `GOOGLE_CALENDAR_EVENTS` in erhardt.py periodically |
+| Béi Chéz Heinz SSL errors | Intermittent SSL handshake issues | Retry or skip; venue-side issue |
 
 ---
 
@@ -606,7 +608,7 @@ Fallback: `mock.ts` if no JSON file
 - [ ] Web frontend deployment pipeline
 - [ ] iCal feed generation (ics package already installed)
 - [ ] Upgrade to Astro 5.9+ for CSP without `unsafe-inline`
-- [ ] **Faust**: Expand to fetch all categories (Party, Bühne, Literatur, etc.)
+- [x] **Faust**: Expand to fetch Party + Bühne (English only) categories
 - [ ] **Erhardt**: Implement dynamic Google Calendar scraping or API integration
 - [ ] **Erhardt**: Document process for updating static calendar events
 

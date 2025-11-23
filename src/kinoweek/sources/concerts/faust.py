@@ -1,13 +1,18 @@
 """Kulturzentrum Faust Hannover source.
 
-Fetches upcoming concerts and live music events from Kulturzentrum Faust.
-Uses REDAXO CMS structure with category filtering for Livemusik (rub=2).
+Fetches upcoming events from Kulturzentrum Faust including:
+- Livemusik (concerts, live music)
+- Party (club nights, DJ events)
+- Bühne (theater, comedy - English language only)
+
+Uses REDAXO CMS structure with multi-category fetching.
 """
 
 from __future__ import annotations
 
 import logging
 import re
+import time
 from datetime import datetime
 from typing import TYPE_CHECKING, ClassVar
 
@@ -27,13 +32,34 @@ __all__ = ["FaustSource"]
 
 logger = logging.getLogger(__name__)
 
+# Categories to fetch with their event types
+# Format: (rub parameter, event_type, requires_english_filter)
+FAUST_CATEGORIES: list[tuple[int, str, bool]] = [
+    (2, "concert", False),    # Livemusik - all events
+    (1, "party", False),      # Party - all events (music, no language)
+    (4, "theater", True),     # Bühne - English only
+]
+
+# Keywords that indicate English language content
+ENGLISH_KEYWORDS = [
+    "english",
+    "englisch",
+    " en ",
+    "(en)",
+    "[en]",
+    "in english",
+    "auf englisch",
+]
+
 
 @register_source("faust_hannover")
 class FaustSource(BaseSource):
     """Scraper for Kulturzentrum Faust Hannover.
 
-    Fetches upcoming live music events from the venue website.
-    Filters by Livemusik category (rub=2) for focused results.
+    Fetches upcoming events from the venue website across multiple categories:
+    - Livemusik (rub=2): All concerts and live music
+    - Party (rub=1): All club nights and DJ events
+    - Bühne (rub=4): Theater/comedy events in English only
 
     Website: https://www.kulturzentrum-faust.de/veranstaltungen.html
 
@@ -44,10 +70,8 @@ class FaustSource(BaseSource):
 
     source_name: ClassVar[str] = "Faust"
     source_type: ClassVar[str] = "concert"
-    max_events: ClassVar[int | None] = 20
+    max_events: ClassVar[int | None] = 40  # Increased for multiple categories
 
-    # Configuration - filter by Livemusik category
-    URL: ClassVar[str] = "https://www.kulturzentrum-faust.de/veranstaltungen.html?rub=2"
     BASE_URL: ClassVar[str] = "https://www.kulturzentrum-faust.de"
     ADDRESS: ClassVar[str] = "Zur Bettfedernfabrik 3, 30451 Hannover"
 
@@ -55,7 +79,12 @@ class FaustSource(BaseSource):
     # 5=Markt, 6=Gesellschaft, 7=Literatur, 8=Fest
 
     def fetch(self) -> list[Event]:
-        """Fetch live music events from Kulturzentrum Faust.
+        """Fetch events from Kulturzentrum Faust across multiple categories.
+
+        Fetches from:
+        - Livemusik (rub=2): All events
+        - Party (rub=1): All events
+        - Bühne (rub=4): English language events only
 
         Returns:
             List of Event objects with category="radar".
@@ -65,16 +94,52 @@ class FaustSource(BaseSource):
         """
         logger.info("Fetching concerts from %s", self.source_name)
 
+        all_events: list[Event] = []
+        seen_urls: set[str] = set()
+
         with create_http_client() as client:
-            response = client.get(self.URL)
-            response.raise_for_status()
-            soup = BeautifulSoup(response.text, "html.parser")
+            for rub, event_type, requires_english in FAUST_CATEGORIES:
+                url = f"{self.BASE_URL}/veranstaltungen.html?rub={rub}"
+                try:
+                    response = client.get(url)
+                    response.raise_for_status()
+                    soup = BeautifulSoup(response.text, "html.parser")
 
-        events = self._parse_events(soup)
-        logger.info("Found %d events from %s", len(events), self.source_name)
-        return events
+                    events = self._parse_events(
+                        soup,
+                        event_type=event_type,
+                        requires_english=requires_english,
+                        seen_urls=seen_urls,
+                    )
+                    all_events.extend(events)
+                    logger.debug(
+                        "Category rub=%d (%s): found %d events",
+                        rub, event_type, len(events)
+                    )
 
-    def _parse_events(self, soup: BeautifulSoup) -> list[Event]:
+                    # Small delay between category requests
+                    time.sleep(0.3)
+
+                except Exception as exc:
+                    logger.warning(
+                        "Failed to fetch Faust category rub=%d: %s", rub, exc
+                    )
+
+        # Sort by date and apply limit
+        all_events.sort(key=lambda e: e.date)
+        if self.max_events:
+            all_events = all_events[: self.max_events]
+
+        logger.info("Found %d events from %s", len(all_events), self.source_name)
+        return all_events
+
+    def _parse_events(
+        self,
+        soup: BeautifulSoup,
+        event_type: str = "concert",
+        requires_english: bool = False,
+        seen_urls: set[str] | None = None,
+    ) -> list[Event]:
         """Parse all events from the page.
 
         The page structure uses <a> tags linking to event detail pages.
@@ -82,11 +147,16 @@ class FaustSource(BaseSource):
 
         Args:
             soup: Parsed HTML document.
+            event_type: Type of event (concert, party, theater).
+            requires_english: If True, only include English language events.
+            seen_urls: Set of already-seen URLs for deduplication across categories.
 
         Returns:
             List of parsed Event objects.
         """
         events: list[Event] = []
+        if seen_urls is None:
+            seen_urls = set()
 
         # Find all event links - they point to /veranstaltungen/month/date-slug.html
         event_links = soup.find_all(
@@ -94,7 +164,6 @@ class FaustSource(BaseSource):
         )
 
         # Deduplicate by href (same event may appear multiple times)
-        seen_urls: set[str] = set()
         unique_links: list[Tag] = []
         for link in event_links:
             href = link.get("href", "")
@@ -102,22 +171,32 @@ class FaustSource(BaseSource):
                 seen_urls.add(href)
                 unique_links.append(link)
 
-        limit = self.max_events or len(unique_links)
-        for link in unique_links[:limit]:
-            event = self._parse_event(link)
+        for link in unique_links:
+            event = self._parse_event(
+                link,
+                event_type=event_type,
+                requires_english=requires_english,
+            )
             if event:
                 events.append(event)
 
         return events
 
-    def _parse_event(self, link: Tag) -> Event | None:
+    def _parse_event(
+        self,
+        link: Tag,
+        event_type: str = "concert",
+        requires_english: bool = False,
+    ) -> Event | None:
         """Parse a single event from its link element.
 
         Args:
             link: BeautifulSoup Tag element (anchor tag with event link).
+            event_type: Type of event (concert, party, theater).
+            requires_english: If True, skip events without English indicators.
 
         Returns:
-            Parsed Event or None if parsing fails.
+            Parsed Event or None if parsing fails or filters apply.
         """
         try:
             href = link.get("href", "")
@@ -145,6 +224,15 @@ class FaustSource(BaseSource):
             if not title:
                 return None
 
+            # For Bühne events, check if it's in English
+            if requires_english:
+                full_text = " ".join(lines).lower()
+                if not self._is_english_event(title, full_text):
+                    logger.debug(
+                        "Skipping non-English Bühne event: %s", title
+                    )
+                    return None
+
             # Extract image URL if available
             image_url = self._extract_image_url(link)
 
@@ -158,7 +246,7 @@ class FaustSource(BaseSource):
                     "time": time_str,
                     "location": location,  # Sub-venue within Faust
                     "price": price,
-                    "event_type": "concert",
+                    "event_type": event_type,
                     "image_url": image_url,
                     "address": self.ADDRESS,
                 },
@@ -167,6 +255,24 @@ class FaustSource(BaseSource):
         except Exception as exc:
             logger.debug("Error parsing %s event: %s", self.source_name, exc)
             return None
+
+    def _is_english_event(self, title: str, description: str) -> bool:
+        """Check if an event appears to be in English.
+
+        Args:
+            title: Event title.
+            description: Full text description of the event.
+
+        Returns:
+            True if the event appears to be in English.
+        """
+        combined_text = f"{title} {description}".lower()
+
+        for keyword in ENGLISH_KEYWORDS:
+            if keyword in combined_text:
+                return True
+
+        return False
 
     def _parse_date_from_url(self, href: str) -> datetime | None:
         """Extract date from URL pattern.

@@ -117,35 +117,34 @@ KinoWeek aggregates events from 9 sources across Hannover:
 
 ### Kulturzentrum Faust (`faust_hannover`)
 
-**URL**: `https://www.kulturzentrum-faust.de/veranstaltungen.html?rub=2`
+**URL**: Multiple category pages
 
 **Method**: HTML scraping (REDAXO CMS)
 
 **Date extraction**: From URL pattern (DDMMYY format)
 
-**IMPORTANT LIMITATIONS**:
+**Categories fetched**:
 
-Currently only fetches **Livemusik category (rub=2)**!
-
-**Available categories at Faust**:
-| Category | rub= | Description | Currently Fetched |
-|----------|------|-------------|-------------------|
-| Party | 1 | Club nights, DJ events | NO |
-| Livemusik | 2 | Live concerts | YES |
+| Category | rub= | Description | Status |
+|----------|------|-------------|--------|
+| Party | 1 | Club nights, DJ events | YES - All events |
+| Livemusik | 2 | Live concerts | YES - All events |
+| Bühne | 4 | Theater, comedy, cabaret | YES - English only |
 | Ausstellung | 3 | Exhibitions | NO |
-| Bühne | 4 | Theater, comedy, cabaret | NO |
 | Markt | 5 | Markets, fairs | NO |
 | Gesellschaft | 6 | Social/political events | NO |
 | Literatur | 7 | Readings, book events | NO |
 | Fest | 8 | Festivals, celebrations | NO |
 
-**Missing events** (as of 2025-11-23):
-- ~10 Party events (90er-Party, 80er-Party, Party 2000, etc.)
-- ~9 Bühne events (stand-up comedy, theater shows)
-- Literature readings, social events
+**English language filter for Bühne**:
+- Bühne events (theater/comedy) are filtered to only include English-language events
+- Detection keywords: "english", "englisch", "in english", "(en)", etc.
+- Most Faust Bühne events are German comedy/theater, so few will pass the filter
 
-**Potential improvement**:
-Modify the Faust scraper to fetch multiple categories or remove the category filter entirely.
+**Event types in metadata**:
+- `event_type: "concert"` - Livemusik events
+- `event_type: "party"` - Party/club events
+- `event_type: "theater"` - English Bühne events
 
 ---
 
