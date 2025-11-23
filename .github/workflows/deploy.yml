@@ -7,7 +7,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
     inputs:
       deploy_backend:
@@ -106,7 +106,7 @@ jobs:
     name: Deploy to Coolify
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     environment: production
 
     steps:
@@ -118,7 +118,6 @@ jobs:
             -H "Content-Type: application/json" \
             "${{ secrets.COOLIFY_WEBHOOK_BACKEND }}" \
             --fail --silent --show-error
-        continue-on-error: true
 
       - name: Trigger frontend deployment
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.deploy_frontend }}

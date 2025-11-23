@@ -14,7 +14,9 @@ import sys
 from typing import NoReturn
 
 from kinoweek.aggregator import fetch_all_events
+from kinoweek.github_sync import should_sync, sync_to_github
 from kinoweek.notifier import notify
+
 
 __all__ = ["main", "run"]
 
@@ -122,12 +124,21 @@ def run(*, local_only: bool = False) -> bool:
         logger.info("Sending notification...")
         success = notify(events_data, local_only=local_only)
 
-        if success:
-            logger.info("Workflow completed successfully")
-            return True
+        if not success:
+            logger.error("Failed to send notification")
+            return False
 
-        logger.error("Failed to send notification")
-        return False
+        # Step 3: Sync data to GitHub (production only)
+        if not local_only and should_sync():
+            logger.info("Syncing data to GitHub...")
+            sync_success = sync_to_github("backup/web_events.json")
+            if sync_success:
+                logger.info("GitHub sync completed - frontend rebuild triggered")
+            else:
+                logger.warning("GitHub sync failed - frontend will show stale data")
+
+        logger.info("Workflow completed successfully")
+        return True
 
     except Exception:
         logger.exception("Workflow failed")

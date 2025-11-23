@@ -6,11 +6,11 @@
 # -----------------------------------------------------------------------------
 # Stage 1: Build the Astro site
 # -----------------------------------------------------------------------------
-FROM node:22-alpine AS builder
+FROM node:22.12.0-alpine3.20 AS builder
 
 # Set working directory
 WORKDIR /app
-
+STOPSIGNAL SIGTERM
 # Copy package files for dependency installation
 COPY web/package.json web/package-lock.json ./
 
@@ -45,12 +45,15 @@ RUN chown -R nginx:nginx /usr/share/nginx/html && \
     touch /var/run/nginx.pid && \
     chown nginx:nginx /var/run/nginx.pid
 
-# Expose port 80
-EXPOSE 80
+# Switch to non-root user
+USER nginx
+
+# Expose port 8080 (non-privileged port for non-root)
+EXPOSE 8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost/health || exit 1
+    CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
 
 # Start nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]
