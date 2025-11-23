@@ -98,6 +98,20 @@ address = "Schwarzer Bär 2, 30449 Hannover"
 capacity = 1800
 notes = "Historic venue for concerts and cultural events"
 
+[sources.erhardt_cafe]
+enabled = true
+source_type = "concert"
+display_name = "Erhardt Café"
+url = "https://www.erhardt.cafe/events"
+base_url = "https://www.erhardt.cafe"
+max_events = 20
+notes = "Cozy café in Hannover with chess nights, game nights, karaoke, and live music"
+
+[sources.erhardt_cafe.metadata]
+address = "Lister Meile 4, 30161 Hannover"
+website = "https://www.erhardt.cafe"
+notes = "Café and cultural venue - events maintained as static data due to Wix dynamic loading"
+
 # =============================================================================
 # Future Sources (Disabled)
 # =============================================================================
