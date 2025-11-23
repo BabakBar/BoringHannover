@@ -22,6 +22,12 @@ from kinoweek.csv_exporters import (
     export_movies_csv,
     export_movies_grouped_csv,
 )
+from kinoweek.sanitize import (
+    MAX_TITLE_LENGTH,
+    MAX_VENUE_LENGTH,
+    sanitize_text,
+    sanitize_url,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -216,15 +222,16 @@ def export_web_json(
         primary_genre = genres[0] if genres else None
 
         movies_by_date[date_key].append({
-            "title": event.title,
+            # Sanitize user-facing text fields (defense-in-depth)
+            "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
             "year": event.metadata.get("year"),
             "time": event.date.strftime("%H:%M"),
             "duration": _format_duration(int(event.metadata.get("duration", 0))),
             "language": lang_parts[0] if lang_parts else None,
             "subtitles": "DE" if len(lang_parts) == 2 else None,
             "rating": f"FSK{event.metadata.get('rating')}" if event.metadata.get("rating") else None,
-            "genre": primary_genre,
-            "url": event.url,
+            "genre": sanitize_text(primary_genre, 50) if primary_genre else None,
+            "url": sanitize_url(event.url),
         })
 
     # Convert to frontend format (sorted by date)
@@ -257,15 +264,16 @@ def export_web_json(
         status = event.metadata.get("status", "available")
 
         concerts_list.append({
-            "title": event.title,
+            # Sanitize user-facing text fields (defense-in-depth)
+            "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
             "date": date_display,
             "day": day_name,
             "time": event.metadata.get("time", "20:00"),
-            "venue": event.venue,
-            "url": event.url,
-            "eventType": event_type,
-            "genre": genre if genre else None,
-            "description": subtitle if subtitle else None,
+            "venue": sanitize_text(event.venue, MAX_VENUE_LENGTH),
+            "url": sanitize_url(event.url),
+            "eventType": sanitize_text(str(event_type), 50) if event_type else "concert",
+            "genre": sanitize_text(str(genre), 50) if genre else None,
+            "description": sanitize_text(str(subtitle), 200) if subtitle else None,
             "status": status,
         })
 

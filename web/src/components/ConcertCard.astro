@@ -1,4 +1,6 @@
 ---
+import { sanitizeUrl } from '../utils/sanitize';
+
 interface Props {
   title: string;
   date: string;          // e.g., "29 Nov"
@@ -13,6 +15,9 @@ interface Props {
 }
 
 const { title, date, day, time, venue, url, eventType, genre, description, status } = Astro.props;
+
+// Sanitize URL to prevent javascript: injection (defense-in-depth)
+const safeUrl = sanitizeUrl(url);
 
 // Convert German day abbreviations to English
 const dayMap: Record<string, string> = {
@@ -29,7 +34,7 @@ const isSoldOut = status === 'sold_out';
 ---
 
 <a
-  href={url}
+  href={safeUrl}
   target="_blank"
   rel="noopener noreferrer"
   class="concert-card block py-3 -mx-2 px-2 rounded card-hover"

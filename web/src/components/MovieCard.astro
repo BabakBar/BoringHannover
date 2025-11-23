@@ -1,4 +1,6 @@
 ---
+import { sanitizeUrl } from '../utils/sanitize';
+
 interface Props {
   title: string;
   year?: number;
@@ -22,6 +24,9 @@ const {
   url
 } = Astro.props;
 
+// Sanitize URL to prevent javascript: injection (defense-in-depth)
+const safeUrl = sanitizeUrl(url);
+
 // Format language display (JP→DE)
 const langDisplay = language && subtitles
   ? `${language}\u2192${subtitles}`
@@ -29,7 +34,7 @@ const langDisplay = language && subtitles
 ---
 
 <a
-  href={url}
+  href={safeUrl}
   target="_blank"
   rel="noopener noreferrer"
   class="movie-card block py-3 -mx-2 px-2 rounded card-hover"

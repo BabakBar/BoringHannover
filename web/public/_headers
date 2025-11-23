@@ -1,0 +1,23 @@
+# Security headers for boringhannover
+# Works with Cloudflare Pages, Netlify, and other static hosts that support _headers
+
+/*
+  # Content Security Policy
+  # Note: Astro 4.x requires 'unsafe-inline' for scripts due to inline bundling
+  # Upgrade to Astro 5.9+ and enable experimental CSP to remove this
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+
+  # Prevent clickjacking
+  X-Frame-Options: DENY
+
+  # Prevent MIME type sniffing
+  X-Content-Type-Options: nosniff
+
+  # Control referrer information
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Disable unnecessary browser features
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+
+  # Force HTTPS (if behind CDN that handles SSL)
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
