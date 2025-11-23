@@ -1,13 +1,16 @@
 ---
 interface Props {
   title: string;
+  id?: string;
 }
 
-const { title } = Astro.props;
+const { title, id } = Astro.props;
+// Generate a URL-safe ID from title if not provided
+const sectionId = id || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 ---
 
 <div class="section-header mb-4">
-  <h2 class="font-display text-sm uppercase tracking-wide text-accent">
+  <h2 id={sectionId} class="font-display text-sm uppercase tracking-wide text-accent">
     {title}
   </h2>
   <div class="mt-1 border-t border-accent/30"></div>

@@ -53,6 +53,13 @@ const {
     </script>
   </head>
   <body class="bg-bg-primary min-h-screen">
+    <!-- Skip navigation link for keyboard users (A-2) -->
+    <a
+      href="#main-content"
+      class="skip-link sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-accent focus:text-white focus:px-4 focus:py-2 focus:rounded focus:outline-none"
+    >
+      Skip to main content
+    </a>
     <div class="max-w-mobile mx-auto px-4 py-6">
       <slot />
     </div>

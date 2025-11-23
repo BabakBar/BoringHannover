@@ -13,7 +13,8 @@
   --bg-tertiary: #e8e7e5;
   --text-primary: #1a1a1a;
   --text-secondary: #666666;
-  --text-muted: #999999;
+  /* A-6: Improved contrast - #767676 meets WCAG AA 4.5:1 on #fafaf9 */
+  --text-muted: #767676;
   --accent: #dc2626;
   --accent-hover: #ef4444;
   --accent-dim: rgba(220, 38, 38, 0.1);
@@ -28,7 +29,8 @@
   --bg-tertiary: #1a1a1a;
   --text-primary: #e5e5e5;
   --text-secondary: #888888;
-  --text-muted: #555555;
+  /* A-6: Improved contrast - #9ca3af meets WCAG AA 4.5:1 on #0a0a0a */
+  --text-muted: #9ca3af;
   --accent: #ff3b3b;
   --accent-hover: #ff5555;
   --accent-dim: rgba(255, 59, 59, 0.13);
@@ -56,6 +58,20 @@
   ::selection {
     background-color: var(--accent-dim);
     color: var(--text-primary);
+  }
+
+  /* Focus-visible styles for keyboard navigation (A-5) */
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Remove outline for mouse clicks but keep for keyboard */
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 }
 

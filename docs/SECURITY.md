@@ -990,22 +990,22 @@ def check_links():
 
 ## Implementation Checklist
 
-### Phase 1: Critical Security (Week 1)
+### Phase 1: Critical Security (Week 1) ✅ COMPLETED
 
-- [ ] **BS-1:** Install `nh3`, create `sanitize.py`, apply to all scrapers
-- [ ] **FS-1:** Create `web/src/utils/sanitize.ts`, update card components
-- [ ] **FS-2:** Create `web/public/_headers` with CSP
-- [ ] **GL-1:** Create `impressum.astro` with legal information
-- [ ] **GL-2:** Create `datenschutz.astro` privacy policy
-- [ ] **GL-3:** Add footer links to legal pages
+- [x] **BS-1:** Install `nh3`, create `sanitize.py`, apply to all scrapers
+- [x] **FS-1:** Create `web/src/utils/sanitize.ts`, update card components
+- [x] **FS-2:** Create `web/public/_headers` with CSP
+- [x] **GL-1:** Create `impressum.astro` with legal information
+- [x] **GL-2:** Create `datenschutz.astro` privacy policy
+- [x] **GL-3:** Add footer links to legal pages
 
-### Phase 2: Accessibility (Week 2)
+### Phase 2: Accessibility (Week 2) ✅ COMPLETED
 
-- [ ] **A-2:** Add skip navigation link to `Base.astro`
-- [ ] **A-3:** Update `SectionHeader.astro` with proper `<h2>` and IDs
-- [ ] **A-4:** Add `aria-pressed` to theme toggle
-- [ ] **A-5:** Add focus-visible styles to `global.css`
-- [ ] **A-6:** Fix color contrast for muted text
+- [x] **A-2:** Add skip navigation link to `Base.astro`
+- [x] **A-3:** Update `SectionHeader.astro` with proper `<h2>` and IDs
+- [x] **A-4:** Add `aria-pressed` to theme toggle
+- [x] **A-5:** Add focus-visible styles to `global.css`
+- [x] **A-6:** Fix color contrast for muted text (light: #767676, dark: #9ca3af)
 
 ### Phase 3: Hardening (Week 3)
 
