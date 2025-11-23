@@ -182,6 +182,29 @@ FOOTER
 └── Timestamp: Space Mono, 11px, muted
 ```
 
+### UI Alignment Principles (Gestalt)
+
+The layout follows Gestalt principles for clear visual hierarchy:
+
+**1. Law of Proximity (Movies Section)**
+- Asymmetric spacing on date headers: `mt-10 mb-2` (40px above, 8px below)
+- More space above creates a "break" from previous group
+- Less space below pulls movies closer to their parent date
+- Movie cards indented with `pl-4` (16px) for visual grouping
+
+**2. Grid Discipline (Events Section)**
+- Fixed-width date column: `w-16` (64px) prevents layout shifts
+- `items-start` ensures consistent top alignment regardless of content height
+- Date parsed into components for consistent vertical structure:
+  - Day name (muted, small): `MON`
+  - Day + Month (prominent): `30 Nov`
+  - Year (ghosted, 70% opacity): `2026`
+
+**3. Typographic Polish**
+- Times use `tabular-nums` for consistent character width (prevents jitter)
+- Visual hierarchy in dates: primary info pops, secondary fades back
+- Day abbreviations use `text-muted` + `tracking-wide` for label treatment
+
 ### Tech Stack
 
 ```
@@ -505,5 +528,5 @@ Python Scraper                    Astro Frontend
 
 ---
 
-*Last updated: 2025-11-22*
-*Status: Phase 1 MVP complete - Ready for deployment*
+*Last updated: 2025-11-23*
+*Status: Phase 1 MVP complete - UI alignment polished with Gestalt principles*

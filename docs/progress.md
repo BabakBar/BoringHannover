@@ -220,6 +220,24 @@ KinoWeek/
     - Focus-visible styles
     - Color contrast improvements (#767676 light, #9ca3af dark)
 
+### Phase 11: UI Alignment Polish (Gestalt Principles)
+- **Status**: Completed
+- **Date**: 2025-11-23
+- **Achievements**:
+  - **Movies Section (Law of Proximity)**:
+    - DateHeader: Asymmetric spacing `mt-10 mb-2` (was `mt-6 mb-3`)
+    - MovieCard: Left indentation `pl-4` for visual grouping under dates
+    - Clear parent-child relationship between dates and their films
+  - **Events Section (Grid Discipline)**:
+    - ConcertCard: Fixed-width date column `w-16` (was `w-14`)
+    - `items-start` for consistent top alignment
+    - Date parsed into components (dayNum, month, year)
+    - Year displayed with reduced visual weight (`opacity-70`, `text-muted`)
+  - **Typographic Polish**:
+    - Added `tabular-nums` to time displays (prevents horizontal jitter)
+    - Day abbreviations styled as labels (`text-muted`, `tracking-wide`)
+    - Visual hierarchy: primary date info pops, secondary fades back
+
 ## Current Status (2025-11-23)
 
 ### Working Features
