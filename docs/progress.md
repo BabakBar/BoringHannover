@@ -196,7 +196,31 @@ KinoWeek/
 - Logging configuration
 - Workflow orchestration
 
-## Current Status (2025-11-22)
+### Phase 10: Security & Accessibility Audit
+- **Status**: Completed
+- **Date**: 2025-11-23
+- **Achievements**:
+  - **Security Hardening**:
+    - Input sanitization with `nh3` (backend) and `sanitize.ts` (frontend)
+    - Model validation with circuit breaker (`__post_init__`)
+    - Telegram token security (base_url pattern)
+    - Rate limiting between sources (1s delay)
+    - Atomic JSON writes (tempfile + shutil.move)
+  - **Frontend Security**:
+    - CSP headers via `_headers` file
+    - URL sanitization blocking `javascript:`, `data:` protocols
+  - **German Legal Compliance**:
+    - Impressum page (§ 5 DDG, § 18 Abs. 2 MStV)
+    - Datenschutzerklärung (DSGVO compliant)
+    - Footer legal links
+  - **WCAG 2.1 AA Accessibility**:
+    - Skip navigation link
+    - Section headers with IDs
+    - `aria-pressed` on theme toggle
+    - Focus-visible styles
+    - Color contrast improvements (#767676 light, #9ca3af dark)
+
+## Current Status (2025-11-23)
 
 ### Working Features
 - **Astor Movies**: ~57 OV showtimes, ~27 this week
@@ -237,11 +261,21 @@ Sa, 29. Nov | 20:00 @ ZAG Arena
 
 ## Future Improvements
 
+### Completed Security Enhancements
+- [x] Input sanitization (nh3 backend, sanitize.ts frontend)
+- [x] Model validation with circuit breaker
+- [x] Security headers (CSP, HSTS, X-Frame-Options)
+- [x] German legal compliance (Impressum, Datenschutz)
+- [x] WCAG 2.1 AA accessibility
+
 ### Potential Enhancements
 1. **Movie Deduplication**: Group showtimes per film
 2. **Ticket Links**: Include URLs in concert output
 3. **Genre Display**: Show movie genres in output
 4. **Additional Venues**: Easy to add via config
+5. **Self-host fonts**: Remove Google Fonts dependency
+6. **Dead link monitoring**: Automated link checker
+7. **Upgrade to Astro 5.9+**: For CSP without `unsafe-inline`
 
 ### Extension Points
 - New scrapers: Extend `BaseScraper` class

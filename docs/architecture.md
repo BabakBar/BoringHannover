@@ -262,10 +262,16 @@ ConcertVenueScraper.fetch()   ─┘
 - Individual scraper failures don't crash the workflow
 - Empty results are handled gracefully
 - Network errors logged with context
+- Rate limiting prevents cascading failures
 
-### Retry Strategy (Future Enhancement)
-- Exponential backoff for transient failures
-- Maximum retry attempts configurable
+### Validation Errors
+- Model validation rejects bad data early
+- Clear error messages for debugging
+- Prevents garbage from reaching frontend
+
+### Retry Strategy
+- Rate limiting: 1s delay between sources
+- Max retries configurable via `SCRAPE_MAX_RETRIES`
 
 ## Testing Strategy
 
@@ -303,15 +309,39 @@ uv run python -m pytest tests/ -v
 
 ## Security
 
+### Input Sanitization (Defense-in-Depth)
+- **Backend** (`sanitize.py`): Uses `nh3` (Rust-based) to strip all HTML
+- **Frontend** (`sanitize.ts`): Blocks dangerous URL protocols
+- Applied at both export time and render time
+
+### Model Validation (Circuit Breaker)
+- `Event.__post_init__()` validates all fields
+- Rejects garbage data from corrupted sources
+- Limits: title ≤200, venue ≤100, URL ≤500 chars
+
+### Security Headers (`_headers`)
+- CSP: `default-src 'self'; script-src 'self' 'unsafe-inline'`
+- X-Frame-Options: DENY
+- X-Content-Type-Options: nosniff
+- Referrer-Policy: strict-origin-when-cross-origin
+- HSTS: max-age=31536000
+
 ### Secrets Management
 - Environment variables for Telegram credentials
 - `.env` file support via python-dotenv
 - No hardcoded secrets
+- Token never appears in exception messages (BS-3)
 
 ### Network Security
 - HTTPS only
 - Standard User-Agent header
 - Timeout configuration (30s)
+- Rate limiting: 1s delay between sources (BS-4)
+
+### Atomic Writes
+- JSON exports use `tempfile` + `shutil.move()`
+- Prevents corruption on crash
+- Same-filesystem guarantee via `dir=` parameter
 
 ## Deployment Options
 
@@ -331,13 +361,37 @@ on:
 - Scheduled task execution
 - Environment variable injection
 
+## Accessibility (WCAG 2.1 AA)
+
+### Implemented Features
+- Skip navigation link for keyboard users
+- Proper heading hierarchy with landmark IDs
+- `aria-pressed` state on theme toggle
+- Focus-visible styles for keyboard navigation
+- Color contrast meets 4.5:1 ratio
+- `prefers-reduced-motion` support
+
+### German Legal Compliance
+- Impressum page (§ 5 DDG, § 18 Abs. 2 MStV)
+- Datenschutzerklärung (DSGVO)
+- No cookies/tracking (no consent banner needed)
+
 ## Future Enhancements
+
+### Completed Security Work
+- [x] Input sanitization (nh3, sanitize.ts)
+- [x] Model validation with circuit breaker
+- [x] Security headers (CSP, HSTS)
+- [x] German legal pages
+- [x] WCAG 2.1 AA accessibility
 
 ### Potential Improvements
 1. **Movie Deduplication**: Group showtimes per film
 2. **Ticket Links**: Include URLs in concert output
 3. **Genre Display**: Show movie genres
 4. **Additional Venues**: Easy to add via config
+5. **Self-host fonts**: Remove Google Fonts dependency
+6. **Upgrade Astro**: 5.9+ for CSP without `unsafe-inline`
 
 ### Extension Points
 - New scrapers: Extend `BaseScraper`

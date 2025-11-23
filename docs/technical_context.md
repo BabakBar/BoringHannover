@@ -3,10 +3,10 @@
 ## METADATA
 | Field | Value |
 |-------|-------|
-| last_updated | 2025-11-22 |
+| last_updated | 2025-11-23 |
 | updated_by | AI assistant |
-| change_trigger | Initial documentation generation |
-| version | 1.0.0 |
+| change_trigger | Security & Accessibility audit implementation |
+| version | 1.1.0 |
 | project_name | KinoWeek (BoringHannover) |
 
 ---
@@ -74,8 +74,9 @@ Stateless event aggregator. Plugin-based scraper registry with autodiscovery.
 | Component | File | Purpose |
 |-----------|------|---------|
 | Entry Point | `main.py` | CLI, workflow orchestration |
-| Config | `config.py` | URLs, selectors, constants |
-| Data Model | `models.py` | `Event` dataclass |
+| Config | `config.py` | URLs, selectors, constants, rate limits |
+| Data Model | `models.py` | `Event` dataclass with validation |
+| Sanitization | `sanitize.py` | Input sanitization (nh3-based) |
 | Aggregator | `aggregator.py` | Fetch from all sources |
 | Source Registry | `sources/__init__.py` | `@register_source` decorator |
 | Base Source | `sources/base.py` | `BaseSource` ABC |
@@ -170,7 +171,7 @@ None. Stateless execution. Scheduled via external cron/GitHub Actions.
 ### Anti-Bot Measures
 - User-Agent: Chrome 123 on macOS
 - Timeout: 30 seconds
-- No proxies, captcha solving, delays
+- Rate limiting: 1 second delay between sources (BS-4)
 - `httpx.Client` with `follow_redirects=True`
 
 ### Error Handling
@@ -193,6 +194,12 @@ class Event:
     url: str
     category: Literal["movie", "culture", "radar"]
     metadata: dict[str, str | int | list[str]] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        # BS-2: Circuit breaker validation
+        # - Title: non-empty, max 200 chars
+        # - Venue: max 100 chars
+        # - URL: max 500 chars, http/https only
 ```
 
 **Metadata fields (movies):**
@@ -335,6 +342,8 @@ None. All data fetched fresh each execution.
 ```python
 ASTOR_API_URL = "https://backend.premiumkino.de/v1/de/hannover/program"
 REQUEST_TIMEOUT_SECONDS = 30.0
+SCRAPE_DELAY_SECONDS = 1.0  # BS-4: Rate limiting between sources
+SCRAPE_MAX_RETRIES = 2      # BS-4: Retry configuration
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ..."
 TELEGRAM_MESSAGE_MAX_LENGTH = 4096
 GERMAN_MONTH_MAP = {"jan": 1, "februar": 2, ...}
@@ -365,6 +374,7 @@ CONCERT_VENUES: tuple[VenueConfig, ...] = (
 | python-dotenv | >=1.0.0 | .env file loading |
 | ics | >=0.7.2 | iCal parsing (future) |
 | beautifulsoup4 | >=4.12.0 | HTML parsing |
+| nh3 | >=0.2.0 | HTML sanitization (replaces deprecated bleach) |
 
 **Dev dependencies:**
 - pytest >=9.0.1
@@ -485,12 +495,63 @@ Fallback: `mock.ts` if no JSON file
 
 ---
 
+## SECURITY
+
+### Input Sanitization (BS-1)
+- **Backend**: `sanitize.py` uses `nh3` (Rust-based) to strip all HTML from scraped content
+- **Frontend**: `sanitize.ts` blocks dangerous URL protocols (`javascript:`, `data:`)
+- **Defense-in-depth**: Sanitization applied at both export and render time
+
+### Model Validation (BS-2)
+- `Event.__post_init__()` validates all fields on construction
+- Circuit breaker: rejects garbage data from corrupted sources
+- Limits: title ≤200 chars, venue ≤100 chars, URL ≤500 chars
+
+### Token Security (BS-3)
+- Telegram token handled via `base_url` pattern in httpx
+- Exceptions won't leak token in error messages
+
+### Rate Limiting (BS-4)
+- 1 second delay between scraper sources
+- Prevents IP blocks from rapid requests
+
+### Atomic Writes (DI-1)
+- JSON exports use `tempfile` + `shutil.move()`
+- Prevents corruption if scraper crashes mid-write
+- `dir=output_path` ensures same filesystem for true atomicity
+
+### Security Headers (FS-2)
+- CSP: `default-src 'self'; script-src 'self' 'unsafe-inline'`
+- X-Frame-Options: DENY
+- X-Content-Type-Options: nosniff
+- Referrer-Policy: strict-origin-when-cross-origin
+- HSTS enabled
+
+### German Legal Compliance
+- Impressum page (§ 5 DDG, § 18 Abs. 2 MStV)
+- Datenschutzerklärung (DSGVO)
+- No cookies, no tracking (no consent banner needed)
+
+---
+
+## ACCESSIBILITY (WCAG 2.1 AA)
+
+### Implemented Features
+- Skip navigation link for keyboard users
+- Proper heading hierarchy with IDs
+- `aria-pressed` on theme toggle
+- Focus-visible styles for keyboard navigation
+- Color contrast meets 4.5:1 ratio (light: #767676, dark: #9ca3af)
+- `prefers-reduced-motion` support
+
+---
+
 ## KNOWN_ISSUES
 
 | Issue | Cause | Workaround |
 |-------|-------|------------|
 | Some concerts missing dates | Inconsistent venue HTML | Skip events without parseable dates |
-| Telegram markdown escaping | Special chars in titles | Would need sanitization |
+| CSP requires `unsafe-inline` | Astro 4.x inline script bundling | Upgrade to Astro 5.9+ for experimental CSP |
 
 ---
 
@@ -498,6 +559,10 @@ Fallback: `mock.ts` if no JSON file
 
 | Date | Commit | Description |
 |------|--------|-------------|
+| 2025-11-23 | ad1464f | Phase 3: Security hardening (validation, rate limiting, atomic writes) |
+| 2025-11-23 | 3be5323 | Phase 2: Accessibility (WCAG 2.1 AA compliance) |
+| 2025-11-23 | 7e3ba73 | Phase 1: Input sanitization, CSP headers, German legal pages |
+| 2025-11-23 | 227b21e | Security audit documentation |
 | 2025-11-XX | bfe251b | docs cleanup |
 | 2025-11-XX | 568c8bf | Add generated web_events.json to gitignore |
 | 2025-11-XX | e52f06e | Replace deprecated apple-mobile-web-app-capable meta tag |
@@ -513,11 +578,20 @@ Fallback: `mock.ts` if no JSON file
 
 ## TODO
 
-- [ ] Add retry logic with exponential backoff
+- [x] Input sanitization (nh3 for backend, sanitize.ts for frontend)
+- [x] Model validation with circuit breaker
+- [x] Rate limiting between sources
+- [x] Atomic JSON writes
+- [x] Security headers (CSP, HSTS, etc.)
+- [x] German legal pages (Impressum, Datenschutz)
+- [x] WCAG 2.1 AA accessibility
+- [ ] Self-host fonts (optional)
+- [ ] Dead link monitoring script
 - [ ] Add more concert venues (Lux, Cafe Glocksee)
 - [ ] Database persistence for historical analysis
 - [ ] Web frontend deployment pipeline
 - [ ] iCal feed generation (ics package already installed)
+- [ ] Upgrade to Astro 5.9+ for CSP without `unsafe-inline`
 
 ---
 
@@ -631,4 +705,4 @@ class VenueSource(BaseSource):
 
 ---
 
-*Last validated: 2025-11-22*
+*Last validated: 2025-11-23*
