@@ -51,7 +51,10 @@ const isSoldOut = status === 'sold_out';
     <!-- Date block - fixed width for consistent vertical alignment -->
     <div class="flex-shrink-0 w-16 text-center">
       <div class="font-display text-xs text-text-muted uppercase tracking-wide">{dayDisplay}</div>
-      <div class="font-display text-base text-text-date leading-tight">{dayNum} {month}</div>
+      <div class="font-display text-base leading-tight">
+        <span class="text-text-data tabular-nums">{dayNum}</span>
+        <span class="text-text-muted">{month}</span>
+      </div>
       {year && <div class="font-display text-xs text-text-muted opacity-70">{year}</div>}
     </div>
 

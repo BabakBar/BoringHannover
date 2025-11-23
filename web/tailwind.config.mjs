@@ -15,7 +15,7 @@ export default {
           primary: 'var(--text-primary)',
           secondary: 'var(--text-secondary)',
           muted: 'var(--text-muted)',
-          date: 'var(--text-date)',
+          data: 'var(--text-data)',
         },
         accent: {
           DEFAULT: 'var(--accent)',
