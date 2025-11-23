@@ -15,6 +15,8 @@
   --text-secondary: #666666;
   /* A-6: Improved contrast - #767676 meets WCAG AA 4.5:1 on #fafaf9 */
   --text-muted: #767676;
+  /* Warm accent tint for dates - subtle rose-brown */
+  --text-date: #8b6b6b;
   --accent: #dc2626;
   --accent-hover: #ef4444;
   --accent-dim: rgba(220, 38, 38, 0.1);
@@ -31,6 +33,8 @@
   --text-secondary: #888888;
   /* A-6: Improved contrast - #9ca3af meets WCAG AA 4.5:1 on #0a0a0a */
   --text-muted: #9ca3af;
+  /* Warm accent tint for dates - soft warm rose */
+  --text-date: #c49999;
   --accent: #ff3b3b;
   --accent-hover: #ff5555;
   --accent-dim: rgba(255, 59, 59, 0.13);
