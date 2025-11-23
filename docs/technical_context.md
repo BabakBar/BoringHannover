@@ -126,6 +126,7 @@ None. Stateless execution. Scheduled via external cron/GitHub Actions.
 | `swiss_life_hall` | `SwissLifeHallSource` | concert | HTML (HC-Kartenleger) | `swisslife-hall.de/events/` | 15 |
 | `capitol_hannover` | `CapitolSource` | concert | HTML (HC-Kartenleger) | `capitol-hannover.de/events/` | 15 |
 | `bei_chez_heinz` | `BeiChezHeinzSource` | concert | HTML (custom) | `beichezheinz.de/programm` | 20 |
+| `erhardt_cafe` | `ErhardtCafeSource` | concert | Wix Events + Static | `erhardt.cafe/events` | 20 |
 | `faust_hannover` | `FaustSource` | concert | HTML (REDAXO) | `kulturzentrum-faust.de/veranstaltungen.html?rub=2` | 20 |
 | `pavillon` | `PavillonSource` | concert | HTML (custom) | `pavillon-hannover.de/programm` | 20 |
 | `musikzentrum` | `MusikZentrumSource` | concert | JSON-LD | `musikzentrum-hannover.de/veranstaltungen/` | 20 |
@@ -153,10 +154,20 @@ None. Stateless execution. Scheduled via external cron/GitHub Actions.
 - Date from URL: `/programm/2025-11-22/...`
 - Time: Parse "Beginn: 20.00 Uhr" or "Einlass: 19.00 Uhr" + 1h
 
+**Erhardt Café (Wix Events + Google Calendar)**
+- Hybrid approach: tries Wix Events JSON extraction (often returns 0 events)
+- Falls back to static Google Calendar data (manually updated in source code)
+- Event types: games, karaoke, quiz, concerts, social events
+- Static data location: `GOOGLE_CALENDAR_EVENTS` list in `erhardt.py`
+- **Limitation**: Static events need manual updates when new events are added
+
 **Faust (REDAXO CMS)**
 - URL pattern: `/veranstaltungen/november/211125-le-fly.html`
 - Date from URL: DDMMYY format (211125 = 21.11.25)
-- Category filter: `?rub=2` (Livemusik)
+- Category filter: `?rub=2` (Livemusik only)
+- **Limitation**: Only fetches Livemusik category (rub=2)
+- Available categories: 1=Party, 2=Livemusik, 3=Ausstellung, 4=Bühne, 5=Markt, 6=Gesellschaft, 7=Literatur, 8=Fest
+- Missing categories: Party events, theater/comedy (Bühne), literature readings
 
 **Pavillon (Custom)**
 - Link selector: `a[href*="/event/details/"]`
@@ -552,6 +563,9 @@ Fallback: `mock.ts` if no JSON file
 |-------|-------|------------|
 | Some concerts missing dates | Inconsistent venue HTML | Skip events without parseable dates |
 | CSP requires `unsafe-inline` | Astro 4.x inline script bundling | Upgrade to Astro 5.9+ for experimental CSP |
+| Faust missing Party/Bühne events | Only fetches Livemusik (rub=2) | Expand to fetch multiple categories |
+| Erhardt shows 0 Wix Events | Wix JS rendering, no server-side data | Uses static Google Calendar data fallback |
+| Erhardt static events outdated | Requires manual updates | Update `GOOGLE_CALENDAR_EVENTS` in erhardt.py periodically |
 
 ---
 
@@ -592,6 +606,9 @@ Fallback: `mock.ts` if no JSON file
 - [ ] Web frontend deployment pipeline
 - [ ] iCal feed generation (ics package already installed)
 - [ ] Upgrade to Astro 5.9+ for CSP without `unsafe-inline`
+- [ ] **Faust**: Expand to fetch all categories (Party, Bühne, Literatur, etc.)
+- [ ] **Erhardt**: Implement dynamic Google Calendar scraping or API integration
+- [ ] **Erhardt**: Document process for updating static calendar events
 
 ---
 
