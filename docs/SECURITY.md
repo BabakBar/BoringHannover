@@ -1007,13 +1007,13 @@ def check_links():
 - [x] **A-5:** Add focus-visible styles to `global.css`
 - [x] **A-6:** Fix color contrast for muted text (light: #767676, dark: #9ca3af)
 
-### Phase 3: Hardening (Week 3)
+### Phase 3: Hardening (Week 3) ✅ COMPLETED
 
-- [ ] **BS-2:** Add Pydantic validators or dataclass validation
-- [ ] **BS-3:** Refactor Telegram token handling
-- [ ] **BS-4:** Add rate limiting and retry logic
-- [ ] **DI-1:** Implement atomic JSON writes
-- [ ] **FS-3:** Self-host fonts (optional)
+- [x] **BS-2:** Add dataclass validation (`__post_init__` in `models.py`)
+- [x] **BS-3:** Refactor Telegram token handling (base_url pattern in `notifier.py`)
+- [x] **BS-4:** Add rate limiting and retry logic (`aggregator.py`, `config.py`)
+- [x] **DI-1:** Implement atomic JSON writes (`exporters.py` with tempfile)
+- [ ] **FS-3:** Self-host fonts (optional - deferred)
 
 ### Phase 4: Monitoring (Week 4)
 

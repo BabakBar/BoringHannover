@@ -44,6 +44,9 @@ class Event:
         ...     category="movie",
         ...     metadata={"duration": 148, "rating": 12},
         ... )
+
+    Raises:
+        ValueError: If validation fails (title too long/empty, invalid URL scheme).
     """
 
     title: str
@@ -52,6 +55,40 @@ class Event:
     url: str
     category: EventCategory
     metadata: EventMetadata = field(default_factory=dict)
+
+    # Validation limits (BS-2: Circuit breaker for bad scraper data)
+    _MAX_TITLE_LENGTH: int = field(default=200, init=False, repr=False)
+    _MAX_VENUE_LENGTH: int = field(default=100, init=False, repr=False)
+    _MAX_URL_LENGTH: int = field(default=500, init=False, repr=False)
+
+    def __post_init__(self) -> None:
+        """Validate event data to prevent garbage from corrupted sources.
+
+        This acts as a circuit breaker - if a source website changes
+        structure and scrapers grab garbage data, validation will fail
+        fast rather than propagating bad data to the frontend.
+        """
+        # Title validation
+        if not self.title or not self.title.strip():
+            msg = "Event title cannot be empty"
+            raise ValueError(msg)
+        if len(self.title) > self._MAX_TITLE_LENGTH:
+            msg = f"Title too long ({len(self.title)} chars > {self._MAX_TITLE_LENGTH}) - possible scraper error"
+            raise ValueError(msg)
+
+        # Venue validation
+        if len(self.venue) > self._MAX_VENUE_LENGTH:
+            msg = f"Venue name too long ({len(self.venue)} chars > {self._MAX_VENUE_LENGTH})"
+            raise ValueError(msg)
+
+        # URL validation
+        if self.url:
+            if len(self.url) > self._MAX_URL_LENGTH:
+                msg = f"URL too long ({len(self.url)} chars > {self._MAX_URL_LENGTH})"
+                raise ValueError(msg)
+            if not self.url.startswith(("http://", "https://")):
+                msg = f"Invalid URL scheme: {self.url[:50]}"
+                raise ValueError(msg)
 
     def format_date_short(self) -> str:
         """Format date as weekday and date (e.g., 'Mon 24.11.').

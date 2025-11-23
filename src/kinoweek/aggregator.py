@@ -13,9 +13,11 @@ Usage:
 from __future__ import annotations
 
 import logging
+import time
 from datetime import datetime, timedelta
 from typing import TYPE_CHECKING
 
+from kinoweek.config import SCRAPE_DELAY_SECONDS
 from kinoweek.sources import get_all_sources
 
 if TYPE_CHECKING:
@@ -57,7 +59,8 @@ def fetch_all_events() -> dict[str, list[Event]]:
     sources = get_all_sources()
     logger.info("Found %d registered sources", len(sources))
 
-    # Fetch from each enabled source
+    # Fetch from each enabled source with rate limiting (BS-4)
+    source_count = 0
     for name, source_cls in sources.items():
         try:
             source = source_cls()
@@ -66,6 +69,11 @@ def fetch_all_events() -> dict[str, list[Event]]:
             if not source.enabled:
                 logger.debug("Skipping disabled source: %s", name)
                 continue
+
+            # BS-4: Add delay between sources to avoid IP blocks
+            if source_count > 0:
+                logger.debug("Rate limiting: waiting %.1fs before next source", SCRAPE_DELAY_SECONDS)
+                time.sleep(SCRAPE_DELAY_SECONDS)
 
             logger.debug("Fetching from source: %s (%s)", name, source.source_name)
             events = source.fetch()
@@ -82,10 +90,12 @@ def fetch_all_events() -> dict[str, list[Event]]:
                 source.source_name,
                 len(events),
             )
+            source_count += 1
 
         except Exception as exc:
             logger.warning("Source %s failed: %s", name, exc)
             # Continue with other sources - graceful degradation
+            source_count += 1  # Still count failed sources for rate limiting
 
     # Filter movies to this week only
     movies_this_week = sorted(

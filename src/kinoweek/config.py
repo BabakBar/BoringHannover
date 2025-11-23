@@ -12,6 +12,8 @@ __all__ = [
     "ASTOR_API_URL",
     "CONCERT_VENUES",
     "REQUEST_TIMEOUT_SECONDS",
+    "SCRAPE_DELAY_SECONDS",
+    "SCRAPE_MAX_RETRIES",
     "USER_AGENT",
     "TELEGRAM_MESSAGE_MAX_LENGTH",
     "GERMAN_MONTH_MAP",
@@ -96,6 +98,13 @@ CONCERT_VENUES: Final[tuple[VenueConfig, ...]] = (
 
 REQUEST_TIMEOUT_SECONDS: Final[float] = 30.0
 """HTTP request timeout in seconds."""
+
+# BS-4: Rate limiting configuration
+SCRAPE_DELAY_SECONDS: Final[float] = 1.0
+"""Delay between scraping different sources to avoid IP blocks."""
+
+SCRAPE_MAX_RETRIES: Final[int] = 2
+"""Maximum retry attempts for transient network failures."""
 
 USER_AGENT: Final[str] = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "

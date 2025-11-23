@@ -97,6 +97,10 @@ def send_telegram_message(message: str) -> bool:
 
     Requires TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID environment variables.
 
+    Security Note (BS-3): Uses base_url pattern to prevent token leakage
+    in exception messages. If httpx raises an error, the full URL (with token)
+    won't appear in logs or tracebacks.
+
     Args:
         message: Message text to send.
 
@@ -113,16 +117,21 @@ def send_telegram_message(message: str) -> bool:
         msg = "TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set"
         raise ValueError(msg)
 
-    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-    payload = {
-        "chat_id": chat_id,
-        "text": message,
-        "parse_mode": "Markdown",
-    }
-
+    # BS-3: Use base_url pattern to avoid token in exception messages
+    # If the request fails, the exception won't contain the full URL with token
     try:
-        with httpx.Client(timeout=30) as client:
-            response = client.post(url, json=payload)
+        with httpx.Client(
+            base_url="https://api.telegram.org",
+            timeout=30,
+        ) as client:
+            response = client.post(
+                f"/bot{bot_token}/sendMessage",
+                json={
+                    "chat_id": chat_id,
+                    "text": message,
+                    "parse_mode": "Markdown",
+                },
+            )
             response.raise_for_status()
 
             result = response.json()
@@ -133,8 +142,14 @@ def send_telegram_message(message: str) -> bool:
             logger.error("Telegram API error: %s", result)
             return False
 
-    except httpx.RequestError as exc:
-        logger.exception("Failed to send Telegram message: %s", exc)
+    except httpx.RequestError:
+        # BS-3: Log error type only - never log the exception directly
+        # as it may contain the URL with the token
+        logger.error("Telegram request failed: network error")
+        return False
+    except httpx.HTTPStatusError as exc:
+        # Safe to log status code - no sensitive data
+        logger.error("Telegram API error: HTTP %d", exc.response.status_code)
         return False
 
 

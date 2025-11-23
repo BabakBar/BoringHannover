@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import json
 import logging
+import shutil
+import tempfile
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -288,12 +290,32 @@ def export_web_json(
         "concerts": concerts_list,
     }
 
-    json_path.write_text(
-        json.dumps(data, indent=2, ensure_ascii=False),
-        encoding="utf-8",
-    )
+    # DI-1: Atomic write to prevent corruption if scraper crashes mid-write
+    # CRITICAL: dir=output_path ensures temp file is on the SAME filesystem
+    # as the target. This makes shutil.move() a true atomic rename() syscall.
+    # Without this, Docker volume mounts would cause copy+delete (non-atomic).
+    json_content = json.dumps(data, indent=2, ensure_ascii=False)
 
-    logger.info("Exported web frontend JSON to %s", json_path)
+    with tempfile.NamedTemporaryFile(
+        mode="w",
+        suffix=".json",
+        dir=output_path,  # DO NOT REMOVE - required for atomicity
+        delete=False,
+        encoding="utf-8",
+    ) as tmp:
+        tmp.write(json_content)
+        tmp_path = Path(tmp.name)
+
+    # Validate temp file has reasonable content (circuit breaker)
+    if tmp_path.stat().st_size < 50:
+        tmp_path.unlink()
+        msg = "Generated JSON too small - possible scraper failure"
+        raise ValueError(msg)
+
+    # Atomic rename (only works if source and dest are on same filesystem)
+    shutil.move(str(tmp_path), str(json_path))
+
+    logger.info("Exported web frontend JSON to %s (atomic write)", json_path)
 
 
 # =============================================================================
