@@ -1,0 +1,138 @@
+# =============================================================================
+# KinoWeek Deploy Pipeline
+# Builds and pushes Docker images, triggers Coolify deployment
+# =============================================================================
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy_backend:
+        description: "Deploy backend"
+        required: false
+        default: true
+        type: boolean
+      deploy_frontend:
+        description: "Deploy frontend"
+        required: false
+        default: true
+        type: boolean
+
+env:
+  REGISTRY: ghcr.io
+  BACKEND_IMAGE: ghcr.io/${{ github.repository }}/backend
+  FRONTEND_IMAGE: ghcr.io/${{ github.repository }}/frontend
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Build and push Docker images
+  # ---------------------------------------------------------------------------
+  build:
+    name: Build Images
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    outputs:
+      backend_tag: ${{ steps.meta-backend.outputs.tags }}
+      frontend_tag: ${{ steps.meta-frontend.outputs.tags }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Backend image
+      - name: Extract backend metadata
+        id: meta-backend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.BACKEND_IMAGE }}
+          tags: |
+            type=sha,prefix=
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta-backend.outputs.tags }}
+          labels: ${{ steps.meta-backend.outputs.labels }}
+          cache-from: type=gha,scope=backend
+          cache-to: type=gha,mode=max,scope=backend
+          platforms: linux/amd64
+
+      # Frontend image
+      - name: Extract frontend metadata
+        id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.FRONTEND_IMAGE }}
+          tags: |
+            type=sha,prefix=
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile.web
+          push: true
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+          labels: ${{ steps.meta-frontend.outputs.labels }}
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,mode=max,scope=frontend
+          platforms: linux/amd64
+
+  # ---------------------------------------------------------------------------
+  # Trigger Coolify deployment
+  # ---------------------------------------------------------------------------
+  deploy:
+    name: Deploy to Coolify
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    environment: production
+
+    steps:
+      - name: Trigger backend deployment
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.deploy_backend }}
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            "${{ secrets.COOLIFY_WEBHOOK_BACKEND }}" \
+            --fail --silent --show-error
+        continue-on-error: true
+
+      - name: Trigger frontend deployment
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.deploy_frontend }}
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            "${{ secrets.COOLIFY_WEBHOOK_FRONTEND }}" \
+            --fail --silent --show-error
+
+      - name: Deployment summary
+        run: |
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Backend Image:** ${{ env.BACKEND_IMAGE }}:latest" >> $GITHUB_STEP_SUMMARY
+          echo "- **Frontend Image:** ${{ env.FRONTEND_IMAGE }}:latest" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY

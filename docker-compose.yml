@@ -1,0 +1,93 @@
+# =============================================================================
+# KinoWeek Docker Compose
+# Local development and testing configuration
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # Backend: Python scraper service
+  # ---------------------------------------------------------------------------
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kinoweek-backend
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID:-}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      # Persist output files
+      - ./output:/app/output
+    # For local development, run in local mode (no Telegram)
+    command: ["python", "-m", "kinoweek.main", "--local"]
+    restart: "no"
+    networks:
+      - kinoweek-net
+
+  # ---------------------------------------------------------------------------
+  # Backend (Production mode): Sends to Telegram
+  # Use: docker compose run --rm backend-prod
+  # ---------------------------------------------------------------------------
+  backend-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kinoweek-backend-prod
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./output:/app/output
+    # Production mode - requires Telegram credentials
+    command: ["python", "-m", "kinoweek.main"]
+    restart: "no"
+    networks:
+      - kinoweek-net
+    profiles:
+      - production
+
+  # ---------------------------------------------------------------------------
+  # Frontend: Astro static site served by nginx
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: kinoweek-frontend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    networks:
+      - kinoweek-net
+
+  # ---------------------------------------------------------------------------
+  # Development: Frontend with hot reload (optional)
+  # Use: docker compose --profile dev up frontend-dev
+  # ---------------------------------------------------------------------------
+  frontend-dev:
+    image: node:22-alpine
+    container_name: kinoweek-frontend-dev
+    working_dir: /app
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    ports:
+      - "4321:4321"
+    command: ["sh", "-c", "npm install && npm run dev -- --host 0.0.0.0"]
+    environment:
+      - NODE_ENV=development
+    networks:
+      - kinoweek-net
+    profiles:
+      - dev
+
+networks:
+  kinoweek-net:
+    driver: bridge
