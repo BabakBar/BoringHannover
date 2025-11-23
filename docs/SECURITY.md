@@ -1,7 +1,8 @@
 # KinoWeek Security, Privacy & Accessibility Plan
 
 > **Status:** Draft
-> **Last Updated:** 2025-11-22
+> **Last Updated:** 2025-11-23
+> **Last Reviewed:** 2025-11-23 (Gemini review incorporated)
 > **Scope:** Python scraper backend + Astro static frontend
 > **Deployment:** Hetzner VPS (backend cron) + Cloudflare/Static hosting (frontend)
 
@@ -61,19 +62,21 @@ Scraped HTML from external sites (ZAG Arena, Capitol, etc.) could contain malici
 
 **Remediation:**
 
-1. **Install bleach for HTML sanitization:**
+1. **Install nh3 for HTML sanitization:**
+
+> ⚠️ **Note:** Do NOT use `bleach`. It was [deprecated by Mozilla in January 2023](https://github.com/mozilla/bleach/issues/698) due to its dependency on the unmaintained `html5lib`. Use `nh3` instead—a Python binding to the Rust [Ammonia](https://github.com/rust-ammonia/ammonia) crate that is actively maintained and ~20x faster.
+
 ```bash
-uv add bleach
+uv add nh3
 ```
 
 2. **Create sanitization utility** (`src/kinoweek/sanitize.py`):
 ```python
 """Text sanitization for untrusted scraped content."""
-import html
 import re
 from typing import Final
 
-import bleach
+import nh3
 
 # Maximum lengths to prevent data corruption attacks
 MAX_TITLE_LENGTH: Final[int] = 200
@@ -85,8 +88,9 @@ def sanitize_text(text: str | None, max_length: int = 500) -> str:
     """Remove all HTML and limit length."""
     if not text:
         return ""
-    # Strip ALL HTML tags
-    cleaned = bleach.clean(text, tags=[], strip=True)
+    # nh3 is faster and safer than deprecated bleach
+    # tags=set() ensures ALL tags are stripped
+    cleaned = nh3.clean(text, tags=set())
     # Normalize whitespace
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
     # Enforce length limit
@@ -338,28 +342,53 @@ No CSP headers configured. Any XSS vulnerability has full DOM access.
 **Current State:**
 - No `_headers` file
 - No security headers in Astro config
+- Project uses Astro 4.16.0
 
-**Remediation:**
+**The Astro CSP Challenge:**
+
+> ⚠️ **Important:** Astro 4.x bundles component scripts inline by default, which requires `script-src 'unsafe-inline'` in CSP. This weakens XSS protection since injected `<script>` tags would execute. See [Astro issue #6407](https://github.com/withastro/astro/issues/6407).
+
+**Options:**
+
+1. **Astro 5.9+ Experimental CSP** (recommended if upgrading):
+   ```js
+   // astro.config.mjs
+   export default defineConfig({
+     experimental: {
+       csp: true  // Auto-generates SHA-256 hashes for inline scripts
+     }
+   });
+   ```
+   This eliminates `unsafe-inline` by generating hashes automatically.
+
+2. **Astro 4.x with `unsafe-inline`** (current version):
+   Since full CSP requires Astro 5.9+, use `unsafe-inline` for now but ensure backend sanitization is robust.
+
+**Remediation (Astro 4.x):**
 
 Create `web/public/_headers`:
 ```
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 ```
 
+> **Note:** `style-src 'unsafe-inline'` is acceptable when `script-src` is controlled. The primary XSS vector is script injection, not style injection.
+
 **For Cloudflare Pages**, this file is automatically respected.
 
 **For Nginx** (if self-hosting):
 ```nginx
-add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self'; frame-ancestors 'none';" always;
+add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self'; frame-ancestors 'none'; object-src 'none';" always;
 add_header X-Frame-Options "DENY" always;
 add_header X-Content-Type-Options "nosniff" always;
 add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 ```
+
+**Future Improvement:** Upgrade to Astro 5.9+ and enable experimental CSP to remove `unsafe-inline`.
 
 ---
 
@@ -405,12 +434,21 @@ Operating a public website in Germany requires compliance with DDG (Digitale-Die
 
 **Severity: High (Legal)**
 
-Per § 5 DDG and § 18 MStV, a publicly accessible website must have an Impressum.
+Per § 5 DDG (replaced TMG as of May 2024) and § 18 MStV, a publicly accessible website must have an Impressum.
 
 **Requirements:**
 - Name and address (no P.O. Box)
-- Contact information (email)
+- Contact information enabling "schnelle elektronische Kontaktaufnahme und unmittelbare Kommunikation" (quick electronic contact and direct communication)
 - For journalistic-editorial content (which KinoWeek is): responsible person per § 18 Abs. 2 MStV
+
+**Phone Number Clarification:**
+
+> Per [ECJ ruling 2008](https://www.e-recht24.de/impressum/1023-impressum-telefonnummer.html), a phone number is **not strictly mandatory** if another direct communication channel exists (e.g., responsive email). However:
+> - Email responses should be within 24-48 hours
+> - For **online retailers**, phone IS mandatory (Verbraucherrechterichtlinie)
+> - For hobby/informational sites like KinoWeek, email alone is legally sufficient
+>
+> **Optional but recommended:** A SIP number (Sipgate, Satellite App) adds legal safety and user trust.
 
 **Remediation:**
 
@@ -799,6 +837,31 @@ The codebase already includes proper `prefers-reduced-motion` support in `global
 
 ---
 
+### A-8: Font Fallback for "Nothing" Aesthetic
+
+**Severity: Low**
+
+Dot matrix or stylized fonts may have poor legibility at small sizes or fail to load.
+
+**Remediation:**
+
+Ensure graceful font degradation in `tailwind.config.mjs` or `global.css`:
+```css
+/* Ensure dot-matrix/display fonts fall back to readable monospace */
+.font-display {
+  font-family: 'Space Mono', 'Courier New', Courier, monospace;
+}
+
+/* Body text should fall back to system sans-serif */
+.font-body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+```
+
+This preserves the "tech" aesthetic while ensuring readability if custom fonts fail.
+
+---
+
 ## Infrastructure Hardening
 
 ### IH-1: Cloudflare WAF Configuration
@@ -855,10 +918,13 @@ def export_web_json(...) -> None:
     json_path = output_path / "web_events.json"
 
     # Write to temp file first
+    # CRITICAL: dir=output_path ensures temp file is on the SAME filesystem
+    # as the target. This makes shutil.move() a true atomic rename() syscall.
+    # Without this, Docker volume mounts would cause copy+delete (non-atomic).
     with tempfile.NamedTemporaryFile(
         mode='w',
         suffix='.json',
-        dir=output_path,
+        dir=output_path,  # DO NOT REMOVE - required for atomicity
         delete=False,
         encoding='utf-8'
     ) as tmp:
@@ -870,9 +936,11 @@ def export_web_json(...) -> None:
         Path(tmp_path).unlink()
         raise ValueError("Generated JSON too small - possible scraper failure")
 
-    # Atomic rename
+    # Atomic rename (only works if source and dest are on same filesystem)
     shutil.move(tmp_path, json_path)
 ```
+
+> ⚠️ **Docker Note:** `shutil.move()` is only atomic if source and destination are on the **same filesystem**. If your Docker container writes to `/tmp` (overlay FS) and moves to `/app/output` (mounted volume), it performs a copy-delete which is NOT atomic. The `dir=output_path` parameter above ensures the temp file is created on the mounted volume, making the move a true atomic `rename()` syscall.
 
 ---
 
@@ -886,11 +954,20 @@ import httpx
 import json
 from pathlib import Path
 
+# Use a proper User-Agent - ticket providers often block Python's default
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; KinoWeekBot/1.0; +https://boringhannover.de)"
+}
+
 def check_links():
     data = json.loads(Path("output/web_events.json").read_text())
     dead_links = []
 
-    with httpx.Client(timeout=10, follow_redirects=True) as client:
+    with httpx.Client(
+        timeout=10,
+        follow_redirects=True,
+        headers=HEADERS
+    ) as client:
         for concert in data.get("concerts", []):
             url = concert.get("url")
             if url:
@@ -915,7 +992,7 @@ def check_links():
 
 ### Phase 1: Critical Security (Week 1)
 
-- [ ] **BS-1:** Install `bleach`, create `sanitize.py`, apply to all scrapers
+- [ ] **BS-1:** Install `nh3`, create `sanitize.py`, apply to all scrapers
 - [ ] **FS-1:** Create `web/src/utils/sanitize.ts`, update card components
 - [ ] **FS-2:** Create `web/public/_headers` with CSP
 - [ ] **GL-1:** Create `impressum.astro` with legal information
@@ -948,10 +1025,49 @@ def check_links():
 
 ## References
 
+### Security
 - [OWASP Top 10 Web Application Security Risks](https://owasp.org/www-project-top-ten/)
-- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [nh3 - Python HTML Sanitizer](https://github.com/messense/nh3) (replacement for deprecated bleach)
+- [Ammonia - Rust HTML Sanitizer](https://github.com/rust-ammonia/ammonia)
+- [Bleach Deprecation Notice (Jan 2023)](https://github.com/mozilla/bleach/issues/698)
+
+### Astro & CSP
+- [Astro CSP Issue #6407](https://github.com/withastro/astro/issues/6407)
+- [Astro 5.9 Experimental CSP](https://docs.astro.build/en/reference/experimental-flags/csp/)
+- [Astro Security Headers](https://docs.astro.build/en/guides/troubleshooting/)
+
+### German Legal
+- [§ 5 DDG - Allgemeine Informationspflichten](https://www.gesetze-im-internet.de/ddg/__5.html)
 - [§ 18 MStV - Informationspflichten](https://dr-dsgvo.de/18-mstv-informationspflichten-und-auskunftsrechte/)
-- [Impressum Requirements Germany](https://www.e-recht24.de/online-marketing/12436-medienstaatsvertrag.html)
+- [Impressum Phone Requirement (ECJ Ruling)](https://www.e-recht24.de/impressum/1023-impressum-telefonnummer.html)
+- [Medienstaatsvertrag Overview](https://www.e-recht24.de/online-marketing/12436-medienstaatsvertrag.html)
 - [DSGVO Compliance](https://dsgvo-gesetz.de/)
-- [Bleach Documentation](https://bleach.readthedocs.io/)
-- [Astro Security Headers](https://docs.astro.build/en/guides/configuring-astro/#security-headers)
+
+### Accessibility
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+
+---
+
+## Review Notes
+
+### Verification Summary (2025-11-23)
+
+This document was reviewed against external feedback. Key verifications:
+
+| Claim | Verification | Source |
+|-------|--------------|--------|
+| `bleach` is deprecated | ✅ Confirmed (Jan 2023) | [GitHub Issue #698](https://github.com/mozilla/bleach/issues/698) |
+| `nh3` is recommended replacement | ✅ Confirmed (~20x faster) | [PyPI](https://pypi.org/project/nh3/), [GitHub](https://github.com/messense/nh3) |
+| Astro 4.x requires `unsafe-inline` | ✅ Confirmed | [Astro Issue #6407](https://github.com/withastro/astro/issues/6407) |
+| Astro 5.9+ has experimental CSP | ✅ Confirmed | [Astro Docs](https://docs.astro.build/en/reference/experimental-flags/csp/) |
+| Phone mandatory for Impressum | ❌ Overstated | [ECJ 2008 ruling](https://www.e-recht24.de/impressum/1023-impressum-telefonnummer.html) - email sufficient for non-retailers |
+| `shutil.move` atomicity on Docker | ⚠️ Nuanced | Requires `dir=` on same filesystem |
+
+### Changes Made
+1. Replaced `bleach` with `nh3` throughout document
+2. Added Astro CSP nuance (4.x vs 5.9+)
+3. Clarified phone number requirement (not mandatory for non-commercial sites)
+4. Added Docker atomicity warning for `shutil.move()`
+5. Added User-Agent recommendation for dead link checker
+6. Added font fallback accessibility section (A-8)
