@@ -12,6 +12,12 @@ import { loadEventData } from '../data/loader';
 
 const eventData = loadEventData();
 const { meta, movies, concerts } = eventData;
+
+// Progressive disclosure: show first 15, hide the rest
+const VISIBLE_COUNT = 15;
+const visibleConcerts = concerts.slice(0, VISIBLE_COUNT);
+const overflowConcerts = concerts.slice(VISIBLE_COUNT);
+const hasOverflow = overflowConcerts.length > 0;
 ---
 
 <Base title="boringhannover - What's on in Hannover">
@@ -49,20 +55,60 @@ const { meta, movies, concerts } = eventData;
   <section class="mb-10">
     <SectionHeader title="Events On The Radar" />
 
-    {concerts.map((concert) => (
-      <ConcertCard
-        title={concert.title}
-        date={concert.date}
-        day={concert.day}
-        time={concert.time}
-        venue={concert.venue}
-        url={concert.url}
-        eventType={concert.eventType}
-        genre={concert.genre}
-        description={concert.description}
-        status={concert.status}
-      />
-    ))}
+    <!-- Always visible concerts (first 15) -->
+    <div id="concerts-visible">
+      {visibleConcerts.map((concert) => (
+        <ConcertCard
+          title={concert.title}
+          date={concert.date}
+          day={concert.day}
+          time={concert.time}
+          venue={concert.venue}
+          url={concert.url}
+          eventType={concert.eventType}
+          genre={concert.genre}
+          description={concert.description}
+          status={concert.status}
+        />
+      ))}
+    </div>
+
+    <!-- Overflow concerts (hidden by default) -->
+    {hasOverflow && (
+      <div id="concerts-overflow" class="concerts-overflow" aria-hidden="true">
+        {overflowConcerts.map((concert, index) => (
+          <div class="overflow-item" style={`--stagger-index: ${index}`}>
+            <ConcertCard
+              title={concert.title}
+              date={concert.date}
+              day={concert.day}
+              time={concert.time}
+              venue={concert.venue}
+              url={concert.url}
+              eventType={concert.eventType}
+              genre={concert.genre}
+              description={concert.description}
+              status={concert.status}
+            />
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- Toggle button -->
+    {hasOverflow && (
+      <button
+        id="radar-toggle"
+        type="button"
+        class="radar-toggle"
+        aria-expanded="false"
+        aria-controls="concerts-overflow"
+      >
+        <span class="toggle-dots" aria-hidden="true">•••</span>
+        <span class="toggle-text">+{overflowConcerts.length} MORE</span>
+        <span class="toggle-dots" aria-hidden="true">•••</span>
+      </button>
+    )}
 
     {concerts.length === 0 && (
       <p class="text-text-muted text-sm py-4">No upcoming concerts.</p>
@@ -71,3 +117,77 @@ const { meta, movies, concerts } = eventData;
 
   <Footer updatedAt={meta.updatedAt} />
 </Base>
+
+<script>
+  // Radar Toggle - Progressive Disclosure
+  const toggle = document.getElementById('radar-toggle');
+  const overflow = document.getElementById('concerts-overflow');
+  const toggleText = toggle?.querySelector('.toggle-text');
+
+  if (toggle && overflow && toggleText) {
+    const originalText = toggleText.textContent;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+      if (isExpanded) {
+        // Collapse
+        collapse();
+      } else {
+        // Expand
+        expand();
+      }
+    });
+
+    function expand() {
+      toggle.setAttribute('aria-expanded', 'true');
+      overflow.setAttribute('aria-hidden', 'false');
+      overflow.classList.add('is-visible');
+
+      if (prefersReducedMotion) {
+        // Instant show for reduced motion
+        overflow.classList.add('is-expanded');
+      } else {
+        // Trigger reflow for animation
+        void overflow.offsetHeight;
+        overflow.classList.add('is-expanded');
+      }
+
+      toggleText.textContent = 'SHOW LESS';
+    }
+
+    function collapse() {
+      toggle.setAttribute('aria-expanded', 'false');
+      overflow.setAttribute('aria-hidden', 'true');
+      toggleText.textContent = originalText;
+
+      if (prefersReducedMotion) {
+        // Instant hide for reduced motion
+        overflow.classList.remove('is-expanded', 'is-visible');
+        scrollToToggle();
+      } else {
+        // Animate collapse
+        overflow.classList.add('is-collapsing');
+        overflow.classList.remove('is-expanded');
+
+        overflow.addEventListener('animationend', function handler() {
+          overflow.removeEventListener('animationend', handler);
+          overflow.classList.remove('is-collapsing', 'is-visible');
+          scrollToToggle();
+        }, { once: true });
+      }
+    }
+
+    function scrollToToggle() {
+      // Only scroll if user has scrolled past the toggle button
+      const toggleRect = toggle.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // If toggle is above viewport (user scrolled down past it)
+      if (toggleRect.top < 0 || toggleRect.bottom > viewportHeight) {
+        toggle.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
+      }
+    }
+  }
+</script>

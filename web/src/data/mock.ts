@@ -148,6 +148,22 @@ export const mockData: EventData = {
       url: "https://example.com/helene-fischer",
       eventType: "concert",
       genre: "Schlager"
-    }
+    },
+    // Additional events for pagination testing
+    { title: "Ed Sheeran", date: "02 Apr", day: "Mi", time: "20:00", venue: "ZAG Arena", eventType: "concert", genre: "Pop" },
+    { title: "Rammstein", date: "05 Apr", day: "Sa", time: "19:30", venue: "ZAG Arena", eventType: "concert", genre: "Metal" },
+    { title: "Coldplay", date: "10 Apr", day: "Do", time: "20:00", venue: "ZAG Arena", eventType: "concert", genre: "Rock" },
+    { title: "The Weeknd", date: "15 Apr", day: "Di", time: "20:00", venue: "ZAG Arena", eventType: "concert", genre: "R&B" },
+    { title: "Taylor Swift", date: "20 Apr", day: "So", time: "19:00", venue: "ZAG Arena", eventType: "concert", genre: "Pop", status: "sold_out" },
+    { title: "Depeche Mode", date: "25 Apr", day: "Fr", time: "20:00", venue: "Swiss Life Hall", eventType: "concert", genre: "Electronic" },
+    { title: "Kraftwerk", date: "28 Apr", day: "Mo", time: "20:00", venue: "Capitol Hannover", eventType: "concert", genre: "Electronic" },
+    { title: "Metallica", date: "02 May", day: "Fr", time: "19:30", venue: "ZAG Arena", eventType: "concert", genre: "Metal" },
+    { title: "Adele", date: "08 May", day: "Do", time: "20:00", venue: "ZAG Arena", eventType: "concert", genre: "Pop", status: "sold_out" },
+    { title: "Die Ärzte", date: "12 May", day: "Mo", time: "19:30", venue: "Swiss Life Hall", eventType: "concert", genre: "Punk Rock" },
+    { title: "Hans Zimmer Live", date: "18 May", day: "So", time: "19:00", venue: "ZAG Arena", eventType: "concert", genre: "Orchestra" },
+    { title: "Iron Maiden", date: "22 May", day: "Do", time: "20:00", venue: "ZAG Arena", eventType: "concert", genre: "Metal" },
+    { title: "Billie Eilish", date: "28 May", day: "Mi", time: "20:00", venue: "ZAG Arena", eventType: "concert", genre: "Pop" },
+    { title: "Green Day", date: "01 Jun", day: "So", time: "19:30", venue: "Swiss Life Hall", eventType: "concert", genre: "Punk Rock" },
+    { title: "Linkin Park", date: "05 Jun", day: "Do", time: "20:00", venue: "ZAG Arena", eventType: "concert", genre: "Rock" }
   ]
 };

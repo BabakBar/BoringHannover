@@ -232,14 +232,127 @@
 .stagger-item:nth-child(9) { animation-delay: 400ms; }
 .stagger-item:nth-child(10) { animation-delay: 450ms; }
 
+/* ==============================================
+   Radar Toggle - Progressive Disclosure
+   ============================================== */
+
+/* Overflow container - hidden by default */
+.concerts-overflow {
+  display: none;
+  opacity: 0;
+}
+
+.concerts-overflow.is-visible {
+  display: block;
+}
+
+.concerts-overflow.is-expanded {
+  opacity: 1;
+}
+
+/* Overflow items - staggered animation */
+.overflow-item {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.concerts-overflow.is-expanded .overflow-item {
+  animation: fadeSlideIn 0.3s ease-out forwards;
+  animation-delay: calc(var(--stagger-index, 0) * 40ms);
+}
+
+/* Collapse animation */
+.concerts-overflow.is-collapsing {
+  animation: fadeOut 0.2s ease-out forwards;
+}
+
+.concerts-overflow.is-collapsing .overflow-item {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Toggle button - dot-matrix style */
+.radar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+.radar-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+  background: var(--bg-secondary);
+}
+
+.radar-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.radar-toggle .toggle-dots {
+  color: var(--accent);
+  letter-spacing: 2px;
+}
+
+.radar-toggle .toggle-text {
+  color: inherit;
+}
+
+/* Expanded state */
+.radar-toggle[aria-expanded="true"] {
+  border-style: solid;
+  border-color: var(--border);
+}
+
+.radar-toggle[aria-expanded="true"]:hover {
+  border-color: var(--text-muted);
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .stagger-item,
   .section-fade,
-  .card-hover {
-    animation: none;
-    transition: none;
-    opacity: 1;
-    transform: none;
+  .card-hover,
+  .overflow-item,
+  .concerts-overflow {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .concerts-overflow.is-visible {
+    opacity: 1 !important;
+  }
+
+  .concerts-overflow.is-visible .overflow-item {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
