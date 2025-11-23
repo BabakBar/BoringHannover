@@ -5,8 +5,8 @@
 |-------|-------|
 | last_updated | 2025-11-23 |
 | updated_by | AI assistant |
-| change_trigger | Security & Accessibility audit implementation |
-| version | 1.1.0 |
+| change_trigger | Production deployment pipeline + port 8080 migration |
+| version | 1.2.0 |
 | project_name | KinoWeek (BoringHannover) |
 
 ---
@@ -22,6 +22,7 @@ KinoWeek/
 │   ├── models.py           # Event dataclass
 │   ├── aggregator.py       # Source orchestration
 │   ├── notifier.py         # Telegram + local output
+│   ├── github_sync.py      # GitHub API for data commits (production)
 │   ├── formatting.py       # Message formatting helpers
 │   ├── output.py           # OutputManager, movie grouping
 │   ├── exporters.py        # JSON, Markdown, Archive exports
@@ -43,6 +44,8 @@ KinoWeek/
 ├── web/                    # Astro frontend
 │   ├── package.json
 │   ├── tsconfig.json
+│   ├── output/             # Data committed by backend (tracked in git)
+│   │   └── web_events.json # Weekly event data for builds
 │   └── src/
 │       ├── components/
 │       ├── data/
@@ -81,13 +84,14 @@ Stateless event aggregator. Plugin-based scraper registry with autodiscovery.
 | Source Registry | `sources/__init__.py` | `@register_source` decorator |
 | Base Source | `sources/base.py` | `BaseSource` ABC |
 | Notifier | `notifier.py` | Telegram API, file output |
+| GitHub Sync | `github_sync.py` | Commit data to repo (triggers frontend rebuild) |
 | Formatting | `formatting.py` | Language abbrevs, date formatting |
 | Output Manager | `output.py` | Multi-format export orchestration |
 | Exporters | `exporters.py`, `csv_exporters.py` | JSON/MD/CSV generation |
 
 ### Data Flow
 ```
-Scheduler (cron/manual)
+Scheduler (Coolify cron / manual)
     ↓
 main.run(local_only=bool)
     ↓
@@ -102,7 +106,16 @@ Categorization:
 notifier.notify()
     ↓
 ├── Telegram Bot API (production)
-└── Local files: output/ (development)
+├── Local files: output/ (development)
+└── backup/web_events.json (production)
+    ↓
+github_sync.sync_to_github() [production only]
+    ↓
+Commits web_events.json to web/output/
+    ↓
+Push triggers GitHub Actions deploy.yml
+    ↓
+Frontend rebuilds with fresh data → Coolify deploys
 ```
 
 ### Background Jobs
@@ -111,7 +124,9 @@ None. Stateless execution. Scheduled via external cron/GitHub Actions.
 ### Deployment Options
 - Local cron: `0 9 * * 1 uv run kinoweek --local`
 - GitHub Actions: scheduled workflow
-- Docker/Coolify: container with env vars
+- Docker/Coolify: containers with env vars
+  - Frontend: nginx on port 8080 (non-root)
+  - Backend: scheduled task (Mon 9AM CET)
 
 ---
 
@@ -347,6 +362,9 @@ None. All data fetched fresh each execution.
 |----------|----------|---------|
 | `TELEGRAM_BOT_TOKEN` | Yes (prod) | Telegram bot authentication |
 | `TELEGRAM_CHAT_ID` | Yes (prod) | Target chat/channel |
+| `GITHUB_TOKEN` | Yes (prod) | PAT for committing data to repo |
+| `GITHUB_REPO` | Yes (prod) | Repository in owner/repo format |
+| `TZ` | Recommended | Timezone for cron/logs (Europe/Berlin) |
 | `LOG_LEVEL` | No | Logging verbosity (default: INFO) |
 | `WEB_EVENTS_PATH` | No | Override web JSON path |
 
@@ -494,17 +512,30 @@ class Event:
 - Error handling: Log and return False
 
 ### Web Frontend Data Flow
+
+**Development (local):**
 ```
-Python scraper
+uv run kinoweek --local
     ↓
 output/web_events.json
     ↓
-web/src/data/loader.ts (loadEventData())
+cp to web/output/web_events.json
     ↓
-Astro components
+npm run build → Astro reads at build time
 ```
 
-Fallback: `mock.ts` if no JSON file
+**Production (automated):**
+```
+Coolify cron → backend container
+    ↓
+github_sync.py commits to web/output/web_events.json
+    ↓
+Push triggers deploy.yml → frontend rebuild
+    ↓
+loader.ts reads at build time → static HTML
+```
+
+Fallback: `mock.ts` if no JSON file at build time
 
 ---
 
@@ -575,6 +606,7 @@ Fallback: `mock.ts` if no JSON file
 
 | Date | Commit | Description |
 |------|--------|-------------|
+| 2025-11-23 | pending | Production deployment: GitHub sync, port 8080, non-root containers |
 | 2025-11-23 | ad1464f | Phase 3: Security hardening (validation, rate limiting, atomic writes) |
 | 2025-11-23 | 3be5323 | Phase 2: Accessibility (WCAG 2.1 AA compliance) |
 | 2025-11-23 | 7e3ba73 | Phase 1: Input sanitization, CSP headers, German legal pages |
@@ -605,7 +637,7 @@ Fallback: `mock.ts` if no JSON file
 - [ ] Dead link monitoring script
 - [ ] Add more concert venues (Lux, Cafe Glocksee)
 - [ ] Database persistence for historical analysis
-- [ ] Web frontend deployment pipeline
+- [x] Web frontend deployment pipeline (GitHub sync + Coolify)
 - [ ] iCal feed generation (ics package already installed)
 - [ ] Upgrade to Astro 5.9+ for CSP without `unsafe-inline`
 - [x] **Faust**: Expand to fetch Party + Bühne (English only) categories
@@ -632,9 +664,16 @@ Fallback: `mock.ts` if no JSON file
 
 ### Web frontend shows mock data
 
+**Local development:**
 1. Run scraper: `uv run kinoweek --local`
 2. Check file exists: `ls output/web_events.json`
 3. Copy to web: `cp output/web_events.json web/output/`
+
+**Production:**
+1. Check backend logs in Coolify - did scrape succeed?
+2. Check GitHub repo - was `web_events.json` committed to `web/output/`?
+3. Check GitHub Actions - did deploy workflow trigger?
+4. Verify `GITHUB_TOKEN` and `GITHUB_REPO` env vars in Coolify
 
 ### Tests fail
 

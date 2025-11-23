@@ -85,11 +85,25 @@ To test the complete flow (scraper → frontend):
 # 1. Run the scraper to generate data
 uv run kinoweek --local
 
-# 2. Start the frontend (reads from output/web_events.json)
+# 2. Copy data to web directory (for builds)
+cp output/web_events.json web/output/
+
+# 3. Start the frontend dev server
 cd web && bun run dev
 ```
 
-The frontend will automatically load data from `../output/web_events.json` if it exists, otherwise it falls back to mock data.
+The frontend `loader.ts` checks `../output/web_events.json` and `web/output/web_events.json` at build time. Falls back to mock data if neither exists.
+
+### Docker Local Testing
+
+```bash
+# Run frontend container (port 8080)
+docker compose up frontend
+# Access at http://localhost:8080
+
+# Run backend in local mode
+docker compose up backend
+```
 
 ## Troubleshooting
 

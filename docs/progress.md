@@ -1,5 +1,30 @@
 # KinoWeek Development Progress
 
+⏺ Immediate (to deploy):
+
+  1. Commit & push changes to master - triggers CI/CD
+  2. Create GitHub PAT (fine-grained, contents:write on KinoWeek only)
+  3. Add to Coolify backend env vars:
+  GITHUB_TOKEN=<the PAT>
+  GITHUB_REPO=BabakBar/KinoWeek
+  TZ=Europe/Berlin
+  4. Update Coolify frontend port mapping to 8080:8080
+  5. Make GHCR packages public (after first push) or add registry credentials to Coolify
+
+  Verify:
+  - Manually trigger backend in Coolify
+  - Check GitHub for commit to web/output/web_events.json
+  - Confirm deploy workflow triggers and frontend rebuilds
+  - Visit site, confirm fresh data (not mock)
+
+  Optional improvements (later):
+  - Generate initial web/output/web_events.json before first deploy (run locally, commit)
+  - Set up Cloudflare notification for deploy failures
+  - Add health check monitoring
+
+  Want me to commit these changes now?
+
+
 ## Overview
 
 KinoWeek - A weekly event aggregator for Hannover that fetches OV movies from Astor Grand Cinema and concerts from major venues, delivering a formatted digest via Telegram.
