@@ -1,121 +1,10 @@
 {
   "meta": {
-    "week": 47,
+    "week": 48,
     "year": 2025,
-    "updatedAt": "Sun 23 Nov 03:17"
+    "updatedAt": "Tue 25 Nov 19:16"
   },
   "movies": [
-    {
-      "day": "SUN",
-      "date": "23.11",
-      "movies": [
-        {
-          "title": "Wicked Double Feature Teil 1&amp;2",
-          "year": 2025,
-          "time": "11:45",
-          "duration": "4h58m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-double-feature-teil-1und2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "11:45",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "13:45",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "16:45",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "19:50",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        }
-      ]
-    },
-    {
-      "day": "MON",
-      "date": "24.11",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "16:45",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Die Unfassbaren 3 - Now You See Me",
-          "year": 2025,
-          "time": "19:40",
-          "duration": "1h53m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-unfassbaren-3-now-you-see-me"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "19:50",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:15",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
     {
       "day": "TUE",
       "date": "25.11",
@@ -123,28 +12,6 @@
         {
           "title": "Wicked: Teil 2",
           "year": 2025,
-          "time": "16:45",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall &amp; Die Metzel-Spiele",
-          "year": 2025,
-          "time": "18:00",
-          "duration": "1h30m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/jujutsu-kaisen-execution-der-shibuya-vorfall-und-die-metzel-spiele"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
           "time": "19:40",
           "duration": "2h17m",
           "language": "EN",
@@ -165,7 +32,7 @@
           "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
         },
         {
-          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall &amp; Die Metzel-Spiele",
+          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall & Die Metzel-Spiele",
           "year": 2025,
           "time": "20:20",
           "duration": "1h30m",
@@ -204,7 +71,7 @@
           "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
         },
         {
-          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall &amp; Die Metzel-Spiele",
+          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall & Die Metzel-Spiele",
           "year": 2025,
           "time": "18:00",
           "duration": "1h30m",
@@ -226,7 +93,7 @@
           "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
         },
         {
-          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall &amp; Die Metzel-Spiele",
+          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall & Die Metzel-Spiele",
           "year": 2025,
           "time": "20:20",
           "duration": "1h30m",
@@ -243,22 +110,27 @@
       "date": "27.11",
       "movies": [
         {
-          "title": "Zoomania 2",
+          "title": "Wicked: Teil 2",
           "year": 2025,
-          "time": "17:45",
-          "duration": "1h48m",
+          "time": "13:40",
+          "duration": "2h17m",
           "language": "EN",
           "subtitles": null,
-          "rating": "FSK6",
+          "rating": "FSK12",
           "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "28.11",
-      "movies": [
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "16:40",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
         {
           "title": "Zoomania 2",
           "year": 2025,
@@ -269,6 +141,89 @@
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/zoomania-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "20:15",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        }
+      ]
+    },
+    {
+      "day": "FRI",
+      "date": "28.11",
+      "movies": [
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "13:40",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "17:10",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Zoomania 2",
+          "year": 2025,
+          "time": "17:45",
+          "duration": "1h48m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/zoomania-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Chainsaw Man - The Movie: Reze Arc",
+          "year": 2025,
+          "time": "23:10",
+          "duration": "1h41m",
+          "language": "JP",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/chainsaw-man-the-movie-reze-arc"
+        },
+        {
+          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall & Die Metzel-Spiele",
+          "year": 2025,
+          "time": "23:20",
+          "duration": "1h30m",
+          "language": "JP",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/jujutsu-kaisen-execution-der-shibuya-vorfall-und-die-metzel-spiele"
         }
       ]
     },
@@ -276,6 +231,211 @@
       "day": "SAT",
       "date": "29.11",
       "movies": [
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "13:40",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "16:40",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Zoomania 2",
+          "year": 2025,
+          "time": "17:45",
+          "duration": "1h48m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/zoomania-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Chainsaw Man - The Movie: Reze Arc",
+          "year": 2025,
+          "time": "23:10",
+          "duration": "1h41m",
+          "language": "JP",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/chainsaw-man-the-movie-reze-arc"
+        },
+        {
+          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall & Die Metzel-Spiele",
+          "year": 2025,
+          "time": "23:20",
+          "duration": "1h30m",
+          "language": "JP",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/jujutsu-kaisen-execution-der-shibuya-vorfall-und-die-metzel-spiele"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "30.11",
+      "movies": [
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "13:40",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "16:40",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Zoomania 2",
+          "year": 2025,
+          "time": "17:45",
+          "duration": "1h48m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/zoomania-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "01.12",
+      "movies": [
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "13:40",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "16:40",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Zoomania 2",
+          "year": 2025,
+          "time": "17:45",
+          "duration": "1h48m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/zoomania-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:30",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "02.12",
+      "movies": [
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "13:40",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "17:10",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
         {
           "title": "Zoomania 2",
           "year": 2025,
@@ -291,54 +451,6 @@
     }
   ],
   "concerts": [
-    {
-      "title": "BÖHSE ONKELZ",
-      "date": "30 Nov",
-      "day": "So",
-      "time": "19:30",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/boehse-onkelz/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Max Giesinger",
-      "date": "30 Nov",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/max-giesinger-capitol-hannover-3e90c785621e/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Matt Nash",
-      "date": "30 Nov",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/301125-matt-nash.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "BÖHSE ONKELZ",
-      "date": "1 Dez",
-      "day": "Mo",
-      "time": "19:30",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/boehse-onkelz-3/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Kniffelabend 🎲😊",
       "date": "3 Dez",
@@ -436,6 +548,30 @@
       "status": "available"
     },
     {
+      "title": "Subject",
+      "date": "5 Dez",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/051225-subject.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Wyld",
+      "date": "5 Dez",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/051225-wyld.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "die feisten",
       "date": "5 Dez",
       "day": "Fr",
@@ -455,6 +591,30 @@
       "venue": "Capitol Hannover",
       "url": "https://www.capitol-hannover.de/events/forever-young-capitol-hannover-b3fa28194092/",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rewind",
+      "date": "6 Dez",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/061225-rewind.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Freistil",
+      "date": "6 Dez",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/061225-freistil.html",
+      "eventType": "party",
       "genre": null,
       "description": null,
       "status": "available"
@@ -520,7 +680,7 @@
       "status": "available"
     },
     {
-      "title": "Connect &amp; Create 🎄👥",
+      "title": "Connect & Create 🎄👥",
       "date": "10 Dez",
       "day": "Mi",
       "time": "17:30",
@@ -592,12 +752,72 @@
       "status": "sold_out"
     },
     {
+      "title": "King Kong Kicks",
+      "date": "12 Dez",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/121225-king-kong-kicks.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "It's Pop Punk, Baby!",
+      "date": "12 Dez",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/121225-its-pop-punk-baby.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "TEDDY",
+      "date": "12 Dez",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/teddy-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Terry Hoax",
       "date": "13 Dez",
       "day": "Sa",
       "time": "20:00",
       "venue": "Capitol Hannover",
       "url": "https://www.capitol-hannover.de/events/terry-hoax-capitol-hannover-10fe61d3a5e2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Shuffle",
+      "date": "13 Dez",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/131225-shuffle.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Engst",
+      "date": "14 Dez",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/engst-capitol-hannover-d0f9675d2ceb/",
       "eventType": "concert",
       "genre": null,
       "description": null,
@@ -611,6 +831,18 @@
       "venue": "Erhardt Café",
       "url": "https://www.erhardt.cafe/events",
       "eventType": "quiz",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Die große WiWi-Weihnachtsfeier",
+      "date": "17 Dez",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/171225-die-grosse-wiwi-weihnachtsfeier.html",
+      "eventType": "party",
       "genre": null,
       "description": null,
       "status": "available"
@@ -664,7 +896,7 @@
       "status": "available"
     },
     {
-      "title": "Unmada &amp; SVITE and friends",
+      "title": "Unmada & SVITE and friends",
       "date": "21 Dez",
       "day": "So",
       "time": "19:00",
@@ -832,12 +1064,24 @@
       "status": "available"
     },
     {
-      "title": "Aymen &amp; Amo",
+      "title": "Aymen & Amo",
       "date": "26 Jan 2026",
       "day": "Mo",
       "time": "20:00",
       "venue": "Swiss Life Hall",
       "url": "https://www.swisslife-hall.de/events/aymen-amo-swiss-life-hall-a3ba61ebec47/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Michelle",
+      "date": "28 Jan 2026",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/michelle-swiss-life-hall-92274bae8f4b/",
       "eventType": "concert",
       "genre": null,
       "description": null,

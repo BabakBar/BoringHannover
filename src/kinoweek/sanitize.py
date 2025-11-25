@@ -13,18 +13,20 @@ Usage:
 
 from __future__ import annotations
 
+import html
 import re
 from typing import Final
 
 import nh3
 
+
 __all__ = [
+    "MAX_DESCRIPTION_LENGTH",
+    "MAX_TITLE_LENGTH",
+    "MAX_URL_LENGTH",
+    "MAX_VENUE_LENGTH",
     "sanitize_text",
     "sanitize_url",
-    "MAX_TITLE_LENGTH",
-    "MAX_VENUE_LENGTH",
-    "MAX_URL_LENGTH",
-    "MAX_DESCRIPTION_LENGTH",
 ]
 
 # Maximum lengths to prevent data corruption attacks
@@ -59,6 +61,9 @@ def sanitize_text(text: str | None, max_length: int = 500) -> str:
     # nh3.clean with empty tags set strips ALL HTML
     # This is safer than trying to maintain an allowlist
     cleaned = nh3.clean(text, tags=set())
+
+    # Decode HTML entities (e.g., &amp; -> &)
+    cleaned = html.unescape(cleaned)
 
     # Normalize whitespace (collapse multiple spaces/newlines)
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
