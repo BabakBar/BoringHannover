@@ -1,0 +1,91 @@
+---
+import TimelineEvent from './TimelineEvent.astro';
+import type { Concert } from '../data/types';
+
+interface Props {
+  day: string;          // "So"
+  dayNum: string;       // "30"
+  month: string;        // "Nov"
+  year?: string;        // "2026" or undefined
+  events: Concert[];
+}
+
+const { day, dayNum, month, year, events } = Astro.props;
+
+// Convert German day abbreviations to English
+const dayMap: Record<string, string> = {
+  'Mo': 'MON', 'Di': 'TUE', 'Mi': 'WED', 'Do': 'THU',
+  'Fr': 'FRI', 'Sa': 'SAT', 'So': 'SUN'
+};
+const dayDisplay = dayMap[day] || day;
+---
+
+<div class="event-day-group">
+  <!-- Date column -->
+  <div class="date-column">
+    <div class="font-display text-xs text-text-muted uppercase tracking-wide">
+      {dayDisplay}
+    </div>
+    <div class="font-display text-sm leading-tight">
+      <span class="text-text-data tabular-nums">{dayNum}</span>
+      <span class="text-text-muted ml-0.5">{month}</span>
+    </div>
+    {year && (
+      <div class="font-display text-[10px] text-text-muted opacity-70">{year}</div>
+    )}
+  </div>
+
+  <!-- Events timeline -->
+  <div class="events-column">
+    {events.map((event) => (
+      <TimelineEvent
+        title={event.title}
+        time={event.time}
+        venue={event.venue}
+        url={event.url}
+        eventType={event.eventType}
+        genre={event.genre}
+        description={event.description}
+        status={event.status}
+      />
+    ))}
+  </div>
+</div>
+
+<style>
+  .event-day-group {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .event-day-group:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Date column */
+  .date-column {
+    position: relative;
+    text-align: center;
+    padding-top: 0.5rem;
+  }
+
+  /* Events column with continuous timeline */
+  .events-column {
+    position: relative;
+  }
+
+  /* Continuous red vertical line through all events */
+  .events-column::before {
+    content: '';
+    position: absolute;
+    left: 8px; /* center in 16px dot column */
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 1px;
+    background: var(--accent);
+    opacity: 0.3; /* subtle, thinner appearance */
+    z-index: 0;
+  }
+</style>

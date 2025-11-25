@@ -233,10 +233,58 @@
 .stagger-item:nth-child(10) { animation-delay: 450ms; }
 
 /* ==============================================
+   Events Timeline
+   ============================================== */
+
+.events-timeline {
+  /* Container for timeline groups */
+}
+
+/* ==============================================
    Radar Toggle - Progressive Disclosure
    ============================================== */
 
 /* Overflow container - hidden by default */
+.events-overflow {
+  display: none;
+  opacity: 0;
+}
+
+.events-overflow.is-visible {
+  display: block;
+}
+
+.events-overflow.is-expanded {
+  opacity: 1;
+}
+
+/* Overflow groups - staggered animation by group */
+.overflow-group {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.overflow-group:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+.events-overflow.is-expanded .overflow-group {
+  animation: fadeSlideIn 0.3s ease-out forwards;
+  animation-delay: calc(var(--group-index, 0) * 80ms);
+}
+
+/* Collapse animation */
+.events-overflow.is-collapsing {
+  animation: fadeOut 0.2s ease-out forwards;
+}
+
+.events-overflow.is-collapsing .overflow-group {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+/* Legacy concerts-overflow support (deprecated) */
 .concerts-overflow {
   display: none;
   opacity: 0;
@@ -250,7 +298,6 @@
   opacity: 1;
 }
 
-/* Overflow items - staggered animation */
 .overflow-item {
   opacity: 0;
   transform: translateY(8px);
@@ -261,7 +308,6 @@
   animation-delay: calc(var(--stagger-index, 0) * 40ms);
 }
 
-/* Collapse animation */
 .concerts-overflow.is-collapsing {
   animation: fadeOut 0.2s ease-out forwards;
 }
@@ -317,7 +363,8 @@
 
 .radar-toggle .toggle-dots {
   color: var(--accent);
-  letter-spacing: 2px;
+  letter-spacing: 4px;
+  font-size: 6px;
 }
 
 .radar-toggle .toggle-text {
@@ -340,18 +387,22 @@
   .section-fade,
   .card-hover,
   .overflow-item,
-  .concerts-overflow {
+  .overflow-group,
+  .concerts-overflow,
+  .events-overflow {
     animation: none !important;
     transition: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
 
-  .concerts-overflow.is-visible {
+  .concerts-overflow.is-visible,
+  .events-overflow.is-visible {
     opacity: 1 !important;
   }
 
-  .concerts-overflow.is-visible .overflow-item {
+  .concerts-overflow.is-visible .overflow-item,
+  .events-overflow.is-visible .overflow-group {
     opacity: 1 !important;
     transform: none !important;
   }

@@ -26,7 +26,7 @@ Complete guide for deploying KinoWeek to production using Hetzner VPS, Coolify, 
 The frontend is a **static site** built at image creation time. For weekly data updates to reach users, the following pipeline runs:
 
 ```
-Monday 9:00 AM CET:
+Monday 17:00 PM CET:
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
 │ Coolify runs    │────▶│ Backend commits │────▶│ Push triggers   │
 │ backend cron    │     │ web_events.json │     │ deploy.yml      │
@@ -85,8 +85,8 @@ Add these records (replace `your-vps-ip` with your Hetzner IP):
 
 | Type | Name | Content | Proxy | TTL |
 |------|------|---------|-------|-----|
-| A | @ | your-vps-ip | ✅ Proxied | Auto |
-| A | www | your-vps-ip | ✅ Proxied | Auto |
+| A | @ | 168.119.102.249 | ✅ Proxied | Auto |
+| A | www | 168.119.102.249 | ✅ Proxied | Auto |
 
 ### SSL/TLS Settings
 

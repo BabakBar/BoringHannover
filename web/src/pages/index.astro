@@ -4,20 +4,26 @@ import Header from '../components/Header.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import DateHeader from '../components/DateHeader.astro';
 import MovieCard from '../components/MovieCard.astro';
-import ConcertCard from '../components/ConcertCard.astro';
+import EventDayGroup from '../components/EventDayGroup.astro';
 import Footer from '../components/Footer.astro';
 
 // Load event data (from web_events.json or fallback to mock)
 import { loadEventData } from '../data/loader';
+import { groupEventsByDate, sliceEventGroups } from '../utils/groupEvents';
 
 const eventData = loadEventData();
 const { meta, movies, concerts } = eventData;
 
-// Progressive disclosure: show first 15, hide the rest
-const VISIBLE_COUNT = 15;
-const visibleConcerts = concerts.slice(0, VISIBLE_COUNT);
-const overflowConcerts = concerts.slice(VISIBLE_COUNT);
-const hasOverflow = overflowConcerts.length > 0;
+// Group events by date for timeline display
+const eventGroups = groupEventsByDate(concerts);
+
+// Smart progressive disclosure: complete day groups up to ~15 events
+const VISIBLE_TARGET = 15;
+const { visible: visibleGroups, overflow: overflowGroups } = sliceEventGroups(eventGroups, VISIBLE_TARGET);
+const hasOverflow = overflowGroups.length > 0;
+
+// Calculate overflow event count for button text
+const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.length, 0);
 ---
 
 <Base title="boringhannover - What's on in Hannover">
@@ -51,44 +57,34 @@ const hasOverflow = overflowConcerts.length > 0;
     )}
   </section>
 
-  <!-- Concerts Section -->
+  <!-- Events Section (Timeline) -->
   <section class="mb-10">
     <SectionHeader title="Events On The Radar" />
 
-    <!-- Always visible concerts (first 15) -->
-    <div id="concerts-visible">
-      {visibleConcerts.map((concert) => (
-        <ConcertCard
-          title={concert.title}
-          date={concert.date}
-          day={concert.day}
-          time={concert.time}
-          venue={concert.venue}
-          url={concert.url}
-          eventType={concert.eventType}
-          genre={concert.genre}
-          description={concert.description}
-          status={concert.status}
+    <!-- Visible event groups -->
+    <div id="events-visible" class="events-timeline">
+      {visibleGroups.map((group) => (
+        <EventDayGroup
+          day={group.day}
+          dayNum={group.dayNum}
+          month={group.month}
+          year={group.year}
+          events={group.events}
         />
       ))}
     </div>
 
-    <!-- Overflow concerts (hidden by default) -->
+    <!-- Overflow event groups (hidden by default) -->
     {hasOverflow && (
-      <div id="concerts-overflow" class="concerts-overflow" aria-hidden="true">
-        {overflowConcerts.map((concert, index) => (
-          <div class="overflow-item" style={`--stagger-index: ${index}`}>
-            <ConcertCard
-              title={concert.title}
-              date={concert.date}
-              day={concert.day}
-              time={concert.time}
-              venue={concert.venue}
-              url={concert.url}
-              eventType={concert.eventType}
-              genre={concert.genre}
-              description={concert.description}
-              status={concert.status}
+      <div id="events-overflow" class="events-timeline events-overflow" aria-hidden="true">
+        {overflowGroups.map((group, groupIndex) => (
+          <div class="overflow-group" style={`--group-index: ${groupIndex}`}>
+            <EventDayGroup
+              day={group.day}
+              dayNum={group.dayNum}
+              month={group.month}
+              year={group.year}
+              events={group.events}
             />
           </div>
         ))}
@@ -102,16 +98,16 @@ const hasOverflow = overflowConcerts.length > 0;
         type="button"
         class="radar-toggle"
         aria-expanded="false"
-        aria-controls="concerts-overflow"
+        aria-controls="events-overflow"
       >
-        <span class="toggle-dots" aria-hidden="true">•••</span>
-        <span class="toggle-text">+{overflowConcerts.length} MORE</span>
-        <span class="toggle-dots" aria-hidden="true">•••</span>
+        <span class="toggle-dots" aria-hidden="true">■ ■ ■</span>
+        <span class="toggle-text">+{overflowEventCount} MORE</span>
+        <span class="toggle-dots" aria-hidden="true">■ ■ ■</span>
       </button>
     )}
 
     {concerts.length === 0 && (
-      <p class="text-text-muted text-sm py-4">No upcoming concerts.</p>
+      <p class="text-text-muted text-sm py-4">No upcoming events.</p>
     )}
   </section>
 
@@ -121,7 +117,7 @@ const hasOverflow = overflowConcerts.length > 0;
 <script>
   // Radar Toggle - Progressive Disclosure
   const toggle = document.getElementById('radar-toggle');
-  const overflow = document.getElementById('concerts-overflow');
+  const overflow = document.getElementById('events-overflow');
   const toggleText = toggle?.querySelector('.toggle-text');
 
   if (toggle && overflow && toggleText) {
@@ -130,14 +126,7 @@ const hasOverflow = overflowConcerts.length > 0;
 
     toggle.addEventListener('click', () => {
       const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-
-      if (isExpanded) {
-        // Collapse
-        collapse();
-      } else {
-        // Expand
-        expand();
-      }
+      isExpanded ? collapse() : expand();
     });
 
     function expand() {
@@ -146,10 +135,8 @@ const hasOverflow = overflowConcerts.length > 0;
       overflow.classList.add('is-visible');
 
       if (prefersReducedMotion) {
-        // Instant show for reduced motion
         overflow.classList.add('is-expanded');
       } else {
-        // Trigger reflow for animation
         void overflow.offsetHeight;
         overflow.classList.add('is-expanded');
       }
@@ -163,11 +150,9 @@ const hasOverflow = overflowConcerts.length > 0;
       toggleText.textContent = originalText;
 
       if (prefersReducedMotion) {
-        // Instant hide for reduced motion
         overflow.classList.remove('is-expanded', 'is-visible');
         scrollToToggle();
       } else {
-        // Animate collapse
         overflow.classList.add('is-collapsing');
         overflow.classList.remove('is-expanded');
 
@@ -180,11 +165,9 @@ const hasOverflow = overflowConcerts.length > 0;
     }
 
     function scrollToToggle() {
-      // Only scroll if user has scrolled past the toggle button
       const toggleRect = toggle.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
 
-      // If toggle is above viewport (user scrolled down past it)
       if (toggleRect.top < 0 || toggleRect.bottom > viewportHeight) {
         toggle.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
       }
