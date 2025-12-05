@@ -23,10 +23,7 @@ from kinoweek.sources import get_all_sources
 if TYPE_CHECKING:
     from kinoweek.models import Event
 
-__all__ = [
-    "fetch_all_events",
-    "get_all_events",  # Backward compatibility alias
-]
+__all__ = ["fetch_all_events"]
 
 logger = logging.getLogger(__name__)
 
@@ -119,7 +116,3 @@ def fetch_all_events() -> dict[str, list[Event]]:
         "movies_this_week": movies_this_week,
         "big_events_radar": big_events_radar,
     }
-
-
-# Backward compatibility alias
-get_all_events = fetch_all_events

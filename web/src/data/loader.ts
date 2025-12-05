@@ -28,16 +28,14 @@ export function loadEventData(): EventData {
       if (fs.existsSync(jsonPath)) {
         const content = fs.readFileSync(jsonPath, 'utf-8');
         const data = JSON.parse(content) as EventData;
-        console.log(`[KinoWeek] Loaded events from ${jsonPath}`);
         return data;
       }
-    } catch (error) {
-      console.warn(`[KinoWeek] Failed to load ${jsonPath}:`, error);
+    } catch {
+      // Failed to load from this path, try next
     }
   }
 
   // Fallback to mock data
-  console.log('[KinoWeek] Using mock data (no web_events.json found)');
   return mockData;
 }
 

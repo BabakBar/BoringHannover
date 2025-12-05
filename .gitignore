@@ -209,6 +209,9 @@ __marimo__/
 # KinoWeek - Local output and testing files
 output/
 backup/
+
+# Internal docs (not for public)
+docs/extra/
 schedule.json
 page_content.html
 kinoweek.log

@@ -153,10 +153,6 @@ def send_telegram_message(message: str) -> bool:
         return False
 
 
-# Backward compatibility alias
-send_telegram = send_telegram_message
-
-
 # =============================================================================
 # File Output
 # =============================================================================
