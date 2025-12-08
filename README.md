@@ -50,5 +50,5 @@ Stateless. No database. Runs weekly. Filters noise. Ships fast.
 
 ---
 
-**Web:** https://www.boringhannover.de
+**Web:** [boringhannover.de](https://www.boringhannover.de)
 **License:** MIT
