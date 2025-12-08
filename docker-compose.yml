@@ -1,5 +1,5 @@
 # =============================================================================
-# KinoWeek Docker Compose
+# BoringHannover Docker Compose
 # Local development and testing configuration
 # =============================================================================
 
@@ -11,7 +11,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: kinoweek-backend
+    container_name: boringhannover-backend
     environment:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID:-}
@@ -20,10 +20,10 @@ services:
       # Persist output files
       - ./output:/app/output
     # For local development, run in local mode (no Telegram)
-    command: ["python", "-m", "kinoweek.main", "--local"]
+    command: ["python", "-m", "boringhannover.main", "--local"]
     restart: "no"
     networks:
-      - kinoweek-net
+      - boringhannover-net
 
   # ---------------------------------------------------------------------------
   # Backend (Production mode): Sends to Telegram
@@ -33,7 +33,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: kinoweek-backend-prod
+    container_name: boringhannover-backend-prod
     environment:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
@@ -41,10 +41,10 @@ services:
     volumes:
       - ./output:/app/output
     # Production mode - requires Telegram credentials
-    command: ["python", "-m", "kinoweek.main"]
+    command: ["python", "-m", "boringhannover.main"]
     restart: "no"
     networks:
-      - kinoweek-net
+      - boringhannover-net
     profiles:
       - production
 
@@ -55,7 +55,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.web
-    container_name: kinoweek-frontend
+    container_name: boringhannover-frontend
     ports:
       - "8080:8080"
     restart: unless-stopped
@@ -65,7 +65,7 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - kinoweek-net
+      - boringhannover-net
 
   # ---------------------------------------------------------------------------
   # Development: Frontend with hot reload (optional)
@@ -73,7 +73,7 @@ services:
   # ---------------------------------------------------------------------------
   frontend-dev:
     image: node:22-alpine
-    container_name: kinoweek-frontend-dev
+    container_name: boringhannover-frontend-dev
     working_dir: /app
     volumes:
       - ./web:/app
@@ -84,10 +84,10 @@ services:
     environment:
       - NODE_ENV=development
     networks:
-      - kinoweek-net
+      - boringhannover-net
     profiles:
       - dev
 
 networks:
-  kinoweek-net:
+  boringhannover-net:
     driver: bridge

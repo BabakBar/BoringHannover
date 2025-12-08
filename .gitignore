@@ -206,7 +206,7 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-# KinoWeek - Local output and testing files
+# BoringHannover - Local output and testing files
 output/
 backup/
 
@@ -214,10 +214,12 @@ backup/
 docs/extra/
 schedule.json
 page_content.html
-kinoweek.log
+boringhannover.log
 
 # But track web/output/web_events.json for frontend data pipeline
 !web/output/
 web/output/*
 !web/output/web_events.json
 !web/output/.gitkeep
+src/.DS_Store
+src/boringhannover/.DS_Store

@@ -66,7 +66,7 @@ conftest.py
 # Output (runtime generated)
 output/
 *.log
-kinoweek.log
+boringhannover.log
 
 # Node (frontend - when building backend)
 web/node_modules/

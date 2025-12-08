@@ -1,5 +1,5 @@
 # =============================================================================
-# KinoWeek Frontend Dockerfile
+# BoringHannover Frontend Dockerfile
 # Multi-stage build for Astro static site with nginx
 # =============================================================================
 
@@ -59,7 +59,7 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
 CMD ["nginx", "-g", "daemon off;"]
 
 # Labels for container metadata
-LABEL org.opencontainers.image.title="KinoWeek Frontend" \
-      org.opencontainers.image.description="Astro static site for KinoWeek events" \
-      org.opencontainers.image.source="https://github.com/BabakBar/KinoWeek" \
+LABEL org.opencontainers.image.title="BoringHannover Frontend" \
+      org.opencontainers.image.description="Astro static site for BoringHannover events" \
+      org.opencontainers.image.source="https://github.com/BabakBar/BoringHannover" \
       org.opencontainers.image.licenses="MIT"

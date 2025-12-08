@@ -1,5 +1,5 @@
 # =============================================================================
-# KinoWeek Backend Dockerfile
+# BoringHannover Backend Dockerfile
 # Multi-stage build for Python 3.13 with uv package manager
 # =============================================================================
 
@@ -32,8 +32,8 @@ RUN uv sync --frozen --no-dev
 FROM python:3.13-slim-bookworm AS runtime
 
 # Security: Create non-root user
-RUN groupadd --gid 1000 kinoweek && \
-    useradd --uid 1000 --gid kinoweek --shell /bin/bash --create-home kinoweek
+RUN groupadd --gid 1000 boringhannover && \
+    useradd --uid 1000 --gid boringhannover --shell /bin/bash --create-home boringhannover
 
 # Install runtime dependencies (ca-certificates for HTTPS)
 RUN apt-get update && \
@@ -50,13 +50,13 @@ COPY --from=builder /app/.venv /app/.venv
 COPY --from=builder /app/src /app/src
 
 # Copy additional files needed at runtime
-COPY src/kinoweek/sources.toml /app/src/kinoweek/sources.toml
+COPY src/boringhannover/sources.toml /app/src/boringhannover/sources.toml
 
 # Create output directory with correct permissions
-RUN mkdir -p /app/output && chown -R kinoweek:kinoweek /app
+RUN mkdir -p /app/output && chown -R boringhannover:boringhannover /app
 
 # Switch to non-root user
-USER kinoweek
+USER boringhannover
 
 # Set environment variables
 ENV PATH="/app/.venv/bin:$PATH" \
@@ -67,14 +67,14 @@ ENV PATH="/app/.venv/bin:$PATH" \
 
 # Health check - verify Python and package are accessible
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import kinoweek; print('OK')" || exit 1
+    CMD python -c "import boringhannover; print('OK')" || exit 1
 
 # Default command - run the scraper
 # For cron execution, this will be overridden
-CMD ["python", "-m", "kinoweek.main"]
+CMD ["python", "-m", "boringhannover.main"]
 
 # Labels for container metadata
-LABEL org.opencontainers.image.title="KinoWeek Backend" \
+LABEL org.opencontainers.image.title="BoringHannover Backend" \
       org.opencontainers.image.description="Weekly event aggregator for Hannover" \
-      org.opencontainers.image.source="https://github.com/BabakBar/KinoWeek" \
+      org.opencontainers.image.source="https://github.com/BabakBar/BoringHannover" \
       org.opencontainers.image.licenses="MIT"
