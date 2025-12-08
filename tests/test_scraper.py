@@ -1,4 +1,4 @@
-"""Tests for KinoWeek scraper functionality.
+"""Tests for BoringHannover scraper functionality.
 
 Tests cover the core modules:
 - models: Event dataclass and methods
@@ -14,11 +14,11 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from kinoweek.aggregator import fetch_all_events
-from kinoweek.models import Event
-from kinoweek.notifier import format_message, notify, send_telegram_message
-from kinoweek.sources.cinema.astor import AstorSource as AstorMovieScraper
-from kinoweek.sources.concerts.zag_arena import ZAGArenaSource as ConcertVenueScraper
+from boringhannover.aggregator import fetch_all_events
+from boringhannover.models import Event
+from boringhannover.notifier import format_message, notify, send_telegram_message
+from boringhannover.sources.cinema.astor import AstorSource as AstorMovieScraper
+from boringhannover.sources.concerts.zag_arena import ZAGArenaSource as ConcertVenueScraper
 
 
 # =============================================================================
@@ -132,7 +132,7 @@ class TestAstorMovieScraper:
         scraper = AstorMovieScraper()
         assert scraper.source_name == "Astor Grand Cinema"
 
-    @patch("kinoweek.sources.base.httpx.Client")
+    @patch("boringhannover.sources.base.httpx.Client")
     def test_fetch_returns_list(self, mock_client: Mock) -> None:
         """Test that fetch returns a list of events."""
         # Mock API response
@@ -151,7 +151,7 @@ class TestAstorMovieScraper:
 
         assert isinstance(result, list)
 
-    @patch("kinoweek.sources.base.httpx.Client")
+    @patch("boringhannover.sources.base.httpx.Client")
     def test_fetch_parses_movies(self, mock_client: Mock) -> None:
         """Test that fetch correctly parses movie data."""
         mock_response = Mock()
@@ -188,7 +188,7 @@ class TestAstorMovieScraper:
         assert result[0].category == "movie"
         assert result[0].metadata["duration"] == 120
 
-    @patch("kinoweek.sources.base.httpx.Client")
+    @patch("boringhannover.sources.base.httpx.Client")
     def test_fetch_filters_german_dubs(self, mock_client: Mock) -> None:
         """Test that German dubbed movies are filtered out."""
         mock_response = Mock()
@@ -230,7 +230,7 @@ class TestConcertVenueScraper:
 class TestFetchAllEvents:
     """Tests for the event aggregation function."""
 
-    @patch("kinoweek.aggregator.get_all_sources")
+    @patch("boringhannover.aggregator.get_all_sources")
     def test_returns_categorized_dict(
         self,
         mock_get_sources: Mock,
@@ -355,7 +355,7 @@ class TestFormatMessage:
 class TestSendTelegram:
     """Tests for Telegram notification functionality."""
 
-    @patch("kinoweek.notifier.httpx.Client")
+    @patch("boringhannover.notifier.httpx.Client")
     @patch.dict(
         "os.environ",
         {"TELEGRAM_BOT_TOKEN": "test_token", "TELEGRAM_CHAT_ID": "test_chat"},
@@ -373,7 +373,7 @@ class TestSendTelegram:
         mock_client.return_value.__enter__.return_value.post.assert_called_once()
         assert result is True
 
-    @patch("kinoweek.notifier.httpx.Client")
+    @patch("boringhannover.notifier.httpx.Client")
     @patch.dict(
         "os.environ",
         {"TELEGRAM_BOT_TOKEN": "test_token", "TELEGRAM_CHAT_ID": "test_chat"},
@@ -389,7 +389,7 @@ class TestSendTelegram:
         result = send_telegram_message("Test message")
         assert result is False
 
-    @patch("kinoweek.notifier.httpx.Client")
+    @patch("boringhannover.notifier.httpx.Client")
     @patch.dict(
         "os.environ",
         {"TELEGRAM_BOT_TOKEN": "test_token", "TELEGRAM_CHAT_ID": "test_chat"},
@@ -415,7 +415,7 @@ class TestSendTelegram:
 class TestNotify:
     """Tests for the main notify function."""
 
-    @patch("kinoweek.notifier.save_to_file")
+    @patch("boringhannover.notifier.save_to_file")
     def test_notify_local_mode(self, mock_save: Mock, capsys) -> None:
         """Test notify in local mode saves to file."""
         test_data = {
@@ -428,8 +428,8 @@ class TestNotify:
         assert result is True
         mock_save.assert_called_once()
 
-    @patch("kinoweek.notifier.send_telegram_message")
-    @patch("kinoweek.notifier.save_to_file")
+    @patch("boringhannover.notifier.send_telegram_message")
+    @patch("boringhannover.notifier.save_to_file")
     def test_notify_production_mode(
         self, mock_save: Mock, mock_send: Mock
     ) -> None:
@@ -459,13 +459,13 @@ class TestIntegration:
         "os.environ",
         {"TELEGRAM_BOT_TOKEN": "test_token", "TELEGRAM_CHAT_ID": "test_chat"},
     )
-    @patch("kinoweek.main.notify")
-    @patch("kinoweek.main.fetch_all_events")
+    @patch("boringhannover.main.notify")
+    @patch("boringhannover.main.fetch_all_events")
     def test_full_workflow(
         self, mock_fetch: Mock, mock_notify: Mock
     ) -> None:
         """Test the complete scraping and notification workflow."""
-        from kinoweek.main import run
+        from boringhannover.main import run
 
         mock_fetch.return_value = {
             "movies_this_week": [],
