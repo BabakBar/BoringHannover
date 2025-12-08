@@ -41,6 +41,7 @@ htmlcov/
 .tox/
 .nox/
 .coverage
+docs/
 .coverage.*
 .cache
 nosetests.xml
@@ -223,3 +224,4 @@ web/output/*
 !web/output/.gitkeep
 src/.DS_Store
 src/boringhannover/.DS_Store
+docs/
