@@ -1,5 +1,5 @@
 # =============================================================================
-# KinoWeek CI Pipeline
+# BoringHannover CI Pipeline
 # Runs tests, linting, and type checking on every PR and push
 # =============================================================================
 
@@ -111,7 +111,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: false
-          tags: kinoweek-backend:test
+          tags: boringhannover-backend:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -121,6 +121,6 @@ jobs:
           context: .
           file: ./Dockerfile.web
           push: false
-          tags: kinoweek-frontend:test
+          tags: boringhannover-frontend:test
           cache-from: type=gha
           cache-to: type=gha,mode=max

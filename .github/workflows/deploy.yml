@@ -1,5 +1,5 @@
 # =============================================================================
-# KinoWeek Deploy Pipeline
+# BoringHannover Deploy Pipeline
 # Builds and pushes Docker images, triggers Coolify deployment
 # =============================================================================
 
