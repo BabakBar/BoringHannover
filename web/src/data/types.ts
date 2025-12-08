@@ -1,4 +1,4 @@
-// Type definitions for KinoWeek event data
+// Type definitions for BoringHannover event data
 
 export interface Movie {
   title: string;

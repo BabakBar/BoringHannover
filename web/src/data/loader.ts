@@ -1,4 +1,4 @@
-// Data loader for KinoWeek events
+// Data loader for BoringHannover events
 // Loads from web_events.json if available, falls back to mock data
 
 import type { EventData } from './types';
