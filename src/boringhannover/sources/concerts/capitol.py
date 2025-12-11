@@ -7,10 +7,10 @@ Uses HC-Kartenleger card system selectors for HTML parsing (same as Swiss Life H
 from __future__ import annotations
 
 import logging
-from datetime import datetime
 from typing import TYPE_CHECKING, ClassVar
 
 from bs4 import BeautifulSoup
+
 
 if TYPE_CHECKING:
     from bs4 import Tag
@@ -22,6 +22,7 @@ from boringhannover.sources.base import (
     parse_venue_date,
     register_source,
 )
+
 
 __all__ = ["CapitolSource"]
 

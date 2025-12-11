@@ -16,12 +16,14 @@ from typing import ClassVar
 
 from bs4 import BeautifulSoup
 
+from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
 from boringhannover.sources.base import (
     BaseSource,
     create_http_client,
     register_source,
 )
+
 
 __all__ = ["MusikZentrumSource"]
 
@@ -146,7 +148,6 @@ class MusikZentrumSource(BaseSource):
 
             # Extract location details
             location = item.get("location", {})
-            venue_name = location.get("name", self.source_name)
             address_obj = location.get("address", {})
             address = self._format_address(address_obj)
 
@@ -196,7 +197,9 @@ class MusikZentrumSource(BaseSource):
             try:
                 # Remove timezone for simpler parsing
                 clean_str = re.sub(r"[+-]\d{2}:\d{2}$", "", date_str)
-                return datetime.strptime(clean_str, fmt.replace("%z", ""))
+                return datetime.strptime(clean_str, fmt.replace("%z", "")).replace(
+                    tzinfo=BERLIN_TZ
+                )
             except ValueError:
                 continue
 

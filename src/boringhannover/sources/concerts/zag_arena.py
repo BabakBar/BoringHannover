@@ -14,6 +14,8 @@ from typing import TYPE_CHECKING, ClassVar
 from bs4 import BeautifulSoup
 
 from boringhannover.config import GERMAN_MONTH_MAP
+from boringhannover.constants import BERLIN_TZ
+
 
 if TYPE_CHECKING:
     from bs4 import Tag
@@ -24,6 +26,7 @@ from boringhannover.sources.base import (
     parse_german_date,
     register_source,
 )
+
 
 __all__ = ["ZAGArenaSource"]
 
@@ -187,10 +190,10 @@ class ZAGArenaSource(BaseSource):
                     month_str = month_elem.get_text(strip=True).rstrip(".")
                     month = GERMAN_MONTH_MAP.get(month_str.lower(), 1)
                     # Use next year if month is before current month
-                    year = datetime.now().year
-                    if month < datetime.now().month:
+                    year = datetime.now(BERLIN_TZ).year
+                    if month < datetime.now(BERLIN_TZ).month:
                         year += 1
-                    event_date = datetime(year, month, day, 20, 0)
+                    event_date = datetime(year, month, day, 20, 0, tzinfo=BERLIN_TZ)
                 except (ValueError, TypeError):
                     pass
 

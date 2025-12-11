@@ -18,15 +18,18 @@ from typing import TYPE_CHECKING, ClassVar
 
 from bs4 import BeautifulSoup
 
+
 if TYPE_CHECKING:
     from bs4 import Tag
 
+from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
 from boringhannover.sources.base import (
     BaseSource,
     create_http_client,
     register_source,
 )
+
 
 __all__ = ["FaustSource"]
 
@@ -35,9 +38,9 @@ logger = logging.getLogger(__name__)
 # Categories to fetch with their event types
 # Format: (rub parameter, event_type, requires_english_filter)
 FAUST_CATEGORIES: list[tuple[int, str, bool]] = [
-    (2, "concert", False),    # Livemusik - all events
-    (1, "party", False),      # Party - all events (music, no language)
-    (4, "theater", True),     # Bühne - English only
+    (2, "concert", False),  # Livemusik - all events
+    (1, "party", False),  # Party - all events (music, no language)
+    (4, "theater", True),  # Bühne - English only
 ]
 
 # Keywords that indicate English language content
@@ -114,7 +117,9 @@ class FaustSource(BaseSource):
                     all_events.extend(events)
                     logger.debug(
                         "Category rub=%d (%s): found %d events",
-                        rub, event_type, len(events)
+                        rub,
+                        event_type,
+                        len(events),
                     )
 
                     # Small delay between category requests
@@ -228,9 +233,7 @@ class FaustSource(BaseSource):
             if requires_english:
                 full_text = " ".join(lines).lower()
                 if not self._is_english_event(title, full_text):
-                    logger.debug(
-                        "Skipping non-English Bühne event: %s", title
-                    )
+                    logger.debug("Skipping non-English Bühne event: %s", title)
                     return None
 
             # Extract image URL if available
@@ -295,13 +298,11 @@ class FaustSource(BaseSource):
             day, month, year = match.groups()
             # Convert 2-digit year to 4-digit (25 -> 2025)
             full_year = 2000 + int(year)
-            return datetime(full_year, int(month), int(day), 20, 0)
+            return datetime(full_year, int(month), int(day), 20, 0, tzinfo=BERLIN_TZ)
         except (ValueError, TypeError):
             return None
 
-    def _parse_event_content(
-        self, lines: list[str]
-    ) -> tuple[str, str, str, str]:
+    def _parse_event_content(self, lines: list[str]) -> tuple[str, str, str, str]:
         """Parse event details from text content.
 
         Typical structure:

@@ -20,20 +20,19 @@ import html
 import json
 import logging
 import re
-from datetime import datetime, timedelta
-from typing import TYPE_CHECKING, Any, ClassVar
+from datetime import datetime
+from typing import Any, ClassVar
 
 from bs4 import BeautifulSoup
 
-if TYPE_CHECKING:
-    pass
-
+from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
 from boringhannover.sources.base import (
     BaseSource,
     create_http_client,
     register_source,
 )
+
 
 __all__ = ["ErhardtCafeSource"]
 
@@ -44,7 +43,7 @@ WIX_EVENTS_APP_ID = "140603ad-af8d-84a5-2c80-a0f60cb47351"
 
 # Google Calendar events - loaded via iframe, not scrape-able
 # Update this list periodically from https://www.erhardt.cafe/events
-# Format: (year, month, day, hour, minute, title, event_type)
+# Format: (year, month, day, hour, minute, title, event_type)  # noqa: ERA001
 # Last updated: 2025-11-23
 GOOGLE_CALENDAR_EVENTS: list[tuple[int, int, int, int, int, str, str]] = [
     # November 2025
@@ -149,10 +148,10 @@ class ErhardtCafeSource(BaseSource):
             List of Event objects from the static calendar data.
         """
         events: list[Event] = []
-        now = datetime.now()
+        now = datetime.now(BERLIN_TZ)
 
         for year, month, day, hour, minute, title, event_type in GOOGLE_CALENDAR_EVENTS:
-            event_date = datetime(year, month, day, hour, minute)
+            event_date = datetime(year, month, day, hour, minute, tzinfo=BERLIN_TZ)
 
             # Skip past events
             if event_date < now:
@@ -175,9 +174,7 @@ class ErhardtCafeSource(BaseSource):
 
         return events
 
-    def _extract_wix_events(
-        self, soup: BeautifulSoup, raw_html: str
-    ) -> list[Event]:
+    def _extract_wix_events(self, soup: BeautifulSoup, raw_html: str) -> list[Event]:
         """Extract events from Wix Events widget data.
 
         Wix embeds event data in <script type="application/json"> tags.
@@ -272,7 +269,7 @@ class ErhardtCafeSource(BaseSource):
                 return None
 
             # Skip past events
-            if event_date < datetime.now():
+            if event_date < datetime.now(BERLIN_TZ):
                 return None
 
             # Get formatted time from scheduling

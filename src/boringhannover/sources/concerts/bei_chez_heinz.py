@@ -14,16 +14,19 @@ from typing import TYPE_CHECKING, ClassVar
 
 from bs4 import BeautifulSoup
 
+
 if TYPE_CHECKING:
     from bs4 import Tag
 
 from boringhannover.config import GERMAN_MONTH_MAP
+from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
 from boringhannover.sources.base import (
     BaseSource,
     create_http_client,
     register_source,
 )
+
 
 __all__ = ["BeiChezHeinzSource"]
 
@@ -151,7 +154,9 @@ class BeiChezHeinzSource(BaseSource):
 
             # Get info section for time and price
             info_elem = pane.find("div", class_="bch-event-info")
-            info_text = info_elem.get_text(separator=" | ", strip=True) if info_elem else ""
+            info_text = (
+                info_elem.get_text(separator=" | ", strip=True) if info_elem else ""
+            )
 
             # Parse time from info text
             time_str = "20:00"
@@ -217,7 +222,7 @@ class BeiChezHeinzSource(BaseSource):
                 month = GERMAN_MONTH_MAP.get(month_str, 0)
                 if month:
                     try:
-                        event_date = datetime(year, month, day, 20, 0)
+                        event_date = datetime(year, month, day, 20, 0, tzinfo=BERLIN_TZ)
                     except ValueError:
                         pass
 
@@ -258,7 +263,7 @@ class BeiChezHeinzSource(BaseSource):
 
         try:
             year, month, day = match.groups()
-            return datetime(int(year), int(month), int(day), 20, 0)
+            return datetime(int(year), int(month), int(day), 20, 0, tzinfo=BERLIN_TZ)
         except (ValueError, TypeError):
             return None
 

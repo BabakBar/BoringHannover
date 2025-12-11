@@ -14,12 +14,14 @@ from typing import ClassVar
 
 from bs4 import BeautifulSoup
 
+from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
 from boringhannover.sources.base import (
     BaseSource,
     create_http_client,
     register_source,
 )
+
 
 __all__ = ["PavillonSource"]
 
@@ -178,7 +180,7 @@ class PavillonSource(BaseSource):
             event_url = href if href.startswith("http") else f"{self.BASE_URL}{href}"
 
             # Parse date and time from text
-            # Format: "Sa | 22.11.2025 | 18:30 Uhr"
+            # Format: "Sa | 22.11.2025 | 18:30 Uhr"  # noqa: ERA001
             event_date, time_str = self._parse_date_time(text)
             if not event_date:
                 return None
@@ -228,7 +230,9 @@ class PavillonSource(BaseSource):
         if date_match:
             day, month, year = date_match.groups()
             try:
-                event_date = datetime(int(year), int(month), int(day), 20, 0)
+                event_date = datetime(
+                    int(year), int(month), int(day), 20, 0, tzinfo=BERLIN_TZ
+                )
             except ValueError:
                 pass
 
@@ -267,7 +271,14 @@ class PavillonSource(BaseSource):
                 continue
             if found_time and part and part != "Tickets":
                 # Skip category names
-                if part in ("Konzert", "Festival", "Party", "Lesung", "Comedy", "Börse"):
+                if part in (
+                    "Konzert",
+                    "Festival",
+                    "Party",
+                    "Lesung",
+                    "Comedy",
+                    "Börse",
+                ):
                     continue
                 # Skip dates and short items
                 if re.match(r"^\d{1,2}\.\d{1,2}\.\d{4}$", part):
