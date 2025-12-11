@@ -15,10 +15,13 @@ from unittest.mock import Mock, patch
 import pytest
 
 from boringhannover.aggregator import fetch_all_events
+from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
 from boringhannover.notifier import format_message, notify, send_telegram_message
 from boringhannover.sources.cinema.astor import AstorSource as AstorMovieScraper
-from boringhannover.sources.concerts.zag_arena import ZAGArenaSource as ConcertVenueScraper
+from boringhannover.sources.concerts.zag_arena import (
+    ZAGArenaSource as ConcertVenueScraper,
+)
 
 
 # =============================================================================
@@ -33,7 +36,7 @@ class TestEventModel:
         """Test basic event creation with required fields."""
         event = Event(
             title="Test Movie",
-            date=datetime.now(),
+            date=datetime.now(BERLIN_TZ),
             venue="Test Venue",
             url="https://example.com",
             category="movie",
@@ -48,7 +51,7 @@ class TestEventModel:
         metadata = {"duration": 120, "rating": 12}
         event = Event(
             title="Test Movie",
-            date=datetime.now(),
+            date=datetime.now(BERLIN_TZ),
             venue="Test Venue",
             url="https://example.com",
             category="movie",
@@ -61,12 +64,12 @@ class TestEventModel:
         """Test short date formatting."""
         event = Event(
             title="Test",
-            date=datetime(2024, 11, 24, 19, 30),
+            date=datetime(2024, 11, 24, 19, 30, tzinfo=BERLIN_TZ),
             venue="Venue",
             url="https://example.com",
             category="movie",
         )
-        # Format: "Sun 24.11."
+        # Format: "Sun 24.11."  # noqa: ERA001
         result = event.format_date_short()
         assert "24.11." in result
 
@@ -74,7 +77,7 @@ class TestEventModel:
         """Test time formatting."""
         event = Event(
             title="Test",
-            date=datetime(2024, 11, 24, 19, 30),
+            date=datetime(2024, 11, 24, 19, 30, tzinfo=BERLIN_TZ),
             venue="Venue",
             url="https://example.com",
             category="movie",
@@ -84,7 +87,7 @@ class TestEventModel:
 
     def test_event_is_this_week(self) -> None:
         """Test this week detection."""
-        today = datetime.now()
+        today = datetime.now(BERLIN_TZ)
         tomorrow = today + timedelta(days=1)
         next_month = today + timedelta(days=30)
 
@@ -106,12 +109,24 @@ class TestEventModel:
         assert event_this_week.is_this_week() is True
         assert event_next_month.is_this_week() is False
 
+    def test_event_normalizes_naive_datetime_to_berlin_tz(self) -> None:
+        """Naive datetimes are treated as Europe/Berlin."""
+        naive = datetime(2025, 12, 12, 19, 30)
+        event = Event(
+            title="Naive Date",
+            date=naive,
+            venue="Venue",
+            url="https://example.com",
+            category="movie",
+        )
+        assert event.date.tzinfo is BERLIN_TZ
+
     def test_event_valid_categories(self) -> None:
         """Test that valid categories work correctly."""
         for category in ("movie", "culture", "radar"):
             event = Event(
                 title="Test",
-                date=datetime.now(),
+                date=datetime.now(BERLIN_TZ),
                 venue="Venue",
                 url="https://example.com",
                 category=category,
@@ -142,9 +157,7 @@ class TestAstorMovieScraper:
             "movies": [],
             "performances": [],
         }
-        mock_client.return_value.__enter__.return_value.get.return_value = (
-            mock_response
-        )
+        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
 
         scraper = AstorMovieScraper()
         result = scraper.fetch()
@@ -176,9 +189,7 @@ class TestAstorMovieScraper:
                 }
             ],
         }
-        mock_client.return_value.__enter__.return_value.get.return_value = (
-            mock_response
-        )
+        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
 
         scraper = AstorMovieScraper()
         result = scraper.fetch()
@@ -203,9 +214,7 @@ class TestAstorMovieScraper:
                 }
             ],
         }
-        mock_client.return_value.__enter__.return_value.get.return_value = (
-            mock_response
-        )
+        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
 
         scraper = AstorMovieScraper()
         result = scraper.fetch()
@@ -249,6 +258,44 @@ class TestFetchAllEvents:
         assert isinstance(result["movies_this_week"], list)
         assert isinstance(result["big_events_radar"], list)
 
+    @patch("boringhannover.aggregator.get_all_sources")
+    def test_handles_naive_datetimes_from_sources(self, mock_get_sources: Mock) -> None:
+        """Sources may emit naive datetimes; aggregation should not crash."""
+        today = datetime.now(BERLIN_TZ)
+
+        movie_event = Event(
+            title="Movie",
+            date=(today + timedelta(days=1)).replace(tzinfo=None),
+            venue="Venue",
+            url="https://example.com",
+            category="movie",
+        )
+        radar_event = Event(
+            title="Concert",
+            date=(today + timedelta(days=8)).replace(tzinfo=None),
+            venue="Venue",
+            url="https://example.com",
+            category="radar",
+        )
+
+        movie_source = Mock()
+        movie_source.return_value.enabled = True
+        movie_source.return_value.fetch.return_value = [movie_event]
+
+        radar_source = Mock()
+        radar_source.return_value.enabled = True
+        radar_source.return_value.fetch.return_value = [radar_event]
+
+        mock_get_sources.return_value = {
+            "movie": movie_source,
+            "radar": radar_source,
+        }
+
+        result = fetch_all_events()
+
+        assert len(result["movies_this_week"]) == 1
+        assert len(result["big_events_radar"]) == 1
+
 
 # =============================================================================
 # Notifier Tests
@@ -282,7 +329,7 @@ class TestFormatMessage:
         """Test formatting with movie events."""
         movie = Event(
             title="Inception",
-            date=datetime(2024, 11, 24, 19, 30),
+            date=datetime(2024, 11, 24, 19, 30, tzinfo=BERLIN_TZ),
             venue="Astor Grand Cinema",
             url="https://example.com",
             category="movie",
@@ -302,7 +349,7 @@ class TestFormatMessage:
         """Test formatting with concert events."""
         concert = Event(
             title="Rock Concert",
-            date=datetime(2024, 12, 15, 20, 0),
+            date=datetime(2024, 12, 15, 20, 0, tzinfo=BERLIN_TZ),
             venue="ZAG Arena",
             url="https://example.com",
             category="radar",
@@ -335,7 +382,7 @@ class TestFormatMessage:
         movies = [
             Event(
                 title=f"Movie {i}" * 10,
-                date=datetime(2024, 11, 24, 19, 30),
+                date=datetime(2024, 11, 24, 19, 30, tzinfo=BERLIN_TZ),
                 venue="Astor",
                 url="https://example.com",
                 category="movie",
@@ -416,7 +463,7 @@ class TestNotify:
     """Tests for the main notify function."""
 
     @patch("boringhannover.notifier.save_to_file")
-    def test_notify_local_mode(self, mock_save: Mock, capsys) -> None:
+    def test_notify_local_mode(self, mock_save: Mock) -> None:
         """Test notify in local mode saves to file."""
         test_data = {
             "movies_this_week": [],
@@ -430,9 +477,7 @@ class TestNotify:
 
     @patch("boringhannover.notifier.send_telegram_message")
     @patch("boringhannover.notifier.save_to_file")
-    def test_notify_production_mode(
-        self, mock_save: Mock, mock_send: Mock
-    ) -> None:
+    def test_notify_production_mode(self, mock_save: Mock, mock_send: Mock) -> None:
         """Test notify in production mode sends to Telegram."""
         mock_send.return_value = True
         test_data = {
@@ -461,9 +506,7 @@ class TestIntegration:
     )
     @patch("boringhannover.main.notify")
     @patch("boringhannover.main.fetch_all_events")
-    def test_full_workflow(
-        self, mock_fetch: Mock, mock_notify: Mock
-    ) -> None:
+    def test_full_workflow(self, mock_fetch: Mock, mock_notify: Mock) -> None:
         """Test the complete scraping and notification workflow."""
         from boringhannover.main import run
 
