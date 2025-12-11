@@ -23,7 +23,6 @@ from boringhannover.sources.concerts.zag_arena import (
     ZAGArenaSource as ConcertVenueScraper,
 )
 
-
 # =============================================================================
 # Event Model Tests
 # =============================================================================
