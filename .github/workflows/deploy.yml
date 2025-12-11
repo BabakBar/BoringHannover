@@ -143,6 +143,6 @@ jobs:
         run: |
           echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Backend Image Tags:** ${{ steps.meta-backend.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Frontend Image Tags:** ${{ steps.meta-frontend.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Backend Image Tags:** ${{ needs.build.outputs.backend_tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Frontend Image Tags:** ${{ needs.build.outputs.frontend_tag }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
