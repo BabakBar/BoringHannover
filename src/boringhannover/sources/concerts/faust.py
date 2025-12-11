@@ -187,7 +187,7 @@ class FaustSource(BaseSource):
 
         return events
 
-    def _parse_event(
+    def _parse_event(  # noqa: PLR0911
         self,
         link: Tag,
         event_type: str = "concert",
@@ -271,11 +271,7 @@ class FaustSource(BaseSource):
         """
         combined_text = f"{title} {description}".lower()
 
-        for keyword in ENGLISH_KEYWORDS:
-            if keyword in combined_text:
-                return True
-
-        return False
+        return any(keyword in combined_text for keyword in ENGLISH_KEYWORDS)
 
     def _parse_date_from_url(self, href: str) -> datetime | None:
         """Extract date from URL pattern.

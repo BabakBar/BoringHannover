@@ -111,7 +111,7 @@ class TestEventModel:
 
     def test_event_normalizes_naive_datetime_to_berlin_tz(self) -> None:
         """Naive datetimes are treated as Europe/Berlin."""
-        naive = datetime(2025, 12, 12, 19, 30)
+        naive = datetime(2025, 12, 12, 19, 30, tzinfo=BERLIN_TZ)
         event = Event(
             title="Naive Date",
             date=naive,
@@ -443,7 +443,7 @@ class TestSendTelegram:
     )
     def test_send_telegram_handles_network_error(self, mock_client: Mock) -> None:
         """Test that network errors are handled properly."""
-        import httpx
+        import httpx  # noqa: PLC0415
 
         mock_client.return_value.__enter__.return_value.post.side_effect = (
             httpx.RequestError("Network error")
@@ -508,7 +508,7 @@ class TestIntegration:
     @patch("boringhannover.main.fetch_all_events")
     def test_full_workflow(self, mock_fetch: Mock, mock_notify: Mock) -> None:
         """Test the complete scraping and notification workflow."""
-        from boringhannover.main import run
+        from boringhannover.main import run  # noqa: PLC0415
 
         mock_fetch.return_value = {
             "movies_this_week": [],

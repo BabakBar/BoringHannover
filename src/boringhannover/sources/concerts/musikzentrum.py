@@ -243,6 +243,4 @@ class MusikZentrumSource(BaseSource):
         # Clean up whitespace
         text = re.sub(r"\s+", " ", text).strip()
         # Remove common artifacts
-        text = text.replace("[&hellip;]", "...")
-
-        return text
+        return text.replace("[&hellip;]", "...")

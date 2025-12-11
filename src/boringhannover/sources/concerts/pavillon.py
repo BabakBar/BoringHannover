@@ -229,12 +229,12 @@ class PavillonSource(BaseSource):
         date_match = re.search(r"(\d{1,2})\.(\d{1,2})\.(\d{4})", text)
         if date_match:
             day, month, year = date_match.groups()
-            try:
+            from contextlib import suppress  # noqa: PLC0415
+
+            with suppress(ValueError):
                 event_date = datetime(
                     int(year), int(month), int(day), 20, 0, tzinfo=BERLIN_TZ
                 )
-            except ValueError:
-                pass
 
         # Extract time: HH:MM Uhr
         time_match = re.search(r"(\d{1,2}):(\d{2})\s*Uhr", text)
@@ -264,8 +264,8 @@ class PavillonSource(BaseSource):
         title_candidates = []
         found_time = False
 
-        for part in parts:
-            part = part.strip()
+        for raw_part in parts:
+            part = raw_part.strip()
             if "Uhr" in part:
                 found_time = True
                 continue
