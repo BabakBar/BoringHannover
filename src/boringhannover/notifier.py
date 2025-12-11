@@ -21,7 +21,6 @@ from boringhannover.constants import BERLIN_TZ
 from boringhannover.formatting import format_movies_section, format_radar_section
 from boringhannover.output import export_all_formats
 
-
 if TYPE_CHECKING:
     from boringhannover.models import Event
 
