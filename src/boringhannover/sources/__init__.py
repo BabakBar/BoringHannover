@@ -25,7 +25,6 @@ import importlib
 import logging
 import pkgutil
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 from boringhannover.sources.base import (
     BaseSource,
@@ -34,7 +33,6 @@ from boringhannover.sources.base import (
     get_sources_by_type,
     register_source,
 )
-
 
 __all__ = [
     "BaseSource",

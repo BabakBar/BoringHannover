@@ -20,19 +20,16 @@ from __future__ import annotations
 import logging
 import re
 from abc import ABC, abstractmethod
-from collections.abc import Callable
 from datetime import datetime
 from typing import TYPE_CHECKING, ClassVar, TypeVar
 
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
 import httpx
 
-from boringhannover.config import (
-    GERMAN_MONTH_MAP,
-    REQUEST_TIMEOUT_SECONDS,
-    USER_AGENT,
-)
+from boringhannover.config import GERMAN_MONTH_MAP, REQUEST_TIMEOUT_SECONDS, USER_AGENT
 from boringhannover.constants import BERLIN_TZ
-
 
 if TYPE_CHECKING:
     from boringhannover.models import Event

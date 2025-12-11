@@ -14,19 +14,13 @@ from typing import TYPE_CHECKING, ClassVar
 
 from bs4 import BeautifulSoup
 
-
 if TYPE_CHECKING:
     from bs4 import Tag
 
 from boringhannover.config import GERMAN_MONTH_MAP
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
-from boringhannover.sources.base import (
-    BaseSource,
-    create_http_client,
-    register_source,
-)
-
+from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
 __all__ = ["BeiChezHeinzSource"]
 
@@ -221,10 +215,10 @@ class BeiChezHeinzSource(BaseSource):
 
                 month = GERMAN_MONTH_MAP.get(month_str, 0)
                 if month:
-                    try:
+                    from contextlib import suppress  # noqa: PLC0415
+
+                    with suppress(ValueError):
                         event_date = datetime(year, month, day, 20, 0, tzinfo=BERLIN_TZ)
-                    except ValueError:
-                        pass
 
         # Parse time: prefer "Beginn:" over "Einlass:"
         beginn_match = re.search(r"Beginn[:\s]*(\d{1,2})[.\:](\d{2})", text)
@@ -306,6 +300,5 @@ class BeiChezHeinzSource(BaseSource):
         if match:
             genre_text = match.group(1)
             # Take first part before "/" or ","
-            genre = re.split(r"[/,]", genre_text)[0].strip()
-            return genre
+            return re.split(r"[/,]", genre_text)[0].strip()
         return ""
