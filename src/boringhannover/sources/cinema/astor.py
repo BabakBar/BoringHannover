@@ -19,6 +19,7 @@ from boringhannover.sources.base import (
     register_source,
 )
 
+
 __all__ = ["AstorSource"]
 
 logger = logging.getLogger(__name__)
@@ -134,7 +135,9 @@ class AstorSource(BaseSource):
         # Build ticket URL with movie slug
         slug = movie.get("slug", "")
         ticket_url = (
-            f"{self.BASE_TICKET_URL}{slug}" if slug else "https://hannover.premiumkino.de/"
+            f"{self.BASE_TICKET_URL}{slug}"
+            if slug
+            else "https://hannover.premiumkino.de/"
         )
 
         return Event(
@@ -163,9 +166,7 @@ class AstorSource(BaseSource):
             Dictionary with extracted metadata.
         """
         # Extract genres properly (filter empty strings)
-        genre_names = [
-            genres_map.get(gid, "") for gid in movie.get("genreIds", [])
-        ]
+        genre_names = [genres_map.get(gid, "") for gid in movie.get("genreIds", [])]
         genre_names = [g for g in genre_names if g]
 
         # Extract poster URL if available
