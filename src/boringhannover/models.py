@@ -8,10 +8,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import TYPE_CHECKING, Literal
+from typing import Literal
 
-if TYPE_CHECKING:
-    from typing import Self
+from boringhannover.constants import BERLIN_TZ
+
 
 __all__ = ["Event", "EventCategory", "EventMetadata"]
 
@@ -68,6 +68,15 @@ class Event:
         structure and scrapers grab garbage data, validation will fail
         fast rather than propagating bad data to the frontend.
         """
+        # Normalize datetimes to Berlin timezone (some sources emit offset-naive datetimes).
+        if not isinstance(self.date, datetime):
+            msg = f"Event date must be a datetime, got {type(self.date)!r}"
+            raise TypeError(msg)
+        if self.date.tzinfo is None or self.date.tzinfo.utcoffset(self.date) is None:
+            self.date = self.date.replace(tzinfo=BERLIN_TZ)
+        else:
+            self.date = self.date.astimezone(BERLIN_TZ)
+
         # Title validation
         if not self.title or not self.title.strip():
             msg = "Event title cannot be empty"
@@ -106,7 +115,7 @@ class Event:
         Returns:
             Formatted date like '12. Dec' or '15. Mar 2026'.
         """
-        today = datetime.now()
+        today = datetime.now(BERLIN_TZ)
         if self.date.year != today.year:
             return self.date.strftime("%d. %b %Y")
         return self.date.strftime("%d. %b")
@@ -125,6 +134,6 @@ class Event:
         Returns:
             True if event date is between now and 7 days from now.
         """
-        today = datetime.now()
+        today = datetime.now(BERLIN_TZ)
         next_week = today + timedelta(days=7)
         return today <= self.date <= next_week

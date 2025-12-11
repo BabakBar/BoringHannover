@@ -12,24 +12,23 @@ import logging
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, TypedDict
+from typing import TypedDict
 
 import httpx
 
 from boringhannover.config import TELEGRAM_MESSAGE_MAX_LENGTH
+from boringhannover.constants import BERLIN_TZ
 from boringhannover.formatting import format_movies_section, format_radar_section
 from boringhannover.models import Event
 from boringhannover.output import export_all_formats
 
-if TYPE_CHECKING:
-    pass
 
 __all__ = [
     "format_message",
-    "send_telegram_message",
-    "save_to_file",
-    "save_all_formats",
     "notify",
+    "save_all_formats",
+    "save_to_file",
+    "send_telegram_message",
 ]
 
 logger = logging.getLogger(__name__)
@@ -67,7 +66,7 @@ def format_message(events_data: EventsData) -> str:
     movies = events_data.get("movies_this_week", [])
     radar = events_data.get("big_events_radar", [])
 
-    week_num = datetime.now().isocalendar()[1]
+    week_num = datetime.now(BERLIN_TZ).isocalendar()[1]
     lines: list[str] = [f"*Hannover Week {week_num}*\n"]
 
     # Section 1: Movies
@@ -158,7 +157,7 @@ def send_telegram_message(message: str) -> bool:
 # =============================================================================
 
 
-def _event_to_dict(event: Event) -> dict:
+def _event_to_dict(event: Event) -> dict[str, str]:
     """Convert an Event to a JSON-serializable dictionary.
 
     Args:
@@ -205,12 +204,10 @@ def save_to_file(
         # Save structured event data
         json_data = {
             "movies_this_week": [
-                _event_to_dict(e)
-                for e in events_data.get("movies_this_week", [])
+                _event_to_dict(e) for e in events_data.get("movies_this_week", [])
             ],
             "big_events_radar": [
-                _event_to_dict(e)
-                for e in events_data.get("big_events_radar", [])
+                _event_to_dict(e) for e in events_data.get("big_events_radar", [])
             ],
         }
 
@@ -282,12 +279,10 @@ def notify(events_data: EventsData, *, local_only: bool = False) -> bool:
             # Also export all enhanced formats (CSV, Markdown, Archive)
             output_paths = save_all_formats(events_data)
             logger.info("Results saved locally (development mode)")
-            logger.info("Output files: %s", ", ".join(str(p) for p in output_paths.values()))
-
-            print(f"\n{message}\n")
-            print("\nAdditional outputs generated:")
+            logger.info("Message:\n%s", message)
+            logger.info("Output files:")
             for fmt, path in output_paths.items():
-                print(f"  - {fmt}: {path}")
+                logger.info("  - %s: %s", fmt, path)
 
             return True
 

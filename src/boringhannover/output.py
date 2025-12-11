@@ -12,6 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from boringhannover.constants import BERLIN_TZ
 from boringhannover.exporters import (
     archive_weekly_data,
     export_concerts_csv,
@@ -22,17 +23,18 @@ from boringhannover.exporters import (
     export_web_json,
 )
 
+
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from boringhannover.models import Event
 
 __all__ = [
+    "GroupedMovie",
     "OutputManager",
     "Showtime",
-    "GroupedMovie",
-    "group_movies_by_film",
     "export_all_formats",
+    "group_movies_by_film",
 ]
 
 logger = logging.getLogger(__name__)
@@ -94,17 +96,23 @@ def group_movies_by_film(movies: Sequence[Event]) -> list[GroupedMovie]:
         key = f"{event.title}_{event.metadata.get('year', 0)}"
 
         if key not in films:
+            year = event.metadata.get("year", 0)
+            duration = event.metadata.get("duration", 0)
+            rating = event.metadata.get("rating", 0)
+            genres = event.metadata.get("genres", [])
+            cast = event.metadata.get("cast", [])
+
             films[key] = GroupedMovie(
                 title=event.title,
-                year=int(event.metadata.get("year", 0)),
-                duration_min=int(event.metadata.get("duration", 0)),
-                rating=int(event.metadata.get("rating", 0)),
+                year=int(year) if isinstance(year, int) else 0,
+                duration_min=int(duration) if isinstance(duration, int) else 0,
+                rating=int(rating) if isinstance(rating, int) else 0,
                 country=str(event.metadata.get("country", "")),
-                genres=list(event.metadata.get("genres", [])),
+                genres=list(genres) if isinstance(genres, list) else [],
                 synopsis=str(event.metadata.get("synopsis", "")),
                 poster_url=str(event.metadata.get("poster_url", "")),
                 trailer_url=str(event.metadata.get("trailer_url", "")),
-                cast=list(event.metadata.get("cast", [])),
+                cast=list(cast) if isinstance(cast, list) else [],
                 ticket_url=event.url,
                 venue=event.venue,
                 movie_id=str(event.metadata.get("movie_id", "")),
@@ -175,7 +183,7 @@ class OutputManager:
         Returns:
             Dictionary mapping format names to output paths.
         """
-        now = datetime.now()
+        now = datetime.now(BERLIN_TZ)
         week_num = now.isocalendar()[1]
         year = now.year
 
@@ -186,9 +194,13 @@ class OutputManager:
         export_movies_csv(movies, self.output_path, week_num)
         export_movies_grouped_csv(grouped_movies, self.output_path, week_num)
         export_concerts_csv(concerts, self.output_path, week_num)
-        export_enhanced_json(movies, concerts, grouped_movies, self.output_path, week_num, year)
+        export_enhanced_json(
+            movies, concerts, grouped_movies, self.output_path, week_num, year
+        )
         export_web_json(movies, concerts, self.output_path, week_num, year)
-        export_markdown_digest(grouped_movies, concerts, self.output_path, week_num, year)
+        export_markdown_digest(
+            grouped_movies, concerts, self.output_path, week_num, year
+        )
         archive_weekly_data(movies, concerts, self.output_path, week_num, year)
 
         return {

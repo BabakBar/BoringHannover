@@ -8,20 +8,24 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING
 
+from boringhannover.constants import BERLIN_TZ
+
+
 if TYPE_CHECKING:
     from collections.abc import Sequence
+
     from boringhannover.models import Event
 
 __all__ = [
-    "abbreviate_language",
-    "abbreviate_venue",
-    "format_duration",
-    "format_movie_metadata",
-    "format_concert_date",
-    "format_movies_section",
-    "format_radar_section",
     "GERMAN_DAYS",
     "GERMAN_MONTHS",
+    "abbreviate_language",
+    "abbreviate_venue",
+    "format_concert_date",
+    "format_duration",
+    "format_movie_metadata",
+    "format_movies_section",
+    "format_radar_section",
 ]
 
 
@@ -139,8 +143,8 @@ def format_movie_metadata(event: Event) -> list[str]:
     metadata = event.metadata
 
     duration = metadata.get("duration", 0)
-    if duration:
-        parts.append(format_duration(int(duration)))
+    if duration and isinstance(duration, int):
+        parts.append(format_duration(duration))
 
     rating = metadata.get("rating", 0)
     if rating:
@@ -163,7 +167,7 @@ def format_concert_date(event: Event) -> str:
     month_name = GERMAN_MONTHS.get(dt.month, "")
 
     # Include year if not current year
-    if dt.year != datetime.now().year:
+    if dt.year != datetime.now(BERLIN_TZ).year:
         return f"{day_name}, {dt.day}. {month_name} {dt.year}"
     return f"{day_name}, {dt.day}. {month_name}"
 
@@ -200,7 +204,7 @@ def _format_movie_entry(event: Event) -> list[str]:
     # Time and language
     time_str = event.date.strftime("%H:%M")
     language = event.metadata.get("language", "")
-    lang_display = abbreviate_language(language)
+    lang_display = abbreviate_language(str(language)) if language else ""
     lines.append(f"  {time_str} ({lang_display})")
 
     return lines

@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 # Re-export CSV functions for backward compatibility
+from boringhannover.constants import BERLIN_TZ
 from boringhannover.csv_exporters import (
     export_concerts_csv,
     export_movies_csv,
@@ -31,13 +32,14 @@ from boringhannover.sanitize import (
     sanitize_url,
 )
 
+
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from boringhannover.models import Event
     from boringhannover.output import GroupedMovie
 
-__all__ = [
+__all__ = [  # noqa: RUF022
     # CSV exports (re-exported)
     "export_movies_csv",
     "export_movies_grouped_csv",
@@ -96,8 +98,13 @@ def export_enhanced_json(
         "meta": {
             "week": week_num,
             "year": year,
-            "generated_at": datetime.now().isoformat(),
-            "sources": ["Astor Grand Cinema", "ZAG Arena", "Swiss Life Hall", "Capitol Hannover"],
+            "generated_at": datetime.now(BERLIN_TZ).isoformat(),
+            "sources": [
+                "Astor Grand Cinema",
+                "ZAG Arena",
+                "Swiss Life Hall",
+                "Capitol Hannover",
+            ],
             "total_movie_showtimes": len(movies),
             "total_unique_films": len(grouped_movies),
             "total_concerts": len(concerts),
@@ -170,7 +177,21 @@ def export_enhanced_json(
 # Day name abbreviations for frontend
 _DAY_ABBREVS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
 _GERMAN_DAYS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
-_GERMAN_MONTHS = ["", "Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
+_GERMAN_MONTHS = [
+    "",
+    "Jan",
+    "Feb",
+    "Mär",
+    "Apr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Dez",
+]
 
 
 def export_web_json(
@@ -205,46 +226,66 @@ def export_web_json(
 
         # Format language display (JP→DE style)
         language = str(event.metadata.get("language", ""))
-        lang_parts = []
+        lang_parts: list[str] = []
         if "Sprache:" in language:
             lang = language.split("Sprache:")[-1].strip().split(",")[0].strip()
-            lang_abbrevs = {
-                "Englisch": "EN", "Japanisch": "JP", "Deutsch": "DE",
-                "Französisch": "FR", "Italienisch": "IT", "Spanisch": "ES",
-                "Russisch": "RU", "Koreanisch": "KR", "Chinesisch": "ZH",
+            lang_abbrevs: dict[str, str] = {
+                "Englisch": "EN",
+                "Japanisch": "JP",
+                "Deutsch": "DE",
+                "Französisch": "FR",
+                "Italienisch": "IT",
+                "Spanisch": "ES",
+                "Russisch": "RU",
+                "Koreanisch": "KR",
+                "Chinesisch": "ZH",
             }
             lang_parts.append(lang_abbrevs.get(lang, lang[:2].upper()))
         if "Untertitel:" in language:
             lang_parts.append("DE")  # Subtitles are always German
 
-        lang_display = "→".join(lang_parts) if len(lang_parts) == 2 else (lang_parts[0] if lang_parts else "")
+        lang_display = (
+            "→".join(lang_parts)
+            if len(lang_parts) == 2
+            else (lang_parts[0] if lang_parts else "")
+        )
 
         # Get primary genre (first one if available)
         genres = event.metadata.get("genres", [])
-        primary_genre = genres[0] if genres else None
+        primary_genre = genres[0] if isinstance(genres, list) and genres else None
 
-        movies_by_date[date_key].append({
-            # Sanitize user-facing text fields (defense-in-depth)
-            "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
-            "year": event.metadata.get("year"),
-            "time": event.date.strftime("%H:%M"),
-            "duration": _format_duration(int(event.metadata.get("duration", 0))),
-            "language": lang_parts[0] if lang_parts else None,
-            "subtitles": "DE" if len(lang_parts) == 2 else None,
-            "rating": f"FSK{event.metadata.get('rating')}" if event.metadata.get("rating") else None,
-            "genre": sanitize_text(primary_genre, 50) if primary_genre else None,
-            "url": sanitize_url(event.url),
-        })
+        movies_by_date[date_key].append(
+            {
+                # Sanitize user-facing text fields (defense-in-depth)
+                "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
+                "year": event.metadata.get("year"),
+                "time": event.date.strftime("%H:%M"),
+                "duration": _format_duration(
+                    int(dur)
+                    if isinstance(dur := event.metadata.get("duration", 0), int)
+                    else 0
+                ),
+                "language": lang_parts[0] if lang_parts else None,
+                "subtitles": "DE" if len(lang_parts) == 2 else None,
+                "rating": f"FSK{event.metadata.get('rating')}"
+                if event.metadata.get("rating")
+                else None,
+                "genre": sanitize_text(primary_genre, 50) if primary_genre else None,
+                "url": sanitize_url(event.url),
+            }
+        )
 
     # Convert to frontend format (sorted by date)
     movies_list = []
     for date_key in sorted(movies_by_date.keys()):
         dt = datetime.fromisoformat(date_key)
-        movies_list.append({
-            "day": _DAY_ABBREVS[dt.weekday()],
-            "date": dt.strftime("%d.%m"),
-            "movies": sorted(movies_by_date[date_key], key=lambda m: m["time"]),
-        })
+        movies_list.append(
+            {
+                "day": _DAY_ABBREVS[dt.weekday()],
+                "date": dt.strftime("%d.%m"),
+                "movies": sorted(movies_by_date[date_key], key=lambda m: m["time"]),
+            }
+        )
 
     # Format concerts
     concerts_list = []
@@ -265,26 +306,30 @@ def export_web_json(
         subtitle = event.metadata.get("subtitle")
         status = event.metadata.get("status", "available")
 
-        concerts_list.append({
-            # Sanitize user-facing text fields (defense-in-depth)
-            "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
-            "date": date_display,
-            "day": day_name,
-            "time": event.metadata.get("time", "20:00"),
-            "venue": sanitize_text(event.venue, MAX_VENUE_LENGTH),
-            "url": sanitize_url(event.url),
-            "eventType": sanitize_text(str(event_type), 50) if event_type else "concert",
-            "genre": sanitize_text(str(genre), 50) if genre else None,
-            "description": sanitize_text(str(subtitle), 200) if subtitle else None,
-            "status": status,
-        })
+        concerts_list.append(
+            {
+                # Sanitize user-facing text fields (defense-in-depth)
+                "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
+                "date": date_display,
+                "day": day_name,
+                "time": event.metadata.get("time", "20:00"),
+                "venue": sanitize_text(event.venue, MAX_VENUE_LENGTH),
+                "url": sanitize_url(event.url),
+                "eventType": (
+                    sanitize_text(str(event_type), 50) if event_type else "concert"
+                ),
+                "genre": sanitize_text(str(genre), 50) if genre else None,
+                "description": sanitize_text(str(subtitle), 200) if subtitle else None,
+                "status": status,
+            }
+        )
 
     # Build final structure
     data = {
         "meta": {
             "week": week_num,
             "year": year,
-            "updatedAt": datetime.now().strftime("%a %d %b %H:%M"),
+            "updatedAt": datetime.now(BERLIN_TZ).strftime("%a %d %b %H:%M"),
         },
         "movies": movies_list,
         "concerts": concerts_list,
@@ -344,7 +389,7 @@ def export_markdown_digest(
     lines = [
         f"# Hannover Week {week_num} ({year})",
         "",
-        f"*Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}*",
+        f"*Generated: {datetime.now(BERLIN_TZ).strftime('%Y-%m-%d %H:%M')}*",
         "",
         "---",
         "",
@@ -378,7 +423,11 @@ def export_markdown_digest(
             lines.append("")
 
         if movie.synopsis:
-            synopsis = movie.synopsis[:300] + "..." if len(movie.synopsis) > 300 else movie.synopsis
+            synopsis = (
+                movie.synopsis[:300] + "..."
+                if len(movie.synopsis) > 300
+                else movie.synopsis
+            )
             lines.append(f"> {synopsis}")
             lines.append("")
 
@@ -390,7 +439,9 @@ def export_markdown_digest(
         lines.append("")
 
         if movie.poster_url:
-            lines.append(f"[Poster]({movie.poster_url}) | [Tickets]({movie.ticket_url})")
+            lines.append(
+                f"[Poster]({movie.poster_url}) | [Tickets]({movie.ticket_url})"
+            )
         else:
             lines.append(f"[Tickets]({movie.ticket_url})")
         lines.append("")
@@ -398,14 +449,16 @@ def export_markdown_digest(
         lines.append("")
 
     # Concerts section
-    lines.extend([
-        "## On The Radar",
-        "",
-        f"**{len(concerts)} upcoming events**",
-        "",
-        "| Date | Artist | Venue | Status |",
-        "|------|--------|-------|--------|",
-    ])
+    lines.extend(
+        [
+            "## On The Radar",
+            "",
+            f"**{len(concerts)} upcoming events**",
+            "",
+            "| Date | Artist | Venue | Status |",
+            "|------|--------|-------|--------|",
+        ]
+    )
 
     for event in concerts:
         date_str = event.date.strftime("%Y-%m-%d")
@@ -420,7 +473,9 @@ def export_markdown_digest(
     lines.append("")
     lines.append("---")
     lines.append("")
-    lines.append("*Data sourced from Astor Grand Cinema, ZAG Arena, Swiss Life Hall, Capitol Hannover*")
+    lines.append(
+        "*Data sourced from Astor Grand Cinema, ZAG Arena, Swiss Life Hall, Capitol Hannover*"
+    )
 
     md_path.write_text("\n".join(lines), encoding="utf-8")
 
@@ -457,7 +512,7 @@ def archive_weekly_data(
         "meta": {
             "week": week_num,
             "year": year,
-            "archived_at": datetime.now().isoformat(),
+            "archived_at": datetime.now(BERLIN_TZ).isoformat(),
         },
         "movies": [
             {
