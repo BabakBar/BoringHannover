@@ -35,16 +35,14 @@ from boringhannover.sources.base import (
     register_source,
 )
 
-if TYPE_CHECKING:
-    pass
 
 __all__ = [
     "BaseSource",
-    "register_source",
-    "get_source",
-    "get_all_sources",
-    "get_sources_by_type",
     "discover_sources",
+    "get_all_sources",
+    "get_source",
+    "get_sources_by_type",
+    "register_source",
 ]
 
 logger = logging.getLogger(__name__)

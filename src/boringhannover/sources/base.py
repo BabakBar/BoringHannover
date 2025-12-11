@@ -20,8 +20,9 @@ from __future__ import annotations
 import logging
 import re
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from datetime import datetime
-from typing import TYPE_CHECKING, Callable, ClassVar, Final, TypeVar
+from typing import TYPE_CHECKING, ClassVar, TypeVar
 
 import httpx
 
@@ -30,20 +31,22 @@ from boringhannover.config import (
     REQUEST_TIMEOUT_SECONDS,
     USER_AGENT,
 )
+from boringhannover.constants import BERLIN_TZ
+
 
 if TYPE_CHECKING:
     from boringhannover.models import Event
 
 __all__ = [
     "BaseSource",
-    "register_source",
-    "get_source",
-    "get_all_sources",
-    "get_sources_by_type",
     "create_http_client",
+    "get_all_sources",
+    "get_source",
+    "get_sources_by_type",
+    "is_original_version",
     "parse_german_date",
     "parse_venue_date",
-    "is_original_version",
+    "register_source",
 ]
 
 logger = logging.getLogger(__name__)
@@ -123,9 +126,7 @@ def get_sources_by_type(source_type: str) -> dict[str, type[BaseSource]]:
         Dictionary of matching sources.
     """
     return {
-        name: cls
-        for name, cls in _REGISTRY.items()
-        if cls.source_type == source_type
+        name: cls for name, cls in _REGISTRY.items() if cls.source_type == source_type
     }
 
 
@@ -243,7 +244,7 @@ def parse_german_date(date_str: str) -> datetime | None:
         "%d.%m.%Y %H:%M",
     ):
         try:
-            return datetime.strptime(date_str.strip(), fmt)
+            return datetime.strptime(date_str.strip(), fmt).replace(tzinfo=BERLIN_TZ)
         except ValueError:
             continue
 
@@ -255,8 +256,15 @@ def parse_german_date(date_str: str) -> datetime | None:
         time_match = re.search(r"(\d{1,2}):(\d{2})", date_str)
         if time_match:
             hour, minute = time_match.groups()
-            return datetime(int(year), int(month), int(day), int(hour), int(minute))
-        return datetime(int(year), int(month), int(day), 20, 0)  # Default 8 PM
+            return datetime(
+                int(year),
+                int(month),
+                int(day),
+                int(hour),
+                int(minute),
+                tzinfo=BERLIN_TZ,
+            )
+        return datetime(int(year), int(month), int(day), 20, 0, tzinfo=BERLIN_TZ)
 
     return None
 
@@ -279,6 +287,6 @@ def parse_venue_date(date_str: str) -> datetime | None:
     if match:
         day, month_str, year = match.groups()
         month = GERMAN_MONTH_MAP.get(month_str.lower(), 1)
-        return datetime(int(year), month, int(day), 20, 0)  # Default 8 PM
+        return datetime(int(year), month, int(day), 20, 0, tzinfo=BERLIN_TZ)
 
     return None
