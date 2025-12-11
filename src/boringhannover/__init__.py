@@ -43,10 +43,11 @@ Adding a new source:
 
 from __future__ import annotations
 
+
 __version__ = "0.3.0"
 __author__ = "Sia"
 
-__all__ = [
+__all__ = [  # noqa: RUF022
     # Version info
     "__version__",
     "__author__",
@@ -76,7 +77,7 @@ __all__ = [
 
 
 # Lazy imports to avoid circular dependencies
-def __getattr__(name: str):
+def __getattr__(name: str):  # type: ignore[no-untyped-def]
     """Lazy import public API components."""
     if name in ("main", "run"):
         from boringhannover.main import main, run
@@ -94,7 +95,12 @@ def __getattr__(name: str):
         return fetch_all_events
 
     # New source architecture exports
-    if name in ("BaseSource", "register_source", "get_all_sources", "get_sources_by_type"):
+    if name in (
+        "BaseSource",
+        "register_source",
+        "get_all_sources",
+        "get_sources_by_type",
+    ):
         from boringhannover import sources
 
         return getattr(sources, name)

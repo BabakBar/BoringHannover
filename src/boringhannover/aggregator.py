@@ -18,7 +18,9 @@ from datetime import datetime, timedelta
 from typing import TYPE_CHECKING
 
 from boringhannover.config import SCRAPE_DELAY_SECONDS
+from boringhannover.constants import BERLIN_TZ
 from boringhannover.sources import get_all_sources
+
 
 if TYPE_CHECKING:
     from boringhannover.models import Event
@@ -44,7 +46,7 @@ def fetch_all_events() -> dict[str, list[Event]]:
         >>> print(f"Movies: {len(events['movies_this_week'])}")
         >>> print(f"Radar: {len(events['big_events_radar'])}")
     """
-    today = datetime.now()
+    today = datetime.now(BERLIN_TZ)
     next_week = today + timedelta(days=7)
 
     logger.info("Fetching events from all registered sources...")
@@ -69,7 +71,10 @@ def fetch_all_events() -> dict[str, list[Event]]:
 
             # BS-4: Add delay between sources to avoid IP blocks
             if source_count > 0:
-                logger.debug("Rate limiting: waiting %.1fs before next source", SCRAPE_DELAY_SECONDS)
+                logger.debug(
+                    "Rate limiting: waiting %.1fs before next source",
+                    SCRAPE_DELAY_SECONDS,
+                )
                 time.sleep(SCRAPE_DELAY_SECONDS)
 
             logger.debug("Fetching from source: %s (%s)", name, source.source_name)

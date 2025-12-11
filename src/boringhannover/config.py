@@ -8,15 +8,16 @@ from __future__ import annotations
 
 from typing import Final, TypedDict
 
+
 __all__ = [
     "ASTOR_API_URL",
     "CONCERT_VENUES",
+    "GERMAN_MONTH_MAP",
     "REQUEST_TIMEOUT_SECONDS",
     "SCRAPE_DELAY_SECONDS",
     "SCRAPE_MAX_RETRIES",
-    "USER_AGENT",
     "TELEGRAM_MESSAGE_MAX_LENGTH",
-    "GERMAN_MONTH_MAP",
+    "USER_AGENT",
 ]
 
 

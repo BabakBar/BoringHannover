@@ -10,6 +10,7 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
@@ -17,9 +18,9 @@ if TYPE_CHECKING:
     from boringhannover.output import GroupedMovie
 
 __all__ = [
+    "export_concerts_csv",
     "export_movies_csv",
     "export_movies_grouped_csv",
-    "export_concerts_csv",
 ]
 
 logger = logging.getLogger(__name__)
@@ -61,21 +62,24 @@ def export_movies_csv(
 
         for event in movies:
             genres = event.metadata.get("genres", [])
-            writer.writerow({
-                "week": week_num,
-                "title": event.title,
-                "date": event.date.strftime("%Y-%m-%d"),
-                "time": event.date.strftime("%H:%M"),
-                "duration_min": event.metadata.get("duration", 0),
-                "rating": event.metadata.get("rating", 0),
-                "year": event.metadata.get("year", 0),
-                "country": event.metadata.get("country", ""),
-                "language": event.metadata.get("language", ""),
-                "genres": "; ".join(genres) if genres else "",
-                "poster_url": event.metadata.get("poster_url", ""),
-                "ticket_url": event.url,
-                "venue": event.venue,
-            })
+            genres_str = "; ".join(genres) if isinstance(genres, list) else ""
+            writer.writerow(
+                {
+                    "week": week_num,
+                    "title": event.title,
+                    "date": event.date.strftime("%Y-%m-%d"),
+                    "time": event.date.strftime("%H:%M"),
+                    "duration_min": event.metadata.get("duration", 0),
+                    "rating": event.metadata.get("rating", 0),
+                    "year": event.metadata.get("year", 0),
+                    "country": event.metadata.get("country", ""),
+                    "language": event.metadata.get("language", ""),
+                    "genres": genres_str,
+                    "poster_url": event.metadata.get("poster_url", ""),
+                    "ticket_url": event.url,
+                    "venue": event.venue,
+                }
+            )
 
     logger.info("Exported %d movie showtimes to %s", len(movies), csv_path)
 
@@ -117,25 +121,28 @@ def export_movies_grouped_csv(
         for movie in grouped_movies:
             # Format showtimes as compact string
             showtimes_str = "; ".join(
-                f"{st.date} {st.time} ({st.language})"
-                for st in movie.showtimes
+                f"{st.date} {st.time} ({st.language})" for st in movie.showtimes
             )
 
-            writer.writerow({
-                "week": week_num,
-                "title": movie.title,
-                "year": movie.year,
-                "duration_min": movie.duration_min,
-                "rating": movie.rating,
-                "country": movie.country,
-                "genres": "; ".join(movie.genres),
-                "num_showtimes": len(movie.showtimes),
-                "showtimes": showtimes_str,
-                "poster_url": movie.poster_url,
-                "trailer_url": movie.trailer_url,
-                "ticket_url": movie.ticket_url,
-                "synopsis": movie.synopsis[:200] + "..." if len(movie.synopsis) > 200 else movie.synopsis,
-            })
+            writer.writerow(
+                {
+                    "week": week_num,
+                    "title": movie.title,
+                    "year": movie.year,
+                    "duration_min": movie.duration_min,
+                    "rating": movie.rating,
+                    "country": movie.country,
+                    "genres": "; ".join(movie.genres),
+                    "num_showtimes": len(movie.showtimes),
+                    "showtimes": showtimes_str,
+                    "poster_url": movie.poster_url,
+                    "trailer_url": movie.trailer_url,
+                    "ticket_url": movie.ticket_url,
+                    "synopsis": movie.synopsis[:200] + "..."
+                    if len(movie.synopsis) > 200
+                    else movie.synopsis,
+                }
+            )
 
     logger.info("Exported %d unique films to %s", len(grouped_movies), csv_path)
 
@@ -172,17 +179,19 @@ def export_concerts_csv(
         writer.writeheader()
 
         for event in concerts:
-            writer.writerow({
-                "week": week_num,
-                "artist": event.title,
-                "date": event.date.strftime("%Y-%m-%d"),
-                "time": event.metadata.get("time", "20:00"),
-                "venue": event.venue,
-                "event_type": event.metadata.get("event_type", "concert"),
-                "status": event.metadata.get("status", "available"),
-                "ticket_url": event.url,
-                "image_url": event.metadata.get("image_url", ""),
-                "address": event.metadata.get("address", ""),
-            })
+            writer.writerow(
+                {
+                    "week": week_num,
+                    "artist": event.title,
+                    "date": event.date.strftime("%Y-%m-%d"),
+                    "time": event.metadata.get("time", "20:00"),
+                    "venue": event.venue,
+                    "event_type": event.metadata.get("event_type", "concert"),
+                    "status": event.metadata.get("status", "available"),
+                    "ticket_url": event.url,
+                    "image_url": event.metadata.get("image_url", ""),
+                    "address": event.metadata.get("address", ""),
+                }
+            )
 
     logger.info("Exported %d concerts to %s", len(concerts), csv_path)
