@@ -12,15 +12,18 @@ import logging
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import TypedDict
+from typing import TYPE_CHECKING, TypedDict
 
 import httpx
 
 from boringhannover.config import TELEGRAM_MESSAGE_MAX_LENGTH
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.formatting import format_movies_section, format_radar_section
-from boringhannover.models import Event
 from boringhannover.output import export_all_formats
+
+
+if TYPE_CHECKING:
+    from boringhannover.models import Event
 
 
 __all__ = [
@@ -144,11 +147,11 @@ def send_telegram_message(message: str) -> bool:
     except httpx.RequestError:
         # BS-3: Log error type only - never log the exception directly
         # as it may contain the URL with the token
-        logger.error("Telegram request failed: network error")
+        logger.exception("Telegram request failed: network error")
         return False
     except httpx.HTTPStatusError as exc:
         # Safe to log status code - no sensitive data
-        logger.error("Telegram API error: HTTP %d", exc.response.status_code)
+        logger.exception("Telegram API error: HTTP %d", exc.response.status_code)
         return False
 
 
@@ -219,8 +222,8 @@ def save_to_file(
 
         logger.info("Results saved to %s/", output_path)
 
-    except OSError as exc:
-        logger.exception("Failed to save results: %s", exc)
+    except OSError:
+        logger.exception("Failed to save results")
 
 
 def save_all_formats(
@@ -291,8 +294,9 @@ def notify(events_data: EventsData, *, local_only: bool = False) -> bool:
             # Create backup and full export when sending
             save_to_file(message, events_data, "backup")
             save_all_formats(events_data, "backup")
-        return success
 
-    except Exception as exc:
-        logger.exception("Notification failed: %s", exc)
+    except Exception:
+        logger.exception("Notification failed")
         return False
+    else:
+        return success

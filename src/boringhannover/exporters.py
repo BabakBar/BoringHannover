@@ -32,7 +32,6 @@ from boringhannover.sanitize import (
     sanitize_url,
 )
 
-
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
@@ -244,12 +243,6 @@ def export_web_json(
         if "Untertitel:" in language:
             lang_parts.append("DE")  # Subtitles are always German
 
-        lang_display = (
-            "→".join(lang_parts)
-            if len(lang_parts) == 2
-            else (lang_parts[0] if lang_parts else "")
-        )
-
         # Get primary genre (first one if available)
         genres = event.metadata.get("genres", [])
         primary_genre = genres[0] if isinstance(genres, list) and genres else None
@@ -434,8 +427,9 @@ def export_markdown_digest(
         # Showtimes table
         lines.append("| Date | Time | Language |")
         lines.append("|------|------|----------|")
-        for st in movie.showtimes:
-            lines.append(f"| {st.date} | {st.time} | {st.language} |")
+        lines.extend(
+            f"| {st.date} | {st.time} | {st.language} |" for st in movie.showtimes
+        )
         lines.append("")
 
         if movie.poster_url:

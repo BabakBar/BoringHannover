@@ -63,7 +63,7 @@ def _validate_environment(*, local_only: bool) -> None:
     Raises:
         SystemExit: If required environment variables are missing.
     """
-    import os
+    import os  # noqa: PLC0415
 
     if local_only:
         return
@@ -138,11 +138,12 @@ def run(*, local_only: bool = False) -> bool:
                 logger.warning("GitHub sync failed - frontend will show stale data")
 
         logger.info("Workflow completed successfully")
-        return True
 
     except Exception:
         logger.exception("Workflow failed")
         return False
+    else:
+        return True
 
 
 # Backward compatibility alias
@@ -175,7 +176,7 @@ def _parse_args() -> argparse.Namespace:
 def _load_environment() -> None:
     """Load environment variables from .env file if available."""
     try:
-        from dotenv import load_dotenv
+        from dotenv import load_dotenv  # noqa: PLC0415
 
         load_dotenv()
     except ImportError:

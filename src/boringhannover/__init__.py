@@ -43,7 +43,6 @@ Adding a new source:
 
 from __future__ import annotations
 
-
 __version__ = "0.3.0"
 __author__ = "Sia"
 
@@ -77,20 +76,20 @@ __all__ = [  # noqa: RUF022
 
 
 # Lazy imports to avoid circular dependencies
-def __getattr__(name: str):  # type: ignore[no-untyped-def]
+def __getattr__(name: str):  # type: ignore[no-untyped-def]  # noqa: PLR0911
     """Lazy import public API components."""
     if name in ("main", "run"):
-        from boringhannover.main import main, run
+        from boringhannover.main import main, run  # noqa: PLC0415
 
         return main if name == "main" else run
 
     if name == "Event":
-        from boringhannover.models import Event
+        from boringhannover.models import Event  # noqa: PLC0415
 
         return Event
 
     if name == "fetch_all_events":
-        from boringhannover.aggregator import fetch_all_events
+        from boringhannover.aggregator import fetch_all_events  # noqa: PLC0415
 
         return fetch_all_events
 
@@ -101,30 +100,30 @@ def __getattr__(name: str):  # type: ignore[no-untyped-def]
         "get_all_sources",
         "get_sources_by_type",
     ):
-        from boringhannover import sources
+        from boringhannover import sources  # noqa: PLC0415
 
         return getattr(sources, name)
 
     # Backward compatibility: old scraper classes
     # These are deprecated but still exported for compatibility
     if name == "AstorMovieScraper":
-        from boringhannover.sources.cinema.astor import AstorSource
+        from boringhannover.sources.cinema.astor import AstorSource  # noqa: PLC0415
 
         return AstorSource
 
     if name == "ConcertVenueScraper":
         # Return ZAGArenaSource as a compatibility alias
-        from boringhannover.sources.concerts.zag_arena import ZAGArenaSource
+        from boringhannover.sources.concerts.zag_arena import ZAGArenaSource  # noqa: PLC0415
 
         return ZAGArenaSource
 
     if name in ("notify", "format_message"):
-        from boringhannover import notifier
+        from boringhannover import notifier  # noqa: PLC0415
 
         return getattr(notifier, name)
 
     if name in ("OutputManager", "export_all_formats", "group_movies_by_film"):
-        from boringhannover import output
+        from boringhannover import output  # noqa: PLC0415
 
         return getattr(output, name)
 
