@@ -100,7 +100,10 @@ def group_movies_by_film(movies: Sequence[Event]) -> list[GroupedMovie]:
             duration = event.metadata.get("duration", 0)
             rating = event.metadata.get("rating", 0)
             genres = event.metadata.get("genres", [])
-            cast = event.metadata.get("cast", [])
+            cast_raw = event.metadata.get("cast", [])
+            # Cast should be list[dict[str, str]] from source
+            # Type ignore needed because metadata is untyped dict
+            cast: list[dict[str, str]] = cast_raw if isinstance(cast_raw, list) else []  # type: ignore[assignment]
 
             films[key] = GroupedMovie(
                 title=event.title,
@@ -108,11 +111,11 @@ def group_movies_by_film(movies: Sequence[Event]) -> list[GroupedMovie]:
                 duration_min=int(duration) if isinstance(duration, int) else 0,
                 rating=int(rating) if isinstance(rating, int) else 0,
                 country=str(event.metadata.get("country", "")),
-                genres=list(genres) if isinstance(genres, list) else [],
+                genres=genres if isinstance(genres, list) else [],
                 synopsis=str(event.metadata.get("synopsis", "")),
                 poster_url=str(event.metadata.get("poster_url", "")),
                 trailer_url=str(event.metadata.get("trailer_url", "")),
-                cast=list(cast) if isinstance(cast, list) else [],
+                cast=cast,
                 ticket_url=event.url,
                 venue=event.venue,
                 movie_id=str(event.metadata.get("movie_id", "")),

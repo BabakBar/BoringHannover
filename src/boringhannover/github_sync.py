@@ -51,7 +51,8 @@ def _get_file_sha(client: httpx.Client, repo: str, path: str) -> str | None:
         return None
     else:
         if response.status_code == 200:
-            return response.json().get("sha")
+            sha = response.json().get("sha")
+            return str(sha) if sha else None
         return None
 
 

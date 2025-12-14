@@ -218,7 +218,7 @@ def export_web_json(
     json_path = output_path / "web_events.json"
 
     # Group movies by date
-    movies_by_date: dict[str, list[dict]] = {}
+    movies_by_date: dict[str, list[dict[str, str | int | list[str] | None]]] = {}
     for event in movies:
         date_key = event.date.strftime("%Y-%m-%d")
         if date_key not in movies_by_date:
@@ -273,11 +273,19 @@ def export_web_json(
     movies_list = []
     for date_key in sorted(movies_by_date.keys()):
         dt = datetime.fromisoformat(date_key)
+        date_movies: list[dict[str, str | int | list[str] | None]] = movies_by_date[
+            date_key
+        ]
+        # Sort movies by time (all have "time" key as str from formatting above)
+        sorted_movies = sorted(
+            date_movies,
+            key=lambda m: str(m.get("time", "")) if isinstance(m, dict) else "",
+        )
         movies_list.append(
             {
                 "day": _DAY_ABBREVS[dt.weekday()],
                 "date": dt.strftime("%d.%m"),
-                "movies": sorted(movies_by_date[date_key], key=lambda m: m["time"]),
+                "movies": sorted_movies,
             }
         )
 

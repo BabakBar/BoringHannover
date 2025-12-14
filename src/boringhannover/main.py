@@ -80,7 +80,11 @@ def run() -> bool:
 
         # Step 2: Export to files
         logger.info("Exporting data...")
-        success = notify(events_data)
+        from typing import cast  # noqa: PLC0415
+
+        from boringhannover.notifier import EventsData  # noqa: PLC0415
+
+        success = notify(cast(EventsData, events_data))
 
         if not success:
             logger.error("Failed to export data")

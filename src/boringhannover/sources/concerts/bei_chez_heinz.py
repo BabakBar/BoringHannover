@@ -131,7 +131,8 @@ class BeiChezHeinzSource(BaseSource):
             title_link = title_elem.find("a")
             if title_link:
                 title = title_link.get_text(strip=True)
-                href = title_link.get("href", "")
+                href_raw = title_link.get("href", "")
+                href = str(href_raw) if href_raw else ""
             else:
                 title = title_elem.get_text(strip=True)
                 href = ""

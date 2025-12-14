@@ -12,7 +12,7 @@ import re
 from datetime import datetime
 from typing import ClassVar
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
@@ -86,7 +86,8 @@ class PavillonSource(BaseSource):
         event_links = soup.select('a[href*="/event/details/"]')
 
         for link in event_links:
-            href = link.get("href", "")
+            href_raw = link.get("href", "")
+            href = str(href_raw) if href_raw else ""
             if not href or href in seen_urls:
                 continue
             seen_urls.add(href)
@@ -112,7 +113,7 @@ class PavillonSource(BaseSource):
 
         return events
 
-    def _get_event_text(self, link) -> str:
+    def _get_event_text(self, link: Tag) -> str:
         """Get the full text content of an event's container.
 
         Args:
@@ -126,7 +127,7 @@ class PavillonSource(BaseSource):
         for _ in range(6):
             if not parent:
                 break
-            text = parent.get_text(separator=" | ", strip=True)
+            text = str(parent.get_text(separator=" | ", strip=True))
             # Check if this contains event info (date pattern)
             if re.search(r"\d{1,2}\.\d{1,2}\.\d{4}", text):
                 return text

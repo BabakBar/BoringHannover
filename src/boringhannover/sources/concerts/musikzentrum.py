@@ -12,7 +12,7 @@ import json
 import logging
 import re
 from datetime import datetime
-from typing import ClassVar
+from typing import Any, ClassVar
 
 from bs4 import BeautifulSoup
 
@@ -110,7 +110,7 @@ class MusikZentrumSource(BaseSource):
 
         return events
 
-    def _parse_event(self, item: dict) -> Event | None:
+    def _parse_event(self, item: dict[str, Any]) -> Event | None:
         """Parse a single event from JSON-LD data.
 
         Args:
@@ -201,7 +201,7 @@ class MusikZentrumSource(BaseSource):
 
         return None
 
-    def _format_address(self, address_obj: dict) -> str:
+    def _format_address(self, address_obj: dict[str, Any]) -> str:
         """Format address from JSON-LD PostalAddress object.
 
         Args:

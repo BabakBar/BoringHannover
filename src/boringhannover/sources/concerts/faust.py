@@ -167,7 +167,8 @@ class FaustSource(BaseSource):
         # Deduplicate by href (same event may appear multiple times)
         unique_links: list[Tag] = []
         for link in event_links:
-            href = link.get("href", "")
+            href_raw = link.get("href", "")
+            href = str(href_raw) if href_raw else ""
             if href and href not in seen_urls:
                 seen_urls.add(href)
                 unique_links.append(link)
@@ -200,7 +201,8 @@ class FaustSource(BaseSource):
             Parsed Event or None if parsing fails or filters apply.
         """
         try:
-            href = link.get("href", "")
+            href_raw = link.get("href", "")
+            href = str(href_raw) if href_raw else ""
             if not href:
                 return None
 
