@@ -18,6 +18,7 @@ from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
+
 __all__ = ["PavillonSource"]
 
 logger = logging.getLogger(__name__)

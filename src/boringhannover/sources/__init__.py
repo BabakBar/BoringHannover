@@ -34,6 +34,7 @@ from boringhannover.sources.base import (
     register_source,
 )
 
+
 __all__ = [
     "BaseSource",
     "discover_sources",
