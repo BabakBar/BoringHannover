@@ -16,7 +16,6 @@ from typing import Final
 
 import httpx
 
-
 __all__ = ["should_sync", "sync_to_github"]
 
 logger = logging.getLogger(__name__)
@@ -145,13 +144,21 @@ def sync_to_github(local_path: str | Path = "output/web_events.json") -> bool:
             },
             timeout=30,
         ) as client:
-            existing_sha, existing_raw = _get_existing_file(client, repo, WEB_EVENTS_REPO_PATH)
+            existing_sha, existing_raw = _get_existing_file(
+                client, repo, WEB_EVENTS_REPO_PATH
+            )
 
             if existing_raw is not None:
                 existing_norm = _normalize_events_json(existing_raw)
                 local_norm = _normalize_events_json(content)
-                if existing_norm is not None and local_norm is not None and existing_norm == local_norm:
-                    logger.info("No meaningful changes detected; skipping GitHub commit")
+                if (
+                    existing_norm is not None
+                    and local_norm is not None
+                    and existing_norm == local_norm
+                ):
+                    logger.info(
+                        "No meaningful changes detected; skipping GitHub commit"
+                    )
                     return True
 
             payload: dict[str, str] = {
