@@ -1,373 +1,18 @@
 {
   "meta": {
-    "week": 48,
+    "week": 50,
     "year": 2025,
-    "updatedAt": "Tue 25 Nov 19:16"
+    "updatedAt": "Sun 14 Dec 22:27"
   },
   "movies": [
     {
-      "day": "TUE",
-      "date": "25.11",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "19:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "19:50",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall & Die Metzel-Spiele",
-          "year": 2025,
-          "time": "20:20",
-          "duration": "1h30m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/jujutsu-kaisen-execution-der-shibuya-vorfall-und-die-metzel-spiele"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "26.11",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "13:45",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "16:50",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall & Die Metzel-Spiele",
-          "year": 2025,
-          "time": "18:00",
-          "duration": "1h30m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/jujutsu-kaisen-execution-der-shibuya-vorfall-und-die-metzel-spiele"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "19:50",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall & Die Metzel-Spiele",
-          "year": 2025,
-          "time": "20:20",
-          "duration": "1h30m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/jujutsu-kaisen-execution-der-shibuya-vorfall-und-die-metzel-spiele"
-        }
-      ]
-    },
-    {
-      "day": "THU",
-      "date": "27.11",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "13:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "16:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Zoomania 2",
-          "year": 2025,
-          "time": "17:45",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "20:15",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "28.11",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "13:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "17:10",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Zoomania 2",
-          "year": 2025,
-          "time": "17:45",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "20:00",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Chainsaw Man - The Movie: Reze Arc",
-          "year": 2025,
-          "time": "23:10",
-          "duration": "1h41m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/chainsaw-man-the-movie-reze-arc"
-        },
-        {
-          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall & Die Metzel-Spiele",
-          "year": 2025,
-          "time": "23:20",
-          "duration": "1h30m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/jujutsu-kaisen-execution-der-shibuya-vorfall-und-die-metzel-spiele"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "29.11",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "13:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "16:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Zoomania 2",
-          "year": 2025,
-          "time": "17:45",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "20:00",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Chainsaw Man - The Movie: Reze Arc",
-          "year": 2025,
-          "time": "23:10",
-          "duration": "1h41m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/chainsaw-man-the-movie-reze-arc"
-        },
-        {
-          "title": "Jujutsu Kaisen: Execution - Der Shibuya-Vorfall & Die Metzel-Spiele",
-          "year": 2025,
-          "time": "23:20",
-          "duration": "1h30m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/jujutsu-kaisen-execution-der-shibuya-vorfall-und-die-metzel-spiele"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "30.11",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "13:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "16:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Zoomania 2",
-          "year": 2025,
-          "time": "17:45",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "20:00",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        }
-      ]
-    },
-    {
       "day": "MON",
-      "date": "01.12",
+      "date": "15.12",
       "movies": [
         {
           "title": "Wicked: Teil 2",
           "year": 2025,
-          "time": "13:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "16:40",
+          "time": "14:30",
           "duration": "2h17m",
           "language": "EN",
           "subtitles": null,
@@ -378,7 +23,7 @@
         {
           "title": "Zoomania 2",
           "year": 2025,
-          "time": "17:45",
+          "time": "14:40",
           "duration": "1h48m",
           "language": "EN",
           "subtitles": null,
@@ -389,7 +34,7 @@
         {
           "title": "Wicked: Teil 2",
           "year": 2025,
-          "time": "20:00",
+          "time": "19:45",
           "duration": "2h17m",
           "language": "EN",
           "subtitles": null,
@@ -412,23 +57,12 @@
     },
     {
       "day": "TUE",
-      "date": "02.12",
+      "date": "16.12",
       "movies": [
         {
           "title": "Wicked: Teil 2",
           "year": 2025,
-          "time": "13:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "17:10",
+          "time": "14:30",
           "duration": "2h17m",
           "language": "EN",
           "subtitles": null,
@@ -439,474 +73,191 @@
         {
           "title": "Zoomania 2",
           "year": 2025,
-          "time": "17:45",
+          "time": "14:40",
           "duration": "1h48m",
           "language": "EN",
           "subtitles": null,
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/zoomania-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "17:00",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "19:45",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "17.12",
+      "movies": [
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "15:50",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        },
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "18.12",
+      "movies": [
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "15:50",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        },
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        }
+      ]
+    },
+    {
+      "day": "FRI",
+      "date": "19.12",
+      "movies": [
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "15:50",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        },
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        }
+      ]
+    },
+    {
+      "day": "SAT",
+      "date": "20.12",
+      "movies": [
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "15:50",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        },
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "21.12",
+      "movies": [
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "15:50",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        },
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        },
+        {
+          "title": "Avatar: Fire and Ash (Dolby Cinema)",
+          "year": 2025,
+          "time": "20:10",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash-dolby-cinema"
         }
       ]
     }
   ],
   "concerts": [
-    {
-      "title": "Kniffelabend 🎲😊",
-      "date": "3 Dez",
-      "day": "Mi",
-      "time": "19:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/events",
-      "eventType": "games",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Karl die Große",
-      "date": "3 Dez",
-      "day": "Mi",
-      "time": "19:30",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/69875/karl-die-grosse",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Cava",
-      "date": "3 Dez",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/031225-cava.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "TREAM",
-      "date": "3 Dez",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/tream/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Majan",
-      "date": "4 Dez",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/majan-capitol-hannover-a03ec1ffe970/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Jazz'n'Poetry",
-      "date": "4 Dez",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/041225-jazznpoetry.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Die Höchste Eisenbahn",
-      "date": "4 Dez",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/041225-die-hoechste-eisenbahn.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "NIGHT OF THE PROMS",
-      "date": "4 Dez",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/night-of-the-proms-3/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Subject",
-      "date": "5 Dez",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/051225-subject.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Wyld",
-      "date": "5 Dez",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/051225-wyld.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "die feisten",
-      "date": "5 Dez",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/69902/die-feisten",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Forever Young",
-      "date": "6 Dez",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/forever-young-capitol-hannover-b3fa28194092/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Rewind",
-      "date": "6 Dez",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/061225-rewind.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Freistil",
-      "date": "6 Dez",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/061225-freistil.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "die feisten",
-      "date": "6 Dez",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/110518/die-feisten",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Deine Freunde",
-      "date": "6 Dez",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/deine-freunde-swiss-life-hall-bf068748471b/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "sold_out"
-    },
-    {
-      "title": "TSV HANNOVER-BURGDORF vs. FÜCHSE BERLIN",
-      "date": "7 Dez",
-      "day": "So",
-      "time": "15:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/tsv-hannover-burgdorf-vs-fuechse-berlin-4/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "SABATON",
-      "date": "8 Dez",
-      "day": "Mo",
-      "time": "19:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/sabaton-2/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Farnoosh",
-      "date": "9 Dez",
-      "day": "Di",
-      "time": "19:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/122232/farnoosh",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Connect & Create 🎄👥",
-      "date": "10 Dez",
-      "day": "Mi",
-      "time": "17:30",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/events",
-      "eventType": "social",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Duo Stiehler/Lucaciu",
-      "date": "10 Dez",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/69972/duo-stiehler-lucaciu",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Feine Sahne Fischfilet",
-      "date": "10 Dez",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/feine-sahne-fischfilet-swiss-life-hall-f10f6e25a511/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Völkerball",
-      "date": "11 Dez",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/voelkerball-capitol-hannover-64d8cc6866c4/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Erhardts Karaoke 🎤",
-      "date": "11 Dez",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/events",
-      "eventType": "karaoke",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Völkerball",
-      "date": "12 Dez",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/voelkerball-capitol-hannover-63290672e37b/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "sold_out"
-    },
-    {
-      "title": "King Kong Kicks",
-      "date": "12 Dez",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/121225-king-kong-kicks.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "It's Pop Punk, Baby!",
-      "date": "12 Dez",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/121225-its-pop-punk-baby.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "TEDDY",
-      "date": "12 Dez",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/teddy-2/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Terry Hoax",
-      "date": "13 Dez",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/terry-hoax-capitol-hannover-10fe61d3a5e2/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Shuffle",
-      "date": "13 Dez",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/131225-shuffle.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Engst",
-      "date": "14 Dez",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/engst-capitol-hannover-d0f9675d2ceb/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Tablequiz 🤔❗❓",
-      "date": "17 Dez",
-      "day": "Mi",
-      "time": "19:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/events",
-      "eventType": "quiz",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Die große WiWi-Weihnachtsfeier",
-      "date": "17 Dez",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/171225-die-grosse-wiwi-weihnachtsfeier.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Zaz",
-      "date": "17 Dez",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/zaz-swiss-life-hall-ec3cd975ae88/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Jan Plewka singt Rio Reiser",
-      "date": "19 Dez",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/70098/jan-plewka-singt-rio-reiser",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "01099",
-      "date": "19 Dez",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/01099-swiss-life-hall-be22501f53f7/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Lichterkinder",
-      "date": "20 Dez",
-      "day": "Sa",
-      "time": "15:30",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/70120/lichterkinder",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Unmada & SVITE and friends",
-      "date": "21 Dez",
-      "day": "So",
-      "time": "19:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/70126/unmada-svite-and-friends",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Lutz Krajenski meets Juliano Rossi",
       "date": "22 Dez",
@@ -920,6 +271,54 @@
       "status": "available"
     },
     {
+      "title": "Basic X-Mas Rave",
+      "date": "24 Dez",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/241225-basic-x-mas-rave.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Torfrock",
+      "date": "25 Dez",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/torfrock-capitol-hannover-90e4276e0d8e/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Die 90er-Party",
+      "date": "26 Dez",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/261225-die-90er-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Forever Young",
+      "date": "27 Dez",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/forever-young-capitol-hannover-947ce1c88690/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Udi Fagundes 🎤 Live im Erhardt",
       "date": "27 Dez",
       "day": "Sa",
@@ -927,6 +326,18 @@
       "venue": "Erhardt Café",
       "url": "https://www.erhardt.cafe/events",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Party 2000",
+      "date": "27 Dez",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/271225-party-2000.html",
+      "eventType": "party",
       "genre": null,
       "description": null,
       "status": "available"
@@ -944,6 +355,42 @@
       "status": "available"
     },
     {
+      "title": "TSV HANNOVER-BURGDORF vs. GWD Minden",
+      "date": "27 Dez",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/tsv-hannover-burgdorf-vs-gwd-minden-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "FEUERWERK DER TURNKUNST – VIVA",
+      "date": "31 Dez",
+      "day": "Mi",
+      "time": "17:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/feuerwerk-der-turnkunst-viva/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Faust auf Faust",
+      "date": "31 Dez",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/311225-faust-auf-faust.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Erobique",
       "date": "31 Dez",
       "day": "Mi",
@@ -952,6 +399,30 @@
       "url": "https://pavillon-hannover.de/event/details/70266/erobique",
       "eventType": "concert",
       "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rewind",
+      "date": "3 Jan 2026",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/030126-rewind.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Brat Party",
+      "date": "9 Jan 2026",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/090126-brat-party.html",
+      "eventType": "party",
+      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -968,6 +439,18 @@
       "status": "available"
     },
     {
+      "title": "HANDBALL-LÄNDERSPIEL DER MÄNNER",
+      "date": "11 Jan 2026",
+      "day": "So",
+      "time": "18:05",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/handball-laenderspiel-der-maenner-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Ringsgwandl",
       "date": "13 Jan 2026",
       "day": "Di",
@@ -976,6 +459,18 @@
       "url": "https://pavillon-hannover.de/event/details/92095/ringsgwandl",
       "eventType": "concert",
       "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "DIRKSCHNEIDER",
+      "date": "13 Jan 2026",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/dirkschneider-capitol-hannover-071581d84016/",
+      "eventType": "concert",
+      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -992,6 +487,18 @@
       "status": "available"
     },
     {
+      "title": "BUSHIDO",
+      "date": "14 Jan 2026",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/bushido/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Eddin",
       "date": "15 Jan 2026",
       "day": "Do",
@@ -1000,6 +507,18 @@
       "url": "https://pavillon-hannover.de/event/details/110556/eddin",
       "eventType": "concert",
       "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Götz Widmann",
+      "date": "16 Jan 2026",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/160126-goetz-widmann.html",
+      "eventType": "concert",
+      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -1028,6 +547,42 @@
       "status": "available"
     },
     {
+      "title": "FEUERWERK DER TURNKUNST – VIVA",
+      "date": "17 Jan 2026",
+      "day": "Sa",
+      "time": "14:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/feuerwerk-der-turnkusnt-viva/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "FEUERWERK DER TURNKUNST – VIVA",
+      "date": "17 Jan 2026",
+      "day": "Sa",
+      "time": "19:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/feuerwerk-der-turnkunst-viva-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Yung Kafa & Kücük Efendi",
+      "date": "17 Jan 2026",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/yung-kafa-kuecuek-efendi-capitol-hannover-63302d37d71a/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Hotel Rimini",
       "date": "17 Jan 2026",
       "day": "Sa",
@@ -1036,6 +591,18 @@
       "url": "https://pavillon-hannover.de/event/details/92148/hotel-rimini",
       "eventType": "concert",
       "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "APACHE 207",
+      "date": "18 Jan 2026",
+      "day": "So",
+      "time": "20:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-207-5/",
+      "eventType": "concert",
+      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -1064,6 +631,114 @@
       "status": "available"
     },
     {
+      "title": "Goldy.mp3 & Doubtboy",
+      "date": "22 Jan 2026",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/220126-goldymp3-doubtboy.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Jamal",
+      "date": "23 Jan 2026",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/jamal-capitol-hannover-80dae8b9c93c/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Meta Hüper",
+      "date": "23 Jan 2026",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/230126-meta-hueper.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Offstage",
+      "date": "23 Jan 2026",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/230126-offstage.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Pippo Pollina • in Concerto",
+      "date": "23 Jan 2026",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/92225/pippo-pollina-in-concerto",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Busters",
+      "date": "24 Jan 2026",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/240126-the-busters.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rise of Kronos & Leaving The Orbit",
+      "date": "24 Jan 2026",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/240126-rise-of-kronos-leaving-the-orbit.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Brazzo Brazzone & The World Brass Ensemble!",
+      "date": "24 Jan 2026",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/92238/brazzo-brazzone-the-world-brass-ensemble",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Brazzo Brazzone & The World Brass Ensemble!",
+      "date": "25 Jan 2026",
+      "day": "So",
+      "time": "18:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/92251/brazzo-brazzone-the-world-brass-ensemble",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Aymen & Amo",
       "date": "26 Jan 2026",
       "day": "Mo",
@@ -1076,12 +751,144 @@
       "status": "available"
     },
     {
+      "title": "Monet192",
+      "date": "27 Jan 2026",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/monet192-capitol-hannover-44b803a13f07/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Duo Stiehler/Lucaciu",
+      "date": "28 Jan 2026",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/92290/duo-stiehler-lucaciu",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Michelle",
       "date": "28 Jan 2026",
       "day": "Mi",
       "time": "20:00",
       "venue": "Swiss Life Hall",
       "url": "https://www.swisslife-hall.de/events/michelle-swiss-life-hall-92274bae8f4b/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Pabst",
+      "date": "29 Jan 2026",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/290126-pabst.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Tingvall Trio",
+      "date": "29 Jan 2026",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/92303/tingvall-trio",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Da Capo Udo Jürgens",
+      "date": "29 Jan 2026",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/da-capo-udo-juergens-swiss-life-hall-d6c899b1cd2f/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Anime Dreamlight Concerts",
+      "date": "31 Jan 2026",
+      "day": "Sa",
+      "time": "18:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/92329/anime-dreamlight-concerts",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Butcher Sisters",
+      "date": "31 Jan 2026",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/the-butcher-sisters-swiss-life-hall-e4cd86e03aa7/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Anime Dreamlight Concerts",
+      "date": "31 Jan 2026",
+      "day": "Sa",
+      "time": "20:45",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/121240/anime-dreamlight-concerts",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ralf Schmitz",
+      "date": "12 Feb 2026",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/ralf-schmitz-swiss-life-hall-74b5bbfb2e17/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Gzuz",
+      "date": "14 Feb 2026",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/gzuz-swiss-life-hall-df619e99af57/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Silvesterparty 2025",
+      "date": "31 Dez 2026",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/silvesterparty-2025-capitol-hannover-6f989cb5004f/",
       "eventType": "concert",
       "genre": null,
       "description": null,
