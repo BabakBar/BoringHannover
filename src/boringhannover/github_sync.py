@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 GITHUB_API_BASE: Final[str] = "https://api.github.com"
 WEB_EVENTS_REPO_PATH: Final[str] = "web/output/web_events.json"
-COMMIT_MESSAGE: Final[str] = "chore: update weekly event data [automated]"
+COMMIT_MESSAGE: Final[str] = "chore: update weekly event data [automated] [skip ci]"
 
 
 def should_sync() -> bool:
