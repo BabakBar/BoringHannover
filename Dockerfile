@@ -69,9 +69,9 @@ ENV PATH="/app/.venv/bin:$PATH" \
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import boringhannover; print('OK')" || exit 1
 
-# Default command - run the scraper
-# For cron execution, this will be overridden
-CMD ["python", "-m", "boringhannover.main"]
+# Keep container alive - actual scraping done by Coolify scheduled task
+# Scheduled task runs: Monday 5 PM (0 17 * * 1)
+CMD ["tail", "-f", "/dev/null"]
 
 # Labels for container metadata
 LABEL org.opencontainers.image.title="BoringHannover Backend" \
