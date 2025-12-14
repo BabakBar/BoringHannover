@@ -8,6 +8,7 @@ with fresh data.
 from __future__ import annotations
 
 import base64
+import json
 import logging
 import os
 from pathlib import Path
@@ -56,6 +57,54 @@ def _get_file_sha(client: httpx.Client, repo: str, path: str) -> str | None:
         return None
 
 
+def _get_existing_file(
+    client: httpx.Client,
+    repo: str,
+    path: str,
+) -> tuple[str | None, bytes | None]:
+    """Get the current SHA and raw bytes for a file in the repo (if it exists)."""
+    try:
+        response = client.get(f"/repos/{repo}/contents/{path}")
+    except httpx.RequestError:
+        return None, None
+    else:
+        if response.status_code != 200:
+            return None, None
+
+        body = response.json()
+        sha = body.get("sha")
+        content_base64 = body.get("content")
+        if not sha or not content_base64:
+            return (str(sha) if sha else None), None
+
+        # GitHub may insert newlines into the base64 content.
+        try:
+            raw = base64.b64decode(str(content_base64).encode("ascii"), validate=False)
+        except Exception:
+            return str(sha), None
+        else:
+            return str(sha), raw
+
+
+def _normalize_events_json(raw: bytes) -> str | None:
+    """Normalize JSON for change detection, ignoring volatile metadata fields."""
+    try:
+        data = json.loads(raw.decode("utf-8"))
+    except Exception:
+        return None
+
+    if isinstance(data, dict):
+        meta = data.get("meta")
+        if isinstance(meta, dict):
+            # Avoid commit spam if only the "last updated" timestamp changes.
+            meta.pop("updatedAt", None)
+
+    try:
+        return json.dumps(data, sort_keys=True, separators=(",", ":"))
+    except Exception:
+        return None
+
+
 def sync_to_github(local_path: str | Path = "output/web_events.json") -> bool:
     """Commit web_events.json to the GitHub repository.
 
@@ -96,7 +145,14 @@ def sync_to_github(local_path: str | Path = "output/web_events.json") -> bool:
             },
             timeout=30,
         ) as client:
-            existing_sha = _get_file_sha(client, repo, WEB_EVENTS_REPO_PATH)
+            existing_sha, existing_raw = _get_existing_file(client, repo, WEB_EVENTS_REPO_PATH)
+
+            if existing_raw is not None:
+                existing_norm = _normalize_events_json(existing_raw)
+                local_norm = _normalize_events_json(content)
+                if existing_norm is not None and local_norm is not None and existing_norm == local_norm:
+                    logger.info("No meaningful changes detected; skipping GitHub commit")
+                    return True
 
             payload: dict[str, str] = {
                 "message": COMMIT_MESSAGE,
