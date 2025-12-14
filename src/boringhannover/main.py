@@ -84,7 +84,7 @@ def run() -> bool:
 
         from boringhannover.notifier import EventsData  # noqa: PLC0415
 
-        success = notify(cast(EventsData, events_data))
+        success = notify(cast("EventsData", events_data))
 
         if not success:
             logger.error("Failed to export data")

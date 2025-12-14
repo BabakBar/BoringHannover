@@ -91,7 +91,6 @@ def _event_to_dict(event: Event) -> dict[str, str]:
     Returns:
         Dictionary representation of the event.
     """
-    from typing import Any  # noqa: PLC0415
 
     return {
         "title": event.title,
