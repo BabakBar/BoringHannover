@@ -1,28 +1,25 @@
 """BoringHannover - Weekly event aggregator for Hannover.
 
 A modular, stateless script that fetches cultural events from multiple sources
-and delivers a formatted digest via Telegram.
+and exports data in multiple formats.
 
 Architecture:
 - sources/: Plugin-based source modules (auto-discovered)
   - cinema/: Movie theater sources (Astor)
   - concerts/: Concert venue sources (ZAG Arena, Swiss Life Hall, Capitol)
 - aggregator.py: Central orchestration for all sources
-- notifier.py: Telegram notification and file output
+- notifier.py: Message formatting and file output
 - output.py: Multi-format export (CSV, JSON, Markdown)
+- github_sync.py: Syncs data to repo to trigger frontend rebuild
 
 Outputs multiple formats:
-- Telegram message (Markdown)
 - CSV files (movies.csv, movies_grouped.csv, concerts.csv)
-- Enhanced JSON (events.json)
+- Enhanced JSON (events.json, web_events.json)
 - Markdown digest (weekly_digest.md)
 - Weekly archive (archive/YYYY-WXX.json)
 
 Usage:
-    # Run in development mode (saves to local files)
-    boringhannover --local
-
-    # Run in production mode (sends to Telegram)
+    # Run the scraper
     boringhannover
 
 Example:
@@ -42,6 +39,7 @@ Adding a new source:
 """
 
 from __future__ import annotations
+
 
 __version__ = "0.3.0"
 __author__ = "Sia"
@@ -113,7 +111,9 @@ def __getattr__(name: str):  # type: ignore[no-untyped-def]  # noqa: PLR0911
 
     if name == "ConcertVenueScraper":
         # Return ZAGArenaSource as a compatibility alias
-        from boringhannover.sources.concerts.zag_arena import ZAGArenaSource  # noqa: PLC0415
+        from boringhannover.sources.concerts.zag_arena import (  # noqa: PLC0415
+            ZAGArenaSource,
+        )
 
         return ZAGArenaSource
 

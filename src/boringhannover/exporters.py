@@ -32,6 +32,7 @@ from boringhannover.sanitize import (
     sanitize_url,
 )
 
+
 if TYPE_CHECKING:
     from collections.abc import Sequence
 

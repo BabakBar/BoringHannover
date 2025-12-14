@@ -17,7 +17,7 @@ import pytest
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
-from boringhannover.notifier import format_message, notify, send_telegram_message
+from boringhannover.notifier import format_message, notify
 from boringhannover.sources.cinema.astor import AstorSource as AstorMovieScraper
 from boringhannover.sources.concerts.zag_arena import (
     ZAGArenaSource as ConcertVenueScraper,
@@ -375,120 +375,27 @@ class TestFormatMessage:
         assert isinstance(result, str)
         assert "No OV movies" in result
 
-    def test_format_message_respects_telegram_limits(self) -> None:
-        """Test that formatted message doesn't exceed Telegram limits."""
-        # Create many events to potentially exceed limit
-        movies = [
-            Event(
-                title=f"Movie {i}" * 10,
-                date=datetime(2024, 11, 24, 19, 30, tzinfo=BERLIN_TZ),
-                venue="Astor",
-                url="https://example.com",
-                category="movie",
-                metadata={"duration": 120},
-            )
-            for i in range(100)
-        ]
-        test_data = {
-            "movies_this_week": movies,
-            "big_events_radar": [],
-        }
-        result = format_message(test_data)
-
-        assert len(result) <= 4096
-
-
-class TestSendTelegram:
-    """Tests for Telegram notification functionality."""
-
-    @patch("boringhannover.notifier.httpx.Client")
-    @patch.dict(
-        "os.environ",
-        {"TELEGRAM_BOT_TOKEN": "test_token", "TELEGRAM_CHAT_ID": "test_chat"},
-    )
-    def test_send_telegram_makes_api_call(self, mock_client: Mock) -> None:
-        """Test that send_telegram_message makes correct API call."""
-        mock_response = Mock()
-        mock_response.json.return_value = {"ok": True}
-        mock_client.return_value.__enter__.return_value.post.return_value = (
-            mock_response
-        )
-
-        result = send_telegram_message("Test message")
-
-        mock_client.return_value.__enter__.return_value.post.assert_called_once()
-        assert result is True
-
-    @patch("boringhannover.notifier.httpx.Client")
-    @patch.dict(
-        "os.environ",
-        {"TELEGRAM_BOT_TOKEN": "test_token", "TELEGRAM_CHAT_ID": "test_chat"},
-    )
-    def test_send_telegram_handles_api_error(self, mock_client: Mock) -> None:
-        """Test that API errors are handled properly."""
-        mock_response = Mock()
-        mock_response.json.return_value = {"ok": False, "error": "Bad request"}
-        mock_client.return_value.__enter__.return_value.post.return_value = (
-            mock_response
-        )
-
-        result = send_telegram_message("Test message")
-        assert result is False
-
-    @patch("boringhannover.notifier.httpx.Client")
-    @patch.dict(
-        "os.environ",
-        {"TELEGRAM_BOT_TOKEN": "test_token", "TELEGRAM_CHAT_ID": "test_chat"},
-    )
-    def test_send_telegram_handles_network_error(self, mock_client: Mock) -> None:
-        """Test that network errors are handled properly."""
-        import httpx  # noqa: PLC0415
-
-        mock_client.return_value.__enter__.return_value.post.side_effect = (
-            httpx.RequestError("Network error")
-        )
-
-        result = send_telegram_message("Test message")
-        assert result is False
-
-    @patch.dict("os.environ", {}, clear=True)
-    def test_send_telegram_requires_env_vars(self) -> None:
-        """Test that environment variables are required."""
-        with pytest.raises(ValueError, match="TELEGRAM_BOT_TOKEN"):
-            send_telegram_message("test")
-
 
 class TestNotify:
     """Tests for the main notify function."""
 
     @patch("boringhannover.notifier.save_to_file")
-    def test_notify_local_mode(self, mock_save: Mock) -> None:
-        """Test notify in local mode saves to file."""
+    @patch("boringhannover.notifier.save_all_formats")
+    def test_notify_saves_to_files(
+        self, mock_save_all: Mock, mock_save: Mock
+    ) -> None:
+        """Test notify saves data to files."""
+        mock_save_all.return_value = {}
         test_data = {
             "movies_this_week": [],
             "big_events_radar": [],
         }
 
-        result = notify(test_data, local_only=True)
+        result = notify(test_data)
 
         assert result is True
         mock_save.assert_called_once()
-
-    @patch("boringhannover.notifier.send_telegram_message")
-    @patch("boringhannover.notifier.save_to_file")
-    def test_notify_production_mode(self, mock_save: Mock, mock_send: Mock) -> None:
-        """Test notify in production mode sends to Telegram."""
-        mock_send.return_value = True
-        test_data = {
-            "movies_this_week": [],
-            "big_events_radar": [],
-        }
-
-        result = notify(test_data, local_only=False)
-
-        assert result is True
-        mock_send.assert_called_once()
-        mock_save.assert_called_once()  # Backup is created
+        mock_save_all.assert_called_once()
 
 
 # =============================================================================
@@ -515,7 +422,7 @@ class TestIntegration:
         }
         mock_notify.return_value = True
 
-        result = run(local_only=False)
+        result = run()
 
         assert result is True
         mock_fetch.assert_called_once()

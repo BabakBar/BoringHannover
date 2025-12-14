@@ -1,6 +1,6 @@
 """Notification module for message formatting and delivery.
 
-Formats events into a structured Telegram message with two sections:
+Formats events into a structured message with two sections:
 1. "Movies (This Week)" - OV movies at Astor Cinema
 2. "On The Radar" - Big upcoming concerts and events
 """
@@ -9,17 +9,14 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, TypedDict
 
-import httpx
-
-from boringhannover.config import TELEGRAM_MESSAGE_MAX_LENGTH
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.formatting import format_movies_section, format_radar_section
 from boringhannover.output import export_all_formats
+
 
 if TYPE_CHECKING:
     from boringhannover.models import Event
@@ -30,7 +27,6 @@ __all__ = [
     "notify",
     "save_all_formats",
     "save_to_file",
-    "send_telegram_message",
 ]
 
 logger = logging.getLogger(__name__)
@@ -54,16 +50,16 @@ class EventsData(TypedDict):
 
 
 def format_message(events_data: EventsData) -> str:
-    """Format events into a Telegram-ready message.
+    """Format events into a structured message.
 
     Creates a two-section message with movies and upcoming concerts,
-    formatted with Telegram Markdown.
+    formatted with Markdown.
 
     Args:
         events_data: Dictionary with categorized event lists.
 
     Returns:
-        Formatted message string ready for Telegram.
+        Formatted message string.
     """
     movies = events_data.get("movies_this_week", [])
     radar = events_data.get("big_events_radar", [])
@@ -78,80 +74,7 @@ def format_message(events_data: EventsData) -> str:
     # Section 2: Radar (Concerts)
     lines.append(format_radar_section(radar))
 
-    message = "\n".join(lines).strip()
-
-    # Ensure message doesn't exceed Telegram limits
-    if len(message) > TELEGRAM_MESSAGE_MAX_LENGTH:
-        truncated = message[: TELEGRAM_MESSAGE_MAX_LENGTH - 20]
-        message = truncated + "\n\n... (truncated)"
-
-    return message
-
-
-# =============================================================================
-# Telegram Integration
-# =============================================================================
-
-
-def send_telegram_message(message: str) -> bool:
-    """Send message via Telegram Bot API.
-
-    Requires TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID environment variables.
-
-    Security Note (BS-3): Uses base_url pattern to prevent token leakage
-    in exception messages. If httpx raises an error, the full URL (with token)
-    won't appear in logs or tracebacks.
-
-    Args:
-        message: Message text to send.
-
-    Returns:
-        True if message was sent successfully.
-
-    Raises:
-        ValueError: If required environment variables are not set.
-    """
-    bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
-    chat_id = os.getenv("TELEGRAM_CHAT_ID")
-
-    if not bot_token or not chat_id:
-        msg = "TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set"
-        raise ValueError(msg)
-
-    # BS-3: Use base_url pattern to avoid token in exception messages
-    # If the request fails, the exception won't contain the full URL with token
-    try:
-        with httpx.Client(
-            base_url="https://api.telegram.org",
-            timeout=30,
-        ) as client:
-            response = client.post(
-                f"/bot{bot_token}/sendMessage",
-                json={
-                    "chat_id": chat_id,
-                    "text": message,
-                    "parse_mode": "Markdown",
-                },
-            )
-            response.raise_for_status()
-
-            result = response.json()
-            if result.get("ok"):
-                logger.info("Telegram message sent successfully")
-                return True
-
-            logger.error("Telegram API error: %s", result)
-            return False
-
-    except httpx.RequestError:
-        # BS-3: Log error type only - never log the exception directly
-        # as it may contain the URL with the token
-        logger.exception("Telegram request failed: network error")
-        return False
-    except httpx.HTTPStatusError as exc:
-        # Safe to log status code - no sensitive data
-        logger.exception("Telegram API error: HTTP %d", exc.response.status_code)
-        return False
+    return "\n".join(lines).strip()
 
 
 # =============================================================================
@@ -257,45 +180,35 @@ def save_all_formats(
 # =============================================================================
 
 
-def notify(events_data: EventsData, *, local_only: bool = False) -> bool:
-    """Send notification or save locally based on mode.
+def notify(events_data: EventsData) -> bool:
+    """Save event data to local files.
 
-    In production mode (local_only=False), sends to Telegram and
-    creates a backup. In development mode (local_only=True), saves
-    to local files and prints to console.
+    Creates output files in the specified directory with event data
+    in multiple formats (CSV, JSON, Markdown, Archive).
 
     Args:
         events_data: Dictionary of categorized event lists.
-        local_only: If True, save to files instead of sending to Telegram.
 
     Returns:
-        True if notification was successful.
+        True if save was successful.
     """
     try:
         message = format_message(events_data)
 
-        if local_only:
-            # Save Telegram message format
-            save_to_file(message, events_data)
+        # Save formatted message
+        save_to_file(message, events_data)
 
-            # Also export all enhanced formats (CSV, Markdown, Archive)
-            output_paths = save_all_formats(events_data)
-            logger.info("Results saved locally (development mode)")
-            logger.info("Message:\n%s", message)
-            logger.info("Output files:")
-            for fmt, path in output_paths.items():
-                logger.info("  - %s: %s", fmt, path)
+        # Export all formats (CSV, Markdown, Archive)
+        output_paths = save_all_formats(events_data)
 
-            return True
-
-        success = send_telegram_message(message)
-        if success:
-            # Create backup and full export when sending
-            save_to_file(message, events_data, "backup")
-            save_all_formats(events_data, "backup")
+        logger.info("Results saved successfully")
+        logger.info("Message:\n%s", message)
+        logger.info("Output files:")
+        for fmt, path in output_paths.items():
+            logger.info("  - %s: %s", fmt, path)
 
     except Exception:
         logger.exception("Notification failed")
         return False
     else:
-        return success
+        return True

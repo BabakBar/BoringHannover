@@ -16,7 +16,6 @@ __all__ = [
     "REQUEST_TIMEOUT_SECONDS",
     "SCRAPE_DELAY_SECONDS",
     "SCRAPE_MAX_RETRIES",
-    "TELEGRAM_MESSAGE_MAX_LENGTH",
     "USER_AGENT",
 ]
 
@@ -113,14 +112,6 @@ USER_AGENT: Final[str] = (
     "Chrome/123.0.0.0 Safari/537.36"
 )
 """User-Agent header for HTTP requests."""
-
-
-# =============================================================================
-# Telegram Settings
-# =============================================================================
-
-TELEGRAM_MESSAGE_MAX_LENGTH: Final[int] = 4096
-"""Maximum message length allowed by Telegram API."""
 
 
 # =============================================================================
