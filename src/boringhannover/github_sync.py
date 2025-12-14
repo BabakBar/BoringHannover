@@ -16,6 +16,7 @@ from typing import Final
 
 import httpx
 
+
 __all__ = ["should_sync", "sync_to_github"]
 
 logger = logging.getLogger(__name__)
