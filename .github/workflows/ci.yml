@@ -11,8 +11,12 @@ permissions:
 on:
   push:
     branches: [master]
+    paths-ignore:
+      - "web/output/**"
   pull_request:
     branches: [master]
+    paths-ignore:
+      - "web/output/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

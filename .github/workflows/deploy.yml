@@ -36,6 +36,80 @@ concurrency:
 
 jobs:
   # ---------------------------------------------------------------------------
+  # Determine what changed (backend vs frontend)
+  # ---------------------------------------------------------------------------
+  changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    outputs:
+      backend: ${{ steps.manual.outputs.backend || steps.push.outputs.backend }}
+      frontend: ${{ steps.manual.outputs.frontend || steps.push.outputs.frontend }}
+
+    steps:
+      - name: Detect changes (push)
+        id: push
+        if: github.event_name == 'push'
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          # Prefer compare base..head so multi-commit pushes are handled correctly.
+          # Fall back to the single-commit endpoint if compare fails (e.g., unusual base SHA).
+          if compare_json="$(
+            curl -fsSL \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${GH_REPO}/compare/${BASE_SHA}...${HEAD_SHA}"
+          )"; then
+            files="$(printf '%s' "${compare_json}" | jq -r '.files[].filename')"
+          else
+            commit_json="$(
+              curl -fsSL \
+                -H "Authorization: Bearer ${GH_TOKEN}" \
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                "https://api.github.com/repos/${GH_REPO}/commits/${HEAD_SHA}"
+            )"
+            files="$(printf '%s' "${commit_json}" | jq -r '.files[].filename')"
+          fi
+
+          backend=false
+          frontend=false
+
+          while IFS= read -r file; do
+            case "${file}" in
+              src/*|Dockerfile|pyproject.toml|uv.lock)
+                backend=true
+                ;;
+            esac
+
+            case "${file}" in
+              web/*|Dockerfile.web)
+                frontend=true
+                ;;
+            esac
+          done < <(printf '%s\n' "${files}")
+
+          echo "backend=${backend}" >> "${GITHUB_OUTPUT}"
+          echo "frontend=${frontend}" >> "${GITHUB_OUTPUT}"
+
+      - name: Set changes from inputs (workflow_dispatch)
+        id: manual
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          set -euo pipefail
+          echo "backend=${{ inputs.deploy_backend }}" >> "${GITHUB_OUTPUT}"
+          echo "frontend=${{ inputs.deploy_frontend }}" >> "${GITHUB_OUTPUT}"
+
+  # ---------------------------------------------------------------------------
   # Build and push Docker images
   # ---------------------------------------------------------------------------
   build:
@@ -44,7 +118,8 @@ jobs:
     permissions:
       contents: read
       packages: write
-    if: github.ref == 'refs/heads/master'
+    needs: changes
+    if: github.ref == 'refs/heads/master' && (needs.changes.outputs.backend == 'true' || needs.changes.outputs.frontend == 'true')
 
     outputs:
       backend_tag: ${{ steps.meta-backend.outputs.tags }}
@@ -67,6 +142,7 @@ jobs:
       # Backend image
       - name: Extract backend metadata
         id: meta-backend
+        if: needs.changes.outputs.backend == 'true'
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.BACKEND_IMAGE }}
@@ -75,6 +151,7 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push backend
+        if: needs.changes.outputs.backend == 'true'
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -89,6 +166,7 @@ jobs:
       # Frontend image
       - name: Extract frontend metadata
         id: meta-frontend
+        if: needs.changes.outputs.frontend == 'true'
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.FRONTEND_IMAGE }}
@@ -97,6 +175,7 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push frontend
+        if: needs.changes.outputs.frontend == 'true'
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -114,7 +193,7 @@ jobs:
   deploy:
     name: Deploy to Coolify
     runs-on: ubuntu-latest
-    needs: build
+    needs: [changes, build]
     if: github.ref == 'refs/heads/master'
     environment: production
     permissions:
@@ -122,7 +201,7 @@ jobs:
 
     steps:
       - name: Trigger backend deployment
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.deploy_backend }}
+        if: needs.changes.outputs.backend == 'true'
         run: |
           curl -X POST \
             -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
@@ -131,7 +210,7 @@ jobs:
             --fail --silent --show-error
 
       - name: Trigger frontend deployment
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.deploy_frontend }}
+        if: needs.changes.outputs.frontend == 'true'
         run: |
           curl -X POST \
             -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
@@ -145,4 +224,6 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Backend Image Tags:** ${{ needs.build.outputs.backend_tag }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Frontend Image Tags:** ${{ needs.build.outputs.frontend_tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Backend Deploy:** ${{ needs.changes.outputs.backend }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Frontend Deploy:** ${{ needs.changes.outputs.frontend }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
