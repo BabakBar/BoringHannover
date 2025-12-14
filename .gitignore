@@ -71,6 +71,9 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/
+.vscode/mcp.json
+CLAUDE.md
 
 # PyBuilder
 .pybuilder/
@@ -224,5 +227,4 @@ web/output/*
 !web/output/.gitkeep
 src/.DS_Store
 src/boringhannover/.DS_Store
-docs/
-.vscode/mcp.json
+
