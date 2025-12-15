@@ -1,17 +1,17 @@
 # BoringHannover
 
-**Proving Hannover isn't THAT boring, one event at a time.**
+**Proving Hannover isn't THAT boring!**
 
 Hannover gets a bad rap. [90% destroyed in WWII](https://schikimikki.wordpress.com/2018/04/02/hannover-the-most-boring-city-in-germany/), rebuilt with pragmatic post-war architecture, and known mainly for train connections and trade fairs, it's been called "[exceedingly dull](https://www.flyertalk.com/forum/germany/1322413-what-do-we-all-think-about-hannover.html)." Some say [the greatest risk is dying of boredom](https://www.flyertalk.com/forum/germany/1322413-what-do-we-all-think-about-hannover.html).
 
 Yet the Goethe Institut calls it "[probably the most underrated city in the world](https://www.goethe.de/ins/us/en/m/kul/liv/22597458.html)." too much again, but yeah still not that bad!
 
-**BoringHannover** aggregates cinema, concerts, and cultural events from across the city into a clean weekly digest. Because there's always something happening—you just need to know where to look.
+**BoringHannover** aggregates cinema, concerts, and cultural events from across the city into a clean weekly digest. Because there's always something happening, you just need to know where to look.
 
 ## Current Sources
 
 **Cinema:** Astor Grand (OV films only)
-**Concerts:** ZAG Arena, Swiss Life Hall, Capitol, Faust, Pavillon, MusikZentrum, Béi Chéz Heinz, Erhardt
+**Concerts/events:** ZAG Arena, Swiss Life Hall, Capitol, Faust, Pavillon, MusikZentrum, Béi Chéz Heinz, Erhardt
 
 ## Contributing
 
@@ -46,7 +46,7 @@ That's it. No central registry, no config changes. See existing sources in `src/
 
 > "A side project that ships is worth more than a perfect system that never launches."
 
-Stateless. No database. Runs weekly. Filters noise. Ships fast.
+Stateless. No database. Runs weekly. Filters noise. Ships fast!!
 
 ---
 
