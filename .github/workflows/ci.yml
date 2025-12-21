@@ -55,8 +55,8 @@ jobs:
       - name: Check formatting (ruff)
         run: uv run ruff format --check src/
 
-      - name: Run type checker (mypy)
-        run: uv run mypy src/
+      - name: Run type checker (ty)
+        run: uv run ty check src/
 
       - name: Run tests (pytest)
         run: uv run pytest tests/ -v --tb=short
