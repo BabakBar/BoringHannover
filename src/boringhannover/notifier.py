@@ -11,7 +11,7 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, TypedDict
 
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.formatting import format_movies_section, format_radar_section
@@ -19,7 +19,7 @@ from boringhannover.output import export_all_formats
 
 
 if TYPE_CHECKING:
-    from boringhannover.models import Event
+    from boringhannover.models import Event, EventCategory, EventMetadata
 
 
 __all__ = [
@@ -42,6 +42,17 @@ class EventsData(TypedDict):
 
     movies_this_week: list[Event]
     big_events_radar: list[Event]
+
+
+class EventJSON(TypedDict):
+    """JSON-serializable representation of an Event."""
+
+    title: str
+    date: str
+    venue: str
+    url: str
+    category: EventCategory
+    metadata: EventMetadata
 
 
 # =============================================================================
@@ -82,7 +93,7 @@ def format_message(events_data: EventsData) -> str:
 # =============================================================================
 
 
-def _event_to_dict(event: Event) -> dict[str, Any]:
+def _event_to_dict(event: Event) -> EventJSON:
     """Convert an Event to a JSON-serializable dictionary.
 
     Args:
@@ -98,7 +109,7 @@ def _event_to_dict(event: Event) -> dict[str, Any]:
         "venue": event.venue,
         "url": event.url,
         "category": event.category,
-        "metadata": dict(event.metadata) if event.metadata else {},
+        "metadata": dict(event.metadata),
     }
 
 

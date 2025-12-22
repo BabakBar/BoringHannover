@@ -23,6 +23,7 @@ from boringhannover.sources.concerts.zag_arena import (
     ZAGArenaSource as ConcertVenueScraper,
 )
 
+
 # =============================================================================
 # Event Model Tests
 # =============================================================================
@@ -381,9 +382,7 @@ class TestNotify:
 
     @patch("boringhannover.notifier.save_to_file")
     @patch("boringhannover.notifier.save_all_formats")
-    def test_notify_saves_to_files(
-        self, mock_save_all: Mock, mock_save: Mock
-    ) -> None:
+    def test_notify_saves_to_files(self, mock_save_all: Mock, mock_save: Mock) -> None:
         """Test notify saves data to files."""
         mock_save_all.return_value = {}
         test_data = {
