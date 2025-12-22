@@ -13,6 +13,21 @@ Yet the Goethe Institut calls it "[probably the most underrated city in the worl
 **Cinema:** Astor Grand (OV films only)
 **Concerts/events:** ZAG Arena, Swiss Life Hall, Capitol, Faust, Pavillon, MusikZentrum, Béi Chéz Heinz, Erhardt
 
+## Development
+
+**Backend (Python 3.13+):**
+```bash
+uv sync
+uv run boringhannover --local
+```
+
+**Frontend (Bun):**
+```bash
+cd web
+bun install
+bun run dev
+```
+
 ## Contributing
 
 Know a venue, gallery, theater, or club missing? **love your help!**

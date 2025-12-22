@@ -24,3 +24,6 @@ Thumbs.db
 *.log
 npm-debug.log*
 src/data/web_events.json
+
+# Prevent npm lockfile drift
+package-lock.json
