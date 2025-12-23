@@ -5,7 +5,7 @@
   # Content Security Policy
   # Note: Astro 4.x requires 'unsafe-inline' for scripts due to inline bundling
   # Upgrade to Astro 5.9+ and enable experimental CSP to remove this
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://umami.fabriktakt.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://umami.fabriktakt.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
 
   # Prevent clickjacking
   X-Frame-Options: DENY
