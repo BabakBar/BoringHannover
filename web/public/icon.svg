@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="boringhannover icon">
+  <rect width="512" height="512" rx="112" fill="#dc2626" />
+  <!-- Stylized H -->
+  <rect x="152" y="144" width="72" height="224" rx="12" fill="#fafaf9" />
+  <rect x="288" y="144" width="72" height="224" rx="12" fill="#fafaf9" />
+  <rect x="152" y="224" width="208" height="64" rx="12" fill="#fafaf9" />
+  <!-- Dot-matrix hint -->
+  <rect x="208" y="388" width="20" height="20" rx="4" fill="#fafaf9" opacity="0.9" />
+  <rect x="246" y="388" width="20" height="20" rx="4" fill="#fafaf9" opacity="0.75" />
+  <rect x="284" y="388" width="20" height="20" rx="4" fill="#fafaf9" opacity="0.6" />
+</svg>

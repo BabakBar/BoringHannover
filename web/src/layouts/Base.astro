@@ -4,16 +4,48 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  lang?: string;
 }
 
 const {
   title = 'boringhannover',
-  description = 'What\'s happening in Hannover this week. Movies, concerts, events.'
+  description = 'What\'s happening in Hannover this week. Movies, concerts, events.',
+  lang = 'en'
 } = Astro.props;
+
+const DEFAULT_UMAMI_WEBSITE_ID = '23cf1ce2-3635-4e97-aab9-6ccd0467f839';
+
+// Default keeps analytics working on the main deploy, but forks can override (or remove) via env.
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || DEFAULT_UMAMI_WEBSITE_ID;
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC || 'https://umami.fabriktakt.com/script.js';
+
+const normalizedLang = (lang || 'en').toLowerCase();
+
+const appName = 'boringhannover';
+
+const siteUrl = (() => {
+  const raw = Astro.site ?? import.meta.env.PUBLIC_SITE_URL;
+  if (!raw) return undefined;
+  try {
+    return raw instanceof URL ? raw : new URL(raw);
+  } catch {
+    return undefined;
+  }
+})();
+
+const canonicalUrl = siteUrl ? new URL(Astro.url.pathname, siteUrl).toString() : undefined;
+
+// Open Graph locale uses underscores (e.g. de_DE, en_US)
+const ogLocale = (() => {
+  if (normalizedLang.startsWith('de')) return 'de_DE';
+  if (normalizedLang.startsWith('en')) return 'en_US';
+  if (normalizedLang.includes('-')) return normalizedLang.replace('-', '_');
+  return 'en_US';
+})();
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,7 +58,10 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="de_DE" />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    <meta property="og:locale" content={ogLocale} />
+
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 
     <!-- Theme - dynamic based on preference -->
     <meta name="theme-color" id="theme-color" content="#fafaf9" />
@@ -34,7 +69,14 @@ const {
 
     <!-- Mobile web app -->
     <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="application-name" content={appName} />
+    <meta name="apple-mobile-web-app-title" content={appName} />
+
+    <!-- Minimal PWA -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/favicon-h.svg" />
 
     <title>{title}</title>
 
@@ -52,8 +94,10 @@ const {
       })();
     </script>
 
-    <!-- Umami Analytics -->
-    <script defer src="https://umami.fabriktakt.com/script.js" data-website-id="23cf1ce2-3635-4e97-aab9-6ccd0467f839"></script>
+    <!-- Umami Analytics (optional; configured via PUBLIC_UMAMI_* env vars) -->
+    {umamiWebsiteId && (
+      <script defer src={umamiSrc} data-website-id={umamiWebsiteId}></script>
+    )}
   </head>
   <body class="bg-bg-primary min-h-screen">
     <!-- Skip navigation link for keyboard users (A-2) -->
@@ -64,7 +108,9 @@ const {
       Skip to main content
     </a>
     <div class="max-w-mobile mx-auto px-4 py-6">
-      <slot />
+      <main id="main-content">
+        <slot />
+      </main>
     </div>
   </body>
 </html>
