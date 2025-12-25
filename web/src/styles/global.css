@@ -245,16 +245,20 @@
    ============================================== */
 
 /* Overflow container - hidden by default */
-.events-overflow {
+/* movies-overflow mirrors events-overflow; keep in sync unless diverging */
+.events-overflow,
+.movies-overflow {
   display: none;
   opacity: 0;
 }
 
-.events-overflow.is-visible {
+.events-overflow.is-visible,
+.movies-overflow.is-visible {
   display: block;
 }
 
-.events-overflow.is-expanded {
+.events-overflow.is-expanded,
+.movies-overflow.is-expanded {
   opacity: 1;
 }
 
@@ -268,17 +272,20 @@
   margin-bottom: 1.5rem;
 }
 
-.events-overflow.is-expanded .overflow-group {
+.events-overflow.is-expanded .overflow-group,
+.movies-overflow.is-expanded .overflow-group {
   animation: fadeSlideIn 0.3s ease-out forwards;
   animation-delay: calc(var(--group-index, 0) * 80ms);
 }
 
 /* Collapse animation */
-.events-overflow.is-collapsing {
+.events-overflow.is-collapsing,
+.movies-overflow.is-collapsing {
   animation: fadeOut 0.2s ease-out forwards;
 }
 
-.events-overflow.is-collapsing .overflow-group {
+.events-overflow.is-collapsing .overflow-group,
+.movies-overflow.is-collapsing .overflow-group {
   animation: none;
   opacity: 1;
   transform: none;
@@ -365,7 +372,18 @@
   color: var(--accent);
   letter-spacing: 4px;
   font-size: 6px;
+  display: inline-flex;
+  gap: 4px;
 }
+
+.radar-toggle .toggle-dots .dot {
+  display: inline-block;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.radar-toggle .toggle-dots .dot:nth-child(1) { animation-delay: 0ms; }
+.radar-toggle .toggle-dots .dot:nth-child(2) { animation-delay: 200ms; }
+.radar-toggle .toggle-dots .dot:nth-child(3) { animation-delay: 400ms; }
 
 .radar-toggle .toggle-text {
   color: inherit;
@@ -389,7 +407,9 @@
   .overflow-item,
   .overflow-group,
   .concerts-overflow,
-  .events-overflow {
+  .events-overflow,
+  .movies-overflow,
+  .radar-toggle .toggle-dots .dot {
     animation: none !important;
     transition: none !important;
     opacity: 1 !important;
@@ -397,12 +417,14 @@
   }
 
   .concerts-overflow.is-visible,
-  .events-overflow.is-visible {
+  .events-overflow.is-visible,
+  .movies-overflow.is-visible {
     opacity: 1 !important;
   }
 
   .concerts-overflow.is-visible .overflow-item,
-  .events-overflow.is-visible .overflow-group {
+  .events-overflow.is-visible .overflow-group,
+  .movies-overflow.is-visible .overflow-group {
     opacity: 1 !important;
     transform: none !important;
   }

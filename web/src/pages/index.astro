@@ -14,6 +14,12 @@ import { groupEventsByDate, sliceEventGroups } from '../utils/groupEvents';
 const eventData = loadEventData();
 const { meta, movies, concerts } = eventData;
 
+// Movies progressive disclosure: show first N days, hide the rest
+const MOVIE_VISIBLE_DAYS = 3;
+const visibleMovieDays = movies.slice(0, MOVIE_VISIBLE_DAYS);
+const overflowMovieDays = movies.slice(MOVIE_VISIBLE_DAYS);
+const hasMovieOverflow = overflowMovieDays.length > 0;
+
 // Group events by date for timeline display
 const eventGroups = groupEventsByDate(concerts);
 
@@ -31,9 +37,9 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
 
   <!-- Movies Section -->
   <section class="mb-10">
-    <SectionHeader title="Movies This Week" />
+    <SectionHeader title="Movies" />
 
-    {movies.map((dayGroup) => (
+    {visibleMovieDays.map((dayGroup) => (
       <div>
         <DateHeader day={dayGroup.day} date={dayGroup.date} />
         {dayGroup.movies.map((movie) => (
@@ -52,8 +58,55 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
       </div>
     ))}
 
+    <!-- Movies overflow (hidden by default) -->
+    {hasMovieOverflow && (
+      <div id="movies-overflow" class="movies-overflow" aria-hidden="true">
+        {overflowMovieDays.map((dayGroup, groupIndex) => (
+          <div class="overflow-group" style={`--group-index: ${groupIndex}`}>
+            <DateHeader day={dayGroup.day} date={dayGroup.date} />
+            {dayGroup.movies.map((movie) => (
+              <MovieCard
+                title={movie.title}
+                year={movie.year}
+                time={movie.time}
+                duration={movie.duration}
+                language={movie.language}
+                subtitles={movie.subtitles}
+                rating={movie.rating}
+                genre={movie.genre}
+                url={movie.url}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- Movies toggle button -->
+    {hasMovieOverflow && (
+      <button
+        id="movies-toggle"
+        type="button"
+        class="radar-toggle"
+        aria-expanded="false"
+        aria-controls="movies-overflow"
+      >
+        <span class="toggle-dots" aria-hidden="true">
+          <span class="dot">■</span>
+          <span class="dot">■</span>
+          <span class="dot">■</span>
+        </span>
+        <span class="toggle-text">+{overflowMovieDays.length} MORE DAYS</span>
+        <span class="toggle-dots" aria-hidden="true">
+          <span class="dot">■</span>
+          <span class="dot">■</span>
+          <span class="dot">■</span>
+        </span>
+      </button>
+    )}
+
     {movies.length === 0 && (
-      <p class="text-text-muted text-sm py-4">No OV movies this week.</p>
+      <p class="text-text-muted text-sm py-4">No OV movies found.</p>
     )}
   </section>
 
@@ -100,9 +153,17 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
         aria-expanded="false"
         aria-controls="events-overflow"
       >
-        <span class="toggle-dots" aria-hidden="true">■ ■ ■</span>
+        <span class="toggle-dots" aria-hidden="true">
+          <span class="dot">■</span>
+          <span class="dot">■</span>
+          <span class="dot">■</span>
+        </span>
         <span class="toggle-text">+{overflowEventCount} MORE</span>
-        <span class="toggle-dots" aria-hidden="true">■ ■ ■</span>
+        <span class="toggle-dots" aria-hidden="true">
+          <span class="dot">■</span>
+          <span class="dot">■</span>
+          <span class="dot">■</span>
+        </span>
       </button>
     )}
 
@@ -122,13 +183,25 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
 </Base>
 
 <script>
-  // Radar Toggle - Progressive Disclosure
-  const toggle = document.getElementById('radar-toggle');
-  const overflow = document.getElementById('events-overflow');
-  const toggleText = toggle?.querySelector('.toggle-text');
+  // Progressive disclosure (show more/less) for Movies + Events.
+  function setupDisclosure(toggleId, overflowId, options = {}) {
+    const toggle = document.getElementById(toggleId);
+    const overflow = document.getElementById(overflowId);
+    const toggleText = toggle?.querySelector('.toggle-text');
 
-  if (toggle && overflow && toggleText) {
+    // Progressive enhancement: if the DOM isn't as expected, avoid leaving a dead button.
+    if (!toggle) return;
+    if (!overflow || !toggleText) {
+      toggle.setAttribute('hidden', '');
+      if (overflow) {
+        overflow.setAttribute('aria-hidden', 'true');
+        overflow.classList.remove('is-visible', 'is-expanded', 'is-collapsing');
+      }
+      return;
+    }
+
     const originalText = toggleText.textContent;
+    const expandedText = options.expandedText ?? 'SHOW LESS';
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     toggle.addEventListener('click', () => {
@@ -141,14 +214,13 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
       overflow.setAttribute('aria-hidden', 'false');
       overflow.classList.add('is-visible');
 
-      if (prefersReducedMotion) {
-        overflow.classList.add('is-expanded');
-      } else {
+      if (!prefersReducedMotion) {
+        // Force reflow so animation reliably triggers.
         void overflow.offsetHeight;
-        overflow.classList.add('is-expanded');
       }
+      overflow.classList.add('is-expanded');
 
-      toggleText.textContent = 'SHOW LESS';
+      toggleText.textContent = expandedText;
     }
 
     function collapse() {
@@ -159,16 +231,17 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
       if (prefersReducedMotion) {
         overflow.classList.remove('is-expanded', 'is-visible');
         scrollToToggle();
-      } else {
-        overflow.classList.add('is-collapsing');
-        overflow.classList.remove('is-expanded');
-
-        overflow.addEventListener('animationend', function handler() {
-          overflow.removeEventListener('animationend', handler);
-          overflow.classList.remove('is-collapsing', 'is-visible');
-          scrollToToggle();
-        }, { once: true });
+        return;
       }
+
+      overflow.classList.add('is-collapsing');
+      overflow.classList.remove('is-expanded');
+
+      overflow.addEventListener('animationend', function handler() {
+        overflow.removeEventListener('animationend', handler);
+        overflow.classList.remove('is-collapsing', 'is-visible');
+        scrollToToggle();
+      }, { once: true });
     }
 
     function scrollToToggle() {
@@ -180,4 +253,7 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
       }
     }
   }
+
+  setupDisclosure('movies-toggle', 'movies-overflow');
+  setupDisclosure('radar-toggle', 'events-overflow');
 </script>
