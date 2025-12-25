@@ -18,9 +18,8 @@ from datetime import datetime, timedelta
 from typing import TYPE_CHECKING
 
 from boringhannover.config import SCRAPE_DELAY_SECONDS
-from boringhannover.constants import BERLIN_TZ
+from boringhannover.constants import BERLIN_TZ, MOVIES_LOOKAHEAD_DAYS
 from boringhannover.sources import get_all_sources
-
 
 if TYPE_CHECKING:
     from boringhannover.models import Event
@@ -99,9 +98,9 @@ def fetch_all_events() -> dict[str, list[Event]]:
             # Continue with other sources - graceful degradation
             source_count += 1  # Still count failed sources for rate limiting
 
-    # Filter movies to this week only
+    # Filter movies to the configured lookahead window
     movies_this_week = sorted(
-        (m for m in all_movies if m.is_this_week()),
+        (m for m in all_movies if m.is_within_next_days(MOVIES_LOOKAHEAD_DAYS)),
         key=lambda e: e.date,
     )
 
@@ -112,8 +111,9 @@ def fetch_all_events() -> dict[str, list[Event]]:
     )
 
     logger.info(
-        "Aggregation complete: %d movies this week, %d events on radar",
+        "Aggregation complete: %d movies (next %d days), %d events on radar",
         len(movies_this_week),
+        MOVIES_LOOKAHEAD_DAYS,
         len(big_events_radar),
     )
 

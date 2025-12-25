@@ -134,6 +134,21 @@ class Event:
         Returns:
             True if event date is between now and 7 days from now.
         """
+
+        return self.is_within_next_days(7)
+
+    def is_within_next_days(self, days: int) -> bool:
+        """Check if event occurs within the next N days (inclusive).
+
+        Args:
+            days: Lookahead window in days.
+
+        Returns:
+            True if event date is between now and now + days.
+        """
+        if days < 0:
+            return False
+
         today = datetime.now(BERLIN_TZ)
-        next_week = today + timedelta(days=7)
-        return today <= self.date <= next_week
+        cutoff = today + timedelta(days=days)
+        return today <= self.date <= cutoff

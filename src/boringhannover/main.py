@@ -2,7 +2,7 @@
 
 Entry point for the weekly event aggregation workflow:
 1. Fetch events from all configured sources
-2. Categorize into "This Week" and "On The Radar"
+2. Categorize into movies and "On The Radar"
 3. Export formatted data to multiple output formats
 """
 
@@ -51,20 +51,25 @@ logger = logging.getLogger(__name__)
 # =============================================================================
 
 
-def run() -> bool:
+def run(*, local: bool = False) -> bool:
     """Execute the complete scraping and export workflow.
 
     This is the main orchestration function that:
     1. Fetches events from movies (Astor) and concerts (venues)
-    2. Categorizes them into "This Week" and "On The Radar"
+    2. Categorizes them into movies and "On The Radar"
     3. Exports data to multiple formats (CSV, JSON, Markdown)
     4. Syncs to GitHub (if configured) to trigger frontend rebuild
+
+    Args:
+        local: If True, runs in local/dev mode (no GitHub sync).
 
     Returns:
         True if workflow completed successfully.
     """
     try:
         logger.info("Starting BoringHannover scraper")
+        if local:
+            logger.info("Running in local mode (GitHub sync disabled)")
         logger.info("Fetching events from all sources...")
 
         # Step 1: Gather all events
@@ -75,7 +80,7 @@ def run() -> bool:
         radar_count = len(events_data.get("big_events_radar", []))
 
         logger.info("Summary:")
-        logger.info("  - Movies (This Week): %d", movies_count)
+        logger.info("  - Movies: %d", movies_count)
         logger.info("  - Concerts (On Radar): %d", radar_count)
 
         # Step 2: Export to files
@@ -91,7 +96,7 @@ def run() -> bool:
             return False
 
         # Step 3: Sync data to GitHub (if configured)
-        if should_sync():
+        if (not local) and should_sync():
             logger.info("Syncing data to GitHub...")
             sync_success = sync_to_github("output/web_events.json")
             if sync_success:
@@ -126,6 +131,11 @@ def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="BoringHannover - Weekly event digest for Hannover",
     )
+    parser.add_argument(
+        "--local",
+        action="store_true",
+        help="Run locally (save outputs to ./output and skip GitHub sync)",
+    )
     return parser.parse_args()
 
 
@@ -145,10 +155,10 @@ def main() -> NoReturn:
     Loads environment, runs the workflow, and exits with appropriate status code.
     """
     _configure_logging()
-    _parse_args()  # Keep for future argument additions
+    args = _parse_args()
     _load_environment()
 
-    success = run()
+    success = run(local=bool(getattr(args, "local", False)))
     sys.exit(0 if success else 1)
 
 

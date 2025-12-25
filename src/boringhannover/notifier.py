@@ -1,7 +1,7 @@
 """Notification module for message formatting and delivery.
 
 Formats events into a structured message with two sections:
-1. "Movies (This Week)" - OV movies at Astor Cinema
+1. "Movies" - OV movies at Astor Cinema
 2. "On The Radar" - Big upcoming concerts and events
 """
 

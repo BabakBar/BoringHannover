@@ -243,10 +243,10 @@ def format_movies_section(movies: Sequence[Event]) -> str:
     Returns:
         Formatted movies section.
     """
-    lines: list[str] = ["*Movies (This Week)*"]
+    lines: list[str] = ["*Movies*"]
 
     if not movies:
-        lines.append("_No OV movies this week_")
+        lines.append("_No OV movies found_")
         return "\n".join(lines)
 
     # Group by date for better readability

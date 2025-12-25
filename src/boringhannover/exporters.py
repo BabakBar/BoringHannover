@@ -397,7 +397,7 @@ def export_markdown_digest(
         "",
         "## Movies (Original Version)",
         "",
-        f"**{len(grouped_movies)} films** with **{sum(len(m.showtimes) for m in grouped_movies)} showtimes** this week",
+        f"**{len(grouped_movies)} films** with **{sum(len(m.showtimes) for m in grouped_movies)} showtimes** coming up",
         "",
     ]
 
