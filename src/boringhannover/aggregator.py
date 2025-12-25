@@ -21,6 +21,7 @@ from boringhannover.config import SCRAPE_DELAY_SECONDS
 from boringhannover.constants import BERLIN_TZ, MOVIES_LOOKAHEAD_DAYS
 from boringhannover.sources import get_all_sources
 
+
 if TYPE_CHECKING:
     from boringhannover.models import Event
 

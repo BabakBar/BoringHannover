@@ -17,6 +17,7 @@ from boringhannover.aggregator import fetch_all_events
 from boringhannover.github_sync import should_sync, sync_to_github
 from boringhannover.notifier import notify
 
+
 __all__ = ["main", "run"]
 
 
