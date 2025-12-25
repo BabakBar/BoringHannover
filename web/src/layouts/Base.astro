@@ -51,8 +51,11 @@ const ogLocale = (() => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
 
-    <!-- Favicon -->
+    <!-- Favicons (Google Search + browsers) -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon-h.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
@@ -76,7 +79,7 @@ const ogLocale = (() => {
 
     <!-- Minimal PWA -->
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="apple-touch-icon" href="/favicon-h.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <title>{title}</title>
 
