@@ -12,7 +12,6 @@ from typing import Literal
 
 from boringhannover.constants import BERLIN_TZ
 
-
 __all__ = ["Event", "EventCategory", "EventMetadata"]
 
 # Type aliases for clarity

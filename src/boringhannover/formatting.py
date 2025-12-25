@@ -10,7 +10,6 @@ from typing import TYPE_CHECKING
 
 from boringhannover.constants import BERLIN_TZ
 
-
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
