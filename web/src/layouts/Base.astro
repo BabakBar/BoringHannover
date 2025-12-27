@@ -99,7 +99,12 @@ const ogLocale = (() => {
 
     <!-- Umami Analytics (optional; configured via PUBLIC_UMAMI_* env vars) -->
     {umamiWebsiteId && (
-      <script defer src={umamiSrc} data-website-id={umamiWebsiteId}></script>
+      <script
+        defer
+        src={umamiSrc}
+        data-website-id={umamiWebsiteId}
+        data-domains="boringhannover.com,www.boringhannover.com"
+      ></script>
     )}
   </head>
   <body class="bg-bg-primary min-h-screen">

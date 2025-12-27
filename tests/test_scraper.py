@@ -3,7 +3,6 @@
 Tests cover the core modules:
 - models: Event dataclass and methods
 - scrapers: Event fetching and parsing
-- notifier: Message formatting and Telegram integration
 - main: CLI and workflow orchestration
 """
 

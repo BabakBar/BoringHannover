@@ -206,6 +206,14 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
 
     toggle.addEventListener('click', () => {
       const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+      // Track expand/collapse
+      if (typeof umami !== 'undefined') {
+        const action = isExpanded ? 'collapse' : 'expand';
+        const section = toggleId.includes('movies') ? 'movies' : 'events';
+        umami.track(`${section}-${action}`);
+      }
+
       isExpanded ? collapse() : expand();
     });
 

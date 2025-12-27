@@ -45,6 +45,10 @@ const isSoldOut = status === 'sold_out';
   target="_blank"
   rel="noopener noreferrer"
   class="concert-card block py-3 -mx-2 px-2 rounded card-hover"
+  data-umami-event="event-click"
+  data-umami-event-title={title}
+  data-umami-event-venue={venue}
+  data-umami-event-type={eventType || 'concert'}
 >
   <!-- Date column + content -->
   <div class="flex items-start gap-4">

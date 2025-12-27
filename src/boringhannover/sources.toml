@@ -159,6 +159,5 @@ retry_delay_seconds = 2.0
 # =============================================================================
 
 [output]
-telegram_max_length = 4096
 date_format = "%d.%m.%Y"
 time_format = "%H:%M"
