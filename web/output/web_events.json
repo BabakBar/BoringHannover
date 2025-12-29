@@ -1,8 +1,8 @@
 {
   "meta": {
     "week": 1,
-    "year": 2025,
-    "updatedAt": "Mon 29 Dec 18:00"
+    "year": 2026,
+    "updatedAt": "Mon 29 Dec 19:22"
   },
   "movies": [
     {
@@ -398,8 +398,56 @@
   ],
   "concerts": [
     {
+      "title": "FEUERWERK DER TURNKUNST – VIVA",
+      "date": "31 Dez 2025",
+      "day": "Mi",
+      "time": "17:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/feuerwerk-der-turnkunst-viva/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Faust auf Faust",
+      "date": "31 Dez 2025",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/311225-faust-auf-faust.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Erobique",
+      "date": "31 Dez 2025",
+      "day": "Mi",
+      "time": "21:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/70266/erobique",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rewind",
+      "date": "3 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/030126-rewind.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Brat Party",
-      "date": "9 Jan 2026",
+      "date": "9 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Faust",
@@ -411,7 +459,7 @@
     },
     {
       "title": "Die 90er-Party",
-      "date": "10 Jan 2026",
+      "date": "10 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
@@ -423,7 +471,7 @@
     },
     {
       "title": "Taktgeber",
-      "date": "10 Jan 2026",
+      "date": "10 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
@@ -435,7 +483,7 @@
     },
     {
       "title": "Herzen in Terzen",
-      "date": "10 Jan 2026",
+      "date": "10 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Pavillon",
@@ -447,7 +495,7 @@
     },
     {
       "title": "HANDBALL-LÄNDERSPIEL DER MÄNNER",
-      "date": "11 Jan 2026",
+      "date": "11 Jan",
       "day": "So",
       "time": "18:05",
       "venue": "ZAG Arena",
@@ -459,7 +507,7 @@
     },
     {
       "title": "11. Große Stummfilmvertonung City Lights",
-      "date": "11 Jan 2026",
+      "date": "11 Jan",
       "day": "So",
       "time": "20:00",
       "venue": "Béi Chéz Heinz",
@@ -471,7 +519,7 @@
     },
     {
       "title": "Nordstadtbraut im Bei Chez Heinz heute mit",
-      "date": "11 Jan 2026",
+      "date": "11 Jan",
       "day": "So",
       "time": "20:00",
       "venue": "Béi Chéz Heinz",
@@ -483,7 +531,7 @@
     },
     {
       "title": "Ringsgwandl",
-      "date": "13 Jan 2026",
+      "date": "13 Jan",
       "day": "Di",
       "time": "19:30",
       "venue": "Pavillon",
@@ -495,7 +543,7 @@
     },
     {
       "title": "DIRKSCHNEIDER",
-      "date": "13 Jan 2026",
+      "date": "13 Jan",
       "day": "Di",
       "time": "20:00",
       "venue": "Capitol Hannover",
@@ -507,7 +555,7 @@
     },
     {
       "title": "Architects",
-      "date": "13 Jan 2026",
+      "date": "13 Jan",
       "day": "Di",
       "time": "20:00",
       "venue": "Swiss Life Hall",
@@ -519,7 +567,7 @@
     },
     {
       "title": "BUSHIDO",
-      "date": "14 Jan 2026",
+      "date": "14 Jan",
       "day": "Mi",
       "time": "20:00",
       "venue": "ZAG Arena",
@@ -531,7 +579,7 @@
     },
     {
       "title": "Eddin",
-      "date": "15 Jan 2026",
+      "date": "15 Jan",
       "day": "Do",
       "time": "20:00",
       "venue": "Faust",
@@ -543,7 +591,7 @@
     },
     {
       "title": "Eddin – verlegt in die Faust 60er-Jahre-Halle",
-      "date": "15 Jan 2026",
+      "date": "15 Jan",
       "day": "Do",
       "time": "20:00",
       "venue": "Pavillon",
@@ -555,7 +603,7 @@
     },
     {
       "title": "Götz Widmann",
-      "date": "16 Jan 2026",
+      "date": "16 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Faust",
@@ -567,7 +615,7 @@
     },
     {
       "title": "Rotzfrech",
-      "date": "16 Jan 2026",
+      "date": "16 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Faust",
@@ -579,7 +627,7 @@
     },
     {
       "title": "J.B.O.",
-      "date": "16 Jan 2026",
+      "date": "16 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Pavillon",
@@ -591,7 +639,7 @@
     },
     {
       "title": "Ralf Schmitz",
-      "date": "16 Jan 2026",
+      "date": "16 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Swiss Life Hall",
@@ -603,7 +651,7 @@
     },
     {
       "title": "FEUERWERK DER TURNKUNST – VIVA",
-      "date": "17 Jan 2026",
+      "date": "17 Jan",
       "day": "Sa",
       "time": "14:00",
       "venue": "ZAG Arena",
@@ -615,7 +663,7 @@
     },
     {
       "title": "FEUERWERK DER TURNKUNST – VIVA",
-      "date": "17 Jan 2026",
+      "date": "17 Jan",
       "day": "Sa",
       "time": "19:00",
       "venue": "ZAG Arena",
@@ -627,7 +675,7 @@
     },
     {
       "title": "Yung Kafa & Kücük Efendi",
-      "date": "17 Jan 2026",
+      "date": "17 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Capitol Hannover",
@@ -639,7 +687,7 @@
     },
     {
       "title": "Party 2000",
-      "date": "17 Jan 2026",
+      "date": "17 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
@@ -651,7 +699,7 @@
     },
     {
       "title": "Boyfriend",
-      "date": "17 Jan 2026",
+      "date": "17 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
@@ -663,7 +711,7 @@
     },
     {
       "title": "Hotel Rimini",
-      "date": "17 Jan 2026",
+      "date": "17 Jan",
       "day": "Sa",
       "time": "20:30",
       "venue": "Pavillon",
@@ -675,7 +723,7 @@
     },
     {
       "title": "APACHE 207",
-      "date": "18 Jan 2026",
+      "date": "18 Jan",
       "day": "So",
       "time": "20:00",
       "venue": "ZAG Arena",
@@ -687,7 +735,7 @@
     },
     {
       "title": "APACHE 207",
-      "date": "19 Jan 2026",
+      "date": "19 Jan",
       "day": "Mo",
       "time": "20:00",
       "venue": "ZAG Arena",
@@ -699,7 +747,7 @@
     },
     {
       "title": "Das 47. hannoversche Rudelsingen (Zusatzshow)",
-      "date": "20 Jan 2026",
+      "date": "20 Jan",
       "day": "Di",
       "time": "19:30",
       "venue": "Pavillon",
@@ -711,7 +759,7 @@
     },
     {
       "title": "Das 47. hannoversche Rudelsingen",
-      "date": "21 Jan 2026",
+      "date": "21 Jan",
       "day": "Mi",
       "time": "19:30",
       "venue": "Pavillon",
@@ -723,7 +771,7 @@
     },
     {
       "title": "APACHE 207",
-      "date": "21 Jan 2026",
+      "date": "21 Jan",
       "day": "Mi",
       "time": "20:00",
       "venue": "ZAG Arena",
@@ -735,7 +783,7 @@
     },
     {
       "title": "Goldy.mp3 & Doubtboy",
-      "date": "22 Jan 2026",
+      "date": "22 Jan",
       "day": "Do",
       "time": "20:00",
       "venue": "Faust",
@@ -747,7 +795,7 @@
     },
     {
       "title": "Jamal",
-      "date": "23 Jan 2026",
+      "date": "23 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Capitol Hannover",
@@ -759,7 +807,7 @@
     },
     {
       "title": "Meta Hüper",
-      "date": "23 Jan 2026",
+      "date": "23 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Faust",
@@ -771,7 +819,7 @@
     },
     {
       "title": "Offstage",
-      "date": "23 Jan 2026",
+      "date": "23 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Faust",
@@ -783,7 +831,7 @@
     },
     {
       "title": "Heartbreak Party",
-      "date": "23 Jan 2026",
+      "date": "23 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Faust",
@@ -795,7 +843,7 @@
     },
     {
       "title": "Pippo Pollina • in Concerto",
-      "date": "23 Jan 2026",
+      "date": "23 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Pavillon",
@@ -807,7 +855,7 @@
     },
     {
       "title": "The Busters",
-      "date": "24 Jan 2026",
+      "date": "24 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
@@ -819,7 +867,7 @@
     },
     {
       "title": "Rise of Kronos & Leaving The Orbit",
-      "date": "24 Jan 2026",
+      "date": "24 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
@@ -831,7 +879,7 @@
     },
     {
       "title": "Wyld x Karaoke-Party",
-      "date": "24 Jan 2026",
+      "date": "24 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
@@ -843,7 +891,7 @@
     },
     {
       "title": "Brazzo Brazzone & The World Brass Ensemble!",
-      "date": "24 Jan 2026",
+      "date": "24 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Pavillon",
@@ -855,7 +903,7 @@
     },
     {
       "title": "Brazzo Brazzone & The World Brass Ensemble!",
-      "date": "25 Jan 2026",
+      "date": "25 Jan",
       "day": "So",
       "time": "18:00",
       "venue": "Pavillon",
@@ -867,7 +915,7 @@
     },
     {
       "title": "Aymen & Amo",
-      "date": "26 Jan 2026",
+      "date": "26 Jan",
       "day": "Mo",
       "time": "20:00",
       "venue": "Swiss Life Hall",
@@ -879,7 +927,7 @@
     },
     {
       "title": "Monet192",
-      "date": "27 Jan 2026",
+      "date": "27 Jan",
       "day": "Di",
       "time": "20:00",
       "venue": "Capitol Hannover",
@@ -891,7 +939,7 @@
     },
     {
       "title": "Beyond The Black",
-      "date": "28 Jan 2026",
+      "date": "28 Jan",
       "day": "Mi",
       "time": "20:00",
       "venue": "Capitol Hannover",
@@ -903,7 +951,7 @@
     },
     {
       "title": "Duo Stiehler/Lucaciu",
-      "date": "28 Jan 2026",
+      "date": "28 Jan",
       "day": "Mi",
       "time": "20:00",
       "venue": "Pavillon",
@@ -915,7 +963,7 @@
     },
     {
       "title": "Michelle",
-      "date": "28 Jan 2026",
+      "date": "28 Jan",
       "day": "Mi",
       "time": "20:00",
       "venue": "Swiss Life Hall",
@@ -927,7 +975,7 @@
     },
     {
       "title": "Pabst",
-      "date": "29 Jan 2026",
+      "date": "29 Jan",
       "day": "Do",
       "time": "20:00",
       "venue": "Faust",
@@ -939,7 +987,7 @@
     },
     {
       "title": "Tingvall Trio",
-      "date": "29 Jan 2026",
+      "date": "29 Jan",
       "day": "Do",
       "time": "20:00",
       "venue": "Pavillon",
@@ -951,7 +999,7 @@
     },
     {
       "title": "Da Capo Udo Jürgens",
-      "date": "29 Jan 2026",
+      "date": "29 Jan",
       "day": "Do",
       "time": "20:00",
       "venue": "Swiss Life Hall",
@@ -963,7 +1011,7 @@
     },
     {
       "title": "Pogendroblem",
-      "date": "30 Jan 2026",
+      "date": "30 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Faust",
@@ -975,7 +1023,7 @@
     },
     {
       "title": "Die 80er-Party",
-      "date": "30 Jan 2026",
+      "date": "30 Jan",
       "day": "Fr",
       "time": "20:00",
       "venue": "Faust",
@@ -987,7 +1035,7 @@
     },
     {
       "title": "Anime Dreamlight Concerts",
-      "date": "31 Jan 2026",
+      "date": "31 Jan",
       "day": "Sa",
       "time": "18:00",
       "venue": "Pavillon",
@@ -999,7 +1047,7 @@
     },
     {
       "title": "Passepartout X Make a Move",
-      "date": "31 Jan 2026",
+      "date": "31 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Capitol Hannover",
@@ -1011,7 +1059,7 @@
     },
     {
       "title": "Skarra Mucci & Manudigital",
-      "date": "31 Jan 2026",
+      "date": "31 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
@@ -1023,7 +1071,7 @@
     },
     {
       "title": "Brüste raus - Fresse auf!",
-      "date": "31 Jan 2026",
+      "date": "31 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
@@ -1035,7 +1083,7 @@
     },
     {
       "title": "The Butcher Sisters",
-      "date": "31 Jan 2026",
+      "date": "31 Jan",
       "day": "Sa",
       "time": "20:00",
       "venue": "Swiss Life Hall",
@@ -1047,7 +1095,7 @@
     },
     {
       "title": "Anime Dreamlight Concerts",
-      "date": "31 Jan 2026",
+      "date": "31 Jan",
       "day": "Sa",
       "time": "20:45",
       "venue": "Pavillon",
@@ -1059,7 +1107,7 @@
     },
     {
       "title": "Do Re Mi",
-      "date": "1 Feb 2026",
+      "date": "1 Feb",
       "day": "So",
       "time": "11:00",
       "venue": "Pavillon",
@@ -1071,7 +1119,7 @@
     },
     {
       "title": "Do Re Mi",
-      "date": "1 Feb 2026",
+      "date": "1 Feb",
       "day": "So",
       "time": "12:30",
       "venue": "Pavillon",
@@ -1083,7 +1131,7 @@
     },
     {
       "title": "The S'coolmasters & die Studio-Bigband der HMTMH",
-      "date": "3 Feb 2026",
+      "date": "3 Feb",
       "day": "Di",
       "time": "20:00",
       "venue": "Faust",
@@ -1095,7 +1143,7 @@
     },
     {
       "title": "Buray",
-      "date": "3 Feb 2026",
+      "date": "3 Feb",
       "day": "Di",
       "time": "20:00",
       "venue": "Pavillon",
@@ -1107,7 +1155,7 @@
     },
     {
       "title": "PA69",
-      "date": "4 Feb 2026",
+      "date": "4 Feb",
       "day": "Mi",
       "time": "20:00",
       "venue": "Capitol Hannover",
@@ -1119,7 +1167,7 @@
     },
     {
       "title": "Almost Twins",
-      "date": "4 Feb 2026",
+      "date": "4 Feb",
       "day": "Mi",
       "time": "20:00",
       "venue": "Faust",
@@ -1131,7 +1179,7 @@
     },
     {
       "title": "Royal Republic",
-      "date": "5 Feb 2026",
+      "date": "5 Feb",
       "day": "Do",
       "time": "20:00",
       "venue": "Capitol Hannover",
@@ -1143,7 +1191,7 @@
     },
     {
       "title": "Lotto King Karl",
-      "date": "6 Feb 2026",
+      "date": "6 Feb",
       "day": "Fr",
       "time": "20:00",
       "venue": "Capitol Hannover",
@@ -1155,7 +1203,7 @@
     },
     {
       "title": "Die Ringelreihe",
-      "date": "11 Feb 2026",
+      "date": "11 Feb",
       "day": "Mi",
       "time": "16:00",
       "venue": "Pavillon",
@@ -1167,7 +1215,7 @@
     },
     {
       "title": "17 Hippies",
-      "date": "11 Feb 2026",
+      "date": "11 Feb",
       "day": "Mi",
       "time": "20:00",
       "venue": "Pavillon",
@@ -1179,7 +1227,7 @@
     },
     {
       "title": "Ralf Schmitz",
-      "date": "12 Feb 2026",
+      "date": "12 Feb",
       "day": "Do",
       "time": "20:00",
       "venue": "Swiss Life Hall",
@@ -1191,7 +1239,7 @@
     },
     {
       "title": "Gzuz",
-      "date": "14 Feb 2026",
+      "date": "14 Feb",
       "day": "Sa",
       "time": "20:00",
       "venue": "Swiss Life Hall",
@@ -1203,7 +1251,7 @@
     },
     {
       "title": "Motionless In White",
-      "date": "21 Feb 2026",
+      "date": "21 Feb",
       "day": "Sa",
       "time": "20:00",
       "venue": "Swiss Life Hall",
@@ -1215,7 +1263,7 @@
     },
     {
       "title": "Zartmann",
-      "date": "28 Feb 2026",
+      "date": "28 Feb",
       "day": "Sa",
       "time": "20:00",
       "venue": "Swiss Life Hall",
@@ -1227,7 +1275,7 @@
     },
     {
       "title": "Silvesterparty 2025",
-      "date": "31 Dez 2026",
+      "date": "31 Dez",
       "day": "Do",
       "time": "20:00",
       "venue": "Capitol Hannover",
