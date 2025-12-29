@@ -187,8 +187,8 @@ class OutputManager:
             Dictionary mapping format names to output paths.
         """
         now = datetime.now(BERLIN_TZ)
-        week_num = now.isocalendar()[1]
-        year = now.year
+        iso = now.isocalendar()
+        year, week_num = iso[0], iso[1]
 
         # Group movies by film
         grouped_movies = group_movies_by_film(movies)
