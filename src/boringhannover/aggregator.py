@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import logging
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import TYPE_CHECKING
 
 from boringhannover.config import SCRAPE_DELAY_SECONDS
@@ -35,8 +35,8 @@ def fetch_all_events() -> dict[str, list[Event]]:
 
     Orchestrates all registered and enabled scrapers, then categorizes
     events into time-based buckets:
-    - movies_this_week: Movie showtimes within the next 7 days
-    - big_events_radar: Concerts/events beyond 7 days (future planning)
+    - movies_this_week: Movie showtimes within the configured lookahead window
+    - big_events_radar: All concerts/events from today onward
 
     Returns:
         Dictionary with categorized event lists.
@@ -47,7 +47,6 @@ def fetch_all_events() -> dict[str, list[Event]]:
         >>> print(f"Radar: {len(events['big_events_radar'])}")
     """
     today = datetime.now(BERLIN_TZ)
-    next_week = today + timedelta(days=7)
 
     logger.info("Fetching events from all registered sources...")
 
@@ -105,9 +104,9 @@ def fetch_all_events() -> dict[str, list[Event]]:
         key=lambda e: e.date,
     )
 
-    # Filter radar to EXCLUDE this week (future events only)
+    # Include all concerts from today onward
     big_events_radar = sorted(
-        (r for r in radar_events if r.date > next_week),
+        (r for r in radar_events if r.date >= today),
         key=lambda e: e.date,
     )
 
