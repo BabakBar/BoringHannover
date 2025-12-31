@@ -283,6 +283,30 @@ class TestApollokinoScraper:
         # TODO: check language when field is available
         assert ev.metadata.get("original_version") is True
 
+    @patch("boringhannover.sources.base.httpx.Client")
+    def test_fetch_detail_metadata_parses(self, mock_client: Mock) -> None:
+        """Test detail-page metadata extraction from the saved fixture."""
+        mock_response = Mock()
+        with open("tests/fixtures/apollokino_detail.html", "r", encoding="utf-8") as fh:
+            html = fh.read()
+
+        mock_response.text = html
+        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
+
+        scraper = ApollokinoScraper()
+        meta = scraper._fetch_detail_metadata("https://www.apollokino.de/?v=&film=filme/01000749&anmerk=OmU-Nachtstudio")
+
+        assert meta.get("duration") == 124
+        assert meta.get("rating") == 16
+        assert meta.get("year") == 1975
+        assert meta.get("country") and meta.get("country").lower().startswith("usa")
+        assert meta.get("language") == "Sprache: Englisch, Untertitel: Deutsch"
+        assert meta.get("trailer_url") == "https://www.youtube.com/watch?v=bBBBbadAkwM"
+        assert isinstance(meta.get("cast"), list)
+        assert "Roy Scheider" in meta.get("cast")
+        # Detailed synopsis should come from the detail page filminhalt
+        assert "Steven Spiebergs Hai-Blockbuster" in meta.get("synopsis", "")
+        assert "Lexikon des internationalen Films" in meta.get("synopsis", "")
 
 class TestFetchAllEvents:
     """Tests for the event aggregation function."""

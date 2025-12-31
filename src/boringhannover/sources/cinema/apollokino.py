@@ -15,9 +15,10 @@ https://www.apollokino.de/?v=&mp=Diese%20Woche
 from __future__ import annotations
 
 import logging
+import time
 import re
-from datetime import datetime
-from typing import ClassVar
+from datetime import datetime, timedelta
+from typing import ClassVar, Any
 from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
@@ -30,6 +31,8 @@ from boringhannover.sources.base import (
     is_original_version,
     register_source,
 )
+from boringhannover.constants import MOVIES_LOOKAHEAD_DAYS, BERLIN_TZ
+from boringhannover.config import SCRAPE_DELAY_SECONDS
 
 
 __all__ = ["ApollokinoSource"]
@@ -59,6 +62,9 @@ class ApollokinoSource(BaseSource):
             soup = BeautifulSoup(resp.text, "html.parser")
 
         events: list[Event] = []
+
+        now = datetime.now(BERLIN_TZ)
+        cutoff = now + timedelta(days=MOVIES_LOOKAHEAD_DAYS)
 
         # Iterate over date blocks: a date line followed by a filmtabelle
         date_lines = soup.find_all("div", class_="datumzeile")
@@ -162,17 +168,31 @@ class ApollokinoSource(BaseSource):
                     event_url = detail_url or ticket_url or self.PAGE_URL
 
                     try:
+                        metadata: dict[str, Any] = {
+                            "synopsis": synopsis,
+                            "original_version": True,
+                            "poster_url": poster_url,
+                        }
+
+                        # If the show is within the movies lookahead, 
+                        # fetch detail page to enrich metadata.
+                        if detail_url and dt and dt.tzinfo is not None and now <= dt <= cutoff:
+                            try:
+                                detail_meta = self._fetch_detail_metadata(detail_url)
+                                # Merge detail metadata (detail wins)
+                                metadata.update(detail_meta)
+                                # Be polite between requests
+                                time.sleep(SCRAPE_DELAY_SECONDS)
+                            except Exception:
+                                logger.debug("Failed to fetch detail page %s for %s", detail_url, film_title)
+
                         ev = Event(
                             title=film_title,
                             date=dt,
                             venue=self.source_name,
                             url=event_url,
                             category="movie",
-                            metadata={
-                                "synopsis": synopsis,
-                                "original_version": True,
-                                "poster_url": poster_url,
-                            },
+                            metadata=metadata,
                         )
                         events.append(ev)
                     except Exception as exc:
@@ -180,3 +200,181 @@ class ApollokinoSource(BaseSource):
 
         logger.info("Apollokino: parsed %d events", len(events))
         return events
+
+    def _parse_filmdaten(self, text: str) -> dict[str, Any]:
+        """Parse the various filmdaten formats seen on Apollokino detail pages.
+
+        Returns keys: country (str), year (int), duration (int minutes), rating (int), cast (list)
+        """
+        out: dict[str, Any] = {"country": "", "year": None, "duration": None, "rating": None, "cast": []}
+
+        if not text:
+            return out
+
+        # Year
+        year_m = re.search(r"(19|20)\d{2}", text)
+        if year_m:
+            try:
+                out["year"] = int(year_m.group(0))
+            except Exception:
+                pass
+
+        # Country - take leading segment before year or comma
+        country_m = re.match(r"\s*([A-Za-zÄÖÜäöü0-9\-/ ,]+?)\s*(?:,|\b(19|20)\d{2}\b)", text)
+        if country_m:
+            country = country_m.group(1).strip()
+            out["country"] = country
+
+        # Duration
+        dur_m = re.search(r"(?:Länge:|Länge|,|\s)(\d{2,3})\s*Min", text)
+        if not dur_m:
+            dur_m = re.search(r"(\d{2,3})\s*Min\.?", text)
+        if dur_m:
+            try:
+                out["duration"] = int(dur_m.group(1))
+            except Exception:
+                pass
+
+        # Rating: unify variants like "FSK 16", "FSK: 16", "ab 16 J.", etc.
+        rating_m = re.search(r"(?:FSK[:\s]*|ab\s*)(\d{1,2})(?:\s*J\.?)*", text, re.IGNORECASE)
+        if rating_m:
+            try:
+                out["rating"] = int(rating_m.group(1))
+            except Exception:
+                out["rating"] = None
+
+        # Cast: non-greedy capture, stop before common trailing tokens like Länge:, FSK, R:
+        cast_m = re.search(r"mit:\s*(.+?)(?=\s*(?:Länge:|FSK[:\s]|R:|$))", text, re.IGNORECASE)
+        if cast_m:
+            cast_text = cast_m.group(1)
+            parts = [p.strip() for p in re.split(r",\s*|\s+und\s+", cast_text) if p.strip()]
+            names: list[str] = []
+            for p in parts:
+                cleaned = self._clean_cast_name(p)
+                if not cleaned:
+                    continue
+                # skip obvious stray tokens
+                low = cleaned.lower()
+                if low.startswith("länge") or low.startswith("fsk"):
+                    continue
+                names.append(cleaned)
+            out["cast"] = names
+
+        return out
+
+    def _fetch_detail_metadata(self, url: str) -> dict[str, Any]:
+        """Fetch detail page and extract metadata aligned with Astor's keys."""
+        with create_http_client() as client:
+            resp = client.get(url)
+            resp.raise_for_status()
+            soup = BeautifulSoup(resp.text, "html.parser")
+
+        return self._extract_metadata(soup)
+
+    def _extract_metadata(self, soup: BeautifulSoup) -> dict[str, Any]:
+        """Extract metadata from an Apollokino detail page soup.
+
+        Returns keys: duration, rating, year, country, language, trailer_url, cast
+        """
+        out: dict[str, Any] = {}
+
+        filmdaten_el = soup.find("div", class_="filmdaten")
+        filmdaten_text = filmdaten_el.get_text(separator=" ", strip=True) if filmdaten_el else ""
+        parsed = self._parse_filmdaten(filmdaten_text)
+
+        homepage_el = soup.find("div", class_="filmhomepage")
+        trailer_url = ""
+        if homepage_el:
+            a = homepage_el.find("a")
+            if a and a.get("href"):
+                trailer_url = a.get("href")
+
+        if parsed.get("duration") is not None:
+            out["duration"] = parsed["duration"]
+            if parsed.get("rating") is not None:
+                out["rating"] = parsed.get("rating")
+        if parsed.get("year") is not None:
+            out["year"] = parsed["year"]
+        if parsed.get("country"):
+            out["country"] = parsed["country"]
+        out["language"] = self._derive_language_from_country(parsed.get("country", ""))
+        if trailer_url:
+            out["trailer_url"] = trailer_url
+        if parsed.get("cast"):
+            out["cast"] = parsed["cast"]
+
+        # Detail synopsis
+        filminhalt_el = soup.find("div", class_="filminhalt")
+        if filminhalt_el:
+            filminhalt_text = filminhalt_el.get_text(separator=" ", strip=True)
+            if filminhalt_text:
+                out["synopsis"] = filminhalt_text
+
+        return out
+
+    @staticmethod
+    def _clean_cast_name(name: str) -> str:
+        name = re.sub(r"\(.*?\)", "", name)
+        name = name.replace("u.a.", "").replace("u.a", "")
+        return name.strip().strip(",")
+
+    @staticmethod
+    def _derive_language_from_country(country: str) -> str:
+        """Return a canonical German language string expected by the exporter.
+
+        Behavior:
+        - If `country` lists multiple countries (contains ',' or '/'), return only the
+          subtitle token: "Untertitel: Deutsch" (we know Apollokino shows OmU).
+        - For single-country codes (common short forms), return e.g.:
+            "Sprache: Englisch, Untertitel: Deutsch"
+        - If country is empty or unknown, return "Untertitel: Deutsch" since OmU implies
+          German subtitles.
+        """
+        if not country:
+            return "Untertitel: Deutsch"
+
+        # If multiple countries listed, avoid guessing the spoken language
+        if "," in country or "/" in country:
+            return "Untertitel: Deutsch"
+
+        c = country.strip().lower()
+        # Map common short country codes to German language names
+        code_map: dict[str, str] = {
+            "usa": "Englisch",
+            "us": "Englisch",
+            "gb": "Englisch",
+            "uk": "Englisch",
+            "dk": "Dänisch",
+            "fr": "Französisch",
+            "de": "Deutsch",
+            "it": "Italienisch",
+            "es": "Spanisch",
+            "jp": "Japanisch",
+            "se": "Schwedisch",
+            "no": "Norwegisch",
+            "pl": "Polnisch",
+            "pt": "Portugiesisch",
+            "nl": "Niederländisch",
+            "be": "Niederländisch",
+            "ch": "Deutsch",
+            "at": "Deutsch",
+            "ie": "Englisch",
+            "gr": "Griechisch",
+            "tr": "Türkisch",
+        }
+
+        # Try exact matches first, then containment
+        lang_name: str | None = None
+        if c in code_map:
+            lang_name = code_map[c]
+        else:
+            for key, name in code_map.items():
+                if key in c:
+                    lang_name = name
+                    break
+
+        if lang_name:
+            return f"Sprache: {lang_name}, Untertitel: Deutsch"
+
+        # Fallback: only subtitles (do not guess spoken language)
+        return "Untertitel: Deutsch"
