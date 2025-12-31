@@ -25,6 +25,7 @@ from boringhannover.sources.concerts.punkrock_konzerte import (
 from boringhannover.sources.concerts.zag_arena import (
     ZAGArenaSource as ConcertVenueScraper,
 )
+from boringhannover.sources.cinema.apollokino import ApollokinoSource as ApollokinoScraper
 
 
 # =============================================================================
@@ -323,6 +324,54 @@ class TestPunkrockKonzerteSource:
         assert events[1].venue == "Bei Chez Heinz"
         assert events[1].metadata["address"] == "Hannover"
         assert events[1].metadata["time"] == "20:00"
+
+
+class TestApollokinoScraper:
+    """Tests for the Apollokino scraper."""
+
+    def test_scraper_source_name(self) -> None:
+        scraper = ApollokinoScraper()
+        assert scraper.source_name == "Apollokino Hannover"
+
+    @patch("boringhannover.sources.base.httpx.Client")
+    def test_fetch_returns_list(self, mock_client: Mock) -> None:
+        """Fetch should return a list when given real HTML."""
+        mock_response = Mock()
+        # Use the saved HTML snapshot for deterministic parsing
+        with open("tests/fixtures/apollokino_omu.html", "r", encoding="utf-8") as fh:
+            html = fh.read()
+
+        mock_response.text = html
+        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
+
+        scraper = ApollokinoScraper()
+        result = scraper.fetch()
+
+        assert isinstance(result, list)
+
+    @patch("boringhannover.sources.base.httpx.Client")
+    def test_fetch_parses_omu_entries(self, mock_client: Mock) -> None:
+        """Ensure OmU entries are parsed and include expected metadata."""
+        mock_response = Mock()
+        with open("tests/fixtures/apollokino_omu.html", "r", encoding="utf-8") as fh:
+            html = fh.read()
+
+        mock_response.text = html
+        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
+
+        scraper = ApollokinoScraper()
+        result = scraper.fetch()
+
+        # Should parse at least one OmU movie and include metadata keys
+        assert len(result) > 0
+        ev = result[0]
+        assert ev.category == "movie"
+        assert ev.title == "THE MASTERMIND"
+        assert ev.date.strftime("%H:%M") == "22:30"
+        assert ev.metadata.get("poster_url") == "https://www.apollokino.de/filme/00005138/plakat00005138.jpg"
+        assert ev.url == "https://www.apollokino.de/?v=&film=filme/00005138&anmerk=OmU-Nachtstudio"
+        # TODO: check language when field is available
+        assert ev.metadata.get("original_version") is True
 
 
 class TestFetchAllEvents:
