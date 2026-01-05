@@ -1,261 +1,10 @@
 {
   "meta": {
-    "week": 1,
+    "week": 2,
     "year": 2026,
-    "updatedAt": "Mon 29 Dec 19:22"
+    "updatedAt": "Mon 05 Jan 09:27"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "29.12",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:00",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "30.12",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "12:45",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Zoomania 2",
-          "year": 2025,
-          "time": "15:15",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "15:20",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "31.12",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "14:50",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:00",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
-    {
-      "day": "THU",
-      "date": "01.01",
-      "movies": [
-        {
-          "title": "Zoomania 2",
-          "year": 2025,
-          "time": "14:35",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "15:20",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "02.01",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "11:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Zoomania 2",
-          "year": 2025,
-          "time": "14:35",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "15:20",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "03.01",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "15:25",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "04.01",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "15:20",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
     {
       "day": "MON",
       "date": "05.01",
@@ -361,17 +110,6 @@
       "date": "07.01",
       "movies": [
         {
-          "title": "Zoomania 2",
-          "year": 2025,
-          "time": "14:15",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        },
-        {
           "title": "Avatar: Fire and Ash",
           "year": 2025,
           "time": "15:10",
@@ -394,57 +132,43 @@
           "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
         }
       ]
+    },
+    {
+      "day": "SAT",
+      "date": "10.01",
+      "movies": [
+        {
+          "title": "I Puritani - Bellini (MET 2025/26)",
+          "year": 2026,
+          "time": "19:00",
+          "duration": "3h50m",
+          "language": "IT",
+          "subtitles": "DE",
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/i-puritani-bellini-met-2025-26"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "14.01",
+      "movies": [
+        {
+          "title": "La Traviata - Verdi (Royal Ballet & Opera 2025/26)",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "4h",
+          "language": "IT",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/la-traviata-verdi-royal-ballet-und-opera-2025-26"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "FEUERWERK DER TURNKUNST – VIVA",
-      "date": "31 Dez 2025",
-      "day": "Mi",
-      "time": "17:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/feuerwerk-der-turnkunst-viva/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Faust auf Faust",
-      "date": "31 Dez 2025",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/311225-faust-auf-faust.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Erobique",
-      "date": "31 Dez 2025",
-      "day": "Mi",
-      "time": "21:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/70266/erobique",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Rewind",
-      "date": "3 Jan",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/030126-rewind.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Brat Party",
       "date": "9 Jan",
@@ -453,6 +177,18 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/090126-brat-party.html",
       "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "ZYMBA – VERLEGT",
+      "date": "9 Jan",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/zymba/",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -574,6 +310,18 @@
       "url": "https://www.zag-arena-hannover.de/veranstaltung/bushido/",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "CRYPTOPSY (Death Metal / Montreal)",
+      "date": "15 Jan",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-15/5977",
+      "eventType": "concert",
+      "genre": "Death Metal",
       "description": null,
       "status": "available"
     },
@@ -794,6 +542,18 @@
       "status": "available"
     },
     {
+      "title": "APACHE 207",
+      "date": "22 Jan",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-207-4/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Jamal",
       "date": "23 Jan",
       "day": "Fr",
@@ -850,6 +610,18 @@
       "url": "https://pavillon-hannover.de/event/details/92225/pippo-pollina-in-concerto",
       "eventType": "concert",
       "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "EHRLICH BROTHERS",
+      "date": "24 Jan",
+      "day": "Sa",
+      "time": "14:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/ehrlich-brothers-5/",
+      "eventType": "concert",
+      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -944,6 +716,18 @@
       "time": "20:00",
       "venue": "Capitol Hannover",
       "url": "https://www.capitol-hannover.de/events/beyond-the-black-capitol-hannover-69236522b836/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "FABIAN WEGERER – ABGESAGT",
+      "date": "28 Jan",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/fabian-wegerer/",
       "eventType": "concert",
       "genre": null,
       "description": null,
@@ -1082,6 +866,18 @@
       "status": "available"
     },
     {
+      "title": "COPPELIUS",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/coppelius/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "The Butcher Sisters",
       "date": "31 Jan",
       "day": "Sa",
@@ -1126,6 +922,18 @@
       "url": "https://pavillon-hannover.de/event/details/124139/do-re-mi",
       "eventType": "concert",
       "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "absent",
+      "date": "1 Feb",
+      "day": "So",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/absent/",
+      "eventType": "concert",
+      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -1202,6 +1010,30 @@
       "status": "available"
     },
     {
+      "title": "Der frühe Vogel ...tanzt am besten",
+      "date": "7 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-der-fruehe-vogel-tanzt-am-besten.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rewind",
+      "date": "7 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-rewind.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Die Ringelreihe",
       "date": "11 Feb",
       "day": "Mi",
@@ -1238,6 +1070,18 @@
       "status": "available"
     },
     {
+      "title": "Knorkator",
+      "date": "14 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/knorkator-capitol-hannover-3481342e397c/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Gzuz",
       "date": "14 Feb",
       "day": "Sa",
@@ -1246,6 +1090,18 @@
       "url": "https://www.swisslife-hall.de/events/gzuz-swiss-life-hall-df619e99af57/",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Sophia Kennedy",
+      "date": "18 Feb",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/100804/sophia-kennedy",
+      "eventType": "concert",
+      "genre": "Konzert",
       "description": null,
       "status": "available"
     },
@@ -1268,18 +1124,6 @@
       "time": "20:00",
       "venue": "Swiss Life Hall",
       "url": "https://www.swisslife-hall.de/events/zartmann-swiss-life-hall-4a37b49660d4/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Silvesterparty 2025",
-      "date": "31 Dez",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/silvesterparty-2025-capitol-hannover-6f989cb5004f/",
       "eventType": "concert",
       "genre": null,
       "description": null,
