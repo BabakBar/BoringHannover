@@ -1,12 +1,12 @@
 [project]
 name = "boringhannover"
-version = "0.1.0"
+version = "1.1.0"
 description = "Weekly event aggregator for Hannover - Movies, Culture, and Concerts"
 authors = [{ name = "Sia" }]
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.13"
-keywords = ["scraper", "events", "movies", "hannover"]
+keywords = ["concerts", "events", "movies", "hannover"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
@@ -49,10 +49,7 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/boringhannover"]
 
-# =============================================================================
 # Testing Configuration
-# =============================================================================
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
@@ -61,18 +58,13 @@ python_functions = ["test_*"]
 addopts = "-v --tb=short"
 filterwarnings = ["ignore::DeprecationWarning"]
 
-# =============================================================================
 # Linting Configuration (Ruff)
-# =============================================================================
-
 [tool.ruff]
 target-version = "py313"
 line-length = 88
 src = ["src", "tests"]
 
 [tool.ruff.lint]
-# Pragmatic ruleset focused on catching real bugs and maintaining consistency
-# For scraper projects, we avoid overly strict complexity metrics and pedantic rules
 select = [
     "E",      # pycodestyle errors
     "W",      # pycodestyle warnings
@@ -100,10 +92,7 @@ quote-style = "double"
 indent-style = "space"
 docstring-code-format = true
 
-# =============================================================================
 # Type Checking Configuration (ty)
-# =============================================================================
-
 [tool.ty.environment]
 python-version = "3.13"
 
