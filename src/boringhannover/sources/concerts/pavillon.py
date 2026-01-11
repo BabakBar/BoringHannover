@@ -177,7 +177,7 @@ class PavillonSource(BaseSource):
             event_url = href if href.startswith("http") else f"{self.BASE_URL}{href}"
 
             # Parse date and time from text
-            # Format: "Sa | 22.11.2025 | 18:30 Uhr"  # noqa: ERA001
+            # Format: "Sa | 22.11.2025 | 18:30 Uhr"
             event_date, time_str = self._parse_date_time(text)
             if not event_date:
                 return None
@@ -226,7 +226,7 @@ class PavillonSource(BaseSource):
         date_match = re.search(r"(\d{1,2})\.(\d{1,2})\.(\d{4})", text)
         if date_match:
             day, month, year = date_match.groups()
-            from contextlib import suppress  # noqa: PLC0415
+            from contextlib import suppress
 
             with suppress(ValueError):
                 event_date = datetime(
