@@ -91,7 +91,7 @@ class GlockeSource(BaseSource):
                 if ref_obj.get("isMasterRef"):
                     return ref_obj.get("ref")
             # If no master ref found
-            return None  # noqa: TRY300
+            return None
         except Exception:
             logger.exception("Failed to get Prismic API ref")
             return None
@@ -161,7 +161,7 @@ class GlockeSource(BaseSource):
 
         return events
 
-    def _parse_event(self, result: dict[str, Any], now: datetime) -> Event | None:  # noqa: PLR0912
+    def _parse_event(self, result: dict[str, Any], now: datetime) -> Event | None:
         """Parse a single event from Prismic API response.
 
         Args:

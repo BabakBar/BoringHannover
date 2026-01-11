@@ -39,7 +39,7 @@ WIX_EVENTS_APP_ID = "140603ad-af8d-84a5-2c80-a0f60cb47351"
 
 # Google Calendar events - loaded via iframe, not scrape-able
 # Update this list periodically from https://www.erhardt.cafe/events
-# Format: (year, month, day, hour, minute, title, event_type)  # noqa: ERA001
+# Format: (year, month, day, hour, minute, title, event_type)
 # Last updated: 2025-11-23
 GOOGLE_CALENDAR_EVENTS: list[tuple[int, int, int, int, int, str, str]] = [
     # November 2025
@@ -170,7 +170,7 @@ class ErhardtCafeSource(BaseSource):
 
         return events
 
-    def _extract_wix_events(self, soup: BeautifulSoup, raw_html: str) -> list[Event]:  # noqa: ARG002, PLR0912
+    def _extract_wix_events(self, soup: BeautifulSoup, raw_html: str) -> list[Event]:
         """Extract events from Wix Events widget data.
 
         Wix embeds event data in <script type="application/json"> tags.
@@ -328,13 +328,13 @@ class ErhardtCafeSource(BaseSource):
             # Add 1 hour for CET (simplified - should use proper timezone)
             # In winter (CET) it's UTC+1, in summer (CEST) it's UTC+2
             # For simplicity, we add 1 hour (winter time)
-            from datetime import timedelta  # noqa: PLC0415
+            from datetime import timedelta
 
             return utc_date + timedelta(hours=1)
         except ValueError:
             return None
 
-    def _infer_event_type(self, title: str) -> str:  # noqa: PLR0911  # noqa: PLR0911
+    def _infer_event_type(self, title: str) -> str:
         """Infer event type from title.
 
         Args:

@@ -218,7 +218,7 @@ class BeiChezHeinzSource(BaseSource):
 
                 month = GERMAN_MONTH_MAP.get(month_str, 0)
                 if month:
-                    from contextlib import suppress  # noqa: PLC0415
+                    from contextlib import suppress
 
                     with suppress(ValueError):
                         event_date = datetime(year, month, day, 20, 0, tzinfo=BERLIN_TZ)

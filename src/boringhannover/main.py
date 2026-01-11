@@ -85,9 +85,9 @@ def run(*, local: bool = False) -> bool:
 
         # Step 2: Export to files
         logger.info("Exporting data...")
-        from typing import cast  # noqa: PLC0415
+        from typing import cast
 
-        from boringhannover.notifier import EventsData  # noqa: PLC0415
+        from boringhannover.notifier import EventsData
 
         success = notify(cast("EventsData", events_data))
 
@@ -142,7 +142,7 @@ def _parse_args() -> argparse.Namespace:
 def _load_environment() -> None:
     """Load environment variables from .env file if available."""
     try:
-        from dotenv import load_dotenv  # noqa: PLC0415
+        from dotenv import load_dotenv
 
         load_dotenv()
     except ImportError:

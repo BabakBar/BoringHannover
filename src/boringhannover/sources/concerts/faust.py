@@ -184,7 +184,7 @@ class FaustSource(BaseSource):
 
         return events
 
-    def _parse_event(  # noqa: PLR0911
+    def _parse_event(
         self,
         link: Tag,
         event_type: str = "concert",
