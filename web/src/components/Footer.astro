@@ -33,7 +33,17 @@ const { updatedAt } = Astro.props;
     </span>
     <span class="hidden sm:inline" aria-hidden="true">&middot;</span>
     <span>
-      Hosted securely in <span aria-label="Germany">🇩🇪</span>
+      Hosted securely in
+      <svg
+        class="inline-block w-4 h-3 mx-0.5 align-baseline"
+        viewBox="0 0 5 3"
+        aria-label="Germany"
+        role="img"
+      >
+        <rect width="5" height="1" y="0" fill="#000"/>
+        <rect width="5" height="1" y="1" fill="#D00"/>
+        <rect width="5" height="1" y="2" fill="#FFCE00"/>
+      </svg>
     </span>
   </div>
 </footer>
