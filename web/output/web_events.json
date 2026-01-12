@@ -1,206 +1,10 @@
 {
   "meta": {
-    "week": 2,
+    "week": 3,
     "year": 2026,
-    "updatedAt": "Mon 05 Jan 18:00"
+    "updatedAt": "Mon 12 Jan 18:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "05.01",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:05",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "06.01",
-      "movies": [
-        {
-          "title": "Zoomania 2",
-          "year": 2025,
-          "time": "14:35",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "15:20",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "07.01",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "15:10",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:20",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
-    {
-      "day": "THU",
-      "date": "08.01",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "20:00",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "09.01",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "14:00",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "10.01",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "12:00",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "I Puritani - Bellini (MET 2025/26)",
-          "year": 2026,
-          "time": "19:00",
-          "duration": "3h50m",
-          "language": "IT",
-          "subtitles": "DE",
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/i-puritani-bellini-met-2025-26"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "11.01",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "12:00",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Zoomania 2",
-          "year": 2025,
-          "time": "12:20",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "20:30",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
     {
       "day": "MON",
       "date": "12.01",
@@ -242,7 +46,7 @@
         {
           "title": "La Traviata - Verdi (Royal Ballet & Opera 2025/26)",
           "year": 2026,
-          "time": "20:15",
+          "time": "19:45",
           "duration": "4h",
           "language": "IT",
           "subtitles": "DE",
@@ -251,117 +55,199 @@
           "url": "https://hannover.premiumkino.de/film/la-traviata-verdi-royal-ballet-und-opera-2025-26"
         }
       ]
+    },
+    {
+      "day": "THU",
+      "date": "15.01",
+      "movies": [
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "19:45",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        },
+        {
+          "title": "The Housemaid - Wenn sie wüsste",
+          "year": 2025,
+          "time": "20:15",
+          "duration": "2h13m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
+        }
+      ]
+    },
+    {
+      "day": "FRI",
+      "date": "16.01",
+      "movies": [
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "16:20",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        },
+        {
+          "title": "28 Years Later: The Bone Temple",
+          "year": 2026,
+          "time": "22:45",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/28-years-later-the-bone-temple"
+        }
+      ]
+    },
+    {
+      "day": "SAT",
+      "date": "17.01",
+      "movies": [
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "11:30",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "Zoomania 2",
+          "year": 2025,
+          "time": "12:15",
+          "duration": "1h48m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/zoomania-2"
+        },
+        {
+          "title": "28 Years Later: The Bone Temple",
+          "year": 2026,
+          "time": "22:45",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/28-years-later-the-bone-temple"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "18.01",
+      "movies": [
+        {
+          "title": "Wicked: Teil 2",
+          "year": 2025,
+          "time": "11:00",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
+        },
+        {
+          "title": "The Housemaid - Wenn sie wüsste",
+          "year": 2025,
+          "time": "19:50",
+          "duration": "2h13m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
+        },
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "20:30",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "19.01",
+      "movies": [
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:15",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "20.01",
+      "movies": [
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "19:45",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        },
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "19:50",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        },
+        {
+          "title": "The Housemaid - Wenn sie wüsste",
+          "year": 2025,
+          "time": "20:15",
+          "duration": "2h13m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Brat Party",
-      "date": "9 Jan",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/090126-brat-party.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "ZYMBA – VERLEGT",
-      "date": "9 Jan",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/zymba/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Forever Young",
-      "date": "10 Jan",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/forever-young-capitol-hannover-83a8b94f15c1/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Die 90er-Party",
-      "date": "10 Jan",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/100126-die-90er-party.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Taktgeber",
-      "date": "10 Jan",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/100126-taktgeber.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Herzen in Terzen",
-      "date": "10 Jan",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/92056/herzen-in-terzen",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "HANDBALL-LÄNDERSPIEL DER MÄNNER",
-      "date": "11 Jan",
-      "day": "So",
-      "time": "18:05",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/handball-laenderspiel-der-maenner-2/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "11. Große Stummfilmvertonung City Lights",
-      "date": "11 Jan",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-01-11/6377",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Nordstadtbraut im Bei Chez Heinz heute mit",
-      "date": "11 Jan",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-01-11/6542",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Ringsgwandl",
       "date": "13 Jan",
@@ -399,6 +285,18 @@
       "status": "available"
     },
     {
+      "title": "Schnuppertag für eine Ausbildung in der Veranstaltungstechnik",
+      "date": "14 Jan",
+      "day": "Mi",
+      "time": "14:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/schnuppertag-fuer-eine-ausbildung-in-der-veranstaltungstechnik/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "BUSHIDO",
       "date": "14 Jan",
       "day": "Mi",
@@ -423,6 +321,18 @@
       "status": "available"
     },
     {
+      "title": "Nordstadtbraut im Bei Chez Heinz heute mit: GRIN (Stoner Doom Metal / Berlin)",
+      "date": "15 Jan",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-15/6577",
+      "eventType": "concert",
+      "genre": "Stoner Doom Metal",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Eddin",
       "date": "15 Jan",
       "day": "Do",
@@ -443,6 +353,30 @@
       "url": "https://pavillon-hannover.de/event/details/110556/eddin-verlegt-in-die-faust-60er-jahre-halle",
       "eventType": "concert",
       "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "PAVELO & SCHNELL",
+      "date": "15 Jan",
+      "day": "Do",
+      "time": "20:02",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/pavelo--schnell",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "DENLARI & FRIENDS (Deutsch Rock / Pop Punk / Döhren bei Liebenburg)",
+      "date": "16 Jan",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-16/6152",
+      "eventType": "concert",
+      "genre": "Deutsch Rock",
       "description": null,
       "status": "available"
     },
@@ -519,6 +453,18 @@
       "status": "available"
     },
     {
+      "title": "Given2Fly (Pearl Jam Tribute), LoveBuzz (Nirvana Tribute), Anger Is An Gift (Rage Against The Machine Tribute)",
+      "date": "17 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-17/6008",
+      "eventType": "concert",
+      "genre": "Pearl Jam Tribute",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Yung Kafa & Kücük Efendi",
       "date": "17 Jan",
       "day": "Sa",
@@ -579,6 +525,18 @@
       "status": "available"
     },
     {
+      "title": "Nordstadtbraut im Bei Chez Heinz heute mit",
+      "date": "18 Jan",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-18/6543",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "APACHE 207",
       "date": "18 Jan",
       "day": "So",
@@ -598,6 +556,18 @@
       "venue": "ZAG Arena",
       "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-2027/",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | SKAMPIDA",
+      "date": "20 Jan",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--skampida-2026",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -659,6 +629,18 @@
       "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-207-4/",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "RUMKICKS (Punk / Südkorea)",
+      "date": "23 Jan",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-23/6513",
+      "eventType": "concert",
+      "genre": "Punk",
       "description": null,
       "status": "available"
     },
@@ -729,6 +711,18 @@
       "time": "14:00",
       "venue": "ZAG Arena",
       "url": "https://www.zag-arena-hannover.de/veranstaltung/ehrlich-brothers-5/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "EHRLICH BROTHERS",
+      "date": "24 Jan",
+      "day": "Sa",
+      "time": "19:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/ehrlich-brothers-2/",
       "eventType": "concert",
       "genre": null,
       "description": null,
@@ -826,6 +820,18 @@
       "venue": "Capitol Hannover",
       "url": "https://www.capitol-hannover.de/events/monet192-capitol-hannover-44b803a13f07/",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "YOUTH CODE + KING YOSEF + STREET SECTS",
+      "date": "28 Jan",
+      "day": "Mi",
+      "time": "17:25",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/youth-code--king-yosef--street-sect",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -987,6 +993,18 @@
       "status": "available"
     },
     {
+      "title": "Addicted into Techno Vol. 2",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/310126-addicted-into-techno-vol-2.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "COPPELIUS",
       "date": "31 Jan",
       "day": "Sa",
@@ -1107,12 +1125,60 @@
       "status": "available"
     },
     {
+      "title": "FOREVER GREY + THE DISCUSSION",
+      "date": "5 Feb",
+      "day": "Do",
+      "time": "18:11",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/forever-grey--the-discussion-europe",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Royal Republic",
+      "date": "5 Feb",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/royal-republic-capitol-hannover-e04b659ae014/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Puro Barrio",
+      "date": "6 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/060226-puro-barrio.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Der frühe Vogel ...tanzt am besten",
       "date": "7 Feb",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-der-fruehe-vogel-tanzt-am-besten.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "It's Pop Punk, Baby!",
+      "date": "7 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-its-pop-punk-baby.html",
       "eventType": "party",
       "genre": null,
       "description": null,
@@ -1126,6 +1192,18 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-rewind.html",
       "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | THE DEVILS",
+      "date": "10 Feb",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--the-devils-2026",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -1167,6 +1245,30 @@
       "status": "available"
     },
     {
+      "title": "STREICHELT",
+      "date": "13 Feb",
+      "day": "Fr",
+      "time": "14:54",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/streichelt",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "STYGIAN BOUGH (Bell Witch / Aerial Ruin)",
+      "date": "14 Feb",
+      "day": "Sa",
+      "time": "15:58",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/stygian-bough-bell-witch--aerial-ruin",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Gzuz",
       "date": "14 Feb",
       "day": "Sa",
@@ -1203,6 +1305,18 @@
       "status": "available"
     },
     {
+      "title": "MOTHER´S CAKE",
+      "date": "26 Feb",
+      "day": "Do",
+      "time": "17:40",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/mothers-cake--the-tazers",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Zartmann",
       "date": "28 Feb",
       "day": "Sa",
@@ -1210,6 +1324,114 @@
       "venue": "Swiss Life Hall",
       "url": "https://www.swisslife-hall.de/events/zartmann-swiss-life-hall-4a37b49660d4/",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Federico Albanese",
+      "date": "3 Mär",
+      "day": "Di",
+      "time": "19:30",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91107/federico-albanese",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | PSYCHLONA",
+      "date": "10 Mär",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--psychlona",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "DEADLETTER",
+      "date": "12 Mär",
+      "day": "Do",
+      "time": "15:01",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/deadletter-2026",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | PREYRS",
+      "date": "17 Mär",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--preyrs",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "GAMA BOMB + LICH KING",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "18:20",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/gama-bomb--lich-king",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "PRIMITIVE MAN",
+      "date": "9 Apr",
+      "day": "Do",
+      "time": "14:45",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/primitive-man",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "DAS GÜNTHER",
+      "date": "18 Apr",
+      "day": "Sa",
+      "time": "15:44",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/das-gunther-2026",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "MIDNIGHT + SPECTRAL WOUND",
+      "date": "12 Aug",
+      "day": "Mi",
+      "time": "18:47",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/midnight--spectral-wound",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "BLUTGOTT - BLUTFEST 2026",
+      "date": "4 Sep",
+      "day": "Fr",
+      "time": "18:01",
+      "venue": "Glocke",
+      "url": "https://cafe-glocksee.de#/event/blutgott---blutfest-2026",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
