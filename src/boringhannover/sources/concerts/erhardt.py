@@ -3,27 +3,21 @@
 Fetches upcoming events from Erhardt Café - a cozy café in Hannover's
 Lister Meile with chess nights, game nights, karaoke, live music, and more.
 
-The website uses Wix with two event sources:
-1. Wix Events widget - Ticketed events (scraped dynamically from embedded JSON)
-2. Google Calendar widget - Free events (loaded via iframe, requires static data)
+The website uses Wix Events. This scraper fetches events via the Wix Events API:
+1. Fetch dynamic instance token from /_api/v2/dynamicmodel
+2. Query /_api/wix-events-web/v1/events with the instance token
 
-This scraper uses a hybrid approach:
-- Dynamically extracts Wix Events from the page HTML
-- Supplements with static Google Calendar events (updated periodically)
+This approach is more reliable than HTML scraping (which only returns partial data)
+and eliminates the need for static event lists.
 
 Website: https://www.erhardt.cafe/events
 """
 
 from __future__ import annotations
 
-import html
-import json
 import logging
-import re
 from datetime import datetime
 from typing import Any, ClassVar
-
-from bs4 import BeautifulSoup
 
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
@@ -34,33 +28,17 @@ __all__ = ["ErhardtCafeSource"]
 
 logger = logging.getLogger(__name__)
 
-# Wix Events app ID
+# Wix Events app ID (used to extract instance token)
 WIX_EVENTS_APP_ID = "140603ad-af8d-84a5-2c80-a0f60cb47351"
-
-# Google Calendar events - loaded via iframe, not scrape-able
-# Update this list periodically from https://www.erhardt.cafe/events
-# Format: (year, month, day, hour, minute, title, event_type)
-# Last updated: 2025-11-23
-GOOGLE_CALENDAR_EVENTS: list[tuple[int, int, int, int, int, str, str]] = [
-    # November 2025
-    (2025, 11, 26, 18, 0, "Schachabend im Erhardt ♟", "games"),
-    (2025, 11, 27, 20, 0, "EARN. & VENCINT 🎤 Live im Erhardt", "concert"),
-    # December 2025
-    (2025, 12, 3, 19, 0, "Kniffelabend 🎲😊", "games"),
-    (2025, 12, 10, 17, 30, "Connect & Create 🎄👥", "social"),
-    (2025, 12, 11, 20, 0, "Erhardts Karaoke 🎤", "karaoke"),
-    (2025, 12, 17, 19, 0, "Tablequiz 🤔❗❓", "quiz"),
-    (2025, 12, 27, 20, 0, "Udi Fagundes 🎤 Live im Erhardt", "concert"),
-]
 
 
 @register_source("erhardt_cafe")
 class ErhardtCafeSource(BaseSource):
     """Scraper for Erhardt Café Hannover events.
 
-    Fetches events from the Wix-powered website by extracting JSON data
-    embedded in script tags. Supports both ticketed events (Wix Events)
-    and calendar events.
+    Fetches events via the Wix Events API. The API requires:
+    1. Fetching a dynamic instance token from /_api/v2/dynamicmodel
+    2. Querying events with that token
 
     Event types include:
     - Chess nights (Schachabend)
@@ -79,19 +57,24 @@ class ErhardtCafeSource(BaseSource):
 
     source_name: ClassVar[str] = "Erhardt Café"
     source_type: ClassVar[str] = "concert"
-    max_events: ClassVar[int | None] = 20
+    max_events: ClassVar[int | None] = 50
 
     # Configuration
     URL: ClassVar[str] = "https://www.erhardt.cafe/events"
     BASE_URL: ClassVar[str] = "https://www.erhardt.cafe"
     ADDRESS: ClassVar[str] = "Limmerstraße 46, 30451 Hannover"
 
-    def fetch(self) -> list[Event]:
-        """Fetch events from Erhardt Café website.
+    # Wix API endpoints
+    DYNAMICMODEL_URL: ClassVar[str] = "https://www.erhardt.cafe/_api/v2/dynamicmodel"
+    EVENTS_API_URL: ClassVar[str] = (
+        "https://www.erhardt.cafe/_api/wix-events-web/v1/events"
+    )
 
-        Uses a hybrid approach:
-        1. Extracts Wix Events from embedded JSON (ticketed events)
-        2. Adds static Google Calendar events (free events)
+    def fetch(self) -> list[Event]:
+        """Fetch events from Erhardt Café via Wix Events API.
+
+        1. Fetches dynamic instance token from /_api/v2/dynamicmodel
+        2. Queries events API with that token
 
         Returns:
             List of Event objects with category="radar".
@@ -101,31 +84,15 @@ class ErhardtCafeSource(BaseSource):
         """
         logger.info("Fetching events from %s", self.source_name)
 
-        events: list[Event] = []
+        with create_http_client() as client:
+            # Step 1: Get instance token
+            instance = self._get_instance_token(client)
+            if not instance:
+                logger.warning("Failed to get Wix instance token")
+                return []
 
-        # First, try to extract Wix Events from the page
-        try:
-            with create_http_client() as client:
-                response = client.get(self.URL)
-                response.raise_for_status()
-                soup = BeautifulSoup(response.text, "html.parser")
-
-            wix_events = self._extract_wix_events(soup, response.text)
-            events.extend(wix_events)
-            logger.info("Extracted %d Wix Events", len(wix_events))
-        except Exception as exc:
-            logger.warning("Failed to fetch Wix Events: %s", exc)
-
-        # Add Google Calendar events (static data)
-        calendar_events = self._get_google_calendar_events()
-
-        # Merge events, avoiding duplicates by title and date
-        existing_keys = {(e.title.lower(), e.date.date()) for e in events}
-        for event in calendar_events:
-            key = (event.title.lower(), event.date.date())
-            if key not in existing_keys:
-                events.append(event)
-                existing_keys.add(key)
+            # Step 2: Fetch events from API
+            events = self._fetch_events_from_api(client, instance)
 
         # Sort by date
         events.sort(key=lambda e: e.date)
@@ -134,105 +101,69 @@ class ErhardtCafeSource(BaseSource):
         if self.max_events:
             events = events[: self.max_events]
 
-        logger.info("Found %d total events from %s", len(events), self.source_name)
+        logger.info("Found %d events from %s", len(events), self.source_name)
         return events
 
-    def _get_google_calendar_events(self) -> list[Event]:
-        """Get events from the static Google Calendar data.
-
-        Returns:
-            List of Event objects from the static calendar data.
-        """
-        events: list[Event] = []
-        now = datetime.now(BERLIN_TZ)
-
-        for year, month, day, hour, minute, title, event_type in GOOGLE_CALENDAR_EVENTS:
-            event_date = datetime(year, month, day, hour, minute, tzinfo=BERLIN_TZ)
-
-            # Skip past events
-            if event_date < now:
-                continue
-
-            event = Event(
-                title=title,
-                date=event_date,
-                venue=self.source_name,
-                url=self.URL,
-                category="radar",
-                metadata={
-                    "time": f"{hour:02d}:{minute:02d}",
-                    "event_type": event_type,
-                    "address": self.ADDRESS,
-                    "source": "google_calendar",
-                },
-            )
-            events.append(event)
-
-        return events
-
-    def _extract_wix_events(self, soup: BeautifulSoup, raw_html: str) -> list[Event]:
-        """Extract events from Wix Events widget data.
-
-        Wix embeds event data in <script type="application/json"> tags.
-        The structure is in appsWarmupData[WIX_EVENTS_APP_ID].
+    def _get_instance_token(self, client: Any) -> str | None:
+        """Fetch Wix instance token from dynamicmodel endpoint.
 
         Args:
-            soup: Parsed HTML document.
-            raw_html: Raw HTML string for regex extraction.
+            client: HTTP client instance.
+
+        Returns:
+            Instance token string or None if not found.
+        """
+        try:
+            response = client.get(self.DYNAMICMODEL_URL)
+            response.raise_for_status()
+            data = response.json()
+
+            # Instance token is in apps[WIX_EVENTS_APP_ID].instance
+            apps = data.get("apps", {})
+            app_data = apps.get(WIX_EVENTS_APP_ID, {})
+            instance = app_data.get("instance")
+
+            if instance:
+                logger.debug("Got Wix instance token")
+                return str(instance)
+
+            logger.warning("Instance token not found in dynamicmodel response")
+            return None
+
+        except Exception as exc:
+            logger.warning("Failed to fetch dynamicmodel: %s", exc)
+            return None
+
+    def _fetch_events_from_api(self, client: Any, instance: str) -> list[Event]:
+        """Fetch events from Wix Events API.
+
+        Args:
+            client: HTTP client instance.
+            instance: Wix instance token.
 
         Returns:
             List of parsed Event objects.
         """
         events: list[Event] = []
 
-        # Find all application/json script tags
-        script_tags = soup.find_all("script", type="application/json")
+        try:
+            # Fetch with limit=50 to get all events
+            params = {"instance": instance, "limit": "50", "offset": "0"}
+            response = client.get(self.EVENTS_API_URL, params=params)
+            response.raise_for_status()
+            data = response.json()
 
-        for script in script_tags:
-            if not script.string:
-                continue
+            event_list = data.get("events", [])
+            total = data.get("total", len(event_list))
+            logger.debug("API returned %d events (total: %d)", len(event_list), total)
 
-            try:
-                # Decode HTML entities and parse JSON
-                decoded = html.unescape(script.string)
-                data = json.loads(decoded)
+            for event_data in event_list:
+                event = self._parse_wix_event(event_data)
+                if event:
+                    events.append(event)
 
-                # Look for Wix Events app data in appsWarmupData
-                if not isinstance(data, dict):
-                    continue
-
-                warmup_data = data.get("appsWarmupData", {})
-                if not warmup_data:
-                    continue
-
-                # Get events from Wix Events app
-                events_app = warmup_data.get(WIX_EVENTS_APP_ID, {})
-                if not events_app:
-                    continue
-
-                # Events can be in different widget components
-                for widget_data in events_app.values():
-                    if not isinstance(widget_data, dict):
-                        continue
-
-                    events_container = widget_data.get("events", {})
-                    if not isinstance(events_container, dict):
-                        continue
-
-                    event_list = events_container.get("events", [])
-                    if not isinstance(event_list, list):
-                        continue
-
-                    for event_data in event_list:
-                        event = self._parse_wix_event(event_data)
-                        if event:
-                            events.append(event)
-                            if self.max_events and len(events) >= self.max_events:
-                                return events
-
-            except (json.JSONDecodeError, KeyError, TypeError) as exc:
-                logger.debug("Error parsing JSON script tag: %s", exc)
-                continue
+        except Exception as exc:
+            logger.warning("Failed to fetch events from API: %s", exc)
 
         return events
 
@@ -268,8 +199,8 @@ class ErhardtCafeSource(BaseSource):
             if event_date < datetime.now(BERLIN_TZ):
                 return None
 
-            # Get formatted time from scheduling
-            time_str = scheduling.get("startTimeFormatted", "20:00")
+            # Get formatted time from scheduling (None if not available)
+            time_str = scheduling.get("startTimeFormatted") or ""
 
             # Get location
             location = event_data.get("location", {})
@@ -304,34 +235,35 @@ class ErhardtCafeSource(BaseSource):
             return None
 
     def _parse_iso_date(self, date_str: str) -> datetime | None:
-        """Parse ISO format date string to datetime.
+        """Parse ISO format date string to datetime in Berlin timezone.
 
         Handles formats like:
         - "2025-10-15T17:00:00.000Z"
         - "2025-10-15T17:00:00Z"
 
-        Note: Wix stores dates in UTC. We add 1-2 hours for Europe/Berlin.
-
         Args:
-            date_str: ISO format date string.
+            date_str: ISO format date string (UTC with Z suffix).
 
         Returns:
-            Parsed datetime or None.
+            Parsed datetime in Europe/Berlin timezone, or None.
         """
-        # Remove milliseconds and Z suffix for parsing
-        clean_str = re.sub(r"\.\d{3}Z$", "", date_str)
-        clean_str = re.sub(r"Z$", "", clean_str)
-
         try:
-            # Parse as UTC
-            utc_date = datetime.fromisoformat(clean_str)
-            # Add 1 hour for CET (simplified - should use proper timezone)
-            # In winter (CET) it's UTC+1, in summer (CEST) it's UTC+2
-            # For simplicity, we add 1 hour (winter time)
-            from datetime import timedelta
+            # Remove milliseconds if present: "2025-10-15T17:00:00.000Z" -> "2025-10-15T17:00:00Z"
+            if ".000Z" in date_str:
+                date_str = date_str.replace(".000Z", "Z")
 
-            return utc_date + timedelta(hours=1)
-        except ValueError:
+            # Replace Z with +00:00 for proper UTC parsing
+            if date_str.endswith("Z"):
+                date_str = date_str[:-1] + "+00:00"
+
+            # Parse as timezone-aware UTC datetime
+            utc_date = datetime.fromisoformat(date_str)
+
+            # Convert to Berlin time (handles DST automatically)
+            return utc_date.astimezone(BERLIN_TZ)
+
+        except ValueError as exc:
+            logger.debug("Failed to parse date '%s': %s", date_str, exc)
             return None
 
     def _infer_event_type(self, title: str) -> str:
