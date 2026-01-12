@@ -1,5 +1,9 @@
 # BoringHannover
 
+<p align="center">
+  <img src="./web/public/BoringHannover.png" alt="Boring Hannover weekly events illustration" width="800" />
+</p>
+
 **Proving Hannover isn't THAT boring!**
 
 Hannover gets a bad rap. [90% destroyed in WWII](https://schikimikki.wordpress.com/2018/04/02/hannover-the-most-boring-city-in-germany/), rebuilt with pragmatic post-war architecture, and known mainly for train connections and trade fairs, it's been called "[exceedingly dull](https://www.flyertalk.com/forum/germany/1322413-what-do-we-all-think-about-hannover.html)." Some say [the greatest risk is dying of boredom](https://www.flyertalk.com/forum/germany/1322413-what-do-we-all-think-about-hannover.html).
