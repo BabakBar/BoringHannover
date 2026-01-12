@@ -16,18 +16,17 @@ from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
-
 if TYPE_CHECKING:
     import httpx
 
 
-__all__ = ["GlockeSource"]
+__all__ = ["GlockseeSource"]
 
 logger = logging.getLogger(__name__)
 
 
-@register_source("glocke")
-class GlockeSource(BaseSource):
+@register_source("glocksee")
+class GlockseeSource(BaseSource):
     """Scraper for Cafe Glocksee Hannover.
 
     Fetches upcoming concerts and events from the venue via Prismic CMS API.
@@ -36,11 +35,11 @@ class GlockeSource(BaseSource):
     Website: https://cafe-glocksee.de
 
     Attributes:
-        source_name: "Glocke"
+        source_name: "Glocksee"
         source_type: "concert"
     """
 
-    source_name: ClassVar[str] = "Glocke"
+    source_name: ClassVar[str] = "Glocksee"
     source_type: ClassVar[str] = "concert"
     max_events: ClassVar[int | None] = 30
 
