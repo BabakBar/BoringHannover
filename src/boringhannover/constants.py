@@ -3,6 +3,6 @@ from zoneinfo import ZoneInfo
 
 BERLIN_TZ = ZoneInfo("Europe/Berlin")
 
-# How far into the future we include movies in the output.
-# Kept separate from the radar cut-off (currently still 7 days).
-MOVIES_LOOKAHEAD_DAYS = 10
+# How far into the future we include events in the output (movies and concerts).
+# Unified 2-week window keeps the UI focused and prevents overwhelming users.
+EVENT_LOOKAHEAD_DAYS = 14

@@ -14,11 +14,10 @@ from __future__ import annotations
 
 import logging
 import time
-from datetime import datetime
 from typing import TYPE_CHECKING
 
 from boringhannover.config import SCRAPE_DELAY_SECONDS
-from boringhannover.constants import BERLIN_TZ, MOVIES_LOOKAHEAD_DAYS
+from boringhannover.constants import EVENT_LOOKAHEAD_DAYS
 from boringhannover.sources import get_all_sources
 
 
@@ -36,7 +35,9 @@ def fetch_all_events() -> dict[str, list[Event]]:
     Orchestrates all registered and enabled scrapers, then categorizes
     events into time-based buckets:
     - movies_this_week: Movie showtimes within the configured lookahead window
-    - big_events_radar: All concerts/events from today onward
+    - big_events_radar: Concerts/events within the configured lookahead window
+
+    Both categories use the same 2-week window to keep the UI focused.
 
     Returns:
         Dictionary with categorized event lists.
@@ -46,8 +47,6 @@ def fetch_all_events() -> dict[str, list[Event]]:
         >>> print(f"Movies: {len(events['movies_this_week'])}")
         >>> print(f"Radar: {len(events['big_events_radar'])}")
     """
-    today = datetime.now(BERLIN_TZ)
-
     logger.info("Fetching events from all registered sources...")
 
     all_movies: list[Event] = []
@@ -100,21 +99,21 @@ def fetch_all_events() -> dict[str, list[Event]]:
 
     # Filter movies to the configured lookahead window
     movies_this_week = sorted(
-        (m for m in all_movies if m.is_within_next_days(MOVIES_LOOKAHEAD_DAYS)),
+        (m for m in all_movies if m.is_within_next_days(EVENT_LOOKAHEAD_DAYS)),
         key=lambda e: e.date,
     )
 
-    # Include all concerts from today onward
+    # Filter concerts to the same lookahead window as movies
     big_events_radar = sorted(
-        (r for r in radar_events if r.date >= today),
+        (r for r in radar_events if r.is_within_next_days(EVENT_LOOKAHEAD_DAYS)),
         key=lambda e: e.date,
     )
 
     logger.info(
-        "Aggregation complete: %d movies (next %d days), %d events on radar",
+        "Aggregation complete: %d movies, %d concerts (next %d days)",
         len(movies_this_week),
-        MOVIES_LOOKAHEAD_DAYS,
         len(big_events_radar),
+        EVENT_LOOKAHEAD_DAYS,
     )
 
     return {
