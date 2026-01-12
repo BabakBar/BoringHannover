@@ -5,12 +5,20 @@ interface Props {
   title?: string;
   description?: string;
   lang?: string;
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageAlt?: string;
 }
 
 const {
   title = 'boringhannover',
   description = 'What\'s happening in Hannover this week. Movies, concerts, events.',
-  lang = 'en'
+  lang = 'en',
+  image = '/brand/og-image-1200x630.png',
+  imageWidth = 1200,
+  imageHeight = 630,
+  imageAlt = 'Boring Hannover weekly events illustration'
 } = Astro.props;
 
 const DEFAULT_UMAMI_WEBSITE_ID = '23cf1ce2-3635-4e97-aab9-6ccd0467f839';
@@ -34,6 +42,7 @@ const siteUrl = (() => {
 })();
 
 const canonicalUrl = siteUrl ? new URL(Astro.url.pathname, siteUrl).toString() : undefined;
+const ogImage = siteUrl ? new URL(image, siteUrl).toString() : image;
 
 // Open Graph locale uses underscores (e.g. de_DE, en_US)
 const ogLocale = (() => {
@@ -63,6 +72,16 @@ const ogLocale = (() => {
     <meta property="og:type" content="website" />
     {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
     <meta property="og:locale" content={ogLocale} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta property="og:image:width" content={imageWidth} />}
+    {ogImage && <meta property="og:image:height" content={imageHeight} />}
+    {ogImage && <meta property="og:image:alt" content={imageAlt} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
 
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 
@@ -80,6 +99,61 @@ const ogLocale = (() => {
     <!-- Minimal PWA -->
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link
+      rel="apple-touch-startup-image"
+      href="/brand/startup/apple-touch-startup-image-640x1136.png"
+      media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/brand/startup/apple-touch-startup-image-750x1334.png"
+      media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/brand/startup/apple-touch-startup-image-828x1792.png"
+      media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/brand/startup/apple-touch-startup-image-1125x2436.png"
+      media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/brand/startup/apple-touch-startup-image-1170x2532.png"
+      media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/brand/startup/apple-touch-startup-image-1242x2688.png"
+      media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/brand/startup/apple-touch-startup-image-1284x2778.png"
+      media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/brand/startup/apple-touch-startup-image-1536x2048.png"
+      media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/brand/startup/apple-touch-startup-image-1668x2224.png"
+      media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/brand/startup/apple-touch-startup-image-1668x2388.png"
+      media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/brand/startup/apple-touch-startup-image-2048x2732.png"
+      media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
+    />
 
     <title>{title}</title>
 

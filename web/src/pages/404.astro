@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base title="Page not found · boringhannover" description="The page you’re looking for doesn’t exist.">
+  <section class="min-h-[70vh] flex flex-col items-center justify-center text-center gap-6 section-fade">
+    <img
+      src="/brand/404-illustration-1200.png"
+      alt="Boring Hannover weekly events illustration"
+      class="w-full max-w-[42rem] rounded-xl border border-border shadow-lg"
+      loading="eager"
+    />
+    <div>
+      <h1 class="font-display text-lg md:text-xl font-bold tracking-wide text-text-primary uppercase">
+        404 — Page not found
+      </h1>
+      <p class="mt-2 text-sm md:text-base text-text-secondary">
+        The link is broken or the page has moved.
+      </p>
+    </div>
+    <a
+      href="/"
+      class="inline-flex items-center gap-2 px-4 py-2 text-xs font-display tracking-wide uppercase rounded-full border border-border text-text-primary hover:bg-bg-secondary transition-colors"
+    >
+      Back to homepage
+    </a>
+  </section>
+
+  <Footer />
+</Base>
