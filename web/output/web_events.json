@@ -1,144 +1,10 @@
 {
   "meta": {
-    "week": 3,
+    "week": 4,
     "year": 2026,
-    "updatedAt": "Thu 15 Jan 17:00"
+    "updatedAt": "Mon 19 Jan 18:00"
   },
   "movies": [
-    {
-      "day": "THU",
-      "date": "15.01",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:45",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "The Housemaid - Wenn sie wüsste",
-          "year": 2025,
-          "time": "20:15",
-          "duration": "2h13m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "16.01",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "16:20",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "28 Years Later: The Bone Temple",
-          "year": 2026,
-          "time": "22:45",
-          "duration": "1h50m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/28-years-later-the-bone-temple"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "17.01",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "11:30",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "Zoomania 2",
-          "year": 2025,
-          "time": "12:15",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/zoomania-2"
-        },
-        {
-          "title": "28 Years Later: The Bone Temple",
-          "year": 2026,
-          "time": "22:45",
-          "duration": "1h50m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/28-years-later-the-bone-temple"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "18.01",
-      "movies": [
-        {
-          "title": "Wicked: Teil 2",
-          "year": 2025,
-          "time": "11:00",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wicked-teil-2"
-        },
-        {
-          "title": "The Housemaid - Wenn sie wüsste",
-          "year": 2025,
-          "time": "19:50",
-          "duration": "2h13m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "20:30",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
     {
       "day": "MON",
       "date": "19.01",
@@ -213,9 +79,59 @@
       ]
     },
     {
+      "day": "FRI",
+      "date": "23.01",
+      "movies": [
+        {
+          "title": "Avatar: Fire and Ash",
+          "year": 2025,
+          "time": "16:20",
+          "duration": "3h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
+        },
+        {
+          "title": "The Housemaid - Wenn sie wüsste",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "2h13m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
+        },
+        {
+          "title": "28 Years Later: The Bone Temple",
+          "year": 2026,
+          "time": "22:20",
+          "duration": "1h50m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/28-years-later-the-bone-temple"
+        }
+      ]
+    },
+    {
       "day": "SAT",
       "date": "24.01",
       "movies": [
+        {
+          "title": "The Housemaid - Wenn sie wüsste",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "2h13m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
+        },
         {
           "title": "Megadeth: Behind the Mask",
           "year": 2025,
@@ -228,273 +144,60 @@
           "url": "https://hannover.premiumkino.de/film/megadeth-behind-the-mask"
         }
       ]
+    },
+    {
+      "day": "SUN",
+      "date": "25.01",
+      "movies": [
+        {
+          "title": "The Housemaid - Wenn sie wüsste",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "2h13m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "26.01",
+      "movies": [
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:15",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "27.01",
+      "movies": [
+        {
+          "title": "The Housemaid - Wenn sie wüsste",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "2h13m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "CRYPTOPSY (Death Metal / Montreal)",
-      "date": "15 Jan",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-01-15/5977",
-      "eventType": "concert",
-      "genre": "Death Metal",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "GRIN (Stoner Doom Metal / Berlin)",
-      "date": "15 Jan",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-01-15/6577",
-      "eventType": "concert",
-      "genre": "Stoner Doom Metal",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Eddin",
-      "date": "15 Jan",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/150126-eddin.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Eddin – verlegt in die Faust 60er-Jahre-Halle",
-      "date": "15 Jan",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/110556/eddin-verlegt-in-die-faust-60er-jahre-halle",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "PAVELO & SCHNELL",
-      "date": "15 Jan",
-      "day": "Do",
-      "time": "20:02",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/pavelo--schnell",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "DENLARI & FRIENDS (Deutsch Rock / Pop Punk / Döhren bei Liebenburg)",
-      "date": "16 Jan",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-01-16/6152",
-      "eventType": "concert",
-      "genre": "Deutsch Rock",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Götz Widmann",
-      "date": "16 Jan",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/160126-goetz-widmann.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Rotzfrech",
-      "date": "16 Jan",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/160126-rotzfrech.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "J.B.O.",
-      "date": "16 Jan",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/92134/j-b-o",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Ralf Schmitz",
-      "date": "16 Jan",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/ralf-schmitz-swiss-life-hall-0c04825a581a/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "FEUERWERK DER TURNKUNST – VIVA",
-      "date": "17 Jan",
-      "day": "Sa",
-      "time": "14:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/feuerwerk-der-turnkusnt-viva/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "FEUERWERK DER TURNKUNST – VIVA",
-      "date": "17 Jan",
-      "day": "Sa",
-      "time": "19:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/feuerwerk-der-turnkunst-viva-2/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Given2Fly (Pearl Jam Tribute), LoveBuzz (Nirvana Tribute), Anger Is An Gift (Rage Against The Machine Tribute)",
-      "date": "17 Jan",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-01-17/6008",
-      "eventType": "concert",
-      "genre": "Pearl Jam Tribute",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Yung Kafa & Kücük Efendi",
-      "date": "17 Jan",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/yung-kafa-kuecuek-efendi-capitol-hannover-63302d37d71a/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Forever Young",
-      "date": "17 Jan",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/forever-young-capitol-hannover-50a7a6b013ee/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Party 2000",
-      "date": "17 Jan",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/170126-party-2000.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Boyfriend",
-      "date": "17 Jan",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/170126-boyfriend.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Hotel Rimini",
-      "date": "17 Jan",
-      "day": "Sa",
-      "time": "20:30",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/92148/hotel-rimini",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Sonntagsflohmarkt im Leerhardt",
-      "date": "18 Jan",
-      "day": "So",
-      "time": "10:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-01-18-10-00",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Nightcourt (psych/noise Punk aus Vancouver/Kanada)",
-      "date": "18 Jan",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-01-18/6543",
-      "eventType": "concert",
-      "genre": "psych",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "APACHE 207",
-      "date": "18 Jan",
-      "day": "So",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-207-5/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "APACHE 207",
-      "date": "19 Jan",
-      "day": "Mo",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-2027/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Ruby Tuesday | SKAMPIDA",
       "date": "20 Jan",
@@ -516,6 +219,18 @@
       "url": "https://pavillon-hannover.de/event/details/92186/das-47-hannoversche-rudelsingen-zusatzshow",
       "eventType": "concert",
       "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "APACHE 207 – 21.01.2026",
+      "date": "21 Jan",
+      "day": "Mi",
+      "time": "17:30",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-207-21-01-2026/",
+      "eventType": "concert",
+      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -544,18 +259,6 @@
       "status": "available"
     },
     {
-      "title": "APACHE 207",
-      "date": "21 Jan",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-207-3/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "Goldy.mp3 & Doubtboy",
       "date": "22 Jan",
       "day": "Do",
@@ -568,12 +271,12 @@
       "status": "available"
     },
     {
-      "title": "APACHE 207",
+      "title": "APACHE 207 – 22.01.2026",
       "date": "22 Jan",
       "day": "Do",
       "time": "20:00",
       "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-207-4/",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-207-22-01-2026/",
       "eventType": "concert",
       "genre": null,
       "description": null,
@@ -628,6 +331,18 @@
       "status": "available"
     },
     {
+      "title": "No Cap",
+      "date": "23 Jan",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/230126-no-cap.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Heartbreak Party",
       "date": "23 Jan",
       "day": "Fr",
@@ -664,6 +379,18 @@
       "status": "available"
     },
     {
+      "title": "Mystery Hotel – Das Haus der komischen Zimmer",
+      "date": "24 Jan",
+      "day": "Sa",
+      "time": "15:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/mystery-hotel-das-haus-der-komischen-zimmer/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "EHRLICH BROTHERS",
       "date": "24 Jan",
       "day": "Sa",
@@ -672,6 +399,18 @@
       "url": "https://www.zag-arena-hannover.de/veranstaltung/ehrlich-brothers-2/",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "BAD CAREER (Hardcore Punk/Hannover), DUSTY DAWN (Hardcore Punk/Hannover), SNAPPED (Nu-Death Metal/Hannover),",
+      "date": "24 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-24/6529",
+      "eventType": "concert",
+      "genre": "Hardcore Punk",
       "description": null,
       "status": "available"
     },
@@ -760,6 +499,30 @@
       "status": "available"
     },
     {
+      "title": "Mystery Hotel – Das Haus der komischen Zimmer",
+      "date": "25 Jan",
+      "day": "So",
+      "time": "15:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/mystery-hotel-das-haus-der-komischen-zimmer-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "EHRLICH BROTHERS",
+      "date": "25 Jan",
+      "day": "So",
+      "time": "17:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/ehrlich-brothers-4/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Brazzo Brazzone & The World Brass Ensemble!",
       "date": "25 Jan",
       "day": "So",
@@ -772,12 +535,36 @@
       "status": "available"
     },
     {
+      "title": "KAAK, TORCH, BLUSH, HAVN",
+      "date": "25 Jan",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-25/6545",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Aymen & Amo",
       "date": "26 Jan",
       "day": "Mo",
       "time": "20:00",
       "venue": "Swiss Life Hall",
       "url": "https://www.swisslife-hall.de/events/aymen-amo-swiss-life-hall-a3ba61ebec47/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Mystery Hotel – Das Haus der komischen Zimmer",
+      "date": "27 Jan",
+      "day": "Di",
+      "time": "11:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/mystery-hotel-das-haus-der-komischen-zimmer-3/",
       "eventType": "concert",
       "genre": null,
       "description": null,
@@ -796,6 +583,18 @@
       "status": "available"
     },
     {
+      "title": "REEZY",
+      "date": "27 Jan",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/reezy/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "YOUTH CODE + KING YOSEF + STREET SECTS",
       "date": "28 Jan",
       "day": "Mi",
@@ -803,6 +602,18 @@
       "venue": "Glocksee",
       "url": "https://cafe-glocksee.de#/event/youth-code--king-yosef--street-sect",
       "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "TRANSMISSION The Sound Of Joy Division",
+      "date": "28 Jan",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-28/5843",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -850,6 +661,246 @@
       "time": "20:00",
       "venue": "Swiss Life Hall",
       "url": "https://www.swisslife-hall.de/events/michelle-swiss-life-hall-92274bae8f4b/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "NOT JUST BOYS FUN 3. MeetUp FLINTA in DIY music",
+      "date": "29 Jan",
+      "day": "Do",
+      "time": "18:30",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/not-just-boys-fun-3-meetup-flinta-in-diy-music/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Pabst",
+      "date": "29 Jan",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/290126-pabst.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Tingvall Trio",
+      "date": "29 Jan",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/92303/tingvall-trio",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Da Capo Udo Jürgens",
+      "date": "29 Jan",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/da-capo-udo-juergens-swiss-life-hall-d6c899b1cd2f/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Pogendroblem",
+      "date": "30 Jan",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/300126-pogendroblem.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Headliner*innen",
+      "date": "30 Jan",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/300126-headlinerinnen.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Die 80er-Party",
+      "date": "30 Jan",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/300126-die-80er-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "CAVALLUNA – TOR ZUR ANDERSWELT",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "14:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/cavalluna-das-tor-zur-anderswelt/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Anime Dreamlight Concerts",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "18:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/92329/anime-dreamlight-concerts",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Passepartout X Make a Move",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/passepartout-x-make-a-move-capitol-hannover-57c3a092bab2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Skarra Mucci & Manudigital",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/310126-skarra-mucci-manudigital.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Brüste raus - Fresse auf!",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/310126-brueste-raus-fresse-auf.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Addicted into Techno Vol. 2",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/310126-addicted-into-techno-vol-2.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "COPPELIUS",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/coppelius/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Butcher Sisters",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/the-butcher-sisters-swiss-life-hall-e4cd86e03aa7/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Anime Dreamlight Concerts",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "20:45",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/121240/anime-dreamlight-concerts",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Sonntagsflohmarkt im Leerhardt",
+      "date": "1 Feb",
+      "day": "So",
+      "time": "10:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-02-01-10-00",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Do Re Mi",
+      "date": "1 Feb",
+      "day": "So",
+      "time": "11:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/124138/do-re-mi",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Do Re Mi",
+      "date": "1 Feb",
+      "day": "So",
+      "time": "12:30",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/124139/do-re-mi",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "absent",
+      "date": "1 Feb",
+      "day": "So",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/absent/",
       "eventType": "concert",
       "genre": null,
       "description": null,
