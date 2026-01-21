@@ -112,6 +112,18 @@ address = "Lister Meile 4, 30161 Hannover"
 website = "https://www.erhardt.cafe"
 notes = "Café and cultural venue - events maintained as static data due to Wix dynamic loading"
 
+[sources.punkrock_konzerte]
+enabled = true
+source_type = "concert"
+display_name = "Punkrock-Konzerte"
+url = "https://www.ce.punkrock-konzerte.de/gigs-termine-hannover/"
+max_events = 200
+notes = "Aggregated punk/hardcore gigs for Hannover and surroundings (legacy HTML listings)"
+
+[sources.punkrock_konzerte.metadata]
+website = "https://www.ce.punkrock-konzerte.de/"
+notes = "Multi-venue listing; venue parsed per entry"
+
 # =============================================================================
 # Future Sources (Disabled)
 # =============================================================================

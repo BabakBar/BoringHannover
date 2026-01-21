@@ -12,12 +12,16 @@ from datetime import datetime, timedelta
 from unittest.mock import Mock, patch
 
 import pytest
+from bs4 import BeautifulSoup
 
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
 from boringhannover.notifier import format_message, notify
 from boringhannover.sources.cinema.astor import AstorSource as AstorMovieScraper
+from boringhannover.sources.concerts.punkrock_konzerte import (
+    PunkrockKonzerteSource,
+)
 from boringhannover.sources.concerts.zag_arena import (
     ZAGArenaSource as ConcertVenueScraper,
 )
@@ -233,6 +237,92 @@ class TestConcertVenueScraper:
         """Test scraper has max events limit configured."""
         scraper = ConcertVenueScraper()
         assert scraper.max_events == 15
+
+
+class TestPunkrockKonzerteSource:
+    """Tests for the Punkrock-Konzerte scraper."""
+
+    def test_parse_events_from_html(self) -> None:
+        html = """
+        <div class="row bg_gig result" itemscope itemtype="http://schema.org/Event">
+            <div class="col-md-2 col-sm-2 col-xs-12">
+                <div class="dateBox">
+                    22.01.2099 <meta itemprop="startDate" content="2099-01-22" />
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="col-md-12 small">
+                        <span itemprop="location" itemscope itemtype="http://schema.org/MusicVenue">
+                            <span itemprop="address">Hannover</span> -
+                            <span itemprop="name">LUX</span>
+                        </span>
+                    </div>
+                    <div class="col-md-12">
+                        <span class="b" itemprop="name">Test Band</span>
+                    </div>
+                </div>
+            </div>
+            <div class="lnkBtn">
+                <a class="info" href="https://example.com/event" title="Mehr Infos"></a>
+            </div>
+        </div>
+        <div class="row bg_gig result" itemscope itemtype="http://schema.org/Event">
+            <div class="col-md-2 col-sm-2 col-xs-12">
+                <div class="dateBox">23.02.2099</div>
+            </div>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="col-md-12 small">
+                        <span itemprop="location" itemscope itemtype="http://schema.org/MusicVenue">
+                            <span itemprop="address">Hannover</span> -
+                            <span itemprop="name">Bei Chez Heinz</span>
+                        </span>
+                    </div>
+                    <div class="col-md-12">
+                        <span class="b" itemprop="name">Another Band</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg_gig result" itemscope itemtype="http://schema.org/Event">
+            <div class="col-md-2 col-sm-2 col-xs-12">
+                <div class="dateBox">
+                    01.01.2000 <meta itemprop="startDate" content="2000-01-01" />
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="col-md-12 small">
+                        <span itemprop="location" itemscope itemtype="http://schema.org/MusicVenue">
+                            <span itemprop="address">Hannover</span> -
+                            <span itemprop="name">Faust</span>
+                        </span>
+                    </div>
+                    <div class="col-md-12">
+                        <span class="b" itemprop="name">Past Band</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+
+        source = PunkrockKonzerteSource()
+        events = source._parse_events(soup)
+
+        assert len(events) == 2
+        assert events[0].title == "Test Band"
+        assert events[0].venue == "LUX"
+        assert events[0].metadata["address"] == "Hannover"
+        assert events[0].metadata["time"] == "20:00"
+        assert events[0].url == "https://example.com/event"
+        assert events[0].date.tzinfo is BERLIN_TZ
+
+        assert events[1].title == "Another Band"
+        assert events[1].venue == "Bei Chez Heinz"
+        assert events[1].metadata["address"] == "Hannover"
+        assert events[1].metadata["time"] == "20:00"
 
 
 class TestFetchAllEvents:
