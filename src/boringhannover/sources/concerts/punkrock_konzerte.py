@@ -197,10 +197,11 @@ class PunkrockKonzerteSource(BaseSource):
 
     def _parse_german_numeric_date(self, value: str) -> datetime | None:
         try:
-            parsed = datetime.strptime(value, "%d.%m.%Y")
-            return parsed.replace(
-                hour=self.DEFAULT_TIME.hour,
-                minute=self.DEFAULT_TIME.minute,
+            day_str, month_str, year_str = value.split(".")
+            parsed_date = date(int(year_str), int(month_str), int(day_str))
+            return datetime.combine(
+                parsed_date,
+                self.DEFAULT_TIME,
                 tzinfo=BERLIN_TZ,
             )
         except ValueError as exc:
