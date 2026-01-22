@@ -2,65 +2,9 @@
   "meta": {
     "week": 4,
     "year": 2026,
-    "updatedAt": "Mon 19 Jan 18:00"
+    "updatedAt": "Thu 22 Jan 17:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "19.01",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:15",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "20.01",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:45",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "19:50",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "The Housemaid - Wenn sie wüsste",
-          "year": 2025,
-          "time": "20:15",
-          "duration": "2h13m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "22.01",
@@ -199,72 +143,24 @@
   ],
   "concerts": [
     {
-      "title": "Ruby Tuesday | SKAMPIDA",
-      "date": "20 Jan",
-      "day": "Di",
-      "time": "00:00",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--skampida-2026",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Das 47. hannoversche Rudelsingen (Zusatzshow)",
-      "date": "20 Jan",
-      "day": "Di",
-      "time": "19:30",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/92186/das-47-hannoversche-rudelsingen-zusatzshow",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "APACHE 207 – 21.01.2026",
-      "date": "21 Jan",
-      "day": "Mi",
-      "time": "17:30",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-207-21-01-2026/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Tablequiz",
-      "date": "21 Jan",
-      "day": "Mi",
-      "time": "19:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/tablequiz-2026-01-21-19-00",
-      "eventType": "quiz",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Das 47. hannoversche Rudelsingen",
-      "date": "21 Jan",
-      "day": "Mi",
-      "time": "19:30",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/92199/das-47-hannoversche-rudelsingen",
-      "eventType": "concert",
-      "genre": "Konzert",
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "Goldy.mp3 & Doubtboy",
       "date": "22 Jan",
       "day": "Do",
       "time": "20:00",
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/220126-goldymp3-doubtboy.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Pet Needs",
+      "date": "22 Jan",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/pet-needs/",
       "eventType": "concert",
       "genre": null,
       "description": null,
@@ -278,6 +174,18 @@
       "venue": "ZAG Arena",
       "url": "https://www.zag-arena-hannover.de/veranstaltung/apache-207-22-01-2026/",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Bush.ida",
+      "date": "22 Jan",
+      "day": "Do",
+      "time": "20:02",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/bush.ida",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -363,6 +271,42 @@
       "url": "https://pavillon-hannover.de/event/details/92225/pippo-pollina-in-concerto",
       "eventType": "concert",
       "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Devil May Care + Oceandvst",
+      "date": "23 Jan",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/devil-may-care-special-guest-oceandvst/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rumkicks",
+      "date": "23 Jan",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Bei Chez Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-23/6513",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Polaroit + Repeat",
+      "date": "23 Jan",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Thav",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -475,6 +419,30 @@
       "status": "available"
     },
     {
+      "title": "The Busters",
+      "date": "24 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/240126-the-busters.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Bad Career + Dusty Dawn",
+      "date": "24 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Bei Chez Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-23/6513",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Sonntagsflohmarkt im Leerhardt",
       "date": "25 Jan",
       "day": "So",
@@ -566,6 +534,18 @@
       "venue": "MusikZentrum",
       "url": "https://musikzentrum-hannover.de/veranstaltung/mystery-hotel-das-haus-der-komischen-zimmer-3/",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | ARELLA",
+      "date": "27 Jan",
+      "day": "Di",
+      "time": "14:00",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--arella",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -679,6 +659,18 @@
       "status": "available"
     },
     {
+      "title": "Talkin Secret (Britpop/Postpunk / Hamburg)",
+      "date": "29 Jan",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-01-29/6544",
+      "eventType": "concert",
+      "genre": "Britpop",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Pabst",
       "date": "29 Jan",
       "day": "Do",
@@ -699,6 +691,18 @@
       "url": "https://pavillon-hannover.de/event/details/92303/tingvall-trio",
       "eventType": "concert",
       "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Talkin Secret",
+      "date": "29 Jan",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Bei Chez Heinz (Salon)",
+      "url": "https://www.beichezheinz.de/programm/2026-01-29/6544",
+      "eventType": "concert",
+      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -751,6 +755,18 @@
       "status": "available"
     },
     {
+      "title": "Pogendroblem",
+      "date": "30 Jan",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Mephisto",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/zukunftsmusik/300126-pogendroblem.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "CAVALLUNA – TOR ZUR ANDERSWELT",
       "date": "31 Jan",
       "day": "Sa",
@@ -771,6 +787,18 @@
       "url": "https://pavillon-hannover.de/event/details/92329/anime-dreamlight-concerts",
       "eventType": "concert",
       "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "CAVALLUNA – TOR ZUR ANDERSWELT",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "19:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/cavalluna-tor-zur-anderswelt/",
+      "eventType": "concert",
+      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -829,6 +857,18 @@
       "time": "20:00",
       "venue": "MusikZentrum",
       "url": "https://musikzentrum-hannover.de/veranstaltung/coppelius/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Offenders",
+      "date": "31 Jan",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/the-offenders-5/",
       "eventType": "concert",
       "genre": null,
       "description": null,
@@ -895,12 +935,96 @@
       "status": "available"
     },
     {
+      "title": "CAVALLUNA – TOR ZUR ANDERSWELT",
+      "date": "1 Feb",
+      "day": "So",
+      "time": "13:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/cavalluna-tor-zur-anderswelt-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "absent",
       "date": "1 Feb",
       "day": "So",
       "time": "20:00",
       "venue": "MusikZentrum",
       "url": "https://musikzentrum-hannover.de/veranstaltung/absent/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Still Talk + Attic Stories",
+      "date": "2 Feb",
+      "day": "Mo",
+      "time": "20:00",
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/still-talk-support-attic-stories/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The S'coolmasters & die Studio-Bigband der HMTMH",
+      "date": "3 Feb",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/030226-the-scoolmasters-die-studio-bigband-der-hmtmh.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Buray",
+      "date": "3 Feb",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/100579/buray",
+      "eventType": "concert",
+      "genre": "Konzert",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Guilt",
+      "date": "3 Feb",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Cafe Glocksee",
+      "url": "https://www.cafe-glocksee.de/#/event/ruby-tuesday--the-guilt-2026",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "PA69",
+      "date": "4 Feb",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/pa69-capitol-hannover-965f9abd8904/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Almost Twins",
+      "date": "4 Feb",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/040226-almost-twins.html",
       "eventType": "concert",
       "genre": null,
       "description": null,
