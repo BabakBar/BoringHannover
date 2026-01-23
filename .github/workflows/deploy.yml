@@ -1,7 +1,5 @@
-# =============================================================================
 # BoringHannover Deploy Pipeline
 # Builds and pushes Docker images, triggers Coolify deployment
-# =============================================================================
 
 name: Deploy
 
@@ -35,9 +33,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # ---------------------------------------------------------------------------
   # Determine what changed (backend vs frontend)
-  # ---------------------------------------------------------------------------
   changes:
     name: Detect Changes
     runs-on: ubuntu-latest
@@ -109,9 +105,7 @@ jobs:
           echo "backend=${{ inputs.deploy_backend }}" >> "${GITHUB_OUTPUT}"
           echo "frontend=${{ inputs.deploy_frontend }}" >> "${GITHUB_OUTPUT}"
 
-  # ---------------------------------------------------------------------------
   # Build and push Docker images
-  # ---------------------------------------------------------------------------
   build:
     name: Build Images
     runs-on: ubuntu-latest
@@ -187,9 +181,7 @@ jobs:
           cache-to: type=gha,mode=max,scope=frontend
           platforms: linux/amd64
 
-  # ---------------------------------------------------------------------------
   # Trigger Coolify deployment
-  # ---------------------------------------------------------------------------
   deploy:
     name: Deploy to Coolify
     runs-on: ubuntu-latest

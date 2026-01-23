@@ -1,7 +1,5 @@
-# =============================================================================
 # BoringHannover CI Pipeline
 # Runs tests, linting, and type checking on every PR and push
-# =============================================================================
 
 name: CI
 
@@ -23,9 +21,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # ---------------------------------------------------------------------------
   # Backend: Python tests and quality checks
-  # ---------------------------------------------------------------------------
   backend:
     name: Backend (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
@@ -61,9 +57,7 @@ jobs:
       - name: Run tests (pytest)
         run: uv run pytest tests/ -v --tb=short
 
-  # ---------------------------------------------------------------------------
   # Frontend: Build verification
-  # ---------------------------------------------------------------------------
   frontend:
     name: Frontend (Bun)
     runs-on: ubuntu-latest
@@ -102,9 +96,7 @@ jobs:
           path: web/dist/
           retention-days: 7
 
-  # ---------------------------------------------------------------------------
   # Docker: Build verification
-  # ---------------------------------------------------------------------------
   docker:
     name: Docker Build
     runs-on: ubuntu-latest

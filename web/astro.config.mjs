@@ -8,7 +8,8 @@ export default defineConfig({
   // Examples:
   //   SITE=https://boringhannover.example
   //   PUBLIC_SITE_URL=https://boringhannover.example
-  site: process.env.SITE || process.env.PUBLIC_SITE_URL,
+  site: process.env.SITE || process.env.PUBLIC_SITE_URL || 'https://boringhannover.de',
+  trailingSlash: 'always',
   output: 'static',
   build: {
     assets: 'assets'
