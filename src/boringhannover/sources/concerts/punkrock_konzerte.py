@@ -120,6 +120,8 @@ class PunkrockKonzerteSource(BaseSource):
                 metadata={
                     "time": event_date.strftime("%H:%M"),
                     "event_type": "concert",
+                    "genre": "Punk / Hardcore",
+                    "genre_source": "source_implicit",
                     "address": city,
                 },
             )

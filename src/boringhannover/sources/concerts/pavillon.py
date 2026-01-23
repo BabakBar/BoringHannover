@@ -50,6 +50,13 @@ class PavillonSource(BaseSource):
     # Categories to include (music-related)
     CONCERT_CATEGORIES: ClassVar[tuple[str, ...]] = ("Konzert", "Festival", "Party")
 
+    # Map venue categories to music genres
+    CATEGORY_TO_GENRE: ClassVar[dict[str, str | None]] = {
+        "Konzert": None,  # Generic concert, no specific genre
+        "Festival": None,  # Mixed genres
+        "Party": "Electronic",  # Pavillon parties are typically electronic
+    }
+
     def fetch(self) -> list[Event]:
         """Fetch concert events from Pavillon Hannover.
 
@@ -187,8 +194,18 @@ class PavillonSource(BaseSource):
             if not title:
                 return None
 
-            # Extract category
+            # Extract category and map to genre
             category = self._extract_category(text)
+            genre = self.CATEGORY_TO_GENRE.get(category)
+
+            metadata: dict[str, str | int | list[str]] = {
+                "time": time_str,
+                "event_type": "concert",
+                "address": self.ADDRESS,
+            }
+            if genre:
+                metadata["genre"] = genre
+                metadata["genre_source"] = "category_map"
 
             return Event(
                 title=title,
@@ -196,12 +213,7 @@ class PavillonSource(BaseSource):
                 venue=self.source_name,
                 url=event_url,
                 category="radar",
-                metadata={
-                    "time": time_str,
-                    "genre": category,
-                    "event_type": "concert",
-                    "address": self.ADDRESS,
-                },
+                metadata=metadata,
             )
 
         except Exception as exc:

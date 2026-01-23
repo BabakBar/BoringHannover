@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 
 from boringhannover.config import GERMAN_MONTH_MAP
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.genre import normalize_genre
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
@@ -167,7 +168,22 @@ class BeiChezHeinzSource(BaseSource):
             price = self._extract_price(info_text)
 
             # Extract genre from title if present (e.g., "FREUDE (Alternative / Österreich)")
-            genre = self._extract_genre(title)
+            raw_genre = self._extract_genre(title)
+            genre = normalize_genre(raw_genre) if raw_genre else None
+
+            metadata: dict[str, str | int | list[str]] = {
+                "time": time_str,
+                "price": price,
+                "event_type": "concert",
+                "address": self.ADDRESS,
+            }
+            if genre:
+                metadata["genre"] = genre
+                metadata["genre_source"] = "title_pattern"
+            elif raw_genre:
+                # Keep raw genre if normalization failed
+                metadata["genre"] = raw_genre
+                metadata["genre_source"] = "title_pattern"
 
             return Event(
                 title=title,
@@ -175,13 +191,7 @@ class BeiChezHeinzSource(BaseSource):
                 venue=self.source_name,
                 url=event_url,
                 category="radar",
-                metadata={
-                    "time": time_str,
-                    "price": price,
-                    "genre": genre,
-                    "event_type": "concert",
-                    "address": self.ADDRESS,
-                },
+                metadata=metadata,
             )
 
         except Exception as exc:
