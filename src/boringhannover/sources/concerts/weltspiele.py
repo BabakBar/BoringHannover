@@ -121,9 +121,7 @@ class WeltspieleSource(BaseSource):
                     entries.append(entry)
         return entries
 
-    def _parse_program_event(
-        self, item: Tag, month_num: int
-    ) -> _ProgramEntry | None:
+    def _parse_program_event(self, item: Tag, month_num: int) -> _ProgramEntry | None:
         link = item.find_parent("a", href=True)
         url = str(link.get("href", "")).strip() if link else ""
         if not url:
@@ -223,9 +221,7 @@ class WeltspieleSource(BaseSource):
         soup = BeautifulSoup(response.text, "html.parser")
 
         show_date_elem = soup.select_one(self.SELECTOR_SHOW_DATE)
-        show_date = (
-            show_date_elem.get_text(" ", strip=True) if show_date_elem else None
-        )
+        show_date = show_date_elem.get_text(" ", strip=True) if show_date_elem else None
 
         title_elem = soup.select_one(self.SELECTOR_EVENT_TITLE)
         title = title_elem.get_text(strip=True) if title_elem else None

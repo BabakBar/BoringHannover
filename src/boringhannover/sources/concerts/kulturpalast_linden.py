@@ -57,7 +57,9 @@ class KulturpalastLindenSource(BaseSource):
         try:
             calendar = Calendar(sanitized)
         except Exception as exc:
-            logger.warning("Failed to parse iCalendar for %s: %s", self.source_name, exc)
+            logger.warning(
+                "Failed to parse iCalendar for %s: %s", self.source_name, exc
+            )
             return events
 
         for ics_event in sorted(calendar.events, key=lambda e: e.begin):
@@ -78,7 +80,10 @@ class KulturpalastLindenSource(BaseSource):
             if not begin:
                 return None
             event_date = begin.datetime
-            if event_date.tzinfo is None or event_date.tzinfo.utcoffset(event_date) is None:
+            if (
+                event_date.tzinfo is None
+                or event_date.tzinfo.utcoffset(event_date) is None
+            ):
                 event_date = event_date.replace(tzinfo=BERLIN_TZ)
             else:
                 event_date = event_date.astimezone(BERLIN_TZ)
