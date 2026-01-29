@@ -2,43 +2,9 @@
   "meta": {
     "week": 5,
     "year": 2026,
-    "updatedAt": "Mon 26 Jan 18:00"
+    "updatedAt": "Thu 29 Jan 17:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "26.01",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:15",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "27.01",
-      "movies": [
-        {
-          "title": "The Housemaid - Wenn sie wüsste",
-          "year": 2025,
-          "time": "20:00",
-          "duration": "2h13m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
-        }
-      ]
-    },
     {
       "day": "FRI",
       "date": "30.01",
@@ -80,7 +46,7 @@
         {
           "title": "Sneak Preview (OV)",
           "year": 0,
-          "time": "20:30",
+          "time": "20:35",
           "duration": "",
           "language": "EN",
           "subtitles": null,
@@ -185,177 +151,26 @@
           "url": "https://hannover.premiumkino.de/film/stray-kids-the-dominate-experience"
         }
       ]
+    },
+    {
+      "day": "WED",
+      "date": "11.02",
+      "movies": [
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h10m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Aymen & Amo",
-      "date": "26 Jan",
-      "day": "Mo",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/aymen-amo-swiss-life-hall-a3ba61ebec47/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Mystery Hotel – Das Haus der komischen Zimmer",
-      "date": "27 Jan",
-      "day": "Di",
-      "time": "11:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/mystery-hotel-das-haus-der-komischen-zimmer-3/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Ruby Tuesday | ARELLA",
-      "date": "27 Jan",
-      "day": "Di",
-      "time": "14:00",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--arella",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Monet192",
-      "date": "27 Jan",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/monet192-capitol-hannover-44b803a13f07/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "REEZY – ABGESAGT",
-      "date": "27 Jan",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/reezy-abgesagt/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Paradise Rave II",
-      "date": "27 Jan",
-      "day": "Di",
-      "time": "22:00",
-      "venue": "Weltspiele",
-      "url": "https://weltspiele.club/programm/",
-      "eventType": "Klubnacht",
-      "genre": null,
-      "description": "AELX Arman John Cenan Holland Cityroller Kim Valmount m1m1halfway riko (2) Vertrek",
-      "status": "available"
-    },
-    {
-      "title": "YOUTH CODE + KING YOSEF + STREET SECTS",
-      "date": "28 Jan",
-      "day": "Mi",
-      "time": "17:25",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/youth-code--king-yosef--street-sect",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "TRANSMISSION The Sound Of Joy Division",
-      "date": "28 Jan",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-01-28/5843",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Soul Playlist",
-      "date": "28 Jan",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Broncos",
-      "url": "https://www.stadtkind-kalender.de/event/soul-playlist?date=2026-01-28",
-      "eventType": "concert",
-      "genre": "Musik in der Bar",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Beyond The Black",
-      "date": "28 Jan",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/beyond-the-black-capitol-hannover-69236522b836/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "KULTURPALAST LINDEN SONGWRITER NIGHT: VOLKER WIEDERSHEIM",
-      "date": "28 Jan",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/kulturpalast-linden-songwriter-night-volker-wiedersheim/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "FABIAN WEGERER – ABGESAGT",
-      "date": "28 Jan",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/fabian-wegerer/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Duo Stiehler/Lucaciu",
-      "date": "28 Jan",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/92290/duo-stiehler-lucaciu",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Michelle",
-      "date": "28 Jan",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/michelle-swiss-life-hall-92274bae8f4b/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Talkin Secret (Britpop/Postpunk / Hamburg)",
       "date": "29 Jan",
@@ -597,18 +412,6 @@
       "status": "available"
     },
     {
-      "title": "Addicted into Techno Vol. 2",
-      "date": "31 Jan",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/januar/310126-addicted-into-techno-vol-2.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "COPPELIUS",
       "date": "31 Jan",
       "day": "Sa",
@@ -837,6 +640,18 @@
       "status": "available"
     },
     {
+      "title": "Red Mess (Stoner/Desert Rock aus Brasilien)",
+      "date": "5 Feb",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-02-05/6547",
+      "eventType": "concert",
+      "genre": "Stoner",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Royal Republic",
       "date": "5 Feb",
       "day": "Do",
@@ -957,6 +772,18 @@
       "status": "available"
     },
     {
+      "title": "KNOCHENFABRIK (Deutschpunk)",
+      "date": "7 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-02-07/6227",
+      "eventType": "concert",
+      "genre": "Deutschpunk",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Forever Young",
       "date": "7 Feb",
       "day": "Sa",
@@ -981,24 +808,24 @@
       "status": "available"
     },
     {
-      "title": "Rewind",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-rewind.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "It's Pop Punk, Baby!",
       "date": "7 Feb",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-its-pop-punk-baby.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rewind",
+      "date": "7 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-rewind.html",
       "eventType": "party",
       "genre": null,
       "description": null,
@@ -1060,6 +887,114 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/080226-tribe-friday.html",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Snüff",
+      "date": "9 Feb",
+      "day": "Mo",
+      "time": "20:00",
+      "venue": "Bei Chez Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-02-09/6549",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | THE DEVILS",
+      "date": "10 Feb",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--the-devils-2026",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Selin",
+      "date": "10 Feb",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/100226-selin.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Devils",
+      "date": "10 Feb",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Cafe Glocksee",
+      "url": "https://www.cafe-glocksee.de/#/event/ruby-tuesday--the-devils-2026",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Die Ringelreihe",
+      "date": "11 Feb",
+      "day": "Mi",
+      "time": "16:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/100700/die-ringelreihe",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "rémi.fr",
+      "date": "11 Feb",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/110226-remifr.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "David Lübke",
+      "date": "11 Feb",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/110226-david-luebke.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "17 Hippies",
+      "date": "11 Feb",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/100699/17-hippies",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "TARA MEENA & TBA",
+      "date": "11 Feb",
+      "day": "Mi",
+      "time": "21:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/tara-meena-tba/",
+      "eventType": "event",
       "genre": null,
       "description": null,
       "status": "available"
