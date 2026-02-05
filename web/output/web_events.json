@@ -2,43 +2,9 @@
   "meta": {
     "week": 6,
     "year": 2026,
-    "updatedAt": "Mon 02 Feb 18:00"
+    "updatedAt": "Thu 05 Feb 17:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "02.02",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:35",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "04.02",
-      "movies": [
-        {
-          "title": "The Housemaid - Wenn sie wüsste",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "2h13m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "05.02",
@@ -199,6 +165,17 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        },
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h16m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
         }
       ]
     },
@@ -222,114 +199,6 @@
   ],
   "concerts": [
     {
-      "title": "Still Talk + Attic Stories",
-      "date": "2 Feb",
-      "day": "Mo",
-      "time": "20:00",
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/konzerte/still-talk-support-attic-stories/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "The S'coolmasters & die Studio-Bigband der HMTMH",
-      "date": "3 Feb",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/030226-the-scoolmasters-die-studio-bigband-der-hmtmh.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Buray",
-      "date": "3 Feb",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/100579/buray",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "The Guilt",
-      "date": "3 Feb",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Cafe Glocksee",
-      "url": "https://www.cafe-glocksee.de/#/event/ruby-tuesday--the-guilt-2026",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "NOT JUST BOYS FUN 3. MeetUp FLINTA in DIY music",
-      "date": "4 Feb",
-      "day": "Mi",
-      "time": "18:30",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/not-just-boys-fun-3-meetup-flinta-in-diy-music/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "PA69",
-      "date": "4 Feb",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/pa69-capitol-hannover-965f9abd8904/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Almost Twins",
-      "date": "4 Feb",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/040226-almost-twins.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "POPULAR MUSIC SESSION MIT SOPHIE KOEPPEN",
-      "date": "4 Feb",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/popular-music-session-28/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "DAS BO",
-      "date": "4 Feb",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/das-bo/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "FOREVER GREY + THE DISCUSSION",
       "date": "5 Feb",
       "day": "Do",
@@ -350,6 +219,18 @@
       "url": "https://www.beichezheinz.de/programm/2026-02-05/6547",
       "eventType": "concert",
       "genre": "Stoner",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Erasmus",
+      "date": "5 Feb",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/erasmus?date=2026-02-05",
+      "eventType": "concert",
+      "genre": "Electronic",
       "description": null,
       "status": "available"
     },
@@ -410,6 +291,18 @@
       "url": "https://kulturpalast-hannover.de/event/linden-jazzsession-21/",
       "eventType": "event",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "DJ Match",
+      "date": "6 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/dj-match?date=2026-02-06",
+      "eventType": "concert",
+      "genre": "Electronic",
       "description": null,
       "status": "available"
     },
@@ -510,6 +403,18 @@
       "status": "available"
     },
     {
+      "title": "Dieseradrian",
+      "date": "7 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/dieseradrian-1?date=2026-02-07",
+      "eventType": "concert",
+      "genre": "Electronic",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Forever Young",
       "date": "7 Feb",
       "day": "Sa",
@@ -534,24 +439,24 @@
       "status": "available"
     },
     {
-      "title": "It's Pop Punk, Baby!",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-its-pop-punk-baby.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "Rewind",
       "date": "7 Feb",
       "day": "Sa",
       "time": "20:00",
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-rewind.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "It's Pop Punk, Baby!",
+      "date": "7 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-its-pop-punk-baby.html",
       "eventType": "party",
       "genre": null,
       "description": null,
@@ -834,24 +739,24 @@
       "status": "available"
     },
     {
-      "title": "Popdiven all night long",
-      "date": "13 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/130226-popdiven-all-night-long.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "Shuffle",
       "date": "13 Feb",
       "day": "Fr",
       "time": "20:00",
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/130226-shuffle.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Popdiven all night long",
+      "date": "13 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/130226-popdiven-all-night-long.html",
       "eventType": "party",
       "genre": null,
       "description": null,
@@ -918,7 +823,7 @@
       "status": "available"
     },
     {
-      "title": "TSV HANNOVER-BURGDORF vs. HSG Wetzlar",
+      "title": "TSV HANNOVER-BURGDORF vs. HSG WETZLAR",
       "date": "14 Feb",
       "day": "Sa",
       "time": "19:00",
@@ -1044,6 +949,66 @@
       "time": "20:00",
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/150226-sivert-hoyem.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Kalush Orchestra",
+      "date": "17 Feb",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/170226-kalush-orchestra.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Supersuckers",
+      "date": "17 Feb",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Lux",
+      "url": "https://www.lux-linden.de/konzerte/supersuckers-3/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "SYLOSIS",
+      "date": "18 Feb",
+      "day": "Mi",
+      "time": "18:30",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/sylosis/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Tablequiz",
+      "date": "18 Feb",
+      "day": "Mi",
+      "time": "19:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/tablequiz-2026-02-18-19-00",
+      "eventType": "quiz",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Sophia Kennedy",
+      "date": "18 Feb",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/100804/sophia-kennedy",
       "eventType": "concert",
       "genre": null,
       "description": null,
