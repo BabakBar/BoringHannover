@@ -1,122 +1,10 @@
 {
   "meta": {
-    "week": 6,
+    "week": 7,
     "year": 2026,
-    "updatedAt": "Thu 05 Feb 17:00"
+    "updatedAt": "Mon 09 Feb 18:00"
   },
   "movies": [
-    {
-      "day": "THU",
-      "date": "05.02",
-      "movies": [
-        {
-          "title": "Stray Kids: The dominATE Experience",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "2h26m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/stray-kids-the-dominate-experience"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "06.02",
-      "movies": [
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "16:20",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        },
-        {
-          "title": "Stray Kids: The dominATE Experience",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "2h26m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/stray-kids-the-dominate-experience"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "07.02",
-      "movies": [
-        {
-          "title": "Stray Kids: The dominATE Experience",
-          "year": 2026,
-          "time": "15:45",
-          "duration": "2h26m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/stray-kids-the-dominate-experience"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "08.02",
-      "movies": [
-        {
-          "title": "Stray Kids: The dominATE Experience",
-          "year": 2026,
-          "time": "11:30",
-          "duration": "2h26m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/stray-kids-the-dominate-experience"
-        },
-        {
-          "title": "Stray Kids: The dominATE Experience",
-          "year": 2026,
-          "time": "15:45",
-          "duration": "2h26m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/stray-kids-the-dominate-experience"
-        },
-        {
-          "title": "The Housemaid - Wenn sie wüsste",
-          "year": 2025,
-          "time": "19:00",
-          "duration": "2h13m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-housemaid-wenn-sie-wuesste"
-        },
-        {
-          "title": "Avatar: Fire and Ash",
-          "year": 2025,
-          "time": "20:30",
-          "duration": "3h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avatar-fire-and-ash"
-        }
-      ]
-    },
     {
       "day": "MON",
       "date": "09.02",
@@ -193,359 +81,202 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/prinzessin-mononoke"
+        },
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h16m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        }
+      ]
+    },
+    {
+      "day": "FRI",
+      "date": "13.02",
+      "movies": [
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "20:05",
+          "duration": "2h16m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        },
+        {
+          "title": "Crime 101",
+          "year": 2026,
+          "time": "23:00",
+          "duration": "2h22m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/crime-101"
+        }
+      ]
+    },
+    {
+      "day": "SAT",
+      "date": "14.02",
+      "movies": [
+        {
+          "title": "Stray Kids: The dominATE Experience",
+          "year": 2026,
+          "time": "12:00",
+          "duration": "2h26m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/stray-kids-the-dominate-experience"
+        },
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "12:15",
+          "duration": "2h16m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        },
+        {
+          "title": "The Dangers in My Heart - The Movie",
+          "year": 2026,
+          "time": "17:00",
+          "duration": "1h42m",
+          "language": "JP",
+          "subtitles": "DE",
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-dangers-in-my-heart-the-movie"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "15.02",
+      "movies": [
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "20:35",
+          "duration": "2h16m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "16.02",
+      "movies": [
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:35",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "17.02",
+      "movies": [
+        {
+          "title": "Crime 101",
+          "year": 2026,
+          "time": "19:50",
+          "duration": "2h22m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/crime-101"
+        },
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "20:35",
+          "duration": "2h16m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "18.02",
+      "movies": [
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "20:05",
+          "duration": "2h16m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "19.02",
+      "movies": [
+        {
+          "title": "The Moment",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "1h43m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-moment"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "22.02",
+      "movies": [
+        {
+          "title": "The Moment",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "1h43m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-moment"
         }
       ]
     }
   ],
   "concerts": [
-    {
-      "title": "FOREVER GREY + THE DISCUSSION",
-      "date": "5 Feb",
-      "day": "Do",
-      "time": "18:11",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/forever-grey--the-discussion-europe",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Nordstadtbraut präsentiert im Salon: Red Mess (Stoner/Desert Rock aus Brasilien)",
-      "date": "5 Feb",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-02-05/6547",
-      "eventType": "concert",
-      "genre": "Stoner",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Erasmus",
-      "date": "5 Feb",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Broncos",
-      "url": "https://www.stadtkind-kalender.de/event/erasmus?date=2026-02-05",
-      "eventType": "concert",
-      "genre": "Electronic",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Royal Republic",
-      "date": "5 Feb",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/royal-republic-capitol-hannover-e04b659ae014/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "sold_out"
-    },
-    {
-      "title": "Elwood Stray und Our Mirage",
-      "date": "5 Feb",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/050226-elwood-stray-und-our-mirage.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Burning Witches und HAMMER KING",
-      "date": "5 Feb",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/burning-witches-und-hammer-king/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Royal Republic + Alex Mofa Gang",
-      "date": "5 Feb",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Capitol",
-      "url": "https://www.capitol-hannover.de/events/royal-republic-capitol-hannover-e04b659ae014/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "5 Feb",
-      "day": "Do",
-      "time": "20:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazzsession-21/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "DJ Match",
-      "date": "6 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Broncos",
-      "url": "https://www.stadtkind-kalender.de/event/dj-match?date=2026-02-06",
-      "eventType": "concert",
-      "genre": "Electronic",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Lotto King Karl",
-      "date": "6 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/lotto-king-karl-capitol-hannover-115529d07889/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "2ersitz",
-      "date": "6 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/060226-2ersitz.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Puro Barrio",
-      "date": "6 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/060226-puro-barrio.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "COVENANT – AUSVERKAUFT",
-      "date": "6 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/covenant/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "The Movement + Heavyball",
-      "date": "6 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Lux",
-      "url": "https://www.lux-linden.de/konzerte/the-movement-heavyball/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Liiek + schuetter",
-      "date": "6 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Stumpf",
-      "url": "http://schuetterpunk.net/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "DERYA YILDIRIM & GRUP ŞIMŞEK",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "13:34",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/derya-yildirim--grup-simsek",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "KNOCHENFABRIK (Deutschpunk)",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-02-07/6227",
-      "eventType": "concert",
-      "genre": "Deutschpunk",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Dieseradrian",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Broncos",
-      "url": "https://www.stadtkind-kalender.de/event/dieseradrian-1?date=2026-02-07",
-      "eventType": "concert",
-      "genre": "Electronic",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Forever Young",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/forever-young-capitol-hannover-76e03f2bfb55/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Der frühe Vogel ...tanzt am besten",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-der-fruehe-vogel-tanzt-am-besten.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Rewind",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-rewind.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "It's Pop Punk, Baby!",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/070226-its-pop-punk-baby.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "KEIMZEIT",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/keimzeit/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Knochenfabrik",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-02-07",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Herbert Grönemeyer",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/herbert-gronemeyer-26/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "ELECTRO BEATS KP, CHAPTER 3.",
-      "date": "7 Feb",
-      "day": "Sa",
-      "time": "21:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/electro-beats-kp-chapter-3/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Sonntagsflohmarkt im Leerhardt",
-      "date": "8 Feb",
-      "day": "So",
-      "time": "10:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-02-08-10-00",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Nordstadtbraut präsentiert im Salon: Deathlight (Hardrock Hannvoer) + Überfluss (Punk/Hannover)",
-      "date": "8 Feb",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-02-08/6548",
-      "eventType": "concert",
-      "genre": "Hardrock Hannvoer",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Tribe Friday",
-      "date": "8 Feb",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/080226-tribe-friday.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Nordstadtbraut präsentiert im Salon: SNÜFF",
       "date": "9 Feb",
@@ -619,6 +350,18 @@
       "status": "available"
     },
     {
+      "title": "Nordstadtbraut präsentiert im Salon: Leon Ladwig (Country/Hannover)+Mighty Hilmi (Punkfolk mit Akkordeon /Hannover)",
+      "date": "11 Feb",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-02-11/6550",
+      "eventType": "concert",
+      "genre": "Folk / World",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "rémi.fr",
       "date": "11 Feb",
       "day": "Mi",
@@ -662,6 +405,18 @@
       "venue": "Kulturpalast Linden",
       "url": "https://kulturpalast-hannover.de/event/tara-meena-tba/",
       "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Überraschungsgast",
+      "date": "12 Feb",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-02-12/6551",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -943,6 +698,18 @@
       "status": "available"
     },
     {
+      "title": "Nordstadtbraut präsentiert im Salon: Druugg (Noise/Fuzz / Belgien)",
+      "date": "15 Feb",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-02-15/6552",
+      "eventType": "concert",
+      "genre": "Noise",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Sivert Høyem",
       "date": "15 Feb",
       "day": "So",
@@ -1009,6 +776,294 @@
       "time": "20:00",
       "venue": "Pavillon",
       "url": "https://pavillon-hannover.de/event/details/100804/sophia-kennedy",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Warkings & Visions Of Atlantis",
+      "date": "19 Feb",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/warkings-visions-of-atlantis-capitol-hannover-ab51cf9cbe10/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Bella Bazz & Romy",
+      "date": "19 Feb",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/190226-bella-bazz-romy.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "PA SPORTS und MUCCO",
+      "date": "19 Feb",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/pa-sports-und-mucco/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LINDEN JAZZ SESSION",
+      "date": "19 Feb",
+      "day": "Do",
+      "time": "20:30",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/linden-jazzsession-23/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Danko Rabrenović",
+      "date": "20 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/200226-danko-rabrenovic.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Taylor & Harry Night",
+      "date": "20 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/200226-the-taylor-harry-night.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Die 80er-Party",
+      "date": "20 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/200226-die-80er-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "DER TO MIT BAND",
+      "date": "20 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/der-tod-mit-band/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "HGich.T Live + Acid Aftershow",
+      "date": "20 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/hgich-t-live-acid-aftershow-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Casino Blackout",
+      "date": "20 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/casino-blackout-und-peter-aus-der-mozartstrasse/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Shirley Holmes",
+      "date": "20 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Kulturfabrik Löseke",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Bierteufel + Deutsch und Seltsam + Kackbratze + Uberkid",
+      "date": "20 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Bei Chez Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-02-20/6332",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Flaschenbecher + Teddies Kneipe + Das Aus der Jugend",
+      "date": "20 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Sturmglocke",
+      "url": "https://rauszeit-termine.org/events/reicht-jetzt-auch-mit-winter-konzert/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "JASON DERULO",
+      "date": "20 Feb",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/jason-derulo/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Peter Doherty",
+      "date": "21 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/peter-doherty-capitol-hannover-7d898cf01823/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Orange",
+      "date": "21 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/210226-orange.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Die 90er-Party",
+      "date": "21 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/210226-die-90er-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Fick Dich ins Knie, Melancholie!",
+      "date": "21 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/210226-fick-dich-ins-knie-melancholie.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Manntra & Gäste",
+      "date": "21 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/manntra-gaeste/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Dreck Weg! + Crème Brüllé + Spit Licker",
+      "date": "21 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Stumpf",
+      "url": "https://www.facebook.com/CREMExBRUELLE/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Motionless In White",
+      "date": "21 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/motionless-in-white-swiss-life-hall-3009a9f1d4c0/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "sold_out"
+    },
+    {
+      "title": "Sonntagsflohmarkt im Leerhardt",
+      "date": "22 Feb",
+      "day": "So",
+      "time": "10:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-02-22-10-00",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "KAWA",
+      "date": "22 Feb",
+      "day": "So",
+      "time": "19:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/100864/kawa",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "ClockClock",
+      "date": "22 Feb",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/clockclock-capitol-hannover-0c1b36110556/",
       "eventType": "concert",
       "genre": null,
       "description": null,
