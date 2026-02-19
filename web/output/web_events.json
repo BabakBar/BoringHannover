@@ -2,71 +2,9 @@
   "meta": {
     "week": 8,
     "year": 2026,
-    "updatedAt": "Mon 16 Feb 18:00"
+    "updatedAt": "Thu 19 Feb 17:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "16.02",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:35",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "17.02",
-      "movies": [
-        {
-          "title": "Crime 101",
-          "year": 2026,
-          "time": "19:50",
-          "duration": "2h21m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/crime-101"
-        },
-        {
-          "title": "Wuthering Heights - Sturmhöhe",
-          "year": 2026,
-          "time": "20:35",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "18.02",
-      "movies": [
-        {
-          "title": "Wuthering Heights - Sturmhöhe",
-          "year": 2026,
-          "time": "20:05",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "19.02",
@@ -74,7 +12,7 @@
         {
           "title": "The Moment",
           "year": 2026,
-          "time": "19:45",
+          "time": "19:50",
           "duration": "1h43m",
           "language": "EN",
           "subtitles": "DE",
@@ -199,10 +137,10 @@
           "title": "EPiC: Elvis Presley in Concert",
           "year": 2026,
           "time": "19:45",
-          "duration": "1h30m",
+          "duration": "1h41m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/epic-elvis-presley-in-concert"
         },
@@ -244,10 +182,10 @@
           "title": "EPiC: Elvis Presley in Concert",
           "year": 2026,
           "time": "17:30",
-          "duration": "1h30m",
+          "duration": "1h41m",
           "language": "EN",
           "subtitles": "DE",
-          "rating": null,
+          "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/epic-elvis-presley-in-concert"
         }
@@ -255,78 +193,6 @@
     }
   ],
   "concerts": [
-    {
-      "title": "Nordstadtbraut präsentiert im Salon: Blanche Biau (Coldwave/Postpunk/Schweiz) + Weinroter Regen (Coldwave /NNDW/Hannover)",
-      "date": "16 Feb",
-      "day": "Mo",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-02-16/6666",
-      "eventType": "concert",
-      "genre": "Coldwave",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Kalush Orchestra",
-      "date": "17 Feb",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/170226-kalush-orchestra.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Supersuckers",
-      "date": "17 Feb",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Lux",
-      "url": "https://www.lux-linden.de/konzerte/supersuckers-3/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "SYLOSIS",
-      "date": "18 Feb",
-      "day": "Mi",
-      "time": "18:30",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/sylosis/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Tablequiz",
-      "date": "18 Feb",
-      "day": "Mi",
-      "time": "19:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/tablequiz-2026-02-18-19-00",
-      "eventType": "quiz",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Sophia Kennedy",
-      "date": "18 Feb",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/100804/sophia-kennedy",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Nordstadtbraut präsentiert im Salon: Buds (Punk/Niederlande)",
       "date": "19 Feb",
@@ -844,6 +710,18 @@
       "status": "available"
     },
     {
+      "title": "MELODY OF MY HEARTBEAT (Metalcore / Hannover) mit I AM THE DECEIVER (Metalcore / Hamburg)",
+      "date": "28 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-02-28/6232",
+      "eventType": "concert",
+      "genre": "Metalcore",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Lina",
       "date": "28 Feb",
       "day": "Sa",
@@ -892,6 +770,18 @@
       "status": "available"
     },
     {
+      "title": "Potato Fritz + Fluid To Gas",
+      "date": "28 Feb",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Stadionkneipe SV Arminia",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Zartmann",
       "date": "28 Feb",
       "day": "Sa",
@@ -899,6 +789,18 @@
       "venue": "Swiss Life Hall",
       "url": "https://www.swisslife-hall.de/events/zartmann-swiss-life-hall-4a37b49660d4/",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "sold_out"
+    },
+    {
+      "title": "Sonntagsflohmarkt im Leerhardt",
+      "date": "1 Mär",
+      "day": "So",
+      "time": "10:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-03-01-10-00",
+      "eventType": "event",
       "genre": null,
       "description": null,
       "status": "available"
@@ -946,6 +848,66 @@
       "time": "20:00",
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/010326-megaloh.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Federico Albanese",
+      "date": "3 Mär",
+      "day": "Di",
+      "time": "19:30",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91107/federico-albanese",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Die Cigaretten",
+      "date": "3 Mär",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Cafe Glocksee",
+      "url": "https://www.facebook.com/events/1537461250855325/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Maria Basel",
+      "date": "4 Mär",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/040326-maria-basel.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "POPULAR MUSIC SESSION",
+      "date": "4 Mär",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/popular-music-session-29/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rainald Grebe",
+      "date": "4 Mär",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91121/rainald-grebe",
       "eventType": "concert",
       "genre": null,
       "description": null,
