@@ -1,83 +1,10 @@
 {
   "meta": {
-    "week": 8,
+    "week": 9,
     "year": 2026,
-    "updatedAt": "Thu 19 Feb 17:00"
+    "updatedAt": "Mon 23 Feb 18:00"
   },
   "movies": [
-    {
-      "day": "THU",
-      "date": "19.02",
-      "movies": [
-        {
-          "title": "The Moment",
-          "year": 2026,
-          "time": "19:50",
-          "duration": "1h43m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-moment"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "21.02",
-      "movies": [
-        {
-          "title": "Wuthering Heights - Sturmhöhe",
-          "year": 2026,
-          "time": "11:45",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
-        },
-        {
-          "title": "Wuthering Heights - Sturmhöhe",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "22.02",
-      "movies": [
-        {
-          "title": "Wuthering Heights - Sturmhöhe",
-          "year": 2026,
-          "time": "11:45",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
-        },
-        {
-          "title": "The Moment",
-          "year": 2026,
-          "time": "20:00",
-          "duration": "1h43m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-moment"
-        }
-      ]
-    },
     {
       "day": "MON",
       "date": "23.02",
@@ -134,6 +61,17 @@
       "date": "26.02",
       "movies": [
         {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        },
+        {
           "title": "EPiC: Elvis Presley in Concert",
           "year": 2026,
           "time": "19:45",
@@ -143,6 +81,17 @@
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/epic-elvis-presley-in-concert"
+        },
+        {
+          "title": "Marty Supreme",
+          "year": 2025,
+          "time": "19:50",
+          "duration": "2h30m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/marty-supreme"
         },
         {
           "title": "Twenty One Pilots: More Than We Ever Imagined",
@@ -158,9 +107,37 @@
       ]
     },
     {
+      "day": "FRI",
+      "date": "27.02",
+      "movies": [
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        }
+      ]
+    },
+    {
       "day": "SAT",
       "date": "28.02",
       "movies": [
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "12:00",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        },
         {
           "title": "Twenty One Pilots: More Than We Ever Imagined",
           "year": 2025,
@@ -179,6 +156,17 @@
       "date": "01.03",
       "movies": [
         {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "12:00",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        },
+        {
           "title": "EPiC: Elvis Presley in Concert",
           "year": 2026,
           "time": "17:30",
@@ -190,333 +178,99 @@
           "url": "https://hannover.premiumkino.de/film/epic-elvis-presley-in-concert"
         }
       ]
+    },
+    {
+      "day": "MON",
+      "date": "02.03",
+      "movies": [
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        },
+        {
+          "title": "Marty Supreme",
+          "year": 2025,
+          "time": "19:50",
+          "duration": "2h30m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/marty-supreme"
+        },
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:00",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "03.03",
+      "movies": [
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "04.03",
+      "movies": [
+        {
+          "title": "Wuthering Heights - Sturmhöhe",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "05.03",
+      "movies": [
+        {
+          "title": "One Battle After Another",
+          "year": 2025,
+          "time": "19:45",
+          "duration": "2h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/one-battle-after-another"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Nordstadtbraut präsentiert im Salon: Buds (Punk/Niederlande)",
-      "date": "19 Feb",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-02-19/6668",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Warkings & Visions Of Atlantis",
-      "date": "19 Feb",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/warkings-visions-of-atlantis-capitol-hannover-ab51cf9cbe10/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Bella Bazz & Romy",
-      "date": "19 Feb",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/190226-bella-bazz-romy.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "PA SPORTS und MUCCO",
-      "date": "19 Feb",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/pa-sports-und-mucco/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "19 Feb",
-      "day": "Do",
-      "time": "20:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazzsession-23/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "5mal5 Konzert",
-      "date": "20 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-02-20/6332",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Danko Rabrenović",
-      "date": "20 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/200226-danko-rabrenovic.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "The Taylor & Harry Night",
-      "date": "20 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/200226-the-taylor-harry-night.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Die 80er-Party",
-      "date": "20 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/200226-die-80er-party.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "DER TO MIT BAND",
-      "date": "20 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/der-tod-mit-band/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "HGich.T Live + Acid Aftershow",
-      "date": "20 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/hgich-t-live-acid-aftershow-2/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Casino Blackout",
-      "date": "20 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/konzerte/casino-blackout-und-peter-aus-der-mozartstrasse/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Shirley Holmes",
-      "date": "20 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Kulturfabrik Löseke",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Bierteufel + Deutsch und Seltsam + Kackbratze + Uberkid",
-      "date": "20 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Bei Chez Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-02-20/6332",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Flaschenbecher + Teddies Kneipe + Das Aus der Jugend",
-      "date": "20 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Sturmglocke",
-      "url": "https://rauszeit-termine.org/events/reicht-jetzt-auch-mit-winter-konzert/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "JASON DERULO",
-      "date": "20 Feb",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/jason-derulo/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Peter Doherty",
-      "date": "21 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/peter-doherty-capitol-hannover-7d898cf01823/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Orange",
-      "date": "21 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/210226-orange.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Jace",
-      "date": "21 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/210226-jace.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Die 90er-Party",
-      "date": "21 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/210226-die-90er-party.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Fick Dich ins Knie, Melancholie!",
-      "date": "21 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/210226-fick-dich-ins-knie-melancholie.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Manntra & Gäste",
-      "date": "21 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/manntra-gaeste/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Dreck Weg! + Crème Brüllé + Spit Licker",
-      "date": "21 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Stumpf",
-      "url": "https://www.facebook.com/CREMExBRUELLE/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Motionless In White",
-      "date": "21 Feb",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/motionless-in-white-swiss-life-hall-3009a9f1d4c0/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Sonntagsflohmarkt im Leerhardt",
-      "date": "22 Feb",
-      "day": "So",
-      "time": "10:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-02-22-10-00",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "KAWA",
-      "date": "22 Feb",
-      "day": "So",
-      "time": "19:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/100864/kawa",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "ClockClock",
-      "date": "22 Feb",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/clockclock-capitol-hannover-0c1b36110556/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Lion's Law",
       "date": "24 Feb",
@@ -791,7 +545,7 @@
       "eventType": "concert",
       "genre": null,
       "description": null,
-      "status": "sold_out"
+      "status": "available"
     },
     {
       "title": "Sonntagsflohmarkt im Leerhardt",
@@ -826,6 +580,18 @@
       "url": "https://musikzentrum-hannover.de/veranstaltung/rian/",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Goldcup (Alternative Rock / Manchester)",
+      "date": "1 Mär",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-03-01/6553",
+      "eventType": "concert",
+      "genre": "Alternative Rock",
       "description": null,
       "status": "available"
     },
@@ -908,6 +674,174 @@
       "time": "20:00",
       "venue": "Pavillon",
       "url": "https://pavillon-hannover.de/event/details/91121/rainald-grebe",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Paradise Lost",
+      "date": "5 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/paradise-lost-capitol-hannover-91ecbe18ebfe/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Swingleiner",
+      "date": "5 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/050326-swingleiner.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Nils Keppel",
+      "date": "5 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/050326-nils-keppel.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LINDEN JAZZ SESSION",
+      "date": "5 Mär",
+      "day": "Do",
+      "time": "20:30",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-36/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Grossstadtgeflüster",
+      "date": "6 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/grossstadtgefluester-capitol-hannover-bfcddabb49aa/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rocko Schamoni",
+      "date": "6 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/060326-rocko-schamoni.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Niniwe",
+      "date": "6 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/060326-niniwe.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Forever Young",
+      "date": "7 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/forever-young-capitol-hannover-4752da17eae0/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Kadebostany",
+      "date": "7 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/070326-kadebostany.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Equal Beats",
+      "date": "7 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/070326-equal-beats.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rewind",
+      "date": "7 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/070326-rewind.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Sonntagsflohmarkt im Leerhardt",
+      "date": "8 Mär",
+      "day": "So",
+      "time": "10:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-03-08-10-00",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Scala & Kolacny Brothers",
+      "date": "8 Mär",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/scala-kolacny-brothers-capitol-hannover-c84bdb82243e/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "6euroneunzig",
+      "date": "8 Mär",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/080326-6euroneunzig.html",
       "eventType": "concert",
       "genre": null,
       "description": null,
