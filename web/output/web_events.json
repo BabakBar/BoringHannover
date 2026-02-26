@@ -2,75 +2,13 @@
   "meta": {
     "week": 9,
     "year": 2026,
-    "updatedAt": "Mon 23 Feb 18:00"
+    "updatedAt": "Thu 26 Feb 17:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "23.02",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:30",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "24.02",
-      "movies": [
-        {
-          "title": "Scarlet",
-          "year": 2025,
-          "time": "20:00",
-          "duration": "1h51m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/scarlet"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "25.02",
-      "movies": [
-        {
-          "title": "Marty Supreme",
-          "year": 2025,
-          "time": "20:15",
-          "duration": "2h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/marty-supreme"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "26.02",
       "movies": [
-        {
-          "title": "Wuthering Heights - Sturmhöhe",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
-        },
         {
           "title": "EPiC: Elvis Presley in Concert",
           "year": 2026,
@@ -268,81 +206,26 @@
           "url": "https://hannover.premiumkino.de/film/one-battle-after-another"
         }
       ]
+    },
+    {
+      "day": "MON",
+      "date": "09.03",
+      "movies": [
+        {
+          "title": "One Battle After Another",
+          "year": 2025,
+          "time": "19:45",
+          "duration": "2h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/one-battle-after-another"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Lion's Law",
-      "date": "24 Feb",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/240226-lions-law.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Lion′s Law + The Chisel + Ultra Sect",
-      "date": "24 Feb",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/februar/240226-lions-law.html",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "ANDRÉ RIEU",
-      "date": "25 Feb",
-      "day": "Mi",
-      "time": "19:30",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/andre-rieu-4/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Ritter Lean",
-      "date": "25 Feb",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/ritter-lean-capitol-hannover-a22b034f098b/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "KULTURPALAST LINDEN SONGWRITER NIGHT: AZRIEL",
-      "date": "25 Feb",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/kulturpalast-linden-songwriter-night-azriel/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "OMNIUM GATHERUM",
-      "date": "25 Feb",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/omnium-gatherum/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "MOTHER´S CAKE",
       "date": "26 Feb",
@@ -644,6 +527,18 @@
       "status": "available"
     },
     {
+      "title": "FEMINISM UNLIMITED",
+      "date": "4 Mär",
+      "day": "Mi",
+      "time": "19:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91122/feminism-unlimited",
+      "eventType": "concert",
+      "genre": "Electronic",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Maria Basel",
       "date": "4 Mär",
       "day": "Mi",
@@ -676,6 +571,18 @@
       "url": "https://pavillon-hannover.de/event/details/91121/rainald-grebe",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "ANTIFUCHS (Rap / Berlin)",
+      "date": "5 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-03-05/6349",
+      "eventType": "concert",
+      "genre": "Hip-Hop",
       "description": null,
       "status": "available"
     },
@@ -843,6 +750,90 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/080326-6euroneunzig.html",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Fortuna Ehrenfeld",
+      "date": "9 Mär",
+      "day": "Mo",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91191/fortuna-ehrenfeld",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | PSYCHLONA",
+      "date": "10 Mär",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--psychlona",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Das 48. hannoversche Rudelsingen (Zusatzshow)",
+      "date": "10 Mär",
+      "day": "Di",
+      "time": "19:30",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91205/das-48-hannoversche-rudelsingen-zusatzshow",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Das 48. hannoversche Rudelsingen",
+      "date": "11 Mär",
+      "day": "Mi",
+      "time": "19:30",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91219/das-48-hannoversche-rudelsingen",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "102 Boyz",
+      "date": "11 Mär",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/102-boyz-capitol-hannover-c5a31bcf368e/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Kapa Tult",
+      "date": "11 Mär",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/110326-kapa-tult.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "DEADLETTER",
+      "date": "12 Mär",
+      "day": "Do",
+      "time": "15:01",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/deadletter-2026",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
