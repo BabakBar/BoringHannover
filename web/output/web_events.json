@@ -2,71 +2,9 @@
   "meta": {
     "week": 10,
     "year": 2026,
-    "updatedAt": "Mon 02 Mar 18:00"
+    "updatedAt": "Thu 05 Mar 17:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "02.03",
-      "movies": [
-        {
-          "title": "Marty Supreme",
-          "year": 2025,
-          "time": "19:50",
-          "duration": "2h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/marty-supreme"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:00",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "03.03",
-      "movies": [
-        {
-          "title": "Wuthering Heights - Sturmhöhe",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "04.03",
-      "movies": [
-        {
-          "title": "Wuthering Heights - Sturmhöhe",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "05.03",
@@ -156,6 +94,17 @@
           "url": "https://hannover.premiumkino.de/film/one-battle-after-another"
         },
         {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:00",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        },
+        {
           "title": "Marty Supreme",
           "year": 2025,
           "time": "20:30",
@@ -186,6 +135,23 @@
       ]
     },
     {
+      "day": "SAT",
+      "date": "14.03",
+      "movies": [
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h36m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        }
+      ]
+    },
+    {
       "day": "SUN",
       "date": "15.03",
       "movies": [
@@ -201,81 +167,26 @@
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         }
       ]
+    },
+    {
+      "day": "THU",
+      "date": "19.03",
+      "movies": [
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "16:40",
+          "duration": "2h36m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Federico Albanese",
-      "date": "3 Mär",
-      "day": "Di",
-      "time": "19:30",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/91107/federico-albanese",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Die Cigaretten",
-      "date": "3 Mär",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Cafe Glocksee",
-      "url": "https://www.facebook.com/events/1537461250855325/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "FEMINISM UNLIMITED",
-      "date": "4 Mär",
-      "day": "Mi",
-      "time": "19:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/91122/feminism-unlimited",
-      "eventType": "concert",
-      "genre": "Electronic",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Maria Basel",
-      "date": "4 Mär",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/040326-maria-basel.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "POPULAR MUSIC SESSION",
-      "date": "4 Mär",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/popular-music-session-29/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Rainald Grebe",
-      "date": "4 Mär",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/91121/rainald-grebe",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "ANTIFUCHS (Rap / Berlin)",
       "date": "5 Mär",
@@ -380,6 +291,18 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/060326-heldinnen-unserer-kindheit.html",
       "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "ELIAS RØNNENFELT",
+      "date": "7 Mär",
+      "day": "Sa",
+      "time": "16:50",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/elias-rønnenfelt",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -589,6 +512,18 @@
       "status": "available"
     },
     {
+      "title": "Waran (Hardcore/Alternative Rock /Bremen) + AACKR (Noiserock/Köln)",
+      "date": "12 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-03-12/6670",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Yu",
       "date": "12 Mär",
       "day": "Do",
@@ -657,6 +592,18 @@
       "url": "https://www.zag-arena-hannover.de/veranstaltung/tsv-hannover-burgdorf-vs-sc-magdeburg-4/",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Retrogott & HulkHodn ( HipHop / Köln)",
+      "date": "13 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-03-13/6579",
+      "eventType": "concert",
+      "genre": "Hip-Hop",
       "description": null,
       "status": "available"
     },
@@ -793,6 +740,18 @@
       "status": "available"
     },
     {
+      "title": "Bala Baile",
+      "date": "14 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/140326-bala-baile.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "HAVANA",
       "date": "14 Mär",
       "day": "Sa",
@@ -872,6 +831,78 @@
       "venue": "Pavillon",
       "url": "https://pavillon-hannover.de/event/details/122305/tim-fischer",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | PREYRS",
+      "date": "17 Mär",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--preyrs",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "JOJA WENDT & AXEL ZWINGENBERGER",
+      "date": "17 Mär",
+      "day": "Di",
+      "time": "19:30",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91303/joja-wendt-axel-zwingenberger",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rose May Alaba",
+      "date": "17 Mär",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/170326-rose-may-alaba.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Tablequiz",
+      "date": "18 Mär",
+      "day": "Mi",
+      "time": "19:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/tablequiz-2026-03-18-19-00",
+      "eventType": "quiz",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "257ers",
+      "date": "18 Mär",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/257ers-capitol-hannover-8c6644b619fe/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "COSMIC SLOP SESSION-NIGHT",
+      "date": "18 Mär",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/cosmic-slop-session-night/",
+      "eventType": "event",
       "genre": null,
       "description": null,
       "status": "available"
