@@ -2,65 +2,9 @@
   "meta": {
     "week": 11,
     "year": 2026,
-    "updatedAt": "Mon 09 Mar 18:00"
+    "updatedAt": "Thu 12 Mar 17:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "09.03",
-      "movies": [
-        {
-          "title": "One Battle After Another",
-          "year": 2025,
-          "time": "19:45",
-          "duration": "2h42m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/one-battle-after-another"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:00",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        },
-        {
-          "title": "Marty Supreme",
-          "year": 2025,
-          "time": "20:30",
-          "duration": "2h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/marty-supreme"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "10.03",
-      "movies": [
-        {
-          "title": "EPiC: Elvis Presley in Concert",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "1h41m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/epic-elvis-presley-in-concert"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "12.03",
@@ -147,10 +91,10 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "19:45",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         }
@@ -164,10 +108,10 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "17:00",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         },
@@ -287,10 +231,10 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "16:40",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         },
@@ -298,10 +242,10 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "20:00",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         }
@@ -315,10 +259,10 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "16:20",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         },
@@ -337,10 +281,10 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "20:15",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         }
@@ -354,10 +298,10 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "16:30",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         },
@@ -376,10 +320,10 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "20:15",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         }
@@ -393,10 +337,10 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "16:30",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         },
@@ -404,10 +348,10 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "19:45",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         },
@@ -432,10 +376,10 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "16:30",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         },
@@ -443,10 +387,88 @@
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "16:40",
-          "duration": "2h36m",
+          "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "24.03",
+      "movies": [
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "16:30",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Marty Supreme",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "2h30m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/marty-supreme"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "25.03",
+      "movies": [
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "16:30",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         }
@@ -454,90 +476,6 @@
     }
   ],
   "concerts": [
-    {
-      "title": "Fortuna Ehrenfeld",
-      "date": "9 Mär",
-      "day": "Mo",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/91191/fortuna-ehrenfeld",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Ruby Tuesday | PSYCHLONA",
-      "date": "10 Mär",
-      "day": "Di",
-      "time": "00:00",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--psychlona",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Das 48. hannoversche Rudelsingen (Zusatzshow)",
-      "date": "10 Mär",
-      "day": "Di",
-      "time": "19:30",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/91205/das-48-hannoversche-rudelsingen-zusatzshow",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Das 48. hannoversche Rudelsingen",
-      "date": "11 Mär",
-      "day": "Mi",
-      "time": "19:30",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/91219/das-48-hannoversche-rudelsingen",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "102 Boyz",
-      "date": "11 Mär",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/102-boyz-capitol-hannover-c5a31bcf368e/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Kapa Tult",
-      "date": "11 Mär",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/110326-kapa-tult.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "DEADLETTER",
-      "date": "12 Mär",
-      "day": "Do",
-      "time": "15:01",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/deadletter-2026",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "HANS ZIMMER LIVE",
       "date": "12 Mär",
@@ -959,6 +897,18 @@
       "status": "available"
     },
     {
+      "title": "Aka Rinde (Andrej von Dyse Solo mit Gitarre)",
+      "date": "19 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-03-19/6557",
+      "eventType": "concert",
+      "genre": "Andrej von Dyse Solo mit Gitarre",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Julian Sommer",
       "date": "19 Mär",
       "day": "Do",
@@ -1278,6 +1228,66 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/220326-ydra-caramella.html",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "BETTEROV",
+      "date": "23 Mär",
+      "day": "Mo",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91387/betterov",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Angelo Kelly",
+      "date": "24 Mär",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91401/angelo-kelly",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Luvre47",
+      "date": "25 Mär",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/250326-luvre47.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "KAFVKA",
+      "date": "25 Mär",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/kafvka/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "KULTURPALAST LINDEN SONGWRITER NIGHT: PLOGSTIES",
+      "date": "25 Mär",
+      "day": "Mi",
+      "time": "20:30",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/kulturpalast-linden-songwriter-night-plogsties/",
+      "eventType": "event",
       "genre": null,
       "description": null,
       "status": "available"
