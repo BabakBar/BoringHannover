@@ -1,159 +1,14 @@
 {
   "meta": {
-    "week": 11,
+    "week": 12,
     "year": 2026,
-    "updatedAt": "Thu 12 Mar 17:00"
+    "updatedAt": "Mon 16 Mar 18:00"
   },
   "movies": [
-    {
-      "day": "THU",
-      "date": "12.03",
-      "movies": [
-        {
-          "title": "Marty Supreme",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "2h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/marty-supreme"
-        },
-        {
-          "title": "Für immer ein Teil von dir - Reminders of Him",
-          "year": 2026,
-          "time": "20:10",
-          "duration": "1h55m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/fuer-immer-ein-teil-von-dir-reminders-of-him"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "13.03",
-      "movies": [
-        {
-          "title": "Good Luck, Have Fun, Don't Die",
-          "year": 2025,
-          "time": "17:20",
-          "duration": "2h15m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/good-luck-have-fun-dont-die"
-        },
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "14.03",
-      "movies": [
-        {
-          "title": "Wuthering Heights - Sturmhöhe",
-          "year": 2026,
-          "time": "12:00",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wuthering-heights-sturmhoehe"
-        },
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "15.03",
-      "movies": [
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "17:00",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        },
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        },
-        {
-          "title": "Für immer ein Teil von dir - Reminders of Him",
-          "year": 2026,
-          "time": "20:10",
-          "duration": "1h55m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/fuer-immer-ein-teil-von-dir-reminders-of-him"
-        }
-      ]
-    },
     {
       "day": "MON",
       "date": "16.03",
       "movies": [
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        },
         {
           "title": "Marty Supreme",
           "year": 2025,
@@ -278,6 +133,17 @@
           "url": "https://hannover.premiumkino.de/film/marty-supreme"
         },
         {
+          "title": "Hoppers",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h44m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/hoppers"
+        },
+        {
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "20:15",
@@ -365,6 +231,17 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/marty-supreme"
+        },
+        {
+          "title": "Hoppers",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "1h44m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/hoppers"
         }
       ]
     },
@@ -384,15 +261,15 @@
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         },
         {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "16:40",
-          "duration": "2h37m",
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:00",
+          "duration": "",
           "language": "EN",
           "subtitles": null,
-          "rating": "FSK12",
+          "rating": "FSK18",
           "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
         },
         {
           "title": "Der Astronaut - Project Hail Mary",
@@ -462,6 +339,17 @@
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         },
         {
+          "title": "One Battle After Another",
+          "year": 2025,
+          "time": "20:00",
+          "duration": "2h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/one-battle-after-another"
+        },
+        {
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
           "time": "20:15",
@@ -476,354 +364,6 @@
     }
   ],
   "concerts": [
-    {
-      "title": "HANS ZIMMER LIVE",
-      "date": "12 Mär",
-      "day": "Do",
-      "time": "19:30",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/hans-zimmer-live-2/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Waran (Hardcore/Alternative Rock /Bremen) + AACKR (Noiserock/Köln)",
-      "date": "12 Mär",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-03-12/6670",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Yu",
-      "date": "12 Mär",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/yu-capitol-hannover-9153741002c3/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Oh Voyage",
-      "date": "12 Mär",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/120326-oh-voyage.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "MARC BROUSSARD",
-      "date": "12 Mär",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/marc-broussard/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Deadletter + False Lefty",
-      "date": "12 Mär",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Cafe Glocksee",
-      "url": "https://www.cafe-glocksee.de/#/event/deadletter-2026",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "12 Mär",
-      "day": "Do",
-      "time": "20:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazzsession-25/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "TSV HANNOVER-BURGDORF vs. HSV HAMBURG",
-      "date": "13 Mär",
-      "day": "Fr",
-      "time": "19:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/tsv-hannover-burgdorf-vs-sc-magdeburg-4/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Retrogott & HulkHodn ( HipHop / Köln)",
-      "date": "13 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-03-13/6579",
-      "eventType": "concert",
-      "genre": "Hip-Hop",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Leftovers",
-      "date": "13 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/130326-leftovers.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Die 80er-Party",
-      "date": "13 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/130326-die-80er-party.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Wilde Herzen",
-      "date": "13 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/130326-wilde-herzen.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "COLDPLACE",
-      "date": "13 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/coldplace/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Proton Packs + The Evil O′Brians",
-      "date": "13 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Garage",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Dieter Nuhr",
-      "date": "13 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/dieter-nuhr-swiss-life-hall-ba2eab13c79d/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "TERCEL & DRIVEN BY CLOCKWORK",
-      "date": "13 Mär",
-      "day": "Fr",
-      "time": "21:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/tercel-driven-by-clockwork/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "ACHTUNG: VERANSTALTUNG VERSCHOBEN AUF DEN 11.04.2026 MISTER MOUSTACHE BIRTHDAY BASH",
-      "date": "14 Mär",
-      "day": "Sa",
-      "time": "19:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/mister-moustache-birthday-bash/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "DEAD PHOENIX",
-      "date": "14 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-03-14/6372",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Wizo",
-      "date": "14 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/wizo-capitol-hannover-9194456e84a7/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "sold_out"
-    },
-    {
-      "title": "Live-Tour 2026. Support: ArrEss und MQstylez",
-      "date": "14 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/140326-h1.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Party 2000",
-      "date": "14 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/140326-party-2000.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Bala Baile",
-      "date": "14 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/140326-bala-baile.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "HAVANA",
-      "date": "14 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/91261/havana",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Wizo",
-      "date": "14 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Capitol",
-      "url": "https://www.capitol-hannover.de/events/wizo-capitol-hannover-9194456e84a7/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Beat It!",
-      "date": "14 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/beat-it-swiss-life-hall-bfa1339cbb8e/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Sonntagsflohmarkt im Leerhardt",
-      "date": "15 Mär",
-      "day": "So",
-      "time": "10:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-03-15-10-00",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Sophia",
-      "date": "15 Mär",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/sophia-capitol-hannover-659f19754d5c/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Teuterekordz",
-      "date": "15 Mär",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/150326-teuterekordz.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Tim Fischer",
-      "date": "15 Mär",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/122305/tim-fischer",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Ruby Tuesday | PREYRS",
       "date": "17 Mär",
@@ -897,14 +437,14 @@
       "status": "available"
     },
     {
-      "title": "Aka Rinde (Andrej von Dyse Solo mit Gitarre)",
+      "title": "Abgesagt: BÖLZER (Death-Metal / CH)",
       "date": "19 Mär",
       "day": "Do",
       "time": "20:00",
       "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-03-19/6557",
+      "url": "https://www.beichezheinz.de/programm/2026-03-19/6125",
       "eventType": "concert",
-      "genre": "Andrej von Dyse Solo mit Gitarre",
+      "genre": "Death-Metal",
       "description": null,
       "status": "available"
     },
@@ -964,6 +504,18 @@
       "venue": "Glocksee",
       "url": "https://cafe-glocksee.de#/event/unsane",
       "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "++++ AUSVERKAUFT ++++ DIE STERNE - WENN ES LIEBE IST 2025 / 2026. ++++ AUSVERKAUFT ++++",
+      "date": "20 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-03-20/6111",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -1073,6 +625,18 @@
       "url": "https://www.zag-arena-hannover.de/veranstaltung/felix-lobrecht-3/",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "DOCTOR KRÁPULA (Latin-Rock / Kolumbien)",
+      "date": "21 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-03-21/5826",
+      "eventType": "concert",
+      "genre": "Latin-Rock",
       "description": null,
       "status": "available"
     },
@@ -1288,6 +852,414 @@
       "venue": "Kulturpalast Linden",
       "url": "https://kulturpalast-hannover.de/event/kulturpalast-linden-songwriter-night-plogsties/",
       "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "SARAH CONNOR",
+      "date": "26 Mär",
+      "day": "Do",
+      "time": "19:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/sarah-connor-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Formaggi!",
+      "date": "26 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/formaggi?date=2026-03-26",
+      "eventType": "concert",
+      "genre": "Bruced Relapsed",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Fjørt",
+      "date": "26 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/fjort-capitol-hannover-94c949011fee/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Till Burgwächter: Teufel, Tod und Heavy Metal",
+      "date": "26 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/till-burgwachter-teufel-tod-und-heavy-metal",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Dÿse",
+      "date": "26 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/260326-dyse.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "SARAH LESCH",
+      "date": "26 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/sarah-lesch/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Fjørt",
+      "date": "26 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Capitol",
+      "url": "https://www.capitol-hannover.de/events/fjort-capitol-hannover-94c949011fee/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Kaya Yanar",
+      "date": "26 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/kaya-yanar-swiss-life-hall-86040c861522/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LINDEN JAZZ SESSION",
+      "date": "26 Mär",
+      "day": "Do",
+      "time": "20:30",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/linden-jazzsession-27/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Lebanon Hanover",
+      "date": "26 Mär",
+      "day": "Do",
+      "time": "21:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91429/lebanon-hanover",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "GAMA BOMB + LICH KING",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "18:20",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/gama-bomb--lich-king",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Zsá Zsá",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/zsa-zsa-capitol-hannover-93d9c6e87b1c/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Talco",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/270326-talco.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Magic Mumble Jumble",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/270326-the-magic-mumble-jumble.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Der frühe Vogel ...tanzt am besten",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/270326-der-fruehe-vogel-tanzt-am-besten.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Heartbreak Party",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/270326-heartbreak-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "PARALIES & FALLING MOOSE & TENDER LOVE MACHINE",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/paralies-falling-moose-tender-love-machine/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "SOULBOUND und PINHEAD",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/soulbound-und-pinhead/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Talco",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/91443/talco",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Talco",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/zukunftsmusik/270326-talco.html",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "BLOK3",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/blok3-swiss-life-hall-bc1f82d38fce/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Forever Young",
+      "date": "28 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/forever-young-capitol-hannover-8daff4253b52/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Serpentin",
+      "date": "28 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/280326-serpentin.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Die 90er-Party",
+      "date": "28 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/280326-die-90er-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Iconic Queens Of Pop",
+      "date": "28 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/280326-iconic-queens-of-pop.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "SCHATTENMANN und Gäste",
+      "date": "28 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/schattenmann-und-gaeste/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "SSIO",
+      "date": "28 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/ssio-swiss-life-hall-d096387dfc36/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "sold_out"
+    },
+    {
+      "title": "Sonntagsflohmarkt im Leerhardt",
+      "date": "29 Mär",
+      "day": "So",
+      "time": "10:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-03-29-10-00",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Kasi & Antonius",
+      "date": "29 Mär",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/kasi-antonius-capitol-hannover-db5ed9499984/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Bande x Faust",
+      "date": "29 Mär",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/290326-bande-x-faust.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Three For Silver",
+      "date": "29 Mär",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/290326-three-for-silver.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "HELDMASCHINE",
+      "date": "29 Mär",
+      "day": "So",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/heldmaschine/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Nein Danke + Auxweg Hanebüchen",
+      "date": "29 Mär",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Bei Chez Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-03-29/6556",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "SANTIANO",
+      "date": "29 Mär",
+      "day": "So",
+      "time": "20:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/santiano-2/",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
