@@ -2,97 +2,13 @@
   "meta": {
     "week": 12,
     "year": 2026,
-    "updatedAt": "Mon 16 Mar 18:00"
+    "updatedAt": "Thu 19 Mar 17:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "16.03",
-      "movies": [
-        {
-          "title": "Marty Supreme",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "2h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/marty-supreme"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "17.03",
-      "movies": [
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        },
-        {
-          "title": "Good Luck, Have Fun, Don't Die",
-          "year": 2025,
-          "time": "20:35",
-          "duration": "2h15m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/good-luck-have-fun-dont-die"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "18.03",
-      "movies": [
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        },
-        {
-          "title": "Für immer ein Teil von dir - Reminders of Him",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "1h55m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/fuer-immer-ein-teil-von-dir-reminders-of-him"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "19.03",
       "movies": [
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "16:40",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        },
         {
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
@@ -361,81 +277,43 @@
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         }
       ]
+    },
+    {
+      "day": "TUE",
+      "date": "31.03",
+      "movies": [
+        {
+          "title": "Siegfried - Wagner (Royal Ballet & Opera 2025/26)",
+          "year": 2026,
+          "time": "18:15",
+          "duration": "5h30m",
+          "language": "DE",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/siegfried-wagner-royal-ballet-und-opera-2025-26"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "01.04",
+      "movies": [
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Ruby Tuesday | PREYRS",
-      "date": "17 Mär",
-      "day": "Di",
-      "time": "00:00",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--preyrs",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "JOJA WENDT & AXEL ZWINGENBERGER",
-      "date": "17 Mär",
-      "day": "Di",
-      "time": "19:30",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/91303/joja-wendt-axel-zwingenberger",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Rose May Alaba",
-      "date": "17 Mär",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/170326-rose-may-alaba.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Tablequiz",
-      "date": "18 Mär",
-      "day": "Mi",
-      "time": "19:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/tablequiz-2026-03-18-19-00",
-      "eventType": "quiz",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "257ers",
-      "date": "18 Mär",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/257ers-capitol-hannover-8c6644b619fe/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "COSMIC SLOP SESSION-NIGHT",
-      "date": "18 Mär",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/cosmic-slop-session-night/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Abgesagt: BÖLZER (Death-Metal / CH)",
       "date": "19 Mär",
@@ -473,19 +351,7 @@
       "status": "available"
     },
     {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "19 Mär",
-      "day": "Do",
-      "time": "20:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazzsession-26/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Anna Grey",
+      "title": "Anna Grey – AUSVERKAUFT",
       "date": "20 Mär",
       "day": "Fr",
       "time": "19:30",
@@ -863,6 +729,18 @@
       "time": "19:00",
       "venue": "ZAG Arena",
       "url": "https://www.zag-arena-hannover.de/veranstaltung/sarah-connor-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Local Distortion!",
+      "date": "26 Mär",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-03-26/6573",
       "eventType": "concert",
       "genre": null,
       "description": null,
@@ -1260,6 +1138,18 @@
       "venue": "ZAG Arena",
       "url": "https://www.zag-arena-hannover.de/veranstaltung/santiano-2/",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | PLUTO THE RACER",
+      "date": "31 Mär",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--pluto-the-racer",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
