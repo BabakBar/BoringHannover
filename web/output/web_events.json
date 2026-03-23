@@ -1,181 +1,14 @@
 {
   "meta": {
-    "week": 12,
+    "week": 13,
     "year": 2026,
-    "updatedAt": "Thu 19 Mar 17:00"
+    "updatedAt": "Mon 23 Mar 18:00"
   },
   "movies": [
-    {
-      "day": "THU",
-      "date": "19.03",
-      "movies": [
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "20:00",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "20.03",
-      "movies": [
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "16:20",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        },
-        {
-          "title": "Marty Supreme",
-          "year": 2025,
-          "time": "16:40",
-          "duration": "2h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/marty-supreme"
-        },
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "21.03",
-      "movies": [
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "16:30",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        },
-        {
-          "title": "Tristan und Isolde - Wagner (MET 2025/26)",
-          "year": 2026,
-          "time": "17:00",
-          "duration": "5h10m",
-          "language": "DE",
-          "subtitles": "DE",
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/tristan-und-isolde-wagner-met-2025-26"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "22.03",
-      "movies": [
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "16:30",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        },
-        {
-          "title": "Marty Supreme",
-          "year": 2025,
-          "time": "20:00",
-          "duration": "2h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/marty-supreme"
-        },
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        }
-      ]
-    },
     {
       "day": "MON",
       "date": "23.03",
       "movies": [
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "16:30",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        },
         {
           "title": "Sneak Preview (OV)",
           "year": 0,
@@ -279,9 +112,226 @@
       ]
     },
     {
+      "day": "THU",
+      "date": "26.03",
+      "movies": [
+        {
+          "title": "Hoppers",
+          "year": 2026,
+          "time": "12:30",
+          "duration": "1h44m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/hoppers"
+        },
+        {
+          "title": "Hoppers",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "1h44m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/hoppers"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        }
+      ]
+    },
+    {
+      "day": "FRI",
+      "date": "27.03",
+      "movies": [
+        {
+          "title": "Hoppers",
+          "year": 2026,
+          "time": "12:30",
+          "duration": "1h44m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/hoppers"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "16:30",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        }
+      ]
+    },
+    {
+      "day": "SAT",
+      "date": "28.03",
+      "movies": [
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "29.03",
+      "movies": [
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Hoppers",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "1h44m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/hoppers"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "30.03",
+      "movies": [
+        {
+          "title": "Hoppers",
+          "year": 2026,
+          "time": "12:30",
+          "duration": "1h44m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/hoppers"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        }
+      ]
+    },
+    {
       "day": "TUE",
       "date": "31.03",
       "movies": [
+        {
+          "title": "Hoppers",
+          "year": 2026,
+          "time": "12:30",
+          "duration": "1h44m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/hoppers"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
         {
           "title": "Siegfried - Wagner (Royal Ballet & Opera 2025/26)",
           "year": 2026,
@@ -292,12 +342,152 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/siegfried-wagner-royal-ballet-und-opera-2025-26"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         }
       ]
     },
     {
       "day": "WED",
       "date": "01.04",
+      "movies": [
+        {
+          "title": "Hoppers",
+          "year": 2026,
+          "time": "12:30",
+          "duration": "1h44m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/hoppers"
+        },
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "15:15",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        },
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "02.04",
+      "movies": [
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        },
+        {
+          "title": "The Revenant - Der Rückkehrer",
+          "year": 2015,
+          "time": "19:30",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-revenant-der-rueckkehrer"
+        }
+      ]
+    },
+    {
+      "day": "FRI",
+      "date": "03.04",
+      "movies": [
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        }
+      ]
+    },
+    {
+      "day": "SAT",
+      "date": "04.04",
+      "movies": [
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "05.04",
+      "movies": [
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "06.04",
       "movies": [
         {
           "title": "Der Super Mario Galaxy Film",
@@ -314,354 +504,6 @@
     }
   ],
   "concerts": [
-    {
-      "title": "Abgesagt: BÖLZER (Death-Metal / CH)",
-      "date": "19 Mär",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-03-19/6125",
-      "eventType": "concert",
-      "genre": "Death-Metal",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Julian Sommer",
-      "date": "19 Mär",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/julian-sommer-capitol-hannover-eb360b2b15f0/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "JON AND ROY und TAY OSKEE",
-      "date": "19 Mär",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/jon-and-roy-und-tay-oskee/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Anna Grey – AUSVERKAUFT",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "19:30",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/anna-grey/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "UNSANE",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "19:47",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/unsane",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "++++ AUSVERKAUFT ++++ DIE STERNE - WENN ES LIEBE IST 2025 / 2026. ++++ AUSVERKAUFT ++++",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-03-20/6111",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Bodysnatcher",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/200326-bodysnatcher.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Colours of Drum & Bass",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/200326-colours-of-drum-bass.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Brüste raus - Fresse auf!",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/200326-brueste-raus-fresse-auf.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "SACRIFICE CARGO & STRAIGHT UP NANCY",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/sacrifice-cargo-2/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Unsane",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Cafe Glocksee",
-      "url": "https://www.cafe-glocksee.de/#/event/unsane",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "100 Kilo Hertz",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Sumpfblume",
-      "url": "https://sumpfblume.de/aktuelles/veranstaltung/100-kilo-herz-hallo-startblock-tour-2026/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Graupause",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Garage",
-      "url": "https://www.facebook.com/graupausepunkrock",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Clueso",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/clueso-swiss-life-hall-d33f189ff6f4/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "FELIX LOBRECHT",
-      "date": "20 Mär",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/felix-lobrecht-3/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "DOCTOR KRÁPULA (Latin-Rock / Kolumbien)",
-      "date": "21 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-03-21/5826",
-      "eventType": "concert",
-      "genre": "Latin-Rock",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Der W",
-      "date": "21 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/der-w-capitol-hannover-6a0dfc8cf084/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Dirty Sound Magnet",
-      "date": "21 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/210326-dirty-sound-magnet.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Wyld",
-      "date": "21 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/210326-wyld.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Fuchsbau-Party",
-      "date": "21 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/210326-fuchsbau-party.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "DIE HAPPY und MOON SHOT",
-      "date": "21 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/die-happy-und-gaeste/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Doctor Krápula",
-      "date": "21 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-03-21",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Malheur + Vergissmeinnicht + Fyrn",
-      "date": "21 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Stumpf",
-      "url": "https://www.instagram.com/dasmalheur/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "We love MMA 86 – Mixed Martial Arts",
-      "date": "21 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/we-love-mma-86-mixed-martial-arts-swiss-life-hall-5ffb84dd7b19/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "FELIX LOBRECHT",
-      "date": "21 Mär",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/felix-lobrecht-4/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Sonntagsflohmarkt im Leerhardt",
-      "date": "22 Mär",
-      "day": "So",
-      "time": "10:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-03-22-10-00",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Singelpietz mit Lena",
-      "date": "22 Mär",
-      "day": "So",
-      "time": "15:30",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/123149/singelpietz-mit-lena",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "PLUTO THE RACER & FEVERCHILD & GARDEN OF MERCY",
-      "date": "22 Mär",
-      "day": "So",
-      "time": "18:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/pluto-the-racer-feverchild-garden-of-mercy/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Ydra & Caramella",
-      "date": "22 Mär",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/220326-ydra-caramella.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "BETTEROV",
       "date": "23 Mär",
@@ -867,6 +709,18 @@
       "status": "available"
     },
     {
+      "title": "TEX BRASKET & LUCAS UECKER",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-03-27/6313",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Zsá Zsá",
       "date": "27 Mär",
       "day": "Fr",
@@ -983,6 +837,18 @@
       "url": "https://www.swisslife-hall.de/events/blok3-swiss-life-hall-bc1f82d38fce/",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Glengang 030 (Hip-Hop / Berlin)",
+      "date": "28 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-03-28/6566",
+      "eventType": "concert",
+      "genre": "Hip-Hop",
       "description": null,
       "status": "available"
     },
@@ -1150,6 +1016,102 @@
       "venue": "Glocksee",
       "url": "https://cafe-glocksee.de#/event/ruby-tuesday--pluto-the-racer",
       "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Melones + The Hand Cuts",
+      "date": "2 Apr",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Lux",
+      "url": "https://www.lux-linden.de/konzerte/melones-und-the-hand-cuts/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LINDEN JAZZ SESSION",
+      "date": "2 Apr",
+      "day": "Do",
+      "time": "20:30",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/linden-jazzsession-28/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rewind",
+      "date": "4 Apr",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/040426-rewind.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Taktgeber",
+      "date": "4 Apr",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/040426-taktgeber-vol-iv.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "TSV HANNOVER-BURGDORF vs. SG FLENSBURG-HANDEWITT",
+      "date": "4 Apr",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/tsv-hannover-burgdorf-vs-sg-flensburg-handewitt-5/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Sonntagsflohmarkt im Leerhardt",
+      "date": "5 Apr",
+      "day": "So",
+      "time": "10:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-04-05-10-00",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Lichterloh rockt!",
+      "date": "5 Apr",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/050426-lichterloh-rockt.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Zytanien-Party",
+      "date": "5 Apr",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/050426-zytanien-party.html",
+      "eventType": "party",
       "genre": null,
       "description": null,
       "status": "available"
