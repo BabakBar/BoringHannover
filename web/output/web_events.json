@@ -2,141 +2,13 @@
   "meta": {
     "week": 13,
     "year": 2026,
-    "updatedAt": "Mon 23 Mar 18:00"
+    "updatedAt": "Thu 26 Mar 17:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "23.03",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:00",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "24.03",
-      "movies": [
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "16:30",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        },
-        {
-          "title": "Marty Supreme",
-          "year": 2025,
-          "time": "20:00",
-          "duration": "2h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/marty-supreme"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "25.03",
-      "movies": [
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "16:30",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        },
-        {
-          "title": "One Battle After Another",
-          "year": 2025,
-          "time": "20:00",
-          "duration": "2h42m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/one-battle-after-another"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "26.03",
       "movies": [
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "12:30",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        },
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "16:50",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        },
         {
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
@@ -292,6 +164,17 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:00",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
         },
         {
           "title": "Der Astronaut - Project Hail Mary",
@@ -501,69 +384,43 @@
           "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
         }
       ]
+    },
+    {
+      "day": "TUE",
+      "date": "07.04",
+      "movies": [
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "08.04",
+      "movies": [
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "BETTEROV",
-      "date": "23 Mär",
-      "day": "Mo",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/91387/betterov",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Angelo Kelly",
-      "date": "24 Mär",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/91401/angelo-kelly",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Luvre47",
-      "date": "25 Mär",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/250326-luvre47.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "KAFVKA",
-      "date": "25 Mär",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/kafvka/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "KULTURPALAST LINDEN SONGWRITER NIGHT: PLOGSTIES",
-      "date": "25 Mär",
-      "day": "Mi",
-      "time": "20:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/kulturpalast-linden-songwriter-night-plogsties/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "SARAH CONNOR",
       "date": "26 Mär",
@@ -781,12 +638,24 @@
       "status": "available"
     },
     {
-      "title": "PARALIES & FALLING MOOSE & TENDER LOVE MACHINE",
+      "title": "ACHTUNG ABGESAGT PARALIES & FALLING MOOSE & TENDER LOVE MACHINE",
       "date": "27 Mär",
       "day": "Fr",
       "time": "20:00",
       "venue": "Kulturpalast Linden",
       "url": "https://kulturpalast-hannover.de/event/paralies-falling-moose-tender-love-machine/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "BYE BYE SCHWARZER BÄR",
+      "date": "27 Mär",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/bye-bye-schwarzer-baer/",
       "eventType": "event",
       "genre": null,
       "description": null,
@@ -896,6 +765,18 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/maerz/280326-iconic-queens-of-pop.html",
       "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "BYE BYE SCHWARZER BÄR",
+      "date": "28 Mär",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/bye-bye-schwarzer-baer-2/",
+      "eventType": "event",
       "genre": null,
       "description": null,
       "status": "available"
@@ -1112,6 +993,78 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/050426-zytanien-party.html",
       "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "THE GREAT LESLIE & 17SECONDS",
+      "date": "6 Apr",
+      "day": "Mo",
+      "time": "19:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/the-great-leslie-17seconds/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | GRANDMA´S ASHES",
+      "date": "7 Apr",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--grandmas-ashes",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "COSMIC SLOP SESSION-NIGHT",
+      "date": "7 Apr",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/cosmic-slop-session-night-2/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "7 vs. WILD – ABGESAGT",
+      "date": "8 Apr",
+      "day": "Mi",
+      "time": "19:30",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/7-vs-wild/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "POPULAR MUSIC SESSION",
+      "date": "8 Apr",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/popular-music-session-30/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "PRIMITIVE MAN",
+      "date": "9 Apr",
+      "day": "Do",
+      "time": "14:45",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/primitive-man",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
