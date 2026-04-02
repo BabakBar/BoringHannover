@@ -2,152 +2,13 @@
   "meta": {
     "week": 14,
     "year": 2026,
-    "updatedAt": "Mon 30 Mar 19:00"
+    "updatedAt": "Thu 02 Apr 18:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "30.03",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:00",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "31.03",
-      "movies": [
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "12:30",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "16:50",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        },
-        {
-          "title": "Siegfried - Wagner (Royal Ballet & Opera 2025/26)",
-          "year": 2026,
-          "time": "18:15",
-          "duration": "5h30m",
-          "language": "DE",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/siegfried-wagner-royal-ballet-und-opera-2025-26"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "01.04",
-      "movies": [
-        {
-          "title": "Hoppers",
-          "year": 2026,
-          "time": "12:30",
-          "duration": "1h44m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/hoppers"
-        },
-        {
-          "title": "Der Super Mario Galaxy Film",
-          "year": 2026,
-          "time": "15:15",
-          "duration": "1h39m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
-        },
-        {
-          "title": "Der Super Mario Galaxy Film",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h39m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "02.04",
       "movies": [
-        {
-          "title": "Der Super Mario Galaxy Film",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h39m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
-        },
         {
           "title": "The Revenant - Der Rückkehrer",
           "year": 2015,
@@ -431,18 +292,6 @@
   ],
   "concerts": [
     {
-      "title": "Ruby Tuesday | PLUTO THE RACER",
-      "date": "31 Mär",
-      "day": "Di",
-      "time": "00:00",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--pluto-the-racer",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "Melones + The Hand Cuts",
       "date": "2 Apr",
       "day": "Do",
@@ -623,6 +472,18 @@
       "status": "available"
     },
     {
+      "title": "ALLI NEUMANN – ABGESAGT",
+      "date": "9 Apr",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/alli-neumann/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "I Saw Daylight + Bad Career",
       "date": "9 Apr",
       "day": "Do",
@@ -654,6 +515,18 @@
       "venue": "Kulturpalast Linden",
       "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-37/",
       "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Pogen gegen Rechts!",
+      "date": "10 Apr",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-04-10/6750",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -707,6 +580,18 @@
       "status": "available"
     },
     {
+      "title": "JAN PLEWKA",
+      "date": "10 Apr",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/jan-plewka/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "NINA JACOB & RONJA",
       "date": "10 Apr",
       "day": "Fr",
@@ -727,6 +612,18 @@
       "url": "https://kulturpalast-hannover.de/event/mister-moustache-birthday-bash-2/",
       "eventType": "event",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "HAGGEFUGG (Mittelalter-Rock / Köln)",
+      "date": "11 Apr",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-04-11/6127",
+      "eventType": "concert",
+      "genre": "Mittelalter-Rock",
       "description": null,
       "status": "available"
     },
@@ -858,6 +755,150 @@
       "venue": "Pavillon",
       "url": "https://pavillon-hannover.de/event/details/98488/lin",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Capo",
+      "date": "13 Apr",
+      "day": "Mo",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/capo-capitol-hannover-527f30c15f1d/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | BONES ATE ARFA",
+      "date": "14 Apr",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--bones-ate-arfa",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Capo",
+      "date": "14 Apr",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/capo-capitol-hannover-ad3007807512/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Shavleg Armasi",
+      "date": "14 Apr",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/140426-shavleg-armasi.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Eala",
+      "date": "14 Apr",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/140426-eala.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Kaffkiez",
+      "date": "14 Apr",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/kaffkiez-swiss-life-hall-48ef232c5638/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Tablequiz",
+      "date": "15 Apr",
+      "day": "Mi",
+      "time": "19:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/tablequiz-2026-04-15-19-00",
+      "eventType": "quiz",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "THE BROWNING, STAIN THE CANVAS, THE DEFECT und HEAVEN.EXE",
+      "date": "15 Apr",
+      "day": "Mi",
+      "time": "19:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/the-browning-stain-the-canvas-the-defect-und-heaven-exe/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Sosa La M",
+      "date": "15 Apr",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/sosa-la-m-capitol-hannover-4852b651e7ff/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Christin Nichols",
+      "date": "15 Apr",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/150426-christin-nichols.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ayucaba + Dusty Dawn",
+      "date": "15 Apr",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Kopernikus (neu)",
+      "url": "https://www.kopernikus-hannover.de/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "KRONER & IJAZ",
+      "date": "15 Apr",
+      "day": "Mi",
+      "time": "22:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/kroner-ijaz/",
+      "eventType": "event",
       "genre": null,
       "description": null,
       "status": "available"
