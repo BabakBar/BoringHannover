@@ -2,17 +2,145 @@
   "meta": {
     "week": 15,
     "year": 2026,
-    "updatedAt": "Mon 06 Apr 19:00"
+    "updatedAt": "Thu 09 Apr 18:00"
   },
   "movies": [
     {
-      "day": "MON",
-      "date": "06.04",
+      "day": "FRI",
+      "date": "10.04",
       "movies": [
         {
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
-          "time": "19:30",
+          "time": "16:50",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "17:00",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        }
+      ]
+    },
+    {
+      "day": "SAT",
+      "date": "11.04",
+      "movies": [
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "12:00",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        },
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "17:00",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "12.04",
+      "movies": [
+        {
+          "title": "Das Drama - Noch mal auf Anfang",
+          "year": 2026,
+          "time": "17:00",
+          "duration": "1h46m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/das-drama-noch-mal-auf-anfang"
+        },
+        {
+          "title": "Der Super Mario Galaxy Film",
+          "year": 2026,
+          "time": "17:35",
+          "duration": "1h39m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "13.04",
+      "movies": [
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Das Drama - Noch mal auf Anfang",
+          "year": 2026,
+          "time": "17:00",
+          "duration": "1h46m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/das-drama-noch-mal-auf-anfang"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "19:45",
           "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
@@ -23,7 +151,7 @@
         {
           "title": "Sneak Preview (OV)",
           "year": 0,
-          "time": "20:20",
+          "time": "20:30",
           "duration": "",
           "language": "EN",
           "subtitles": null,
@@ -35,23 +163,12 @@
     },
     {
       "day": "TUE",
-      "date": "07.04",
+      "date": "14.04",
       "movies": [
-        {
-          "title": "The Testament of Ann Lee",
-          "year": 2025,
-          "time": "13:40",
-          "duration": "2h17m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-testament-of-ann-lee"
-        },
         {
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
-          "time": "16:35",
+          "time": "16:50",
           "duration": "2h37m",
           "language": "EN",
           "subtitles": null,
@@ -62,41 +179,52 @@
         {
           "title": "Der Super Mario Galaxy Film",
           "year": 2026,
-          "time": "17:45",
+          "time": "17:00",
           "duration": "1h39m",
           "language": "EN",
           "subtitles": null,
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
+        },
+        {
+          "title": "Der Astronaut - Project Hail Mary",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         }
       ]
     },
     {
       "day": "WED",
-      "date": "08.04",
+      "date": "15.04",
       "movies": [
+        {
+          "title": "Das Drama - Noch mal auf Anfang",
+          "year": 2026,
+          "time": "17:00",
+          "duration": "1h46m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/das-drama-noch-mal-auf-anfang"
+        },
         {
           "title": "Der Super Mario Galaxy Film",
           "year": 2026,
-          "time": "17:45",
+          "time": "17:35",
           "duration": "1h39m",
           "language": "EN",
           "subtitles": null,
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
         }
       ]
     },
@@ -159,68 +287,65 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Moonwalker",
+          "year": 1988,
+          "time": "20:00",
+          "duration": "1h36m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/moonwalker"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "21.04",
+      "movies": [
+        {
+          "title": "Die Zauberflöte - Mozart (Royal Ballet & Opera 2025/26) live",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "3h30m",
+          "language": "DE",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-zauberfloete-mozart-royal-ballet-und-opera-2025-26-live"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "22.04",
+      "movies": [
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
         }
       ]
     }
   ],
   "concerts": [
     {
-      "title": "Ruby Tuesday | GRANDMA´S ASHES",
-      "date": "7 Apr",
-      "day": "Di",
-      "time": "00:00",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--grandmas-ashes",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "COSMIC SLOP SESSION-NIGHT",
-      "date": "7 Apr",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/cosmic-slop-session-night-2/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "7 vs. WILD – ABGESAGT",
-      "date": "8 Apr",
-      "day": "Mi",
-      "time": "19:30",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/7-vs-wild/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "POPULAR MUSIC SESSION",
-      "date": "8 Apr",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/popular-music-session-30/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "PRIMITIVE MAN",
+      "title": "Lax Morenz",
       "date": "9 Apr",
       "day": "Do",
-      "time": "14:45",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/primitive-man",
-      "eventType": "Konzert",
-      "genre": null,
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/lax-morenz?date=2026-04-09",
+      "eventType": "concert",
+      "genre": "Tanzbares",
       "description": null,
       "status": "available"
     },
@@ -273,7 +398,7 @@
       "status": "available"
     },
     {
-      "title": "Pogen gegen Rechts!",
+      "title": "+++++ Abgesagt! +++++ Pogen gegen Rechts! +++++ Abgesagt! +++++",
       "date": "10 Apr",
       "day": "Fr",
       "time": "20:00",
@@ -281,6 +406,18 @@
       "url": "https://www.beichezheinz.de/programm/2026-04-10/6750",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Deck2Deck",
+      "date": "10 Apr",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/deck2deck-0?date=2026-04-10",
+      "eventType": "concert",
+      "genre": "Mit verschiedenen DJs",
       "description": null,
       "status": "available"
     },
@@ -294,7 +431,7 @@
       "eventType": "concert",
       "genre": null,
       "description": null,
-      "status": "available"
+      "status": "sold_out"
     },
     {
       "title": "Knallblech",
@@ -377,6 +514,18 @@
       "url": "https://www.beichezheinz.de/programm/2026-04-11/6127",
       "eventType": "concert",
       "genre": "Mittelalter-Rock",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Raul Exposito und Rafael Alejandro",
+      "date": "11 Apr",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/raul-exposito-rafael-alejandro?date=2026-04-11",
+      "eventType": "concert",
+      "genre": "Tanzbare Musik",
       "description": null,
       "status": "available"
     },
@@ -544,6 +693,18 @@
       "venue": "Glocksee",
       "url": "https://cafe-glocksee.de#/event/ruby-tuesday--bones-ate-arfa",
       "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "FLINTA* Songwriting Work Shop Part I",
+      "date": "14 Apr",
+      "day": "Di",
+      "time": "19:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/flinta-songwriting-work-shop-part-i/",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -1023,6 +1184,138 @@
       "time": "20:00",
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/190426-fette-hupe-hannover.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Panic Shack",
+      "date": "20 Apr",
+      "day": "Mo",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-04-20",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "ANALOGUE EVENING 2.0",
+      "date": "21 Apr",
+      "day": "Di",
+      "time": "18:30",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/analogue-evening-2-0/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Genetikk",
+      "date": "21 Apr",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/genetikk-capitol-hannover-d809e1e61f92/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Eläkeläiset",
+      "date": "21 Apr",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/210426-elaekelaeiset.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Kasalla",
+      "date": "22 Apr",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/kasalla-capitol-hannover-7924f93d17ab/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Unreleased Tour '26",
+      "date": "22 Apr",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/220426-unreleased-tour-26.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "MICHAEL PATRICK KELLY",
+      "date": "22 Apr",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/michael-patrick-kelly-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Podcast: Das lebende Erbe",
+      "date": "23 Apr",
+      "day": "Do",
+      "time": "17:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/127378/podcast-das-lebende-erbe",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Eröffnung Best OFF 2026",
+      "date": "23 Apr",
+      "day": "Do",
+      "time": "17:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/98655/eroeffnung-best-off-2026",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "How to survive with HILDEGARD KNEF – Eine Rettung in zehn Liedern",
+      "date": "23 Apr",
+      "day": "Do",
+      "time": "18:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/98656/how-to-survive-with-hildegard-knef-eine-rettung-in-zehn-liedern",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Fight Club",
+      "date": "23 Apr",
+      "day": "Do",
+      "time": "18:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/126751/the-fight-club",
       "eventType": "concert",
       "genre": null,
       "description": null,
