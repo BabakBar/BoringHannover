@@ -2,141 +2,13 @@
   "meta": {
     "week": 17,
     "year": 2026,
-    "updatedAt": "Mon 20 Apr 19:00"
+    "updatedAt": "Thu 23 Apr 18:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "20.04",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:20",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "21.04",
-      "movies": [
-        {
-          "title": "Der Super Mario Galaxy Film",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h39m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "16:50",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        },
-        {
-          "title": "Kill Bill: The Whole Bloody Affair",
-          "year": 2006,
-          "time": "18:30",
-          "duration": "4h35m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/kill-bill-the-whole-bloody-affair"
-        },
-        {
-          "title": "Die Zauberflöte - Mozart (Royal Ballet & Opera 2025/26) live",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "3h30m",
-          "language": "DE",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-zauberfloete-mozart-royal-ballet-und-opera-2025-26-live"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "22.04",
-      "movies": [
-        {
-          "title": "Der Super Mario Galaxy Film",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h39m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
-        },
-        {
-          "title": "Der Super Mario Galaxy Film",
-          "year": 2026,
-          "time": "17:00",
-          "duration": "1h39m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
-        },
-        {
-          "title": "Michael",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/michael"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "23.04",
       "movies": [
-        {
-          "title": "Moonwalker",
-          "year": 1988,
-          "time": "14:30",
-          "duration": "1h36m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/moonwalker"
-        },
-        {
-          "title": "Michael",
-          "year": 2026,
-          "time": "16:50",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/michael"
-        },
         {
           "title": "Der Astronaut - Project Hail Mary",
           "year": 2026,
@@ -147,6 +19,17 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
         },
         {
           "title": "Das Drama - Noch mal auf Anfang",
@@ -230,6 +113,17 @@
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "22:40",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
         }
       ]
     },
@@ -291,6 +185,17 @@
           "title": "Michael",
           "year": 2026,
           "time": "16:40",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "16:45",
           "duration": "2h7m",
           "language": "EN",
           "subtitles": null,
@@ -371,6 +276,17 @@
           "url": "https://hannover.premiumkino.de/film/michael"
         },
         {
+          "title": "Michael",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
           "title": "Kill Bill: The Whole Bloody Affair",
           "year": 2006,
           "time": "19:00",
@@ -430,6 +346,17 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/das-drama-noch-mal-auf-anfang"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
         }
       ]
     },
@@ -447,6 +374,17 @@
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/moonwalker"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
         },
         {
           "title": "Power to the People: John & Yoko Live in NYC",
@@ -497,6 +435,17 @@
           "rating": null,
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
         }
       ]
     },
@@ -620,155 +569,78 @@
           "rating": "FSK18",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/kill-bill-the-whole-bloody-affair"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "19:50",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "05.05",
+      "movies": [
+        {
+          "title": "Billie Eilish - Hit Me Hard and Soft: The Tour",
+          "year": 2026,
+          "time": "17:15",
+          "duration": "1h54m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour"
+        },
+        {
+          "title": "Billie Eilish - Hit Me Hard and Soft: The Tour",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "1h54m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour"
+        },
+        {
+          "title": "Billie Eilish - Hit Me Hard and Soft: The Tour",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "1h54m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "06.05",
+      "movies": [
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "19:50",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
         }
       ]
     }
   ],
   "concerts": [
-    {
-      "title": "PANIC SHACK (Indie-Punk / UK)",
-      "date": "20 Apr",
-      "day": "Mo",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-04-20/6534",
-      "eventType": "concert",
-      "genre": "Indie-Punk",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Panic Shack",
-      "date": "20 Apr",
-      "day": "Mo",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-04-20",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "ANALOGUE EVENING 2.0",
-      "date": "21 Apr",
-      "day": "Di",
-      "time": "18:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/analogue-evening-2-0/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Genetikk",
-      "date": "21 Apr",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/genetikk-capitol-hannover-d809e1e61f92/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Eläkeläiset",
-      "date": "21 Apr",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/210426-elaekelaeiset.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Kasalla",
-      "date": "22 Apr",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/kasalla-capitol-hannover-7924f93d17ab/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Unreleased Tour '26",
-      "date": "22 Apr",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/220426-unreleased-tour-26.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "MICHAEL PATRICK KELLY",
-      "date": "22 Apr",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/michael-patrick-kelly-2/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Podcast: Das lebende Erbe",
-      "date": "23 Apr",
-      "day": "Do",
-      "time": "17:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/127378/podcast-das-lebende-erbe",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Eröffnung Best OFF 2026",
-      "date": "23 Apr",
-      "day": "Do",
-      "time": "17:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/98655/eroeffnung-best-off-2026",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "How to survive with HILDEGARD KNEF – Eine Rettung in zehn Liedern",
-      "date": "23 Apr",
-      "day": "Do",
-      "time": "18:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/98656/how-to-survive-with-hildegard-knef-eine-rettung-in-zehn-liedern",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "The Fight Club",
-      "date": "23 Apr",
-      "day": "Do",
-      "time": "18:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/126751/the-fight-club",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "CARDIAC ARREST (Death Metal / Chicago), REPULSIVE FEAST ( Deathgrind / Wolfsburg)",
       "date": "23 Apr",
@@ -778,6 +650,18 @@
       "url": "https://www.beichezheinz.de/programm/2026-04-23/6479",
       "eventType": "concert",
       "genre": "Metal",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Salty & Sour",
+      "date": "23 Apr",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/salty-sour?date=2026-04-23",
+      "eventType": "concert",
+      "genre": "Broncos",
       "description": null,
       "status": "available"
     },
@@ -922,6 +806,18 @@
       "url": "https://www.beichezheinz.de/programm/2026-04-24/6233",
       "eventType": "concert",
       "genre": "Indie-Pop",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Marlon und Denys",
+      "date": "24 Apr",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/marlon-denys?date=2026-04-24",
+      "eventType": "concert",
+      "genre": "Broncos",
       "description": null,
       "status": "available"
     },
@@ -1190,6 +1086,18 @@
       "status": "available"
     },
     {
+      "title": "Giselle Takeover: Lingy und Polschi",
+      "date": "25 Apr",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/giselle-takeover-lingy-polschi?date=2026-04-25",
+      "eventType": "concert",
+      "genre": "Broncos",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "No Fun At All",
       "date": "25 Apr",
       "day": "Sa",
@@ -1245,18 +1153,6 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/250426-awoko.html",
       "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "ON!",
-      "date": "25 Apr",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/on/",
-      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -1318,6 +1214,18 @@
       "url": "https://www.erhardt.cafe/event-details/sonntagsflohmarkt-im-leerhardt-2026-04-26-10-00",
       "eventType": "event",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Flea Market",
+      "date": "26 Apr",
+      "day": "So",
+      "time": "13:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/flea-market?date=2026-04-26",
+      "eventType": "concert",
+      "genre": "Broncos",
       "description": null,
       "status": "available"
     },
@@ -1550,6 +1458,18 @@
       "status": "available"
     },
     {
+      "title": "Jorgos Estrella",
+      "date": "3 Mai",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/030526-jorgos-estrella.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Retarded + Burn More Flags",
       "date": "3 Mai",
       "day": "So",
@@ -1582,6 +1502,42 @@
       "url": "https://www.swisslife-hall.de/events/the-harlem-globetrotters-swiss-life-hall-40035654bded/",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "King Buffalo",
+      "date": "6 Mai",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/060526-king-buffalo.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "POPULAR MUSIC SESSION",
+      "date": "6 Mai",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/popular-music-session-31/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Diamond Dog",
+      "date": "6 Mai",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/diamond-dog/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
       "description": null,
       "status": "available"
     }
