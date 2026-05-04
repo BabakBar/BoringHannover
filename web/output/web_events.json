@@ -1,247 +1,14 @@
 {
   "meta": {
-    "week": 18,
+    "week": 19,
     "year": 2026,
-    "updatedAt": "Thu 30 Apr 18:00"
+    "updatedAt": "Mon 04 May 19:00"
   },
   "movies": [
-    {
-      "day": "THU",
-      "date": "30.04",
-      "movies": [
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "19:50",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Michael",
-          "year": 2026,
-          "time": "20:00",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/michael"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "01.05",
-      "movies": [
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Kill Bill: The Whole Bloody Affair",
-          "year": 2006,
-          "time": "19:00",
-          "duration": "4h35m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/kill-bill-the-whole-bloody-affair"
-        },
-        {
-          "title": "Michael",
-          "year": 2026,
-          "time": "19:40",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/michael"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "19:50",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "02.05",
-      "movies": [
-        {
-          "title": "Kill Bill: The Whole Bloody Affair",
-          "year": 2006,
-          "time": "12:30",
-          "duration": "4h35m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/kill-bill-the-whole-bloody-affair"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "17:00",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Eugen Onegin - Tschaikowsky (MET 2025/26)",
-          "year": 2026,
-          "time": "19:00",
-          "duration": "4h5m",
-          "language": "RU",
-          "subtitles": "DE",
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/eugen-onegin-tschaikowsky-met-2025-26"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Michael",
-          "year": 2026,
-          "time": "19:40",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/michael"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "03.05",
-      "movies": [
-        {
-          "title": "Power to the People: John & Yoko Live in NYC",
-          "year": 2024,
-          "time": "12:30",
-          "duration": "1h24m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/power-to-the-people-john-und-yoko-live-in-nyc"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "17:00",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Der Super Mario Galaxy Film",
-          "year": 2026,
-          "time": "17:15",
-          "duration": "1h39m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
-        },
-        {
-          "title": "Kill Bill: The Whole Bloody Affair",
-          "year": 2006,
-          "time": "17:30",
-          "duration": "4h35m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/kill-bill-the-whole-bloody-affair"
-        },
-        {
-          "title": "Michael",
-          "year": 2026,
-          "time": "19:40",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/michael"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "20:30",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        }
-      ]
-    },
     {
       "day": "MON",
       "date": "04.05",
       "movies": [
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Kill Bill: The Whole Bloody Affair",
-          "year": 2006,
-          "time": "19:00",
-          "duration": "4h35m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/kill-bill-the-whole-bloody-affair"
-        },
         {
           "title": "Michael",
           "year": 2026,
@@ -426,6 +193,39 @@
       "date": "07.05",
       "movies": [
         {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        },
+        {
+          "title": "Mortal Kombat II",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h56m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/mortal-kombat-ii"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
           "title": "Billie Eilish - Hit Me Hard and Soft: The Tour Live in 3D",
           "year": 2026,
           "time": "20:00",
@@ -435,6 +235,17 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "20:25",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
         }
       ]
     },
@@ -442,6 +253,28 @@
       "day": "FRI",
       "date": "08.05",
       "movies": [
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "16:40",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        },
         {
           "title": "Billie Eilish - Hit Me Hard and Soft: The Tour Live in 3D",
           "year": 2026,
@@ -452,6 +285,28 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "20:05",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "20:35",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
         }
       ]
     },
@@ -460,15 +315,81 @@
       "date": "09.05",
       "movies": [
         {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "11:45",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "14:00",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "17:40",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "17:40",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
           "title": "Billie Eilish - Hit Me Hard and Soft: The Tour Live in 3D",
           "year": 2026,
-          "time": "19:45",
+          "time": "19:50",
           "duration": "1h54m",
           "language": "EN",
           "subtitles": null,
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "20:05",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
         }
       ]
     },
@@ -499,15 +420,137 @@
           "url": "https://hannover.premiumkino.de/film/glennkill-ein-schafskrimi"
         },
         {
+          "title": "Michael",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
           "title": "Venus Wars",
           "year": 1989,
-          "time": "19:45",
+          "time": "19:40",
           "duration": "1h44m",
           "language": "JP",
           "subtitles": "DE",
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/venus-wars"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "19:50",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "11.05",
+      "movies": [
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        },
+        {
+          "title": "Mortal Kombat II",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h56m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/mortal-kombat-ii"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "20:25",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "12.05",
+      "movies": [
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        },
+        {
+          "title": "Mortal Kombat II",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h56m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/mortal-kombat-ii"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "20:25",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
         }
       ]
     },
@@ -516,15 +559,37 @@
       "date": "13.05",
       "movies": [
         {
-          "title": "Venus Wars",
-          "year": 1989,
-          "time": "19:45",
-          "duration": "1h44m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK12",
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
           "genre": null,
-          "url": "https://hannover.premiumkino.de/film/venus-wars"
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "19:40",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
         },
         {
           "title": "Top Gun - 40-jähriges Jubiläum",
@@ -536,282 +601,63 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/top-gun-40-jaehriges-jubilaeum"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "22:35",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "14.05",
+      "movies": [
+        {
+          "title": "Iron Maiden: Burning Ambition",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "1h50m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/iron-maiden-burning-ambition"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "17.05",
+      "movies": [
+        {
+          "title": "Iron Maiden: Burning Ambition",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "1h50m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/iron-maiden-burning-ambition"
         }
       ]
     }
   ],
   "concerts": [
     {
-      "title": "ARGIES (Combat-Punkrock / Argentinien)",
-      "date": "30 Apr",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-04-30/6705",
-      "eventType": "concert",
-      "genre": "Combat-Punkrock",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Nmadria, Nosh und Flood",
-      "date": "30 Apr",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Broncos",
-      "url": "https://www.stadtkind-kalender.de/event/nmadria-nosh-flood?date=2026-04-30",
-      "eventType": "concert",
-      "genre": "Dancing into may",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Faust in den Mai",
-      "date": "30 Apr",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/april/300426-faust-in-den-mai.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "TANZ IN DEN MAI MIT BEATBAR & URSOLAR",
-      "date": "30 Apr",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/tanz-in-den-mai-beatbar-ursolar-party/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "XAVI",
-      "date": "30 Apr",
-      "day": "Do",
-      "time": "20:00",
+      "title": "Sinus Playground",
+      "date": "5 Mai",
+      "day": "Di",
+      "time": "17:00",
       "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/xavi/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Dieseradrian",
-      "date": "1 Mai",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Broncos",
-      "url": "https://www.stadtkind-kalender.de/event/dieseradrian-2?date=2026-05-01",
-      "eventType": "concert",
-      "genre": "Dancing into may",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "30. Internationales 1. Mai-Fest",
-      "date": "1 Mai",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/010526-internationales-1-mai-fest.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Rewind",
-      "date": "1 Mai",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/010526-rewind.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "KUULT – VERSCHOBEN",
-      "date": "1 Mai",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/kuult-verschoben/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Band ohne Anspruch + Dosenstolz + Dorfterror + Teddies Kneipe",
-      "date": "1 Mai",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Bei Chez Heinz (Open Air)",
-      "url": "https://www.beichezheinz.de/programm/2026-05-01",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "1 Mai",
-      "day": "Fr",
-      "time": "20:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-45/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Heavysaurus - ZUSATZTERMIN",
-      "date": "2 Mai",
-      "day": "Sa",
-      "time": "11:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/123150/heavysaurus-zusatztermin",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Heavysaurus",
-      "date": "2 Mai",
-      "day": "Sa",
-      "time": "16:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/98788/heavysaurus",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "WARP CHAMBER (Death Metal / US), DEGRAVED (Death Metal / US)",
-      "date": "2 Mai",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-05-02/6507",
-      "eventType": "concert",
-      "genre": "Metal",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Lumbago und Ruben Valendiek",
-      "date": "2 Mai",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Broncos",
-      "url": "https://www.stadtkind-kalender.de/event/lumbago-ruben-valendiek?date=2026-05-02",
-      "eventType": "concert",
-      "genre": "Dancing into may",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Jorgos Estrella",
-      "date": "2 Mai",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/020526-jorgos-estrella.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Diarfest",
-      "date": "2 Mai",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/020526-diarfest.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Party 2000",
-      "date": "2 Mai",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/020526-party-2000.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LYN BEE & MITBESTECK",
-      "date": "3 Mai",
-      "day": "So",
-      "time": "19:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/lyn-bee-tba/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "FLORIAN CHRISTL",
-      "date": "3 Mai",
-      "day": "So",
-      "time": "19:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/98803/florian-christl",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Retarded + Burn More Flags",
-      "date": "3 Mai",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Vereinskneipe des SV Arminia",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Blake Rascals + Itches",
-      "date": "3 Mai",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz - Salon",
-      "url": "https://www.beichezheinz.de/programm/2026-05-03",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "The Harlem Globetrotters",
-      "date": "3 Mai",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/the-harlem-globetrotters-swiss-life-hall-40035654bded/",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/sinus-playground/",
       "eventType": "concert",
       "genre": null,
       "description": null,
@@ -837,6 +683,18 @@
       "venue": "Kulturpalast Linden",
       "url": "https://kulturpalast-hannover.de/event/popular-music-session-31/",
       "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "SALÒ",
+      "date": "6 Mai",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/salo/",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -902,6 +760,18 @@
       "status": "available"
     },
     {
+      "title": "BENNO!",
+      "date": "7 Mai",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/benno/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Gustav Peter Wöhler Band",
       "date": "7 Mai",
       "day": "Do",
@@ -926,6 +796,42 @@
       "status": "available"
     },
     {
+      "title": "FLINTA* Technikworkshop",
+      "date": "8 Mai",
+      "day": "Fr",
+      "time": "15:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/flinta-technikworkshop/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "KATANNA (Hip Hop / Dortmund)",
+      "date": "8 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-05-08/6736",
+      "eventType": "concert",
+      "genre": "Hip-Hop",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Bella and the bizarre",
+      "date": "8 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-05-08/6790",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Pablu",
       "date": "8 Mai",
       "day": "Fr",
@@ -938,7 +844,7 @@
       "status": "available"
     },
     {
-      "title": "Party der Befreiung",
+      "title": "8. Mai-Party",
       "date": "8 Mai",
       "day": "Fr",
       "time": "20:00",
@@ -969,6 +875,18 @@
       "venue": "Kulturpalast Linden",
       "url": "https://kulturpalast-hannover.de/event/snapped-gutpunch-tacent/",
       "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Linski",
+      "date": "8 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/linski/",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -1058,6 +976,18 @@
       "status": "available"
     },
     {
+      "title": "DAISIES & ROSES",
+      "date": "10 Mai",
+      "day": "So",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/daisies-roses/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Greenbeats",
       "date": "10 Mai",
       "day": "So",
@@ -1082,6 +1012,18 @@
       "status": "available"
     },
     {
+      "title": "Kiezduell: [Musste Battlen!]",
+      "date": "12 Mai",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/kiezduell-musste-battlen/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "IMPRO CAFÈ",
       "date": "13 Mai",
       "day": "Mi",
@@ -1100,6 +1042,306 @@
       "time": "20:00",
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/130526-creeper.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Reis Against The Spülmachine – Tourlaub",
+      "date": "13 Mai",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/reis-against-the-spuelmachine-tourlaub/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Himmelfahrt-Techno-Party",
+      "date": "14 Mai",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/140526-himmelfahrt-techno-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "FREI.WILD",
+      "date": "14 Mai",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/frei-wild/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LINDEN JAZZ SESSION",
+      "date": "14 Mai",
+      "day": "Do",
+      "time": "20:30",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/linden-jazzsession-30/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "[′ATLAS] & LOST PICTURES",
+      "date": "15 Mai",
+      "day": "Fr",
+      "time": "19:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/ymay-%e2%80%b2atlas/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Undertones",
+      "date": "15 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/150526-the-undertones.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Udo Butter und das Team",
+      "date": "15 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/150526-udo-butter-und-das-team.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Elektronischer Biergarten",
+      "date": "15 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/150526-elektronischer-biergarten.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Die 80er-Party",
+      "date": "15 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/150526-die-80er-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "CHRISTOPH SAKWERDA",
+      "date": "15 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/christoph-sakwerda/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Wilhelmine",
+      "date": "15 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/98983/wilhelmine",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Denim + The Detained",
+      "date": "15 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Kopernikus",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Undertones",
+      "date": "15 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/zukunftsmusik/150526-the-undertones.html",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Electro Symphony",
+      "date": "15 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/electro-symphony-swiss-life-hall-468dd90ab266/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "OKTAGON 88",
+      "date": "16 Mai",
+      "day": "Sa",
+      "time": "18:00",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/oktagon-88-hannover/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "S.3000",
+      "date": "16 Mai",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/160526-s3000.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "15 x 15 Vol. 2",
+      "date": "16 Mai",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/160526-15-x-15-vol-2.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "TOAD VILLAGE & RRRRRÂRRRI & TEMENGGONG",
+      "date": "16 Mai",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/toad-village-rrrrrarrri-temenggong/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "VOODOO JÜRGENS und die „Ansa Panier“",
+      "date": "16 Mai",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/voodoo-juergens-und-die-ansa-panier/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Gehøvenen + Drei Akkorde Beim Nächsten Mal",
+      "date": "16 Mai",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "SV Arminia",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Demojacke + Freidenkeralarm + deine Misere!",
+      "date": "16 Mai",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-05-16",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Nick & June",
+      "date": "16 Mai",
+      "day": "Sa",
+      "time": "20:30",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/98999/nick-june",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "THE ATTIC & SALOMON PIKES",
+      "date": "17 Mai",
+      "day": "So",
+      "time": "19:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/the-attic-tba/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Neiberth",
+      "date": "17 Mai",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/170526-neiberth.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "YUNG YURY",
+      "date": "17 Mai",
+      "day": "So",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/yung-yury/",
       "eventType": "concert",
       "genre": null,
       "description": null,
