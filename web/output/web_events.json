@@ -2,219 +2,14 @@
   "meta": {
     "week": 19,
     "year": 2026,
-    "updatedAt": "Mon 04 May 19:00"
+    "updatedAt": "Thu 07 May 18:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "04.05",
-      "movies": [
-        {
-          "title": "Michael",
-          "year": 2026,
-          "time": "19:40",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/michael"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "19:50",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:30",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "05.05",
-      "movies": [
-        {
-          "title": "Billie Eilish - Hit Me Hard and Soft: The Tour Live in 3D",
-          "year": 2026,
-          "time": "17:15",
-          "duration": "1h54m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d"
-        },
-        {
-          "title": "Das Drama - Noch mal auf Anfang",
-          "year": 2026,
-          "time": "17:35",
-          "duration": "1h46m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/das-drama-noch-mal-auf-anfang"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Michael",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/michael"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "19:40",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Billie Eilish - Hit Me Hard and Soft: The Tour Live in 3D",
-          "year": 2026,
-          "time": "19:50",
-          "duration": "1h54m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d"
-        },
-        {
-          "title": "Billie Eilish - Hit Me Hard and Soft: The Tour Live in 3D",
-          "year": 2026,
-          "time": "20:00",
-          "duration": "1h54m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d"
-        },
-        {
-          "title": "Der Astronaut - Project Hail Mary",
-          "year": 2026,
-          "time": "20:20",
-          "duration": "2h37m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-astronaut-project-hail-mary"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "06.05",
-      "movies": [
-        {
-          "title": "Der Super Mario Galaxy Film",
-          "year": 2026,
-          "time": "17:15",
-          "duration": "1h39m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-super-mario-galaxy-film"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Michael",
-          "year": 2026,
-          "time": "19:40",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/michael"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "19:50",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "07.05",
       "movies": [
         {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "16:50",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Mortal Kombat II",
-          "year": 2026,
-          "time": "17:45",
-          "duration": "1h56m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/mortal-kombat-ii"
-        },
-        {
           "title": "Michael",
           "year": 2026,
           "time": "19:30",
@@ -232,7 +27,7 @@
           "duration": "1h54m",
           "language": "EN",
           "subtitles": null,
-          "rating": "FSK12",
+          "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d"
         },
@@ -282,7 +77,7 @@
           "duration": "1h54m",
           "language": "EN",
           "subtitles": null,
-          "rating": "FSK12",
+          "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d"
         },
@@ -376,7 +171,7 @@
           "duration": "1h54m",
           "language": "EN",
           "subtitles": null,
-          "rating": "FSK12",
+          "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d"
         },
@@ -404,7 +199,7 @@
           "duration": "1h54m",
           "language": "EN",
           "subtitles": null,
-          "rating": "FSK12",
+          "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d"
         },
@@ -648,69 +443,54 @@
           "url": "https://hannover.premiumkino.de/film/iron-maiden-burning-ambition"
         }
       ]
+    },
+    {
+      "day": "WED",
+      "date": "20.05",
+      "movies": [
+        {
+          "title": "Star Wars: The Mandalorian & Grogu",
+          "year": 2026,
+          "time": "17:15",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-und-grogu"
+        },
+        {
+          "title": "Star Wars: The Mandalorian & Grogu",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-und-grogu"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "21.05",
+      "movies": [
+        {
+          "title": "Star Wars: The Mandalorian & Grogu",
+          "year": 2026,
+          "time": "17:15",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-und-grogu"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Sinus Playground",
-      "date": "5 Mai",
-      "day": "Di",
-      "time": "17:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/sinus-playground/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "King Buffalo",
-      "date": "6 Mai",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/060526-king-buffalo.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "POPULAR MUSIC SESSION",
-      "date": "6 Mai",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/popular-music-session-31/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "SALÒ",
-      "date": "6 Mai",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/salo/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Diamond Dog",
-      "date": "6 Mai",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/konzerte/diamond-dog/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Trio Talan",
       "date": "7 Mai",
@@ -724,7 +504,19 @@
       "status": "available"
     },
     {
-      "title": "Eintritt: frei",
+      "title": "Malte Scheibe",
+      "date": "7 Mai",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/malte-scheibe?date=2026-05-07",
+      "eventType": "concert",
+      "genre": "Dubstep Vibes",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "ACHTUNG: WIRD VERSCHOBEN!",
       "date": "7 Mai",
       "day": "Do",
       "time": "20:00",
@@ -808,6 +600,18 @@
       "status": "available"
     },
     {
+      "title": "Bella and the bizarre",
+      "date": "8 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-05-08/6790",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "KATANNA (Hip Hop / Dortmund)",
       "date": "8 Mai",
       "day": "Fr",
@@ -820,14 +624,14 @@
       "status": "available"
     },
     {
-      "title": "Bella and the bizarre",
+      "title": "Kimbo und Sam Paradise",
       "date": "8 Mai",
       "day": "Fr",
       "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-05-08/6790",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/kimbo-sam-paradise?date=2026-05-08",
       "eventType": "concert",
-      "genre": null,
+      "genre": "House Music",
       "description": null,
       "status": "available"
     },
@@ -928,6 +732,18 @@
       "status": "available"
     },
     {
+      "title": "Margiela",
+      "date": "9 Mai",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/margiela-4?date=2026-05-09",
+      "eventType": "concert",
+      "genre": "Elektronisches",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Main Concept",
       "date": "9 Mai",
       "day": "Sa",
@@ -959,6 +775,30 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/090526-jangueo.html",
       "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LEYKA (Metalcore / Mainz)",
+      "date": "10 Mai",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-05-10/6493",
+      "eventType": "concert",
+      "genre": "Metalcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Oyemi and the sad girls",
+      "date": "10 Mai",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-05-10/6788",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -1036,6 +876,18 @@
       "status": "available"
     },
     {
+      "title": "Janis Zielinski B2B Valeby, Jette B2B Schwesta P und Haushoch 3",
+      "date": "13 Mai",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/janis-zielinski-b2b-valeby-jette-b2b-schwesta-p-haushoch-3?date=2026-05-13",
+      "eventType": "concert",
+      "genre": "Groovy, bouncy Beats",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Creeper",
       "date": "13 Mai",
       "day": "Mi",
@@ -1056,6 +908,18 @@
       "url": "https://musikzentrum-hannover.de/veranstaltung/reis-against-the-spuelmachine-tourlaub/",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Luise",
+      "date": "14 Mai",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/luise-0?date=2026-05-14",
+      "eventType": "concert",
+      "genre": "Electronic",
       "description": null,
       "status": "available"
     },
@@ -1104,6 +968,18 @@
       "url": "https://kulturpalast-hannover.de/event/ymay-%e2%80%b2atlas/",
       "eventType": "event",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Erasmus",
+      "date": "15 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/erasmus-0?date=2026-05-15",
+      "eventType": "concert",
+      "genre": "Electronic",
       "description": null,
       "status": "available"
     },
@@ -1228,6 +1104,18 @@
       "status": "available"
     },
     {
+      "title": "Bousset und Ni:ki",
+      "date": "16 Mai",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/bousset-niki?date=2026-05-16",
+      "eventType": "concert",
+      "genre": "Party Stimmung",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "S.3000",
       "date": "16 Mai",
       "day": "Sa",
@@ -1343,6 +1231,150 @@
       "venue": "MusikZentrum",
       "url": "https://musikzentrum-hannover.de/veranstaltung/yung-yury/",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | RONG KONG KOMA",
+      "date": "19 Mai",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--rong-kong-koma",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Sinus Playground",
+      "date": "19 Mai",
+      "day": "Di",
+      "time": "17:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/sinus-playground-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Das 49. hannoversche Rudelsingen (Zusatzshow)",
+      "date": "19 Mai",
+      "day": "Di",
+      "time": "19:30",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/99043/das-49-hannoversche-rudelsingen-zusatzshow",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Emmvee",
+      "date": "19 Mai",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/emmvee-swiss-life-hall-6117f7d8d3df/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Tablequiz",
+      "date": "20 Mai",
+      "day": "Mi",
+      "time": "19:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/tablequiz-2026-05-20-19-00",
+      "eventType": "quiz",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Das 49. hannoversche Rudelsingen",
+      "date": "20 Mai",
+      "day": "Mi",
+      "time": "19:30",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/99058/das-49-hannoversche-rudelsingen",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Karaoke-Party",
+      "date": "20 Mai",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/200526-karaoke-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "COSMIC SLOP SESSION-NIGHT",
+      "date": "20 Mai",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/cosmic-slop-session-night-3/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "JBS",
+      "date": "20 Mai",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/jbs/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Authority Zero",
+      "date": "20 Mai",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Hafenklang",
+      "url": "https://www.bandsintown.com/e/107914407?affil_code=js_authorityzero.com&app_id=js_authorityzero.com&came_from=700&utm_campaign=event&utm_medium=web&utm_source=widget",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Emmvee",
+      "date": "20 Mai",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/emmvee-swiss-life-hall-aa26bcd22984/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "THE OBGMs",
+      "date": "21 Mai",
+      "day": "Do",
+      "time": "16:16",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/the-obgms",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
