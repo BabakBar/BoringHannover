@@ -54,11 +54,6 @@ __all__ = [  # noqa: RUF022
 logger = logging.getLogger(__name__)
 
 
-# =============================================================================
-# Helper Functions
-# =============================================================================
-
-
 def _format_duration(minutes: int) -> str:
     """Format duration in minutes to human-readable string."""
     if minutes <= 0:
@@ -67,11 +62,6 @@ def _format_duration(minutes: int) -> str:
     if hours > 0:
         return f"{hours}h{mins}m" if mins else f"{hours}h"
     return f"{mins}m"
-
-
-# =============================================================================
-# JSON Export (Enhanced)
-# =============================================================================
 
 
 def export_enhanced_json(
@@ -121,7 +111,7 @@ def export_enhanced_json(
                     "synopsis": m.synopsis,
                     "poster_url": m.poster_url,
                     "trailer_url": m.trailer_url,
-                    "cast": m.cast[:5],  # Limit to top 5
+                    "cast": m.cast[:5],
                     "ticket_url": m.ticket_url,
                     "venue": m.venue,
                     "showtimes": [
@@ -170,11 +160,6 @@ def export_enhanced_json(
     logger.info("Exported enhanced JSON to %s", json_path)
 
 
-# =============================================================================
-# Web Frontend JSON Export
-# =============================================================================
-
-# Day name abbreviations for frontend
 _DAY_ABBREVS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
 _GERMAN_DAYS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
 _GERMAN_MONTHS = [
@@ -242,7 +227,7 @@ def export_web_json(
             }
             lang_parts.append(lang_abbrevs.get(lang, lang[:2].upper()))
         if "Untertitel:" in language:
-            lang_parts.append("DE")  # Subtitles are always German
+            lang_parts.append("DE")
 
         # Get primary genre (first one if available)
         genres = event.metadata.get("genres", [])
@@ -250,7 +235,6 @@ def export_web_json(
 
         movies_by_date[date_key].append(
             {
-                # Sanitize user-facing text fields (defense-in-depth)
                 "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
                 "year": event.metadata.get("year"),
                 "time": event.date.strftime("%H:%M"),
@@ -276,7 +260,6 @@ def export_web_json(
         date_movies: list[dict[str, str | int | list[str] | None]] = movies_by_date[
             date_key
         ]
-        # Sort movies by time (all have "time" key as str from formatting above)
         sorted_movies = sorted(
             date_movies,
             key=lambda m: str(m.get("time", "")) if isinstance(m, dict) else "",
@@ -296,13 +279,11 @@ def export_web_json(
         day_name = _GERMAN_DAYS[dt.weekday()]
         month_name = _GERMAN_MONTHS[dt.month]
 
-        # Format date like "29 Nov" or "28 Mar 2026"
         if dt.year != year:
             date_display = f"{dt.day} {month_name} {dt.year}"
         else:
             date_display = f"{dt.day} {month_name}"
 
-        # Extract optional event details
         event_type = event.metadata.get("event_type", "concert")
         genre = event.metadata.get("genre")
         subtitle = event.metadata.get("subtitle")
@@ -310,7 +291,6 @@ def export_web_json(
 
         concerts_list.append(
             {
-                # Sanitize user-facing text fields (defense-in-depth)
                 "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
                 "date": date_display,
                 "day": day_name,
@@ -337,37 +317,27 @@ def export_web_json(
         "concerts": concerts_list,
     }
 
-    # DI-1: Atomic write to prevent corruption if scraper crashes mid-write
-    # CRITICAL: dir=output_path ensures temp file is on the SAME filesystem
-    # as the target. This makes shutil.move() a true atomic rename() syscall.
-    # Without this, Docker volume mounts would cause copy+delete (non-atomic).
+    # Atomic write: temp file on same filesystem ensures atomic rename() syscall
     json_content = json.dumps(data, indent=2, ensure_ascii=False)
 
     with tempfile.NamedTemporaryFile(
         mode="w",
         suffix=".json",
-        dir=output_path,  # DO NOT REMOVE - required for atomicity
+        dir=output_path,
         delete=False,
         encoding="utf-8",
     ) as tmp:
         tmp.write(json_content)
         tmp_path = Path(tmp.name)
 
-    # Validate temp file has reasonable content (circuit breaker)
     if tmp_path.stat().st_size < 50:
         tmp_path.unlink()
         msg = "Generated JSON too small - possible scraper failure"
         raise ValueError(msg)
 
-    # Atomic rename (only works if source and dest are on same filesystem)
     shutil.move(str(tmp_path), str(json_path))
 
     logger.info("Exported web frontend JSON to %s (atomic write)", json_path)
-
-
-# =============================================================================
-# Markdown Digest
-# =============================================================================
 
 
 def export_markdown_digest(
@@ -483,11 +453,6 @@ def export_markdown_digest(
     md_path.write_text("\n".join(lines), encoding="utf-8")
 
     logger.info("Exported markdown digest to %s", md_path)
-
-
-# =============================================================================
-# Weekly Archive
-# =============================================================================
 
 
 def archive_weekly_data(
