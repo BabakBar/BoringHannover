@@ -2,17 +2,73 @@
   "meta": {
     "week": 22,
     "year": 2026,
-    "updatedAt": "Mon 25 May 19:00"
+    "updatedAt": "Thu 28 May 18:00"
   },
   "movies": [
     {
-      "day": "MON",
-      "date": "25.05",
+      "day": "THU",
+      "date": "28.05",
+      "movies": [
+        {
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "year": 2025,
+          "time": "19:45",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
+        }
+      ]
+    },
+    {
+      "day": "FRI",
+      "date": "29.05",
+      "movies": [
+        {
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "year": 2025,
+          "time": "16:45",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
+        },
+        {
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "year": 2025,
+          "time": "16:50",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        }
+      ]
+    },
+    {
+      "day": "SAT",
+      "date": "30.05",
       "movies": [
         {
           "title": "Michael",
           "year": 2026,
-          "time": "19:20",
+          "time": "14:00",
           "duration": "2h7m",
           "language": "EN",
           "subtitles": null,
@@ -21,133 +77,27 @@
           "url": "https://hannover.premiumkino.de/film/michael"
         },
         {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:05",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        },
-        {
-          "title": "Star Wars: The Mandalorian & Grogu",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h12m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-und-grogu"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "26.05",
-      "movies": [
-        {
-          "title": "Star Wars: The Mandalorian & Grogu",
-          "year": 2026,
-          "time": "17:15",
-          "duration": "2h12m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-und-grogu"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "19:20",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        },
-        {
-          "title": "Perfect Blue",
-          "year": 1997,
-          "time": "20:00",
-          "duration": "1h21m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/perfect-blue"
-        },
-        {
-          "title": "Star Wars: The Mandalorian & Grogu",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h12m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-und-grogu"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "27.05",
-      "movies": [
-        {
-          "title": "Glennkill: Ein Schafskrimi",
-          "year": 2026,
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "year": 2025,
           "time": "16:50",
-          "duration": "1h50m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/glennkill-ein-schafskrimi"
-        },
-        {
-          "title": "Star Wars: The Mandalorian & Grogu",
-          "year": 2026,
-          "time": "17:15",
           "duration": "2h12m",
           "language": "EN",
           "subtitles": null,
           "rating": "FSK12",
           "genre": null,
-          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-und-grogu"
-        },
-        {
-          "title": "Star Wars: The Mandalorian & Grogu",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "2h12m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-und-grogu"
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
         },
         {
           "title": "Der Teufel trägt Prada 2",
           "year": 2026,
-          "time": "20:15",
+          "time": "17:20",
           "duration": "1h59m",
           "language": "EN",
           "subtitles": null,
           "rating": null,
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "30.05",
-      "movies": [
+        },
         {
           "title": "El último sueño de Frida y Diego - Frank (MET 2025/26)",
           "year": 2026,
@@ -162,9 +112,137 @@
       ]
     },
     {
+      "day": "SUN",
+      "date": "31.05",
+      "movies": [
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "14:00",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
+        {
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "year": 2025,
+          "time": "16:50",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "17:20",
+          "duration": "1h59m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "01.06",
+      "movies": [
+        {
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "year": 2025,
+          "time": "16:50",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
+        },
+        {
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "year": 2025,
+          "time": "19:45",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
+        },
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:00",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "02.06",
+      "movies": [
+        {
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "year": 2025,
+          "time": "16:45",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
+        },
+        {
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "year": 2025,
+          "time": "16:50",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
+        }
+      ]
+    },
+    {
       "day": "WED",
       "date": "03.06",
       "movies": [
+        {
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "year": 2025,
+          "time": "16:50",
+          "duration": "2h12m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
+        },
         {
           "title": "Scary Movie",
           "year": 2026,
@@ -186,7 +264,7 @@
           "title": "The Amazing Digital Circus: The Last Act",
           "year": 2026,
           "time": "17:30",
-          "duration": "1h33m",
+          "duration": "1h34m",
           "language": "EN",
           "subtitles": "DE",
           "rating": "FSK12",
@@ -214,7 +292,7 @@
           "title": "The Amazing Digital Circus: The Last Act",
           "year": 2026,
           "time": "17:30",
-          "duration": "1h33m",
+          "duration": "1h34m",
           "language": "EN",
           "subtitles": "DE",
           "rating": "FSK12",
@@ -253,7 +331,7 @@
           "title": "The Amazing Digital Circus: The Last Act",
           "year": 2026,
           "time": "19:45",
-          "duration": "1h33m",
+          "duration": "1h34m",
           "language": "EN",
           "subtitles": "DE",
           "rating": "FSK12",
@@ -261,125 +339,62 @@
           "url": "https://hannover.premiumkino.de/film/the-amazing-digital-circus-the-last-act"
         }
       ]
+    },
+    {
+      "day": "WED",
+      "date": "10.06",
+      "movies": [
+        {
+          "title": "Disclosure Day - Der Tag der Wahrheit",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "2h25m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/disclosure-day-der-tag-der-wahrheit"
+        },
+        {
+          "title": "Disclosure Day - Der Tag der Wahrheit",
+          "year": 2026,
+          "time": "20:10",
+          "duration": "2h25m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/disclosure-day-der-tag-der-wahrheit"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "11.06",
+      "movies": [
+        {
+          "title": "Disclosure Day - Der Tag der Wahrheit",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "2h25m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/disclosure-day-der-tag-der-wahrheit"
+        }
+      ]
     }
   ],
   "concerts": [
     {
-      "title": "Ruby Tuesday | RYR + MN KLLD BY STN",
-      "date": "26 Mai",
-      "day": "Di",
-      "time": "00:00",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--ryr--mn-klld-by-stn",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "VERTIGO & LOLA & BURN MORE FLAGS",
-      "date": "26 Mai",
-      "day": "Di",
-      "time": "19:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/vertigo-lola-burn-more-flags/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "GReeeN",
-      "date": "26 Mai",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/99148/greeen",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Vertigo + Lola + Burn More Flags",
-      "date": "26 Mai",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://app.backstagepro.de/vertigo-verse",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "AUTHORITY ZERO (Ska Punk / Arizona)",
-      "date": "27 Mai",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-05-27/6468",
-      "eventType": "concert",
-      "genre": "Ska Punk",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Wrest",
-      "date": "27 Mai",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/mai/270526-wrest.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "KULTURPALAST LINDEN SONGWRITER NIGHT: RUDY BRYAN",
-      "date": "27 Mai",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/kulturpalast-linden-songwriter-night-rudy-bryan/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Joanne Shaw Taylor",
-      "date": "27 Mai",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/99163/joanne-shaw-taylor",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Authority Zero",
-      "date": "27 Mai",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Bei Che Heinz",
-      "url": "https://www.bandsintown.com/e/107914416?affil_code=js_authorityzero.com&app_id=js_authorityzero.com&came_from=700&utm_campaign=event&utm_medium=web&utm_source=widget",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Sarah Trentzsch: Das konkrete Leben",
+      "title": "Local Distortion!",
       "date": "28 Mai",
       "day": "Do",
-      "time": "18:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/sarah-trentzsch-das-konkrete-leben",
-      "eventType": "event",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-05-28/6651",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -397,18 +412,6 @@
       "status": "available"
     },
     {
-      "title": "Local Distortion!",
-      "date": "28 Mai",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-05-28/6651",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "Franclin",
       "date": "28 Mai",
       "day": "Do",
@@ -417,6 +420,18 @@
       "url": "https://www.stadtkind-kalender.de/event/franclin?date=2026-05-28",
       "eventType": "concert",
       "genre": "Musik",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Franclin, Vini und Neo",
+      "date": "28 Mai",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/franclin-vini-neo?date=2026-05-28",
+      "eventType": "concert",
+      "genre": "Debut Night",
       "description": null,
       "status": "available"
     },
@@ -541,6 +556,18 @@
       "status": "available"
     },
     {
+      "title": "Riviera Records",
+      "date": "29 Mai",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/riviera-records?date=2026-05-29",
+      "eventType": "concert",
+      "genre": "Pre-Weekend Party",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Mad Caddies",
       "date": "29 Mai",
       "day": "Fr",
@@ -609,6 +636,18 @@
       "url": "https://cafe-glocksee.de#/event/melt-banana",
       "eventType": "Konzert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Riviera Records – Viny Pop Up",
+      "date": "30 Mai",
+      "day": "Sa",
+      "time": "16:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/riviera-records-viny-pop?date=2026-05-30",
+      "eventType": "concert",
+      "genre": "Mit Luise, Flood und Margiela",
       "description": null,
       "status": "available"
     },
@@ -697,6 +736,18 @@
       "status": "available"
     },
     {
+      "title": "Riviera Records – After Party",
+      "date": "30 Mai",
+      "day": "Sa",
+      "time": "22:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/riviera-records-after-party?date=2026-05-30",
+      "eventType": "concert",
+      "genre": "Mit Rafael Alejandro und Raul Exposito",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Sina",
       "date": "31 Mai",
       "day": "So",
@@ -733,6 +784,18 @@
       "status": "available"
     },
     {
+      "title": "Friendship Commanders (Melodic-Sludge-Doom / Nashville) + Stargo (stoner / Dortmund)",
+      "date": "1 Jun",
+      "day": "Mo",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-06-01/6841",
+      "eventType": "concert",
+      "genre": "Melodic-Sludge-Doom",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Ruby Tuesday | ZOOKRAUGHT",
       "date": "2 Jun",
       "day": "Di",
@@ -763,6 +826,18 @@
       "time": "19:00",
       "venue": "Pavillon",
       "url": "https://pavillon-hannover.de/event/details/124307/klatschmohn",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Eelmen",
+      "date": "2 Jun",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-06-02/6791",
       "eventType": "concert",
       "genre": null,
       "description": null,
@@ -1016,6 +1091,42 @@
       "venue": "ZAG Arena",
       "url": "https://www.zag-arena-hannover.de/veranstaltung/tsv-hannover-burgdorf-vs-mt-melsungen-5/",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | PUNCHLOVE",
+      "date": "9 Jun",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--punchlove",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "DESMOS RELEASE KONZERT",
+      "date": "10 Jun",
+      "day": "Mi",
+      "time": "19:30",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/desmos-release-konzert/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "After Hochschulsport-Party",
+      "date": "10 Jun",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/100626-hochschulsportfest-aftershow-party.html",
+      "eventType": "party",
       "genre": null,
       "description": null,
       "status": "available"
