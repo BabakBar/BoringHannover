@@ -9,6 +9,7 @@ Tests cover the core modules:
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
@@ -18,6 +19,9 @@ from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
 from boringhannover.notifier import format_message, notify
+from boringhannover.sources.cinema.apollokino import (
+    ApollokinoSource as ApollokinoScraper,
+)
 from boringhannover.sources.cinema.astor import AstorSource as AstorMovieScraper
 from boringhannover.sources.concerts.punkrock_konzerte import (
     PunkrockKonzerteSource,
@@ -25,7 +29,9 @@ from boringhannover.sources.concerts.punkrock_konzerte import (
 from boringhannover.sources.concerts.zag_arena import (
     ZAGArenaSource as ConcertVenueScraper,
 )
-from boringhannover.sources.cinema.apollokino import ApollokinoSource as ApollokinoScraper
+
+
+FIXTURES = Path(__file__).parent / "fixtures"
 
 
 # =============================================================================
@@ -335,68 +341,150 @@ class TestApollokinoScraper:
 
     @patch("boringhannover.sources.base.httpx.Client")
     def test_fetch_returns_list(self, mock_client: Mock) -> None:
-        """Fetch should return a list when given real HTML."""
         mock_response = Mock()
-        # Use the saved HTML snapshot for deterministic parsing
-        with open("tests/fixtures/apollokino_omu.html", "r", encoding="utf-8") as fh:
-            html = fh.read()
-
-        mock_response.text = html
+        mock_response.text = (FIXTURES / "apollokino_omu.html").read_text(
+            encoding="utf-8"
+        )
         mock_client.return_value.__enter__.return_value.get.return_value = mock_response
 
-        scraper = ApollokinoScraper()
-        result = scraper.fetch()
-
+        result = ApollokinoScraper().fetch()
         assert isinstance(result, list)
 
     @patch("boringhannover.sources.base.httpx.Client")
     def test_fetch_parses_omu_entries(self, mock_client: Mock) -> None:
-        """Ensure OmU entries are parsed and include expected metadata."""
         mock_response = Mock()
-        with open("tests/fixtures/apollokino_omu.html", "r", encoding="utf-8") as fh:
-            html = fh.read()
-
-        mock_response.text = html
+        mock_response.text = (FIXTURES / "apollokino_omu.html").read_text(
+            encoding="utf-8"
+        )
         mock_client.return_value.__enter__.return_value.get.return_value = mock_response
 
-        scraper = ApollokinoScraper()
-        result = scraper.fetch()
+        result = ApollokinoScraper().fetch()
 
-        # Should parse at least one OmU movie and include metadata keys
         assert len(result) > 0
         ev = result[0]
         assert ev.category == "movie"
         assert ev.title == "THE MASTERMIND"
         assert ev.date.strftime("%H:%M") == "22:30"
-        assert ev.metadata.get("poster_url") == "https://www.apollokino.de/filme/00005138/plakat00005138.jpg"
-        assert ev.url == "https://www.apollokino.de/?v=&film=filme/00005138&anmerk=OmU-Nachtstudio"
-        # TODO: check language when field is available
+        assert (
+            ev.metadata.get("poster_url")
+            == "https://www.apollokino.de/filme/00005138/plakat00005138.jpg"
+        )
+        assert (
+            ev.url
+            == "https://www.apollokino.de/?v=&film=filme/00005138&anmerk=OmU-Nachtstudio"
+        )
         assert ev.metadata.get("original_version") is True
 
-    @patch("boringhannover.sources.base.httpx.Client")
-    def test_fetch_detail_metadata_parses(self, mock_client: Mock) -> None:
-        """Test detail-page metadata extraction from the saved fixture."""
-        mock_response = Mock()
-        with open("tests/fixtures/apollokino_detail.html", "r", encoding="utf-8") as fh:
-            html = fh.read()
+    def test_fetch_rejects_non_omu_and_blacklist(self) -> None:
+        """Rows without the OmU marker or with Desimo/Spezial Club must be skipped."""
+        html = """
+        <div class="datumzeile">Freitag, 02.01.2026</div>
+        <table class="filmtabelle"><tr><td>
+          <table class="tagestabelle">
+            <tr><td>
+              <a href="/?v=&film=filme/00001"><h2 class="filmtitel">22:30: Ein Film</h2></a>
+              <div class="filmanmerkung">Premiere</div>
+            </td></tr>
+            <tr><td>
+              <a href="/?v=&film=filme/00002"><h2 class="filmtitel">23:00: DESiMO Spezial</h2></a>
+              <div class="filmanmerkung">OmU-Nachtstudio</div>
+            </td></tr>
+            <tr><td>
+              <a href="/?v=&film=filme/00003"><h2 class="filmtitel">22:30: Echter Film</h2></a>
+              <div class="filmanmerkung">OmU-Nachtstudio</div>
+            </td></tr>
+          </table>
+        </td></tr></table>
+        """
+        with patch("boringhannover.sources.base.httpx.Client") as mock_client:
+            mock_response = Mock()
+            mock_response.text = html
+            mock_client.return_value.__enter__.return_value.get.return_value = (
+                mock_response
+            )
 
-        mock_response.text = html
-        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
+            result = ApollokinoScraper().fetch()
 
-        scraper = ApollokinoScraper()
-        meta = scraper._fetch_detail_metadata("https://www.apollokino.de/?v=&film=filme/01000749&anmerk=OmU-Nachtstudio")
+        titles = [e.title for e in result]
+        assert titles == ["Echter Film"]
 
-        assert meta.get("duration") == 124
-        assert meta.get("rating") == 16
-        assert meta.get("year") == 1975
-        assert meta.get("country") and meta.get("country").lower().startswith("usa")
-        assert meta.get("language") == "Sprache: Englisch, Untertitel: Deutsch"
-        assert meta.get("trailer_url") == "https://www.youtube.com/watch?v=bBBBbadAkwM"
-        assert isinstance(meta.get("cast"), list)
-        assert "Roy Scheider" in meta.get("cast")
-        # Detailed synopsis should come from the detail page filminhalt
-        assert "Steven Spiebergs Hai-Blockbuster" in meta.get("synopsis", "")
-        assert "Lexikon des internationalen Films" in meta.get("synopsis", "")
+    def test_extract_metadata_from_detail_soup(self) -> None:
+        """Detail extraction works directly from a parsed soup (no HTTP)."""
+        soup = BeautifulSoup(
+            (FIXTURES / "apollokino_detail.html").read_text(encoding="utf-8"),
+            "html.parser",
+        )
+
+        meta = ApollokinoScraper()._extract_metadata(soup)
+
+        assert meta["duration"] == 124
+        assert meta["rating"] == 16
+        assert meta["year"] == 1975
+        assert meta["country"].lower().startswith("usa")
+        assert meta["language"] == "Sprache: Englisch, Untertitel: Deutsch"
+        assert meta["trailer_url"] == "https://www.youtube.com/watch?v=bBBBbadAkwM"
+        assert {"role": "Regie", "name": "Steven Spielberg"} in meta["cast"]
+        assert {"role": "Darsteller", "name": "Roy Scheider"} in meta["cast"]
+        assert "Steven Spiebergs Hai-Blockbuster" in meta["synopsis"]
+        assert "Lexikon des internationalen Films" in meta["synopsis"]
+
+    def test_detail_fetch_failure_returns_empty(self) -> None:
+        """A failed detail fetch must degrade gracefully, never raise."""
+        with patch("boringhannover.sources.base.httpx.Client") as mock_client:
+            mock_client.return_value.__enter__.return_value.get.side_effect = (
+                RuntimeError("boom")
+            )
+            meta = ApollokinoScraper()._fetch_detail_metadata(
+                "https://www.apollokino.de/?v=&film=filme/00000001"
+            )
+        assert meta == {}
+
+    def test_parse_filmdaten_handles_messy_text(self) -> None:
+        """Live filmdaten has price hints and double colons; parser must cope."""
+        text = (
+            "GB 2026, 134 Min. (+-,50€), ab 16 J., "
+            "R:  Emerald Fennell, mit: : Margot Robbie, Jacob Elordi, Hong Chau u.a."
+        )
+        parsed = ApollokinoScraper()._parse_filmdaten(text)
+        assert parsed["year"] == 2026
+        assert parsed["duration"] == 134
+        assert parsed["rating"] == 16
+        assert parsed["country"] == "GB"
+        assert {"role": "Regie", "name": "Emerald Fennell"} in parsed["cast"]
+        assert {"role": "Darsteller", "name": "Margot Robbie"} in parsed["cast"]
+        assert {"role": "Darsteller", "name": "Jacob Elordi"} in parsed["cast"]
+        # Trailing "u.a." must be stripped from the last actor name.
+        assert {"role": "Darsteller", "name": "Hong Chau"} in parsed["cast"]
+        assert not any("u.a" in entry["name"].lower() for entry in parsed["cast"])
+
+    def test_parse_filmdaten_without_cast(self) -> None:
+        """Director regex must stop at Länge:/FSK: when no `mit:` follows."""
+        text = "DE 2024, R: Wim Wenders, Länge: 99 Min., FSK 12"
+        parsed = ApollokinoScraper()._parse_filmdaten(text)
+        assert parsed["cast"] == [{"role": "Regie", "name": "Wim Wenders"}]
+
+    @pytest.mark.parametrize(
+        ("country", "expected"),
+        [
+            ("USA", "Sprache: Englisch, Untertitel: Deutsch"),
+            ("GB", "Sprache: Englisch, Untertitel: Deutsch"),
+            ("JP", "Sprache: Japanisch, Untertitel: Deutsch"),
+            ("Deutschland", "Sprache: Deutsch, Untertitel: Deutsch"),
+            ("Großbritannien", "Sprache: Englisch, Untertitel: Deutsch"),
+            ("Polen", "Sprache: Polnisch, Untertitel: Deutsch"),
+            # Regression: "at" inside "australien" must NOT match the AT code.
+            ("Australien", "Sprache: Englisch, Untertitel: Deutsch"),
+            # Multi-country: never guess spoken language.
+            ("GB/F", "Untertitel: Deutsch"),
+            ("Deutschland, Frankreich", "Untertitel: Deutsch"),
+            # Unknown country: subtitle-only fallback.
+            ("Atlantis", "Untertitel: Deutsch"),
+            ("", "Untertitel: Deutsch"),
+        ],
+    )
+    def test_derive_language_from_country(self, country: str, expected: str) -> None:
+        assert ApollokinoScraper._derive_language_from_country(country) == expected
+
 
 class TestFetchAllEvents:
     """Tests for the event aggregation function."""
