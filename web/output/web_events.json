@@ -2,130 +2,13 @@
   "meta": {
     "week": 24,
     "year": 2026,
-    "updatedAt": "Mon 08 Jun 19:00"
+    "updatedAt": "Thu 11 Jun 18:01"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "08.06",
-      "movies": [
-        {
-          "title": "Star Wars: The Mandalorian and Grogu",
-          "year": 2025,
-          "time": "20:30",
-          "duration": "2h12m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:40",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "09.06",
-      "movies": [
-        {
-          "title": "Scary Movie",
-          "year": 2026,
-          "time": "17:30",
-          "duration": "1h36m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/scary-movie"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "10.06",
-      "movies": [
-        {
-          "title": "Disclosure Day - Der Tag der Wahrheit",
-          "year": 2026,
-          "time": "16:50",
-          "duration": "2h25m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/disclosure-day-der-tag-der-wahrheit"
-        },
-        {
-          "title": "Masters of the Universe",
-          "year": 2026,
-          "time": "20:00",
-          "duration": "2h22m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/masters-of-the-universe"
-        },
-        {
-          "title": "Disclosure Day - Der Tag der Wahrheit",
-          "year": 2026,
-          "time": "20:10",
-          "duration": "2h25m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/disclosure-day-der-tag-der-wahrheit"
-        },
-        {
-          "title": "Star Wars: The Mandalorian and Grogu",
-          "year": 2025,
-          "time": "20:20",
-          "duration": "2h12m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "11.06",
       "movies": [
-        {
-          "title": "Disclosure Day - Der Tag der Wahrheit",
-          "year": 2026,
-          "time": "16:45",
-          "duration": "2h25m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/disclosure-day-der-tag-der-wahrheit"
-        },
-        {
-          "title": "Michael",
-          "year": 2026,
-          "time": "17:30",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/michael"
-        },
         {
           "title": "Disclosure Day - Der Tag der Wahrheit",
           "year": 2026,
@@ -180,7 +63,7 @@
           "title": "Die kleine Amélie oder der Charakter des Regens",
           "year": 2025,
           "time": "18:05",
-          "duration": "1h17m",
+          "duration": "1h18m",
           "language": "FR",
           "subtitles": "DE",
           "rating": "FSK6",
@@ -313,7 +196,7 @@
           "title": "Die kleine Amélie oder der Charakter des Regens",
           "year": 2025,
           "time": "15:30",
-          "duration": "1h17m",
+          "duration": "1h18m",
           "language": "FR",
           "subtitles": "DE",
           "rating": "FSK6",
@@ -452,7 +335,7 @@
           "title": "Backrooms",
           "year": 2026,
           "time": "17:30",
-          "duration": "1h45m",
+          "duration": "1h51m",
           "language": "EN",
           "subtitles": null,
           "rating": "FSK16",
@@ -463,12 +346,29 @@
           "title": "Backrooms",
           "year": 2026,
           "time": "20:00",
-          "duration": "1h45m",
+          "duration": "1h51m",
           "language": "EN",
           "subtitles": null,
           "rating": "FSK16",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/backrooms"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "18.06",
+      "movies": [
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "20:20",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
         }
       ]
     },
@@ -544,69 +444,54 @@
           "url": "https://hannover.premiumkino.de/film/all-of-us-strangers"
         }
       ]
+    },
+    {
+      "day": "TUE",
+      "date": "23.06",
+      "movies": [
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "24.06",
+      "movies": [
+        {
+          "title": "Jackass: Einer geht noch",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "1h32m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/jackass-einer-geht-noch"
+        },
+        {
+          "title": "Supergirl",
+          "year": 2026,
+          "time": "20:30",
+          "duration": "1h48m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/supergirl"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Ruby Tuesday | PUNCHLOVE",
-      "date": "9 Jun",
-      "day": "Di",
-      "time": "00:00",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--punchlove",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "DESMOS RELEASE KONZERT",
-      "date": "10 Jun",
-      "day": "Mi",
-      "time": "19:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/desmos-release-konzert/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Snailmate",
-      "date": "10 Jun",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-06-10/6605",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "After Hochschulsport-Party",
-      "date": "10 Jun",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/100626-hochschulsportfest-aftershow-party.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "11 Jun",
-      "day": "Do",
-      "time": "20:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-41/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "DARKWAYS",
       "date": "12 Jun",
@@ -896,6 +781,18 @@
       "status": "available"
     },
     {
+      "title": "Keyo Roses Flying Circus (Glam-Rat-n-Roll/Melbourne) + Krachym (Experimenteller Noise Pop/Leipzig)",
+      "date": "17 Jun",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-06-17/6844",
+      "eventType": "concert",
+      "genre": "Glam-Rat-n-Roll",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Voilà",
       "date": "17 Jun",
       "day": "Mi",
@@ -908,14 +805,14 @@
       "status": "available"
     },
     {
-      "title": "JAHRESABSCHLUSSKONZERT DER HOCHSCHULCOMBO : HARDEST WORKING BAND",
-      "date": "17 Jun",
-      "day": "Mi",
+      "title": "ANDA MORTS (Indie-Punk / Linz)",
+      "date": "18 Jun",
+      "day": "Do",
       "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/jahresabschlusskonzert-der-hochschulcombo-hardest-working-band/",
-      "eventType": "event",
-      "genre": null,
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-06-18/5717",
+      "eventType": "concert",
+      "genre": "Indie-Punk",
       "description": null,
       "status": "available"
     },
@@ -968,18 +865,6 @@
       "status": "available"
     },
     {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "18 Jun",
-      "day": "Do",
-      "time": "20:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-42/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "Hudcon",
       "date": "19 Jun",
       "day": "Fr",
@@ -1024,18 +909,6 @@
       "url": "https://kufa.info/event/details/141257/details-kufa-hannover/",
       "eventType": "concert",
       "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "ELECTRO BEATS KP, CHAPTER 4.",
-      "date": "19 Jun",
-      "day": "Fr",
-      "time": "21:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/electro-beats-kp-chapter-4/",
-      "eventType": "event",
-      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -1112,18 +985,6 @@
       "status": "available"
     },
     {
-      "title": "POSTERBOIZ & RECKLES UPSTART RECORD-RELEASE-SHOW",
-      "date": "21 Jun",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/posterboiz-reckles-upstart-record-release-show/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "Curtis Stigers",
       "date": "21 Jun",
       "day": "So",
@@ -1156,6 +1017,54 @@
       "url": "https://kulturpalast-hannover.de/event/posterboiz-reckles-upstart-record-release-show/",
       "eventType": "concert",
       "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The S'coolmasters & die Studio-Bigband der HMTMH",
+      "date": "23 Jun",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/230626-the-scoolmasters-die-studio-bigband-der-hmtmh.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "VenenÖ + Collaps",
+      "date": "23 Jun",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Stumpf",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Skryabin",
+      "date": "24 Jun",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/240626-skryabin.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "ChorWerk Hannover",
+      "date": "25 Jun",
+      "day": "Do",
+      "time": "18:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/132486/chorwerk-hannover",
+      "eventType": "concert",
+      "genre": null,
       "description": null,
       "status": "available"
     }
