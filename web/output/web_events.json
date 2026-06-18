@@ -2,104 +2,9 @@
   "meta": {
     "week": 25,
     "year": 2026,
-    "updatedAt": "Mon 15 Jun 19:00"
+    "updatedAt": "Thu 18 Jun 18:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "15.06",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:40",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "16.06",
-      "movies": [
-        {
-          "title": "Disclosure Day - Der Tag der Wahrheit",
-          "year": 2026,
-          "time": "16:45",
-          "duration": "2h25m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/disclosure-day-der-tag-der-wahrheit"
-        },
-        {
-          "title": "Star Wars: The Mandalorian and Grogu",
-          "year": 2025,
-          "time": "19:45",
-          "duration": "2h12m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/star-wars-the-mandalorian-and-grogu"
-        },
-        {
-          "title": "Der Teufel trägt Prada 2",
-          "year": 2026,
-          "time": "20:40",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-teufel-traegt-prada-2"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "17.06",
-      "movies": [
-        {
-          "title": "Disclosure Day - Der Tag der Wahrheit",
-          "year": 2026,
-          "time": "16:50",
-          "duration": "2h25m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/disclosure-day-der-tag-der-wahrheit"
-        },
-        {
-          "title": "Backrooms",
-          "year": 2026,
-          "time": "17:30",
-          "duration": "1h51m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/backrooms"
-        },
-        {
-          "title": "Backrooms",
-          "year": 2026,
-          "time": "20:00",
-          "duration": "1h51m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/backrooms"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "18.06",
@@ -143,6 +48,17 @@
       "day": "FRI",
       "date": "19.06",
       "movies": [
+        {
+          "title": "Backrooms",
+          "year": 2026,
+          "time": "18:00",
+          "duration": "1h51m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms"
+        },
         {
           "title": "Backrooms",
           "year": 2026,
@@ -196,6 +112,17 @@
         {
           "title": "Backrooms",
           "year": 2026,
+          "time": "18:00",
+          "duration": "1h51m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms"
+        },
+        {
+          "title": "Backrooms",
+          "year": 2026,
           "time": "19:45",
           "duration": "1h51m",
           "language": "EN",
@@ -203,6 +130,17 @@
           "rating": "FSK16",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/backrooms"
+        },
+        {
+          "title": "Michael",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/michael"
         },
         {
           "title": "HAMNET",
@@ -244,6 +182,17 @@
           "url": "https://hannover.premiumkino.de/film/all-of-us-strangers"
         },
         {
+          "title": "Backrooms",
+          "year": 2026,
+          "time": "18:00",
+          "duration": "1h51m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms"
+        },
+        {
           "title": "Disclosure Day - Der Tag der Wahrheit",
           "year": 2026,
           "time": "19:45",
@@ -271,6 +220,17 @@
       "day": "MON",
       "date": "22.06",
       "movies": [
+        {
+          "title": "Backrooms",
+          "year": 2026,
+          "time": "18:00",
+          "duration": "1h51m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms"
+        },
         {
           "title": "Disclosure Day - Der Tag der Wahrheit",
           "year": 2026,
@@ -311,6 +271,17 @@
       "date": "23.06",
       "movies": [
         {
+          "title": "Backrooms",
+          "year": 2026,
+          "time": "18:00",
+          "duration": "1h51m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms"
+        },
+        {
           "title": "Obsession - Du sollst mich lieben",
           "year": 2026,
           "time": "19:45",
@@ -327,6 +298,17 @@
       "day": "WED",
       "date": "24.06",
       "movies": [
+        {
+          "title": "Backrooms",
+          "year": 2026,
+          "time": "17:45",
+          "duration": "1h51m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms"
+        },
         {
           "title": "Supergirl",
           "year": 2026,
@@ -462,117 +444,26 @@
           "url": "https://hannover.premiumkino.de/film/bottoms"
         }
       ]
+    },
+    {
+      "day": "TUE",
+      "date": "30.06",
+      "movies": [
+        {
+          "title": "Die letzten Glühwürmchen",
+          "year": 1988,
+          "time": "19:45",
+          "duration": "1h25m",
+          "language": "JP",
+          "subtitles": "DE",
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-letzten-gluehwuermchen"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Set It Off",
-      "date": "15 Jun",
-      "day": "Mo",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/150626-set-it-off.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Malstrom + Moja",
-      "date": "15 Jun",
-      "day": "Mo",
-      "time": "20:00",
-      "venue": "Stadionkneipe SV Arminia",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Rain City Drive & Silent Planet",
-      "date": "16 Jun",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/160626-rain-city-drive-silent-planet.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Death Lens",
-      "date": "16 Jun",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Cafe Glocksee",
-      "url": "https://www.cafe-glocksee.de/#/event/ruby-tuesday--death-lens",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Babymetal",
-      "date": "16 Jun",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/babymetal-swiss-life-hall-0dbdb2ed9bae/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Tablequiz",
-      "date": "17 Jun",
-      "day": "Mi",
-      "time": "19:00",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/tablequiz-2026-06-17-19-00",
-      "eventType": "quiz",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Keyo Roses Flying Circus (Glam-Rat-n-Roll/Melbourne) + Krachym (Experimenteller Noise Pop/Leipzig)",
-      "date": "17 Jun",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-06-17/6844",
-      "eventType": "concert",
-      "genre": "Glam-Rat-n-Roll",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Voilà",
-      "date": "17 Jun",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/170626-voila.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "JAHRESABSCHLUSSKONZERT DER HOCHSCHULCOMBO : HARDEST WORKING BAND",
-      "date": "17 Jun",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/jahresabschlusskonzert-der-hochschulcombo-hardest-working-band/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "ANDA MORTS (Indie-Punk / Linz)",
       "date": "18 Jun",
@@ -594,6 +485,18 @@
       "url": "https://www.beichezheinz.de/programm/2026-06-18/6793",
       "eventType": "concert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Formaggi b2b Mr. Cheesefinger",
+      "date": "18 Jun",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/formaggi-b2b-mr-cheesefinger?date=2026-06-18",
+      "eventType": "concert",
+      "genre": "Dry Season – Long Nights",
       "description": null,
       "status": "available"
     },
@@ -654,6 +557,18 @@
       "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-42/",
       "eventType": "event",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "RR",
+      "date": "19 Jun",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/rr-0?date=2026-06-19",
+      "eventType": "concert",
+      "genre": "Dry Season – Long Nights",
       "description": null,
       "status": "available"
     },
@@ -726,6 +641,18 @@
       "url": "https://cafe-glocksee.de#/event/years-of-denial--rhys-fulber",
       "eventType": "Konzert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Goldtheeth",
+      "date": "20 Jun",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/goldtheeth?date=2026-06-20",
+      "eventType": "concert",
+      "genre": "Dry Season – Long Nights",
       "description": null,
       "status": "available"
     },
@@ -826,7 +753,7 @@
       "status": "available"
     },
     {
-      "title": "POSTERBOIZ & RECKLES UPSTART RECORD-RELEASE-SHOW",
+      "title": "POSTERBOIZ & RECKLES UPSTART RECORD-RELEASE-SHOW Achtung vorverlegt auf 18:00!",
       "date": "21 Jun",
       "day": "So",
       "time": "20:00",
@@ -906,6 +833,18 @@
       "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
       "eventType": "concert",
       "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "DECAPITATED (Death-Metal / Polen)",
+      "date": "24 Jun",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-06-24/6741",
+      "eventType": "concert",
+      "genre": "Death-Metal",
       "description": null,
       "status": "available"
     },
@@ -1054,6 +993,18 @@
       "status": "available"
     },
     {
+      "title": "Satans Mineons + Chester Park",
+      "date": "26 Jun",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Walhalla Skateclub",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Die 90er-Party",
       "date": "27 Jun",
       "day": "Sa",
@@ -1096,6 +1047,54 @@
       "time": "20:00",
       "venue": "Kopernikus",
       "url": "https://www.facebook.com/octopoulpes/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Angry Zeta",
+      "date": "30 Jun",
+      "day": "Di",
+      "time": "20:00",
+      "venue": "Cafe Glocksee",
+      "url": "https://www.cafe-glocksee.de/#/event/ruby-tuesday--angry-zeta-2026",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "ESCALUTION",
+      "date": "1 Jul",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/escalution/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "QUEENSRŸCHE und RIVERS OF NIHIL",
+      "date": "1 Jul",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/102096/queensryche-und-rivers-of-nihil",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Friends with Boats",
+      "date": "1 Jul",
+      "day": "Mi",
+      "time": "20:00",
+      "venue": "Kulturfabrik Loeseke",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
       "eventType": "concert",
       "genre": "Punk / Hardcore",
       "description": null,
