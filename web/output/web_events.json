@@ -1,199 +1,10 @@
 {
   "meta": {
-    "week": 26,
+    "week": 27,
     "year": 2026,
-    "updatedAt": "Thu 25 Jun 18:00"
+    "updatedAt": "Mon 29 Jun 19:00"
   },
   "movies": [
-    {
-      "day": "THU",
-      "date": "25.06",
-      "movies": [
-        {
-          "title": "Backrooms",
-          "year": 2026,
-          "time": "20:00",
-          "duration": "1h51m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/backrooms"
-        },
-        {
-          "title": "THE HOUSEMAID - Wenn Sie wüßte",
-          "year": 2025,
-          "time": "22:30",
-          "duration": "2h11m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": null,
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/01001171&anmerk=OmU-Nachtstudio%20%96"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "26.06",
-      "movies": [
-        {
-          "title": "Supergirl",
-          "year": 2026,
-          "time": "17:20",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/supergirl"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "19:50",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "FATHER MOTHER SISTER BROTHER",
-          "year": 2025,
-          "time": "23:00",
-          "duration": "1h50m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00005155&anmerk=OmU-Nachtstudio%20-%20"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "27.06",
-      "movies": [
-        {
-          "title": "Harry Potter und die Heiligtümer des Todes - Teil 1",
-          "year": 2010,
-          "time": "12:00",
-          "duration": "2h25m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/harry-potter-und-die-heiligtuemer-des-todes-teil-1"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "15:00",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "15:10",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Supergirl",
-          "year": 2026,
-          "time": "17:30",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/supergirl"
-        },
-        {
-          "title": "MARTY SUPREME",
-          "year": 2025,
-          "time": "22:45",
-          "duration": "2h29m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00005121&anmerk=OmU-Nachtstudio%20%96"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "28.06",
-      "movies": [
-        {
-          "title": "Harry Potter und die Heiligtümer des Todes Teil 2",
-          "year": 2011,
-          "time": "12:00",
-          "duration": "2h10m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/harry-potter-und-die-heiligtuemer-des-todes-teil-2"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "15:00",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "15:10",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Bottoms",
-          "year": 2023,
-          "time": "17:30",
-          "duration": "1h31m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/bottoms"
-        },
-        {
-          "title": "Backrooms",
-          "year": 2026,
-          "time": "19:35",
-          "duration": "1h51m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/backrooms"
-        }
-      ]
-    },
     {
       "day": "MON",
       "date": "29.06",
@@ -285,6 +96,39 @@
         {
           "title": "Minions & Monster",
           "year": 2026,
+          "time": "13:00",
+          "duration": "1h30m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "14:40",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        },
+        {
+          "title": "Supergirl",
+          "year": 2026,
+          "time": "17:10",
+          "duration": "1h48m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/supergirl"
+        },
+        {
+          "title": "Minions & Monster",
+          "year": 2026,
           "time": "17:30",
           "duration": "1h30m",
           "language": "EN",
@@ -292,6 +136,17 @@
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "The Piano Tuner",
+          "year": 2025,
+          "time": "19:30",
+          "duration": "1h48m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-piano-tuner"
         },
         {
           "title": "BUGONIA",
@@ -310,6 +165,28 @@
       "day": "FRI",
       "date": "03.07",
       "movies": [
+        {
+          "title": "Minions & Monster",
+          "year": 2026,
+          "time": "13:00",
+          "duration": "1h30m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "14:15",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        },
         {
           "title": "Disclosure Day - Der Tag der Wahrheit",
           "year": 2026,
@@ -352,6 +229,28 @@
         {
           "title": "Minions & Monster",
           "year": 2026,
+          "time": "13:00",
+          "duration": "1h30m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "14:15",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        },
+        {
+          "title": "Minions & Monster",
+          "year": 2026,
           "time": "17:30",
           "duration": "1h30m",
           "language": "EN",
@@ -380,6 +279,17 @@
         {
           "title": "Minions & Monster",
           "year": 2026,
+          "time": "13:00",
+          "duration": "1h30m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "Minions & Monster",
+          "year": 2026,
           "time": "17:30",
           "duration": "1h30m",
           "language": "EN",
@@ -387,6 +297,17 @@
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "Backrooms",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "1h51m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms"
         },
         {
           "title": "Disclosure Day - Der Tag der Wahrheit",
@@ -408,6 +329,28 @@
         {
           "title": "Minions & Monster",
           "year": 2026,
+          "time": "13:00",
+          "duration": "1h30m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "14:15",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        },
+        {
+          "title": "Minions & Monster",
+          "year": 2026,
           "time": "17:30",
           "duration": "1h30m",
           "language": "EN",
@@ -415,6 +358,17 @@
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:30",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
         }
       ]
     },
@@ -425,13 +379,35 @@
         {
           "title": "Minions & Monster",
           "year": 2026,
-          "time": "17:30",
+          "time": "13:00",
           "duration": "1h30m",
           "language": "EN",
           "subtitles": null,
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "14:15",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "20:40",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
         }
       ]
     },
@@ -442,6 +418,39 @@
         {
           "title": "Minions & Monster",
           "year": 2026,
+          "time": "13:00",
+          "duration": "1h30m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "14:40",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        },
+        {
+          "title": "Supergirl",
+          "year": 2026,
+          "time": "17:10",
+          "duration": "1h48m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/supergirl"
+        },
+        {
+          "title": "Minions & Monster",
+          "year": 2026,
           "time": "17:30",
           "duration": "1h30m",
           "language": "EN",
@@ -449,248 +458,76 @@
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "The Piano Tuner",
+          "year": 2025,
+          "time": "19:30",
+          "duration": "1h48m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-piano-tuner"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "09.07",
+      "movies": [
+        {
+          "title": "Taxi Driver",
+          "year": 1976,
+          "time": "20:15",
+          "duration": "1h55m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/taxi-driver"
+        },
+        {
+          "title": "ERASERHEAD - engl. OmU",
+          "year": 1977,
+          "time": "22:30",
+          "duration": "1h29m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/00004924&anmerk=OmU-Nachtstudio-engl.%20OmU"
+        }
+      ]
+    },
+    {
+      "day": "SAT",
+      "date": "11.07",
+      "movies": [
+        {
+          "title": "Der weisse Hai",
+          "year": 1975,
+          "time": "22:45",
+          "duration": "2h4m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/01000749&anmerk=OmU-Nachtstudio-engl.%20OmU"
         }
       ]
     }
   ],
   "concerts": [
     {
-      "title": "LIONHEART (Hardcore / Kalifornien)",
-      "date": "25 Jun",
-      "day": "Do",
+      "title": "Malevolence (Metal / Sheffield)",
+      "date": "30 Jun",
+      "day": "Di",
       "time": "20:00",
       "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-06-25/6956",
+      "url": "https://www.beichezheinz.de/programm/2026-06-30/6649",
       "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Lionheart",
-      "date": "25 Jun",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/250626-lionheart.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Melrose Avenue – AUSVERKAUFT",
-      "date": "25 Jun",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/melrose-avenue/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Hervé Samb & Teranga Band",
-      "date": "25 Jun",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/82997/herve-samb-teranga-band",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Lionheart + Get The Shot + Cabal",
-      "date": "25 Jun",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/250626-lionheart.html",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Lionheart + Get The Shot + Cabal",
-      "date": "25 Jun",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Bei Chez Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-06-25",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "25 Jun",
-      "day": "Do",
-      "time": "20:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-43/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Goo (funky-Poppy-Punky / England)",
-      "date": "26 Jun",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-06-26/6795",
-      "eventType": "concert",
-      "genre": "funky-Poppy-Punky",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LUMARAA & SILLA (Urban-Hip Hop / Berlin)",
-      "date": "26 Jun",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-06-26/6773",
-      "eventType": "concert",
-      "genre": "Urban-Hip Hop",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Hallyunover",
-      "date": "26 Jun",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/260626-hallyunover.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "International Summer Party ESN x SVLatam",
-      "date": "26 Jun",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/260626-international-summer-party-esn-x-svlatam.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "SPARKLING SOULS",
-      "date": "26 Jun",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/sparkling-souls/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "OMAR",
-      "date": "26 Jun",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/omar/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Satans Mineons + Chester Park",
-      "date": "26 Jun",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Walhalla Skateclub",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Hannovers Jugend gegen Rassismus und Krieg",
-      "date": "27 Jun",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/270626-hannovers-jugend-gegen-rassismus-und-krieg.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Die 90er-Party",
-      "date": "27 Jun",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/270626-die-90er-party.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Awoko",
-      "date": "27 Jun",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juni/270626-awoko.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Get Lost + Glue + Live Goal",
-      "date": "27 Jun",
-      "day": "Sa",
-      "time": "20:00",
-      "venue": "Freiraum",
-      "url": "https://www.instagram.com/getlost.hc/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Pink Stiletto (New Wave/San Francisco)",
-      "date": "28 Jun",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-06-28/6846",
-      "eventType": "concert",
-      "genre": "New Wave",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Octopoulpe + Splitter",
-      "date": "28 Jun",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Kopernikus",
-      "url": "https://www.facebook.com/octopoulpes/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
+      "genre": "Metal",
       "description": null,
       "status": "available"
     },
@@ -751,6 +588,18 @@
       "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
       "eventType": "concert",
       "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Strung Out (Punkrock / Kalifornien)",
+      "date": "2 Jul",
+      "day": "Do",
+      "time": "20:00",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-07-02/6650",
+      "eventType": "concert",
+      "genre": "Punkrock",
       "description": null,
       "status": "available"
     },
@@ -882,6 +731,66 @@
       "venue": "Kulturpalast Linden",
       "url": "https://kulturpalast-hannover.de/event/lesung-mit-joe-fass/",
       "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LINDEN JAZZ SESSION",
+      "date": "9 Jul",
+      "day": "Do",
+      "time": "20:30",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-46/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "KONGRESS DER ZEUGEN JEHOVAS",
+      "date": "10 Jul",
+      "day": "Fr",
+      "time": "09:20",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/kongress-der-zeugen-jehovas-3/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rancoeur + Christmas",
+      "date": "10 Jul",
+      "day": "Fr",
+      "time": "20:00",
+      "venue": "Goldgrube",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Shellycoat + Friends with Boats",
+      "date": "11 Jul",
+      "day": "Sa",
+      "time": "20:00",
+      "venue": "Garage",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Dave Collide und Blake Cateris",
+      "date": "12 Jul",
+      "day": "So",
+      "time": "20:00",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/120726-dave-collide-und-blake-cateris.html",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
