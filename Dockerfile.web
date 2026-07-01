@@ -12,6 +12,14 @@ FROM oven/bun:1.2.23-alpine AS builder
 # Set working directory
 WORKDIR /app
 STOPSIGNAL SIGTERM
+
+# Astro needs the canonical production URL at build time for canonical tags,
+# Open Graph URLs, JSON-LD, and sitemap generation.
+ARG SITE
+ARG PUBLIC_SITE_URL
+ENV SITE=${SITE}
+ENV PUBLIC_SITE_URL=${PUBLIC_SITE_URL}
+
 # Copy package files for dependency installation
 COPY web/package.json web/bun.lock ./
 

@@ -51,6 +51,48 @@ const ogLocale = (() => {
   if (normalizedLang.includes('-')) return normalizedLang.replace('-', '_');
   return 'en_US';
 })();
+
+function toJsonLd(value: unknown): string {
+  // JSON-LD is injected into a script tag; escape closing tags if metadata becomes dynamic.
+  return JSON.stringify(value).replaceAll('</', '<\\/');
+}
+
+const structuredData = siteUrl ? toJsonLd({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': new URL('/#organization', siteUrl).toString(),
+      name: 'Boring Hannover',
+      alternateName: 'boringhannover',
+      url: new URL('/', siteUrl).toString(),
+      logo: new URL('/android-chrome-512x512.png', siteUrl).toString(),
+      image: new URL('/brand/og-image-1200x630.png', siteUrl).toString(),
+      description,
+      sameAs: ['https://github.com/BabakBar/BoringHannover'],
+      areaServed: {
+        '@type': 'City',
+        name: 'Hannover',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Hannover',
+          addressCountry: 'DE'
+        }
+      }
+    },
+    {
+      '@type': 'WebSite',
+      '@id': new URL('/#website', siteUrl).toString(),
+      name: 'Boring Hannover',
+      alternateName: 'boringhannover',
+      url: new URL('/', siteUrl).toString(),
+      inLanguage: normalizedLang,
+      publisher: {
+        '@id': new URL('/#organization', siteUrl).toString()
+      }
+    }
+  ]
+}) : undefined;
 ---
 
 <!doctype html>
@@ -84,6 +126,8 @@ const ogLocale = (() => {
     {ogImage && <meta name="twitter:image" content={ogImage} />}
 
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+
+    {structuredData && <script type="application/ld+json" set:html={structuredData}></script>}
 
     <!-- Theme - dynamic based on preference -->
     <meta name="theme-color" id="theme-color" content="#fafaf9" />

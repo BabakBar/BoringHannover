@@ -20,6 +20,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  SITE: https://boringhannover.de
+
 jobs:
   # Backend: Python tests and quality checks
   backend:
@@ -126,5 +129,7 @@ jobs:
           file: ./Dockerfile.web
           push: false
           tags: boringhannover-frontend:test
+          build-args: |
+            SITE=${{ env.SITE }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
