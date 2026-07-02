@@ -2,141 +2,13 @@
   "meta": {
     "week": 27,
     "year": 2026,
-    "updatedAt": "Mon 29 Jun 19:00"
+    "updatedAt": "Thu 02 Jul 18:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "29.06",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:10",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "30.06",
-      "movies": [
-        {
-          "title": "Die letzten Glühwürmchen",
-          "year": 1988,
-          "time": "19:45",
-          "duration": "1h25m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-letzten-gluehwuermchen"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "19:50",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "01.07",
-      "movies": [
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "15:00",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "15:10",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Supergirl",
-          "year": 2026,
-          "time": "17:20",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/supergirl"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "02.07",
       "movies": [
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "13:00",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "14:40",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "Supergirl",
-          "year": 2026,
-          "time": "17:10",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/supergirl"
-        },
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "17:30",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
         {
           "title": "The Piano Tuner",
           "year": 2025,
@@ -269,6 +141,17 @@
           "rating": "FSK16",
           "genre": null,
           "url": "https://www.apollokino.de/?v=&film=filme/00000378&anmerk=OmU-Nachtstudio%2C%20franz.%20OmU"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "22:40",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
         }
       ]
     },
@@ -520,78 +403,6 @@
   ],
   "concerts": [
     {
-      "title": "Malevolence (Metal / Sheffield)",
-      "date": "30 Jun",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-06-30/6649",
-      "eventType": "concert",
-      "genre": "Metal",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Angry Zeta",
-      "date": "30 Jun",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Cafe Glocksee",
-      "url": "https://www.cafe-glocksee.de/#/event/ruby-tuesday--angry-zeta-2026",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Malevolence, Dagger Threat, Torch",
-      "date": "30 Jun",
-      "day": "Di",
-      "time": "20:00",
-      "venue": "Bei Chez Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-06-30",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "ESCALUTION",
-      "date": "1 Jul",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/escalution/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "QUEENSRŸCHE und RIVERS OF NIHIL",
-      "date": "1 Jul",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/102096/queensryche-und-rivers-of-nihil",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Friends with Boats",
-      "date": "1 Jul",
-      "day": "Mi",
-      "time": "20:00",
-      "venue": "Kulturfabrik Loeseke",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
       "title": "Strung Out (Punkrock / Kalifornien)",
       "date": "2 Jul",
       "day": "Do",
@@ -624,18 +435,6 @@
       "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
       "eventType": "concert",
       "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "2 Jul",
-      "day": "Do",
-      "time": "20:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-44/",
-      "eventType": "event",
-      "genre": null,
       "description": null,
       "status": "available"
     },
@@ -791,6 +590,30 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/120726-dave-collide-und-blake-cateris.html",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | GLIMMER",
+      "date": "14 Jul",
+      "day": "Di",
+      "time": "00:00",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--glimmer",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Tablequiz",
+      "date": "15 Jul",
+      "day": "Mi",
+      "time": "19:00",
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/tablequiz-2026-07-15-19-00",
+      "eventType": "quiz",
       "genre": null,
       "description": null,
       "status": "available"
