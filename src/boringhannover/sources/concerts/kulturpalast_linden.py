@@ -12,6 +12,7 @@ from typing import ClassVar
 from ics import Calendar
 
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
@@ -88,9 +89,12 @@ class KulturpalastLindenSource(BaseSource):
             else:
                 event_date = event_date.astimezone(BERLIN_TZ)
 
-            # If it's an all-day event, default to 20:00 to avoid midnight in UI.
-            if getattr(ics_event, "all_day", False) and event_date.time().hour == 0:
+            time_confidence = CONFIRMED_TIME
+
+            # Date-only calendar entries need a sort anchor, not a displayed time.
+            if getattr(ics_event, "all_day", False):
                 event_date = event_date.replace(hour=20, minute=0)
+                time_confidence = FALLBACK_TIME
 
             url = str(getattr(ics_event, "url", "") or "").strip()
             if not url:
@@ -107,6 +111,7 @@ class KulturpalastLindenSource(BaseSource):
                 category="radar",
                 metadata={
                     "time": event_date.strftime("%H:%M"),
+                    "time_confidence": time_confidence,
                     "description": subtitle or "",
                     "event_type": "event",
                     "address": self.ADDRESS,

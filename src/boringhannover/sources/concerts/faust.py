@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     from bs4 import Tag
 
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
@@ -222,7 +223,9 @@ class FaustSource(BaseSource):
                 return None
 
             # Parse the structured content
-            title, time_str, location, price = self._parse_event_content(lines)
+            title, time_str, time_confidence, location, price = (
+                self._parse_event_content(lines)
+            )
 
             if not title:
                 return None
@@ -245,6 +248,7 @@ class FaustSource(BaseSource):
                 category="radar",
                 metadata={
                     "time": time_str,
+                    "time_confidence": time_confidence,
                     "location": location,  # Sub-venue within Faust
                     "price": price,
                     "event_type": event_type,
@@ -296,7 +300,7 @@ class FaustSource(BaseSource):
         except (ValueError, TypeError):
             return None
 
-    def _parse_event_content(self, lines: list[str]) -> tuple[str, str, str, str]:
+    def _parse_event_content(self, lines: list[str]) -> tuple[str, str, str, str, str]:
         """Parse event details from text content.
 
         Typical structure:
@@ -315,6 +319,8 @@ class FaustSource(BaseSource):
         """
         title = ""
         time_str = "20:00"
+        time_confidence = FALLBACK_TIME
+        expecting_time = False
         location = ""
         price = ""
 
@@ -323,21 +329,44 @@ class FaustSource(BaseSource):
             if re.match(r"^[A-Za-z]{2},\s*\d{1,2}\.\d{1,2}\.\d{2}", line):
                 continue
 
-            # Extract time from "Einlass: HH:MM" or "Beginn: HH:MM"
-            time_match = re.search(r"Beginn[:\s]*(\d{1,2})[:\.](\d{2})", line)
+            # Extract time from "Einlass / Beginn: 14 Uhr" or "Beginn: 19:30 Uhr".
+            time_match = re.search(
+                r"Beginn[:/\s]*(\d{1,2})(?:[:\.](\d{2}))?\s*Uhr?",
+                line,
+                re.IGNORECASE,
+            )
             if time_match:
-                time_str = f"{time_match.group(1)}:{time_match.group(2)}"
+                hour = int(time_match.group(1))
+                minute = time_match.group(2) or "00"
+                time_str = f"{hour:02d}:{minute}"
+                time_confidence = CONFIRMED_TIME
+                expecting_time = False
                 continue
 
             # Also check for simple time format
-            if "Einlass" in line or "Beginn" in line:
-                simple_time = re.search(r"(\d{1,2})[:\.](\d{2})\s*Uhr", line)
+            if "Einlass" in line or "Beginn" in line or expecting_time:
+                simple_time = re.search(
+                    r"(\d{1,2})(?:[:\.](\d{2}))?\s*Uhr",
+                    line,
+                    re.IGNORECASE,
+                )
                 if simple_time:
-                    time_str = f"{simple_time.group(1)}:{simple_time.group(2)}"
+                    hour = int(simple_time.group(1))
+                    minute = simple_time.group(2) or "00"
+                    time_str = f"{hour:02d}:{minute}"
+                    time_confidence = CONFIRMED_TIME
+                    expecting_time = False
+                else:
+                    expecting_time = True
                 continue
 
             # Extract price (VVK/AK pattern)
-            if "VVK" in line or "AK" in line or "€" in line:
+            if (
+                "VVK" in line
+                or "AK" in line
+                or "€" in line
+                or line.lower().startswith("eintritt")
+            ):
                 price = line
                 continue
 
@@ -349,8 +378,9 @@ class FaustSource(BaseSource):
                 "Kunsthalle",
                 "Café",
                 "Gretchen",
+                "Biergarten Gretchen",
             ]
-            if any(loc in line for loc in known_locations):
+            if line in known_locations:
                 location = line
                 continue
 
@@ -358,7 +388,7 @@ class FaustSource(BaseSource):
             if not title and len(line) > 3 and not line.startswith("Einlass"):
                 title = line
 
-        return title, time_str, location, price
+        return title, time_str, time_confidence, location, price
 
     def _extract_image_url(self, link: Tag) -> str:
         """Extract image URL from event link.

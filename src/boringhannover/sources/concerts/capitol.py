@@ -15,6 +15,7 @@ from bs4 import BeautifulSoup
 if TYPE_CHECKING:
     from bs4 import Tag
 
+from boringhannover.event_time import FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.sources.base import (
     BaseSource,
@@ -146,6 +147,7 @@ class CapitolSource(BaseSource):
                 category="radar",
                 metadata={
                     "time": event_date.strftime("%H:%M"),
+                    "time_confidence": FALLBACK_TIME,
                     "subtitle": subtitle,
                     "image_url": image_url,
                     "status": status,

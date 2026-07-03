@@ -23,6 +23,7 @@ export interface Concert {
   date: string;   // "29 Nov" or "28 Mar 2026"
   day: string;    // "Sa", "Fr", etc.
   time?: string | null;
+  timeConfidence?: "confirmed" | "fallback" | null;
   venue: string;
   url?: string | null;
   eventType?: string | null;    // "concert", "sport", "show"

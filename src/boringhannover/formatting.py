@@ -9,6 +9,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import get_display_time
 
 
 if TYPE_CHECKING:
@@ -227,9 +228,12 @@ def _format_concert_entry(event: Event) -> list[str]:
     # Date and venue on same line
     date_str = format_concert_date(event)
     venue_short = abbreviate_venue(event.venue)
-    time_str = event.metadata.get("time", "20:00")
+    time_str = get_display_time(event)
 
-    lines.append(f"  {date_str} | {time_str} @ {venue_short}")
+    if time_str:
+        lines.append(f"  {date_str} | {time_str} @ {venue_short}")
+    else:
+        lines.append(f"  {date_str} @ {venue_short}")
 
     return lines
 

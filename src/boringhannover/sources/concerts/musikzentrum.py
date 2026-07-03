@@ -17,6 +17,7 @@ from typing import Any, ClassVar
 from bs4 import BeautifulSoup
 
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
@@ -135,6 +136,7 @@ class MusikZentrumSource(BaseSource):
             event_date = self._parse_iso_date(start_date_str)
             if not event_date:
                 return None
+            time_confidence = CONFIRMED_TIME if "T" in start_date_str else FALLBACK_TIME
 
             # Extract URL
             event_url = item.get("url", self.URL)
@@ -159,6 +161,7 @@ class MusikZentrumSource(BaseSource):
                 category="radar",
                 metadata={
                     "time": event_date.strftime("%H:%M"),
+                    "time_confidence": time_confidence,
                     "image_url": image_url,
                     "description": description[:200] if description else "",
                     "event_type": "concert",

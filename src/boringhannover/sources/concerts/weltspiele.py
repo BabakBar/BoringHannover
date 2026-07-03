@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup, Tag
 
 from boringhannover.config import GERMAN_MONTH_MAP
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
@@ -179,6 +180,7 @@ class WeltspieleSource(BaseSource):
             return None
 
         time_str = None
+        time_confidence = FALLBACK_TIME
         page_title = None
         show_date, page_title, page_ok = self._fetch_event_page(client, entry.url)
         if show_date:
@@ -186,10 +188,12 @@ class WeltspieleSource(BaseSource):
             if parsed:
                 event_date = parsed
                 time_str = event_date.strftime("%H:%M")
+                time_confidence = CONFIRMED_TIME
 
         if not time_str:
             time_str = "22:00"
             event_date = event_date.replace(hour=22, minute=0)
+            time_confidence = FALLBACK_TIME
 
         title = page_title or entry.title
 
@@ -203,6 +207,7 @@ class WeltspieleSource(BaseSource):
             category="radar",
             metadata={
                 "time": time_str,
+                "time_confidence": time_confidence,
                 "subtitle": entry.lineup[:200] if entry.lineup else "",
                 "event_type": entry.tag or "club",
                 "address": self.ADDRESS,

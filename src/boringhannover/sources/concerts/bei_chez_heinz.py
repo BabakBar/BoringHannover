@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 
 from boringhannover.config import GERMAN_MONTH_MAP
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.genre import normalize_genre
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
@@ -158,8 +159,11 @@ class BeiChezHeinzSource(BaseSource):
 
             # Parse time from info text
             time_str = "20:00"
+            time_confidence = FALLBACK_TIME
             if info_text:
-                event_date, time_str = self._parse_date_time(info_text, event_date)
+                event_date, time_str, time_confidence = self._parse_date_time(
+                    info_text, event_date
+                )
 
             if not event_date:
                 return None
@@ -173,6 +177,7 @@ class BeiChezHeinzSource(BaseSource):
 
             metadata: dict[str, str | int | list[str]] = {
                 "time": time_str,
+                "time_confidence": time_confidence,
                 "price": price,
                 "event_type": "concert",
                 "address": self.ADDRESS,
@@ -200,7 +205,7 @@ class BeiChezHeinzSource(BaseSource):
 
     def _parse_date_time(
         self, text: str, existing_date: datetime | None = None
-    ) -> tuple[datetime | None, str]:
+    ) -> tuple[datetime | None, str, str]:
         """Parse date and time from event text.
 
         Handles formats like:
@@ -216,6 +221,7 @@ class BeiChezHeinzSource(BaseSource):
         """
         event_date = existing_date
         time_str = "20:00"
+        time_confidence = FALLBACK_TIME
 
         # Parse date if not provided: "Samstag 22. November 2025" or "22. November 2025"
         if not event_date:
@@ -238,6 +244,7 @@ class BeiChezHeinzSource(BaseSource):
         if beginn_match:
             hour, minute = beginn_match.groups()
             time_str = f"{int(hour)}:{minute}"
+            time_confidence = CONFIRMED_TIME
             if event_date:
                 event_date = event_date.replace(hour=int(hour), minute=int(minute))
         else:
@@ -248,10 +255,11 @@ class BeiChezHeinzSource(BaseSource):
                 # Concerts typically start 1 hour after doors
                 start_hour = min(int(hour) + 1, 23)
                 time_str = f"{start_hour}:{minute}"
+                time_confidence = CONFIRMED_TIME
                 if event_date:
                     event_date = event_date.replace(hour=start_hour, minute=int(minute))
 
-        return event_date, time_str
+        return event_date, time_str, time_confidence
 
     def _parse_date_from_url(self, href: str) -> datetime | None:
         """Extract date from URL pattern.

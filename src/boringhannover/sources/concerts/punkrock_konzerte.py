@@ -14,12 +14,14 @@ from typing import TYPE_CHECKING, ClassVar
 from bs4 import BeautifulSoup
 
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
 
 if TYPE_CHECKING:
     from bs4 import Tag
+    from httpx import Client
 
 __all__ = ["PunkrockKonzerteSource"]
 
@@ -59,12 +61,14 @@ class PunkrockKonzerteSource(BaseSource):
             response = client.get(self.URL)
             response.raise_for_status()
             soup = BeautifulSoup(response.text, "html.parser")
+            events = self._parse_events(soup, client)
 
-        events = self._parse_events(soup)
         logger.info("Found %d events from %s", len(events), self.source_name)
         return events
 
-    def _parse_events(self, soup: BeautifulSoup) -> list[Event]:
+    def _parse_events(
+        self, soup: BeautifulSoup, client: Client | None = None
+    ) -> list[Event]:
         """Parse all events from the Hannover listings page.
 
         Args:
@@ -78,7 +82,7 @@ class PunkrockKonzerteSource(BaseSource):
         for row in soup.select(
             "div.row[itemscope][itemtype='http://schema.org/Event']"
         ):
-            event = self._parse_event(row)
+            event = self._parse_event(row, client)
             if event:
                 events.append(event)
                 if self.max_events and len(events) >= self.max_events:
@@ -86,7 +90,7 @@ class PunkrockKonzerteSource(BaseSource):
 
         return events
 
-    def _parse_event(self, row: Tag) -> Event | None:
+    def _parse_event(self, row: Tag, client: Client | None = None) -> Event | None:
         """Parse a single event row.
 
         Args:
@@ -100,7 +104,7 @@ class PunkrockKonzerteSource(BaseSource):
             if not title:
                 return None
 
-            event_date = self._extract_date(row)
+            event_date, time_confidence = self._extract_date(row)
             if not event_date:
                 return None
 
@@ -110,6 +114,11 @@ class PunkrockKonzerteSource(BaseSource):
             venue = self._extract_venue(row) or self.source_name
             city = self._extract_city(row)
             url = self._extract_url(row) or self.URL
+            if time_confidence == FALLBACK_TIME:
+                enriched = self._fetch_confirmed_datetime(client, url)
+                if enriched:
+                    event_date = enriched
+                    time_confidence = CONFIRMED_TIME
 
             return Event(
                 title=title,
@@ -119,6 +128,7 @@ class PunkrockKonzerteSource(BaseSource):
                 category="radar",
                 metadata={
                     "time": event_date.strftime("%H:%M"),
+                    "time_confidence": time_confidence,
                     "event_type": "concert",
                     "genre": "Punk / Hardcore",
                     "genre_source": "source_implicit",
@@ -149,31 +159,36 @@ class PunkrockKonzerteSource(BaseSource):
         return city_elem.get_text(strip=True)
 
     def _extract_url(self, row: Tag) -> str:
-        link = row.select_one("a.info")
-        if link and link.get("href"):
-            return str(link["href"])
-
         meta_url = row.select_one("meta[itemprop='url']")
         if meta_url and meta_url.get("content"):
             return str(meta_url["content"])
 
+        link = row.select_one("a.info")
+        if link and link.get("href"):
+            return str(link["href"])
+
         return ""
 
-    def _extract_date(self, row: Tag) -> datetime | None:
+    def _extract_date(self, row: Tag) -> tuple[datetime | None, str]:
         start_meta = row.select_one("meta[itemprop='startDate']")
         if start_meta and start_meta.get("content"):
             parsed = self._parse_iso_date(str(start_meta["content"]))
             if parsed:
-                return parsed
+                confidence = (
+                    CONFIRMED_TIME
+                    if "T" in str(start_meta["content"])
+                    else FALLBACK_TIME
+                )
+                return parsed, confidence
 
         date_box = row.find("div", class_="dateBox")
         if date_box:
             text = date_box.get_text(" ", strip=True)
             match = re.search(r"\b(\d{2}\.\d{2}\.\d{4})\b", text)
             if match:
-                return self._parse_german_numeric_date(match.group(1))
+                return self._parse_german_numeric_date(match.group(1)), FALLBACK_TIME
 
-        return None
+        return None, FALLBACK_TIME
 
     def _parse_iso_date(self, value: str) -> datetime | None:
         try:
@@ -209,3 +224,37 @@ class PunkrockKonzerteSource(BaseSource):
         except ValueError as exc:
             logger.debug("Failed to parse date '%s': %s", value, exc)
             return None
+
+    def _fetch_confirmed_datetime(
+        self, client: Client | None, url: str
+    ) -> datetime | None:
+        """Fetch confirmed time from known first-party event detail pages."""
+        if client is None or "kulturpalast-hannover.de/event/" not in url:
+            return None
+
+        try:
+            response = client.get(url)
+            response.raise_for_status()
+        except Exception as exc:
+            logger.debug("Failed to enrich Punkrock event time from %s: %s", url, exc)
+            return None
+
+        return self._parse_kulturpalast_datetime(response.text)
+
+    def _parse_kulturpalast_datetime(self, html: str) -> datetime | None:
+        soup = BeautifulSoup(html, "html.parser")
+        for script in soup.find_all("script", type="application/ld+json"):
+            if not script.string:
+                continue
+            match = re.search(r'"startDate"\s*:\s*"([^"]+)"', script.string)
+            if not match:
+                continue
+            try:
+                parsed = datetime.fromisoformat(match.group(1))
+            except ValueError:
+                continue
+            if parsed.tzinfo is None or parsed.tzinfo.utcoffset(parsed) is None:
+                return parsed.replace(tzinfo=BERLIN_TZ)
+            return parsed.astimezone(BERLIN_TZ)
+
+        return None

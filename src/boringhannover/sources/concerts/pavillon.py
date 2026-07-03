@@ -15,6 +15,7 @@ from typing import ClassVar
 from bs4 import BeautifulSoup, Tag
 
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
@@ -185,7 +186,7 @@ class PavillonSource(BaseSource):
 
             # Parse date and time from text
             # Format: "Sa | 22.11.2025 | 18:30 Uhr"
-            event_date, time_str = self._parse_date_time(text)
+            event_date, time_str, time_confidence = self._parse_date_time(text)
             if not event_date:
                 return None
 
@@ -200,6 +201,7 @@ class PavillonSource(BaseSource):
 
             metadata: dict[str, str | int | list[str]] = {
                 "time": time_str,
+                "time_confidence": time_confidence,
                 "event_type": "concert",
                 "address": self.ADDRESS,
             }
@@ -220,7 +222,7 @@ class PavillonSource(BaseSource):
             logger.debug("Error parsing %s event: %s", self.source_name, exc)
             return None
 
-    def _parse_date_time(self, text: str) -> tuple[datetime | None, str]:
+    def _parse_date_time(self, text: str) -> tuple[datetime | None, str, str]:
         """Parse date and time from event text.
 
         Format: "Sa | 22.11.2025 | 18:30 Uhr"
@@ -233,6 +235,7 @@ class PavillonSource(BaseSource):
         """
         event_date = None
         time_str = "20:00"
+        time_confidence = FALLBACK_TIME
 
         # Extract date: DD.MM.YYYY
         date_match = re.search(r"(\d{1,2})\.(\d{1,2})\.(\d{4})", text)
@@ -250,10 +253,11 @@ class PavillonSource(BaseSource):
         if time_match:
             hour, minute = time_match.groups()
             time_str = f"{int(hour)}:{minute}"
+            time_confidence = CONFIRMED_TIME
             if event_date:
                 event_date = event_date.replace(hour=int(hour), minute=int(minute))
 
-        return event_date, time_str
+        return event_date, time_str, time_confidence
 
     def _extract_title(self, text: str) -> str:
         """Extract event title from text.

@@ -9,6 +9,8 @@ import csv
 import logging
 from typing import TYPE_CHECKING
 
+from boringhannover.event_time import get_display_time, get_time_confidence
+
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -166,6 +168,7 @@ def export_concerts_csv(
         "artist",
         "date",
         "time",
+        "time_confidence",
         "venue",
         "event_type",
         "status",
@@ -184,7 +187,8 @@ def export_concerts_csv(
                     "week": week_num,
                     "artist": event.title,
                     "date": event.date.strftime("%Y-%m-%d"),
-                    "time": event.metadata.get("time", "20:00"),
+                    "time": get_display_time(event) or "",
+                    "time_confidence": get_time_confidence(event),
                     "venue": event.venue,
                     "event_type": event.metadata.get("event_type", "concert"),
                     "status": event.metadata.get("status", "available"),

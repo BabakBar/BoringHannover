@@ -14,6 +14,7 @@ from typing import ClassVar
 from bs4 import BeautifulSoup, Tag
 
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME
 from boringhannover.genre import normalize_genre
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
@@ -117,6 +118,7 @@ class BroncosSource(BaseSource):
                 category="radar",
                 metadata={
                     "time": event_date.strftime("%H:%M"),
+                    "time_confidence": CONFIRMED_TIME,
                     "genre": genre or raw_genre or "",
                     "genre_source": "stadtkind_tagline" if raw_genre else "",
                     "event_type": "concert",

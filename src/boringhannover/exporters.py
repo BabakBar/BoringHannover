@@ -25,6 +25,11 @@ from boringhannover.csv_exporters import (
     export_movies_csv,
     export_movies_grouped_csv,
 )
+from boringhannover.event_time import (
+    UNKNOWN_TIME_LABEL,
+    get_display_time,
+    get_time_confidence,
+)
 from boringhannover.sanitize import (
     MAX_TITLE_LENGTH,
     MAX_VENUE_LENGTH,
@@ -142,7 +147,8 @@ def export_enhanced_json(
                 "date": e.date.isoformat(),
                 "venue": e.venue,
                 "url": e.url,
-                "time": e.metadata.get("time", "20:00"),
+                "time": get_display_time(e),
+                "time_confidence": get_time_confidence(e),
                 "event_type": e.metadata.get("event_type", "concert"),
                 "status": e.metadata.get("status", "available"),
                 "image_url": e.metadata.get("image_url", ""),
@@ -294,7 +300,8 @@ def export_web_json(
                 "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
                 "date": date_display,
                 "day": day_name,
-                "time": event.metadata.get("time", "20:00"),
+                "time": get_display_time(event),
+                "timeConfidence": get_time_confidence(event),
                 "venue": sanitize_text(event.venue, MAX_VENUE_LENGTH),
                 "url": sanitize_url(event.url),
                 "eventType": (
@@ -435,7 +442,7 @@ def export_markdown_digest(
 
     for event in concerts:
         date_str = event.date.strftime("%Y-%m-%d")
-        time_str = event.metadata.get("time", "20:00")
+        time_str = get_display_time(event) or UNKNOWN_TIME_LABEL
         status = event.metadata.get("status", "available")
         status_display = "Available" if status == "available" else "Sold Out"
 

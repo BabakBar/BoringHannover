@@ -15,6 +15,7 @@ from bs4 import BeautifulSoup
 
 from boringhannover.config import GERMAN_MONTH_MAP
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 
 
 if TYPE_CHECKING:
@@ -121,7 +122,7 @@ class ZAGArenaSource(BaseSource):
             title = title_elem.get_text(strip=True)
 
             # Parse date from date-time element
-            event_date, time_str = self._parse_date(item)
+            event_date, time_str, time_confidence = self._parse_date(item)
             if not event_date:
                 return None
 
@@ -148,6 +149,7 @@ class ZAGArenaSource(BaseSource):
                 category="radar",
                 metadata={
                     "time": time_str,
+                    "time_confidence": time_confidence,
                     "event_type": event_type,
                     "image_url": image_url,
                     "address": self.ADDRESS,
@@ -158,7 +160,7 @@ class ZAGArenaSource(BaseSource):
             logger.debug("Error parsing %s event: %s", self.source_name, exc)
             return None
 
-    def _parse_date(self, item: Tag) -> tuple[datetime | None, str]:
+    def _parse_date(self, item: Tag) -> tuple[datetime | None, str, str]:
         """Parse date and time from event item.
 
         Args:
@@ -169,6 +171,7 @@ class ZAGArenaSource(BaseSource):
         """
         event_date = None
         time_str = "20:00"
+        time_confidence = FALLBACK_TIME
 
         # Try date-time text element first
         date_time_elem = item.select_one(self.SELECTOR_DATE_TIME)
@@ -179,6 +182,7 @@ class ZAGArenaSource(BaseSource):
             time_match = re.search(r"(\d{1,2}):(\d{2})", date_text)
             if time_match:
                 time_str = f"{time_match.group(1)}:{time_match.group(2)}"
+                time_confidence = CONFIRMED_TIME
 
         if not event_date:
             # Fallback to day/month elements
@@ -197,7 +201,7 @@ class ZAGArenaSource(BaseSource):
                 except (ValueError, TypeError):
                     pass
 
-        return event_date, time_str
+        return event_date, time_str, time_confidence
 
     def _extract_image_url(self, item: Tag) -> str:
         """Extract image URL from event item.

@@ -9,10 +9,12 @@ Website: https://cafe-glocksee.de
 from __future__ import annotations
 
 import logging
+import re
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, ClassVar
 
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
@@ -189,6 +191,11 @@ class GlockseeSource(BaseSource):
 
             event_date = datetime.fromisoformat(datetime_str)
             event_date = event_date.astimezone(BERLIN_TZ)
+            time_confidence = (
+                FALLBACK_TIME
+                if event_date.hour == 0 and event_date.minute == 0
+                else CONFIRMED_TIME
+            )
 
             # Skip past events
             if event_date < now:
@@ -219,6 +226,14 @@ class GlockseeSource(BaseSource):
             if isinstance(teaser_image, dict):
                 image_url = teaser_image.get("url", "")
 
+            confirmed_time = self._extract_confirmed_time(data)
+            if confirmed_time:
+                hour, minute = confirmed_time
+                event_date = event_date.replace(hour=hour, minute=minute)
+                time_confidence = CONFIRMED_TIME
+            elif time_confidence == FALLBACK_TIME:
+                event_date = event_date.replace(hour=20, minute=0)
+
             # Extract support bands
             support_bands = []
             bands = data.get("bands", [])
@@ -238,6 +253,7 @@ class GlockseeSource(BaseSource):
                 category="radar",
                 metadata={
                     "time": event_date.strftime("%H:%M"),
+                    "time_confidence": time_confidence,
                     "event_type": event_type,
                     "description": description[:300] if description else "",
                     "image_url": image_url,
@@ -249,3 +265,25 @@ class GlockseeSource(BaseSource):
         except Exception as exc:
             logger.debug("Error parsing %s event: %s", self.source_name, exc)
             return None
+
+    def _extract_confirmed_time(self, data: dict[str, Any]) -> tuple[int, int] | None:
+        """Extract a start time from Prismic info_list entries."""
+        info_list = data.get("info_list", [])
+        if not isinstance(info_list, list):
+            return None
+
+        for item in info_list:
+            if not isinstance(item, dict):
+                continue
+            info = str(item.get("info", ""))
+            if "beginn" not in info.lower():
+                continue
+            match = re.search(r"(\d{1,2})[.:](\d{2})", info)
+            if not match:
+                match = re.search(r"(\d{1,2})\s*Uhr", info, re.IGNORECASE)
+            if match:
+                hour = int(match.group(1))
+                minute = int(match.group(2)) if len(match.groups()) > 1 else 0
+                return hour, minute
+
+        return None

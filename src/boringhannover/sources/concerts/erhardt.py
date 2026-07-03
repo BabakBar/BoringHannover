@@ -20,6 +20,7 @@ from datetime import datetime
 from typing import Any, ClassVar
 
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
@@ -201,6 +202,7 @@ class ErhardtCafeSource(BaseSource):
 
             # Get formatted time from scheduling (None if not available)
             time_str = scheduling.get("startTimeFormatted") or ""
+            time_confidence = CONFIRMED_TIME if time_str else FALLBACK_TIME
 
             # Get location
             location = event_data.get("location", {})
@@ -223,7 +225,8 @@ class ErhardtCafeSource(BaseSource):
                 url=event_url,
                 category="radar",
                 metadata={
-                    "time": time_str,
+                    "time": time_str or event_date.strftime("%H:%M"),
+                    "time_confidence": time_confidence,
                     "event_type": event_type,
                     "address": address,
                     "description": description[:200] if description else "",

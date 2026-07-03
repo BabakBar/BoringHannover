@@ -17,6 +17,8 @@ Yet the Goethe Institut calls it "[probably the most underrated city in the worl
 **Cinema:** Astor Grand (OV films only)
 **Concerts/events:** ZAG Arena, Swiss Life Hall, Capitol, Faust, Pavillon, MusikZentrum, Béi Chéz Heinz, Erhardt Café, Glocksee, Punkrock-Konzerte, Kulturpalast Linden, Broncos, Weltspiele (Weidendamm)
 
+Timing accuracy policy and current audit status: [TIMING_ACCURACY.md](TIMING_ACCURACY.md)
+
 ## Development
 
 **Backend (Python 3.13+):**
