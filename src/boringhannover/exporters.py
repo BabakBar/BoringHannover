@@ -36,6 +36,7 @@ from boringhannover.sanitize import (
     sanitize_text,
     sanitize_url,
 )
+from boringhannover.sources import get_all_sources
 
 
 if TYPE_CHECKING:
@@ -94,12 +95,9 @@ def export_enhanced_json(
             "week": week_num,
             "year": year,
             "generated_at": datetime.now(BERLIN_TZ).isoformat(),
-            "sources": [
-                "Astor Grand Cinema",
-                "ZAG Arena",
-                "Swiss Life Hall",
-                "Capitol Hannover",
-            ],
+            "sources": sorted(
+                {cls.source_name for cls in get_all_sources().values() if cls.enabled}
+            ),
             "total_movie_showtimes": len(movies),
             "total_unique_films": len(grouped_movies),
             "total_concerts": len(concerts),
