@@ -1,247 +1,14 @@
 {
   "meta": {
-    "week": 27,
+    "week": 28,
     "year": 2026,
-    "updatedAt": "Thu 02 Jul 18:00"
+    "updatedAt": "Mon 06 Jul 19:00"
   },
   "movies": [
-    {
-      "day": "THU",
-      "date": "02.07",
-      "movies": [
-        {
-          "title": "The Piano Tuner",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-piano-tuner"
-        },
-        {
-          "title": "BUGONIA",
-          "year": 2025,
-          "time": "22:30",
-          "duration": "2h",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00005165&anmerk=OmU-Nachtstudio-engl.OmU"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "03.07",
-      "movies": [
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "13:00",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "14:15",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "Disclosure Day - Der Tag der Wahrheit",
-          "year": 2026,
-          "time": "16:45",
-          "duration": "2h25m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/disclosure-day-der-tag-der-wahrheit"
-        },
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "17:30",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Das Drama",
-          "year": 2026,
-          "time": "22:45",
-          "duration": "1h40m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00005276&anmerk=OmU-Nachtstudio-engl.%20OmU"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "04.07",
-      "movies": [
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "13:00",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "14:15",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "17:30",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "AUSSER ATEM",
-          "year": 1960,
-          "time": "22:30",
-          "duration": "1h27m",
-          "language": "FR",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00000378&anmerk=OmU-Nachtstudio%2C%20franz.%20OmU"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "22:40",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "05.07",
-      "movies": [
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "13:00",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "17:30",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Backrooms",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "1h51m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/backrooms"
-        },
-        {
-          "title": "Disclosure Day - Der Tag der Wahrheit",
-          "year": 2026,
-          "time": "20:00",
-          "duration": "2h25m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/disclosure-day-der-tag-der-wahrheit"
-        }
-      ]
-    },
     {
       "day": "MON",
       "date": "06.07",
       "movies": [
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "13:00",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "14:15",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "17:30",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
         {
           "title": "Sneak Preview (OV)",
           "year": 0,
@@ -360,6 +127,39 @@
       "date": "09.07",
       "movies": [
         {
+          "title": "Minions & Monster",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h30m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "17:25",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        },
+        {
+          "title": "Backrooms: Everything Must Go",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
+        },
+        {
           "title": "Taxi Driver",
           "year": 1976,
           "time": "20:15",
@@ -384,9 +184,37 @@
       ]
     },
     {
+      "day": "FRI",
+      "date": "10.07",
+      "movies": [
+        {
+          "title": "Backrooms: Everything Must Go",
+          "year": 2026,
+          "time": "17:25",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
+        }
+      ]
+    },
+    {
       "day": "SAT",
       "date": "11.07",
       "movies": [
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "17:25",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        },
         {
           "title": "Der weisse Hai",
           "year": 1975,
@@ -399,110 +227,239 @@
           "url": "https://www.apollokino.de/?v=&film=filme/01000749&anmerk=OmU-Nachtstudio-engl.%20OmU"
         }
       ]
+    },
+    {
+      "day": "SUN",
+      "date": "12.07",
+      "movies": [
+        {
+          "title": "Backrooms: Everything Must Go",
+          "year": 2026,
+          "time": "17:25",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "13.07",
+      "movies": [
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "17:25",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        },
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:30",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "14.07",
+      "movies": [
+        {
+          "title": "Minions & Monster",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h30m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
+        },
+        {
+          "title": "Backrooms: Everything Must Go",
+          "year": 2026,
+          "time": "17:25",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "15.07",
+      "movies": [
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "17:25",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
+        },
+        {
+          "title": "Backrooms: Everything Must Go",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "16.07",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "HAMNET",
+          "year": 2025,
+          "time": "22:30",
+          "duration": "2h5m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/00005202&anmerk=OmU-Nachtstudio%20%96%20engl.%20OmU"
+        }
+      ]
+    },
+    {
+      "day": "FRI",
+      "date": "17.07",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "LOST HIGHWAY - engl. OmU",
+          "year": 1997,
+          "time": "22:45",
+          "duration": "2h15m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/00004927&anmerk=OmU-Nachtstudio%20%96"
+        }
+      ]
+    },
+    {
+      "day": "SAT",
+      "date": "18.07",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Oldboy",
+          "year": 2003,
+          "time": "22:30",
+          "duration": "2h",
+          "language": "KR",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/01001121&anmerk=OmU-Nachtstudio%20-%20kor.%20OmU"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "19.07",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Strung Out (Punkrock / Kalifornien)",
-      "date": "2 Jul",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-07-02/6650",
-      "eventType": "concert",
-      "genre": "Punkrock",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Strung Out + The Corps",
-      "date": "2 Jul",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-07-02",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Letzte Hoffnung",
-      "date": "2 Jul",
-      "day": "Do",
-      "time": "20:00",
-      "venue": "Subkultur",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "ACHTUNG AUSFALL! NAZCAN DOGAN MIT BAND & AMAPOLA",
-      "date": "3 Jul",
-      "day": "Fr",
-      "time": "20:00",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/nazcan-dogan-mit-band-amapola/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "PÜNK FLÖYD - TRIBUTE ALS BENEFIZ",
-      "date": "4 Jul",
-      "day": "Sa",
-      "time": "19:30",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/puenk-floeyd-tribute-als-benefiz/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Eintritt: frei",
-      "date": "5 Jul",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/050726-swinging-gretchen.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Shellycoat + Friends with Boats",
-      "date": "5 Jul",
-      "day": "So",
-      "time": "20:00",
-      "venue": "Stumpf",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Ruby Tuesday | JAMES LEG",
-      "date": "7 Jul",
-      "day": "Di",
-      "time": "00:00",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--james-leg-2026",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "LOWER CLASS BRATS & TBA",
       "date": "7 Jul",
       "day": "Di",
       "time": "20:00",
+      "timeConfidence": "confirmed",
       "venue": "Kulturpalast Linden",
       "url": "https://kulturpalast-hannover.de/event/lower-class-brats-tba/",
       "eventType": "event",
@@ -515,6 +472,7 @@
       "date": "7 Jul",
       "day": "Di",
       "time": "20:00",
+      "timeConfidence": "confirmed",
       "venue": "Kulturpalast",
       "url": "https://kulturpalast-hannover.de/event/lower-class-brats-tba/",
       "eventType": "concert",
@@ -523,10 +481,24 @@
       "status": "available"
     },
     {
+      "title": "Ruby Tuesday | JAMES LEG",
+      "date": "7 Jul",
+      "day": "Di",
+      "time": "21:15",
+      "timeConfidence": "confirmed",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--james-leg-2026",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "LESUNG MIT JOE FASS",
       "date": "8 Jul",
       "day": "Mi",
       "time": "19:00",
+      "timeConfidence": "confirmed",
       "venue": "Kulturpalast Linden",
       "url": "https://kulturpalast-hannover.de/event/lesung-mit-joe-fass/",
       "eventType": "event",
@@ -539,6 +511,7 @@
       "date": "9 Jul",
       "day": "Do",
       "time": "20:30",
+      "timeConfidence": "confirmed",
       "venue": "Kulturpalast Linden",
       "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-46/",
       "eventType": "event",
@@ -551,6 +524,7 @@
       "date": "10 Jul",
       "day": "Fr",
       "time": "09:20",
+      "timeConfidence": "confirmed",
       "venue": "ZAG Arena",
       "url": "https://www.zag-arena-hannover.de/veranstaltung/kongress-der-zeugen-jehovas-3/",
       "eventType": "concert",
@@ -562,7 +536,8 @@
       "title": "Rancoeur + Christmas",
       "date": "10 Jul",
       "day": "Fr",
-      "time": "20:00",
+      "time": null,
+      "timeConfidence": "fallback",
       "venue": "Goldgrube",
       "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
       "eventType": "concert",
@@ -574,7 +549,8 @@
       "title": "Shellycoat + Friends with Boats",
       "date": "11 Jul",
       "day": "Sa",
-      "time": "20:00",
+      "time": null,
+      "timeConfidence": "fallback",
       "venue": "Garage",
       "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
       "eventType": "concert",
@@ -586,7 +562,8 @@
       "title": "Dave Collide und Blake Cateris",
       "date": "12 Jul",
       "day": "So",
-      "time": "20:00",
+      "time": "14:00",
+      "timeConfidence": "confirmed",
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/120726-dave-collide-und-blake-cateris.html",
       "eventType": "concert",
@@ -598,7 +575,8 @@
       "title": "Ruby Tuesday | GLIMMER",
       "date": "14 Jul",
       "day": "Di",
-      "time": "00:00",
+      "time": "21:15",
+      "timeConfidence": "confirmed",
       "venue": "Glocksee",
       "url": "https://cafe-glocksee.de#/event/ruby-tuesday--glimmer",
       "eventType": "Konzert",
@@ -611,9 +589,88 @@
       "date": "15 Jul",
       "day": "Mi",
       "time": "19:00",
+      "timeConfidence": "confirmed",
       "venue": "Erhardt Café",
       "url": "https://www.erhardt.cafe/event-details/tablequiz-2026-07-15-19-00",
       "eventType": "quiz",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "SUMMER OF JAPANESE MUSIC",
+      "date": "16 Jul",
+      "day": "Do",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/102321/summer-of-japanese-music",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rob Humphrey feat. Karolina",
+      "date": "16 Jul",
+      "day": "Do",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/160726-rob-humphrey-feat-karolina.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LINDEN JAZZ SESSION",
+      "date": "16 Jul",
+      "day": "Do",
+      "time": "20:30",
+      "timeConfidence": "confirmed",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-47/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Die 90er-Party",
+      "date": "17 Jul",
+      "day": "Fr",
+      "time": "23:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/170726-die-90er-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "VIVA PUNK & BILL COLLINS Achtung neuer Termin TBA!",
+      "date": "17 Jul",
+      "day": "Fr",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/viva-punk-bill-collins/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Party 2000",
+      "date": "18 Jul",
+      "day": "Sa",
+      "time": "23:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/180726-party-2000.html",
+      "eventType": "party",
       "genre": null,
       "description": null,
       "status": "available"
