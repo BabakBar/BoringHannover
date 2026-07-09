@@ -2,152 +2,13 @@
   "meta": {
     "week": 28,
     "year": 2026,
-    "updatedAt": "Mon 06 Jul 19:00"
+    "updatedAt": "Thu 09 Jul 18:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "06.07",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:30",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "07.07",
-      "movies": [
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "13:00",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "14:15",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "20:40",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "08.07",
-      "movies": [
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "13:00",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "14:40",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "Supergirl",
-          "year": 2026,
-          "time": "17:10",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/supergirl"
-        },
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "17:30",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "The Piano Tuner",
-          "year": 2025,
-          "time": "19:30",
-          "duration": "1h48m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-piano-tuner"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "09.07",
       "movies": [
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "17:25",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
         {
           "title": "Backrooms: Everything Must Go",
           "year": 2026,
@@ -451,61 +312,71 @@
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         }
       ]
+    },
+    {
+      "day": "MON",
+      "date": "20.07",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "21.07",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "22.07",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "LOWER CLASS BRATS & TBA",
-      "date": "7 Jul",
-      "day": "Di",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/lower-class-brats-tba/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Lower Class Brats",
-      "date": "7 Jul",
-      "day": "Di",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "venue": "Kulturpalast",
-      "url": "https://kulturpalast-hannover.de/event/lower-class-brats-tba/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Ruby Tuesday | JAMES LEG",
-      "date": "7 Jul",
-      "day": "Di",
-      "time": "21:15",
-      "timeConfidence": "confirmed",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--james-leg-2026",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LESUNG MIT JOE FASS",
-      "date": "8 Jul",
-      "day": "Mi",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/lesung-mit-joe-fass/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "LINDEN JAZZ SESSION",
       "date": "9 Jul",
@@ -598,6 +469,19 @@
       "status": "available"
     },
     {
+      "title": "Pop Night 2026",
+      "date": "16 Jul",
+      "day": "Do",
+      "time": "18:00",
+      "timeConfidence": "confirmed",
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/pop-night-2026/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "SUMMER OF JAPANESE MUSIC",
       "date": "16 Jul",
       "day": "Do",
@@ -671,6 +555,71 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/180726-party-2000.html",
       "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "MDC + Barackca + die ueblichen",
+      "date": "20 Jul",
+      "day": "Mo",
+      "time": null,
+      "timeConfidence": "fallback",
+      "venue": "SV Arminia, Bischofsholer Damm 119",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LAS HIENAS & PING PONG DIE BAND",
+      "date": "21 Jul",
+      "day": "Di",
+      "time": "19:30",
+      "timeConfidence": "confirmed",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/las-hienas-ping-pong-die-band/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Ruby Tuesday | LEAVING THE ORBIT",
+      "date": "21 Jul",
+      "day": "Di",
+      "time": "21:00",
+      "timeConfidence": "confirmed",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--leaving-the-orbit-2026",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "COSMIC SLOP SESSION-NIGHT",
+      "date": "22 Jul",
+      "day": "Mi",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/cosmic-slop-session-night-4/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "FINALS 2026 HANNOVER",
+      "date": "23 Jul",
+      "day": "Do",
+      "time": "11:00",
+      "timeConfidence": "confirmed",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/finals-2026-hannover-2/",
+      "eventType": "concert",
       "genre": null,
       "description": null,
       "status": "available"
