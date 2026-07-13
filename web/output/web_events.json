@@ -1,137 +1,14 @@
 {
   "meta": {
-    "week": 28,
+    "week": 29,
     "year": 2026,
-    "updatedAt": "Thu 09 Jul 18:00"
+    "updatedAt": "Mon 13 Jul 19:00"
   },
   "movies": [
-    {
-      "day": "THU",
-      "date": "09.07",
-      "movies": [
-        {
-          "title": "Backrooms: Everything Must Go",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
-        },
-        {
-          "title": "Taxi Driver",
-          "year": 1976,
-          "time": "20:15",
-          "duration": "1h55m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/taxi-driver"
-        },
-        {
-          "title": "ERASERHEAD - engl. OmU",
-          "year": 1977,
-          "time": "22:30",
-          "duration": "1h29m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00004924&anmerk=OmU-Nachtstudio-engl.%20OmU"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "10.07",
-      "movies": [
-        {
-          "title": "Backrooms: Everything Must Go",
-          "year": 2026,
-          "time": "17:25",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "11.07",
-      "movies": [
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "17:25",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "Der weisse Hai",
-          "year": 1975,
-          "time": "22:45",
-          "duration": "2h4m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/01000749&anmerk=OmU-Nachtstudio-engl.%20OmU"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "12.07",
-      "movies": [
-        {
-          "title": "Backrooms: Everything Must Go",
-          "year": 2026,
-          "time": "17:25",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
-        },
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        }
-      ]
-    },
     {
       "day": "MON",
       "date": "13.07",
       "movies": [
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "17:25",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
         {
           "title": "Sneak Preview (OV)",
           "year": 0,
@@ -206,9 +83,42 @@
       "date": "16.07",
       "movies": [
         {
+          "title": "Vaiana",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h55m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/vaiana"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:35",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "Die Odyssee",
           "year": 2026,
           "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:45",
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
@@ -234,6 +144,17 @@
       "date": "17.07",
       "movies": [
         {
+          "title": "Vaiana",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h55m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/vaiana"
+        },
+        {
           "title": "Die Odyssee",
           "year": 2026,
           "time": "15:45",
@@ -247,7 +168,29 @@
         {
           "title": "Die Odyssee",
           "year": 2026,
+          "time": "16:35",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
           "time": "19:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
@@ -272,6 +215,28 @@
       "day": "SAT",
       "date": "18.07",
       "movies": [
+        {
+          "title": "Vaiana",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h55m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/vaiana"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:35",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
         {
           "title": "Die Odyssee",
           "year": 2026,
@@ -301,6 +266,28 @@
       "date": "19.07",
       "movies": [
         {
+          "title": "Vaiana",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h55m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/vaiana"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:35",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "Die Odyssee",
           "year": 2026,
           "time": "19:30",
@@ -310,6 +297,28 @@
           "rating": null,
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "20:25",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
         }
       ]
     },
@@ -317,6 +326,17 @@
       "day": "MON",
       "date": "20.07",
       "movies": [
+        {
+          "title": "Vaiana",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h55m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/vaiana"
+        },
         {
           "title": "Die Odyssee",
           "year": 2026,
@@ -327,6 +347,17 @@
           "rating": null,
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:45",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
         }
       ]
     },
@@ -334,6 +365,17 @@
       "day": "TUE",
       "date": "21.07",
       "movies": [
+        {
+          "title": "Vaiana",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h55m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/vaiana"
+        },
         {
           "title": "Die Odyssee",
           "year": 2026,
@@ -355,12 +397,101 @@
           "rating": null,
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Backrooms: Everything Must Go",
+          "year": 2026,
+          "time": "20:25",
+          "duration": "2h7m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
         }
       ]
     },
     {
       "day": "WED",
       "date": "22.07",
+      "movies": [
+        {
+          "title": "Vaiana",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h55m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/vaiana"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:10",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "23.07",
+      "movies": [
+        {
+          "title": "Sia: Nostalgic for the Present",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "1h15m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sia-nostalgic-for-the-present"
+        },
+        {
+          "title": "Der Astronaut",
+          "year": 2026,
+          "time": "22:30",
+          "duration": "2h35m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/01001184&anmerk=OmU-Nachtstudio-engl.%20OmU"
+        }
+      ]
+    },
+    {
+      "day": "FRI",
+      "date": "24.07",
       "movies": [
         {
           "title": "Die Odyssee",
@@ -372,76 +503,73 @@
           "rating": null,
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Der Teufel trägt Prada 2",
+          "year": 2026,
+          "time": "22:30",
+          "duration": "1h53m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/01001164&anmerk=OmU-Nachtstudio-engl.%20OmU"
+        }
+      ]
+    },
+    {
+      "day": "SAT",
+      "date": "25.07",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "26.07",
+      "movies": [
+        {
+          "title": "Sia: Nostalgic for the Present",
+          "year": 2026,
+          "time": "17:30",
+          "duration": "1h15m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sia-nostalgic-for-the-present"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "27.07",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
         }
       ]
     }
   ],
   "concerts": [
-    {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "9 Jul",
-      "day": "Do",
-      "time": "20:30",
-      "timeConfidence": "confirmed",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-46/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "KONGRESS DER ZEUGEN JEHOVAS",
-      "date": "10 Jul",
-      "day": "Fr",
-      "time": "09:20",
-      "timeConfidence": "confirmed",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/kongress-der-zeugen-jehovas-3/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Rancoeur + Christmas",
-      "date": "10 Jul",
-      "day": "Fr",
-      "time": null,
-      "timeConfidence": "fallback",
-      "venue": "Goldgrube",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Shellycoat + Friends with Boats",
-      "date": "11 Jul",
-      "day": "Sa",
-      "time": null,
-      "timeConfidence": "fallback",
-      "venue": "Garage",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Dave Collide und Blake Cateris",
-      "date": "12 Jul",
-      "day": "So",
-      "time": "14:00",
-      "timeConfidence": "confirmed",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/120726-dave-collide-und-blake-cateris.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "Ruby Tuesday | GLIMMER",
       "date": "14 Jul",
@@ -619,6 +747,175 @@
       "timeConfidence": "confirmed",
       "venue": "ZAG Arena",
       "url": "https://www.zag-arena-hannover.de/veranstaltung/finals-2026-hannover-2/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Harbour Violet",
+      "date": "23 Jul",
+      "day": "Do",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/230726-harbour-violet.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "DIE FINALS",
+      "date": "23 Jul",
+      "day": "Do",
+      "time": null,
+      "timeConfidence": "fallback",
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/die-finals-swiss-life-hall-165fe53010dd/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LINDEN JAZZ SESSION",
+      "date": "23 Jul",
+      "day": "Do",
+      "time": "20:30",
+      "timeConfidence": "confirmed",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-48/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "FINALS 2026 HANNOVER",
+      "date": "24 Jul",
+      "day": "Fr",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/finals-2026-hannover/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Die 80er-Party",
+      "date": "24 Jul",
+      "day": "Fr",
+      "time": "22:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/240726-die-80er-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Bratty",
+      "date": "24 Jul",
+      "day": "Fr",
+      "time": "23:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/240726-bratty.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "BARROOM BASTERDS & SCHICHTWAISE",
+      "date": "24 Jul",
+      "day": "Fr",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/barroom-basterds-schichtwaise/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "FINALS 2026 HANNOVER",
+      "date": "25 Jul",
+      "day": "Sa",
+      "time": "11:00",
+      "timeConfidence": "confirmed",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/finals-2026-hannover-3/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Rewind",
+      "date": "25 Jul",
+      "day": "Sa",
+      "time": "23:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/250726-rewind.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Crypt Chapter II",
+      "date": "25 Jul",
+      "day": "Sa",
+      "time": "23:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/250726-crypt-chapter-ii.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "ACHTUNG WIRD VERSCHOBEN TBA! NO DECISION & JANNICK BECK",
+      "date": "25 Jul",
+      "day": "Sa",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/no-decision-jannick-beck/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "FINALS 2026 HANNOVER",
+      "date": "26 Jul",
+      "day": "So",
+      "time": "11:00",
+      "timeConfidence": "confirmed",
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/finals-2026-hannover-4/",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Wildfires",
+      "date": "26 Jul",
+      "day": "So",
+      "time": "14:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/260726-the-wildfires.html",
       "eventType": "concert",
       "genre": null,
       "description": null,
