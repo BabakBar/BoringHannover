@@ -2,116 +2,21 @@
   "meta": {
     "week": 29,
     "year": 2026,
-    "updatedAt": "Mon 13 Jul 19:00"
+    "updatedAt": "Thu 16 Jul 18:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "13.07",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:30",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "date": "14.07",
-      "movies": [
-        {
-          "title": "Minions & Monster",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h30m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/minions-und-monster"
-        },
-        {
-          "title": "Backrooms: Everything Must Go",
-          "year": 2026,
-          "time": "17:25",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "15.07",
-      "movies": [
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "17:25",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        },
-        {
-          "title": "Backrooms: Everything Must Go",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
-        }
-      ]
-    },
     {
       "day": "THU",
       "date": "16.07",
       "movies": [
         {
-          "title": "Vaiana",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h55m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/vaiana"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "16:35",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
           "title": "Die Odyssee",
           "year": 2026,
           "time": "19:30",
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -122,7 +27,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -161,7 +66,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -172,7 +77,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -183,7 +88,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -194,7 +99,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -233,7 +138,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -244,7 +149,18 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -283,7 +199,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -294,7 +210,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -305,7 +221,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -344,7 +260,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -383,7 +299,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -394,7 +310,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -433,7 +349,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -444,7 +360,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -455,7 +371,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         }
@@ -472,7 +388,7 @@
           "duration": "1h15m",
           "language": "EN",
           "subtitles": "DE",
-          "rating": null,
+          "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/sia-nostalgic-for-the-present"
         },
@@ -500,7 +416,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
@@ -528,7 +444,7 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         }
@@ -545,7 +461,7 @@
           "duration": "1h15m",
           "language": "EN",
           "subtitles": "DE",
-          "rating": null,
+          "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/sia-nostalgic-for-the-present"
         }
@@ -562,53 +478,109 @@
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
-          "rating": null,
+          "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "28.07",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Wham! 10 Days in China",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "1h30m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wham-10-days-in-china"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "29.07",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:50",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "30.07",
+      "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
         }
       ]
     }
   ],
   "concerts": [
-    {
-      "title": "Ruby Tuesday | GLIMMER",
-      "date": "14 Jul",
-      "day": "Di",
-      "time": "21:15",
-      "timeConfidence": "confirmed",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--glimmer",
-      "eventType": "Konzert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Tablequiz",
-      "date": "15 Jul",
-      "day": "Mi",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/tablequiz-2026-07-15-19-00",
-      "eventType": "quiz",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Pop Night 2026",
-      "date": "16 Jul",
-      "day": "Do",
-      "time": "18:00",
-      "timeConfidence": "confirmed",
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/pop-night-2026/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "SUMMER OF JAPANESE MUSIC",
       "date": "16 Jul",
@@ -675,6 +647,32 @@
       "status": "available"
     },
     {
+      "title": "Tickbreeder + Volter + Quocaine",
+      "date": "17 Jul",
+      "day": "Fr",
+      "time": null,
+      "timeConfidence": "fallback",
+      "venue": "Nordstadt Open Air",
+      "url": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Nordstadt-feiert",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "House Party",
+      "date": "17 Jul",
+      "day": "Fr",
+      "time": "21:00",
+      "timeConfidence": "confirmed",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/house-party-0?date=2026-07-17",
+      "eventType": "concert",
+      "genre": "Mit verschiedenen DJs",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Party 2000",
       "date": "18 Jul",
       "day": "Sa",
@@ -684,6 +682,19 @@
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/180726-party-2000.html",
       "eventType": "party",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Dieseradrian",
+      "date": "18 Jul",
+      "day": "Sa",
+      "time": "23:00",
+      "timeConfidence": "confirmed",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/dieseradrian-3?date=2026-07-18",
+      "eventType": "concert",
+      "genre": "Electronic",
       "description": null,
       "status": "available"
     },
