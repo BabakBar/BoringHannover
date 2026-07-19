@@ -2,229 +2,13 @@
   "meta": {
     "week": 29,
     "year": 2026,
-    "updatedAt": "Thu 16 Jul 18:00"
+    "updatedAt": "Sun 19 Jul 20:00"
   },
   "movies": [
-    {
-      "day": "THU",
-      "date": "16.07",
-      "movies": [
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "HAMNET",
-          "year": 2025,
-          "time": "22:30",
-          "duration": "2h5m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00005202&anmerk=OmU-Nachtstudio%20%96%20engl.%20OmU"
-        }
-      ]
-    },
-    {
-      "day": "FRI",
-      "date": "17.07",
-      "movies": [
-        {
-          "title": "Vaiana",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h55m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/vaiana"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "15:45",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "16:35",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "20:00",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "LOST HIGHWAY - engl. OmU",
-          "year": 1997,
-          "time": "22:45",
-          "duration": "2h15m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00004927&anmerk=OmU-Nachtstudio%20%96"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "18.07",
-      "movies": [
-        {
-          "title": "Vaiana",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h55m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/vaiana"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "16:35",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Oldboy",
-          "year": 2003,
-          "time": "22:30",
-          "duration": "2h",
-          "language": "KR",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/01001121&anmerk=OmU-Nachtstudio%20-%20kor.%20OmU"
-        }
-      ]
-    },
     {
       "day": "SUN",
       "date": "19.07",
       "movies": [
-        {
-          "title": "Vaiana",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h55m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/vaiana"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "16:35",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "20:00",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
         {
           "title": "Obsession - Du sollst mich lieben",
           "year": 2026,
@@ -381,6 +165,17 @@
       "day": "THU",
       "date": "23.07",
       "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
         {
           "title": "Sia: Nostalgic for the Present",
           "year": 2026,
@@ -576,128 +371,150 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "PILLION",
+          "year": 2025,
+          "time": "22:45",
+          "duration": "1h47m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/00005261&anmerk=OmU-Nachtstudio-engl.%20OmU"
+        }
+      ]
+    },
+    {
+      "day": "FRI",
+      "date": "31.07",
+      "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "HASS - LA HAINE",
+          "year": 1995,
+          "time": "22:45",
+          "duration": "1h36m",
+          "language": "FR",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/00005043&anmerk=OmU-Nachtstudio%20%96%20franz.%20OmU"
+        }
+      ]
+    },
+    {
+      "day": "SAT",
+      "date": "01.08",
+      "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "TWIN PEAKS - engl. OmU",
+          "year": 1992,
+          "time": "22:30",
+          "duration": "2h15m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/00004929&anmerk=OmU-Nachtstudio-engl.%20OmU"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "02.08",
+      "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
         }
       ]
     }
   ],
   "concerts": [
-    {
-      "title": "SUMMER OF JAPANESE MUSIC",
-      "date": "16 Jul",
-      "day": "Do",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/102321/summer-of-japanese-music",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Rob Humphrey feat. Karolina",
-      "date": "16 Jul",
-      "day": "Do",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/160726-rob-humphrey-feat-karolina.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "16 Jul",
-      "day": "Do",
-      "time": "20:30",
-      "timeConfidence": "confirmed",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-47/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Die 90er-Party",
-      "date": "17 Jul",
-      "day": "Fr",
-      "time": "23:00",
-      "timeConfidence": "confirmed",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/170726-die-90er-party.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "VIVA PUNK & BILL COLLINS Achtung neuer Termin TBA!",
-      "date": "17 Jul",
-      "day": "Fr",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/viva-punk-bill-collins/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Tickbreeder + Volter + Quocaine",
-      "date": "17 Jul",
-      "day": "Fr",
-      "time": null,
-      "timeConfidence": "fallback",
-      "venue": "Nordstadt Open Air",
-      "url": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Nordstadt-feiert",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "House Party",
-      "date": "17 Jul",
-      "day": "Fr",
-      "time": "21:00",
-      "timeConfidence": "confirmed",
-      "venue": "Broncos",
-      "url": "https://www.stadtkind-kalender.de/event/house-party-0?date=2026-07-17",
-      "eventType": "concert",
-      "genre": "Mit verschiedenen DJs",
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Party 2000",
-      "date": "18 Jul",
-      "day": "Sa",
-      "time": "23:00",
-      "timeConfidence": "confirmed",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/180726-party-2000.html",
-      "eventType": "party",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Dieseradrian",
-      "date": "18 Jul",
-      "day": "Sa",
-      "time": "23:00",
-      "timeConfidence": "confirmed",
-      "venue": "Broncos",
-      "url": "https://www.stadtkind-kalender.de/event/dieseradrian-3?date=2026-07-18",
-      "eventType": "concert",
-      "genre": "Electronic",
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "MDC + Barackca + die ueblichen",
       "date": "20 Jul",
@@ -928,6 +745,136 @@
       "venue": "Faust",
       "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/260726-the-wildfires.html",
       "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Nina Freckles",
+      "date": "30 Jul",
+      "day": "Do",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/300726-nina-freckles.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LINDEN JAZZ SESSION",
+      "date": "30 Jul",
+      "day": "Do",
+      "time": "20:30",
+      "timeConfidence": "confirmed",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-49/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "1 on 1 Freestyle Rap Battle",
+      "date": "31 Jul",
+      "day": "Fr",
+      "time": null,
+      "timeConfidence": "fallback",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-07-31/6886",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "FSR WiWi Semesterabschlussparty",
+      "date": "31 Jul",
+      "day": "Fr",
+      "time": "23:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/310726-fsr-wiwi-semesterabschlussparty.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Fährmannsfest: H-Blockx + Lagwagon + Team Scheisse + Good Riddance + Akne Kid Joe + Lüt",
+      "date": "31 Jul",
+      "day": "Fr",
+      "time": null,
+      "timeConfidence": "fallback",
+      "venue": "Weddigenufer",
+      "url": "https://faehrmannsfest.de/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Elektronischer Biergarten",
+      "date": "1 Aug",
+      "day": "Sa",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/august/010826-elektronischer-biergarten.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Elektronischer Biergarten",
+      "date": "1 Aug",
+      "day": "Sa",
+      "time": "22:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/august/010826-elektronischer-biergarten-aftershow-party.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Off Campus Night",
+      "date": "1 Aug",
+      "day": "Sa",
+      "time": "22:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/august/010826-the-off-campus-night.html",
+      "eventType": "party",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Fährmannsfest: Betontod + Rantanplan + Butterwegge + Alarmsignal + The Meffs + Kettenfett",
+      "date": "1 Aug",
+      "day": "Sa",
+      "time": null,
+      "timeConfidence": "fallback",
+      "venue": "Weddigenufer",
+      "url": "https://www.facebook.com/faehrmannsfest/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "THIS WILL DESTROY YOU",
+      "date": "2 Aug",
+      "day": "So",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/this-will-destroy-you",
+      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
