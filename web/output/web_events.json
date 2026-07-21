@@ -1,66 +1,10 @@
 {
   "meta": {
-    "week": 29,
+    "week": 30,
     "year": 2026,
-    "updatedAt": "Sun 19 Jul 20:00"
+    "updatedAt": "Tue 21 Jul 11:00"
   },
   "movies": [
-    {
-      "day": "SUN",
-      "date": "19.07",
-      "movies": [
-        {
-          "title": "Obsession - Du sollst mich lieben",
-          "year": 2026,
-          "time": "20:25",
-          "duration": "1h49m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
-        }
-      ]
-    },
-    {
-      "day": "MON",
-      "date": "20.07",
-      "movies": [
-        {
-          "title": "Vaiana",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h55m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/vaiana"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:45",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
     {
       "day": "TUE",
       "date": "21.07",
@@ -166,6 +110,28 @@
       "date": "23.07",
       "movies": [
         {
+          "title": "Toy Story 5",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/toy-story-5"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:10",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "Die Odyssee",
           "year": 2026,
           "time": "19:30",
@@ -179,7 +145,7 @@
         {
           "title": "Sia: Nostalgic for the Present",
           "year": 2026,
-          "time": "19:45",
+          "time": "19:50",
           "duration": "1h15m",
           "language": "EN",
           "subtitles": "DE",
@@ -205,9 +171,53 @@
       "date": "24.07",
       "movies": [
         {
+          "title": "Toy Story 5",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/toy-story-5"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:25",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:35",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "Die Odyssee",
           "year": 2026,
           "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:45",
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
@@ -225,6 +235,17 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://www.apollokino.de/?v=&film=filme/01001164&anmerk=OmU-Nachtstudio-engl.%20OmU"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "22:40",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
         }
       ]
     },
@@ -242,6 +263,39 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:25",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
         }
       ]
     },
@@ -249,6 +303,39 @@
       "day": "SUN",
       "date": "26.07",
       "movies": [
+        {
+          "title": "Toy Story 5",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/toy-story-5"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:35",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "17:10",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
         {
           "title": "Sia: Nostalgic for the Present",
           "year": 2026,
@@ -259,6 +346,17 @@
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/sia-nostalgic-for-the-present"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
         }
       ]
     },
@@ -267,9 +365,53 @@
       "date": "27.07",
       "movies": [
         {
+          "title": "Toy Story 5",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/toy-story-5"
+        },
+        {
           "title": "Die Odyssee",
           "year": 2026,
           "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:25",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:15",
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
@@ -284,9 +426,53 @@
       "date": "28.07",
       "movies": [
         {
+          "title": "Toy Story 5",
+          "year": 2026,
+          "time": "14:30",
+          "duration": "1h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": null,
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/toy-story-5"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:25",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:35",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "Die Odyssee",
           "year": 2026,
           "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:45",
           "duration": "2h52m",
           "language": "EN",
           "subtitles": null,
@@ -323,6 +509,17 @@
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
         },
         {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "16:10",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "Spider-Man: Brand New Day",
           "year": 2026,
           "time": "16:50",
@@ -336,7 +533,7 @@
         {
           "title": "Spider-Man: Brand New Day",
           "year": 2026,
-          "time": "19:45",
+          "time": "19:50",
           "duration": "2h20m",
           "language": "EN",
           "subtitles": null,
@@ -354,6 +551,17 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
         }
       ]
     },
@@ -412,6 +620,17 @@
       "date": "31.07",
       "movies": [
         {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "Spider-Man: Brand New Day",
           "year": 2026,
           "time": "16:45",
@@ -450,6 +669,17 @@
       "day": "SAT",
       "date": "01.08",
       "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
         {
           "title": "Spider-Man: Brand New Day",
           "year": 2026,
@@ -512,22 +742,48 @@
           "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
         }
       ]
+    },
+    {
+      "day": "MON",
+      "date": "03.08",
+      "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "MDC + Barackca + die ueblichen",
-      "date": "20 Jul",
-      "day": "Mo",
-      "time": null,
-      "timeConfidence": "fallback",
-      "venue": "SV Arminia, Bischofsholer Damm 119",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "LAS HIENAS & PING PONG DIE BAND",
       "date": "21 Jul",
@@ -537,19 +793,6 @@
       "venue": "Kulturpalast Linden",
       "url": "https://kulturpalast-hannover.de/event/las-hienas-ping-pong-die-band/",
       "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Ruby Tuesday | LEAVING THE ORBIT",
-      "date": "21 Jul",
-      "day": "Di",
-      "time": "21:00",
-      "timeConfidence": "confirmed",
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--leaving-the-orbit-2026",
-      "eventType": "Konzert",
       "genre": null,
       "description": null,
       "status": "available"
@@ -750,6 +993,19 @@
       "status": "available"
     },
     {
+      "title": "Überraschungsband",
+      "date": "30 Jul",
+      "day": "Do",
+      "time": null,
+      "timeConfidence": "fallback",
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-07-30/7023",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "Nina Freckles",
       "date": "30 Jul",
       "day": "Do",
@@ -876,6 +1132,19 @@
       "url": "https://cafe-glocksee.de#/event/this-will-destroy-you",
       "eventType": "Konzert",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "The Suicide Machines + Ghostcards",
+      "date": "3 Aug",
+      "day": "Mo",
+      "time": null,
+      "timeConfidence": "fallback",
+      "venue": "Bei Chez Heinz",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
       "description": null,
       "status": "available"
     }
