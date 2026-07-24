@@ -2,170 +2,9 @@
   "meta": {
     "week": 30,
     "year": 2026,
-    "updatedAt": "Tue 21 Jul 11:00"
+    "updatedAt": "Fri 24 Jul 11:00"
   },
   "movies": [
-    {
-      "day": "TUE",
-      "date": "21.07",
-      "movies": [
-        {
-          "title": "Vaiana",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h55m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/vaiana"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "15:45",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:45",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Backrooms: Everything Must Go",
-          "year": 2026,
-          "time": "20:25",
-          "duration": "2h7m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/backrooms-everything-must-go"
-        }
-      ]
-    },
-    {
-      "day": "WED",
-      "date": "22.07",
-      "movies": [
-        {
-          "title": "Vaiana",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h55m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/vaiana"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "16:30",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "20:10",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        }
-      ]
-    },
-    {
-      "day": "THU",
-      "date": "23.07",
-      "movies": [
-        {
-          "title": "Toy Story 5",
-          "year": 2026,
-          "time": "14:30",
-          "duration": "1h42m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/toy-story-5"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "16:10",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Sia: Nostalgic for the Present",
-          "year": 2026,
-          "time": "19:50",
-          "duration": "1h15m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK6",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sia-nostalgic-for-the-present"
-        },
-        {
-          "title": "Der Astronaut",
-          "year": 2026,
-          "time": "22:30",
-          "duration": "2h35m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/01001184&anmerk=OmU-Nachtstudio-engl.%20OmU"
-        }
-      ]
-    },
     {
       "day": "FRI",
       "date": "24.07",
@@ -603,6 +442,28 @@
           "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
         },
         {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "PILLION",
           "year": 2025,
           "time": "22:45",
@@ -629,6 +490,17 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
         },
         {
           "title": "Spider-Man: Brand New Day",
@@ -694,6 +566,17 @@
         {
           "title": "Spider-Man: Brand New Day",
           "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
           "time": "20:00",
           "duration": "2h20m",
           "language": "EN",
@@ -720,9 +603,42 @@
       "date": "02.08",
       "movies": [
         {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "Spider-Man: Brand New Day",
           "year": 2026,
           "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
           "duration": "2h20m",
           "language": "EN",
           "subtitles": null,
@@ -779,89 +695,150 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "04.08",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "05.08",
+      "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "date": "06.08",
+      "movies": [
+        {
+          "title": "Ateez: Light the Way (in Cinemas)",
+          "year": 2026,
+          "time": "19:00",
+          "duration": "1h5m",
+          "language": "KR",
+          "subtitles": "DE",
+          "rating": "FSK6",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/ateez-light-the-way-in-cinemas"
+        },
+        {
+          "title": "AUSSER ATEM",
+          "year": 1960,
+          "time": "22:30",
+          "duration": "1h27m",
+          "language": "FR",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/00000378&anmerk=OmU-Nachtstudio%2C%20franz.%20OmU"
         }
       ]
     }
   ],
   "concerts": [
-    {
-      "title": "LAS HIENAS & PING PONG DIE BAND",
-      "date": "21 Jul",
-      "day": "Di",
-      "time": "19:30",
-      "timeConfidence": "confirmed",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/las-hienas-ping-pong-die-band/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "COSMIC SLOP SESSION-NIGHT",
-      "date": "22 Jul",
-      "day": "Mi",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/cosmic-slop-session-night-4/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "FINALS 2026 HANNOVER",
-      "date": "23 Jul",
-      "day": "Do",
-      "time": "11:00",
-      "timeConfidence": "confirmed",
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/finals-2026-hannover-2/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "Harbour Violet",
-      "date": "23 Jul",
-      "day": "Do",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/juli/230726-harbour-violet.html",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "DIE FINALS",
-      "date": "23 Jul",
-      "day": "Do",
-      "time": null,
-      "timeConfidence": "fallback",
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/die-finals-swiss-life-hall-165fe53010dd/",
-      "eventType": "concert",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
-    {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "23 Jul",
-      "day": "Do",
-      "time": "20:30",
-      "timeConfidence": "confirmed",
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-48/",
-      "eventType": "event",
-      "genre": null,
-      "description": null,
-      "status": "available"
-    },
     {
       "title": "FINALS 2026 HANNOVER",
       "date": "24 Jul",
@@ -911,6 +888,19 @@
       "url": "https://kulturpalast-hannover.de/event/barroom-basterds-schichtwaise/",
       "eventType": "event",
       "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Formaggi und Bruced Relapsed",
+      "date": "24 Jul",
+      "day": "Fr",
+      "time": "21:00",
+      "timeConfidence": "confirmed",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/formaggi-bruced-relapsed?date=2026-07-24",
+      "eventType": "concert",
+      "genre": "Feine elektronische Musik",
       "description": null,
       "status": "available"
     },
@@ -967,6 +957,19 @@
       "status": "available"
     },
     {
+      "title": "Bousset Birthday Bash",
+      "date": "25 Jul",
+      "day": "Sa",
+      "time": "21:00",
+      "timeConfidence": "confirmed",
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/bousset-birthday-bash?date=2026-07-25",
+      "eventType": "concert",
+      "genre": "Mit Big Honey",
+      "description": null,
+      "status": "available"
+    },
+    {
       "title": "FINALS 2026 HANNOVER",
       "date": "26 Jul",
       "day": "So",
@@ -993,7 +996,7 @@
       "status": "available"
     },
     {
-      "title": "Überraschungsband",
+      "title": "SLYTTER (Garage Punk/Arhus)",
       "date": "30 Jul",
       "day": "Do",
       "time": null,
@@ -1001,7 +1004,7 @@
       "venue": "Béi Chéz Heinz",
       "url": "https://www.beichezheinz.de/programm/2026-07-30/7023",
       "eventType": "concert",
-      "genre": null,
+      "genre": "Garage Punk",
       "description": null,
       "status": "available"
     },
@@ -1143,6 +1146,123 @@
       "timeConfidence": "fallback",
       "venue": "Bei Chez Heinz",
       "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Dead Meadow",
+      "date": "4 Aug",
+      "day": "Di",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/august/040826-dead-meadow.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Pulley",
+      "date": "5 Aug",
+      "day": "Mi",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/august/050826-pulley.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "POPULAR MUSIC SESSION",
+      "date": "5 Aug",
+      "day": "Mi",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/popular-music-session-34/",
+      "eventType": "event",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Pulley + Horace Pinker",
+      "date": "5 Aug",
+      "day": "Mi",
+      "time": null,
+      "timeConfidence": "fallback",
+      "venue": "Mephisto",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/august/050826-pulley.html",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "LAUREN & LINSKI",
+      "date": "6 Aug",
+      "day": "Do",
+      "time": "18:00",
+      "timeConfidence": "confirmed",
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/129273/lauren-linski",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Tycho Barth",
+      "date": "6 Aug",
+      "day": "Do",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/august/060826-tycho-barth.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Gangstagrass",
+      "date": "6 Aug",
+      "day": "Do",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/august/060826-gangstagrass.html",
+      "eventType": "concert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "AMENRA",
+      "date": "6 Aug",
+      "day": "Do",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/amenra-2026",
+      "eventType": "Konzert",
+      "genre": null,
+      "description": null,
+      "status": "available"
+    },
+    {
+      "title": "Deez Nuts",
+      "date": "6 Aug",
+      "day": "Do",
+      "time": null,
+      "timeConfidence": "fallback",
+      "venue": "Bei Chez Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-08-06/6760",
       "eventType": "concert",
       "genre": "Punk / Hardcore",
       "description": null,
