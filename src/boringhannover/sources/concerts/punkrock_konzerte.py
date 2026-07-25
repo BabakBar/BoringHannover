@@ -47,6 +47,8 @@ class PunkrockKonzerteSource(BaseSource):
     DEFAULT_TIME: ClassVar[time] = time(20, 0)
     ARMINIA_VENUE: ClassVar[str] = "SV Arminia Vereinsgaststätte"
     ARMINIA_ADDRESS: ClassVar[str] = "Bischofsholer Damm 119, 30173 Hannover"
+    STUMPF_VENUE: ClassVar[str] = "Stumpf"
+    STUMPF_ADDRESS: ClassVar[str] = "Welfengarten 2c, 30167 Hannover"
     _ARMINIA_ALIASES: ClassVar[frozenset[str]] = frozenset(
         {
             "arminia vereinslokal",
@@ -56,6 +58,10 @@ class PunkrockKonzerteSource(BaseSource):
             "vereinskneipe des sv arminia",
         }
     )
+    _VENUE_ADDRESSES: ClassVar[dict[str, str]] = {
+        ARMINIA_VENUE: ARMINIA_ADDRESS,
+        STUMPF_VENUE: STUMPF_ADDRESS,
+    }
 
     def fetch(self) -> list[Event]:
         """Fetch punk/hardcore concerts from punkrock-konzerte.de.
@@ -124,7 +130,7 @@ class PunkrockKonzerteSource(BaseSource):
 
             venue = self._normalize_venue(self._extract_venue(row)) or self.source_name
             city = self._extract_city(row)
-            address = self.ARMINIA_ADDRESS if venue == self.ARMINIA_VENUE else city
+            address = self._VENUE_ADDRESSES.get(venue, city)
             url = self._extract_url(row) or self.URL
             if time_confidence == FALLBACK_TIME:
                 enriched = self._fetch_confirmed_datetime(client, url)
