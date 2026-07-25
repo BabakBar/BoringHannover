@@ -45,6 +45,17 @@ class PunkrockKonzerteSource(BaseSource):
 
     URL: ClassVar[str] = "https://www.ce.punkrock-konzerte.de/gigs-termine-hannover/"
     DEFAULT_TIME: ClassVar[time] = time(20, 0)
+    ARMINIA_VENUE: ClassVar[str] = "SV Arminia Vereinsgaststätte"
+    ARMINIA_ADDRESS: ClassVar[str] = "Bischofsholer Damm 119, 30173 Hannover"
+    _ARMINIA_ALIASES: ClassVar[frozenset[str]] = frozenset(
+        {
+            "arminia vereinslokal",
+            "sv arminia",
+            "sv arminia vereinsgaststätte",
+            "vereinsgaststätte sv arminia",
+            "vereinskneipe des sv arminia",
+        }
+    )
 
     def fetch(self) -> list[Event]:
         """Fetch punk/hardcore concerts from punkrock-konzerte.de.
@@ -111,8 +122,9 @@ class PunkrockKonzerteSource(BaseSource):
             if event_date < datetime.now(BERLIN_TZ):
                 return None
 
-            venue = self._extract_venue(row) or self.source_name
+            venue = self._normalize_venue(self._extract_venue(row)) or self.source_name
             city = self._extract_city(row)
+            address = self.ARMINIA_ADDRESS if venue == self.ARMINIA_VENUE else city
             url = self._extract_url(row) or self.URL
             if time_confidence == FALLBACK_TIME:
                 enriched = self._fetch_confirmed_datetime(client, url)
@@ -132,7 +144,7 @@ class PunkrockKonzerteSource(BaseSource):
                     "event_type": "concert",
                     "genre": "Punk / Hardcore",
                     "genre_source": "source_implicit",
-                    "address": city,
+                    "address": address,
                 },
             )
 
@@ -151,6 +163,11 @@ class PunkrockKonzerteSource(BaseSource):
         if not venue_elem:
             return ""
         return venue_elem.get_text(strip=True)
+
+    def _normalize_venue(self, venue: str) -> str:
+        if venue.casefold() in self._ARMINIA_ALIASES:
+            return self.ARMINIA_VENUE
+        return venue
 
     def _extract_city(self, row: Tag) -> str:
         city_elem = row.select_one("[itemprop='location'] [itemprop='address']")
