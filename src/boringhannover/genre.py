@@ -6,6 +6,7 @@ for consistent genre display across all concert sources.
 
 from __future__ import annotations
 
+import re
 from typing import Final
 
 
@@ -113,6 +114,18 @@ GENRE_SYNONYMS: Final[dict[str, str]] = {
     "volkstümlich": "Folk / World",
 }
 
+GENRE_MATCH_PRIORITY: Final[tuple[str, ...]] = (
+    "Punk / Hardcore",
+    "Metal",
+    "Hip-Hop",
+    "Electronic",
+    "Jazz / Blues",
+    "Klassik",
+    "Folk / World",
+    "Pop",
+    "Rock",
+)
+
 
 def normalize_genre(raw: str) -> str | None:
     """Normalize a raw genre string to a canonical genre.
@@ -121,7 +134,7 @@ def normalize_genre(raw: str) -> str | None:
         raw: Raw genre string from source (e.g., "Punk Rock", "elektronisch").
 
     Returns:
-        Canonical genre string if found in synonyms, None otherwise.
+        Canonical genre string if a known synonym is found, None otherwise.
 
     Examples:
         >>> normalize_genre("punk rock")
@@ -135,4 +148,22 @@ def normalize_genre(raw: str) -> str | None:
         return None
 
     key = raw.lower().strip()
-    return GENRE_SYNONYMS.get(key)
+    exact_match = GENRE_SYNONYMS.get(key)
+    if exact_match:
+        return exact_match
+
+    for canonical_genre in GENRE_MATCH_PRIORITY:
+        synonyms: list[str] = [
+            synonym
+            for synonym, genre in GENRE_SYNONYMS.items()
+            if genre == canonical_genre
+        ]
+        for synonym in sorted(
+            synonyms,
+            key=lambda value: len(value),
+            reverse=True,
+        ):
+            if re.search(rf"(?<!\w){re.escape(synonym)}(?!\w)", key):
+                return canonical_genre
+
+    return None

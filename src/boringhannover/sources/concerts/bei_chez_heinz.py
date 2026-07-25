@@ -186,9 +186,7 @@ class BeiChezHeinzSource(BaseSource):
                 metadata["genre"] = genre
                 metadata["genre_source"] = "title_pattern"
             elif raw_genre:
-                # Keep raw genre if normalization failed
-                metadata["genre"] = raw_genre
-                metadata["genre_source"] = "title_pattern"
+                metadata["genre_raw"] = raw_genre
 
             return Event(
                 title=title,

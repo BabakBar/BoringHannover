@@ -1,6 +1,12 @@
 """Tests for genre normalization."""
 
+import json
+from datetime import datetime
+
+from boringhannover.constants import BERLIN_TZ
+from boringhannover.exporters import export_web_json
 from boringhannover.genre import CANONICAL_GENRES, normalize_genre
+from boringhannover.models import Event
 
 
 class TestNormalizeGenre:
@@ -98,6 +104,16 @@ class TestNormalizeGenre:
         assert normalize_genre("  punk  ") == "Punk / Hardcore"
         assert normalize_genre("\trock\n") == "Rock"
 
+    def test_normalize_genre_from_descriptive_tagline(self) -> None:
+        """Known genre words inside descriptive taglines should normalize."""
+        assert normalize_genre("Garage Punk") == "Punk / Hardcore"
+        assert normalize_genre("Feine elektronische Musik") == "Electronic"
+        assert normalize_genre("Indie Rock aus Hannover") == "Rock"
+
+    def test_descriptive_tagline_without_genre_returns_none(self) -> None:
+        """Artist billing must not be exposed as a genre."""
+        assert normalize_genre("Mit Big Honey") is None
+
 
 class TestCanonicalGenres:
     """Tests for CANONICAL_GENRES constant."""
@@ -120,3 +136,31 @@ class TestCanonicalGenres:
             "Folk / World",
         }
         assert set(CANONICAL_GENRES) == expected
+
+
+def test_web_export_only_emits_canonical_genres(tmp_path) -> None:
+    """The frontend JSON boundary must not expose arbitrary source labels."""
+    events = [
+        Event(
+            title="Garage Night",
+            date=datetime(2026, 8, 1, 20, 0, tzinfo=BERLIN_TZ),
+            venue="Venue",
+            url="https://example.com/garage",
+            category="radar",
+            metadata={"genre": "Garage Punk"},
+        ),
+        Event(
+            title="Guest Night",
+            date=datetime(2026, 8, 2, 20, 0, tzinfo=BERLIN_TZ),
+            venue="Venue",
+            url="https://example.com/guest",
+            category="radar",
+            metadata={"genre": "Mit Big Honey"},
+        ),
+    ]
+
+    export_web_json([], events, tmp_path, 31, 2026)
+    data = json.loads((tmp_path / "web_events.json").read_text(encoding="utf-8"))
+
+    assert data["concerts"][0]["genre"] == "Punk / Hardcore"
+    assert data["concerts"][1]["genre"] is None

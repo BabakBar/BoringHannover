@@ -10,6 +10,7 @@ import Footer from '../components/Footer.astro';
 // Load event data (from web_events.json or fallback to mock)
 import { loadEventData } from '../data/loader';
 import { groupEventsByDate, sliceEventGroups } from '../utils/groupEvents';
+import { ALL_GENRES, getGenreOptions } from '../utils/genreFilter';
 
 const eventData = loadEventData();
 const { meta, movies, concerts } = eventData;
@@ -30,6 +31,7 @@ const hasOverflow = overflowGroups.length > 0;
 
 // Calculate overflow event count for button text
 const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.length, 0);
+const genreOptions = getGenreOptions(concerts);
 ---
 
 <Base title="boringhannover - What's on in Hannover">
@@ -114,6 +116,36 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
   <section class="mb-10">
     <SectionHeader title="Events On The Radar" />
 
+    {genreOptions.length > 0 && (
+      <div
+        class="genre-filter"
+        role="group"
+        aria-labelledby="genre-filter-label"
+      >
+        <span id="genre-filter-label" class="genre-filter__label">Genre</span>
+        <div class="genre-filter__options">
+          <button
+            type="button"
+            class="genre-filter__button"
+            data-genre-filter={ALL_GENRES}
+            aria-pressed="true"
+          >
+            All <span>{concerts.length}</span>
+          </button>
+          {genreOptions.map(({ genre, count }) => (
+            <button
+              type="button"
+              class="genre-filter__button"
+              data-genre-filter={genre}
+              aria-pressed="false"
+            >
+              {genre} <span>{count}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+
     <!-- Visible event groups -->
     <div id="events-visible" class="events-timeline">
       {visibleGroups.map((group) => (
@@ -170,6 +202,9 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
     {concerts.length === 0 && (
       <p class="text-text-muted text-sm py-4">No upcoming events.</p>
     )}
+    <p id="genre-filter-empty" class="text-text-muted text-sm py-4" hidden>
+      No events match this genre.
+    </p>
   </section>
 
   <Footer updatedAt={meta.updatedAt} />
@@ -183,6 +218,8 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
 </Base>
 
 <script>
+  import { ALL_GENRES, matchesGenre } from '../utils/genreFilter';
+
   // Progressive disclosure (show more/less) for Movies + Events.
   function setupDisclosure(toggleId, overflowId, options = {}) {
     const toggle = document.getElementById(toggleId);
@@ -264,4 +301,88 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
 
   setupDisclosure('movies-toggle', 'movies-overflow');
   setupDisclosure('radar-toggle', 'events-overflow');
+
+  function setupGenreFilter() {
+    const filterButtons = Array.from(
+      document.querySelectorAll('[data-genre-filter]'),
+    );
+    const eventItems = Array.from(
+      document.querySelectorAll('[data-event-item]'),
+    );
+    const eventGroups = Array.from(
+      document.querySelectorAll('[data-event-group]'),
+    );
+    const overflow = document.getElementById('events-overflow');
+    const toggle = document.getElementById('radar-toggle');
+    const emptyState = document.getElementById('genre-filter-empty');
+
+    if (filterButtons.length === 0 || eventItems.length === 0) return;
+
+    for (const button of filterButtons) {
+      button.addEventListener('click', () => {
+        if (!(button instanceof HTMLButtonElement)) return;
+
+        const selectedGenre = button.dataset.genreFilter ?? ALL_GENRES;
+        let visibleEventCount = 0;
+
+        for (const item of eventItems) {
+          if (!(item instanceof HTMLElement)) continue;
+
+          const isVisible = matchesGenre(
+            item.dataset.genre || null,
+            selectedGenre,
+          );
+          item.classList.toggle('genre-hidden', !isVisible);
+          visibleEventCount += Number(isVisible);
+        }
+
+        for (const group of eventGroups) {
+          if (!(group instanceof HTMLElement)) continue;
+
+          const hasVisibleEvent = Boolean(
+            group.querySelector('[data-event-item]:not(.genre-hidden)'),
+          );
+          group.classList.toggle('genre-hidden', !hasVisibleEvent);
+          group
+            .closest('.overflow-group')
+            ?.classList.toggle('genre-hidden', !hasVisibleEvent);
+        }
+
+        const isFiltering = selectedGenre !== ALL_GENRES;
+        if (overflow) {
+          overflow.setAttribute(
+            'aria-hidden',
+            String(!isFiltering && toggle?.getAttribute('aria-expanded') !== 'true'),
+          );
+          overflow.classList.toggle(
+            'is-visible',
+            isFiltering || toggle?.getAttribute('aria-expanded') === 'true',
+          );
+          overflow.classList.toggle(
+            'is-expanded',
+            isFiltering || toggle?.getAttribute('aria-expanded') === 'true',
+          );
+          overflow.classList.remove('is-collapsing');
+        }
+        toggle?.toggleAttribute('hidden', isFiltering);
+
+        for (const option of filterButtons) {
+          option.setAttribute(
+            'aria-pressed',
+            String(
+              option instanceof HTMLElement
+              && option.dataset.genreFilter === selectedGenre
+            ),
+          );
+        }
+        emptyState?.toggleAttribute('hidden', visibleEventCount > 0);
+
+        if (typeof umami !== 'undefined') {
+          umami.track('events-genre-filter', { genre: selectedGenre });
+        }
+      });
+    }
+  }
+
+  setupGenreFilter();
 </script>

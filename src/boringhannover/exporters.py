@@ -30,6 +30,7 @@ from boringhannover.event_time import (
     get_display_time,
     get_time_confidence,
 )
+from boringhannover.genre import normalize_genre
 from boringhannover.sanitize import (
     MAX_TITLE_LENGTH,
     MAX_VENUE_LENGTH,
@@ -289,7 +290,8 @@ def export_web_json(
             date_display = f"{dt.day} {month_name}"
 
         event_type = event.metadata.get("event_type", "concert")
-        genre = event.metadata.get("genre")
+        raw_genre = event.metadata.get("genre")
+        genre = normalize_genre(str(raw_genre)) if raw_genre else None
         subtitle = event.metadata.get("subtitle")
         status = event.metadata.get("status", "available")
 

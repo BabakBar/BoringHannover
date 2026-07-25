@@ -110,20 +110,24 @@ class BroncosSource(BaseSource):
 
             genre = normalize_genre(raw_genre) if raw_genre else None
 
+            metadata = {
+                "time": event_date.strftime("%H:%M"),
+                "time_confidence": CONFIRMED_TIME,
+                "genre": genre or "",
+                "genre_source": "stadtkind_tagline" if genre else "",
+                "event_type": "concert",
+                "address": self.ADDRESS,
+            }
+            if raw_genre:
+                metadata["genre_raw"] = raw_genre
+
             return Event(
                 title=title,
                 date=event_date,
                 venue=self.source_name,
                 url=href,
                 category="radar",
-                metadata={
-                    "time": event_date.strftime("%H:%M"),
-                    "time_confidence": CONFIRMED_TIME,
-                    "genre": genre or raw_genre or "",
-                    "genre_source": "stadtkind_tagline" if raw_genre else "",
-                    "event_type": "concert",
-                    "address": self.ADDRESS,
-                },
+                metadata=metadata,
             )
         except Exception as exc:
             logger.debug("Error parsing %s event: %s", self.source_name, exc)

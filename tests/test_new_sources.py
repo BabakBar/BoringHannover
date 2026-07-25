@@ -73,6 +73,25 @@ class TestBroncosSource:
         assert event.metadata.get("genre") == ""
         assert event.metadata.get("genre_source") == ""
 
+    def test_does_not_expose_unknown_tagline_as_genre(self) -> None:
+        """Keep descriptive billing out of the canonical genre field."""
+        html = """
+        <article class="event">
+          <a class="event__link" href="/event/big-honey">
+            <time class="event__start-time" datetime="2026-02-15T21:00:00+01:00">21:00</time>
+            <h3 class="event__title">Guest Night</h3>
+            <span class="event__tagline">Mit Big Honey</span>
+          </a>
+        </article>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        source = BroncosSource()
+        event = source._parse_event(soup.select_one("article.event"))
+
+        assert event is not None
+        assert event.metadata.get("genre") == ""
+        assert event.metadata.get("genre_source") == ""
+
     def test_returns_none_for_missing_link(self) -> None:
         """Return None when event link is missing."""
         html = """
