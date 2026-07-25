@@ -1,0 +1,23 @@
+[
+  {
+    "id": 8782,
+    "link": "https://www.maschseefest.de/veranstaltungen/country-night-mit-sascha-salvati/",
+    "title": {
+      "rendered": "Country Night mit Sascha Salvati"
+    }
+  },
+  {
+    "id": 7918,
+    "link": "https://www.maschseefest.de/veranstaltungen/np-sommerfestival-10/",
+    "title": {
+      "rendered": "NP-Sommerfestival"
+    }
+  },
+  {
+    "id": 9000,
+    "link": "https://example.com/not-a-maschseefest-event/",
+    "title": {
+      "rendered": "External event"
+    }
+  }
+]
