@@ -11,11 +11,15 @@ import Footer from '../components/Footer.astro';
 // Load event data (from web_events.json or fallback to mock)
 import { loadEventData } from '../data/loader';
 import { groupEventsByDate, sliceEventGroups } from '../utils/groupEvents';
-import { ALL_GENRES, getGenreOptions } from '../utils/genreFilter';
+import {
+  ALL_RADAR_CATEGORIES,
+  getRadarCategoryOptions,
+} from '../utils/radarCategoryFilter';
+import { selectLandingOccasions } from '../utils/occasionSelection';
 
 const eventData = loadEventData();
 const { meta, movies, concerts, occasions } = eventData;
-const visibleOccasions = occasions.slice(0, 3);
+const visibleOccasions = selectLandingOccasions(occasions);
 
 // Movies progressive disclosure: show first N days, hide the rest
 const MOVIE_VISIBLE_DAYS = 3;
@@ -33,7 +37,14 @@ const hasOverflow = overflowGroups.length > 0;
 
 // Calculate overflow event count for button text
 const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.length, 0);
-const genreOptions = getGenreOptions(concerts);
+const radarCategoryOptions = getRadarCategoryOptions(concerts);
+const platzprojektCount = concerts.filter(
+  event => event.sourceName === 'PLATZprojekt',
+).length;
+const hasPlatzprojektContext = (
+  platzprojektCount > 0
+  && platzprojektCount >= concerts.length * 0.25
+);
 ---
 
 <Base title="boringhannover - What's on in Hannover">
@@ -134,34 +145,58 @@ const genreOptions = getGenreOptions(concerts);
   <section class="mb-10">
     <SectionHeader title="Events On The Radar" />
 
-    {genreOptions.length > 0 && (
+    {radarCategoryOptions.length > 0 && (
       <div
-        class="genre-filter"
+        class="radar-filter"
         role="group"
-        aria-labelledby="genre-filter-label"
+        aria-labelledby="radar-filter-label"
       >
-        <span id="genre-filter-label" class="genre-filter__label">Genre</span>
-        <div class="genre-filter__options">
+        <span id="radar-filter-label" class="radar-filter__label">Browse by</span>
+        <div class="radar-filter__options scrollbar-hide">
           <button
             type="button"
-            class="genre-filter__button"
-            data-genre-filter={ALL_GENRES}
+            class="radar-filter__button"
+            data-radar-filter={ALL_RADAR_CATEGORIES}
             aria-pressed="true"
           >
             All <span>{concerts.length}</span>
           </button>
-          {genreOptions.map(({ genre, count }) => (
+          {radarCategoryOptions.map(({ category, count }) => (
             <button
               type="button"
-              class="genre-filter__button"
-              data-genre-filter={genre}
+              class="radar-filter__button"
+              data-radar-filter={category}
               aria-pressed="false"
             >
-              {genre} <span>{count}</span>
+              {category} <span>{count}</span>
             </button>
           ))}
         </div>
       </div>
+    )}
+
+    {hasPlatzprojektContext && (
+      <details class="source-context">
+        <summary>
+          Why {platzprojektCount} PLATZprojekt listings?
+        </summary>
+        <div>
+          <p>
+            PLATZprojekt is a community-run experimental space in Linden—not a
+            single venue. Its calendar includes workshops, open groups, sport,
+            markets, food, parties and live music across the site.
+          </p>
+          <a
+            href="https://platzprojekt.de/ueber-uns/"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-umami-event="source-context-open"
+            data-umami-event-source="platzprojekt"
+          >
+            About PLATZprojekt ↗
+          </a>
+        </div>
+      </details>
     )}
 
     <!-- Visible event groups -->
@@ -220,8 +255,8 @@ const genreOptions = getGenreOptions(concerts);
     {concerts.length === 0 && (
       <p class="text-text-muted text-sm py-4">No upcoming events.</p>
     )}
-    <p id="genre-filter-empty" class="text-text-muted text-sm py-4" hidden>
-      No events match this genre.
+    <p id="radar-filter-empty" class="text-text-muted text-sm py-4" hidden>
+      No events match this category.
     </p>
   </section>
 
@@ -236,7 +271,10 @@ const genreOptions = getGenreOptions(concerts);
 </Base>
 
 <script>
-  import { ALL_GENRES, matchesGenre } from '../utils/genreFilter';
+  import {
+    ALL_RADAR_CATEGORIES,
+    matchesRadarCategory,
+  } from '../utils/radarCategoryFilter';
 
   // Progressive disclosure (show more/less) for Movies + Events.
   function setupDisclosure(toggleId, overflowId, options = {}) {
@@ -320,9 +358,9 @@ const genreOptions = getGenreOptions(concerts);
   setupDisclosure('movies-toggle', 'movies-overflow');
   setupDisclosure('radar-toggle', 'events-overflow');
 
-  function setupGenreFilter() {
+  function setupRadarFilter() {
     const filterButtons = Array.from(
-      document.querySelectorAll('[data-genre-filter]'),
+      document.querySelectorAll('[data-radar-filter]'),
     );
     const eventItems = Array.from(
       document.querySelectorAll('[data-event-item]'),
@@ -332,7 +370,7 @@ const genreOptions = getGenreOptions(concerts);
     );
     const overflow = document.getElementById('events-overflow');
     const toggle = document.getElementById('radar-toggle');
-    const emptyState = document.getElementById('genre-filter-empty');
+    const emptyState = document.getElementById('radar-filter-empty');
 
     if (filterButtons.length === 0 || eventItems.length === 0) return;
 
@@ -340,17 +378,19 @@ const genreOptions = getGenreOptions(concerts);
       button.addEventListener('click', () => {
         if (!(button instanceof HTMLButtonElement)) return;
 
-        const selectedGenre = button.dataset.genreFilter ?? ALL_GENRES;
+        const selectedCategory = (
+          button.dataset.radarFilter ?? ALL_RADAR_CATEGORIES
+        );
         let visibleEventCount = 0;
 
         for (const item of eventItems) {
           if (!(item instanceof HTMLElement)) continue;
 
-          const isVisible = matchesGenre(
-            item.dataset.genre || null,
-            selectedGenre,
+          const isVisible = matchesRadarCategory(
+            item.dataset.radarCategory || null,
+            selectedCategory,
           );
-          item.classList.toggle('genre-hidden', !isVisible);
+          item.classList.toggle('radar-hidden', !isVisible);
           visibleEventCount += Number(isVisible);
         }
 
@@ -358,15 +398,15 @@ const genreOptions = getGenreOptions(concerts);
           if (!(group instanceof HTMLElement)) continue;
 
           const hasVisibleEvent = Boolean(
-            group.querySelector('[data-event-item]:not(.genre-hidden)'),
+            group.querySelector('[data-event-item]:not(.radar-hidden)'),
           );
-          group.classList.toggle('genre-hidden', !hasVisibleEvent);
+          group.classList.toggle('radar-hidden', !hasVisibleEvent);
           group
             .closest('.overflow-group')
-            ?.classList.toggle('genre-hidden', !hasVisibleEvent);
+            ?.classList.toggle('radar-hidden', !hasVisibleEvent);
         }
 
-        const isFiltering = selectedGenre !== ALL_GENRES;
+        const isFiltering = selectedCategory !== ALL_RADAR_CATEGORIES;
         if (overflow) {
           overflow.setAttribute(
             'aria-hidden',
@@ -389,18 +429,18 @@ const genreOptions = getGenreOptions(concerts);
             'aria-pressed',
             String(
               option instanceof HTMLElement
-              && option.dataset.genreFilter === selectedGenre
+              && option.dataset.radarFilter === selectedCategory
             ),
           );
         }
         emptyState?.toggleAttribute('hidden', visibleEventCount > 0);
 
         if (typeof umami !== 'undefined') {
-          umami.track('events-genre-filter', { genre: selectedGenre });
+          umami.track('events-category-filter', { category: selectedCategory });
         }
       });
     }
   }
 
-  setupGenreFilter();
+  setupRadarFilter();
 </script>

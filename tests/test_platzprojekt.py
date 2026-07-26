@@ -48,6 +48,7 @@ def test_parse_payload_keeps_public_events_and_cleans_api_fields() -> None:
         ),
         "address": "Fössestr. 103, 30453 Hannover",
         "price": "5 €",
+        "source_name": "PLATZprojekt",
     }
 
     all_day = events[1]

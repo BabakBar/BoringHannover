@@ -240,15 +240,15 @@
   /* Container for timeline groups */
 }
 
-.genre-hidden {
+.radar-hidden {
   display: none !important;
 }
 
-.genre-filter {
+.radar-filter {
   margin-bottom: 1.5rem;
 }
 
-.genre-filter__label {
+.radar-filter__label {
   display: block;
   margin-bottom: 0.5rem;
   color: var(--text-muted);
@@ -258,15 +258,16 @@
   text-transform: uppercase;
 }
 
-.genre-filter__options {
+.radar-filter__options {
   display: flex;
   gap: 0.5rem;
-  padding-bottom: 0.25rem;
+  margin-inline: -0.25rem;
+  padding: 0.1rem 0.25rem 0.45rem;
   overflow-x: auto;
-  scrollbar-width: thin;
+  scroll-snap-type: x proximity;
 }
 
-.genre-filter__button {
+.radar-filter__button {
   min-height: 36px;
   padding: 0.5rem 0.75rem;
   flex: 0 0 auto;
@@ -278,28 +279,62 @@
   font-size: 0.6875rem;
   text-transform: uppercase;
   cursor: pointer;
+  scroll-snap-align: start;
   transition:
     color 0.15s ease-out,
     background-color 0.15s ease-out,
     border-color 0.15s ease-out;
 }
 
-.genre-filter__button span {
+.radar-filter__button span {
   margin-left: 0.25rem;
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
 }
 
-.genre-filter__button:hover {
+.radar-filter__button:hover {
   color: var(--text-primary);
   background: var(--bg-secondary);
   border-color: var(--text-muted);
 }
 
-.genre-filter__button[aria-pressed='true'] {
+.radar-filter__button[aria-pressed='true'] {
   color: var(--text-primary);
   background: var(--accent-dim);
   border-color: var(--accent);
+}
+
+.source-context {
+  margin: -0.35rem 0 1.5rem;
+  color: var(--text-muted);
+  border-block: 1px solid var(--border);
+}
+
+.source-context summary {
+  min-height: 44px;
+  padding: 0.8rem 0;
+  color: var(--text-secondary);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+
+.source-context > div {
+  padding: 0 0 0.9rem;
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.source-context a {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  margin-top: 0.4rem;
+  color: var(--accent);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
 }
 
 /* ==============================================

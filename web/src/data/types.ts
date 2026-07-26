@@ -29,10 +29,12 @@ export interface Concert {
   venue: string;
   url?: string | null;
   eventType?: string | null;    // "concert", "sport", "show"
+  radarCategory?: string | null;
   genre?: string | null;        // "Konzert", "Festival", etc.
   programmeCategory?: string | null;
   description?: string | null;  // Short description/subtitle
   imageUrl?: string | null;
+  sourceName?: string | null;
   status?: string | null;       // "available", "sold_out"
 }
 

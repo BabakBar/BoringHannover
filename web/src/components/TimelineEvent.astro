@@ -8,16 +8,29 @@ interface Props {
   venue: string;
   url?: string;
   eventType?: string;
+  radarCategory?: string;
   genre?: string;
   description?: string;
   status?: string;
 }
 
-const { title, time, venue, url, eventType, genre, description, status } = Astro.props;
+const {
+  title,
+  time,
+  venue,
+  url,
+  eventType,
+  radarCategory,
+  genre,
+  description,
+  status,
+} = Astro.props;
 
 const safeUrl = sanitizeUrl(url);
 const canonicalGenre = getCanonicalGenre(genre);
-const infoTag = canonicalGenre || (eventType && eventType !== 'concert' ? eventType : null);
+const infoTag = canonicalGenre || radarCategory || (
+  eventType && eventType !== 'concert' ? eventType : null
+);
 const isSoldOut = status === 'sold_out';
 ---
 
@@ -27,7 +40,7 @@ const isSoldOut = status === 'sold_out';
   rel="noopener noreferrer"
   class="timeline-event group block relative"
   data-event-item
-  data-genre={canonicalGenre ?? ''}
+  data-radar-category={radarCategory ?? ''}
 >
   <!-- Hover dot (appears on hover) -->
   <span class="timeline-hover-dot" aria-hidden="true"></span>

@@ -18,6 +18,13 @@ homepage summary, followed by a dedicated programme for people who want the
 detail. See [CITY_OCCASIONS.md](CITY_OCCASIONS.md) for the product and automation
 contract and current implementation status.
 
+The mixed **Events on the Radar** feed is browsable by broad, conservative
+categories such as Live Music, Party, Workshop, Sport, Market, and Film. Music
+genres remain visible where a source provides enough evidence. PLATZprojekt
+appears frequently because it is a
+[community-run experimental space](https://platzprojekt.de/ueber-uns/) hosting
+many independent projects—not a single conventional venue.
+
 ## Current Sources
 
 - **Cinema:** Astor Grand (OV films only)

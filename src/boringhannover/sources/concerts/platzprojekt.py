@@ -176,6 +176,7 @@ class PlatzprojektSource(BaseSource):
                 "image_url": image_url,
                 "address": address,
                 "price": price,
+                "source_name": self.source_name,
             },
         )
 

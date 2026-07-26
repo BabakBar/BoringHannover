@@ -36,6 +36,7 @@ from boringhannover.occasions import (
     OccasionDefinition,
     build_occasion_bundles,
 )
+from boringhannover.radar_categories import classify_radar_category
 from boringhannover.sanitize import (
     MAX_DESCRIPTION_LENGTH,
     MAX_TITLE_LENGTH,
@@ -212,7 +213,12 @@ def _write_json_atomic(path: Path, data: object) -> None:
     shutil.move(str(tmp_path), str(path))
 
 
-def _format_web_event(event: Event, year: int) -> dict[str, object]:
+def _format_web_event(
+    event: Event,
+    year: int,
+    *,
+    include_radar_facets: bool = True,
+) -> dict[str, object]:
     """Format one event for regular and occasion web surfaces."""
     dt = event.date
     day_name = _GERMAN_DAYS[dt.weekday()]
@@ -231,8 +237,9 @@ def _format_web_event(event: Event, year: int) -> dict[str, object]:
     programme_category = event.metadata.get("programme_category")
     end_time = event.metadata.get("end_time")
     image_url = event.metadata.get("image_url")
+    source_name = event.metadata.get("source_name")
 
-    return {
+    formatted_event: dict[str, object] = {
         "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
         "date": date_display,
         "dateISO": dt.date().isoformat(),
@@ -253,6 +260,19 @@ def _format_web_event(event: Event, year: int) -> dict[str, object]:
         "imageUrl": sanitize_url(str(image_url)) if image_url else None,
         "status": sanitize_text(str(status), 50),
     }
+    if include_radar_facets:
+        formatted_event["radarCategory"] = classify_radar_category(
+            event.title,
+            description=str(subtitle or ""),
+            event_type=str(event_type or ""),
+            genre=str(genre or ""),
+        )
+        if source_name:
+            formatted_event["sourceName"] = sanitize_text(
+                str(source_name),
+                MAX_VENUE_LENGTH,
+            )
+    return formatted_event
 
 
 def _occasion_summary(
@@ -312,7 +332,10 @@ def _export_occasions(
     expected_files: set[str] = set()
 
     for bundle in bundles:
-        programme = [_format_web_event(event, year) for event in bundle.events]
+        programme = [
+            _format_web_event(event, year, include_radar_facets=False)
+            for event in bundle.events
+        ]
         summary = _occasion_summary(
             bundle,
             programme,

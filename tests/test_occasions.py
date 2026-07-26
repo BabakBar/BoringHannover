@@ -160,6 +160,7 @@ def test_web_export_splits_regular_events_and_occasion_programme(tmp_path) -> No
     )
 
     assert [event["title"] for event in homepage["concerts"]] == ["Regular Concert"]
+    assert homepage["concerts"][0]["radarCategory"] == "Live Music"
     assert len(homepage["occasions"]) == 1
     assert homepage["occasions"][0]["programmeCount"] == 1
     assert homepage["occasions"][0]["locationCount"] == 1
@@ -171,6 +172,7 @@ def test_web_export_splits_regular_events_and_occasion_programme(tmp_path) -> No
     assert programme_data["occasion"]["slug"] == "maschseefest-2026"
     assert programme_data["programme"][0]["dateISO"] == "2026-07-28"
     assert programme_data["programme"][0]["programmeCategory"] == "Music"
+    assert "radarCategory" not in programme_data["programme"][0]
 
 
 def test_web_export_keeps_summary_when_programme_is_empty(tmp_path) -> None:

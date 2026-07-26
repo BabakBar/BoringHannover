@@ -46,7 +46,7 @@ Stages 1–3 are implemented on `feat/community-issues`:
 - occasion programmes are removed from the ordinary Radar timeline;
 - the main manifest contains compact summaries while each complete programme is
   written to `occasions/<slug>.json`;
-- the homepage renders one lead occasion and at most two supporting summaries;
+- the homepage renders one lead occasion and at most one supporting summary;
 - `/special/` keeps every current occasion reachable, while
   `/special/<slug>/` provides the dedicated programme or summary-only state;
 - Telegram output summarizes occasions instead of sending hundreds of child
@@ -91,7 +91,7 @@ An occasion summary may show:
 
 These are product constraints:
 
-- at most three occasion summaries;
+- at most two occasion summaries;
 - at most three programme previews per occasion;
 - no complete occasion programme in the homepage DOM;
 - no combined count such as `All 278`;
