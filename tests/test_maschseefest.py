@@ -111,6 +111,8 @@ def test_parse_detail_page_enriches_an_incomplete_programme_card() -> None:
     assert event.metadata["time"] == "16:00"
     assert event.metadata["time_confidence"] == CONFIRMED_TIME
     assert event.metadata["event_type"] == "festival"
+    assert event.metadata["occasion_id"] == "maschseefest-2026"
+    assert event.metadata["programme_category"] == "Music"
     assert event.metadata["end_time"] == "22:00"
     assert event.metadata["subtitle"] == "Das NP-Sommerfestival am Nordufer."
     assert event.metadata["image_url"].endswith("/sommerfestival.jpg")

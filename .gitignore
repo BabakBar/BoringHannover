@@ -225,6 +225,7 @@ boringhannover.log
 web/output/*
 !web/output/web_events.json
 !web/output/.gitkeep
+!web/output/occasions/
+!web/output/occasions/*.json
 src/.DS_Store
 src/boringhannover/.DS_Store
-

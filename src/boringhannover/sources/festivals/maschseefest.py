@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup
 from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
 from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
+from boringhannover.occasions import OccasionDefinition, classify_programme_item
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
 
@@ -66,6 +67,19 @@ class MaschseefestSource(BaseSource):
     SEASON_START: ClassVar[date_type] = date_type(2026, 7, 22)
     SEASON_END: ClassVar[date_type] = date_type(2026, 8, 9)
     FALLBACK_START_TIME: ClassVar[time] = time(12, 0)
+    occasion: ClassVar[OccasionDefinition | None] = OccasionDefinition(
+        id="maschseefest-2026",
+        slug="maschseefest-2026",
+        name="Maschseefest",
+        kind="festival",
+        start_date=SEASON_START,
+        end_date=SEASON_END,
+        location="Around the Maschsee",
+        source_url=PROGRAMME_URL,
+        description=(
+            "Music, food, family moments and late nights around Hannover's lake."
+        ),
+    )
 
     def fetch(self) -> list[Event]:
         """Fetch events in the aggregation horizon during the 2026 season."""
@@ -372,6 +386,7 @@ class MaschseefestSource(BaseSource):
             CONFIRMED_TIME if entry.start_time is not None else FALLBACK_TIME
         )
         description = entry.description or ""
+        programme_category = classify_programme_item(entry.title, description)
 
         return Event(
             title=entry.title,
@@ -384,6 +399,8 @@ class MaschseefestSource(BaseSource):
                 "time_confidence": time_confidence,
                 "end_time": entry.end_time or "",
                 "event_type": "festival",
+                "occasion_id": "maschseefest-2026",
+                "programme_category": programme_category or "",
                 "subtitle": description,
                 "description": description,
                 "image_url": entry.image_url or "",

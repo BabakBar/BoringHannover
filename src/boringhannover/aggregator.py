@@ -23,13 +23,14 @@ from boringhannover.sources import get_all_sources
 
 if TYPE_CHECKING:
     from boringhannover.models import Event
+    from boringhannover.occasions import OccasionDefinition
 
 __all__ = ["fetch_all_events"]
 
 logger = logging.getLogger(__name__)
 
 
-def fetch_all_events() -> dict[str, list[Event]]:
+def fetch_all_events() -> dict[str, list[Event] | list[OccasionDefinition]]:
     """Fetch and categorize events from all registered sources.
 
     Orchestrates all registered and enabled scrapers, then categorizes
@@ -51,6 +52,7 @@ def fetch_all_events() -> dict[str, list[Event]]:
 
     all_movies: list[Event] = []
     radar_events: list[Event] = []
+    city_occasions: list[OccasionDefinition] = []
 
     # Get all registered sources
     sources = get_all_sources()
@@ -84,6 +86,22 @@ def fetch_all_events() -> dict[str, list[Event]]:
                     all_movies.append(event)
                 else:
                     radar_events.append(event)
+
+            try:
+                discovered_occasions = source.discover_occasions()
+                if isinstance(discovered_occasions, list):
+                    city_occasions.extend(discovered_occasions)
+                else:
+                    logger.warning(
+                        "Source %s returned an invalid occasion collection",
+                        name,
+                    )
+            except Exception as exc:
+                logger.warning(
+                    "Occasion discovery for source %s failed: %s",
+                    name,
+                    exc,
+                )
 
             logger.info(
                 "Source %s: fetched %d events",
@@ -119,4 +137,5 @@ def fetch_all_events() -> dict[str, list[Event]]:
     return {
         "movies_this_week": movies_this_week,
         "big_events_radar": big_events_radar,
+        "city_occasions": city_occasions,
     }

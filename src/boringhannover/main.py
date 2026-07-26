@@ -14,7 +14,7 @@ import sys
 from typing import NoReturn
 
 from boringhannover.aggregator import fetch_all_events
-from boringhannover.github_sync import should_sync, sync_to_github
+from boringhannover.github_sync import should_sync, sync_web_data_to_github
 from boringhannover.notifier import notify
 
 
@@ -98,7 +98,7 @@ def run(*, local: bool = False) -> bool:
         # Step 3: Sync data to GitHub (if configured)
         if (not local) and should_sync():
             logger.info("Syncing data to GitHub...")
-            sync_success = sync_to_github("output/web_events.json")
+            sync_success = sync_web_data_to_github("output")
             if sync_success:
                 logger.info("GitHub sync completed - frontend rebuild triggered")
             else:
