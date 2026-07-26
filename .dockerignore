@@ -65,6 +65,10 @@ conftest.py
 
 # Output (runtime generated)
 output/
+!web/output/
+!web/output/web_events.json
+!web/output/occasions/
+!web/output/occasions/*.json
 *.log
 boringhannover.log
 

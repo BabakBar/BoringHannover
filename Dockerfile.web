@@ -29,8 +29,8 @@ RUN bun install --frozen-lockfile --ignore-scripts
 # Copy source files
 COPY web/ ./
 
-# Build the static site
-RUN bun run build
+# Production images must never silently fall back to the development mock data.
+RUN test -f output/web_events.json && bun run build
 
 # -----------------------------------------------------------------------------
 # Stage 2: Production nginx server
