@@ -28,6 +28,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from boringhannover.models import Event
+    from boringhannover.occasions import OccasionDefinition
 
 __all__ = [
     "GroupedMovie",
@@ -176,6 +177,8 @@ class OutputManager:
         self,
         movies: Sequence[Event],
         concerts: Sequence[Event],
+        *,
+        occasion_definitions: Sequence[OccasionDefinition] = (),
     ) -> dict[str, Path]:
         """Export all output formats.
 
@@ -200,9 +203,21 @@ class OutputManager:
         export_enhanced_json(
             movies, concerts, grouped_movies, self.output_path, week_num, year
         )
-        export_web_json(movies, concerts, self.output_path, week_num, year)
+        export_web_json(
+            movies,
+            concerts,
+            self.output_path,
+            week_num,
+            year,
+            occasion_definitions=occasion_definitions,
+        )
         export_markdown_digest(
-            grouped_movies, concerts, self.output_path, week_num, year
+            grouped_movies,
+            concerts,
+            self.output_path,
+            week_num,
+            year,
+            occasion_definitions=occasion_definitions,
         )
         archive_weekly_data(movies, concerts, self.output_path, week_num, year)
 
@@ -212,6 +227,7 @@ class OutputManager:
             "concerts_csv": self.output_path / "concerts.csv",
             "json": self.output_path / "events.json",
             "web_json": self.output_path / "web_events.json",
+            "occasions": self.output_path / "occasions",
             "markdown": self.output_path / "weekly_digest.md",
             "archive": self.output_path / "archive" / f"{year}-W{week_num:02d}.json",
         }
@@ -221,6 +237,8 @@ def export_all_formats(
     movies: Sequence[Event],
     concerts: Sequence[Event],
     output_dir: str | Path = "output",
+    *,
+    occasion_definitions: Sequence[OccasionDefinition] = (),
 ) -> dict[str, Path]:
     """Convenience function to export all formats.
 
@@ -233,4 +251,8 @@ def export_all_formats(
         Dictionary mapping format names to output paths.
     """
     manager = OutputManager(output_dir)
-    return manager.export_all(movies, concerts)
+    return manager.export_all(
+        movies,
+        concerts,
+        occasion_definitions=occasion_definitions,
+    )

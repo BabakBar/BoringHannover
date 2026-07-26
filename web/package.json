@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "test": "bun test",
     "build": "bun scripts/generate-icons.mjs && astro build",
     "preview": "astro preview",
     "astro": "astro"

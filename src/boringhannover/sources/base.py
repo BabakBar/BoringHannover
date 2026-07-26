@@ -35,6 +35,7 @@ from boringhannover.constants import BERLIN_TZ
 
 if TYPE_CHECKING:
     from boringhannover.models import Event
+    from boringhannover.occasions import OccasionDefinition
 
 __all__ = [
     "BaseSource",
@@ -160,6 +161,7 @@ class BaseSource(ABC):
     # Optional configuration
     enabled: ClassVar[bool] = True
     max_events: ClassVar[int | None] = None
+    occasion: ClassVar[OccasionDefinition | None] = None
 
     @abstractmethod
     def fetch(self) -> list[Event]:
@@ -171,6 +173,10 @@ class BaseSource(ABC):
         Raises:
             httpx.RequestError: If the HTTP request fails.
         """
+
+    def discover_occasions(self) -> list[OccasionDefinition]:
+        """Return source-owned occasion summaries, if this source has one."""
+        return [self.occasion] if self.occasion is not None else []
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__}(name={self.source_name!r}, type={self.source_type!r})>"

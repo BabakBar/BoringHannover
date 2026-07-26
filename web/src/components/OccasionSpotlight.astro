@@ -1,0 +1,316 @@
+---
+import type { OccasionSummary } from '../data/types';
+
+interface Props {
+  occasion: OccasionSummary;
+  compact?: boolean;
+}
+
+const { occasion, compact = false } = Astro.props;
+
+const statusLabels = {
+  upcoming: 'Coming soon',
+  happening_now: 'Happening now',
+  final_weekend: 'Final weekend',
+} as const;
+
+function shortDate(isoDate: string): string {
+  return new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'short',
+  }).format(new Date(`${isoDate}T12:00:00`)).toUpperCase();
+}
+
+const dateRange = `${shortDate(occasion.startDate)} — ${shortDate(occasion.endDate)}`;
+const detailUrl = `/special/${occasion.slug}/`;
+---
+
+<article
+  class:list={['occasion-spotlight', { 'occasion-spotlight--compact': compact }]}
+  aria-labelledby={`occasion-${occasion.id}`}
+>
+  <div class="occasion-spotlight__signal" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+
+  <div class="occasion-spotlight__eyebrow">
+    <span>Special in Hannover</span>
+    <span class="occasion-spotlight__status">
+      <span class="occasion-spotlight__live-dot" aria-hidden="true"></span>
+      {statusLabels[occasion.status]}
+    </span>
+  </div>
+
+  <div class="occasion-spotlight__body">
+    <p class="occasion-spotlight__date">{dateRange}</p>
+    <h2 id={`occasion-${occasion.id}`}>{occasion.name}</h2>
+    <p class="occasion-spotlight__description">{occasion.description}</p>
+
+    <div class="occasion-spotlight__facts" aria-label="Occasion details">
+      <span>{occasion.location}</span>
+      <span aria-hidden="true">·</span>
+      <span>
+        {occasion.programmeCount > 0
+          ? `${occasion.programmeCount} programme items`
+          : 'Official listing'}
+      </span>
+      {occasion.locationCount > 0 && (
+        <>
+          <span aria-hidden="true">·</span>
+          <span>{occasion.locationCount} locations</span>
+        </>
+      )}
+    </div>
+  </div>
+
+  {!compact && occasion.preview.length > 0 && (
+    <div class="occasion-spotlight__preview" aria-label="Coming up">
+      {occasion.preview.map((event) => (
+        <div class="occasion-spotlight__preview-row">
+          <span class="occasion-spotlight__preview-time">
+            {event.time ?? event.day}
+          </span>
+          <span class="occasion-spotlight__preview-title">{event.title}</span>
+          <span class="occasion-spotlight__preview-venue">{event.venue}</span>
+        </div>
+      ))}
+    </div>
+  )}
+
+  <a
+    href={detailUrl}
+    class="occasion-spotlight__action"
+    data-umami-event="occasion-open"
+    data-umami-event-occasion={occasion.slug}
+  >
+    <span>{occasion.programmeCount > 0 ? 'Explore the programme' : 'See the occasion'}</span>
+    <span aria-hidden="true">↗</span>
+  </a>
+</article>
+
+<style>
+  .occasion-spotlight {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    padding: 1.1rem;
+    color: var(--text-primary);
+    background:
+      linear-gradient(135deg, var(--accent-dim), transparent 42%),
+      var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+
+  .occasion-spotlight::after {
+    content: '';
+    position: absolute;
+    right: -3.5rem;
+    bottom: -4.5rem;
+    width: 9rem;
+    height: 9rem;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+
+  .occasion-spotlight__signal {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  .occasion-spotlight__signal span {
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+  }
+
+  .occasion-spotlight__eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .occasion-spotlight__eyebrow > span:first-child {
+    color: var(--accent);
+  }
+
+  .occasion-spotlight__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .occasion-spotlight__live-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .occasion-spotlight__body {
+    margin-top: 1.5rem;
+  }
+
+  .occasion-spotlight__date {
+    color: var(--text-data);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+  }
+
+  .occasion-spotlight h2 {
+    margin-top: 0.25rem;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.75rem, 9vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.06em;
+    line-height: 0.98;
+    text-transform: uppercase;
+  }
+
+  .occasion-spotlight__description {
+    max-width: 28rem;
+    margin-top: 0.8rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .occasion-spotlight__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.8rem;
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+  }
+
+  .occasion-spotlight__preview {
+    margin-top: 1.25rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .occasion-spotlight__preview-row {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    gap: 0.15rem 0.65rem;
+    padding: 0.35rem 0;
+  }
+
+  .occasion-spotlight__preview-time {
+    color: var(--text-data);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6875rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .occasion-spotlight__preview-title {
+    overflow: hidden;
+    color: var(--text-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .occasion-spotlight__preview-venue {
+    grid-column: 2;
+    overflow: hidden;
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .occasion-spotlight__action {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    margin-top: 1rem;
+    padding: 0.7rem 0.8rem;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition:
+      border-color 0.15s ease-out,
+      transform 0.15s ease-out;
+  }
+
+  .occasion-spotlight__action:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .occasion-spotlight--compact {
+    margin-top: -1.75rem;
+    padding: 0.9rem 1rem;
+    background: var(--bg-primary);
+  }
+
+  .occasion-spotlight--compact .occasion-spotlight__signal {
+    display: none;
+  }
+
+  .occasion-spotlight--compact .occasion-spotlight__eyebrow > span:first-child {
+    font-size: 0;
+  }
+
+  .occasion-spotlight--compact .occasion-spotlight__eyebrow > span:first-child::after {
+    content: 'Also happening';
+    font-size: 0.625rem;
+  }
+
+  .occasion-spotlight--compact .occasion-spotlight__body {
+    margin-top: 0.85rem;
+  }
+
+  .occasion-spotlight--compact h2 {
+    font-size: 1.35rem;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  .occasion-spotlight--compact .occasion-spotlight__description {
+    display: -webkit-box;
+    margin-top: 0.45rem;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .occasion-spotlight--compact .occasion-spotlight__facts {
+    margin-top: 0.55rem;
+  }
+
+  .occasion-spotlight--compact .occasion-spotlight__action {
+    min-height: 40px;
+    margin-top: 0.7rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .occasion-spotlight__action {
+      transition: none;
+    }
+  }
+</style>

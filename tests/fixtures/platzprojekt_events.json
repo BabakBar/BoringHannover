@@ -1,0 +1,102 @@
+{
+  "total": 6,
+  "total_pages": 1,
+  "events": [
+    {
+      "id": 11837,
+      "title": "PLATZkino &#8211; heute mit &#8222;Parasite&#8220;",
+      "description": "<p>Jeden vierten Dienstag findet das <strong>PLATZkino</strong> statt.</p>",
+      "start_date": "2026-07-28 20:00:00",
+      "end_date": "2026-07-28 23:00:00",
+      "all_day": false,
+      "status": "publish",
+      "hide_from_listings": false,
+      "url": "https://platzprojekt.de/programm/platzkino-3-2-2/",
+      "cost": "5 €",
+      "venue": {
+        "venue": "OSCO &#8211; OpenSpace",
+        "address": "Fössestr. 103",
+        "city": "Hannover",
+        "zip": "30453"
+      },
+      "image": {
+        "url": "https://platzprojekt.de/wp-content/uploads/2026/07/platzkino.jpg"
+      }
+    },
+    {
+      "id": 11512,
+      "title": "Blaue Zone Sommercamp",
+      "description": "<p>Zehn Sommertage voller Workshops und Musik.</p>",
+      "start_date": "2026-07-30 00:00:00",
+      "end_date": "2026-07-30 23:59:59",
+      "all_day": true,
+      "status": "publish",
+      "hide_from_listings": false,
+      "url": "https://platzprojekt.de/programm/blaue-zone-sommercamp/",
+      "cost": "",
+      "venue": {
+        "venue": "PLATZprojekt",
+        "address": "Fössestraße 105",
+        "city": "Hannover",
+        "zip": "30453"
+      },
+      "image": false
+    },
+    {
+      "id": 10000631,
+      "title": "Offenes Krökeln",
+      "description": "<p>Jeden Donnerstag offen für alle.</p>",
+      "start_date": "2026-08-06 20:00:00",
+      "end_date": "2026-08-06 23:00:00",
+      "all_day": false,
+      "status": "publish",
+      "hide_from_listings": false,
+      "url": "https://platzprojekt.de/programm/offenes-kroekeln/2026-08-06/",
+      "cost": "",
+      "venue": false,
+      "image": false
+    },
+    {
+      "id": 20001,
+      "title": "FÄLLT AUS! Kickboxen",
+      "description": "",
+      "start_date": "2026-08-07 18:00:00",
+      "end_date": "2026-08-07 20:00:00",
+      "all_day": false,
+      "status": "publish",
+      "hide_from_listings": false,
+      "url": "https://platzprojekt.de/programm/kickboxen/",
+      "cost": "",
+      "venue": false,
+      "image": false
+    },
+    {
+      "id": 20002,
+      "title": "Verstecktes internes Treffen",
+      "description": "",
+      "start_date": "2026-08-08 18:00:00",
+      "end_date": "2026-08-08 20:00:00",
+      "all_day": false,
+      "status": "publish",
+      "hide_from_listings": true,
+      "url": "https://platzprojekt.de/programm/intern/",
+      "cost": "",
+      "venue": false,
+      "image": false
+    },
+    {
+      "id": 20003,
+      "title": "Ungültiger Link",
+      "description": "",
+      "start_date": "2026-08-09 18:00:00",
+      "end_date": "2026-08-09 20:00:00",
+      "all_day": false,
+      "status": "publish",
+      "hide_from_listings": false,
+      "url": "javascript:alert(1)",
+      "cost": "",
+      "venue": false,
+      "image": false
+    }
+  ]
+}

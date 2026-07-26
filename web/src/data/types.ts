@@ -21,15 +21,49 @@ export interface MovieDay {
 export interface Concert {
   title: string;
   date: string;   // "29 Nov" or "28 Mar 2026"
+  dateISO?: string | null; // "2026-07-29"
   day: string;    // "Sa", "Fr", etc.
   time?: string | null;
   timeConfidence?: "confirmed" | "fallback" | null;
+  endTime?: string | null;
   venue: string;
   url?: string | null;
   eventType?: string | null;    // "concert", "sport", "show"
+  radarCategory?: string | null;
   genre?: string | null;        // "Konzert", "Festival", etc.
+  programmeCategory?: string | null;
   description?: string | null;  // Short description/subtitle
+  imageUrl?: string | null;
+  sourceName?: string | null;
   status?: string | null;       // "available", "sold_out"
+}
+
+export type OccasionStatus = 'upcoming' | 'happening_now' | 'final_weekend';
+
+export interface OccasionSummary {
+  id: string;
+  slug: string;
+  name: string;
+  kind: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  description: string;
+  imageUrl?: string | null;
+  sourceUrl: string;
+  status: OccasionStatus;
+  programmeCount: number;
+  locationCount: number;
+  programmePath: string;
+  preview: Concert[];
+}
+
+export interface OccasionProgramme {
+  meta: {
+    updatedAt: string;
+  };
+  occasion: OccasionSummary;
+  programme: Concert[];
 }
 
 export interface EventMeta {
@@ -42,4 +76,5 @@ export interface EventData {
   meta: EventMeta;
   movies: MovieDay[];
   concerts: Concert[];
+  occasions: OccasionSummary[];
 }

@@ -30,7 +30,15 @@ from boringhannover.event_time import (
     get_display_time,
     get_time_confidence,
 )
+from boringhannover.genre import normalize_genre
+from boringhannover.occasions import (
+    OccasionBundle,
+    OccasionDefinition,
+    build_occasion_bundles,
+)
+from boringhannover.radar_categories import classify_radar_category
 from boringhannover.sanitize import (
+    MAX_DESCRIPTION_LENGTH,
     MAX_TITLE_LENGTH,
     MAX_VENUE_LENGTH,
     sanitize_text,
@@ -183,12 +191,187 @@ _GERMAN_MONTHS = [
 ]
 
 
+def _write_json_atomic(path: Path, data: object) -> None:
+    """Write JSON atomically after rejecting suspiciously small output."""
+    json_content = json.dumps(data, indent=2, ensure_ascii=False)
+
+    with tempfile.NamedTemporaryFile(
+        mode="w",
+        suffix=".json",
+        dir=path.parent,
+        delete=False,
+        encoding="utf-8",
+    ) as tmp:
+        tmp.write(json_content)
+        tmp_path = Path(tmp.name)
+
+    if tmp_path.stat().st_size < 50:
+        tmp_path.unlink()
+        msg = f"Generated JSON too small: {path.name}"
+        raise ValueError(msg)
+
+    shutil.move(str(tmp_path), str(path))
+
+
+def _format_web_event(
+    event: Event,
+    year: int,
+    *,
+    include_radar_facets: bool = True,
+) -> dict[str, object]:
+    """Format one event for regular and occasion web surfaces."""
+    dt = event.date
+    day_name = _GERMAN_DAYS[dt.weekday()]
+    month_name = _GERMAN_MONTHS[dt.month]
+    date_display = (
+        f"{dt.day} {month_name} {dt.year}"
+        if dt.year != year
+        else f"{dt.day} {month_name}"
+    )
+
+    event_type = event.metadata.get("event_type", "concert")
+    raw_genre = event.metadata.get("genre")
+    genre = normalize_genre(str(raw_genre)) if raw_genre else None
+    subtitle = event.metadata.get("subtitle")
+    status = event.metadata.get("status", "available")
+    programme_category = event.metadata.get("programme_category")
+    end_time = event.metadata.get("end_time")
+    image_url = event.metadata.get("image_url")
+    source_name = event.metadata.get("source_name")
+
+    formatted_event: dict[str, object] = {
+        "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
+        "date": date_display,
+        "dateISO": dt.date().isoformat(),
+        "day": day_name,
+        "time": get_display_time(event),
+        "timeConfidence": get_time_confidence(event),
+        "endTime": sanitize_text(str(end_time), 5) if end_time else None,
+        "venue": sanitize_text(event.venue, MAX_VENUE_LENGTH),
+        "url": sanitize_url(event.url),
+        "eventType": sanitize_text(str(event_type), 50) if event_type else "concert",
+        "genre": sanitize_text(str(genre), 50) if genre else None,
+        "programmeCategory": (
+            sanitize_text(str(programme_category), 50) if programme_category else None
+        ),
+        "description": (
+            sanitize_text(str(subtitle), MAX_DESCRIPTION_LENGTH) if subtitle else None
+        ),
+        "imageUrl": sanitize_url(str(image_url)) if image_url else None,
+        "status": sanitize_text(str(status), 50),
+    }
+    if include_radar_facets:
+        formatted_event["radarCategory"] = classify_radar_category(
+            event.title,
+            description=str(subtitle or ""),
+            event_type=str(event_type or ""),
+            genre=str(genre or ""),
+        )
+        if source_name:
+            formatted_event["sourceName"] = sanitize_text(
+                str(source_name),
+                MAX_VENUE_LENGTH,
+            )
+    return formatted_event
+
+
+def _occasion_summary(
+    bundle: OccasionBundle,
+    programme: list[dict[str, object]],
+    *,
+    generated_at: datetime,
+) -> dict[str, object]:
+    """Create the small City Occasion record consumed by the homepage."""
+    definition = bundle.definition
+    upcoming = [
+        item
+        for event, item in zip(bundle.events, programme, strict=True)
+        if event.date >= generated_at
+    ]
+    preview = upcoming[:3] if upcoming else programme[:3]
+    locations = {event.venue for event in bundle.events if event.venue}
+    first_image = next(
+        (
+            str(item["imageUrl"])
+            for item in programme
+            if isinstance(item.get("imageUrl"), str)
+        ),
+        "",
+    )
+
+    return {
+        "id": definition.id,
+        "slug": definition.slug,
+        "name": sanitize_text(definition.name, MAX_TITLE_LENGTH),
+        "kind": sanitize_text(definition.kind, 50),
+        "startDate": definition.start_date.isoformat(),
+        "endDate": definition.end_date.isoformat(),
+        "location": sanitize_text(definition.location, MAX_VENUE_LENGTH),
+        "description": sanitize_text(definition.description, 240),
+        "imageUrl": sanitize_url(definition.image_url) or first_image or None,
+        "sourceUrl": sanitize_url(definition.source_url),
+        "status": bundle.status,
+        "programmeCount": len(programme),
+        "locationCount": len(locations),
+        "programmePath": f"occasions/{definition.slug}.json",
+        "preview": preview,
+    }
+
+
+def _export_occasions(
+    bundles: list[OccasionBundle],
+    output_path: Path,
+    *,
+    generated_at: datetime,
+    year: int,
+) -> list[dict[str, object]]:
+    """Write per-occasion programmes and return homepage summaries."""
+    occasions_path = output_path / "occasions"
+    occasions_path.mkdir(parents=True, exist_ok=True)
+    summaries: list[dict[str, object]] = []
+    expected_files: set[str] = set()
+
+    for bundle in bundles:
+        programme = [
+            _format_web_event(event, year, include_radar_facets=False)
+            for event in bundle.events
+        ]
+        summary = _occasion_summary(
+            bundle,
+            programme,
+            generated_at=generated_at,
+        )
+        file_name = f"{bundle.definition.slug}.json"
+        expected_files.add(file_name)
+        _write_json_atomic(
+            occasions_path / file_name,
+            {
+                "meta": {
+                    "updatedAt": generated_at.strftime("%a %d %b %H:%M"),
+                },
+                "occasion": summary,
+                "programme": programme,
+            },
+        )
+        summaries.append(summary)
+
+    for stale_path in occasions_path.glob("*.json"):
+        if stale_path.name not in expected_files:
+            stale_path.unlink()
+            logger.info("Removed expired occasion export %s", stale_path)
+
+    return summaries
+
+
 def export_web_json(
     movies: Sequence[Event],
     concerts: Sequence[Event],
     output_path: Path,
     week_num: int,
     year: int,
+    *,
+    occasion_definitions: Sequence[OccasionDefinition] = (),
+    generated_at: datetime | None = None,
 ) -> None:
     """Export JSON specifically formatted for the web frontend.
 
@@ -276,71 +459,36 @@ def export_web_json(
             }
         )
 
-    # Format concerts
-    concerts_list = []
-    for event in sorted(concerts, key=lambda e: e.date):
-        dt = event.date
-        day_name = _GERMAN_DAYS[dt.weekday()]
-        month_name = _GERMAN_MONTHS[dt.month]
-
-        if dt.year != year:
-            date_display = f"{dt.day} {month_name} {dt.year}"
-        else:
-            date_display = f"{dt.day} {month_name}"
-
-        event_type = event.metadata.get("event_type", "concert")
-        genre = event.metadata.get("genre")
-        subtitle = event.metadata.get("subtitle")
-        status = event.metadata.get("status", "available")
-
-        concerts_list.append(
-            {
-                "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
-                "date": date_display,
-                "day": day_name,
-                "time": get_display_time(event),
-                "timeConfidence": get_time_confidence(event),
-                "venue": sanitize_text(event.venue, MAX_VENUE_LENGTH),
-                "url": sanitize_url(event.url),
-                "eventType": (
-                    sanitize_text(str(event_type), 50) if event_type else "concert"
-                ),
-                "genre": sanitize_text(str(genre), 50) if genre else None,
-                "description": sanitize_text(str(subtitle), 200) if subtitle else None,
-                "status": status,
-            }
-        )
+    generated_at = generated_at or datetime.now(BERLIN_TZ)
+    regular_concerts, occasion_bundles = build_occasion_bundles(
+        concerts,
+        occasion_definitions=occasion_definitions,
+        now=generated_at,
+    )
+    concerts_list = [
+        _format_web_event(event, year)
+        for event in sorted(regular_concerts, key=lambda event: event.date)
+    ]
+    occasions = _export_occasions(
+        occasion_bundles,
+        output_path,
+        generated_at=generated_at,
+        year=year,
+    )
 
     # Build final structure
     data = {
         "meta": {
             "week": week_num,
             "year": year,
-            "updatedAt": datetime.now(BERLIN_TZ).strftime("%a %d %b %H:%M"),
+            "updatedAt": generated_at.strftime("%a %d %b %H:%M"),
         },
         "movies": movies_list,
         "concerts": concerts_list,
+        "occasions": occasions,
     }
 
-    # Atomic write: temp file on same filesystem ensures atomic rename() syscall
-    json_content = json.dumps(data, indent=2, ensure_ascii=False)
-
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        suffix=".json",
-        dir=output_path,
-        delete=False,
-        encoding="utf-8",
-    ) as tmp:
-        tmp.write(json_content)
-        tmp_path = Path(tmp.name)
-
-    if tmp_path.stat().st_size < 50:
-        tmp_path.unlink()
-        msg = "Generated JSON too small - possible scraper failure"
-        raise ValueError(msg)
-
-    shutil.move(str(tmp_path), str(json_path))
+    _write_json_atomic(json_path, data)
 
     logger.info("Exported web frontend JSON to %s (atomic write)", json_path)
 
@@ -351,6 +499,8 @@ def export_markdown_digest(
     output_path: Path,
     week_num: int,
     year: int,
+    *,
+    occasion_definitions: Sequence[OccasionDefinition] = (),
 ) -> None:
     """Export a nice markdown digest.
 
@@ -362,6 +512,10 @@ def export_markdown_digest(
         year: Current year.
     """
     md_path = output_path / "weekly_digest.md"
+    regular_concerts, occasion_bundles = build_occasion_bundles(
+        concerts,
+        occasion_definitions=occasion_definitions,
+    )
 
     lines = [
         f"# Hannover Week {week_num} ({year})",
@@ -426,19 +580,39 @@ def export_markdown_digest(
         lines.append("---")
         lines.append("")
 
+    if occasion_bundles:
+        lines.extend(["## Special in Hannover", ""])
+        for bundle in occasion_bundles:
+            definition = bundle.definition
+            lines.extend(
+                [
+                    f"### {definition.name}",
+                    "",
+                    (
+                        f"**{definition.start_date.strftime('%d %b')}-"
+                        f"{definition.end_date.strftime('%d %b')}** · "
+                        f"{len(bundle.events)} programme items · "
+                        f"{definition.location}"
+                    ),
+                    "",
+                    f"[Explore the official programme]({definition.source_url})",
+                    "",
+                ]
+            )
+
     # Concerts section
     lines.extend(
         [
             "## On The Radar",
             "",
-            f"**{len(concerts)} upcoming events**",
+            f"**{len(regular_concerts)} upcoming events**",
             "",
             "| Date | Artist | Venue | Status |",
             "|------|--------|-------|--------|",
         ]
     )
 
-    for event in concerts:
+    for event in regular_concerts:
         date_str = event.date.strftime("%Y-%m-%d")
         time_str = get_display_time(event) or UNKNOWN_TIME_LABEL
         status = event.metadata.get("status", "available")

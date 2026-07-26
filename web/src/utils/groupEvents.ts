@@ -39,8 +39,10 @@ export function groupEventsByDate(concerts: Concert[]): EventGroup[] {
 }
 
 /**
- * Smart slice: returns complete day groups up to ~targetCount events.
- * Never splits a day group between visible/overflow.
+ * Keep the visible timeline within its event budget.
+ *
+ * A large first day is split across visible and overflow groups instead of
+ * collapsing the entire timeline into one "more" control.
  */
 export function sliceEventGroups(
   groups: EventGroup[],
@@ -49,25 +51,25 @@ export function sliceEventGroups(
   const visible: EventGroup[] = [];
   const overflow: EventGroup[] = [];
   let eventCount = 0;
-  let reachedTarget = false;
 
   for (const group of groups) {
-    if (!reachedTarget && eventCount + group.events.length <= targetCount) {
+    const remaining = Math.max(0, targetCount - eventCount);
+
+    if (remaining === 0) {
+      overflow.push(group);
+    } else if (group.events.length <= remaining) {
       visible.push(group);
       eventCount += group.events.length;
-    } else if (!reachedTarget && eventCount < targetCount) {
-      // This group would exceed target, but we haven't hit target yet
-      // Include it to avoid tiny overflow, unless it's huge
-      if (group.events.length <= 6) {
-        visible.push(group);
-        eventCount += group.events.length;
-      }
-      reachedTarget = true;
-      if (group.events.length > 6) {
-        overflow.push(group);
-      }
     } else {
-      overflow.push(group);
+      visible.push({
+        ...group,
+        events: group.events.slice(0, remaining),
+      });
+      overflow.push({
+        ...group,
+        events: group.events.slice(remaining),
+      });
+      eventCount += remaining;
     }
   }
 

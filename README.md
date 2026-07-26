@@ -12,10 +12,29 @@ Yet the Goethe Institut calls it "[probably the most underrated city in the worl
 
 **BoringHannover** aggregates cinema, concerts, and cultural events from across the city into a clean weekly digest. Because there's always something happening, you just need to know where to look.
 
+The product stays intentionally calm as coverage grows. Large festivals and
+city-wide programmes belong to a separate **City Occasions** layer: one restrained
+homepage summary, followed by a dedicated programme for people who want the
+detail. See [CITY_OCCASIONS.md](CITY_OCCASIONS.md) for the product and automation
+contract and current implementation status.
+
+The mixed **Events on the Radar** feed is browsable by broad, conservative
+categories such as Live Music, Party, Workshop, Sport, Market, and Film. Music
+genres remain visible where a source provides enough evidence. PLATZprojekt
+appears frequently because it is a
+[community-run experimental space](https://platzprojekt.de/ueber-uns/) hosting
+many independent projects—not a single conventional venue.
+
 ## Current Sources
 
-**Cinema:** Astor Grand (OV films only)
-**Concerts/events:** ZAG Arena, Swiss Life Hall, Capitol, Faust, Pavillon, MusikZentrum, Béi Chéz Heinz, Erhardt Café, Glocksee, Punkrock-Konzerte, Kulturpalast Linden, Broncos, Weltspiele (Weidendamm)
+- **Cinema:** Astor Grand (OV films only)
+- **Concerts/events:** ZAG Arena, Swiss Life Hall, Capitol, Faust, Pavillon,
+  MusikZentrum, Béi Chéz Heinz, Erhardt Café, Glocksee, Punkrock-Konzerte,
+  Kulturpalast Linden, Broncos, Weltspiele (Weidendamm), Platzprojekt, LUX,
+  SV Arminia, and Stumpf
+- **Sports:** Hannover 96 home matches
+- **City Occasions:** automatic discovery from Hannover's official festival
+  calendar, with rich Maschseefest programme enrichment
 
 Timing accuracy policy and current audit status: [TIMING_ACCURACY.md](TIMING_ACCURACY.md)
 

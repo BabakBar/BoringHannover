@@ -60,7 +60,14 @@ def discover_sources() -> int:
     discovered = 0
 
     # Define subdirectories to scan for sources
-    source_types = ["cinema", "concerts", "theaters", "festivals", "museums"]
+    source_types = [
+        "cinema",
+        "concerts",
+        "theaters",
+        "festivals",
+        "museums",
+        "sports",
+    ]
 
     for subdir in source_types:
         subdir_path = package_dir / subdir

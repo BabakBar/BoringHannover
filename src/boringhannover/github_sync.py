@@ -17,12 +17,13 @@ from typing import Final
 import httpx
 
 
-__all__ = ["should_sync", "sync_to_github"]
+__all__ = ["should_sync", "sync_to_github", "sync_web_data_to_github"]
 
 logger = logging.getLogger(__name__)
 
 GITHUB_API_BASE: Final[str] = "https://api.github.com"
 WEB_EVENTS_REPO_PATH: Final[str] = "web/output/web_events.json"
+WEB_OCCASIONS_REPO_DIR: Final[str] = "web/output/occasions"
 COMMIT_MESSAGE: Final[str] = "chore: update weekly event data [automated]"
 
 
@@ -105,8 +106,86 @@ def _normalize_events_json(raw: bytes) -> str | None:
         return None
 
 
+def _sync_file(
+    client: httpx.Client,
+    repo: str,
+    local_file: Path,
+    repo_path: str,
+) -> bool:
+    """Create or update one generated web-data file."""
+    content = local_file.read_bytes()
+    existing_sha, existing_raw = _get_existing_file(client, repo, repo_path)
+
+    if existing_raw is not None:
+        existing_norm = _normalize_events_json(existing_raw)
+        local_norm = _normalize_events_json(content)
+        if (
+            existing_norm is not None
+            and local_norm is not None
+            and existing_norm == local_norm
+        ):
+            logger.info("No meaningful changes for %s; skipping", repo_path)
+            return True
+
+    payload: dict[str, str] = {
+        "message": COMMIT_MESSAGE,
+        "content": base64.b64encode(content).decode("ascii"),
+    }
+    if existing_sha:
+        payload["sha"] = existing_sha
+
+    response = client.put(
+        f"/repos/{repo}/contents/{repo_path}",
+        json=payload,
+    )
+    response.raise_for_status()
+    commit_sha = response.json().get("commit", {}).get("sha", "unknown")
+    logger.info("Synced %s (commit: %s)", repo_path, str(commit_sha)[:7])
+    return True
+
+
+def _sync_paths(paths: list[tuple[Path, str]]) -> bool:
+    """Sync generated files in order, leaving the manifest until last."""
+    token = os.getenv("GITHUB_TOKEN")
+    repo = os.getenv("GITHUB_REPO")
+
+    if not token or not repo:
+        msg = "GITHUB_TOKEN and GITHUB_REPO must be set for sync"
+        raise ValueError(msg)
+
+    missing = [str(local_path) for local_path, _ in paths if not local_path.exists()]
+    if missing:
+        logger.error("Local files not found: %s", ", ".join(missing))
+        return False
+
+    try:
+        with httpx.Client(
+            base_url=GITHUB_API_BASE,
+            headers={
+                "Authorization": f"Bearer {token}",
+                "Accept": "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28",
+            },
+            timeout=30,
+        ) as client:
+            return all(
+                _sync_file(client, repo, local_path, repo_path)
+                for local_path, repo_path in paths
+            )
+    except httpx.HTTPStatusError as exc:
+        logger.warning(
+            "GitHub API error: HTTP %d - %s",
+            exc.response.status_code,
+            exc.response.text[:200] if exc.response.text else "no details",
+        )
+        return False
+    except httpx.RequestError:
+        logger.warning("GitHub sync failed: network error")
+        return False
+
+
 def sync_to_github(local_path: str | Path = "output/web_events.json") -> bool:
-    """Commit web_events.json to the GitHub repository.
+    """Commit the web event manifest to the GitHub repository.
 
     Uses the GitHub Contents API to create or update the file.
     This triggers the deploy workflow which rebuilds the frontend.
@@ -120,76 +199,30 @@ def sync_to_github(local_path: str | Path = "output/web_events.json") -> bool:
     Raises:
         ValueError: If required environment variables are not set.
     """
-    token = os.getenv("GITHUB_TOKEN")
-    repo = os.getenv("GITHUB_REPO")
-
-    if not token or not repo:
-        msg = "GITHUB_TOKEN and GITHUB_REPO must be set for sync"
-        raise ValueError(msg)
-
     local_file = Path(local_path)
-    if not local_file.exists():
-        logger.error("Local file not found: %s", local_path)
-        return False
+    return _sync_paths([(local_file, WEB_EVENTS_REPO_PATH)])
 
-    content = local_file.read_bytes()
-    content_base64 = base64.b64encode(content).decode("ascii")
 
-    try:
-        with httpx.Client(
-            base_url=GITHUB_API_BASE,
-            headers={
-                "Authorization": f"Bearer {token}",
-                "Accept": "application/vnd.github+json",
-                "X-GitHub-Api-Version": "2022-11-28",
-            },
-            timeout=30,
-        ) as client:
-            existing_sha, existing_raw = _get_existing_file(
-                client, repo, WEB_EVENTS_REPO_PATH
-            )
-
-            if existing_raw is not None:
-                existing_norm = _normalize_events_json(existing_raw)
-                local_norm = _normalize_events_json(content)
-                if (
-                    existing_norm is not None
-                    and local_norm is not None
-                    and existing_norm == local_norm
-                ):
-                    logger.info(
-                        "No meaningful changes detected; skipping GitHub commit"
-                    )
-                    return True
-
-            payload: dict[str, str] = {
-                "message": COMMIT_MESSAGE,
-                "content": content_base64,
-            }
-
-            if existing_sha:
-                payload["sha"] = existing_sha
-                logger.info("Updating existing file (sha: %s...)", existing_sha[:7])
-            else:
-                logger.info("Creating new file in repository")
-
-            response = client.put(
-                f"/repos/{repo}/contents/{WEB_EVENTS_REPO_PATH}",
-                json=payload,
-            )
-            response.raise_for_status()
-
-            commit_sha = response.json().get("commit", {}).get("sha", "unknown")
-            logger.info("Successfully synced to GitHub (commit: %s)", commit_sha[:7])
-            return True
-
-    except httpx.HTTPStatusError as exc:
-        logger.warning(
-            "GitHub API error: HTTP %d - %s",
-            exc.response.status_code,
-            exc.response.text[:200] if exc.response.text else "no details",
+def _collect_web_sync_paths(output_dir: str | Path) -> list[tuple[Path, str]]:
+    """Collect programme files first and the homepage manifest last."""
+    output_path = Path(output_dir)
+    occasion_paths = sorted((output_path / "occasions").glob("*.json"))
+    paths = [
+        (
+            occasion_path,
+            f"{WEB_OCCASIONS_REPO_DIR}/{occasion_path.name}",
         )
-        return False
-    except httpx.RequestError:
-        logger.warning("GitHub sync failed: network error")
-        return False
+        for occasion_path in occasion_paths
+    ]
+    paths.append((output_path / "web_events.json", WEB_EVENTS_REPO_PATH))
+    return paths
+
+
+def sync_web_data_to_github(output_dir: str | Path = "output") -> bool:
+    """Sync occasion programmes before the manifest that references them.
+
+    Each changed file uses a Contents API commit. The manifest is deliberately
+    last so a failed programme upload cannot publish a broken frontend contract.
+    Deploy concurrency collapses these generated commits into the latest build.
+    """
+    return _sync_paths(_collect_web_sync_paths(output_dir))

@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 26 Jul 16:08"
+  },
+  "occasion": {
+    "id": "hannover-festivals:sommerfest-im-misburger-bad",
+    "slug": "sommerfest-im-misburger-bad",
+    "name": "Sommerfest im Misburger Bad",
+    "kind": "festival",
+    "startDate": "2026-08-08",
+    "endDate": "2026-08-08",
+    "location": "Misburger Bad",
+    "description": "Im Misburger Bad findet am Samstag, den 08.08.2026 in der Zeit von 10:00 Uhr bis 19:00 Uhr ein Sommerfest mit Spiel, Spaß und Action für Kinder und Famili...",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/1/5/3/6/26596351-1-ger-DE/9a6a54ee3550-Misburger-Bad-Vorplatz.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Sommerfest-im-Misburger-Bad",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/sommerfest-im-misburger-bad.json",
+    "preview": []
+  },
+  "programme": []
+}

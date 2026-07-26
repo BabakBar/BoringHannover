@@ -2,7 +2,15 @@
 import type { EventData } from './types';
 
 // Re-export types for convenience
-export type { EventData, Movie, MovieDay, Concert, EventMeta } from './types';
+export type {
+  Concert,
+  EventData,
+  EventMeta,
+  Movie,
+  MovieDay,
+  OccasionProgramme,
+  OccasionSummary,
+} from './types';
 
 // Mock data matching the planned UI
 export const mockData: EventData = {
@@ -85,6 +93,7 @@ export const mockData: EventData = {
       ]
     }
   ],
+  occasions: [],
   concerts: [
     {
       title: "Luciano",

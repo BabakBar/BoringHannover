@@ -20,7 +20,7 @@ const dayMap: Record<string, string> = {
 const dayDisplay = dayMap[day] || day;
 ---
 
-<div class="event-day-group">
+<div class="event-day-group" data-event-group>
   <!-- Date column -->
   <div class="date-column">
     <div class="font-display text-xs text-text-muted uppercase tracking-wide">
@@ -44,6 +44,7 @@ const dayDisplay = dayMap[day] || day;
         venue={event.venue}
         url={event.url}
         eventType={event.eventType}
+        radarCategory={event.radarCategory}
         genre={event.genre}
         description={event.description}
         status={event.status}

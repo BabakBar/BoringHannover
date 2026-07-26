@@ -1,8 +1,17 @@
 import type { APIRoute } from 'astro';
+import { loadEventData } from '../data/loader';
 
 export const prerender = true;
 
-const routes = ['/', '/impressum/', '/datenschutz/'];
+const routes = [
+  '/',
+  '/special/',
+  ...loadEventData().occasions.map(
+    occasion => `/special/${occasion.slug}/`,
+  ),
+  '/impressum/',
+  '/datenschutz/',
+];
 
 function escapeXml(value: string): string {
   return value

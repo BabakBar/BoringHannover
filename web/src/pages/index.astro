@@ -5,14 +5,21 @@ import SectionHeader from '../components/SectionHeader.astro';
 import DateHeader from '../components/DateHeader.astro';
 import MovieCard from '../components/MovieCard.astro';
 import EventDayGroup from '../components/EventDayGroup.astro';
+import OccasionSpotlight from '../components/OccasionSpotlight.astro';
 import Footer from '../components/Footer.astro';
 
 // Load event data (from web_events.json or fallback to mock)
 import { loadEventData } from '../data/loader';
 import { groupEventsByDate, sliceEventGroups } from '../utils/groupEvents';
+import {
+  ALL_RADAR_CATEGORIES,
+  getRadarCategoryOptions,
+} from '../utils/radarCategoryFilter';
+import { selectLandingOccasions } from '../utils/occasionSelection';
 
 const eventData = loadEventData();
-const { meta, movies, concerts } = eventData;
+const { meta, movies, concerts, occasions } = eventData;
+const visibleOccasions = selectLandingOccasions(occasions);
 
 // Movies progressive disclosure: show first N days, hide the rest
 const MOVIE_VISIBLE_DAYS = 3;
@@ -30,10 +37,34 @@ const hasOverflow = overflowGroups.length > 0;
 
 // Calculate overflow event count for button text
 const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.length, 0);
+const radarCategoryOptions = getRadarCategoryOptions(concerts);
+const platzprojektCount = concerts.filter(
+  event => event.sourceName === 'PLATZprojekt',
+).length;
+const hasPlatzprojektContext = (
+  platzprojektCount > 0
+  && platzprojektCount >= concerts.length * 0.25
+);
 ---
 
 <Base title="boringhannover - What's on in Hannover">
   <Header week={meta.week} year={meta.year} />
+
+  {visibleOccasions.map((occasion, index) => (
+    <OccasionSpotlight occasion={occasion} compact={index > 0} />
+  ))}
+
+  {occasions.length > visibleOccasions.length && (
+    <div class="-mt-6 mb-10 text-center">
+      <a
+        href="/special/"
+        class="inline-flex min-h-11 items-center font-display text-[11px] uppercase tracking-wide text-accent hover:underline"
+        data-umami-event="occasion-index-open"
+      >
+        See all {occasions.length} City Occasions
+      </a>
+    </div>
+  )}
 
   <!-- Movies Section -->
   <section class="mb-10">
@@ -114,6 +145,60 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
   <section class="mb-10">
     <SectionHeader title="Events On The Radar" />
 
+    {radarCategoryOptions.length > 0 && (
+      <div
+        class="radar-filter"
+        role="group"
+        aria-labelledby="radar-filter-label"
+      >
+        <span id="radar-filter-label" class="radar-filter__label">Browse by</span>
+        <div class="radar-filter__options scrollbar-hide">
+          <button
+            type="button"
+            class="radar-filter__button"
+            data-radar-filter={ALL_RADAR_CATEGORIES}
+            aria-pressed="true"
+          >
+            All <span>{concerts.length}</span>
+          </button>
+          {radarCategoryOptions.map(({ category, count }) => (
+            <button
+              type="button"
+              class="radar-filter__button"
+              data-radar-filter={category}
+              aria-pressed="false"
+            >
+              {category} <span>{count}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {hasPlatzprojektContext && (
+      <details class="source-context">
+        <summary>
+          Why {platzprojektCount} PLATZprojekt listings?
+        </summary>
+        <div>
+          <p>
+            PLATZprojekt is a community-run experimental space in Linden—not a
+            single venue. Its calendar includes workshops, open groups, sport,
+            markets, food, parties and live music across the site.
+          </p>
+          <a
+            href="https://platzprojekt.de/ueber-uns/"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-umami-event="source-context-open"
+            data-umami-event-source="platzprojekt"
+          >
+            About PLATZprojekt ↗
+          </a>
+        </div>
+      </details>
+    )}
+
     <!-- Visible event groups -->
     <div id="events-visible" class="events-timeline">
       {visibleGroups.map((group) => (
@@ -170,6 +255,9 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
     {concerts.length === 0 && (
       <p class="text-text-muted text-sm py-4">No upcoming events.</p>
     )}
+    <p id="radar-filter-empty" class="text-text-muted text-sm py-4" hidden>
+      No events match this category.
+    </p>
   </section>
 
   <Footer updatedAt={meta.updatedAt} />
@@ -183,6 +271,11 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
 </Base>
 
 <script>
+  import {
+    ALL_RADAR_CATEGORIES,
+    matchesRadarCategory,
+  } from '../utils/radarCategoryFilter';
+
   // Progressive disclosure (show more/less) for Movies + Events.
   function setupDisclosure(toggleId, overflowId, options = {}) {
     const toggle = document.getElementById(toggleId);
@@ -264,4 +357,90 @@ const overflowEventCount = overflowGroups.reduce((sum, g) => sum + g.events.leng
 
   setupDisclosure('movies-toggle', 'movies-overflow');
   setupDisclosure('radar-toggle', 'events-overflow');
+
+  function setupRadarFilter() {
+    const filterButtons = Array.from(
+      document.querySelectorAll('[data-radar-filter]'),
+    );
+    const eventItems = Array.from(
+      document.querySelectorAll('[data-event-item]'),
+    );
+    const eventGroups = Array.from(
+      document.querySelectorAll('[data-event-group]'),
+    );
+    const overflow = document.getElementById('events-overflow');
+    const toggle = document.getElementById('radar-toggle');
+    const emptyState = document.getElementById('radar-filter-empty');
+
+    if (filterButtons.length === 0 || eventItems.length === 0) return;
+
+    for (const button of filterButtons) {
+      button.addEventListener('click', () => {
+        if (!(button instanceof HTMLButtonElement)) return;
+
+        const selectedCategory = (
+          button.dataset.radarFilter ?? ALL_RADAR_CATEGORIES
+        );
+        let visibleEventCount = 0;
+
+        for (const item of eventItems) {
+          if (!(item instanceof HTMLElement)) continue;
+
+          const isVisible = matchesRadarCategory(
+            item.dataset.radarCategory || null,
+            selectedCategory,
+          );
+          item.classList.toggle('radar-hidden', !isVisible);
+          visibleEventCount += Number(isVisible);
+        }
+
+        for (const group of eventGroups) {
+          if (!(group instanceof HTMLElement)) continue;
+
+          const hasVisibleEvent = Boolean(
+            group.querySelector('[data-event-item]:not(.radar-hidden)'),
+          );
+          group.classList.toggle('radar-hidden', !hasVisibleEvent);
+          group
+            .closest('.overflow-group')
+            ?.classList.toggle('radar-hidden', !hasVisibleEvent);
+        }
+
+        const isFiltering = selectedCategory !== ALL_RADAR_CATEGORIES;
+        if (overflow) {
+          overflow.setAttribute(
+            'aria-hidden',
+            String(!isFiltering && toggle?.getAttribute('aria-expanded') !== 'true'),
+          );
+          overflow.classList.toggle(
+            'is-visible',
+            isFiltering || toggle?.getAttribute('aria-expanded') === 'true',
+          );
+          overflow.classList.toggle(
+            'is-expanded',
+            isFiltering || toggle?.getAttribute('aria-expanded') === 'true',
+          );
+          overflow.classList.remove('is-collapsing');
+        }
+        toggle?.toggleAttribute('hidden', isFiltering);
+
+        for (const option of filterButtons) {
+          option.setAttribute(
+            'aria-pressed',
+            String(
+              option instanceof HTMLElement
+              && option.dataset.radarFilter === selectedCategory
+            ),
+          );
+        }
+        emptyState?.toggleAttribute('hidden', visibleEventCount > 0);
+
+        if (typeof umami !== 'undefined') {
+          umami.track('events-category-filter', { category: selectedCategory });
+        }
+      });
+    }
+  }
+
+  setupRadarFilter();
 </script>

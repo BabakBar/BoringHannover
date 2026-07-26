@@ -11,15 +11,17 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, NotRequired, TypedDict
 
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.formatting import format_movies_section, format_radar_section
+from boringhannover.occasions import OccasionBundle, build_occasion_bundles
 from boringhannover.output import export_all_formats
 
 
 if TYPE_CHECKING:
     from boringhannover.models import Event, EventCategory, EventMetadata
+    from boringhannover.occasions import OccasionDefinition
 
 
 __all__ = [
@@ -42,6 +44,7 @@ class EventsData(TypedDict):
 
     movies_this_week: list[Event]
     big_events_radar: list[Event]
+    city_occasions: NotRequired[list[OccasionDefinition]]
 
 
 class EventJSON(TypedDict):
@@ -60,7 +63,30 @@ class EventJSON(TypedDict):
 # =============================================================================
 
 
-def format_message(events_data: EventsData) -> str:
+def _format_occasions_section(bundles: list[OccasionBundle]) -> str:
+    """Format compact occasion summaries without dumping their programmes."""
+    lines = ["*Special in Hannover*"]
+    for bundle in bundles:
+        definition = bundle.definition
+        date_range = (
+            f"{definition.start_date.strftime('%d %b')}"
+            f"-{definition.end_date.strftime('%d %b')}"
+        )
+        lines.extend(
+            [
+                f"  *{definition.name}*",
+                f"  {date_range} · {len(bundle.events)} programme items",
+                f"  {definition.source_url}",
+            ]
+        )
+    return "\n".join(lines)
+
+
+def format_message(
+    events_data: EventsData,
+    *,
+    now: datetime | None = None,
+) -> str:
     """Format events into a structured message.
 
     Creates a two-section message with movies and upcoming concerts,
@@ -74,16 +100,27 @@ def format_message(events_data: EventsData) -> str:
     """
     movies = events_data.get("movies_this_week", [])
     radar = events_data.get("big_events_radar", [])
+    occasion_definitions = events_data.get("city_occasions", [])
+    current = now or datetime.now(BERLIN_TZ)
+    regular_radar, occasion_bundles = build_occasion_bundles(
+        radar,
+        occasion_definitions=occasion_definitions,
+        now=current,
+    )
 
-    week_num = datetime.now(BERLIN_TZ).isocalendar()[1]
+    week_num = current.isocalendar()[1]
     lines: list[str] = [f"*Hannover Week {week_num}*\n"]
 
     # Section 1: Movies
     lines.append(format_movies_section(movies))
     lines.append("")
 
+    if occasion_bundles:
+        lines.append(_format_occasions_section(occasion_bundles))
+        lines.append("")
+
     # Section 2: Radar (Concerts)
-    lines.append(format_radar_section(radar))
+    lines.append(format_radar_section(regular_radar))
 
     return "\n".join(lines).strip()
 
@@ -183,8 +220,14 @@ def save_all_formats(
     """
     movies = events_data.get("movies_this_week", [])
     concerts = events_data.get("big_events_radar", [])
+    occasions = events_data.get("city_occasions", [])
 
-    return export_all_formats(movies, concerts, output_dir)
+    return export_all_formats(
+        movies,
+        concerts,
+        output_dir,
+        occasion_definitions=occasions,
+    )
 
 
 # =============================================================================
