@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 26 Jul 02:54"
+  },
+  "occasion": {
+    "id": "hannover-festivals:drag-sparks-joy-die-open-air-show",
+    "slug": "drag-sparks-joy-die-open-air-show",
+    "name": "Drag Sparks Joy – Die Open-Air-Show",
+    "kind": "festival",
+    "startDate": "2026-08-02",
+    "endDate": "2026-08-02",
+    "location": "Andreas-Hermes-Platz",
+    "description": "Glitzer, Glamour & Große Gefühle",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/5/2/4/1/30411425-1-ger-DE/58c4aad57b00-6_Sommerlounge-AHP_Ringelreihe-Pavillon.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Drag-Sparks-Joy-–-Die-Open-Air-Show",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/drag-sparks-joy-die-open-air-show.json",
+    "preview": []
+  },
+  "programme": []
+}

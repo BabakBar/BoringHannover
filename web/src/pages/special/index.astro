@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import OccasionSpotlight from '../../components/OccasionSpotlight.astro';
+import Footer from '../../components/Footer.astro';
+import { loadEventData } from '../../data/loader';
+
+const eventData = loadEventData();
+const { meta, occasions } = eventData;
+---
+
+<Base title="City Occasions · boringhannover">
+  <Header week={meta.week} year={meta.year} />
+
+  <nav class="mb-6" aria-label="Breadcrumb">
+    <a
+      href="/"
+      class="inline-flex min-h-11 items-center font-display text-[11px] uppercase tracking-wide text-text-muted hover:text-accent"
+    >
+      ← Back to the weekly digest
+    </a>
+  </nav>
+
+  <section aria-labelledby="city-occasions">
+    <SectionHeader id="city-occasions" title="City Occasions" />
+    <p class="mb-7 max-w-[30rem] text-sm leading-relaxed text-text-secondary">
+      The festivals, neighbourhood gatherings and one-off city moments worth
+      knowing about — discovered automatically, then kept out of the regular
+      event stream so the weekly digest stays calm.
+    </p>
+
+    {occasions.map((occasion, index) => (
+      <OccasionSpotlight occasion={occasion} compact={index > 0} />
+    ))}
+
+    {occasions.length === 0 && (
+      <p class="py-8 text-sm text-text-muted">
+        No City Occasions are active right now. The weekly digest is still
+        available on the homepage.
+      </p>
+    )}
+  </section>
+
+  <Footer updatedAt={meta.updatedAt} />
+</Base>

@@ -5,6 +5,7 @@ import SectionHeader from '../components/SectionHeader.astro';
 import DateHeader from '../components/DateHeader.astro';
 import MovieCard from '../components/MovieCard.astro';
 import EventDayGroup from '../components/EventDayGroup.astro';
+import OccasionSpotlight from '../components/OccasionSpotlight.astro';
 import Footer from '../components/Footer.astro';
 
 // Load event data (from web_events.json or fallback to mock)
@@ -13,7 +14,8 @@ import { groupEventsByDate, sliceEventGroups } from '../utils/groupEvents';
 import { ALL_GENRES, getGenreOptions } from '../utils/genreFilter';
 
 const eventData = loadEventData();
-const { meta, movies, concerts } = eventData;
+const { meta, movies, concerts, occasions } = eventData;
+const visibleOccasions = occasions.slice(0, 3);
 
 // Movies progressive disclosure: show first N days, hide the rest
 const MOVIE_VISIBLE_DAYS = 3;
@@ -36,6 +38,22 @@ const genreOptions = getGenreOptions(concerts);
 
 <Base title="boringhannover - What's on in Hannover">
   <Header week={meta.week} year={meta.year} />
+
+  {visibleOccasions.map((occasion, index) => (
+    <OccasionSpotlight occasion={occasion} compact={index > 0} />
+  ))}
+
+  {occasions.length > visibleOccasions.length && (
+    <div class="-mt-6 mb-10 text-center">
+      <a
+        href="/special/"
+        class="inline-flex min-h-11 items-center font-display text-[11px] uppercase tracking-wide text-accent hover:underline"
+        data-umami-event="occasion-index-open"
+      >
+        See all {occasions.length} City Occasions
+      </a>
+    </div>
+  )}
 
   <!-- Movies Section -->
   <section class="mb-10">
