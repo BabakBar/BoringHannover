@@ -249,7 +249,7 @@ class TestConcertVenueScraper:
 class TestPunkrockKonzerteSource:
     """Tests for the Punkrock-Konzerte scraper."""
 
-    def test_parse_events_from_html(self) -> None:
+    def test_parse_events_skips_lux_covered_by_first_party_source(self) -> None:
         html = """
         <div class="row bg_gig result" itemscope itemtype="http://schema.org/Event">
             <div class="col-md-2 col-sm-2 col-xs-12">
@@ -318,18 +318,11 @@ class TestPunkrockKonzerteSource:
         source = PunkrockKonzerteSource()
         events = source._parse_events(soup)
 
-        assert len(events) == 2
-        assert events[0].title == "Test Band"
-        assert events[0].venue == "LUX"
+        assert len(events) == 1
+        assert events[0].title == "Another Band"
+        assert events[0].venue == "Bei Chez Heinz"
         assert events[0].metadata["address"] == "Hannover"
         assert events[0].metadata["time"] == "20:00"
-        assert events[0].url == "https://example.com/event"
-        assert events[0].date.tzinfo is BERLIN_TZ
-
-        assert events[1].title == "Another Band"
-        assert events[1].venue == "Bei Chez Heinz"
-        assert events[1].metadata["address"] == "Hannover"
-        assert events[1].metadata["time"] == "20:00"
 
 
 class TestApollokinoScraper:

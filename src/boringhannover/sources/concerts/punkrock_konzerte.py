@@ -62,6 +62,12 @@ class PunkrockKonzerteSource(BaseSource):
         ARMINIA_VENUE: ARMINIA_ADDRESS,
         STUMPF_VENUE: STUMPF_ADDRESS,
     }
+    _FIRST_PARTY_COVERED_VENUES: ClassVar[frozenset[str]] = frozenset(
+        {
+            "lux",
+            "lux club",
+        }
+    )
 
     def fetch(self) -> list[Event]:
         """Fetch punk/hardcore concerts from punkrock-konzerte.de.
@@ -129,6 +135,8 @@ class PunkrockKonzerteSource(BaseSource):
                 return None
 
             venue = self._normalize_venue(self._extract_venue(row)) or self.source_name
+            if venue.casefold() in self._FIRST_PARTY_COVERED_VENUES:
+                return None
             city = self._extract_city(row)
             address = self._VENUE_ADDRESSES.get(venue, city)
             url = self._extract_url(row) or self.URL
