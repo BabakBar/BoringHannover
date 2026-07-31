@@ -1,19 +1,19 @@
 {
   "meta": {
-    "updatedAt": "Sun 26 Jul 16:08"
+    "updatedAt": "Fri 31 Jul 11:01"
   },
   "occasion": {
     "id": "hannover-festivals:fahrmannsfest-2026",
     "slug": "fahrmannsfest-2026",
-    "name": "Fährmannsfest 2026",
+    "name": "Fähr­manns­fest 2026",
     "kind": "festival",
     "startDate": "2026-07-31",
     "endDate": "2026-08-02",
     "location": "Justus-Garten-Brücke",
     "description": "Wo Leine und Ihme sich küssen, feiert Hannover wieder sein „kleines Woodstock“, das Fährmannsfest: Die 43. Ausgabe des größten alternativen Open-Air-Musik...",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/redaktion-hannover.de/2014/2014_08/fährmannsfest2/10914199-2-ger-DE/Fährmannsfest.jpg",
-    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Fährmannsfest-2026",
-    "status": "upcoming",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Fähr­manns­fest-2026",
+    "status": "final_weekend",
     "programmeCount": 2,
     "locationCount": 1,
     "programmePath": "occasions/fahrmannsfest-2026.json",
