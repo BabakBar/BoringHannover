@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sun 26 Jul 16:08"
+    "updatedAt": "Sun 02 Aug 20:01"
   },
   "occasion": {
     "id": "hannover-festivals:drag-sparks-joy-die-open-air-show",
@@ -13,7 +13,7 @@
     "description": "Glitzer, Glamour & Große Gefühle",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/5/2/4/1/30411425-1-ger-DE/58c4aad57b00-6_Sommerlounge-AHP_Ringelreihe-Pavillon.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Drag-Sparks-Joy-–-Die-Open-Air-Show",
-    "status": "upcoming",
+    "status": "final_weekend",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/drag-sparks-joy-die-open-air-show.json",
