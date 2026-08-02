@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 31 Jul 11:01"
+    "updatedAt": "Sun 02 Aug 20:01"
   },
   "occasion": {
     "id": "hannover-festivals:fahrmannsfest-2026",
@@ -14,80 +14,10 @@
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/redaktion-hannover.de/2014/2014_08/fährmannsfest2/10914199-2-ger-DE/Fährmannsfest.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Fähr­manns­fest-2026",
     "status": "final_weekend",
-    "programmeCount": 2,
-    "locationCount": 1,
+    "programmeCount": 0,
+    "locationCount": 0,
     "programmePath": "occasions/fahrmannsfest-2026.json",
-    "preview": [
-      {
-        "title": "Fährmannsfest: H-Blockx + Lagwagon + Team Scheisse + Good Riddance + Akne Kid Joe + Lüt",
-        "date": "31 Jul",
-        "dateISO": "2026-07-31",
-        "day": "Fr",
-        "time": null,
-        "timeConfidence": "fallback",
-        "endTime": null,
-        "venue": "Weddigenufer",
-        "url": "https://faehrmannsfest.de/",
-        "eventType": "concert",
-        "genre": "Punk / Hardcore",
-        "programmeCategory": null,
-        "description": null,
-        "imageUrl": null,
-        "status": "available"
-      },
-      {
-        "title": "Fährmannsfest: Betontod + Rantanplan + Butterwegge + Alarmsignal + The Meffs + Kettenfett",
-        "date": "1 Aug",
-        "dateISO": "2026-08-01",
-        "day": "Sa",
-        "time": null,
-        "timeConfidence": "fallback",
-        "endTime": null,
-        "venue": "Weddigenufer",
-        "url": "https://www.facebook.com/faehrmannsfest/",
-        "eventType": "concert",
-        "genre": "Punk / Hardcore",
-        "programmeCategory": null,
-        "description": null,
-        "imageUrl": null,
-        "status": "available"
-      }
-    ]
+    "preview": []
   },
-  "programme": [
-    {
-      "title": "Fährmannsfest: H-Blockx + Lagwagon + Team Scheisse + Good Riddance + Akne Kid Joe + Lüt",
-      "date": "31 Jul",
-      "dateISO": "2026-07-31",
-      "day": "Fr",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Weddigenufer",
-      "url": "https://faehrmannsfest.de/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available"
-    },
-    {
-      "title": "Fährmannsfest: Betontod + Rantanplan + Butterwegge + Alarmsignal + The Meffs + Kettenfett",
-      "date": "1 Aug",
-      "dateISO": "2026-08-01",
-      "day": "Sa",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Weddigenufer",
-      "url": "https://www.facebook.com/faehrmannsfest/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available"
-    }
-  ]
+  "programme": []
 }
