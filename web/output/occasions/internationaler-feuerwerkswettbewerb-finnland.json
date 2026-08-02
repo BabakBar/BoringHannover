@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 02 Aug 20:01"
+  },
+  "occasion": {
+    "id": "hannover-festivals:internationaler-feuerwerkswettbewerb-finnland",
+    "slug": "internationaler-feuerwerkswettbewerb-finnland",
+    "name": "Internationaler Feuerwerkswettbewerb-Finnland",
+    "kind": "festival",
+    "startDate": "2026-08-15",
+    "endDate": "2026-08-15",
+    "location": "Herrenhäuser Gärten",
+    "description": "Sie genießen musikalisch untermalte Pyroshows, festliche Atmosphäre und gepflegte Gartenwege – ein Abend voller Eleganz.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/6/2/9/9/29559926-12-ger-DE/07667c795c25-4.png",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Internationaler-Feuerwerkswettbewerb-Finnland",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/internationaler-feuerwerkswettbewerb-finnland.json",
+    "preview": []
+  },
+  "programme": []
+}
