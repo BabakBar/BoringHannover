@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Tue 04 Aug 11:01"
+  },
+  "occasion": {
+    "id": "hannover-festivals:08-15-kunst-und-musikfestival",
+    "slug": "08-15-kunst-und-musikfestival",
+    "name": "08/15 Kunst- und Musikfestival",
+    "kind": "festival",
+    "startDate": "2026-08-15",
+    "endDate": "2026-08-22",
+    "location": "UJZ Korn",
+    "description": "Die vielfältige Kunst- und Musikszene Hannovers präsentiert sich vom 15. bis 22. August im Rahmen des kostenlosen 08/15 Kunst- & Musikfestivals auf dem Ge...",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/6/6/0/2/30672066-1-ger-DE/deb5a32f59ea-Der-Innenhof-des-UJZ-Korn_C_Holger-Biermann_Teaser_765x574px.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/08-15-Kunst-und-Musikfestival",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/08-15-kunst-und-musikfestival.json",
+    "preview": []
+  },
+  "programme": []
+}
