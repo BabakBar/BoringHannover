@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Fri 07 Aug 11:01"
+  },
+  "occasion": {
+    "id": "hannover-festivals:41-weinsommer-auf-dem-opernplatz-hannover",
+    "slug": "41-weinsommer-auf-dem-opernplatz-hannover",
+    "name": "41. Weinsommer auf dem Opernplatz Hannover",
+    "kind": "festival",
+    "startDate": "2026-08-20",
+    "endDate": "2026-08-23",
+    "location": "Opernplatz",
+    "description": "Vom 20. bis 23. August wird der Opernplatz zur Weinoase von Hannover: Weingenießer und Weinmacher treffen sich in entspannter Atmosphäre zum Probieren, Di...",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/4/0/1/5/30665104-1-ger-DE/7714e589f16f-WEINsommer-Hannover2025.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/41.-Weinsommer-auf-dem-Opernplatz-Hannover",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/41-weinsommer-auf-dem-opernplatz-hannover.json",
+    "preview": []
+  },
+  "programme": []
+}
