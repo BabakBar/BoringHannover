@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Tue 11 Aug 11:01"
+  },
+  "occasion": {
+    "id": "hannover-festivals:30666-sommerfest-auf-dem-hof-bei-chez-heinz",
+    "slug": "30666-sommerfest-auf-dem-hof-bei-chez-heinz",
+    "name": "30666 Sommerfest auf dem Hof Béi Chéz Heinz",
+    "kind": "festival",
+    "startDate": "2026-08-22",
+    "endDate": "2026-08-22",
+    "location": "Béi Chéz Heinz",
+    "description": "Wieder ganz entspannt mit Kuchen und Kinderspaß bei guter Musik und der besten Community wo gibt – am 22. August im Béi Chéz Heinz.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/hmtg/nightlife/teaser/bei-chéz-heinz/13096673-1-ger-DE/Bei-Chéz-Heinz.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/30666-Sommerfest-auf-dem-Hof-Béi-Chéz-Heinz",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/30666-sommerfest-auf-dem-hof-bei-chez-heinz.json",
+    "preview": []
+  },
+  "programme": []
+}
