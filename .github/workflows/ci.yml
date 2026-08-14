@@ -96,6 +96,9 @@ jobs:
         working-directory: web
         run: bun run build
 
+      - name: Verify nginx routing contract
+        run: ./scripts/smoke-routing.sh --no-build
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
