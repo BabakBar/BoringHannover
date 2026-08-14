@@ -101,6 +101,42 @@ const venues = countedOptions(programme.map(event => event.venue));
 const description = occasion.programmeCount > 0
   ? `${occasion.name}: ${occasion.description} Explore the official programme by day, category, and location.`
   : `${occasion.name}: ${occasion.description} Official event details for Hannover.`;
+
+const canonicalUrl = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).toString()
+  : undefined;
+const officialUrl = occasion.sourceUrl
+  ? sanitizeUrl(occasion.sourceUrl)
+  : null;
+
+// Google only supports Event markup on single-event pages, which is exactly
+// what these are. The listing pages deliberately get none.
+const eventJsonLd = occasion.startDate
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      name: occasion.name,
+      startDate: occasion.startDate,
+      ...(occasion.endDate ? { endDate: occasion.endDate } : {}),
+      description: occasion.description,
+      ...(occasion.imageUrl ? { image: occasion.imageUrl } : {}),
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: {
+        '@type': 'Place',
+        name: occasion.location,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Hannover',
+          addressCountry: 'DE',
+        },
+      },
+      // url must be the page carrying the markup; the venue's own site is a
+      // sameAs reference, not a substitute for it.
+      ...(canonicalUrl ? { url: canonicalUrl } : {}),
+      ...(officialUrl ? { sameAs: officialUrl } : {}),
+    }
+  : undefined;
 ---
 
 <Base
@@ -108,8 +144,9 @@ const description = occasion.programmeCount > 0
   description={description}
   image={occasion.imageUrl ?? undefined}
   imageAlt={`${occasion.name} in Hannover`}
+  jsonLd={eventJsonLd}
 >
-  <Header week={week} year={year} />
+  <Header week={week} year={year} brandAsHeading={false} />
 
   <a href="/" class="occasion-back">
     <span aria-hidden="true">←</span>

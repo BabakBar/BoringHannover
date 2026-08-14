@@ -47,7 +47,10 @@ const hasPlatzprojektContext = (
 );
 ---
 
-<Base title="boringhannover - What's on in Hannover">
+<Base
+  title="boringhannover - What's on in Hannover"
+  description={`OV cinema listings, concerts and city events in Hannover for week ${meta.week}, ${meta.year}. Updated weekly, no ads, no tracking.`}
+>
   <Header week={meta.week} year={meta.year} />
 
   {visibleOccasions.map((occasion, index) => (

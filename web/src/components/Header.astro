@@ -2,9 +2,12 @@
 interface Props {
   week: number;
   year: number;
+  /** Off on pages with their own topic, so each page has exactly one h1. */
+  brandAsHeading?: boolean;
 }
 
-const { week, year } = Astro.props;
+const { week, year, brandAsHeading = true } = Astro.props;
+const Brand = brandAsHeading ? 'h1' : 'p';
 ---
 
 <header class="mb-8 section-fade">
@@ -51,9 +54,9 @@ const { week, year } = Astro.props;
       <span class="dot">&#9642;</span>
       <span class="dot">&#9642;</span>
     </span>
-    <h1 class="font-display text-xl font-bold tracking-dot uppercase text-text-primary">
+    <Brand class="font-display text-xl font-bold tracking-dot uppercase text-text-primary">
       boring hannover
-    </h1>
+    </Brand>
     <span class="dots text-accent text-lg" aria-hidden="true">
       <span class="dot">&#9642;</span>
       <span class="dot">&#9642;</span>

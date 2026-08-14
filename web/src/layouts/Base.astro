@@ -9,6 +9,8 @@ interface Props {
   imageWidth?: number;
   imageHeight?: number;
   imageAlt?: string;
+  /** Extra schema.org node for this page, e.g. an Event on an occasion page. */
+  jsonLd?: unknown;
 }
 
 const {
@@ -18,7 +20,8 @@ const {
   image = '/brand/og-image-1200x630.png',
   imageWidth = 1200,
   imageHeight = 630,
-  imageAlt = 'Boring Hannover weekly events illustration'
+  imageAlt = 'Boring Hannover weekly events illustration',
+  jsonLd
 } = Astro.props;
 
 const DEFAULT_UMAMI_WEBSITE_ID = '23cf1ce2-3635-4e97-aab9-6ccd0467f839';
@@ -128,6 +131,7 @@ const structuredData = siteUrl ? toJsonLd({
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 
     {structuredData && <script type="application/ld+json" set:html={structuredData}></script>}
+    {jsonLd && <script type="application/ld+json" set:html={toJsonLd(jsonLd)}></script>}
 
     <!-- Theme - dynamic based on preference -->
     <meta name="theme-color" id="theme-color" content="#fafaf9" />

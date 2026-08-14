@@ -10,8 +10,11 @@ const eventData = loadEventData();
 const { meta, occasions } = eventData;
 ---
 
-<Base title="City Occasions · boringhannover">
-  <Header week={meta.week} year={meta.year} />
+<Base
+  title="City Occasions · boringhannover"
+  description="Festivals, neighbourhood gatherings and one-off city moments in Hannover, kept separate from the weekly event digest."
+>
+  <Header week={meta.week} year={meta.year} brandAsHeading={false} />
 
   <nav class="mb-6" aria-label="Breadcrumb">
     <a
@@ -23,7 +26,7 @@ const { meta, occasions } = eventData;
   </nav>
 
   <section aria-labelledby="city-occasions">
-    <SectionHeader id="city-occasions" title="City Occasions" />
+    <SectionHeader id="city-occasions" title="City Occasions" as="h1" />
     <p class="mb-7 max-w-[30rem] text-sm leading-relaxed text-text-secondary">
       The festivals, neighbourhood gatherings and one-off city moments worth
       knowing about — discovered automatically, then kept out of the regular
