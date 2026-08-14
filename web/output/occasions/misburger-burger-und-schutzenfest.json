@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 31 Jul 11:01"
+    "updatedAt": "Fri 14 Aug 11:01"
   },
   "occasion": {
     "id": "hannover-festivals:misburger-burger-und-schutzenfest",
@@ -13,7 +13,7 @@
     "description": "Volksfest an traditionsreicher Stelle: Am zweiten August-Wochenende lädt die Uniformierte Schützengesellschaft Misburg e.V. zum Bürger- und Schützenfest a...",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/redaktion-hannover.de/2018/2018_05/autoscooter/17933107-1-ger-DE/Autoscooter.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Misburger-Bürger-und-Schützenfest",
-    "status": "upcoming",
+    "status": "final_weekend",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/misburger-burger-und-schutzenfest.json",
