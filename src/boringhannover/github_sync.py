@@ -99,6 +99,7 @@ def _normalize_events_json(raw: bytes) -> str | None:
         if isinstance(meta, dict):
             # Avoid commit spam if only the "last updated" timestamp changes.
             meta.pop("updatedAt", None)
+            meta.pop("updatedAtISO", None)
 
     try:
         return json.dumps(data, sort_keys=True, separators=(",", ":"))

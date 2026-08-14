@@ -69,7 +69,10 @@ export interface OccasionProgramme {
 export interface EventMeta {
   week: number;
   year: number;
+  /** Display string, e.g. "Tue 28 Jul 11:01". Not parseable. */
   updatedAt: string;
+  /** ISO-8601 twin of updatedAt. Absent in data written before it existed. */
+  updatedAtISO?: string;
 }
 
 export interface EventData {
