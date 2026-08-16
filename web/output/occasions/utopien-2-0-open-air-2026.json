@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 16 Aug 20:01"
+  },
+  "occasion": {
+    "id": "hannover-festivals:utopien-2-0-open-air-2026",
+    "slug": "utopien-2-0-open-air-2026",
+    "name": "UTOPIEN 2.0 – OPEN AIR 2026",
+    "kind": "festival",
+    "startDate": "2026-08-22",
+    "endDate": "2026-08-22",
+    "location": "Andreas-Hermes-Platz",
+    "description": "The Beat Never Stops | Vinyl Only",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/7/5/5/5/30445557-1-ger-DE/37ed96aa397b-image00001-1-.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/UTOPIEN-2.0-–-OPEN-AIR-2026",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/utopien-2-0-open-air-2026.json",
+    "preview": []
+  },
+  "programme": []
+}
