@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "updatedAt": "Sun 16 Aug 20:01"
+  },
+  "occasion": {
+    "id": "hannover-festivals:vahrenwald-open-air",
+    "slug": "vahrenwald-open-air",
+    "name": "Vahrenwald Open Air",
+    "kind": "festival",
+    "startDate": "2026-08-22",
+    "endDate": "2026-08-22",
+    "location": "Freizeitheim Vahrenwald",
+    "description": "Auch in diesem Jahr wird der Vahrenwalder Park zum Festivalgelände: Das Vahrenwald Open Air 2026 findet am 22. August von 16:00 bis 22:00 Uhr statt.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/6/0/6/2/30562606-3-ger-DE/18a29447ea64-2026-12-.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Vahrenwald-Open-Air",
+    "status": "upcoming",
+    "programmeCount": 1,
+    "locationCount": 1,
+    "programmePath": "occasions/vahrenwald-open-air.json",
+    "preview": [
+      {
+        "title": "Vahrenwald Open Air 2026",
+        "date": "22 Aug",
+        "dateISO": "2026-08-22",
+        "day": "Sa",
+        "time": "16:00",
+        "timeConfidence": "confirmed",
+        "endTime": null,
+        "venue": "MusikZentrum",
+        "url": "https://musikzentrum-hannover.de/veranstaltung/vahrenwald-open-air-2026/",
+        "eventType": "concert",
+        "genre": null,
+        "programmeCategory": null,
+        "description": null,
+        "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/06/Vahrenwald-Open-Air.png",
+        "status": "available"
+      }
+    ]
+  },
+  "programme": [
+    {
+      "title": "Vahrenwald Open Air 2026",
+      "date": "22 Aug",
+      "dateISO": "2026-08-22",
+      "day": "Sa",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/vahrenwald-open-air-2026/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/06/Vahrenwald-Open-Air.png",
+      "status": "available"
+    }
+  ]
+}
