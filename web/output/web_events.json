@@ -1,100 +1,11 @@
 {
   "meta": {
-    "week": 33,
+    "week": 34,
     "year": 2026,
-    "updatedAt": "Sun 16 Aug 20:01",
-    "updatedAtISO": "2026-08-16T20:01:01.766443+02:00"
+    "updatedAt": "Tue 18 Aug 11:00",
+    "updatedAtISO": "2026-08-18T11:00:55.476424+02:00"
   },
   "movies": [
-    {
-      "day": "SUN",
-      "date": "16.08",
-      "movies": [
-        {
-          "title": "Spider-Man: Brand New Day",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h20m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
-        }
-      ]
-    },
-    {
-      "day": "MON",
-      "date": "17.08",
-      "movies": [
-        {
-          "title": "Spider-Man: Brand New Day",
-          "year": 2026,
-          "time": "16:10",
-          "duration": "2h20m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
-        },
-        {
-          "title": "Spider-Man: Brand New Day",
-          "year": 2026,
-          "time": "17:00",
-          "duration": "2h20m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:15",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:30",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Spider-Man: Brand New Day",
-          "year": 2026,
-          "time": "19:40",
-          "duration": "2h20m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:15",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
     {
       "day": "TUE",
       "date": "18.08",
@@ -222,6 +133,72 @@
       "date": "20.08",
       "movies": [
         {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "14:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "The End of Oak Street",
+          "year": 2025,
+          "time": "14:20",
+          "duration": "1h40m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-end-of-oak-street"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "17:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
           "title": "Oldboy",
           "year": 2003,
           "time": "22:30",
@@ -238,6 +215,72 @@
       "day": "FRI",
       "date": "21.08",
       "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "14:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "The End of Oak Street",
+          "year": 2025,
+          "time": "14:20",
+          "duration": "1h40m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-end-of-oak-street"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "17:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
         {
           "title": "Der Teufel trägt Prada 2",
           "year": 2026,
@@ -256,6 +299,72 @@
       "date": "22.08",
       "movies": [
         {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "14:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "The End of Oak Street",
+          "year": 2025,
+          "time": "14:20",
+          "duration": "1h40m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-end-of-oak-street"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "17:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
           "title": "NO OTHER CHOICE",
           "year": 2025,
           "time": "22:30",
@@ -269,9 +378,208 @@
       ]
     },
     {
+      "day": "SUN",
+      "date": "23.08",
+      "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "14:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "The End of Oak Street",
+          "year": 2025,
+          "time": "14:20",
+          "duration": "1h40m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-end-of-oak-street"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "17:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "24.08",
+      "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "14:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "The End of Oak Street",
+          "year": 2025,
+          "time": "14:20",
+          "duration": "1h40m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-end-of-oak-street"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "17:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:30",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        }
+      ]
+    },
+    {
       "day": "TUE",
       "date": "25.08",
       "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "13:15",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "The End of Oak Street",
+          "year": 2025,
+          "time": "13:20",
+          "duration": "1h40m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-end-of-oak-street"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "15:50",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:00",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "19:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
         {
           "title": "Detektiv Conan Film 29: Der gefallene Engel des Highways",
           "year": 2026,
@@ -289,6 +597,39 @@
       "day": "WED",
       "date": "26.08",
       "movies": [
+        {
+          "title": "The End of Oak Street",
+          "year": 2025,
+          "time": "14:20",
+          "duration": "1h40m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/the-end-of-oak-street"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
         {
           "title": "Ghost: 2 Big To Rig",
           "year": 2026,
@@ -378,47 +719,22 @@
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/harry-potter-und-der-stein-der-weisen-25-jaehr-jubilaeum"
+        },
+        {
+          "title": "Terminator 2 - Tag der Abrechnung (35th Anniversary)",
+          "year": 1991,
+          "time": "20:45",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/terminator-2-tag-der-abrechnung-35th-anniversary"
         }
       ]
     }
   ],
   "concerts": [
-    {
-      "title": "BULLHORN (Hip Hop-Soul-Brass / Australien)",
-      "date": "17 Aug",
-      "dateISO": "2026-08-17",
-      "day": "Mo",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-08-17/6810",
-      "eventType": "concert",
-      "genre": "Hip-Hop",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Ruby Tuesday | EERA",
-      "date": "18 Aug",
-      "dateISO": "2026-08-18",
-      "day": "Di",
-      "time": "21:15",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--eera",
-      "eventType": "Konzert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://images.prismic.io/cafe-glocksee/agtMs6YofJOwHV5d_EERA_Press_Image_3Kopie.jpg?auto=format,compress",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
     {
       "title": "Kickboxen von Lumino",
       "date": "19 Aug",
@@ -1609,26 +1925,64 @@
       "imageUrl": null,
       "status": "available",
       "radarCategory": "Live Music"
+    },
+    {
+      "title": "SINGELPIETZ (Kinderlieder/Hannover)",
+      "date": "30 Aug",
+      "dateISO": "2026-08-30",
+      "day": "So",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-08-30/6536",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Wildes Schreiben mit Heike",
+      "date": "31 Aug",
+      "dateISO": "2026-08-31",
+      "day": "Mo",
+      "time": "16:30",
+      "timeConfidence": "confirmed",
+      "endTime": "18:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/schreib-mit-mir-erzaehle-deine-geschichten-2-2/2026-08-31/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Wildes Schreiben mit Heike, jeden letzten Montag im Monat. Wildes Schreiben ist ein offener Schreibtreff, jede*r ist willkommen, es werden zu wechselnden Themen Texte verfasst und wer will trägt si...",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Workshop",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "KRS-One",
+      "date": "31 Aug",
+      "dateISO": "2026-08-31",
+      "day": "Mo",
+      "time": "21:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/august/310826-krs-one.html",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=krs-one.jpeg",
+      "status": "available",
+      "radarCategory": "Live Music"
     }
   ],
   "occasions": [
-    {
-      "id": "hannover-festivals:misburger-burger-und-schutzenfest",
-      "slug": "misburger-burger-und-schutzenfest",
-      "name": "Misburger Bürger- und Schützenfest",
-      "kind": "festival",
-      "startDate": "2026-08-14",
-      "endDate": "2026-08-16",
-      "location": "Schützenplatz Misburg",
-      "description": "Volksfest an traditionsreicher Stelle: Am zweiten August-Wochenende lädt die Uniformierte Schützengesellschaft Misburg e.V. zum Bürger- und Schützenfest a...",
-      "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/redaktion-hannover.de/2018/2018_05/autoscooter/17933107-1-ger-DE/Autoscooter.jpg",
-      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Misburger-Bürger-und-Schützenfest",
-      "status": "final_weekend",
-      "programmeCount": 0,
-      "locationCount": 0,
-      "programmePath": "occasions/misburger-burger-und-schutzenfest.json",
-      "preview": []
-    },
     {
       "id": "hannover-festivals:uberschlag-festival",
       "slug": "uberschlag-festival",
@@ -1712,6 +2066,23 @@
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/30666-sommerfest-auf-dem-hof-bei-chez-heinz.json",
+      "preview": []
+    },
+    {
+      "id": "hannover-festivals:fuhrberg-rockt",
+      "slug": "fuhrberg-rockt",
+      "name": "Fuhrberg rockt",
+      "kind": "festival",
+      "startDate": "2026-08-22",
+      "endDate": "2026-08-22",
+      "location": "Schützenplatz Fuhrberg",
+      "description": "Montreal, The New Roses, The Jetlags und The Jinx: Das Line-Up am 22. August im Burgwedeler Ortsteil kann sich sehen lassen!",
+      "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/6/5/4/4/30214456-1-ger-DE/74307ba0acea-MONTREAL_2023_Copyright_Ania_Sudbin-002.jpg",
+      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Fuhrberg-rockt",
+      "status": "upcoming",
+      "programmeCount": 0,
+      "locationCount": 0,
+      "programmePath": "occasions/fuhrberg-rockt.json",
       "preview": []
     },
     {
