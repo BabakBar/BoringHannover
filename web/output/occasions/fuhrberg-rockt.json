@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Tue 18 Aug 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:fuhrberg-rockt",
+    "slug": "fuhrberg-rockt",
+    "name": "Fuhrberg rockt",
+    "kind": "festival",
+    "startDate": "2026-08-22",
+    "endDate": "2026-08-22",
+    "location": "Schützenplatz Fuhrberg",
+    "description": "Montreal, The New Roses, The Jetlags und The Jinx: Das Line-Up am 22. August im Burgwedeler Ortsteil kann sich sehen lassen!",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/6/5/4/4/30214456-1-ger-DE/74307ba0acea-MONTREAL_2023_Copyright_Ania_Sudbin-002.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Fuhrberg-rockt",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/fuhrberg-rockt.json",
+    "preview": []
+  },
+  "programme": []
+}
