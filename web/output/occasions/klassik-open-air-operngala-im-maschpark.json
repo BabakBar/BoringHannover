@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sun 09 Aug 20:01"
+    "updatedAt": "Fri 21 Aug 11:00"
   },
   "occasion": {
     "id": "hannover-festivals:klassik-open-air-operngala-im-maschpark",
@@ -13,7 +13,7 @@
     "description": "In der diesjährigen Ausgabe des \"Oper für alle\"-Events am 21. und 22. August stehen neben den italienischen Klassikern vor allem französische Opernkomponi...",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/5/2/2/1/22371225-1-ger-DE/04.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Klassik-Open-Air-Operngala-im-Maschpark",
-    "status": "upcoming",
+    "status": "final_weekend",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/klassik-open-air-operngala-im-maschpark.json",
