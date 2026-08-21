@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Fri 21 Aug 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:wulferoder-open-air-2025",
+    "slug": "wulferoder-open-air-2025",
+    "name": "Wülferoder Open-Air 2025",
+    "kind": "festival",
+    "startDate": "2026-08-22",
+    "endDate": "2026-08-22",
+    "location": "Bürgergemeinschaft Wülferode",
+    "description": "Bereits zum elften Mal lockt am 22. August dieses kleine, aber feine Festival auf das Gelände hinter der alten Schule in Wülferode.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/9/3/6/7/30617639-1-ger-DE/08f11ba1d086-woodship.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Wülferoder-Open-Air-2025",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/wulferoder-open-air-2025.json",
+    "preview": []
+  },
+  "programme": []
+}
