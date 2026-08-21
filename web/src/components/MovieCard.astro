@@ -40,8 +40,8 @@ const langDisplay = language && subtitles
   class="movie-card block py-1.5 md:py-2 pl-4 -mr-2 pr-2 rounded card-hover"
   data-umami-event="movie-click"
   data-umami-event-title={title}
-  data-umami-event-genre={genre || ''}
-  data-umami-event-language={language || ''}
+  data-umami-event-genre={genre || undefined}
+  data-umami-event-language={language || undefined}
 >
   <!-- Title row -->
   <div class="flex items-start justify-between gap-2">

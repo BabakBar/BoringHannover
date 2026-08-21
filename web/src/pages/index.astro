@@ -49,7 +49,7 @@ const hasPlatzprojektContext = (
 
 <Base
   title="boringhannover - What's on in Hannover"
-  description={`OV cinema listings, concerts and city events in Hannover for week ${meta.week}, ${meta.year}. Updated weekly, no ads, no tracking.`}
+  description={`OV cinema listings, concerts and city events in Hannover for week ${meta.week}, ${meta.year}. Updated weekly, no ads, no cookies.`}
 >
   <Header week={meta.week} year={meta.year} />
 
@@ -439,7 +439,12 @@ const hasPlatzprojektContext = (
         emptyState?.toggleAttribute('hidden', visibleEventCount > 0);
 
         if (typeof umami !== 'undefined') {
-          umami.track('events-category-filter', { category: selectedCategory });
+          // results lets a filter that finds nothing be told apart from one that
+          // works — a category with repeated zero-result hits is a content gap.
+          umami.track('events-category-filter', {
+            category: selectedCategory,
+            results: visibleEventCount,
+          });
         }
       });
     }

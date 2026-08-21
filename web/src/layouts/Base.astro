@@ -27,8 +27,12 @@ const {
 const DEFAULT_UMAMI_WEBSITE_ID = '23cf1ce2-3635-4e97-aab9-6ccd0467f839';
 
 // Default keeps analytics working on the main deploy, but forks can override (or remove) via env.
+// Served same-origin: nginx proxies /s/ to the analytics host because blocklists
+// match the upstream URL directly. The tracker derives its collect endpoint from
+// its own src directory, so this also moves the beacon to /s/api/send.
+// A fork pointing this at an external origin must widen the CSP in nginx.conf.
 const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || DEFAULT_UMAMI_WEBSITE_ID;
-const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC || 'https://umami.fabriktakt.com/script.js';
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC || '/s/t.js';
 
 const normalizedLang = (lang || 'en').toLowerCase();
 
@@ -219,7 +223,7 @@ const structuredData = siteUrl ? toJsonLd({
       })();
     </script>
 
-    <!-- Umami Analytics (optional; configured via PUBLIC_UMAMI_* env vars) -->
+    <!-- Umami Analytics, proxied first-party (optional; configured via PUBLIC_UMAMI_* env vars) -->
     {umamiWebsiteId && (
       <script
         defer
