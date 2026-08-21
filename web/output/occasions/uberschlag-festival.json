@@ -1,19 +1,19 @@
 {
   "meta": {
-    "updatedAt": "Fri 14 Aug 11:01"
+    "updatedAt": "Fri 21 Aug 11:00"
   },
   "occasion": {
     "id": "hannover-festivals:uberschlag-festival",
     "slug": "uberschlag-festival",
     "name": "Überschlag Festival",
     "kind": "festival",
-    "startDate": "2026-08-19",
+    "startDate": "2026-08-21",
     "endDate": "2026-08-23",
     "location": "Verschiedene Veranstaltungsorte in Hannover",
     "description": "Vom 19. bis 23. August findet Europas größtes Schlagzeug-Festival in Hannover statt.",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/7/5/5/3/30413557-2-ger-DE/fa61892d9bb2-Ueberschlag.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Überschlag-Festival",
-    "status": "upcoming",
+    "status": "final_weekend",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/uberschlag-festival.json",
