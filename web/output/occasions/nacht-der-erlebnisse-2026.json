@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sun 09 Aug 20:01"
+    "updatedAt": "Fri 21 Aug 11:00"
   },
   "occasion": {
     "id": "hannover-festivals:nacht-der-erlebnisse-2026",
@@ -13,7 +13,7 @@
     "description": "Das Sommer-Highlight im Zoo: Walk Acts, Konzerte, Kleinkunst – akrobatisch, berührend, musikalisch und inspirierend, mitreißend und einfach zum Staunen.",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/hmtg/kongress-stadt/locations/teaser/locations-hannover/erlebnis-zoo-kongress/16034465-1-ger-DE/Erlebnis-Zoo-Kongress.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Nacht-der-Erlebnisse-2026",
-    "status": "upcoming",
+    "status": "final_weekend",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/nacht-der-erlebnisse-2026.json",
