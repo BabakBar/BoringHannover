@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="Impressum - boringhannover" description="Impressum und rechtliche Informationen" lang="de">
+<Base title="Impressum - boringhannover" description="Impressum, rechtliche Informationen und kulturelle Zweckbestimmung für Hannover" lang="de">
   <article class="max-w-2xl">
     <a href="/" class="inline-block mb-6 text-text-muted hover:text-accent text-sm font-display">
       &larr; Back
@@ -10,27 +10,85 @@ import Base from '../layouts/Base.astro';
 
     <h1 class="text-2xl font-bold text-text-primary mb-8 font-display">Impressum</h1>
 
-    <section class="space-y-6 text-text-secondary">
+    <section class="space-y-8 text-text-secondary leading-relaxed text-sm">
+      <!-- 1. Diensteanbieter -->
       <div>
-        <h2 class="text-lg font-semibold text-text-primary mb-2">Angaben gemäß § 5 DDG</h2>
-        <p class="leading-relaxed">
-          Dies ist ein privates Hobby-Projekt. Der Quellcode ist open source auf GitHub verfügbar.
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">§ 1 Diensteanbieter und Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</h2>
+        <p>
+          Diensteanbieter dieses digitalen Informationsangebots ist die offene, nicht-kommerzielle Initiative <strong>BoringHannover</strong>, vertreten durch die Projektkoordination im Rahmen des quelloffenen Gemeinschaftsprojekts:
+        </p>
+        <div class="mt-3 p-3 bg-bg-secondary border border-border rounded text-xs space-y-1 font-mono">
+          <p><strong>Projektbezeichnung:</strong> BoringHannover (boringhannover.de)</p>
+          <p><strong>Art des Dienstes:</strong> Nicht-kommerzielles, unentgeltliches Kultur- und Informationsportal für die Landeshauptstadt Hannover und die Region Hannover</p>
+          <p><strong>Entwicklung &amp; Quellcode:</strong> <a href="https://github.com/BabakBar/BoringHannover" class="text-accent hover:underline" target="_blank" rel="noopener noreferrer">github.com/BabakBar/BoringHannover</a></p>
+          <p><strong>Elektronische Kontaktaufnahme:</strong> <a href="https://github.com/BabakBar" class="text-accent hover:underline" target="_blank" rel="noopener noreferrer">github.com/BabakBar</a> &middot; Issue-Tracker / E-Mail: <span class="text-text-primary">kontakt@boringhannover.de</span> (in Einrichtung via GitHub)</p>
+        </div>
+      </div>
+
+      <!-- 2. Kultureller und gesellschaftlicher Auftrag -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">§ 2 Gemeinwohlorientierung, gesellschaftlicher und kultureller Wert für Hannover und Deutschland</h2>
+        <p>
+          Das Projekt <strong>BoringHannover</strong> versteht sich als digitaler Beitrag zum zivilgesellschaftlichen Gemeinwohl und zur aktiven Förderung des Kulturstandorts Hannover, des Landes Niedersachsen sowie der gesamtdeutschen Kulturlandschaft.
+        </p>
+        <p class="mt-2">
+          In einer Zeit zunehmender Kommerzialisierung digitaler Räume und algorithmischer Verengung öffentlicher Diskurse leistet dieses Projekt einen unentgeltlichen, barrierefreien und werbefreien Beitrag zur Förderung der kulturellen Teilhabe, des gesellschaftlichen Zusammenhalts und der demokratischen Öffentlichkeit:
+        </p>
+        <ul class="list-disc list-inside mt-2 space-y-1.5 text-xs text-text-secondary pl-2">
+          <li><strong>Sichtbarmachung kultureller Vielfalt:</strong> Gezielte Bündelung und neutrale Präsentation von Kinovorstellungen in Originalfassung mit Untertiteln (OmU/OV), Live-Konzerten, Lesungen, Theaterinszenierungen, Clubkultur, Stadtteilfesten und soziokulturellen Zusammenkünften im gesamten Ballungsraum Hannover (Mitte, Linden, Nordstadt, Südstadt, List, Herrenhausen, u.v.m.).</li>
+          <li><strong>Stärkung lokaler Spielstätten und Akteure:</strong> Unterstützung freier Bühnen, soziokultureller Zentren, Programmkinos, gemeinnütziger Kulturvereine und Nachwuchskünstler durch transparente Informationsvermittlung ohne kommerzielle Mittlergebühren.</li>
+          <li><strong>Digitale Souveränität und Gemeingüter:</strong> Bereitstellung als werbe-, tracking- und überwachungsfreies Open-Source-Kulturgut für Bürgerinnen, Bürger, Studierende, Kulturschaffende und Gäste der Bundesrepublik Deutschland.</li>
+        </ul>
+      </div>
+
+      <!-- 3. Redaktionelle Verantwortlichkeit -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">§ 3 Verantwortlichkeit für Inhalte gemäß § 18 Abs. 2 Medienstaatsvertrag (MStV)</h2>
+        <p>
+          Verantwortlich für die redaktionelle Zusammenstellung, die algorithmische Aggregation sowie die algorithmische Kuration öffentlich zugänglicher Termin- und Veranstaltungsdaten im Sinne des § 18 Abs. 2 MStV ist die Projektleitung von BoringHannover (erreichbar über das angegebene GitHub-Repository).
         </p>
       </div>
 
+      <hr class="border-border my-6">
+
+      <!-- 4. Haftung für Inhalte -->
       <div>
-        <h2 class="text-lg font-semibold text-text-primary mb-2">Kontakt</h2>
-        <p class="leading-relaxed">
-          GitHub: <a href="https://github.com/BabakBar" class="text-accent hover:underline">BabakBar</a>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">§ 4 Haftung für eigene und automatisierte Inhalte (§ 7 DDG)</h2>
+        <p>
+          Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Die auf dieser Website bereitgestellten Veranstaltungshinweise, Termine, Anfangszeiten, Ortsangaben und Programmdetails beruhen jedoch zu einem wesentlichen Teil auf automatisierten Aggregationsverfahren und öffentlich zugänglichen Datenquellen hannoverscher Spielstätten.
+        </p>
+        <p class="mt-2 text-xs text-text-muted">
+          Obgleich alle Daten mit größtmöglicher Sorgfalt erhoben und aufbereitet werden, übernehmen wir keine Gewähr für die Richtigkeit, Vollständigkeit, Aktualität und jederzeitige Verfügbarkeit der abgebildeten Termine. Kurzfristige Spielplanänderungen, Programmänderungen, Verlegungen, Ausfälle oder Preisänderungen seitens der jeweiligen Veranstalter und Betreiber bleiben ausdrücklich vorbehalten. Den Nutzern wird dringend empfohlen, sich vor dem Besuch einer Veranstaltung auf der jeweiligen Originalseite der Spielstätte über den verbindlichen Status zu informieren.
         </p>
       </div>
 
-      <hr class="border-border my-8">
-
+      <!-- 5. Haftung für Hyperlinks -->
       <div>
-        <h2 class="text-lg font-semibold text-text-primary mb-2">Haftungsausschluss</h2>
-        <p class="leading-relaxed text-sm">
-          Dies ist ein nicht-kommerzielles Hobby-Projekt. Die Inhalte werden mit Sorgfalt erstellt, aber für Richtigkeit und Vollständigkeit übernehmen wir keine Gewähr. Links zu externen Seiten (z.B. Ticketshops) liegen außerhalb unserer Verantwortung.
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">§ 5 Haftung für externe Hyperlinks und Querverweise (§ 8 DDG)</h2>
+        <p>
+          Unser Angebot enthält Verknüpfungen (Hyperlinks) zu externen Webseiten Dritter (z.&thinsp;B. Spielstätten, Kinos, Konzertveranstalter, Ticketshops und kommunale Einrichtungen in Hannover), auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+        </p>
+        <p class="mt-2 text-xs text-text-muted">
+          Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche offensichtliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links unverzüglich entfernen.
+        </p>
+      </div>
+
+      <!-- 6. Urheberrecht und Open Source -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">§ 6 Urheberrecht, Schutzrechte und Open-Source-Lizenzierung</h2>
+        <p>
+          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Der gesamte Programmcode von BoringHannover ist als Freie und Open-Source-Software lizenziert und für jedermann öffentlich einsehbar.
+        </p>
+        <p class="mt-2 text-xs text-text-muted">
+          Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte, Marken, Titel und Bildmaterial Dritter als solche gekennzeichnet bzw. im Rahmen der gesetzlichen Zitier- und Informationsfreiheiten wiedergegeben. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis via GitHub, damit eine unverzügliche Korrektur oder Entfernung veranlasst werden kann.
+        </p>
+      </div>
+
+      <!-- 7. Streitbeilegung -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">§ 7 Verbraucherstreitbeilegung und Online-Streitbeilegung (§ 36 VSBG)</h2>
+        <p class="text-xs text-text-muted">
+          Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie unter <a href="https://ec.europa.eu/consumers/odr/" class="text-accent hover:underline" target="_blank" rel="noopener noreferrer">ec.europa.eu/consumers/odr</a> finden. Wir sind weder verpflichtet noch bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
         </p>
       </div>
     </section>

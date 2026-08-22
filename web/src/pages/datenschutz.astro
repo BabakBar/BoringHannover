@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="Datenschutzerklärung - boringhannover" description="Datenschutzerklärung und Informationen zur Datenverarbeitung" lang="de">
+<Base title="Datenschutzerklärung - boringhannover" description="Datenschutzerklärung, Informationspflichten nach DSGVO und Datenschutzgrundsätze für Hannover" lang="de">
   <article class="max-w-2xl">
     <a href="/" class="inline-block mb-6 text-text-muted hover:text-accent text-sm font-display">
       &larr; Back
@@ -10,14 +10,142 @@ import Base from '../layouts/Base.astro';
 
     <h1 class="text-2xl font-bold text-text-primary mb-8 font-display">Datenschutzerklärung</h1>
 
-    <section class="space-y-6 text-text-secondary">
+    <section class="space-y-8 text-text-secondary leading-relaxed text-sm">
+      <!-- 1. Grundsatz und gesellschaftlicher Wert -->
       <div>
-        <h2 class="text-lg font-semibold text-text-primary mb-2">Datenschutz</h2>
-        <p class="leading-relaxed text-sm">
-          Dies ist ein privates Hobby-Projekt ohne kommerzielle Absicht. Wir setzen keine Cookies und binden kein Tracking Dritter ein. Zur anonymen Reichweitenmessung nutzen wir Umami, selbst gehostet auf unserem eigenen Server. IP-Adressen werden dabei nicht gespeichert, sondern nur kurzzeitig verarbeitet, um wiederkehrende Besuche zu erkennen. Die Auslieferung der Seite läuft über Cloudflare als Content-Delivery-Network; dabei werden Verbindungsdaten technisch bedingt verarbeitet. Eine Weitergabe der Messdaten zu Werbezwecken findet nicht statt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Der gesamte Quellcode ist open source und auf GitHub verfügbar: <a href="https://github.com/BabakBar/BoringHannover" class="text-accent hover:underline">BabakBar/BoringHannover</a>.
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">1. Datenschutz als gesellschaftlicher Wert und Grundsatz der Datensparsamkeit</h2>
+        <p>
+          Der Schutz personenbezogener Daten und die Wahrung der informationellen Selbstbestimmung sind fundamentale Säulen einer freien, demokratischen und aufgeklärten Zivilgesellschaft in der Bundesrepublik Deutschland.
         </p>
-        <p class="leading-relaxed text-sm mt-2">
-          Bei Fragen: <a href="https://github.com/BabakBar" class="text-accent hover:underline">GitHub</a>.
+        <p class="mt-2">
+          Das Projekt <strong>BoringHannover</strong> wurde von Grund auf nach den Prinzipien <em>„Privacy by Design“</em> und <em>„Privacy by Default“</em> (Art. 25 DSGVO) konzipiert. Wir sind der festen Überzeugung, dass der Zugang zu Kulturveranstaltungen, Kinoprogrammen in Originalfassung (OmU), Konzerten, Lesungen und Stadtteilfesten in Hannover kein digitales Überwachungskapital erfordert. Auf boringhannover.de verzichten wir daher konsequent auf kommerzielle Werbenetzwerke, zustimmungspflichtige Tracking-Cookies, Drittanbieter-Profilerstellung und den Weiterverkauf von Nutzerdaten.
+        </p>
+      </div>
+
+      <!-- 2. Verantwortliche Stelle -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">2. Verantwortliche Stelle (Art. 4 Nr. 7, Art. 13 Abs. 1 lit. a DSGVO)</h2>
+        <p>
+          Verantwortlicher für die Datenverarbeitung auf dieser Website im Sinne der Datenschutz-Grundverordnung (DSGVO) und anderer nationaler Datenschutzgesetze der Mitgliedsstaaten sowie sonstiger datenschutzrechtlicher Bestimmungen ist:
+        </p>
+        <div class="mt-3 p-3 bg-bg-secondary border border-border rounded text-xs space-y-1 font-mono">
+          <p><strong>Projektinitiative:</strong> BoringHannover (boringhannover.de)</p>
+          <p><strong>Bereitstellung:</strong> Nicht-kommerzielles Open-Source-Projekt zur Kulturvermittlung im Raum Hannover</p>
+          <p><strong>Quellcode &amp; Projektleitung:</strong> <a href="https://github.com/BabakBar/BoringHannover" class="text-accent hover:underline" target="_blank" rel="noopener noreferrer">github.com/BabakBar/BoringHannover</a></p>
+          <p><strong>Elektronische Kontaktaufnahme:</strong> <a href="https://github.com/BabakBar" class="text-accent hover:underline" target="_blank" rel="noopener noreferrer">github.com/BabakBar</a> &middot; Issue-Tracker / E-Mail: <span class="text-text-primary">kontakt@boringhannover.de</span> (in Einrichtung via GitHub)</p>
+        </div>
+      </div>
+
+      <!-- 3. Rechtsgrundlagen -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">3. Rechtsgrundlagen der Datenverarbeitung (Art. 6 Abs. 1 DSGVO)</h2>
+        <p>
+          Soweit nachfolgend nicht spezifischer angegeben, stützt sich die Verarbeitung personenbezogener bzw. pseudonymisierter technischer Daten auf folgende Rechtsgrundlagen:
+        </p>
+        <ul class="list-disc list-inside mt-2 space-y-1.5 text-xs text-text-secondary pl-2">
+          <li><strong>Art. 6 Abs. 1 lit. f DSGVO (Berechtigtes Interesse):</strong> Die Erhebung und kurzzeitige Verarbeitung technisch notwendiger Verbindungsdaten dient unserem überwiegenden berechtigten Interesse an der stabilen, performanten, abhörsicheren und ausfallsicheren Bereitstellung unseres unentgeltlichen Kultur- und Veranstaltungsinformationsdienstes für Hannover und Niedersachsen sowie der Abwehr von Cyberangriffen und Missbrauch.</li>
+          <li><strong>§ 25 Abs. 2 Nr. 2 TDDDG:</strong> Die Speicherung von rein funktionalen Informationen im Endgerät des Endnutzers (z.&thinsp;B. lokale Farbschemata) erfolgt ausschließlich zur Bereitstellung des vom Nutzer ausdrücklich gewünschten Telemediendienstes.</li>
+        </ul>
+      </div>
+
+      <!-- 4. Server-Logs und CDN -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">4. Bereitstellung der Website, Technische Server-Logfiles &amp; Content Delivery Network (Cloudflare)</h2>
+        <p>
+          Beim Aufrufen unserer Website werden durch den auf Ihrem Endgerät zum Einsatz kommenden Browser technisch bedingt automatisch Informationen an die Server unserer Infrastruktur gesendet.
+        </p>
+        <p class="mt-2">
+          Zur Gewährleistung einer schnellen, ausfallsicheren und gegen Denial-of-Service-Angriffe (DDoS) geschützten Auslieferung nutzen wir Dienste des Content-Delivery-Network-Anbieters Cloudflare, Inc. (101 Townsend St., San Francisco, CA 94107, USA). Der Datenverkehr zwischen Ihrem Browser und unserem Webserver wird über das globale Edge-Netzwerk von Cloudflare geroutet.
+        </p>
+        <p class="mt-2 text-xs text-text-muted">
+          Hierbei können folgende technische Protokolldaten erfasst werden: Browsertyp und Browserversion, verwendetes Betriebssystem, Referrer-URL, Hostname des zugreifenden Rechners, IP-Adresse, Uhrzeit der Serveranfrage und HTTP-Statuscode. Diese Daten werden ausschließlich zur technischen Fehleranalyse, Aufrechterhaltung der Netzsicherheit und Lastverteilung verarbeitet. Ein Zusammenführen dieser Daten mit anderen Datenquellen oder eine Profilbildung findet nicht statt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
+        </p>
+      </div>
+
+      <!-- 5. Umami Analytics -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">5. Anonyme Reichweitenmessung ohne Cookies (Selbst gehostetes Umami)</h2>
+        <p>
+          Zur bedarfsgerechten Weiterentwicklung unseres Kulturkalenders für Hannover möchten wir aggregiert verstehen, welche Programmübersichten (z.&thinsp;B. Kinofilme im Originalton, Musikfestivals oder Stadtteilveranstaltungen) von Interesse sind.
+        </p>
+        <p class="mt-2">
+          Hierfür setzen wir die datenschutzfreundliche Open-Source-Analysesoftware <strong>Umami</strong> ein, die auf unserem eigenen Server betrieben wird:
+        </p>
+        <ul class="list-disc list-inside mt-2 space-y-1.5 text-xs text-text-secondary pl-2">
+          <li><strong>Keine Cookies:</strong> Umami setzt zu keinem Zeitpunkt HTTP-Cookies oder persistente Identifikatoren im Speicher Ihres Endgeräts.</li>
+          <li><strong>Anonymisierte Sitzungszählung:</strong> Aus der IP-Adresse des Nutzers und dem User-Agent wird serverseitig unter Verwendung eines täglich wechselnden kryptografischen Zufallswerts (Salt) ein flüchtiger Hash generiert. Dieser Hash erlaubt ausschließlich die Zählung von Tagesbesuchern und wird nach 24 Stunden unwiederbringlich unbrauchbar. Eine Rückführung auf individuelle Personen oder IP-Adressen ist technisch ausgeschlossen.</li>
+          <li><strong>First-Party-Proxying:</strong> Das Analyseskript wird direkt über dieselbe Domain ausgeliefert (<code class="bg-bg-secondary px-1 py-0.5 rounded text-[11px]">/s/t.js</code> bzw. <code class="bg-bg-secondary px-1 py-0.5 rounded text-[11px]">/s/api/send</code>), sodass keine Daten an externe Drittanbieter-Server abfließen.</li>
+          <li><strong>Keine Weitergabe:</strong> Es erfolgt keinerlei Weitergabe, kein Verkauf und kein Abgleich der anonymen Messdaten mit Werbetreibenden.</li>
+        </ul>
+      </div>
+
+      <!-- 6. Local Storage -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">6. Lokale Speicherung im Browser (Local Storage / Farbschema)</h2>
+        <p>
+          Diese Website verwendet den lokalen Speicher Ihres Browsers (<em>Local Storage</em>) ausschließlich für eine rein funktionale Einstellung: Die Speicherung Ihrer bevorzugten Farbschema-Ansicht (Dark Mode bzw. Light Mode, Schlüssel: <code class="bg-bg-secondary px-1 py-0.5 rounded text-[11px]">theme</code>).
+        </p>
+        <p class="mt-2 text-xs text-text-muted">
+          Hierbei werden keine personenbezogenen Daten, Gerätekennungen oder Bewegungsprofile gespeichert. Rechtsgrundlage für diese rein funktionale Zustandsspeicherung ist § 25 Abs. 2 Nr. 2 TDDDG in Verbindung mit Art. 6 Abs. 1 lit. f DSGVO.
+        </p>
+      </div>
+
+      <!-- 7. Lokale Schriftarten -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">7. Lokale Schriftarten (Self-Hosted Webfonts)</h2>
+        <p>
+          Zur einheitlichen und typografisch ansprechenden Darstellung der hannoverschen Kulturdaten nutzt diese Website lokal gespeicherte Schriftarten (<em>Inter</em> und <em>Space Mono</em>). Die Schriftdateien werden direkt von unserem eigenen Webserver geladen.
+        </p>
+        <p class="mt-2 text-xs text-text-muted">
+          Es findet keine Verbindung zu externen Servern (wie beispielsweise Google Fonts CDN) statt, sodass Ihre IP-Adresse nicht zu Schriftladungszwecken an Drittanbieter übertragen wird.
+        </p>
+      </div>
+
+      <!-- 8. Externe Links -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">8. Weiterleitungen und Links zu externen Spielstätten und Ticketanbietern</h2>
+        <p class="text-xs text-text-muted">
+          Soweit Sie auf unserer Website Verlinkungen zu externen Kulturspielstätten, Kinos, Konzertveranstaltern oder Kartenvorverkaufsstellen in Hannover anklicken, verlassen Sie unser Onlineangebot. Ab diesem Moment erfolgt die Datenverarbeitung ausschließlich auf den Servern und nach den Datenschutzbestimmungen des jeweiligen externen Anbieters.
+        </p>
+      </div>
+
+      <hr class="border-border my-6">
+
+      <!-- 9. Rechte der betroffenen Personen -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">9. Ihre Rechte als betroffene Person (Art. 15 bis 21 DSGVO)</h2>
+        <p>
+          Nach den Bestimmungen der Datenschutz-Grundverordnung (DSGVO) stehen Ihnen gegenüber dem Verantwortlichen folgende Rechte bezüglich Ihrer personenbezogenen Daten zu:
+        </p>
+        <ul class="list-disc list-inside mt-2 space-y-1.5 text-xs text-text-secondary pl-2">
+          <li><strong>Recht auf Auskunft (Art. 15 DSGVO):</strong> Sie haben das Recht, eine Bestätigung darüber zu verlangen, ob personenbezogene Daten verarbeitet werden, und Auskunft über diese Daten sowie weitergehende Informationen zu erhalten.</li>
+          <li><strong>Recht auf Berichtigung (Art. 16 DSGVO):</strong> Sie haben das Recht, unverzüglich die Berichtigung unrichtiger oder Vervollständigung unvollständiger Daten zu verlangen.</li>
+          <li><strong>Recht auf Löschung (Art. 17 DSGVO):</strong> Sie haben das Recht, die unverzügliche Löschung Ihrer Daten zu verlangen, sofern die gesetzlichen Voraussetzungen vorliegen.</li>
+          <li><strong>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO):</strong> Sie haben das Recht, die Einschränkung der Verarbeitung Ihrer Daten zu verlangen.</li>
+          <li><strong>Recht auf Datenübertragbarkeit (Art. 20 DSGVO):</strong> Sie haben das Recht, die Sie betreffenden Daten in einem strukturierten, gängigen und maschinenlesbaren Format zu erhalten.</li>
+          <li><strong>Widerspruchsrecht (Art. 21 DSGVO):</strong> Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung Sie betreffender personenbezogener Daten, die aufgrund von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse) erfolgt, Widerspruch einzulegen.</li>
+        </ul>
+      </div>
+
+      <!-- 10. Aufsichtsbehörde -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">10. Beschwerderecht bei der zuständigen Aufsichtsbehörde (Art. 77 DSGVO)</h2>
+        <p>
+          Unbeschadet eines anderweitigen verwaltungsrechtlichen oder gerichtlichen Rechtsbehelfs steht Ihnen das Recht auf Beschwerde bei einer Datenschutzaufsichtsbehörde zu. Die für das Land Niedersachsen zuständige Datenschutzaufsichtsbehörde ist:
+        </p>
+        <div class="mt-3 p-3 bg-bg-secondary border border-border rounded text-xs space-y-1 font-mono">
+          <p><strong>Die Landesbeauftragte für den Datenschutz Niedersachsen (LfD Niedersachsen)</strong></p>
+          <p>Prinzenstraße 5, 30159 Hannover</p>
+          <p>Telefon: +49 (0) 511 120-4500 &middot; E-Mail: poststelle@lfd.niedersachsen.de</p>
+          <p>Website: <a href="https://lfd.niedersachsen.de" class="text-accent hover:underline" target="_blank" rel="noopener noreferrer">lfd.niedersachsen.de</a></p>
+        </div>
+      </div>
+
+      <!-- 11. Stand -->
+      <div>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">11. Gültigkeit und Aktualität dieser Datenschutzerklärung</h2>
+        <p class="text-xs text-text-muted">
+          Diese Datenschutzerklärung ist aktuell gültig und datiert auf August 2026. Durch die stetige technische Weiterentwicklung unseres unentgeltlichen Kultur- und Informationsangebots für Hannover sowie geänderte gesetzliche oder behördliche Vorgaben kann eine Anpassung dieser Erklärung erforderlich werden.
         </p>
       </div>
     </section>
