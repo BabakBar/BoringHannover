@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 23 Aug 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:die-veranstaltungen-zur-urbanen-kunstwoche",
+    "slug": "die-veranstaltungen-zur-urbanen-kunstwoche",
+    "name": "Die Veranstaltungen zur Urbanen Kunstwoche",
+    "kind": "festival",
+    "startDate": "2026-08-24",
+    "endDate": "2026-08-30",
+    "location": "Café Glocksee",
+    "description": "Hola Utopia! Street Art Festival geht in die nächste Runde – und breitet sich aus.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/6/3/7/27397362-1-ger-DE/18fb40455085-Teaser-78-.png",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Die-Veranstaltungen-zur-Urbanen-Kunstwoche",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/die-veranstaltungen-zur-urbanen-kunstwoche.json",
+    "preview": []
+  },
+  "programme": []
+}
