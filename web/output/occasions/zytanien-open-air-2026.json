@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 23 Aug 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:zytanien-open-air-2026",
+    "slug": "zytanien-open-air-2026",
+    "name": "Zytanien Open-Air 2026",
+    "kind": "festival",
+    "startDate": "2026-08-28",
+    "endDate": "2026-08-30",
+    "location": "Zytanien",
+    "description": "Das Hippie-Festival bei Lehrte geht vom 28. bis 30. August wieder an den Start.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/redaktion-hannover.de/2018/2018_08/zytanien-festival-bühne/18273216-1-ger-DE/Zytanien-Festival-Bühne.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Zytanien-Open-Air-2026",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/zytanien-open-air-2026.json",
+    "preview": []
+  },
+  "programme": []
+}
