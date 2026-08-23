@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sun 16 Aug 20:01"
+    "updatedAt": "Sun 23 Aug 20:00"
   },
   "occasion": {
     "id": "hannover-festivals:wonderworld-festival",
@@ -13,7 +13,7 @@
     "description": "Das Festival geht ins fünfte Jahr und wird am 22. und 23. August im Expo-Park lauter und größer ...",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/8/5/6/4/30414658-2-ger-DE/925041a15d50-DSC07755.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Wonderworld-Festival",
-    "status": "upcoming",
+    "status": "final_weekend",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/wonderworld-festival.json",
