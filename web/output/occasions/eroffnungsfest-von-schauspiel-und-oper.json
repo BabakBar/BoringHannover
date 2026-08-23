@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 23 Aug 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:eroffnungsfest-von-schauspiel-und-oper",
+    "slug": "eroffnungsfest-von-schauspiel-und-oper",
+    "name": "Eröffnungsfest von Schauspiel und Oper",
+    "kind": "festival",
+    "startDate": "2026-08-30",
+    "endDate": "2026-08-30",
+    "location": "Verschiedene Veranstaltungsorte in Hannover",
+    "description": "Hereinspaziert! Am 30. August starten Schauspiel und Staatsoper Hannover mit einem großen Eröffnungsfest in die neue Spielzeit.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/redaktion-hannover.de/portale/bühnen/spielorte/opernhaus-im-sommerlichen-abendlicht/19965276-1-ger-DE/Opernhaus-im-sommerlichen-Abendlicht.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Eröffnungsfest-von-Schauspiel-und-Oper",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/eroffnungsfest-von-schauspiel-und-oper.json",
+    "preview": []
+  },
+  "programme": []
+}
