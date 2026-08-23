@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 23 Aug 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:sommerfest-solawi-bunte-beete",
+    "slug": "sommerfest-solawi-bunte-beete",
+    "name": "Sommerfest Solawi Bunte Beete",
+    "kind": "festival",
+    "startDate": "2026-08-30",
+    "endDate": "2026-08-30",
+    "location": "Gärtnerei Solawi Bunte Beete",
+    "description": "Die Solidarische Landwirtschaft Bunte Beete e.V in Leveste lädt am 30. August 2026 zu einem Sommerfest ein.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/6/2/2/2/30552226-1-ger-DE/7228f9f64403-20026_Sommerfest_SolawiBunteBeete_43.JPG",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Sommerfest-Solawi-Bunte-Beete",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/sommerfest-solawi-bunte-beete.json",
+    "preview": []
+  },
+  "programme": []
+}
