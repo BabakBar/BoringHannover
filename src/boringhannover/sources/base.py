@@ -29,8 +29,9 @@ if TYPE_CHECKING:
 
 import httpx
 
-from boringhannover.config import GERMAN_MONTH_MAP, REQUEST_TIMEOUT_SECONDS, USER_AGENT
+from boringhannover.config import REQUEST_TIMEOUT_SECONDS, USER_AGENT
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.date_parsing import log_unknown_month, lookup_german_month
 
 
 if TYPE_CHECKING:
@@ -274,15 +275,22 @@ def parse_german_date(date_str: str) -> datetime | None:
     return None
 
 
-def parse_venue_date(date_str: str) -> datetime | None:
+def parse_venue_date(date_str: str, *, source_key: str) -> datetime | None:
     """Parse venue-specific date formats.
 
     Handles formats like:
     - "AB22NOV2025" (concert venues)
     - "22 Nov" with separate year
 
+    An unrecognised month token (e.g. an unexpected abbreviation or a typo
+    upstream) is rejected explicitly rather than defaulting to January: see
+    issue #28. Callers must treat ``None`` as a parse failure and drop the
+    event, not substitute a plausible date.
+
     Args:
         date_str: Date string from venue page.
+        source_key: Registered source identifier, used only to make a
+            rejected date diagnosable (e.g. "zag_arena").
 
     Returns:
         Parsed datetime or None if parsing fails.
@@ -291,7 +299,14 @@ def parse_venue_date(date_str: str) -> datetime | None:
     match = re.search(r"(\d{1,2})([A-ZÄÖÜa-zäöü]+)(\d{4})", date_str)
     if match:
         day, month_str, year = match.groups()
-        month = GERMAN_MONTH_MAP.get(month_str.lower(), 1)
+        month = lookup_german_month(month_str)
+        if month is None:
+            log_unknown_month(
+                month_str,
+                source_key=source_key,
+                raw_value=date_str,
+            )
+            return None
         return datetime(int(year), month, int(day), 20, 0, tzinfo=BERLIN_TZ)
 
     return None
