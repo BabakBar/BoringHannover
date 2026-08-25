@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sun 23 Aug 20:00"
+    "updatedAt": "Tue 25 Aug 11:00"
   },
   "occasion": {
     "id": "hannover-festivals:die-veranstaltungen-zur-urbanen-kunstwoche",
@@ -13,7 +13,7 @@
     "description": "Hola Utopia! Street Art Festival geht in die nächste Runde – und breitet sich aus.",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/6/3/7/27397362-1-ger-DE/18fb40455085-Teaser-78-.png",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Die-Veranstaltungen-zur-Urbanen-Kunstwoche",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/die-veranstaltungen-zur-urbanen-kunstwoche.json",
