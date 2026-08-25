@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Tue 25 Aug 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:workshops-der-xeneriquas",
+    "slug": "workshops-der-xeneriquas",
+    "name": "Workshops der Xeneriquas",
+    "kind": "festival",
+    "startDate": "2026-09-03",
+    "endDate": "2026-09-10",
+    "location": "Andreas-Hermes-Platz",
+    "description": "Die Workshops der Xeneriquas auf der Sommerlounge am Andreas-Hermes-Platz laden Menschen unterschiedlicher Generationen und Hintergründe dazu ein, kreativ...",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/5/6/9/30719652-1-ger-DE/8cf9827982fb-Sommerlounge-Workshoo-Xeneriquas_2026-08-15_c_Simona-Bednarek_WEB-16-.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Workshops-der-Xeneriquas",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/workshops-der-xeneriquas.json",
+    "preview": []
+  },
+  "programme": []
+}
