@@ -1,100 +1,11 @@
 {
   "meta": {
-    "week": 34,
+    "week": 35,
     "year": 2026,
-    "updatedAt": "Sun 23 Aug 20:00",
-    "updatedAtISO": "2026-08-23T20:00:54.340598+02:00"
+    "updatedAt": "Tue 25 Aug 11:00",
+    "updatedAtISO": "2026-08-25T11:00:54.205391+02:00"
   },
   "movies": [
-    {
-      "day": "SUN",
-      "date": "23.08",
-      "movies": [
-        {
-          "title": "Spider-Man: Brand New Day",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h20m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
-        }
-      ]
-    },
-    {
-      "day": "MON",
-      "date": "24.08",
-      "movies": [
-        {
-          "title": "Spider-Man: Brand New Day",
-          "year": 2026,
-          "time": "14:15",
-          "duration": "2h20m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
-        },
-        {
-          "title": "The End of Oak Street",
-          "year": 2025,
-          "time": "14:20",
-          "duration": "1h40m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/the-end-of-oak-street"
-        },
-        {
-          "title": "Spider-Man: Brand New Day",
-          "year": 2026,
-          "time": "17:00",
-          "duration": "2h20m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "20:00",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Spider-Man: Brand New Day",
-          "year": 2026,
-          "time": "20:15",
-          "duration": "2h20m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:30",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
     {
       "day": "TUE",
       "date": "25.08",
@@ -233,6 +144,17 @@
       "date": "27.08",
       "movies": [
         {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
           "title": "Ghost: 2 Big To Rig",
           "year": 2026,
           "time": "20:00",
@@ -242,6 +164,17 @@
           "rating": "FSK16",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/ghost-2-big-to-rig"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
         }
       ]
     },
@@ -249,6 +182,39 @@
       "day": "FRI",
       "date": "28.08",
       "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
         {
           "title": "Ghost: 2 Big To Rig",
           "year": 2026,
@@ -278,6 +244,17 @@
       "date": "29.08",
       "movies": [
         {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "11:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "Harry Potter und der Stein der Weisen - 25 jähr. Jubiläum",
           "year": 2001,
           "time": "15:00",
@@ -287,6 +264,39 @@
           "rating": "FSK6",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/harry-potter-und-der-stein-der-weisen-25-jaehr-jubilaeum"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
         }
       ]
     },
@@ -306,6 +316,17 @@
           "url": "https://hannover.premiumkino.de/film/harry-potter-und-der-stein-der-weisen-25-jaehr-jubilaeum"
         },
         {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
           "title": "Terminator 2 - Tag der Abrechnung (35th Anniversary)",
           "year": 1991,
           "time": "20:45",
@@ -319,9 +340,98 @@
       ]
     },
     {
+      "day": "MON",
+      "date": "31.08",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:00",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "01.09",
+      "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:15",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        }
+      ]
+    },
+    {
       "day": "WED",
       "date": "02.09",
       "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
         {
           "title": "Katy Perry: The Lifetimes Tour - Live from Paris",
           "year": 2026,
@@ -400,44 +510,6 @@
   ],
   "concerts": [
     {
-      "title": "PLATZkino OPEN AIR mit dem Film „Her“",
-      "date": "23 Aug",
-      "dateISO": "2026-08-23",
-      "day": "So",
-      "time": "20:30",
-      "timeConfidence": "confirmed",
-      "endTime": "23:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/platzkino-open-air-mit-dem-film-her/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Den Beitrag in Leichter Sprache findet ihr unten. [english below] Die Nächte werden wieder etwas länger und wir können euch endlich eine besondere Kinovorführung präsentieren. Kommt vorbei zu unser...",
-      "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/08/IMG_20260809_134108_516.jpg",
-      "status": "available",
-      "radarCategory": "Film",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "Swing am PLATZ",
-      "date": "24 Aug",
-      "dateISO": "2026-08-24",
-      "day": "Mo",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "endTime": "22:00",
-      "venue": "OSCO – OpenSpace",
-      "url": "https://platzprojekt.de/programm/swing-im-osco/2026-08-24/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Auf gehts zum Montags-Social-Dance im OSCO. Ganz viel Lindy, aber auch etwas Balboa, Shag, Blues oder Charleston und das ganze auf sensationellen Echtholz-Dielen. 19:00 Uhr – Party mit DJ Getränke ...",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Party",
-      "sourceName": "PLATZprojekt"
-    },
-    {
       "title": "The White Buffalo",
       "date": "25 Aug",
       "dateISO": "2026-08-25",
@@ -452,24 +524,6 @@
       "programmeCategory": null,
       "description": null,
       "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=the_white_buffalo_tb.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Ruby Tuesday | MARGOT ERKNER",
-      "date": "25 Aug",
-      "dateISO": "2026-08-25",
-      "day": "Di",
-      "time": "21:15",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--margot-erkner",
-      "eventType": "Konzert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://images.prismic.io/cafe-glocksee/ajQJqo1P9HI4Usfv_MorgotErkner.jpeg?auto=format%2Ccompress&rect=0%2C870%2C3120%2C2100&w=4160&h=2800",
       "status": "available",
       "radarCategory": "Live Music"
     },
@@ -1838,26 +1892,46 @@
       "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=lia_l-_shoshann_web.jpg",
       "status": "available",
       "radarCategory": "Live Music"
+    },
+    {
+      "title": "Swing am PLATZ",
+      "date": "7 Sep",
+      "dateISO": "2026-09-07",
+      "day": "Mo",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "endTime": "22:00",
+      "venue": "OSCO – OpenSpace",
+      "url": "https://platzprojekt.de/programm/swing-im-osco/2026-09-07/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Auf gehts zum Montags-Social-Dance im OSCO. Ganz viel Lindy, aber auch etwas Balboa, Shag, Blues oder Charleston und das ganze auf sensationellen Echtholz-Dielen. 19:00 Uhr – Party mit DJ Getränke ...",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Party",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "PTK",
+      "date": "7 Sep",
+      "dateISO": "2026-09-07",
+      "day": "Mo",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/ptk/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "AAAchtung: PTK geht wieder auf Tour – und zwar „Aus aktuellem Anlass“! Denn in Zeiten von Krisen, Kriegen und Katastrophen brauch es Künstler, die Statements setzen, Flagge zeigen und sich positionier",
+      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/04/111111Jakob-Tillmann-2-scaled-1-357x268.webp",
+      "status": "available",
+      "radarCategory": "Live Music"
     }
   ],
   "occasions": [
-    {
-      "id": "hannover-festivals:wonderworld-festival",
-      "slug": "wonderworld-festival",
-      "name": "Wonderworld Festival",
-      "kind": "festival",
-      "startDate": "2026-08-22",
-      "endDate": "2026-08-23",
-      "location": "Chicago Lane 11",
-      "description": "Das Festival geht ins fünfte Jahr und wird am 22. und 23. August im Expo-Park lauter und größer ...",
-      "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/8/5/6/4/30414658-2-ger-DE/925041a15d50-DSC07755.jpg",
-      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Wonderworld-Festival",
-      "status": "final_weekend",
-      "programmeCount": 0,
-      "locationCount": 0,
-      "programmePath": "occasions/wonderworld-festival.json",
-      "preview": []
-    },
     {
       "id": "hannover-festivals:die-veranstaltungen-zur-urbanen-kunstwoche",
       "slug": "die-veranstaltungen-zur-urbanen-kunstwoche",
@@ -1869,7 +1943,7 @@
       "description": "Hola Utopia! Street Art Festival geht in die nächste Runde – und breitet sich aus.",
       "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/6/3/7/27397362-1-ger-DE/18fb40455085-Teaser-78-.png",
       "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Die-Veranstaltungen-zur-Urbanen-Kunstwoche",
-      "status": "upcoming",
+      "status": "happening_now",
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/die-veranstaltungen-zur-urbanen-kunstwoche.json",
@@ -1886,7 +1960,7 @@
       "description": "Internationale Streetart entsteht eine Woche lang live in Hannover: Beim Festival „Hola Utopia!“ gestalten vom 24. bis 30. August mehr als zwölf Künstler*...",
       "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/0/0/8/0/29300800-1-ger-DE/542a3c0d95ed-2025_08_25_HOLA_UTOPIA_2021_18_web-a.jpg",
       "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/„Hola-Utopia!“-macht-Schule-zur-Open-Air-Galerie",
-      "status": "upcoming",
+      "status": "happening_now",
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/hola-utopia-macht-schule-zur-open-air-galerie.json",
@@ -1907,6 +1981,23 @@
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/festival-sommer-im-kulturdreieck.json",
+      "preview": []
+    },
+    {
+      "id": "hannover-festivals:nacht-der-erlebnisse-2026",
+      "slug": "nacht-der-erlebnisse-2026",
+      "name": "Nacht der Erlebnisse 2026",
+      "kind": "festival",
+      "startDate": "2026-08-27",
+      "endDate": "2026-08-29",
+      "location": "Erlebnis-Zoo Hannover",
+      "description": "Das Sommer-Highlight im Zoo: Walk Acts, Konzerte, Kleinkunst – akrobatisch, berührend, musikalisch und inspirierend, mitreißend und einfach zum Staunen.",
+      "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/hmtg/kongress-stadt/locations/teaser/locations-hannover/erlebnis-zoo-kongress/16034465-1-ger-DE/Erlebnis-Zoo-Kongress.jpg",
+      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Nacht-der-Erlebnisse-2026",
+      "status": "upcoming",
+      "programmeCount": 0,
+      "locationCount": 0,
+      "programmePath": "occasions/nacht-der-erlebnisse-2026.json",
       "preview": []
     },
     {
@@ -1958,6 +2049,40 @@
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/sommerfest-solawi-bunte-beete.json",
+      "preview": []
+    },
+    {
+      "id": "hannover-festivals:sommerfest-der-bio-handwerksbackerei-backwerk",
+      "slug": "sommerfest-der-bio-handwerksbackerei-backwerk",
+      "name": "Sommerfest der Bio-Handwerksbäckerei Backwerk",
+      "kind": "festival",
+      "startDate": "2026-08-30",
+      "endDate": "2026-08-30",
+      "location": "Backwerk Bio Handwerksbäckerei",
+      "description": "Ein Sommerfest zum Geburtstag: 3 Jahre Backwerk im Lindener Hafen werden am 30. August in den Hannover-Docks gefeiert!",
+      "imageUrl": null,
+      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Sommerfest-der-Bio-Handwerksbäckerei-Backwerk",
+      "status": "upcoming",
+      "programmeCount": 0,
+      "locationCount": 0,
+      "programmePath": "occasions/sommerfest-der-bio-handwerksbackerei-backwerk.json",
+      "preview": []
+    },
+    {
+      "id": "hannover-festivals:workshops-der-xeneriquas",
+      "slug": "workshops-der-xeneriquas",
+      "name": "Workshops der Xeneriquas",
+      "kind": "festival",
+      "startDate": "2026-09-03",
+      "endDate": "2026-09-10",
+      "location": "Andreas-Hermes-Platz",
+      "description": "Die Workshops der Xeneriquas auf der Sommerlounge am Andreas-Hermes-Platz laden Menschen unterschiedlicher Generationen und Hintergründe dazu ein, kreativ...",
+      "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/5/6/9/30719652-1-ger-DE/8cf9827982fb-Sommerlounge-Workshoo-Xeneriquas_2026-08-15_c_Simona-Bednarek_WEB-16-.jpg",
+      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Workshops-der-Xeneriquas",
+      "status": "upcoming",
+      "programmeCount": 0,
+      "locationCount": 0,
+      "programmePath": "occasions/workshops-der-xeneriquas.json",
       "preview": []
     }
   ]
