@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Tue 25 Aug 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:sommerfest-der-bio-handwerksbackerei-backwerk",
+    "slug": "sommerfest-der-bio-handwerksbackerei-backwerk",
+    "name": "Sommerfest der Bio-Handwerksbäckerei Backwerk",
+    "kind": "festival",
+    "startDate": "2026-08-30",
+    "endDate": "2026-08-30",
+    "location": "Backwerk Bio Handwerksbäckerei",
+    "description": "Ein Sommerfest zum Geburtstag: 3 Jahre Backwerk im Lindener Hafen werden am 30. August in den Hannover-Docks gefeiert!",
+    "imageUrl": null,
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Sommerfest-der-Bio-Handwerksbäckerei-Backwerk",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/sommerfest-der-bio-handwerksbackerei-backwerk.json",
+    "preview": []
+  },
+  "programme": []
+}
