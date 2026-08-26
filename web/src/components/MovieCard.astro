@@ -1,10 +1,12 @@
 ---
 import { sanitizeUrl } from '../utils/sanitize';
+import { getCinemaLabel } from '../utils/cinemaLabel';
 
 interface Props {
   title: string;
   year?: number;
   time: string;         // e.g., "22:50"
+  venue?: string | null;
   duration?: string;    // e.g., "1h41m"
   language?: string;    // e.g., "JP"
   subtitles?: string;   // e.g., "DE"
@@ -16,6 +18,7 @@ interface Props {
 const {
   title,
   time,
+  venue,
   duration,
   language,
   subtitles,
@@ -26,6 +29,7 @@ const {
 
 // Sanitize URL to prevent javascript: injection (defense-in-depth)
 const safeUrl = sanitizeUrl(url);
+const cinemaLabel = getCinemaLabel(venue);
 
 // Format language display (JP→DE)
 const langDisplay = language && subtitles
@@ -52,7 +56,9 @@ const langDisplay = language && subtitles
 
   <!-- Details row -->
   <div class="mt-0 flex flex-wrap items-center gap-x-2 gap-y-0.5 font-display text-xs text-text-muted">
-    <span class="text-text-secondary tabular-nums">{time}</span>
+    <span class="text-text-secondary">
+      <span class="tabular-nums">{time}</span>{cinemaLabel && ` @ ${cinemaLabel}`}
+    </span>
     {langDisplay && (
       <>
         <span class="text-text-muted">&middot;</span>

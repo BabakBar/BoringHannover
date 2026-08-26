@@ -4,6 +4,8 @@ export interface Movie {
   title: string;
   year?: number | null;
   time: string;
+  /** Canonical cinema name. Absent only in exports created before 2026-08. */
+  venue?: string | null;
   duration?: string | null;
   language?: string | null;
   subtitles?: string | null;
