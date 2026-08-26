@@ -1,125 +1,316 @@
 /* Self-hosted fonts. Not loaded from Google's CDN: that leaks visitor IPs
    to a third party, and the chained CSS request delays first paint. */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/inter-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/inter-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/inter-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/inter-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/fonts/inter-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/fonts/inter-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Space Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/space-mono-latin-ext-400.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Space Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/space-mono-latin-400.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Space Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/space-mono-latin-ext-700.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Space Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/space-mono-latin-700.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-data: var(--text-data);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-dim: var(--accent-dim);
+
+  --color-border: var(--border);
+
+  --font-display: 'Space Mono', 'SF Mono', monospace;
+  --font-body: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 2rem;
+  --text-2xl: 2rem;
+  --text-2xl--line-height: 2.5rem;
+
+  --container-mobile: 480px;
+
+  --tracking-dot: 0.1em;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
 
-/* Theme CSS Variables */
-:root {
-  /* Light theme (default) - subtle warm paper */
-  --bg-primary: #fafaf9;
-  --bg-secondary: #f0efed;
-  --bg-tertiary: #e8e7e5;
-  --text-primary: #1a1a1a;
-  --text-secondary: #666666;
-  /* A-6: Improved contrast - #767676 meets WCAG AA 4.5:1 on #fafaf9 */
-  --text-muted: #767676;
-  /* Muted gold for temporal data - "time is data" */
-  --text-data: #a08050;
-  --accent: #dc2626;
-  --accent-hover: #ef4444;
-  --accent-dim: rgba(220, 38, 38, 0.1);
-  --border: #e0dfdd;
-  --theme-color: #fafaf9;
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
 }
 
-:root.dark {
-  /* Dark theme - Nothing inspired */
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #141414;
-  --bg-tertiary: #1a1a1a;
-  --text-primary: #e5e5e5;
-  --text-secondary: #888888;
-  /* A-6: Improved contrast - #9ca3af meets WCAG AA 4.5:1 on #0a0a0a */
-  --text-muted: #9ca3af;
-  /* Muted gold for temporal data - "time is data" */
-  --text-data: #e5c07b;
-  --accent: #ff3b3b;
-  --accent-hover: #ff5555;
-  --accent-dim: rgba(255, 59, 59, 0.13);
-  --border: #2a2a2a;
-  --theme-color: #0a0a0a;
+@utility dot-matrix {
+  /* Dot matrix decorative element */
+  @apply font-display tracking-dot uppercase;
+}
+
+@utility dot-sep {
+  /* Dot separator */
+  &::before {
+    content: ' \00B7 ';
+    @apply text-text-muted;
+  }
+}
+
+@utility divider {
+  /* Section divider */
+  @apply border-t border-border my-6;
+}
+
+@utility card-hover {
+  /* Card hover effect - enhanced */
+  @apply transition-all duration-300 ease-out;
+  transform: translateX(0);
+
+  &:hover {
+    @apply bg-bg-secondary;
+    transform: translateX(4px);
+  }
+
+  &:active {
+    transform: translateX(2px);
+    @apply bg-bg-tertiary;
+  }
+}
+
+@utility accent-underline {
+  /* Accent underline */
+  @apply border-b-2 border-accent pb-1;
+}
+
+@utility time-badge {
+  /* Time badge */
+  @apply font-display text-xs text-text-secondary bg-bg-tertiary px-2 py-1 rounded-sm;
+}
+
+@utility fsk-badge {
+  /* FSK rating badge */
+  @apply font-display text-xs text-text-muted;
+}
+
+@utility lang-arrow {
+  /* Language arrow */
+  &::before {
+    content: '\2192';
+    @apply mx-1;
+  }
+}
+
+@utility stagger-item {
+  /* Stagger animation for list items */
+  animation: fadeSlideIn 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+@utility dot-pulse {
+  /* Pulse animation for dots */
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@utility section-fade {
+  /* Section fade in */
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@utility skeleton {
+  /* Loading skeleton */
+  @apply bg-bg-secondary rounded-sm animate-pulse;
+}
+
+@utility skeleton-text {
+  @apply h-4 skeleton mb-2;
+}
+
+@utility skeleton-title {
+  @apply h-6 skeleton mb-3 w-3/4;
+}
+
+@utility scrollbar-hide {
+  /* Hide scrollbar but keep functionality */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility dot-bg {
+  /* Dot pattern background (subtle) */
+  background-image: radial-gradient(circle, #2a2a2a 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+@layer base {
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/inter-latin-ext.woff2') format('woff2');
+    unicode-range:
+      U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+      U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+      U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/inter-latin.woff2') format('woff2');
+    unicode-range:
+      U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+      U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+      U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('/fonts/inter-latin-ext.woff2') format('woff2');
+    unicode-range:
+      U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+      U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+      U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('/fonts/inter-latin.woff2') format('woff2');
+    unicode-range:
+      U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+      U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+      U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/inter-latin-ext.woff2') format('woff2');
+    unicode-range:
+      U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+      U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+      U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/inter-latin.woff2') format('woff2');
+    unicode-range:
+      U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+      U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+      U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Space Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/space-mono-latin-ext-400.woff2') format('woff2');
+    unicode-range:
+      U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+      U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+      U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: 'Space Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/space-mono-latin-400.woff2') format('woff2');
+    unicode-range:
+      U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+      U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+      U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Space Mono';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/space-mono-latin-ext-700.woff2') format('woff2');
+    unicode-range:
+      U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+      U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+      U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: 'Space Mono';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/space-mono-latin-700.woff2') format('woff2');
+    unicode-range:
+      U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+      U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+      U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+}
+
+@layer utilities {
+  /* Theme CSS Variables */
+  :root {
+    /* Light theme (default) - subtle warm paper */
+    --bg-primary: #fafaf9;
+    --bg-secondary: #f0efed;
+    --bg-tertiary: #e8e7e5;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    /* A-6: Improved contrast - #767676 meets WCAG AA 4.5:1 on #fafaf9 */
+    --text-muted: #767676;
+    /* Muted gold for temporal data - "time is data" */
+    --text-data: #a08050;
+    --accent: #dc2626;
+    --accent-hover: #ef4444;
+    --accent-dim: rgba(220, 38, 38, 0.1);
+    --border: #e0dfdd;
+    --theme-color: #fafaf9;
+  }
+
+  :root.dark {
+    /* Dark theme - Nothing inspired */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #141414;
+    --bg-tertiary: #1a1a1a;
+    --text-primary: #e5e5e5;
+    --text-secondary: #888888;
+    /* A-6: Improved contrast - #9ca3af meets WCAG AA 4.5:1 on #0a0a0a */
+    --text-muted: #9ca3af;
+    /* Muted gold for temporal data - "time is data" */
+    --text-data: #e5c07b;
+    --accent: #ff3b3b;
+    --accent-hover: #ff5555;
+    --accent-dim: rgba(255, 59, 59, 0.13);
+    --border: #2a2a2a;
+    --theme-color: #0a0a0a;
+  }
 }
 
 @layer base {
@@ -156,108 +347,6 @@
   /* Remove outline for mouse clicks but keep for keyboard */
   :focus:not(:focus-visible) {
     outline: none;
-  }
-}
-
-@layer components {
-  /* Dot matrix decorative element */
-  .dot-matrix {
-    @apply font-display tracking-dot uppercase;
-  }
-
-  /* Dot separator */
-  .dot-sep::before {
-    content: ' \00B7 ';
-    @apply text-text-muted;
-  }
-
-  /* Section divider */
-  .divider {
-    @apply border-t border-border my-6;
-  }
-
-  /* Card hover effect - enhanced */
-  .card-hover {
-    @apply transition-all duration-300 ease-out;
-    transform: translateX(0);
-  }
-
-  .card-hover:hover {
-    @apply bg-bg-secondary;
-    transform: translateX(4px);
-  }
-
-  .card-hover:active {
-    transform: translateX(2px);
-    @apply bg-bg-tertiary;
-  }
-
-  /* Accent underline */
-  .accent-underline {
-    @apply border-b-2 border-accent pb-1;
-  }
-
-  /* Time badge */
-  .time-badge {
-    @apply font-display text-xs text-text-secondary bg-bg-tertiary px-2 py-1 rounded;
-  }
-
-  /* FSK rating badge */
-  .fsk-badge {
-    @apply font-display text-xs text-text-muted;
-  }
-
-  /* Language arrow */
-  .lang-arrow::before {
-    content: '\2192';
-    @apply mx-1;
-  }
-
-  /* Stagger animation for list items */
-  .stagger-item {
-    animation: fadeSlideIn 0.4s ease-out forwards;
-    opacity: 0;
-  }
-
-  /* Pulse animation for dots */
-  .dot-pulse {
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  /* Section fade in */
-  .section-fade {
-    animation: fadeIn 0.5s ease-out forwards;
-  }
-
-  /* Loading skeleton */
-  .skeleton {
-    @apply bg-bg-secondary rounded animate-pulse;
-  }
-
-  .skeleton-text {
-    @apply h-4 skeleton mb-2;
-  }
-
-  .skeleton-title {
-    @apply h-6 skeleton mb-3 w-3/4;
-  }
-}
-
-@layer utilities {
-  /* Hide scrollbar but keep functionality */
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Dot pattern background (subtle) */
-  .dot-bg {
-    background-image: radial-gradient(circle, #2a2a2a 1px, transparent 1px);
-    background-size: 16px 16px;
   }
 }
 

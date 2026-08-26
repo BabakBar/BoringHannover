@@ -37,7 +37,7 @@ const langDisplay = language && subtitles
   href={safeUrl}
   target="_blank"
   rel="noopener noreferrer"
-  class="movie-card block py-1.5 md:py-2 pl-4 -mr-2 pr-2 rounded card-hover"
+  class="movie-card block py-1.5 md:py-2 pl-4 -mr-2 pr-2 rounded-sm card-hover"
   data-umami-event="movie-click"
   data-umami-event-title={title}
   data-umami-event-genre={genre || undefined}
@@ -93,7 +93,7 @@ const langDisplay = language && subtitles
     transform: translateY(-50%);
     width: 2px;
     height: 0;
-    background: theme('colors.accent.DEFAULT');
+    background: var(--accent);
     transition: height 0.2s ease-out;
     border-radius: 1px;
   }
@@ -103,7 +103,7 @@ const langDisplay = language && subtitles
   }
 
   .movie-card:hover h3 {
-    color: theme('colors.accent.DEFAULT');
+    color: var(--accent);
   }
 
   .movie-card h3 {
