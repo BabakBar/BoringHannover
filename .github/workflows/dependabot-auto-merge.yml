@@ -1,0 +1,55 @@
+# Auto-merge for Dependabot patch/minor updates.
+#
+# This is the piece that keeps the repository from drifting again: routine
+# updates land on their own once CI is green, and only the changes that need a
+# human — majors, and anything CI rejects — wait for one.
+#
+# Guardrails:
+#   - major updates are never auto-merged;
+#   - `gh pr merge --auto` queues the merge behind the branch's required status
+#     checks, so a red CI run blocks it (this needs "Allow auto-merge" enabled
+#     in the repository settings and required checks on master — see
+#     MAINTENANCE.md);
+#   - the workflow never checks out or executes the PR's code, so a malicious
+#     dependency cannot run here.
+
+name: Dependabot auto-merge
+
+# zizmor: ignore[dangerous-triggers] — required to read Dependabot metadata and
+# merge; this job never checks out or runs the pull request's code.
+on: pull_request_target
+
+permissions:
+  contents: read
+
+jobs:
+  auto-merge:
+    name: Auto-merge patch and minor updates
+    runs-on: ubuntu-latest
+    # The PR author, not github.actor: the actor context can be influenced by
+    # who triggers a run, the pull request's author cannot.
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'BabakBar/BoringHannover'
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge for patch and minor updates
+        if: steps.meta.outputs.update-type != 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge --auto --squash "${PR_URL}"
+
+      - name: Flag major updates for review
+        if: steps.meta.outputs.update-type == 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr edit "${PR_URL}" --add-label "major-update,needs-review"
