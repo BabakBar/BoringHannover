@@ -15,8 +15,10 @@ permissions:
 
 on:
   schedule:
-    # Mondays 06:00 Europe/Berlin (05:00 UTC), an hour after Dependabot runs, so
-    # anything Dependabot already fixed is not reported twice.
+    # Mondays 05:00 UTC. Cron has no timezone, so this lands at 06:00 Berlin in
+    # winter and 07:00 in summer — in both cases after the Dependabot run
+    # (05:00 Europe/Berlin), so anything Dependabot already fixed is not
+    # reported here as well.
     - cron: "0 5 * * 1"
   workflow_dispatch:
 

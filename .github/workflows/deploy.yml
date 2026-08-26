@@ -224,17 +224,30 @@ jobs:
           FRONTEND_REF: ${{ env.FRONTEND_IMAGE }}@${{ steps.build-frontend.outputs.digest }}
           DO_BACKEND: ${{ needs.changes.outputs.backend }}
           DO_FRONTEND: ${{ needs.changes.outputs.frontend }}
+          # Trivy pulls these by digest from GHCR, where the packages are
+          # private by default, so it needs the same credentials the push used.
+          REGISTRY_USER: ${{ github.actor }}
+          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -euo pipefail
+          set -uo pipefail
           scan() {
             docker run --rm \
               -v "${HOME}/.cache/trivy:/root/.cache/trivy" \
+              -e TRIVY_USERNAME="${REGISTRY_USER}" \
+              -e TRIVY_PASSWORD="${REGISTRY_TOKEN}" \
               aquasec/trivy:0.74.0@sha256:ee940acbf1f58ebadb42d01434ce4609530bf1b52536afbd1eee66cd7123c5c9 \
               image --scanners vuln --severity HIGH,CRITICAL \
               --ignore-unfixed --exit-code 1 --no-progress "$1"
           }
-          if [ "${DO_BACKEND}" = "true" ]; then scan "${BACKEND_REF}"; fi
-          if [ "${DO_FRONTEND}" = "true" ]; then scan "${FRONTEND_REF}"; fi
+          # Scan everything that was published before failing, so one run
+          # reports every finding rather than only the first image.
+          failed=""
+          if [ "${DO_BACKEND}" = "true" ]; then scan "${BACKEND_REF}" || failed="${failed} backend"; fi
+          if [ "${DO_FRONTEND}" = "true" ]; then scan "${FRONTEND_REF}" || failed="${failed} frontend"; fi
+          if [ -n "${failed}" ]; then
+            echo "::error::Vulnerable images, not deploying:${failed}"
+            exit 1
+          fi
 
   # Trigger Coolify deployment
   deploy:
