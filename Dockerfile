@@ -1,15 +1,15 @@
 # =============================================================================
 # BoringHannover Backend Dockerfile
-# Multi-stage build for Python 3.13 with uv package manager
+# Multi-stage build for Python 3.14 with uv package manager
 # =============================================================================
 
 # -----------------------------------------------------------------------------
 # Stage 1: Build environment
 # -----------------------------------------------------------------------------
-FROM python:3.13-slim-bookworm AS builder
+FROM python:3.14-slim-trixie AS builder
 
 # Install uv - pinned version for reproducibility
-COPY --from=ghcr.io/astral-sh/uv:0.5.6 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.12.6 /uv /uvx /bin/
 
 # Set working directory
 WORKDIR /app
@@ -29,7 +29,7 @@ RUN uv sync --frozen --no-dev
 # -----------------------------------------------------------------------------
 # Stage 2: Runtime environment
 # -----------------------------------------------------------------------------
-FROM python:3.13-slim-bookworm AS runtime
+FROM python:3.14-slim-trixie AS runtime
 
 # Security: Create non-root user
 RUN groupadd --gid 1000 boringhannover && \
