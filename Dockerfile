@@ -35,10 +35,24 @@ FROM python:3.14-slim-trixie AS runtime
 RUN groupadd --gid 1000 boringhannover && \
     useradd --uid 1000 --gid boringhannover --shell /bin/bash --create-home boringhannover
 
-# Install runtime dependencies (ca-certificates for HTTPS)
+# Install runtime dependencies (ca-certificates for HTTPS) and apply any
+# security updates the base image has not been rebuilt with yet. Without the
+# upgrade, the image ships whatever was current when python:3.14-slim-trixie
+# was last published, which is what the CI vulnerability gate flags.
 RUN apt-get update && \
+    apt-get upgrade -y --no-install-recommends && \
     apt-get install -y --no-install-recommends ca-certificates && \
     rm -rf /var/lib/apt/lists/*
+
+# Drop pip from the runtime image. The application runs from /app/.venv and
+# never installs anything at runtime, while pip's vendored dependencies
+# (msgpack, setuptools) are otherwise the only vulnerable Python packages a
+# scan of this image finds.
+RUN python -m pip uninstall -y pip 2>/dev/null || true; \
+    rm -rf /usr/local/lib/python3.*/site-packages/pip \
+           /usr/local/lib/python3.*/site-packages/pip-*.dist-info \
+           /usr/local/lib/python3.*/ensurepip \
+           /usr/local/bin/pip /usr/local/bin/pip3 /usr/local/bin/pip3.*
 
 # Set working directory
 WORKDIR /app

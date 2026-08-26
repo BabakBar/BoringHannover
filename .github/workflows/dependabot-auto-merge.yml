@@ -5,19 +5,22 @@
 # human — majors, and anything CI rejects — wait for one.
 #
 # Guardrails:
-#   - major updates are never auto-merged;
+#   - major updates are never auto-merged, only labelled;
 #   - `gh pr merge --auto` queues the merge behind the branch's required status
 #     checks, so a red CI run blocks it (this needs "Allow auto-merge" enabled
 #     in the repository settings and required checks on master — see
 #     MAINTENANCE.md);
+#   - this uses `pull_request`, not `pull_request_target`, so write access is
+#     never granted in the context of unreviewed code. Dependabot runs get a
+#     read-only token by default, and the job-level `permissions` block is what
+#     grants exactly the scopes needed. This is the pattern GitHub documents
+#     for automating Dependabot;
 #   - the workflow never checks out or executes the PR's code, so a malicious
 #     dependency cannot run here.
 
 name: Dependabot auto-merge
 
-# zizmor: ignore[dangerous-triggers] — required to read Dependabot metadata and
-# merge; this job never checks out or runs the pull request's code.
-on: pull_request_target
+on: pull_request
 
 permissions:
   contents: read
@@ -26,12 +29,13 @@ jobs:
   auto-merge:
     name: Auto-merge patch and minor updates
     runs-on: ubuntu-latest
-    # The PR author, not github.actor: the actor context can be influenced by
-    # who triggers a run, the pull request's author cannot.
+    # The PR author, not github.actor: the actor context reflects whoever
+    # triggered the run, the author is the pull request's own property.
     if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'BabakBar/BoringHannover'
     permissions:
       contents: write
       pull-requests: write
+      issues: write
 
     steps:
       - name: Fetch Dependabot metadata
@@ -52,4 +56,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
-        run: gh pr edit "${PR_URL}" --add-label "major-update,needs-review"
+        run: |
+          set -euo pipefail
+          gh label create major-update --color D93F0B --description "Major version bump; needs a human" 2>/dev/null || true
+          gh label create needs-review --color FBCA04 --description "Waiting on a maintainer" 2>/dev/null || true
+          gh pr edit "${PR_URL}" --add-label major-update --add-label needs-review

@@ -73,6 +73,20 @@ Scanners run with `--ignore-unfixed`: a finding with no upstream fix is not a
 merge blocker, because blocking on it only teaches everyone to ignore red.
 Those findings still surface in the weekly Security Audit run.
 
+### Base images
+
+Both images apply the distribution's outstanding security updates at build time
+(`apt-get upgrade` for Debian, `apk upgrade` for Alpine). Without that, an image
+ships whatever packages were current when the upstream base was last published,
+which is typically weeks behind — the OpenSSL advisory that first tripped this
+gate was exactly that case.
+
+The backend runtime image also removes `pip`. The application runs from
+`/app/.venv` and never installs anything at runtime, while pip's *vendored*
+copies of `msgpack` and `setuptools` were the only vulnerable Python packages a
+scan of the image could find. Removing pip is both the fix and a smaller
+attack surface; nothing in the image needs it.
+
 ### Suppressions
 
 A suppression is a dated decision, not a mute button. Record it in

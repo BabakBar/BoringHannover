@@ -162,7 +162,7 @@ jobs:
       # 2026 supply-chain attack, so the image digest is the trustworthy handle.
       - name: Scan images
         run: |
-          set -euo pipefail
+          set -uo pipefail
           scan() {
             docker run --rm \
               -v /var/run/docker.sock:/var/run/docker.sock \
@@ -171,8 +171,13 @@ jobs:
               image --scanners vuln --severity HIGH,CRITICAL \
               --ignore-unfixed --exit-code 1 --no-progress "$1"
           }
-          scan boringhannover-backend:audit
-          scan boringhannover-frontend:audit
+          failed=""
+          scan boringhannover-backend:audit || failed="${failed} backend"
+          scan boringhannover-frontend:audit || failed="${failed} frontend"
+          if [ -n "${failed}" ]; then
+            echo "::error::Vulnerable images:${failed}"
+            exit 1
+          fi
 
   sbom:
     name: SBOM

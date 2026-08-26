@@ -219,7 +219,7 @@ jobs:
       # in a supply-chain attack, and a digest cannot be moved.
       - name: Scan images for vulnerabilities
         run: |
-          set -euo pipefail
+          set -uo pipefail
           scan() {
             docker run --rm \
               -v /var/run/docker.sock:/var/run/docker.sock \
@@ -228,5 +228,12 @@ jobs:
               image --scanners vuln --severity HIGH,CRITICAL \
               --ignore-unfixed --exit-code 1 --no-progress "$1"
           }
-          scan boringhannover-backend:test
-          scan boringhannover-frontend:test
+          # Both images are scanned before failing, so one run reports every
+          # finding instead of hiding the second image behind the first.
+          failed=""
+          scan boringhannover-backend:test || failed="${failed} backend"
+          scan boringhannover-frontend:test || failed="${failed} frontend"
+          if [ -n "${failed}" ]; then
+            echo "::error::Vulnerable images:${failed}"
+            exit 1
+          fi

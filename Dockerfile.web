@@ -37,6 +37,11 @@ RUN test -f output/web_events.json && bun run build
 # -----------------------------------------------------------------------------
 FROM nginx:1.30-alpine AS runtime
 
+# Apply any security updates the base image has not been rebuilt with yet.
+# Without this the image ships whatever was current when nginx:1.30-alpine was
+# last published, which is what the CI vulnerability gate flags.
+RUN apk upgrade --no-cache
+
 # Remove default nginx config and content
 RUN rm -rf /usr/share/nginx/html/* /etc/nginx/conf.d/default.conf
 
