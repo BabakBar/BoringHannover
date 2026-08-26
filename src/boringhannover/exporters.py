@@ -425,6 +425,7 @@ def export_web_json(
                 "title": sanitize_text(event.title, MAX_TITLE_LENGTH),
                 "year": event.metadata.get("year"),
                 "time": event.date.strftime("%H:%M"),
+                "venue": sanitize_text(event.venue, MAX_VENUE_LENGTH),
                 "duration": _format_duration(
                     int(dur)
                     if isinstance(dur := event.metadata.get("duration", 0), int)

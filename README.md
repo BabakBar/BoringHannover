@@ -27,7 +27,7 @@ many independent projects—not a single conventional venue.
 
 ## Current Sources
 
-- **Cinema:** Astor Grand (OV films only)
+- **Cinema:** Astor Grand (OV) and Apollokino Hannover (OmU-Nachtstudio)
 - **Concerts/events:** ZAG Arena, Swiss Life Hall, Capitol, Faust, Pavillon,
   MusikZentrum, Béi Chéz Heinz, Erhardt Café, Glocksee, Punkrock-Konzerte,
   Kulturpalast Linden, Broncos, Weltspiele (Weidendamm), Platzprojekt, LUX,
