@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Fri 28 Aug 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:burgerfest-der-bundespolizei",
+    "slug": "burgerfest-der-bundespolizei",
+    "name": "Bürgerfest der Bundespolizei",
+    "kind": "festival",
+    "startDate": "2026-08-29",
+    "endDate": "2026-08-29",
+    "location": "Bundespolizeidirektion Hannover",
+    "description": "Die Bundespolizeidirektion feiert am 29. August in der Möckernstraße ihr 75-jähriges Bestehen mit einem großen Bürgerfest.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/7/7/3/7/28657377-1-ger-DE/1597dcce2278-DSC01525.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Bürgerfest-der-Bundespolizei",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/burgerfest-der-bundespolizei.json",
+    "preview": []
+  },
+  "programme": []
+}
