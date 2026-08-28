@@ -50,7 +50,7 @@ replaced.
 Every PR, including every Dependabot PR, must pass:
 
 - `uv lock --check` — the lockfile matches `pyproject.toml`
-- `bun install --frozen-lockfile` — the lockfile is complete and reproducible
+- `bun install --frozen-lockfile` — the lockfile is complete and installs deterministically
 - ruff lint + format, `ty` type check, pytest (Python 3.13 **and** 3.14)
 - `bun run test`, `bun run build`, nginx routing smoke test
 - `uv audit` and `bun audit` — no known-vulnerable dependency
@@ -80,6 +80,19 @@ Both images apply the distribution's outstanding security updates at build time
 ships whatever packages were current when the upstream base was last published,
 which is typically weeks behind — the OpenSSL advisory that first tripped this
 gate was exactly that case.
+
+The trade is explicit: **container images are patched at build time and are
+therefore not bit-reproducible.** The same commit built tomorrow can contain
+different distribution packages. What *is* reproducible is the application
+layer — `uv.lock` and `bun.lock` pin every dependency, and CI proves a clean
+install matches them. What identifies a given build is its digest, recorded in
+the deploy summary. Do not describe these image builds as reproducible; the
+guarantee they offer is "patched whenever rebuilt, and identifiable afterwards".
+
+The alternative — pinning both base images by digest and letting Dependabot
+update those digests — buys reproducibility at the cost of leaving a fresh CVE
+unpatched until the next digest bump. That trade is worth revisiting if release
+provenance ever needs to be byte-exact.
 
 The backend runtime image also removes `pip`. The application runs from
 `/app/.venv` and never installs anything at runtime, while pip's *vendored*
@@ -143,18 +156,40 @@ by digest, not via the action.
 Dependabot's `github-actions` ecosystem updates both the SHA and the comment, so
 pinning stays maintainable. `zizmor` fails CI if an unpinned action appears.
 
-## Repository settings this depends on
+## Repository settings auto-merge depends on
 
-Two settings must be enabled for auto-merge to behave as described (Settings →
-General, and Settings → Branches):
+Two settings must be enabled before any dependency update merges itself
+(Settings → General, and Settings → Branches):
 
 1. **Allow auto-merge.**
-2. **Branch protection on `master` requiring the CI checks** — `Backend
-   (Python 3.13)`, `Backend (Python 3.14)`, `Frontend (Bun)`, `Docker Build`,
-   `Workflow audit (zizmor)`, `Version pins in sync`.
+2. **Branch protection on `master` requiring the CI checks** — `Version pins in
+   sync`, `Backend (Python 3.13)`, `Backend (Python 3.14)`, `Frontend (Bun)`,
+   `Workflow audit (zizmor)`, `Docker Build`.
 
-Without (2), `gh pr merge --auto` has no checks to wait for and would merge
-immediately. Setting (2) is what makes "green CI" the actual gate.
+`gh pr merge --auto` only waits for checks a branch actually *requires*. On an
+unprotected branch there is nothing to wait for, so the merge happens
+immediately — before CI has run. Setting (2) is what makes "green CI" the real
+gate; setting (1) is what makes `--auto` queue rather than merge on the spot.
+
+**Until both are set, nothing auto-merges.** The workflow asks GitHub whether
+the pull request is actually blocked and, if it is not, labels it
+`needs-review` and comments why instead of merging. Turning the settings on is
+what activates the automation; it does not have to be trusted in advance.
+
+### Auto-merged updates do not deploy themselves
+
+A merge performed with `GITHUB_TOKEN` does not raise a `push` event —
+[GitHub suppresses workflow runs triggered by its own token](https://docs.github.com/en/actions/concepts/security/github_token)
+to prevent recursion. So when a Dependabot update auto-merges, **CI and Deploy
+do not run on `master` for that commit**, and production keeps serving the
+previous image.
+
+Until that is closed, refresh production after an auto-merged update by running
+the Deploy workflow via **workflow_dispatch**, or let the next ordinary push to
+`master` carry it. The durable fix is to perform the merge with a GitHub App
+installation token instead of `GITHUB_TOKEN`, which does raise `push`; that
+needs an App and a repository secret, so it is a deliberate decision rather
+than a default.
 
 ## Ownership
 

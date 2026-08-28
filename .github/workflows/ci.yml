@@ -44,14 +44,37 @@ jobs:
         with:
           persist-credentials: false
 
+      # Every reference is matched as a fixed string and counted, so a pin that
+      # drifts in one stage cannot hide behind a match in another, and the dots
+      # in a version cannot act as regex wildcards.
       - name: Assert Bun version pins are in sync
         shell: bash
         run: |
           set -euo pipefail
           v="$(cat web/.bun-version)"
-          echo "Expected Bun version: $v"
-          grep -q "oven/bun:${v}" Dockerfile.web || { echo "ERROR: Dockerfile.web does not use oven/bun:${v}"; exit 1; }
-          grep -q "image: oven/bun:${v}" docker-compose.yml || { echo "ERROR: docker-compose.yml does not use oven/bun:${v}"; exit 1; }
+          echo "Expected Bun version: ${v}"
+          fail() { echo "ERROR: $1"; exit 1; }
+
+          # Every `FROM oven/bun:` in Dockerfile.web must carry the pinned version.
+          mapfile -t bun_from < <(grep -oE '^FROM oven/bun:[^ ]+' Dockerfile.web || true)
+          [ "${#bun_from[@]}" -eq 1 ] || fail "expected exactly 1 oven/bun FROM in Dockerfile.web, found ${#bun_from[@]}"
+          for line in "${bun_from[@]}"; do
+            tag="${line#FROM oven/bun:}"
+            case "${tag}" in
+              "${v}"|"${v}-"*) ;;
+              *) fail "Dockerfile.web pins oven/bun:${tag}, expected ${v}" ;;
+            esac
+          done
+
+          mapfile -t bun_img < <(grep -oE 'image: oven/bun:[^ ]+' docker-compose.yml || true)
+          [ "${#bun_img[@]}" -eq 1 ] || fail "expected exactly 1 oven/bun image in docker-compose.yml, found ${#bun_img[@]}"
+          for line in "${bun_img[@]}"; do
+            tag="${line#image: oven/bun:}"
+            case "${tag}" in
+              "${v}"|"${v}-"*) ;;
+              *) fail "docker-compose.yml pins oven/bun:${tag}, expected ${v}" ;;
+            esac
+          done
           echo "Bun pins are in sync"
 
       - name: Assert uv and Python pins are in sync
@@ -61,9 +84,26 @@ jobs:
           PYTHON_PRODUCTION: ${{ env.PYTHON_PRODUCTION }}
         run: |
           set -euo pipefail
-          grep -q "ghcr.io/astral-sh/uv:${UV_VERSION}" Dockerfile || { echo "ERROR: Dockerfile does not use uv ${UV_VERSION}"; exit 1; }
-          grep -q "FROM python:${PYTHON_PRODUCTION}-slim" Dockerfile || { echo "ERROR: Dockerfile does not build on Python ${PYTHON_PRODUCTION}"; exit 1; }
-          grep -qx "${PYTHON_PRODUCTION}" .python-version || { echo "ERROR: .python-version does not pin ${PYTHON_PRODUCTION}"; exit 1; }
+          fail() { echo "ERROR: $1"; exit 1; }
+
+          # Both Python stages (builder and runtime) must be on the production
+          # interpreter — asserting only "some line matches" would let the
+          # runtime drift while the builder kept the gate green.
+          mapfile -t py < <(grep -oE '^FROM python:[^ ]+' Dockerfile || true)
+          [ "${#py[@]}" -eq 2 ] || fail "expected 2 python FROM lines in Dockerfile, found ${#py[@]}"
+          for line in "${py[@]}"; do
+            tag="${line#FROM python:}"
+            case "${tag}" in
+              "${PYTHON_PRODUCTION}"|"${PYTHON_PRODUCTION}-"*) ;;
+              *) fail "Dockerfile builds on python:${tag}, expected ${PYTHON_PRODUCTION}" ;;
+            esac
+          done
+
+          mapfile -t uv_ref < <(grep -oE 'ghcr\.io/astral-sh/uv:[^ ]+' Dockerfile || true)
+          [ "${#uv_ref[@]}" -eq 1 ] || fail "expected 1 uv reference in Dockerfile, found ${#uv_ref[@]}"
+          [ "${uv_ref[0]}" = "ghcr.io/astral-sh/uv:${UV_VERSION}" ] || fail "Dockerfile uses ${uv_ref[0]}, expected uv ${UV_VERSION}"
+
+          [ "$(cat .python-version)" = "${PYTHON_PRODUCTION}" ] || fail ".python-version pins $(cat .python-version), expected ${PYTHON_PRODUCTION}"
           echo "uv and Python pins are in sync"
 
   # Backend: Python tests and quality checks across the supported interpreters.

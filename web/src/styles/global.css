@@ -2,7 +2,7 @@
    to a third party, and the chained CSS request delays first paint. */
 @import 'tailwindcss';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-bg-primary: var(--bg-primary);

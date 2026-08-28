@@ -6,17 +6,23 @@
 #
 # Guardrails:
 #   - major updates are never auto-merged, only labelled;
-#   - `gh pr merge --auto` queues the merge behind the branch's required status
-#     checks, so a red CI run blocks it (this needs "Allow auto-merge" enabled
-#     in the repository settings and required checks on master — see
-#     MAINTENANCE.md);
+#   - the job refuses to queue a merge unless the branch is demonstrably
+#     gating it. `gh pr merge --auto` only waits for checks a branch actually
+#     *requires*; on an unprotected branch it merges immediately, which would
+#     land a dependency update before CI had run. Rather than trusting a
+#     repository setting this workflow cannot see, it asks GitHub whether the
+#     pull request is currently blocked, and stands down if it is not;
 #   - this uses `pull_request`, not `pull_request_target`, so write access is
 #     never granted in the context of unreviewed code. Dependabot runs get a
 #     read-only token by default, and the job-level `permissions` block is what
 #     grants exactly the scopes needed. This is the pattern GitHub documents
 #     for automating Dependabot;
-#   - the workflow never checks out or executes the PR's code, so a malicious
-#     dependency cannot run here.
+#   - the workflow never checks out or executes the pull request's code.
+#
+# Known limitation: a merge performed with GITHUB_TOKEN does not raise a `push`
+# event, so the Deploy workflow does not run for an auto-merged update. See
+# MAINTENANCE.md — after an auto-merged dependency update, production is
+# refreshed by running Deploy via workflow_dispatch (or by the next human push).
 
 name: Dependabot auto-merge
 
@@ -30,7 +36,8 @@ jobs:
     name: Auto-merge patch and minor updates
     runs-on: ubuntu-latest
     # The PR author, not github.actor: the actor context reflects whoever
-    # triggered the run, the author is the pull request's own property.
+    # triggered the run, the author is the pull request's own property and
+    # cannot be spoofed into the reserved dependabot[bot] identity.
     if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'BabakBar/BoringHannover'
     permissions:
       contents: write
@@ -44,12 +51,62 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Enable auto-merge for patch and minor updates
+      # Safety interlock. BLOCKED means something is actively holding the merge
+      # — required status checks that have not passed yet. Any other state this
+      # early (CLEAN, UNSTABLE) means nothing gates the branch, and queueing an
+      # auto-merge would merge the update immediately, before CI.
+      - name: Confirm the branch gates merges before queueing one
+        id: gate
         if: steps.meta.outputs.update-type != 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          set -uo pipefail
+
+          auto="$(gh api "repos/${GH_REPO}" --jq '.allow_auto_merge // false' 2>/dev/null || echo false)"
+
+          # Mergeability is computed asynchronously; UNKNOWN just means "not yet".
+          state="UNKNOWN"
+          for _ in 1 2 3 4 5 6; do
+            state="$(gh pr view "${PR_URL}" --json mergeStateStatus --jq '.mergeStateStatus' 2>/dev/null || echo UNKNOWN)"
+            [ "${state}" = "UNKNOWN" ] || break
+            sleep 10
+          done
+
+          echo "allow_auto_merge=${auto}  mergeStateStatus=${state}"
+          if [ "${auto}" = "true" ] && [ "${state}" = "BLOCKED" ]; then
+            echo "safe=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "safe=false" >> "${GITHUB_OUTPUT}"
+            {
+              echo "auto=${auto}"
+              echo "state=${state}"
+            } >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Enable auto-merge for patch and minor updates
+        if: steps.meta.outputs.update-type != 'version-update:semver-major' && steps.gate.outputs.safe == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
         run: gh pr merge --auto --squash "${PR_URL}"
+
+      # Standing down is never silent: the update waits for a human, and the
+      # reason is on the pull request rather than buried in a workflow log.
+      - name: Stand down when nothing gates the merge
+        if: steps.meta.outputs.update-type != 'version-update:semver-major' && steps.gate.outputs.safe != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          AUTO: ${{ steps.gate.outputs.auto }}
+          STATE: ${{ steps.gate.outputs.state }}
+        run: |
+          set -euo pipefail
+          gh label create needs-review --color FBCA04 --description "Waiting on a maintainer" 2>/dev/null || true
+          gh pr edit "${PR_URL}" --add-label needs-review
+          gh pr comment "${PR_URL}" --body "$(printf 'Auto-merge stood down: nothing on `master` is currently gating this merge (repository allow_auto_merge=`%s`, mergeStateStatus=`%s`), so queueing it would merge before CI finishes.\n\nEnable **Allow auto-merge** and require the CI checks on `master` (see MAINTENANCE.md), and the next update will merge itself once CI is green. Until then this PR waits for a human.\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_' "${AUTO}" "${STATE}")"
 
       - name: Flag major updates for review
         if: steps.meta.outputs.update-type == 'version-update:semver-major'
