@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Tue 25 Aug 11:00"
+    "updatedAt": "Fri 28 Aug 11:00"
   },
   "occasion": {
     "id": "hannover-festivals:hola-utopia-macht-schule-zur-open-air-galerie",
@@ -13,7 +13,7 @@
     "description": "Internationale Streetart entsteht eine Woche lang live in Hannover: Beim Festival „Hola Utopia!“ gestalten vom 24. bis 30. August mehr als zwölf Künstler*...",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/0/0/8/0/29300800-1-ger-DE/542a3c0d95ed-2025_08_25_HOLA_UTOPIA_2021_18_web-a.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/„Hola-Utopia!“-macht-Schule-zur-Open-Air-Galerie",
-    "status": "happening_now",
+    "status": "final_weekend",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/hola-utopia-macht-schule-zur-open-air-galerie.json",
