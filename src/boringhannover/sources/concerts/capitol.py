@@ -124,7 +124,7 @@ class CapitolSource(BaseSource):
                 return None
 
             date_str = date_elem.get_text(strip=True)
-            event_date = parse_venue_date(date_str)
+            event_date = parse_venue_date(date_str, source_key="capitol_hannover")
             if not event_date:
                 return None
 

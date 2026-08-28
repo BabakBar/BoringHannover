@@ -18,8 +18,8 @@ from bs4 import BeautifulSoup
 if TYPE_CHECKING:
     from bs4 import Tag
 
-from boringhannover.config import GERMAN_MONTH_MAP
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.date_parsing import log_unknown_month, lookup_german_month
 from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.genre import normalize_genre
 from boringhannover.models import Event
@@ -230,8 +230,14 @@ class BeiChezHeinzSource(BaseSource):
                 month_str = date_match.group(2).lower()
                 year = int(date_match.group(3))
 
-                month = GERMAN_MONTH_MAP.get(month_str, 0)
-                if month:
+                month = lookup_german_month(month_str)
+                if month is None:
+                    log_unknown_month(
+                        month_str,
+                        source_key="bei_chez_heinz",
+                        raw_value=date_match.group(0),
+                    )
+                else:
                     from contextlib import suppress
 
                     with suppress(ValueError):

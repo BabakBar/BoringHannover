@@ -123,7 +123,7 @@ class SwissLifeHallSource(BaseSource):
                 return None
 
             date_str = date_elem.get_text(strip=True)
-            event_date = parse_venue_date(date_str)
+            event_date = parse_venue_date(date_str, source_key="swiss_life_hall")
             if not event_date:
                 return None
 
