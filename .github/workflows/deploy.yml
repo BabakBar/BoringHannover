@@ -232,22 +232,43 @@ jobs:
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -uo pipefail
+
+          # --exit-code 2 is what separates a finding from a broken scan: Trivy
+          # exits with this value when it finds something, and with 1 when it
+          # could not scan at all (bad reference, registry auth, network). Both
+          # must block the deploy, but they are different problems and the
+          # message has to say which one happened — the mixed-case reference
+          # that broke the first deploy was reported as a vulnerability.
+          vulnerable=""
+          errored=""
           scan() {
+            local name="$1" ref="$2" rc=0
             docker run --rm \
               -v "${HOME}/.cache/trivy:/root/.cache/trivy" \
               -e TRIVY_USERNAME="${REGISTRY_USER}" \
               -e TRIVY_PASSWORD="${REGISTRY_TOKEN}" \
               aquasec/trivy:0.74.0@sha256:ee940acbf1f58ebadb42d01434ce4609530bf1b52536afbd1eee66cd7123c5c9 \
               image --scanners vuln --severity HIGH,CRITICAL \
-              --ignore-unfixed --exit-code 1 --no-progress "$1"
+              --ignore-unfixed --exit-code 2 --no-progress "${ref}" || rc=$?
+            case "${rc}" in
+              0) echo "${name}: clean (${ref})" ;;
+              2) vulnerable="${vulnerable} ${name}" ;;
+              *) errored="${errored} ${name}" ;;
+            esac
           }
+
           # Scan everything that was published before failing, so one run
           # reports every finding rather than only the first image.
-          failed=""
-          if [ "${DO_BACKEND}" = "true" ]; then scan "${BACKEND_REF}" || failed="${failed} backend"; fi
-          if [ "${DO_FRONTEND}" = "true" ]; then scan "${FRONTEND_REF}" || failed="${failed} frontend"; fi
-          if [ -n "${failed}" ]; then
-            echo "::error::Image scans failed or found vulnerabilities; not deploying:${failed}"
+          if [ "${DO_BACKEND}" = "true" ]; then scan backend "${BACKEND_REF}"; fi
+          if [ "${DO_FRONTEND}" = "true" ]; then scan frontend "${FRONTEND_REF}"; fi
+
+          if [ -n "${errored}" ]; then
+            echo "::error::Trivy could not scan (scanner error, not a vulnerability finding), not deploying:${errored}"
+          fi
+          if [ -n "${vulnerable}" ]; then
+            echo "::error::HIGH/CRITICAL vulnerabilities found, not deploying:${vulnerable}"
+          fi
+          if [ -n "${errored}${vulnerable}" ]; then
             exit 1
           fi
 
