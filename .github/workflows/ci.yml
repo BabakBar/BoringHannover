@@ -215,6 +215,27 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: uvx zizmor@${{ env.ZIZMOR_VERSION }} --persona=regular .github/workflows/
 
+      # OCI references must be lowercase, and `github.repository` is not: this
+      # repository is BabakBar/BoringHannover. docker/metadata-action hides the
+      # problem by lowercasing the tags it generates, so a workflow can push
+      # successfully and still hand the mixed-case name to anything that takes a
+      # reference directly (a scanner, an attestation subject, a rollback
+      # command). That is exactly how the first deploy of this pipeline failed.
+      # Write the lowercase name out instead, as deploy.yml now does.
+      - name: Assert registry references are not built from github.repository
+        shell: bash
+        run: |
+          set -uo pipefail
+          # The pattern is a regex rather than a fixed string on purpose: an
+          # expression opener written literally here would be evaluated by
+          # Actions before the script ever runs.
+          if grep -rnE 'ghcr\.io/\$\{\{ *github\.repository' .github/workflows/; then
+            echo "ERROR: the lines above build an image reference straight from github.repository," >&2
+            echo "which keeps the repository's mixed case. Lowercase it first." >&2
+            exit 1
+          fi
+          echo "No mixed-case registry references"
+
   # Docker: build verification.
   docker:
     name: Docker Build
@@ -260,20 +281,40 @@ jobs:
       - name: Scan images for vulnerabilities
         run: |
           set -uo pipefail
+
+          # --exit-code 2 is what separates a finding from a broken scan: Trivy
+          # exits with this value when it finds something, and with 1 when it
+          # could not scan at all. Mapping both to 1 makes a scanner failure
+          # indistinguishable from a vulnerable image, and the two need different
+          # fixes.
+          vulnerable=""
+          errored=""
           scan() {
+            local name="$1" rc=0
             docker run --rm \
               -v /var/run/docker.sock:/var/run/docker.sock \
               -v "${HOME}/.cache/trivy:/root/.cache/trivy" \
               aquasec/trivy:0.74.0@sha256:ee940acbf1f58ebadb42d01434ce4609530bf1b52536afbd1eee66cd7123c5c9 \
               image --scanners vuln --severity HIGH,CRITICAL \
-              --ignore-unfixed --exit-code 1 --no-progress "$1"
+              --ignore-unfixed --exit-code 2 --no-progress "boringhannover-${name}:test" || rc=$?
+            case "${rc}" in
+              0) echo "${name}: clean" ;;
+              2) vulnerable="${vulnerable} ${name}" ;;
+              *) errored="${errored} ${name}" ;;
+            esac
           }
+
           # Both images are scanned before failing, so one run reports every
           # finding instead of hiding the second image behind the first.
-          failed=""
-          scan boringhannover-backend:test || failed="${failed} backend"
-          scan boringhannover-frontend:test || failed="${failed} frontend"
-          if [ -n "${failed}" ]; then
-            echo "::error::Vulnerable images:${failed}"
+          scan backend
+          scan frontend
+
+          if [ -n "${errored}" ]; then
+            echo "::error::Trivy could not scan (scanner error, not a vulnerability finding):${errored}"
+          fi
+          if [ -n "${vulnerable}" ]; then
+            echo "::error::HIGH/CRITICAL vulnerabilities found:${vulnerable}"
+          fi
+          if [ -n "${errored}${vulnerable}" ]; then
             exit 1
           fi

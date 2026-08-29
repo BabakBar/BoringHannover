@@ -144,6 +144,17 @@ adjacent inline elements ("25 Aug" → "25Aug"). This repository keeps
   known-good deploy summary. Do not rely on `latest`.
 - Keep at least the last 10 image versions in GHCR so a rollback has somewhere
   to go.
+- Image names are written out in lowercase, never built from
+  `github.repository`. That context is `BabakBar/BoringHannover` and OCI names
+  must be lowercase: `docker/metadata-action` lowercases the tags it generates,
+  so a workflow can push successfully while every reference built by hand stays
+  mixed-case. That is how the first deploy of this pipeline failed — the images
+  published and attested fine, and Trivy then refused to parse the name it was
+  handed. CI fails any workflow that reintroduces the pattern.
+- The deploy gate distinguishes **a scanner that could not run** from **an image
+  with findings**, and says which in the failure message. Trivy runs with
+  `--exit-code 2`, so 2 means findings and any other non-zero means the scan
+  itself failed. Both block the deploy; the fixes are entirely different.
 
 ## GitHub Actions
 
