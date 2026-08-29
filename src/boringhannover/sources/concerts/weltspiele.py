@@ -14,8 +14,8 @@ from typing import ClassVar
 
 from bs4 import BeautifulSoup, Tag
 
-from boringhannover.config import GERMAN_MONTH_MAP
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.date_parsing import log_unknown_month, lookup_german_month
 from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
@@ -247,7 +247,7 @@ class WeltspieleSource(BaseSource):
             return None
         day = int(date_match.group(1))
         month_name = date_match.group(2)
-        month = self._parse_month(month_name)
+        month = self._parse_month(month_name, raw_value=text)
         if not month:
             return None
 
@@ -258,15 +258,22 @@ class WeltspieleSource(BaseSource):
         hour, minute = (int(part) for part in time_str.split(":", 1))
         return base.replace(hour=hour, minute=minute)
 
-    def _parse_month(self, month_name: str) -> int | None:
+    def _parse_month(
+        self, month_name: str, *, raw_value: str | None = None
+    ) -> int | None:
         if not month_name:
             return None
         key = month_name.strip().lower()
         if key in ENGLISH_MONTH_MAP:
             return ENGLISH_MONTH_MAP[key]
-        if key in GERMAN_MONTH_MAP:
-            return GERMAN_MONTH_MAP[key]
-        return None
+        month = lookup_german_month(key)
+        if month is None:
+            log_unknown_month(
+                month_name,
+                source_key="weltspiele",
+                raw_value=raw_value or month_name,
+            )
+        return month
 
     def _compose_date(self, day: int, month: int) -> datetime | None:
         """Compose a Berlin-tz datetime from day/month with a future-aware year."""

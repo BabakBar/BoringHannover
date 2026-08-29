@@ -13,8 +13,8 @@ from typing import TYPE_CHECKING, ClassVar
 
 from bs4 import BeautifulSoup
 
-from boringhannover.config import GERMAN_MONTH_MAP
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.date_parsing import log_unknown_month, lookup_german_month
 from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 
 
@@ -190,9 +190,19 @@ class ZAGArenaSource(BaseSource):
             month_elem = item.select_one(self.SELECTOR_MONTH)
             if day_elem and month_elem:
                 try:
-                    day = int(day_elem.get_text(strip=True))
-                    month_str = month_elem.get_text(strip=True).rstrip(".")
-                    month = GERMAN_MONTH_MAP.get(month_str.lower(), 1)
+                    day_str = day_elem.get_text(strip=True)
+                    month_raw = month_elem.get_text(strip=True)
+                    day = int(day_str)
+                    month_str = month_raw.rstrip(".")
+                    month = lookup_german_month(month_str)
+                    if month is None:
+                        log_unknown_month(
+                            month_str,
+                            source_key="zag_arena",
+                            raw_value=f"{day_str} {month_raw}",
+                        )
+                        return event_date, time_str, time_confidence
+
                     # Use next year if month is before current month
                     year = datetime.now(BERLIN_TZ).year
                     if month < datetime.now(BERLIN_TZ).month:
