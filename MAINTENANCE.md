@@ -171,10 +171,17 @@ unprotected branch there is nothing to wait for, so the merge happens
 immediately — before CI has run. Setting (2) is what makes "green CI" the real
 gate; setting (1) is what makes `--auto` queue rather than merge on the spot.
 
-**Until both are set, nothing auto-merges.** The workflow asks GitHub whether
-the pull request is actually blocked and, if it is not, labels it
-`needs-review` and comments why instead of merging. Turning the settings on is
-what activates the automation; it does not have to be trusted in advance.
+**Until both are set, nothing auto-merges.** Before queueing a merge the
+workflow asks GitHub which checks are *required* on the base branch and stands
+down — labelling `needs-review` and commenting which checks are missing —
+unless all six are there. Partial protection is the case worth guarding
+against: a branch that requires only a review, or only one check, still reports
+the pull request as "blocked" while leaving CI free to be red at merge time.
+
+Because the workflow matches those checks **by name**, renaming a CI job means
+updating the required checks in branch protection *and* the expected list in
+`.github/workflows/dependabot-auto-merge.yml`. Until both agree, updates wait
+for a human rather than merging — the failure is loud and safe, not silent.
 
 ### Auto-merged updates do not deploy themselves
 

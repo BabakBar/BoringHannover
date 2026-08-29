@@ -6,12 +6,14 @@
 #
 # Guardrails:
 #   - major updates are never auto-merged, only labelled;
-#   - the job refuses to queue a merge unless the branch is demonstrably
-#     gating it. `gh pr merge --auto` only waits for checks a branch actually
-#     *requires*; on an unprotected branch it merges immediately, which would
-#     land a dependency update before CI had run. Rather than trusting a
-#     repository setting this workflow cannot see, it asks GitHub whether the
-#     pull request is currently blocked, and stands down if it is not;
+#   - the job refuses to queue a merge unless every CI check is *required* on
+#     the base branch. `gh pr merge --auto` waits only for checks a branch
+#     actually requires: on an unprotected branch it merges immediately, and
+#     under partial protection (say, a required review but no required checks)
+#     it would merge with CI red. So the job asks GitHub which checks are
+#     required and stands down unless the full set is there. Asking what is
+#     required — rather than whether the PR happens to be blocked right now —
+#     also makes the answer independent of when this job runs;
 #   - this uses `pull_request`, not `pull_request_target`, so write access is
 #     never granted in the context of unreviewed code. Dependabot runs get a
 #     read-only token by default, and the job-level `permissions` block is what
@@ -51,11 +53,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Safety interlock. BLOCKED means something is actively holding the merge
-      # — required status checks that have not passed yet. Any other state this
-      # early (CLEAN, UNSTABLE) means nothing gates the branch, and queueing an
-      # auto-merge would merge the update immediately, before CI.
-      - name: Confirm the branch gates merges before queueing one
+      # Safety interlock: queue a merge only when every CI check is required on
+      # the base branch, so GitHub's own auto-merge cannot land the update while
+      # any of them is red or still running.
+      #
+      # These names must match the CI job names exactly. Renaming a job means
+      # updating this list *and* the required checks in branch protection —
+      # until both agree the job stands down rather than merging.
+      - name: Confirm every CI check is required before queueing a merge
         id: gate
         if: steps.meta.outputs.update-type != 'version-update:semver-major'
         env:
@@ -65,24 +70,42 @@ jobs:
         run: |
           set -uo pipefail
 
+          expected=(
+            "Version pins in sync"
+            "Backend (Python 3.13)"
+            "Backend (Python 3.14)"
+            "Frontend (Bun)"
+            "Workflow audit (zizmor)"
+            "Docker Build"
+          )
+
           auto="$(gh api "repos/${GH_REPO}" --jq '.allow_auto_merge // false' 2>/dev/null || echo false)"
 
-          # Mergeability is computed asynchronously; UNKNOWN just means "not yet".
-          state="UNKNOWN"
+          # A check appears here once it has reported, so give CI a moment to
+          # register its runs before concluding that nothing is required.
+          required=""
           for _ in 1 2 3 4 5 6; do
-            state="$(gh pr view "${PR_URL}" --json mergeStateStatus --jq '.mergeStateStatus' 2>/dev/null || echo UNKNOWN)"
-            [ "${state}" = "UNKNOWN" ] || break
+            required="$(gh pr checks "${PR_URL}" --required --json name --jq '.[].name' 2>/dev/null || true)"
+            [ -n "${required}" ] && break
             sleep 10
           done
 
-          echo "allow_auto_merge=${auto}  mergeStateStatus=${state}"
-          if [ "${auto}" = "true" ] && [ "${state}" = "BLOCKED" ]; then
+          missing=()
+          for name in "${expected[@]}"; do
+            printf '%s\n' "${required}" | grep -qxF "${name}" || missing+=("${name}")
+          done
+
+          printf 'allow_auto_merge=%s\n' "${auto}"
+          printf 'required checks reported: %s\n' "$(printf '%s' "${required}" | tr '\n' ',')"
+          printf 'missing from required: %s\n' "${missing[*]:-none}"
+
+          if [ "${auto}" = "true" ] && [ "${#missing[@]}" -eq 0 ]; then
             echo "safe=true" >> "${GITHUB_OUTPUT}"
           else
-            echo "safe=false" >> "${GITHUB_OUTPUT}"
             {
+              echo "safe=false"
               echo "auto=${auto}"
-              echo "state=${state}"
+              echo "missing=${missing[*]:-none}"
             } >> "${GITHUB_OUTPUT}"
           fi
 
@@ -95,18 +118,18 @@ jobs:
 
       # Standing down is never silent: the update waits for a human, and the
       # reason is on the pull request rather than buried in a workflow log.
-      - name: Stand down when nothing gates the merge
+      - name: Stand down when CI is not gating the merge
         if: steps.meta.outputs.update-type != 'version-update:semver-major' && steps.gate.outputs.safe != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
           AUTO: ${{ steps.gate.outputs.auto }}
-          STATE: ${{ steps.gate.outputs.state }}
+          MISSING: ${{ steps.gate.outputs.missing }}
         run: |
           set -euo pipefail
           gh label create needs-review --color FBCA04 --description "Waiting on a maintainer" 2>/dev/null || true
           gh pr edit "${PR_URL}" --add-label needs-review
-          gh pr comment "${PR_URL}" --body "$(printf 'Auto-merge stood down: nothing on `master` is currently gating this merge (repository allow_auto_merge=`%s`, mergeStateStatus=`%s`), so queueing it would merge before CI finishes.\n\nEnable **Allow auto-merge** and require the CI checks on `master` (see MAINTENANCE.md), and the next update will merge itself once CI is green. Until then this PR waits for a human.\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_' "${AUTO}" "${STATE}")"
+          gh pr comment "${PR_URL}" --body "$(printf 'Auto-merge stood down — this update needs a human.\n\n- repository `allow_auto_merge`: `%s`\n- CI checks not required on `master`: `%s`\n\nGitHub auto-merge only waits for checks a branch *requires*, so queueing a merge now could land this update with CI red or still running. Enable **Allow auto-merge** and add the missing checks to the branch protection rule (see MAINTENANCE.md); the next update will then merge itself once CI is green.\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_' "${AUTO}" "${MISSING}")"
 
       - name: Flag major updates for review
         if: steps.meta.outputs.update-type == 'version-update:semver-major'
