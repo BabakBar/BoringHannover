@@ -44,7 +44,7 @@ const isSoldOut = status === 'sold_out';
   href={safeUrl}
   target="_blank"
   rel="noopener noreferrer"
-  class="concert-card block py-3 -mx-2 px-2 rounded card-hover"
+  class="concert-card block py-3 -mx-2 px-2 rounded-sm card-hover"
   data-umami-event="event-click"
   data-umami-event-title={title}
   data-umami-event-venue={venue}
@@ -53,7 +53,7 @@ const isSoldOut = status === 'sold_out';
   <!-- Date column + content -->
   <div class="flex items-start gap-4">
     <!-- Date block - fixed width for consistent vertical alignment -->
-    <div class="flex-shrink-0 w-16 text-center">
+    <div class="shrink-0 w-16 text-center">
       <div class="font-display text-xs text-text-muted uppercase tracking-wide">{dayDisplay}</div>
       <div class="font-display text-base leading-tight">
         <span class="text-text-data tabular-nums">{dayNum}</span>
@@ -69,7 +69,7 @@ const isSoldOut = status === 'sold_out';
           {title}
         </h3>
         {isSoldOut && (
-          <span class="font-display text-[10px] uppercase text-accent px-1.5 py-0.5 bg-accent-dim rounded">
+          <span class="font-display text-[10px] uppercase text-accent px-1.5 py-0.5 bg-accent-dim rounded-sm">
             Sold Out
           </span>
         )}
@@ -108,7 +108,7 @@ const isSoldOut = status === 'sold_out';
     transform: translateY(-50%);
     width: 2px;
     height: 0;
-    background: theme('colors.accent.DEFAULT');
+    background: var(--accent);
     transition: height 0.2s ease-out;
     border-radius: 1px;
   }
@@ -118,7 +118,7 @@ const isSoldOut = status === 'sold_out';
   }
 
   .concert-card:hover h3 {
-    color: theme('colors.accent.DEFAULT');
+    color: var(--accent);
   }
 
   .concert-card h3 {

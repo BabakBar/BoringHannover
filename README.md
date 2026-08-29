@@ -40,13 +40,16 @@ Timing accuracy policy and current audit status: [TIMING_ACCURACY.md](TIMING_ACC
 
 ## Development
 
-**Backend (Python 3.13+):**
+Supported runtimes, update cadence and the supply-chain gates are documented in
+[MAINTENANCE.md](MAINTENANCE.md).
+
+**Backend (Python 3.13+, 3.14 in production):**
 ```bash
 uv sync
 uv run boringhannover --local
 ```
 
-**Frontend (Bun):**
+**Frontend (Bun 1.4, Astro 7, Tailwind 4):**
 ```bash
 cd web
 bun install

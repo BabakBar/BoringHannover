@@ -1,0 +1,124 @@
+# Dependabot keeps every ecosystem in this repository moving on its own.
+#
+# Policy (see MAINTENANCE.md):
+#   - patch + minor updates are grouped into one reviewable PR per ecosystem
+#     per week, and are eligible for auto-merge once CI is green;
+#   - major updates always arrive as their own PR and are never auto-merged;
+#   - a cooldown keeps brand-new releases out of the repository long enough
+#     for upstream to yank a bad one;
+#   - security updates ignore the schedule, the groups and the PR limit.
+version: 2
+
+updates:
+  # ---------------------------------------------------------------------------
+  # Backend: Python dependencies + dev tooling (pyproject.toml / uv.lock)
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "05:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "python"]
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+    groups:
+      python-minor-patch:
+        update-types: ["minor", "patch"]
+        patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # Frontend: Astro / Tailwind / build tooling (web/package.json, web/bun.lock)
+  # Dependabot supports bun version updates only; `bun audit` in CI covers the
+  # security side (see .github/workflows/security.yml).
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "bun"
+    directory: "/web"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "05:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "frontend"]
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+    groups:
+      frontend-minor-patch:
+        update-types: ["minor", "patch"]
+        patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # Container base images (Dockerfile, Dockerfile.web)
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "docker"
+    directories:
+      - "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "05:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "docker"]
+    commit-message:
+      prefix: "chore(deps)"
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+    groups:
+      base-images-minor-patch:
+        update-types: ["minor", "patch"]
+        patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # Local development stack (docker-compose.yml). Kept separate from the
+  # production images so a dev-only bump never rides along with a runtime one.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "docker-compose"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "05:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 3
+    labels: ["dependencies", "docker"]
+    commit-message:
+      prefix: "chore(deps)"
+    cooldown:
+      default-days: 7
+
+  # ---------------------------------------------------------------------------
+  # GitHub Actions. Actions are pinned to commit SHAs; Dependabot rewrites both
+  # the SHA and the trailing version comment, which is what makes SHA pinning
+  # maintainable rather than a one-off chore.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "05:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "ci"]
+    commit-message:
+      prefix: "chore(ci)"
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+    groups:
+      actions-minor-patch:
+        update-types: ["minor", "patch"]
+        patterns: ["*"]

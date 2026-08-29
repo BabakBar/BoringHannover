@@ -1,0 +1,200 @@
+# Scheduled supply-chain audit.
+#
+# CI already gates every PR. This workflow answers the other question: has the
+# code that is *already* on master become vulnerable since it was merged?
+# It runs weekly, opens/updates a single tracking issue when it finds something,
+# and publishes an SBOM for the current state of the repository.
+#
+# Triage policy, severity SLAs and the suppression format live in
+# MAINTENANCE.md. A scanner without an owner is not a control.
+
+name: Security Audit
+
+permissions:
+  contents: read
+
+on:
+  schedule:
+    # Mondays 05:00 UTC. Cron has no timezone, so this lands at 06:00 Berlin in
+    # winter and 07:00 in summer — in both cases after the Dependabot run
+    # (05:00 Europe/Berlin), so anything Dependabot already fixed is not
+    # reported here as well.
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+env:
+  UV_VERSION: "0.12.6"
+
+jobs:
+  dependencies:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Needed to file the triage issue when the audit finds something.
+      issues: write
+    outputs:
+      findings: ${{ steps.audit.outputs.findings }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: web/.bun-version
+
+      - name: Audit dependencies
+        id: audit
+        run: |
+          set -uo pipefail
+          findings=""
+
+          if ! uv audit --preview-features audit-command 2>&1 | tee python-audit.txt; then
+            findings="${findings}python "
+          fi
+
+          cd web
+          bun install --frozen-lockfile
+          if ! bun audit 2>&1 | tee ../frontend-audit.txt; then
+            findings="${findings}frontend "
+          fi
+          cd ..
+
+          echo "findings=${findings}" >> "${GITHUB_OUTPUT}"
+          {
+            echo "## Dependency audit"
+            echo ""
+            echo "### Python"
+            echo '```'
+            cat python-audit.txt
+            echo '```'
+            echo "### Frontend"
+            echo '```'
+            cat frontend-audit.txt
+            echo '```'
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Upload audit reports
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dependency-audit
+          path: |
+            python-audit.txt
+            frontend-audit.txt
+          retention-days: 90
+
+      # A finding needs an owner and a place to live, otherwise it is just a red
+      # run nobody opens. One issue is reused so a recurring finding does not
+      # spawn a new issue every week.
+      - name: Open or update the tracking issue
+        if: steps.audit.outputs.findings != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          FINDINGS: ${{ steps.audit.outputs.findings }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          title="Dependency audit findings"
+          body="$(printf 'The weekly dependency audit reported findings in: %s\n\nRun: %s\n\nTriage per MAINTENANCE.md — assign a severity, fix or record an expiring suppression.' "${FINDINGS}" "${RUN_URL}")"
+          gh label create security-audit --color B60205 --description "Findings from the weekly dependency audit" 2>/dev/null || true
+          existing="$(gh issue list --state open --label security-audit --search "${title} in:title" --json number --jq '.[0].number // empty')"
+          if [ -n "${existing}" ]; then
+            gh issue comment "${existing}" --body "${body}"
+          else
+            gh issue create --title "${title}" --body "${body}" --label security-audit
+          fi
+
+      - name: Fail if the audit found something
+        if: steps.audit.outputs.findings != ''
+        env:
+          FINDINGS: ${{ steps.audit.outputs.findings }}
+        run: |
+          echo "Dependency audit findings: ${FINDINGS}" >&2
+          exit 1
+
+  images:
+    name: Container image scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+
+      - name: Build backend image
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          load: true
+          tags: boringhannover-backend:audit
+
+      - name: Build frontend image
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        with:
+          context: .
+          file: ./Dockerfile.web
+          push: false
+          load: true
+          tags: boringhannover-frontend:audit
+          build-args: |
+            SITE=https://boringhannover.de
+
+      # Pinned by digest: the trivy-action's tags were force-pushed in a March
+      # 2026 supply-chain attack, so the image digest is the trustworthy handle.
+      - name: Scan images
+        run: |
+          set -uo pipefail
+          scan() {
+            docker run --rm \
+              -v /var/run/docker.sock:/var/run/docker.sock \
+              -v "${HOME}/.cache/trivy:/root/.cache/trivy" \
+              aquasec/trivy:0.74.0@sha256:ee940acbf1f58ebadb42d01434ce4609530bf1b52536afbd1eee66cd7123c5c9 \
+              image --scanners vuln --severity HIGH,CRITICAL \
+              --ignore-unfixed --exit-code 1 --no-progress "$1"
+          }
+          failed=""
+          scan boringhannover-backend:audit || failed="${failed} backend"
+          scan boringhannover-frontend:audit || failed="${failed} frontend"
+          if [ -n "${failed}" ]; then
+            echo "::error::Vulnerable images:${failed}"
+            exit 1
+          fi
+
+  sbom:
+    name: SBOM
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Generate SBOM (CycloneDX)
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0.24.0
+        with:
+          path: .
+          format: cyclonedx-json
+          artifact-name: boringhannover-sbom.cyclonedx.json
+          upload-artifact-retention: 90

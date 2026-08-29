@@ -1,0 +1,184 @@
+# Auto-merge for Dependabot patch/minor updates.
+#
+# This is the piece that keeps the repository from drifting again: routine
+# updates land on their own once CI is green, and only the changes that need a
+# human — majors, and anything CI rejects — wait for one.
+#
+# Guardrails:
+#   - major updates are never auto-merged, only labelled;
+#   - the job refuses to queue a merge unless every CI check is *required* on
+#     the base branch. `gh pr merge --auto` waits only for checks a branch
+#     actually requires: on an unprotected branch it merges immediately, and
+#     under partial protection (say, a required review but no required checks)
+#     it would merge with CI red. So the job asks GitHub which checks are
+#     required and stands down unless the full set is there. Asking what is
+#     required — rather than whether the PR happens to be blocked right now —
+#     also makes the answer independent of when this job runs;
+#   - this uses `pull_request`, not `pull_request_target`, so write access is
+#     never granted in the context of unreviewed code. Dependabot runs get a
+#     read-only token by default, and the job-level `permissions` block is what
+#     grants exactly the scopes needed. This is the pattern GitHub documents
+#     for automating Dependabot;
+#   - the workflow never checks out or executes the pull request's code.
+#
+# Deploying an auto-merged update: a merge performed with GITHUB_TOKEN raises no
+# `push` event, so Deploy would not run and production would sit behind master.
+# If the repository secrets AUTOMERGE_APP_ID and AUTOMERGE_APP_PRIVATE_KEY are
+# set, the merge is performed with a GitHub App installation token instead,
+# which does raise `push` and lets CI and Deploy run normally. Without those
+# secrets the step below falls back to GITHUB_TOKEN and production must be
+# refreshed by dispatching Deploy. See MAINTENANCE.md for the App setup.
+
+name: Dependabot auto-merge
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  auto-merge:
+    name: Auto-merge patch and minor updates
+    runs-on: ubuntu-latest
+    # The PR author, not github.actor: the actor context reflects whoever
+    # triggered the run, the author is the pull request's own property and
+    # cannot be spoofed into the reserved dependabot[bot] identity.
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'BabakBar/BoringHannover'
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Safety interlock: queue a merge only when every CI check is required on
+      # the base branch, so GitHub's own auto-merge cannot land the update while
+      # any of them is red or still running.
+      #
+      # These names must match the CI job names exactly. Renaming a job means
+      # updating this list *and* the required checks in branch protection —
+      # until both agree the job stands down rather than merging.
+      - name: Confirm every CI check is required before queueing a merge
+        id: gate
+        if: steps.meta.outputs.update-type != 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          set -uo pipefail
+
+          expected=(
+            "Version pins in sync"
+            "Backend (Python 3.13)"
+            "Backend (Python 3.14)"
+            "Frontend (Bun)"
+            "Workflow audit (zizmor)"
+            "Docker Build"
+          )
+
+          auto="$(gh api "repos/${GH_REPO}" --jq '.allow_auto_merge // false' 2>/dev/null || echo false)"
+
+          # Required checks can come from a ruleset or from classic branch
+          # protection. The rules API answers for rulesets and is authoritative
+          # the moment the PR opens; `gh pr checks --required` reflects what
+          # GitHub considers required for this PR. Take the union so the gate is
+          # correct under either mechanism, or both at once.
+          rules_required="$(gh api "repos/${GH_REPO}/rules/branches/${BASE_REF}" \
+            --jq '[.[] | select(.type == "required_status_checks") | .parameters.required_status_checks[].context] | .[]' \
+            2>/dev/null || true)"
+
+          # A check only appears in `gh pr checks` once it has reported, so give
+          # CI a moment — unless the rules API has already answered.
+          pr_required=""
+          for _ in 1 2 3 4 5 6; do
+            pr_required="$(gh pr checks "${PR_URL}" --required --json name --jq '.[].name' 2>/dev/null || true)"
+            [ -n "${pr_required}" ] && break
+            [ -n "${rules_required}" ] && break
+            sleep 10
+          done
+
+          required="$(printf '%s\n%s\n' "${rules_required}" "${pr_required}" | sed '/^$/d' | sort -u)"
+
+          missing=()
+          for name in "${expected[@]}"; do
+            printf '%s\n' "${required}" | grep -qxF "${name}" || missing+=("${name}")
+          done
+
+          printf 'allow_auto_merge=%s\n' "${auto}"
+          printf 'required checks reported: %s\n' "$(printf '%s' "${required}" | tr '\n' ',')"
+          printf 'missing from required: %s\n' "${missing[*]:-none}"
+
+          if [ "${auto}" = "true" ] && [ "${#missing[@]}" -eq 0 ]; then
+            echo "safe=true" >> "${GITHUB_OUTPUT}"
+          else
+            {
+              echo "safe=false"
+              echo "auto=${auto}"
+              echo "missing=${missing[*]:-none}"
+            } >> "${GITHUB_OUTPUT}"
+          fi
+
+      # Optional. Without the App secrets this step fails harmlessly and the
+      # merge below falls back to GITHUB_TOKEN — at the cost of Deploy not
+      # running for the merge, as explained at the top of this file.
+      - name: Mint a GitHub App token for the merge
+        id: app-token
+        if: steps.meta.outputs.update-type != 'version-update:semver-major' && steps.gate.outputs.safe == 'true'
+        continue-on-error: true
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ secrets.AUTOMERGE_APP_ID }}
+          private-key: ${{ secrets.AUTOMERGE_APP_PRIVATE_KEY }}
+          # Narrow the minted token to the merge itself. Without these it would
+          # inherit every permission the installation happens to hold, so the
+          # App's own permissions would be the only limit.
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Enable auto-merge for patch and minor updates
+        if: steps.meta.outputs.update-type != 'version-update:semver-major' && steps.gate.outputs.safe == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          USING_APP_TOKEN: ${{ steps.app-token.outputs.token != '' }}
+        run: |
+          set -euo pipefail
+          if [ "${USING_APP_TOKEN}" = "true" ]; then
+            echo "Merging with a GitHub App token; the resulting push will run CI and Deploy."
+          else
+            echo "Merging with GITHUB_TOKEN; Deploy will NOT run for this merge (see MAINTENANCE.md)."
+          fi
+          gh pr merge --auto --squash "${PR_URL}"
+
+      # Standing down is never silent: the update waits for a human, and the
+      # reason is on the pull request rather than buried in a workflow log.
+      - name: Stand down when CI is not gating the merge
+        if: steps.meta.outputs.update-type != 'version-update:semver-major' && steps.gate.outputs.safe != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          AUTO: ${{ steps.gate.outputs.auto }}
+          MISSING: ${{ steps.gate.outputs.missing }}
+        run: |
+          set -euo pipefail
+          gh label create needs-review --color FBCA04 --description "Waiting on a maintainer" 2>/dev/null || true
+          gh pr edit "${PR_URL}" --add-label needs-review
+          gh pr comment "${PR_URL}" --body "$(printf 'Auto-merge stood down — this update needs a human.\n\n- repository `allow_auto_merge`: `%s`\n- CI checks not required on `master`: `%s`\n\nGitHub auto-merge only waits for checks a branch *requires*, so queueing a merge now could land this update with CI red or still running. Enable **Allow auto-merge** and add the missing checks to the branch protection rule (see MAINTENANCE.md); the next update will then merge itself once CI is green.\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_' "${AUTO}" "${MISSING}")"
+
+      - name: Flag major updates for review
+        if: steps.meta.outputs.update-type == 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          set -euo pipefail
+          gh label create major-update --color D93F0B --description "Major version bump; needs a human" 2>/dev/null || true
+          gh label create needs-review --color FBCA04 --description "Waiting on a maintainer" 2>/dev/null || true
+          gh pr edit "${PR_URL}" --add-label major-update --add-label needs-review

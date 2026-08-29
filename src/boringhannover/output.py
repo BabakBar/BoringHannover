@@ -102,9 +102,14 @@ def group_movies_by_film(movies: Sequence[Event]) -> list[GroupedMovie]:
             rating = event.metadata.get("rating", 0)
             genres = event.metadata.get("genres", [])
             cast_raw = event.metadata.get("cast", [])
-            # Cast should be list[dict[str, str]] from source
-            # Type ignore needed because metadata is untyped dict
-            cast: list[dict[str, str]] = cast_raw if isinstance(cast_raw, list) else []  # type: ignore[assignment]
+            # metadata is untyped: sources may emit bare name strings instead of
+            # the expected {"name": ..., "role": ...} entries. Keep only the
+            # structured ones rather than trusting the whole list.
+            cast: list[dict[str, str]] = (
+                [member for member in cast_raw if isinstance(member, dict)]
+                if isinstance(cast_raw, list)
+                else []
+            )
 
             films[key] = GroupedMovie(
                 title=event.title,

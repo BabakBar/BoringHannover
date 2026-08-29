@@ -11,7 +11,9 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-IMAGE="nginx:1.27-alpine"
+# Derive the nginx image from the production Dockerfile so the smoke test can
+# never drift from what actually serves the site.
+IMAGE="$(grep -oE '^FROM nginx:[^ ]+' "$REPO_ROOT/Dockerfile.web" | head -1 | cut -d' ' -f2)"
 CONTAINER="boringhannover-smoke-$$"
 PORT="${SMOKE_PORT:-18099}"
 FAILED=0

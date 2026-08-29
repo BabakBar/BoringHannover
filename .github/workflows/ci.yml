@@ -1,5 +1,9 @@
 # BoringHannover CI Pipeline
-# Runs tests, linting, and type checking on every PR and push
+# Runs tests, linting, type checking and supply-chain gates on every PR and push.
+#
+# Every action is pinned to a commit SHA (a tag can be moved; a SHA cannot).
+# Dependabot updates the SHA and the version comment together — see
+# .github/dependabot.yml and MAINTENANCE.md.
 
 name: CI
 
@@ -22,31 +26,115 @@ concurrency:
 
 env:
   SITE: https://boringhannover.de
+  # Toolchain pins. MAINTENANCE.md is the policy; these are the values,
+  # and the `pins` job below asserts the container images agree with them.
+  UV_VERSION: "0.12.6"
+  PYTHON_PRODUCTION: "3.14"
+  ZIZMOR_VERSION: "1.29.0"
 
 jobs:
-  # Backend: Python tests and quality checks
+  # Toolchain pins must agree across CI, Dockerfiles and the dev stack.
+  pins:
+    name: Version pins in sync
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Every reference is matched as a fixed string and counted, so a pin that
+      # drifts in one stage cannot hide behind a match in another, and the dots
+      # in a version cannot act as regex wildcards.
+      - name: Assert Bun version pins are in sync
+        shell: bash
+        run: |
+          set -euo pipefail
+          v="$(cat web/.bun-version)"
+          echo "Expected Bun version: ${v}"
+          fail() { echo "ERROR: $1"; exit 1; }
+
+          # Every `FROM oven/bun:` in Dockerfile.web must carry the pinned version.
+          mapfile -t bun_from < <(grep -oE '^FROM oven/bun:[^ ]+' Dockerfile.web || true)
+          [ "${#bun_from[@]}" -eq 1 ] || fail "expected exactly 1 oven/bun FROM in Dockerfile.web, found ${#bun_from[@]}"
+          for line in "${bun_from[@]}"; do
+            tag="${line#FROM oven/bun:}"
+            case "${tag}" in
+              "${v}"|"${v}-"*) ;;
+              *) fail "Dockerfile.web pins oven/bun:${tag}, expected ${v}" ;;
+            esac
+          done
+
+          mapfile -t bun_img < <(grep -oE 'image: oven/bun:[^ ]+' docker-compose.yml || true)
+          [ "${#bun_img[@]}" -eq 1 ] || fail "expected exactly 1 oven/bun image in docker-compose.yml, found ${#bun_img[@]}"
+          for line in "${bun_img[@]}"; do
+            tag="${line#image: oven/bun:}"
+            case "${tag}" in
+              "${v}"|"${v}-"*) ;;
+              *) fail "docker-compose.yml pins oven/bun:${tag}, expected ${v}" ;;
+            esac
+          done
+          echo "Bun pins are in sync"
+
+      - name: Assert uv and Python pins are in sync
+        shell: bash
+        env:
+          UV_VERSION: ${{ env.UV_VERSION }}
+          PYTHON_PRODUCTION: ${{ env.PYTHON_PRODUCTION }}
+        run: |
+          set -euo pipefail
+          fail() { echo "ERROR: $1"; exit 1; }
+
+          # Both Python stages (builder and runtime) must be on the production
+          # interpreter — asserting only "some line matches" would let the
+          # runtime drift while the builder kept the gate green.
+          mapfile -t py < <(grep -oE '^FROM python:[^ ]+' Dockerfile || true)
+          [ "${#py[@]}" -eq 2 ] || fail "expected 2 python FROM lines in Dockerfile, found ${#py[@]}"
+          for line in "${py[@]}"; do
+            tag="${line#FROM python:}"
+            case "${tag}" in
+              "${PYTHON_PRODUCTION}"|"${PYTHON_PRODUCTION}-"*) ;;
+              *) fail "Dockerfile builds on python:${tag}, expected ${PYTHON_PRODUCTION}" ;;
+            esac
+          done
+
+          mapfile -t uv_ref < <(grep -oE 'ghcr\.io/astral-sh/uv:[^ ]+' Dockerfile || true)
+          [ "${#uv_ref[@]}" -eq 1 ] || fail "expected 1 uv reference in Dockerfile, found ${#uv_ref[@]}"
+          [ "${uv_ref[0]}" = "ghcr.io/astral-sh/uv:${UV_VERSION}" ] || fail "Dockerfile uses ${uv_ref[0]}, expected uv ${UV_VERSION}"
+
+          [ "$(cat .python-version)" = "${PYTHON_PRODUCTION}" ] || fail ".python-version pins $(cat .python-version), expected ${PYTHON_PRODUCTION}"
+          echo "uv and Python pins are in sync"
+
+  # Backend: Python tests and quality checks across the supported interpreters.
   backend:
     name: Backend (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.13"]
+        # Minimum supported and production runtime — both are tested so raising
+        # the floor later is a one-line change, not an investigation.
+        python-version: ["3.13", "3.14"]
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
-          version: "0.5.6"
+          version: ${{ env.UV_VERSION }}
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
 
-      - name: Set up Python ${{ matrix.python-version }}
-        run: uv python install ${{ matrix.python-version }}
+      - name: Assert the lockfile is up to date
+        run: uv lock --check
 
       - name: Install dependencies
-        run: uv sync --all-extras --dev
+        run: uv sync --locked --all-groups
 
       - name: Run linter (ruff)
         run: uv run ruff check src/
@@ -60,33 +148,32 @@ jobs:
       - name: Run tests (pytest)
         run: uv run pytest tests/ -v --tb=short
 
-  # Frontend: Build verification
+      - name: Audit Python dependencies
+        run: uv audit --preview-features audit-command
+
+  # Frontend: build verification and dependency audit.
   frontend:
     name: Frontend (Bun)
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Assert Bun version pins are in sync
-        shell: bash
-        run: |
-          set -euo pipefail
-          v="$(cat web/.bun-version)"
-          echo "Expected Bun version: $v"
-          grep -q "oven/bun:${v}" Dockerfile.web || { echo "ERROR: Dockerfile.web does not use oven/bun:${v}"; exit 1; }
-          grep -q "image: oven/bun:${v}" docker-compose.yml || { echo "ERROR: docker-compose.yml does not use oven/bun:${v}"; exit 1; }
-          echo "All version pins are in sync"
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version-file: web/.bun-version
 
       - name: Install dependencies
         working-directory: web
-        run: bun ci
+        run: bun install --frozen-lockfile
+
+      - name: Audit frontend dependencies
+        working-directory: web
+        run: bun audit
 
       - name: Run frontend tests
         working-directory: web
@@ -100,13 +187,35 @@ jobs:
         run: ./scripts/smoke-routing.sh --no-build
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: frontend-dist
           path: web/dist/
           retention-days: 7
 
-  # Docker: Build verification
+  # Workflow hardening: catches unpinned actions, over-broad permissions and
+  # template-injection sinks before they reach master.
+  workflows:
+    name: Workflow audit (zizmor)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - name: Audit workflows
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: uvx zizmor@${{ env.ZIZMOR_VERSION }} --persona=regular .github/workflows/
+
+  # Docker: build verification.
   docker:
     name: Docker Build
     runs-on: ubuntu-latest
@@ -114,29 +223,57 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
 
       - name: Build backend image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
         with:
           context: .
           file: ./Dockerfile
           push: false
+          load: true
           tags: boringhannover-backend:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Build frontend image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
         with:
           context: .
           file: ./Dockerfile.web
           push: false
+          load: true
           tags: boringhannover-frontend:test
           build-args: |
             SITE=${{ env.SITE }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # Trivy runs from its official image pinned by digest rather than via the
+      # trivy-action: in March 2026 that action's version tags were force-pushed
+      # in a supply-chain attack, and a digest cannot be moved.
+      - name: Scan images for vulnerabilities
+        run: |
+          set -uo pipefail
+          scan() {
+            docker run --rm \
+              -v /var/run/docker.sock:/var/run/docker.sock \
+              -v "${HOME}/.cache/trivy:/root/.cache/trivy" \
+              aquasec/trivy:0.74.0@sha256:ee940acbf1f58ebadb42d01434ce4609530bf1b52536afbd1eee66cd7123c5c9 \
+              image --scanners vuln --severity HIGH,CRITICAL \
+              --ignore-unfixed --exit-code 1 --no-progress "$1"
+          }
+          # Both images are scanned before failing, so one run reports every
+          # finding instead of hiding the second image behind the first.
+          failed=""
+          scan boringhannover-backend:test || failed="${failed} backend"
+          scan boringhannover-frontend:test || failed="${failed} frontend"
+          if [ -n "${failed}" ]; then
+            echo "::error::Vulnerable images:${failed}"
+            exit 1
+          fi
