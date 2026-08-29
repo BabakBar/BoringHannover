@@ -118,6 +118,19 @@ echo "==> Assets are untouched by the redirect rule"
 css="$(grep -o '/assets/[A-Za-z0-9._-]*\.css' "$REPO_ROOT/web/dist/index.html" | head -1)"
 [[ -n "$css" ]] && expect "$css" 200 "hashed asset"
 
+# The about dialog is a native <dialog>, centred by the UA stylesheet's
+# `margin: auto`. Tailwind v4's Preflight resets `margin: 0` on every element,
+# which pinned it to the top-left corner until Header.astro put the centring
+# back. Assert on what nginx actually serves, so the rule cannot be lost in a
+# refactor or dropped somewhere between the source and the bundle.
+echo "==> The about dialog keeps the margin that centres it"
+if "${CURL[@]}" "$BASE/" | grep -qE 'about-dialog\[data-astro-cid-[a-z0-9]+\]\{[^}]*margin: ?auto'; then
+  echo "  ok    about dialog centred"
+else
+  echo "  FAIL  about dialog lost margin:auto; it will render in the top-left corner"
+  FAILED=1
+fi
+
 if [[ "$FAILED" -ne 0 ]]; then
   echo "SMOKE FAILED" >&2
   exit 1

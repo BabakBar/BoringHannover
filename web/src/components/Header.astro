@@ -222,6 +222,16 @@ const Brand = brandAsHeading ? 'h1' : 'p';
     }
   }
 
+  /* A modal <dialog> is centred by the UA stylesheet's `margin: auto` resolving
+     against `inset: 0`. Tailwind v4's Preflight resets `margin: 0` on every
+     element — `*, ::before, ::after, ::backdrop { margin: 0; padding: 0 }` —
+     where v3 only reset a fixed list of elements that did not include <dialog>.
+     Author styles beat the UA sheet, so after the v4 upgrade the dialog was
+     pinned to the top-left corner on every viewport. Put the centring back. */
+  .about-dialog {
+    margin: auto;
+  }
+
   .about-dialog::backdrop {
     background: rgba(0, 0, 0, 0.55);
   }
