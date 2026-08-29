@@ -174,7 +174,12 @@ gate; setting (1) is what makes `--auto` queue rather than merge on the spot.
 **Until both are set, nothing auto-merges.** Before queueing a merge the
 workflow asks GitHub which checks are *required* on the base branch and stands
 down — labelling `needs-review` and commenting which checks are missing —
-unless all six are there. Partial protection is the case worth guarding
+unless all six are there. It reads both the rules API (rulesets) and the pull
+request's own required checks (classic branch protection), so it is correct
+under either mechanism. Note that a branch protected by a ruleset returns
+`404 Branch not protected` from the *classic* protection endpoints — that is
+the expected answer, not an absence of protection; inspect rulesets with
+`gh api repos/BabakBar/BoringHannover/rules/branches/master` instead. Partial protection is the case worth guarding
 against: a branch that requires only a review, or only one check, still reports
 the pull request as "blocked" while leaving CI free to be red at merge time.
 
@@ -183,20 +188,45 @@ updating the required checks in branch protection *and* the expected list in
 `.github/workflows/dependabot-auto-merge.yml`. Until both agree, updates wait
 for a human rather than merging — the failure is loud and safe, not silent.
 
-### Auto-merged updates do not deploy themselves
+### Making an auto-merged update deploy itself
 
 A merge performed with `GITHUB_TOKEN` does not raise a `push` event —
 [GitHub suppresses workflow runs triggered by its own token](https://docs.github.com/en/actions/concepts/security/github_token)
-to prevent recursion. So when a Dependabot update auto-merges, **CI and Deploy
-do not run on `master` for that commit**, and production keeps serving the
-previous image.
+to prevent recursion. Left alone, an auto-merged dependency update would land on
+`master` without CI or Deploy running, and production would quietly sit behind.
 
-Until that is closed, refresh production after an auto-merged update by running
-the Deploy workflow via **workflow_dispatch**, or let the next ordinary push to
-`master` carry it. The durable fix is to perform the merge with a GitHub App
-installation token instead of `GITHUB_TOKEN`, which does raise `push`; that
-needs an App and a repository secret, so it is a deliberate decision rather
-than a default.
+The workflow therefore merges with a **GitHub App installation token** when one
+is configured, which does raise `push`. Without the secrets it falls back to
+`GITHUB_TOKEN` and logs which token it used; in that case refresh production by
+dispatching Deploy manually.
+
+**Setting up the App (once):**
+
+1. **Create it** — Settings → Developer settings → GitHub Apps → *New GitHub App*
+   (a personal App is fine). Name it something like `boringhannover-automerge`,
+   set any homepage URL, and **uncheck Webhook → Active** (it receives nothing).
+2. **Permissions** — Repository permissions only:
+   - *Contents*: **Read and write** (performing the merge)
+   - *Pull requests*: **Read and write** (enabling auto-merge)
+   Nothing else. Leave every organisation and account permission at *No access*.
+3. **Install it** on `BabakBar/BoringHannover` only — *Install App* → **Only
+   select repositories**.
+4. **Credentials** — on the App's page note the **App ID**, then *Generate a
+   private key* and keep the downloaded `.pem`.
+5. **Repository secrets** (Settings → Secrets and variables → Actions):
+   - `AUTOMERGE_APP_ID` — the App ID
+   - `AUTOMERGE_APP_PRIVATE_KEY` — the entire `.pem` contents, including the
+     `-----BEGIN...` and `-----END...` lines
+6. **Let it through the ruleset** — if the branch ruleset requires approving
+   reviews, add the App to that rule's **bypass list**; a Dependabot PR will
+   never collect a human approval, so without this nothing merges. Required
+   *status checks* need no bypass: waiting for them is the point.
+7. **Verify** on the next Dependabot PR: the merge step logs `Merging with a
+   GitHub App token`, and after the merge a CI **and** a Deploy run appear on
+   `master`.
+
+Rotate the private key like any other credential; revoking it makes the
+workflow fall back to `GITHUB_TOKEN` rather than fail.
 
 ## Ownership
 

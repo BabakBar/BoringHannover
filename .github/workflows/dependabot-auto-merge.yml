@@ -21,10 +21,13 @@
 #     for automating Dependabot;
 #   - the workflow never checks out or executes the pull request's code.
 #
-# Known limitation: a merge performed with GITHUB_TOKEN does not raise a `push`
-# event, so the Deploy workflow does not run for an auto-merged update. See
-# MAINTENANCE.md — after an auto-merged dependency update, production is
-# refreshed by running Deploy via workflow_dispatch (or by the next human push).
+# Deploying an auto-merged update: a merge performed with GITHUB_TOKEN raises no
+# `push` event, so Deploy would not run and production would sit behind master.
+# If the repository secrets AUTOMERGE_APP_ID and AUTOMERGE_APP_PRIVATE_KEY are
+# set, the merge is performed with a GitHub App installation token instead,
+# which does raise `push` and lets CI and Deploy run normally. Without those
+# secrets the step below falls back to GITHUB_TOKEN and production must be
+# refreshed by dispatching Deploy. See MAINTENANCE.md for the App setup.
 
 name: Dependabot auto-merge
 
@@ -66,6 +69,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
           PR_URL: ${{ github.event.pull_request.html_url }}
         run: |
           set -uo pipefail
@@ -81,14 +85,26 @@ jobs:
 
           auto="$(gh api "repos/${GH_REPO}" --jq '.allow_auto_merge // false' 2>/dev/null || echo false)"
 
-          # A check appears here once it has reported, so give CI a moment to
-          # register its runs before concluding that nothing is required.
-          required=""
+          # Required checks can come from a ruleset or from classic branch
+          # protection. The rules API answers for rulesets and is authoritative
+          # the moment the PR opens; `gh pr checks --required` reflects what
+          # GitHub considers required for this PR. Take the union so the gate is
+          # correct under either mechanism, or both at once.
+          rules_required="$(gh api "repos/${GH_REPO}/rules/branches/${BASE_REF}" \
+            --jq '[.[] | select(.type == "required_status_checks") | .parameters.required_status_checks[].context] | .[]' \
+            2>/dev/null || true)"
+
+          # A check only appears in `gh pr checks` once it has reported, so give
+          # CI a moment — unless the rules API has already answered.
+          pr_required=""
           for _ in 1 2 3 4 5 6; do
-            required="$(gh pr checks "${PR_URL}" --required --json name --jq '.[].name' 2>/dev/null || true)"
-            [ -n "${required}" ] && break
+            pr_required="$(gh pr checks "${PR_URL}" --required --json name --jq '.[].name' 2>/dev/null || true)"
+            [ -n "${pr_required}" ] && break
+            [ -n "${rules_required}" ] && break
             sleep 10
           done
+
+          required="$(printf '%s\n%s\n' "${rules_required}" "${pr_required}" | sed '/^$/d' | sort -u)"
 
           missing=()
           for name in "${expected[@]}"; do
@@ -109,12 +125,32 @@ jobs:
             } >> "${GITHUB_OUTPUT}"
           fi
 
+      # Optional. Without the App secrets this step fails harmlessly and the
+      # merge below falls back to GITHUB_TOKEN — at the cost of Deploy not
+      # running for the merge, as explained at the top of this file.
+      - name: Mint a GitHub App token for the merge
+        id: app-token
+        if: steps.meta.outputs.update-type != 'version-update:semver-major' && steps.gate.outputs.safe == 'true'
+        continue-on-error: true
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ secrets.AUTOMERGE_APP_ID }}
+          private-key: ${{ secrets.AUTOMERGE_APP_PRIVATE_KEY }}
+
       - name: Enable auto-merge for patch and minor updates
         if: steps.meta.outputs.update-type != 'version-update:semver-major' && steps.gate.outputs.safe == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
-        run: gh pr merge --auto --squash "${PR_URL}"
+          USING_APP_TOKEN: ${{ steps.app-token.outputs.token != '' }}
+        run: |
+          set -euo pipefail
+          if [ "${USING_APP_TOKEN}" = "true" ]; then
+            echo "Merging with a GitHub App token; the resulting push will run CI and Deploy."
+          else
+            echo "Merging with GITHUB_TOKEN; Deploy will NOT run for this merge (see MAINTENANCE.md)."
+          fi
+          gh pr merge --auto --squash "${PR_URL}"
 
       # Standing down is never silent: the update waits for a human, and the
       # reason is on the pull request rather than buried in a workflow log.
