@@ -28,8 +28,10 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  BACKEND_IMAGE: ghcr.io/${{ github.repository }}/backend
-  FRONTEND_IMAGE: ghcr.io/${{ github.repository }}/frontend
+  # OCI image names must be lowercase. github.repository preserves the display
+  # casing (BabakBar/BoringHannover), which Trivy rejects in digest references.
+  BACKEND_IMAGE: ghcr.io/babakbar/boringhannover/backend
+  FRONTEND_IMAGE: ghcr.io/babakbar/boringhannover/frontend
   SITE: https://boringhannover.de
 
 concurrency:
@@ -245,7 +247,7 @@ jobs:
           if [ "${DO_BACKEND}" = "true" ]; then scan "${BACKEND_REF}" || failed="${failed} backend"; fi
           if [ "${DO_FRONTEND}" = "true" ]; then scan "${FRONTEND_REF}" || failed="${failed} frontend"; fi
           if [ -n "${failed}" ]; then
-            echo "::error::Vulnerable images, not deploying:${failed}"
+            echo "::error::Image scans failed or found vulnerabilities; not deploying:${failed}"
             exit 1
           fi
 
