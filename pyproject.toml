@@ -33,6 +33,7 @@ Repository = "https://github.com/BabakBar/BoringHannover"
 
 [project.scripts]
 boringhannover = "boringhannover.main:main"
+boringhannover-newsletter = "boringhannover.newsletter.cli:main"
 
 [build-system]
 requires = ["hatchling"]
