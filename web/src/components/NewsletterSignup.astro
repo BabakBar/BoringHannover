@@ -24,7 +24,7 @@ const enabled = Boolean(formAction);
           for="newsletter-email"
           class="font-display text-xs uppercase tracking-wide text-text-secondary"
         >
-          Email address
+          Your email
         </label>
         <input
           id="newsletter-email"
@@ -40,11 +40,11 @@ const enabled = Boolean(formAction);
       <label class="flex items-start gap-2 text-xs text-text-muted leading-relaxed">
         <input type="checkbox" name="consent" required class="mt-0.5 accent-accent" />
         <span>
-          I agree to receive the weekly digest and accept the{' '}
+          I&rsquo;d love the weekly digest &mdash; and I&rsquo;m fine with the{' '}
           <a href="/datenschutz/" class="text-accent hover:underline">
             privacy notice
           </a>
-          . A confirmation email follows before anything is sent.
+          . You&rsquo;ll get a confirmation email first.
         </span>
       </label>
 
@@ -52,12 +52,13 @@ const enabled = Boolean(formAction);
         type="submit"
         class="w-full min-h-11 rounded-md bg-accent font-display text-xs uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
       >
-        Subscribe
+        Get the weekly email
       </button>
     </form>
   ) : (
     <p class="text-sm text-text-muted">
-      The weekly email is not available yet. Check back soon.
+      The weekly email isn&rsquo;t ready yet &mdash; we&rsquo;re still wiring it
+      up. Check back soon!
     </p>
   )
 }
