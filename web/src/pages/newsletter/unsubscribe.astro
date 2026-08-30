@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="Unsubscribed - boringhannover"
+  description="You have been unsubscribed from the boringhannover weekly email."
+>
+  <article class="max-w-2xl">
+    <a
+      href="/"
+      class="inline-block mb-6 text-text-muted hover:text-accent text-sm font-display"
+    >
+      &larr; Back
+    </a>
+
+    <h1 class="text-2xl font-bold text-text-primary mb-4 font-display">
+      You are unsubscribed
+    </h1>
+
+    <p class="text-text-secondary leading-relaxed text-sm">
+      You have been removed from the weekly email. You can subscribe again any
+      time from the{' '}
+      <a href="/newsletter/" class="text-accent hover:underline">
+        newsletter page
+      </a>
+      .
+    </p>
+  </article>
+</Base>

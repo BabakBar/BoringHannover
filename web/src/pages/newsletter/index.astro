@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
+---
+
+<Base
+  title="The weekly email - boringhannover"
+  description="Get the Hannover digest in your inbox once a week. No ads, no tracking, unsubscribe anytime."
+>
+  <article class="max-w-2xl">
+    <a
+      href="/"
+      class="inline-block mb-6 text-text-muted hover:text-accent text-sm font-display"
+    >
+      &larr; Back
+    </a>
+
+    <h1 class="text-2xl font-bold text-text-primary mb-4 font-display">
+      The weekly email
+    </h1>
+
+    <p class="text-text-secondary leading-relaxed text-sm">
+      Once a week, the same curated digest as this site &mdash; original-version
+      cinema, concerts and city occasions &mdash; straight to your inbox.
+    </p>
+
+    <ul class="mt-4 space-y-1.5 text-xs text-text-secondary leading-relaxed list-disc list-inside">
+      <li>One English edition a week, matching the site.</li>
+      <li>No ads, no open or click tracking, no pixel.</li>
+      <li>Double opt-in: a confirmation email arrives before anything is sent.</li>
+      <li>Unsubscribe any time, one click, no login.</li>
+    </ul>
+
+    <div class="mt-8">
+      <NewsletterSignup />
+    </div>
+  </article>
+</Base>

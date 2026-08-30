@@ -1,0 +1,63 @@
+---
+// A provider-agnostic double-opt-in signup form.
+//
+// The site is a static Astro build with no server of its own, so the form posts
+// straight to the email service provider's hosted form endpoint. It renders only
+// when that endpoint is configured at build time; otherwise it fails closed to a
+// "not yet available" note instead of showing a dead form.
+//
+// Configure in the deploy environment:
+//   PUBLIC_NEWSLETTER_FORM_ACTION=https://<provider>/subscribe
+//   PUBLIC_NEWSLETTER_FORM_LIST_ID=<optional list/tag value>
+const formAction = import.meta.env.PUBLIC_NEWSLETTER_FORM_ACTION;
+const listId = import.meta.env.PUBLIC_NEWSLETTER_FORM_LIST_ID;
+const enabled = Boolean(formAction);
+---
+
+{
+  enabled ? (
+    <form action={formAction} method="post" class="space-y-4">
+      {listId && <input type="hidden" name="list" value={listId} />}
+
+      <div>
+        <label
+          for="newsletter-email"
+          class="font-display text-xs uppercase tracking-wide text-text-secondary"
+        >
+          Email address
+        </label>
+        <input
+          id="newsletter-email"
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="you@example.com"
+          class="mt-1 w-full rounded-md border border-border bg-bg-secondary px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-2 focus:outline-accent"
+        />
+      </div>
+
+      <label class="flex items-start gap-2 text-xs text-text-muted leading-relaxed">
+        <input type="checkbox" name="consent" required class="mt-0.5 accent-accent" />
+        <span>
+          I agree to receive the weekly digest and accept the{' '}
+          <a href="/datenschutz/" class="text-accent hover:underline">
+            privacy notice
+          </a>
+          . A confirmation email follows before anything is sent.
+        </span>
+      </label>
+
+      <button
+        type="submit"
+        class="w-full min-h-11 rounded-md bg-accent font-display text-xs uppercase tracking-wide text-white transition-colors hover:bg-accent-hover"
+      >
+        Subscribe
+      </button>
+    </form>
+  ) : (
+    <p class="text-sm text-text-muted">
+      The weekly email is not available yet. Check back soon.
+    </p>
+  )
+}
