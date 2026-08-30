@@ -38,3 +38,31 @@ def test_web_movie_export_preserves_canonical_venue_names(tmp_path: Path) -> Non
         "Astor Grand Cinema",
         "Apollokino Hannover",
     ]
+
+
+def test_web_movie_export_carries_an_unambiguous_iso_date_per_day(
+    tmp_path: Path,
+) -> None:
+    """The "%d.%m" display date cannot be resolved to a year by consumers."""
+    movies = [
+        Event(
+            title="Silvester Screening",
+            date=datetime(2026, 12, 31, 21, 0, tzinfo=BERLIN_TZ),
+            venue="Astor Grand Cinema",
+            url="https://hannover.premiumkino.de/film/silvester",
+            category="movie",
+        ),
+        Event(
+            title="Neujahr Screening",
+            date=datetime(2027, 1, 1, 15, 0, tzinfo=BERLIN_TZ),
+            venue="Astor Grand Cinema",
+            url="https://hannover.premiumkino.de/film/neujahr",
+            category="movie",
+        ),
+    ]
+
+    export_web_json(movies, [], tmp_path, 53, 2026)
+
+    data = json.loads((tmp_path / "web_events.json").read_text(encoding="utf-8"))
+
+    assert [day["dateISO"] for day in data["movies"]] == ["2026-12-31", "2027-01-01"]

@@ -456,6 +456,9 @@ def export_web_json(
             {
                 "day": _DAY_ABBREVS[dt.weekday()],
                 "date": dt.strftime("%d.%m"),
+                # The display date carries no year; consumers outside the current
+                # week (email editions, archives) need an unambiguous one.
+                "dateISO": date_key,
                 "movies": sorted_movies,
             }
         )

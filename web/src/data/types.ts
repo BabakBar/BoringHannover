@@ -17,6 +17,8 @@ export interface Movie {
 export interface MovieDay {
   day: string;    // "FRI", "SAT", etc.
   date: string;   // "21.11"
+  /** "2026-11-21". Absent only in exports created before 2026-08. */
+  dateISO?: string | null;
   movies: Movie[];
 }
 
