@@ -47,14 +47,17 @@ class DeliveryResult:
     error: str | None = None
 
 
-def _evaluate(config: NewsletterConfig, now: datetime) -> GateDecision:
+def _evaluate(
+    config: NewsletterConfig, now: datetime, *, ledger: SendLedger | None = None
+) -> GateDecision:
     return evaluate_send_gate(
         artifact_path=config.artifact_path,
-        ledger=SendLedger(config.ledger_path),
+        ledger=ledger or SendLedger(config.ledger_path),
         now=now,
         health_path=config.health_path,
         city_id=config.city_id,
         locale=config.locale,
+        audience=config.audience,
     )
 
 
@@ -75,7 +78,10 @@ def preview_edition(
     rendered: RenderedEdition | None = None
     if decision.content is not None:
         rendered = _render(decision.content, config)
-        outcome = PreviewProvider(config.preview_dir).send(rendered)
+        preview_key = f"{decision.content.key}:{decision.content.revision}:preview"
+        outcome = PreviewProvider(config.preview_dir).send(
+            rendered, idempotency_key=preview_key
+        )
         if outcome.error is not None:
             logger.warning("Preview not written: %s", outcome.error)
 
@@ -104,47 +110,48 @@ def deliver_edition(
         the send and the ledger recorded it as completed.
     """
     current = now or datetime.now(BERLIN_TZ)
-    decision = _evaluate(config, current)
-
-    if not decision.allowed:
-        return DeliveryResult(decision=decision, sent=False)
-
-    if decision.requires_approval and not approved:
-        return DeliveryResult(
-            decision=decision,
-            sent=False,
-            error="requires_approval",
-        )
-
-    content = decision.content
-    if content is None:
-        return DeliveryResult(decision=decision, sent=False, error="no_content")
-
-    rendered = _render(content, config)
     ledger = SendLedger(config.ledger_path)
-    ledger.start(
-        content.key,
-        revision=content.revision,
-        audience=config.audience,
-        now=current,
-    )
+    with ledger.transaction():
+        decision = _evaluate(config, current, ledger=ledger)
 
-    outcome = provider.send(rendered)
+        if not decision.allowed:
+            return DeliveryResult(decision=decision, sent=False)
 
-    if outcome.error is not None:
-        ledger.fail(content.key, reason=outcome.error, now=current)
-        return DeliveryResult(decision=decision, sent=False, error=outcome.error)
+        if decision.requires_approval and not approved:
+            return DeliveryResult(
+                decision=decision,
+                sent=False,
+                error="requires_approval",
+            )
 
-    if outcome.provider_message_id is None:
-        reason = "provider accepted the send but returned no message id"
-        ledger.fail(content.key, reason=reason, now=current)
-        return DeliveryResult(decision=decision, sent=False, error=reason)
+        content = decision.content
+        if content is None:
+            return DeliveryResult(decision=decision, sent=False, error="no_content")
 
-    ledger.complete(
-        content.key,
-        provider_message_id=outcome.provider_message_id,
-        now=current,
-    )
+        rendered = _render(content, config)
+        ledger.start(
+            content.key,
+            revision=content.revision,
+            audience=config.audience,
+            now=current,
+        )
+        idempotency_key = f"{content.key}:{content.revision}:{config.audience}"
+        outcome = provider.send(rendered, idempotency_key=idempotency_key)
+
+        if outcome.error is not None:
+            ledger.fail(content.key, reason=outcome.error, now=current)
+            return DeliveryResult(decision=decision, sent=False, error=outcome.error)
+
+        if outcome.provider_message_id is None:
+            reason = "provider accepted the send but returned no message id"
+            ledger.fail(content.key, reason=reason, now=current)
+            return DeliveryResult(decision=decision, sent=False, error=reason)
+
+        ledger.complete(
+            content.key,
+            provider_message_id=outcome.provider_message_id,
+            now=current,
+        )
     logger.info("Delivered edition %s (%s)", content.key, outcome.provider_message_id)
     return DeliveryResult(
         decision=decision,

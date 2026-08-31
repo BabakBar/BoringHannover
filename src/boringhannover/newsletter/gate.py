@@ -121,14 +121,16 @@ def _health_holds(path: Path | None) -> tuple[list[GateHold], bool]:
     return [], False
 
 
-def _ledger_hold(ledger: SendLedger, content: EditionContent) -> GateHold | None:
+def _ledger_hold(
+    ledger: SendLedger, content: EditionContent, audience: str
+) -> GateHold | None:
     """Check whether this edition was already sent or is mid-flight elsewhere."""
     try:
         record = ledger.record_for(content.key)
     except LedgerError as exc:
         return GateHold("ledger_unreadable", str(exc))
 
-    if record is None or record.status == "failed":
+    if record is None:
         return None
 
     if record.status == "completed":
@@ -144,6 +146,13 @@ def _ledger_hold(ledger: SendLedger, content: EditionContent) -> GateHold | None
             f"but the current content is revision {content.revision[:12]}",
         )
 
+    if record.audience != audience:
+        return GateHold(
+            "audience_conflict",
+            f"An earlier attempt targets audience {record.audience!r}, but the "
+            f"current configuration targets {audience!r}",
+        )
+
     return None
 
 
@@ -152,6 +161,7 @@ def evaluate_send_gate(
     artifact_path: Path,
     ledger: SendLedger,
     now: datetime,
+    audience: str,
     health_path: Path | None = None,
     max_artifact_age_hours: float = MAX_ARTIFACT_AGE_HOURS,
     city_id: str = DEFAULT_CITY_ID,
@@ -163,6 +173,7 @@ def evaluate_send_gate(
         artifact_path: Published ``web_events.json``.
         ledger: Send ledger consulted for duplicate delivery.
         now: Current time, used for the staleness check.
+        audience: Provider-side audience identifier for conflict detection.
         health_path: Optional run-health report from the scraping run.
         max_artifact_age_hours: Staleness limit for the artifact.
         city_id: City slug for the edition key.
@@ -203,7 +214,7 @@ def evaluate_send_gate(
                 )
             )
 
-        ledger_hold = _ledger_hold(ledger, content)
+        ledger_hold = _ledger_hold(ledger, content, audience)
         if ledger_hold is not None:
             holds.append(ledger_hold)
 

@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import json
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
+from threading import Event
 from typing import Any
 
 from boringhannover.constants import BERLIN_TZ
@@ -33,10 +35,39 @@ class _FakeProvider:
         self.message_id = message_id
         self.error = error
         self.calls: list[RenderedEdition] = []
+        self.idempotency_keys: list[str] = []
 
-    def send(self, edition: RenderedEdition) -> SendOutcome:
+    def send(self, edition: RenderedEdition, *, idempotency_key: str) -> SendOutcome:
         self.calls.append(edition)
+        self.idempotency_keys.append(idempotency_key)
         return SendOutcome(provider_message_id=self.message_id, error=self.error)
+
+
+class _BlockingProvider(_FakeProvider):
+    """A provider that keeps one delivery in flight until the test releases it."""
+
+    def __init__(self, entered: Event, release: Event) -> None:
+        super().__init__()
+        self.entered = entered
+        self.release = release
+
+    def send(self, edition: RenderedEdition, *, idempotency_key: str) -> SendOutcome:
+        self.entered.set()
+        if not self.release.wait(timeout=2):
+            return SendOutcome(error="test provider timed out")
+        return super().send(edition, idempotency_key=idempotency_key)
+
+
+class _SignallingProvider(_FakeProvider):
+    """A provider that reports if an overlapping delivery reaches it."""
+
+    def __init__(self, entered: Event) -> None:
+        super().__init__()
+        self.entered = entered
+
+    def send(self, edition: RenderedEdition, *, idempotency_key: str) -> SendOutcome:
+        self.entered.set()
+        return super().send(edition, idempotency_key=idempotency_key)
 
 
 def _artifact(*, with_events: bool = True) -> dict[str, Any]:
@@ -149,6 +180,20 @@ def test_deliver_marks_the_attempt_failed_on_provider_error(tmp_path: Path) -> N
     assert record.status == "failed"
 
 
+def test_a_retry_reuses_the_same_provider_idempotency_key(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    failed_provider = _FakeProvider(error="timeout")
+
+    first = deliver_edition(config, provider=failed_provider, now=NOW)
+    retry_provider = _FakeProvider()
+    second = deliver_edition(config, provider=retry_provider, now=NOW)
+
+    assert not first.sent
+    assert second.sent
+    assert failed_provider.idempotency_keys == retry_provider.idempotency_keys
+    assert len(retry_provider.idempotency_keys) == 1
+
+
 def test_deliver_marks_the_attempt_failed_without_a_message_id(tmp_path: Path) -> None:
     config = _config(tmp_path)
 
@@ -172,6 +217,36 @@ def test_a_second_delivery_is_held_by_the_ledger(tmp_path: Path) -> None:
 
     assert not second.sent
     assert second.decision.hold_codes == ("already_sent",)
+
+
+def test_overlapping_deliveries_only_call_the_provider_once(tmp_path: Path) -> None:
+    config = _config(tmp_path)
+    entered = Event()
+    release = Event()
+    second_entered = Event()
+    first_provider = _BlockingProvider(entered, release)
+    second_provider = _SignallingProvider(second_entered)
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        first_future = executor.submit(
+            deliver_edition, config, provider=first_provider, now=NOW
+        )
+        assert entered.wait(timeout=1)
+
+        second_future = executor.submit(
+            deliver_edition, config, provider=second_provider, now=NOW
+        )
+        assert not second_entered.wait(timeout=0.1)
+
+        release.set()
+        first = first_future.result(timeout=2)
+        second = second_future.result(timeout=2)
+
+    assert first.sent
+    assert not second.sent
+    assert second.decision.hold_codes == ("already_sent",)
+    assert len(first_provider.calls) == 1
+    assert second_provider.calls == []
 
 
 def test_preview_writes_files_and_never_touches_the_ledger(tmp_path: Path) -> None:

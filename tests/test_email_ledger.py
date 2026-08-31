@@ -9,6 +9,7 @@ import pytest
 
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.newsletter.ledger import (
+    AudienceConflict,
     EditionAlreadySent,
     LedgerError,
     RevisionConflict,
@@ -84,6 +85,14 @@ def test_an_interrupted_send_refuses_a_different_revision(tmp_path: Path) -> Non
         ledger.start(KEY, revision="b" * 64, audience=AUDIENCE, now=T1)
 
 
+def test_an_interrupted_send_refuses_a_different_audience(tmp_path: Path) -> None:
+    ledger = _ledger(tmp_path)
+    ledger.start(KEY, revision=REVISION, audience=AUDIENCE, now=T0)
+
+    with pytest.raises(AudienceConflict):
+        ledger.start(KEY, revision=REVISION, audience="another-list", now=T1)
+
+
 def test_a_failed_send_can_be_retried(tmp_path: Path) -> None:
     ledger = _ledger(tmp_path)
     ledger.start(KEY, revision=REVISION, audience=AUDIENCE, now=T0)
@@ -95,6 +104,17 @@ def test_a_failed_send_can_be_retried(tmp_path: Path) -> None:
     retried = ledger.start(KEY, revision=REVISION, audience=AUDIENCE, now=T1)
 
     assert retried.status == "in_progress"
+
+
+def test_a_failed_send_cannot_switch_revision_or_audience(tmp_path: Path) -> None:
+    ledger = _ledger(tmp_path)
+    ledger.start(KEY, revision=REVISION, audience=AUDIENCE, now=T0)
+    ledger.fail(KEY, reason="ambiguous provider timeout", now=T1)
+
+    with pytest.raises(RevisionConflict):
+        ledger.start(KEY, revision="b" * 64, audience=AUDIENCE, now=T1)
+    with pytest.raises(AudienceConflict):
+        ledger.start(KEY, revision=REVISION, audience="another-list", now=T1)
 
 
 def test_completing_an_edition_that_never_started_is_refused(tmp_path: Path) -> None:

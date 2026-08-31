@@ -52,8 +52,13 @@ class EmailProvider(Protocol):
 
     name: str
 
-    def send(self, edition: RenderedEdition) -> SendOutcome:
-        """Deliver one edition and report a provider-side idempotency key."""
+    def send(self, edition: RenderedEdition, *, idempotency_key: str) -> SendOutcome:
+        """Deliver one edition idempotently.
+
+        Reusing ``idempotency_key`` must resume or return the original campaign,
+        never create a second delivery. This covers a crash after provider
+        acceptance but before the local ledger records completion.
+        """
 
 
 class PreviewProvider:
@@ -64,7 +69,7 @@ class PreviewProvider:
     def __init__(self, output_dir: str | Path) -> None:
         self.output_dir = Path(output_dir)
 
-    def send(self, edition: RenderedEdition) -> SendOutcome:
+    def send(self, edition: RenderedEdition, *, idempotency_key: str) -> SendOutcome:
         """Write the four render outputs so a human can approve the edition."""
         try:
             self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -79,9 +84,7 @@ class PreviewProvider:
             )
         except OSError as exc:
             return SendOutcome(error=f"cannot write preview: {exc}")
-        return SendOutcome(
-            provider_message_id=f"preview:{edition.headers['X-Edition-Key']}"
-        )
+        return SendOutcome(provider_message_id=f"preview:{idempotency_key}")
 
 
 def resolve_provider(name: str, preview_dir: str | Path) -> EmailProvider:

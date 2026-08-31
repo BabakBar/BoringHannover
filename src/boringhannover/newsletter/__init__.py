@@ -17,7 +17,7 @@ from boringhannover.newsletter.delivery import (
 )
 from boringhannover.newsletter.edition import build_edition_key
 from boringhannover.newsletter.gate import GateDecision, evaluate_send_gate
-from boringhannover.newsletter.ledger import SendLedger
+from boringhannover.newsletter.ledger import AudienceConflict, SendLedger
 from boringhannover.newsletter.provider import (
     EmailProvider,
     PreviewProvider,
@@ -29,6 +29,7 @@ from boringhannover.newsletter.render import RenderedEdition, render_edition
 
 
 __all__ = [
+    "AudienceConflict",
     "DeliveryResult",
     "EditionContent",
     "EmailProvider",

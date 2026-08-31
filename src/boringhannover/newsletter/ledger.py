@@ -11,13 +11,18 @@ import json
 import logging
 import os
 import tempfile
+from collections.abc import Iterator
+from contextlib import contextmanager
 from dataclasses import asdict, dataclass, replace
 from datetime import datetime
+from fcntl import LOCK_EX, LOCK_UN, flock
 from pathlib import Path
+from threading import RLock
 from typing import Final, Literal
 
 
 __all__ = [
+    "AudienceConflict",
     "EditionAlreadySent",
     "LedgerError",
     "RevisionConflict",
@@ -45,6 +50,10 @@ class RevisionConflict(LedgerError):
     """An interrupted send exists for different content than the one offered."""
 
 
+class AudienceConflict(LedgerError):
+    """An earlier attempt targeted a different provider-side audience."""
+
+
 @dataclass(frozen=True, slots=True)
 class SendRecord:
     """One edition's delivery state."""
@@ -69,6 +78,50 @@ class SendLedger:
             path: JSON file holding the records. Created on first write.
         """
         self.path = Path(path)
+        self._thread_lock = RLock()
+        self._transaction_depth = 0
+
+    @contextmanager
+    def transaction(self) -> Iterator[None]:
+        """Serialize a complete delivery transaction across threads and processes.
+
+        Atomic replacement keeps the JSON valid, but it cannot stop two senders
+        from reading the same state and both calling the provider. The caller
+        holds this advisory lock from the final gate evaluation until the send
+        outcome has been recorded.
+        """
+        with self._thread_lock:
+            if self._transaction_depth:
+                self._transaction_depth += 1
+                try:
+                    yield
+                finally:
+                    self._transaction_depth -= 1
+                return
+
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            lock_path = self.path.with_name(f"{self.path.name}.lock")
+            try:
+                lock_file = lock_path.open(mode="a", encoding="utf-8")
+            except OSError as exc:
+                msg = f"Cannot open send ledger lock {lock_path}: {exc}"
+                raise LedgerError(msg) from exc
+            try:
+                flock(lock_file, LOCK_EX)
+            except OSError as exc:
+                lock_file.close()
+                msg = f"Cannot lock send ledger {self.path}: {exc}"
+                raise LedgerError(msg) from exc
+
+            self._transaction_depth = 1
+            try:
+                yield
+            finally:
+                self._transaction_depth = 0
+                try:
+                    flock(lock_file, LOCK_UN)
+                finally:
+                    lock_file.close()
 
     def _load(self) -> dict[str, SendRecord]:
         """Read all records, refusing to continue if the file is damaged."""
@@ -139,37 +192,48 @@ class SendLedger:
             EditionAlreadySent: The edition was already delivered.
             RevisionConflict: An attempt is running for different content.
         """
-        records = self._load()
-        existing = records.get(edition_key)
+        with self.transaction():
+            records = self._load()
+            existing = records.get(edition_key)
 
-        if existing is not None and existing.status == "completed":
-            msg = (
-                f"Edition {edition_key} was already delivered at "
-                f"{existing.completed_at} (provider id {existing.provider_message_id})"
-            )
-            raise EditionAlreadySent(msg)
-
-        if existing is not None and existing.status == "in_progress":
-            if existing.revision != revision:
+            if existing is not None and existing.status == "completed":
                 msg = (
-                    f"Edition {edition_key} has an unfinished send for revision "
+                    f"Edition {edition_key} was already delivered at "
+                    f"{existing.completed_at} (provider id "
+                    f"{existing.provider_message_id})"
+                )
+                raise EditionAlreadySent(msg)
+
+            if existing is not None and existing.revision != revision:
+                msg = (
+                    f"Edition {edition_key} has an earlier attempt for revision "
                     f"{existing.revision[:12]}, but revision {revision[:12]} was "
-                    "offered; resolve the interrupted send first"
+                    "offered; resolve the earlier attempt first"
                 )
                 raise RevisionConflict(msg)
-            logger.info("Resuming interrupted send for %s", edition_key)
-            return existing
 
-        record = SendRecord(
-            edition_key=edition_key,
-            revision=revision,
-            audience=audience,
-            status="in_progress",
-            started_at=now.isoformat(),
-        )
-        records[edition_key] = record
-        self._save(records)
-        return record
+            if existing is not None and existing.audience != audience:
+                msg = (
+                    f"Edition {edition_key} has an earlier attempt for audience "
+                    f"{existing.audience!r}, but {audience!r} was offered; resolve "
+                    "the earlier attempt first"
+                )
+                raise AudienceConflict(msg)
+
+            if existing is not None and existing.status == "in_progress":
+                logger.info("Resuming interrupted send for %s", edition_key)
+                return existing
+
+            record = SendRecord(
+                edition_key=edition_key,
+                revision=revision,
+                audience=audience,
+                status="in_progress",
+                started_at=now.isoformat(),
+            )
+            records[edition_key] = record
+            self._save(records)
+            return record
 
     def complete(
         self,
@@ -183,22 +247,23 @@ class SendLedger:
         Raises:
             LedgerError: The edition was never started.
         """
-        records = self._load()
-        existing = records.get(edition_key)
-        if existing is None:
-            msg = f"Edition {edition_key} was not started; cannot complete it"
-            raise LedgerError(msg)
+        with self.transaction():
+            records = self._load()
+            existing = records.get(edition_key)
+            if existing is None:
+                msg = f"Edition {edition_key} was not started; cannot complete it"
+                raise LedgerError(msg)
 
-        record = replace(
-            existing,
-            status="completed",
-            completed_at=now.isoformat(),
-            provider_message_id=provider_message_id,
-            error=None,
-        )
-        records[edition_key] = record
-        self._save(records)
-        return record
+            record = replace(
+                existing,
+                status="completed",
+                completed_at=now.isoformat(),
+                provider_message_id=provider_message_id,
+                error=None,
+            )
+            records[edition_key] = record
+            self._save(records)
+            return record
 
     def fail(self, edition_key: str, *, reason: str, now: datetime) -> SendRecord:
         """Mark an attempt failed so the next run may retry it.
@@ -206,18 +271,19 @@ class SendLedger:
         Raises:
             LedgerError: The edition was never started.
         """
-        records = self._load()
-        existing = records.get(edition_key)
-        if existing is None:
-            msg = f"Edition {edition_key} was not started; cannot fail it"
-            raise LedgerError(msg)
+        with self.transaction():
+            records = self._load()
+            existing = records.get(edition_key)
+            if existing is None:
+                msg = f"Edition {edition_key} was not started; cannot fail it"
+                raise LedgerError(msg)
 
-        record = replace(
-            existing,
-            status="failed",
-            completed_at=now.isoformat(),
-            error=reason,
-        )
-        records[edition_key] = record
-        self._save(records)
-        return record
+            record = replace(
+                existing,
+                status="failed",
+                completed_at=now.isoformat(),
+                error=reason,
+            )
+            records[edition_key] = record
+            self._save(records)
+            return record

@@ -55,6 +55,7 @@ def _evaluate(tmp_path: Path, **overrides: Any) -> Any:
         "ledger": SendLedger(tmp_path / "send_log.json"),
         "now": NOW,
         "health_path": tmp_path / "run_health.json",
+        "audience": "hannover-weekly-en",
     }
     kwargs.update(overrides)
     return evaluate_send_gate(**kwargs)
@@ -170,6 +171,24 @@ def test_an_interrupted_send_of_different_content_holds(tmp_path: Path) -> None:
 
     assert not decision.allowed
     assert decision.hold_codes == ("revision_conflict",)
+
+
+def test_an_interrupted_send_for_a_different_audience_holds(tmp_path: Path) -> None:
+    _write_artifact(tmp_path, _artifact_payload())
+    ledger = SendLedger(tmp_path / "send_log.json")
+    first = _evaluate(tmp_path, ledger=ledger)
+    assert first.content is not None
+    ledger.start(
+        first.content.key,
+        revision=first.content.revision,
+        audience="another-list",
+        now=NOW,
+    )
+
+    decision = _evaluate(tmp_path, ledger=ledger)
+
+    assert not decision.allowed
+    assert decision.hold_codes == ("audience_conflict",)
 
 
 def test_a_healthy_run_report_removes_the_approval_requirement(tmp_path: Path) -> None:

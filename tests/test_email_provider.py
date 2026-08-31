@@ -27,10 +27,10 @@ def _rendered() -> RenderedEdition:
 def test_preview_writes_subject_html_text_and_headers(tmp_path: Path) -> None:
     rendered = _rendered()
 
-    outcome = PreviewProvider(tmp_path).send(rendered)
+    outcome = PreviewProvider(tmp_path).send(rendered, idempotency_key="preview-key")
 
     assert outcome.ok
-    assert outcome.provider_message_id == "preview:hannover:2026-W35:en"
+    assert outcome.provider_message_id == "preview:preview-key"
     assert (tmp_path / "subject.txt").read_text(encoding="utf-8") == (
         rendered.subject + "\n"
     )
@@ -46,7 +46,9 @@ def test_preview_reports_a_write_failure_instead_of_raising(tmp_path: Path) -> N
     occupied = tmp_path / "occupied"
     occupied.write_text("not a directory", encoding="utf-8")
 
-    outcome = PreviewProvider(occupied / "sub").send(_rendered())
+    outcome = PreviewProvider(occupied / "sub").send(
+        _rendered(), idempotency_key="preview-key"
+    )
 
     assert not outcome.ok
     assert outcome.error is not None
