@@ -12,12 +12,27 @@
 const formAction = import.meta.env.PUBLIC_NEWSLETTER_FORM_ACTION;
 const listUuid = import.meta.env.PUBLIC_NEWSLETTER_LIST_UUID;
 const enabled = Boolean(formAction && listUuid);
+const confirmUrl = Astro.site
+  ? new URL('/newsletter/confirm/', Astro.site).toString()
+  : undefined;
 ---
 
 {
   enabled ? (
     <form action={formAction} method="post" class="space-y-4">
       <input type="hidden" name="l" value={listUuid} />
+      {confirmUrl && <input type="hidden" name="next" value={confirmUrl} />}
+
+      <div class="absolute -left-[10000px]" aria-hidden="true">
+        <label for="newsletter-nonce">Leave this field empty</label>
+        <input
+          id="newsletter-nonce"
+          name="nonce"
+          type="text"
+          tabindex="-1"
+          autocomplete="off"
+        />
+      </div>
 
       <div>
         <label

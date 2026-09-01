@@ -36,9 +36,9 @@ DEFAULT_CITY_ID: Final[str] = "hannover"
 DEFAULT_LOCALE: Final[str] = "en"
 DEFAULT_AUDIENCE: Final[str] = "hannover-weekly-en"
 DEFAULT_PROVIDER: Final[str] = "preview"
-DEFAULT_UNSUBSCRIBE_URL: Final[str] = (
-    "https://boringhannover.de/newsletter/unsubscribe/"
-)
+# Listmonk expands this per recipient at campaign-render time. Its built-in
+# unsubscribe headers use the same signed subscriber URL.
+DEFAULT_UNSUBSCRIBE_URL: Final[str] = "{{ UnsubscribeURL }}"
 
 
 @dataclass(frozen=True, slots=True)

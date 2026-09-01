@@ -20,6 +20,7 @@ from boringhannover.newsletter.gate import GateDecision, evaluate_send_gate
 from boringhannover.newsletter.ledger import AudienceConflict, SendLedger
 from boringhannover.newsletter.provider import (
     EmailProvider,
+    ListmonkProvider,
     PreviewProvider,
     ProviderError,
     SendOutcome,
@@ -34,6 +35,7 @@ __all__ = [
     "EditionContent",
     "EmailProvider",
     "GateDecision",
+    "ListmonkProvider",
     "NewsletterConfig",
     "PreviewProvider",
     "ProviderError",

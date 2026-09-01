@@ -1,0 +1,62 @@
+# Coolify service stack for the BoringHannover subscriber list.
+# Application SMTP and privacy settings are stored in Listmonk's database and
+# configured through its admin UI; credentials never belong in this file.
+
+services:
+  listmonk:
+    image: listmonk/listmonk:v6.2.0
+    command:
+      - sh
+      - -c
+      - >-
+        ./listmonk --install --idempotent --yes --config '' &&
+        ./listmonk --upgrade --yes --config '' &&
+        ./listmonk --config ''
+    environment:
+      - SERVICE_URL_LISTMONK_9000
+      - LISTMONK_app__address=0.0.0.0:9000
+      - LISTMONK_app__root_url=${SERVICE_URL_LISTMONK_9000}
+      - LISTMONK_db__host=postgres
+      - LISTMONK_db__port=5432
+      - LISTMONK_db__user=${SERVICE_USER_POSTGRES}
+      - LISTMONK_db__password=${SERVICE_PASSWORD_POSTGRES}
+      - LISTMONK_db__database=listmonk
+      - LISTMONK_db__ssl_mode=disable
+      - LISTMONK_db__max_open=25
+      - LISTMONK_db__max_idle=25
+      - LISTMONK_db__max_lifetime=300s
+      - LISTMONK_ADMIN_USER=${LISTMONK_ADMIN_USER:?Set the initial Listmonk admin username}
+      - LISTMONK_ADMIN_PASSWORD=${LISTMONK_ADMIN_PASSWORD:?Set a strong initial Listmonk admin password}
+      - TZ=Europe/Berlin
+    volumes:
+      - listmonk-uploads:/listmonk/uploads
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:9000"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      - POSTGRES_DB=listmonk
+      - POSTGRES_USER=${SERVICE_USER_POSTGRES}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRES}
+    volumes:
+      - listmonk-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+volumes:
+  listmonk-uploads:
+  listmonk-postgres:

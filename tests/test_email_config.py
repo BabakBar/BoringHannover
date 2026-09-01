@@ -6,6 +6,7 @@ from pathlib import Path
 
 from boringhannover.newsletter.config import (
     DEFAULT_ARTIFACT_PATH,
+    DEFAULT_UNSUBSCRIBE_URL,
     NewsletterConfig,
 )
 
@@ -17,6 +18,8 @@ def test_defaults_apply_without_any_environment() -> None:
     assert config.city_id == "hannover"
     assert config.locale == "en"
     assert config.provider == "preview"
+    assert config.unsubscribe_url == DEFAULT_UNSUBSCRIBE_URL
+    assert config.unsubscribe_url == "{{ UnsubscribeURL }}"
 
 
 def test_environment_overrides_are_parsed() -> None:
