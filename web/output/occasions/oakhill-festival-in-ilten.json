@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Wed 02 Sep 00:56"
+  },
+  "occasion": {
+    "id": "hannover-festivals:oakhill-festival-in-ilten",
+    "slug": "oakhill-festival-in-ilten",
+    "name": "Oakhill-Festival in Ilten",
+    "kind": "festival",
+    "startDate": "2026-09-11",
+    "endDate": "2026-09-12",
+    "location": "Oakhill Festivalgelände",
+    "description": "Das Festival in Sehnder Ortsteil Ilten geht am 11. und 12. September in die fünfte Runde.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/bilder-region-hannover/wiederverwendbar/bauarbeiten,-straßen,-verkehr/ortseingangsschilder/31319-sehnde/21096810-1-ger-DE/31319-Sehnde.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Oakhill-Festival-in-Ilten",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/oakhill-festival-in-ilten.json",
+    "preview": []
+  },
+  "programme": []
+}
