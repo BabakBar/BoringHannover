@@ -650,12 +650,23 @@ class TestIntegration:
 
     @patch.dict(
         "os.environ",
-        {"TELEGRAM_BOT_TOKEN": "test_token", "TELEGRAM_CHAT_ID": "test_chat"},
+        {
+            "TELEGRAM_BOT_TOKEN": "test_token",
+            "TELEGRAM_CHAT_ID": "test_chat",
+            "GITHUB_TOKEN": "test_token",
+            "GITHUB_REPO": "owner/repo",
+        },
     )
+    @patch("boringhannover.main.sync_web_data_to_github")
     @patch("boringhannover.main.notify")
     @patch("boringhannover.main.fetch_all_events")
-    def test_full_workflow(self, mock_fetch: Mock, mock_notify: Mock) -> None:
-        """Test the complete scraping and notification workflow."""
+    def test_full_workflow(
+        self,
+        mock_fetch: Mock,
+        mock_notify: Mock,
+        mock_sync: Mock,
+    ) -> None:
+        """Test the complete scraping, notification and publish workflow."""
         from boringhannover.main import run  # noqa: PLC0415
 
         mock_fetch.return_value = {
@@ -663,12 +674,14 @@ class TestIntegration:
             "big_events_radar": [],
         }
         mock_notify.return_value = True
+        mock_sync.return_value = True
 
         result = run()
 
         assert result is True
         mock_fetch.assert_called_once()
         mock_notify.assert_called_once()
+        mock_sync.assert_called_once()
 
 
 if __name__ == "__main__":

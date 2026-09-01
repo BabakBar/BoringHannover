@@ -58,13 +58,15 @@ def run(*, local: bool = False) -> bool:
     1. Fetches events from movies (Astor) and concerts (venues)
     2. Categorizes them into movies and "On The Radar"
     3. Exports data to multiple formats (CSV, JSON, Markdown)
-    4. Syncs to GitHub (if configured) to trigger frontend rebuild
+    4. Syncs to GitHub to trigger frontend rebuild
 
     Args:
         local: If True, runs in local/dev mode (no GitHub sync).
 
     Returns:
-        True if workflow completed successfully.
+        True if the workflow completed successfully. A non-local run that
+        cannot publish to GitHub returns False, so the caller exits non-zero
+        rather than reporting success while the site serves stale data.
     """
     try:
         logger.info("Starting BoringHannover scraper")
@@ -95,14 +97,22 @@ def run(*, local: bool = False) -> bool:
             logger.error("Failed to export data")
             return False
 
-        # Step 3: Sync data to GitHub (if configured)
-        if (not local) and should_sync():
+        # Step 3: Sync data to GitHub. A production run that scrapes but does
+        # not publish is a failed run: the site keeps serving stale data, so
+        # this must exit non-zero for the scheduler to report it.
+        if not local:
+            if not should_sync():
+                logger.error(
+                    "GITHUB_TOKEN and GITHUB_REPO are not both set; "
+                    "cannot publish and will not report success"
+                )
+                return False
+
             logger.info("Syncing data to GitHub...")
-            sync_success = sync_web_data_to_github("output")
-            if sync_success:
-                logger.info("GitHub sync completed - frontend rebuild triggered")
-            else:
-                logger.warning("GitHub sync failed - frontend will show stale data")
+            if not sync_web_data_to_github("output"):
+                logger.error("GitHub sync failed - frontend will show stale data")
+                return False
+            logger.info("GitHub sync completed - frontend rebuild triggered")
 
         logger.info("Workflow completed successfully")
 
