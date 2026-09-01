@@ -169,6 +169,9 @@ jobs:
           labels: ${{ steps.meta-backend.outputs.labels }}
           cache-from: type=gha,scope=backend
           cache-to: type=gha,mode=max,scope=backend
+          # The runtime stage applies security updates at build time; caching
+          # it pins the image to the packages of whenever it was last built.
+          no-cache-filters: runtime
           platforms: linux/amd64
           sbom: true
           provenance: mode=max
@@ -206,6 +209,9 @@ jobs:
             SITE=${{ env.SITE }}
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,mode=max,scope=frontend
+          # The runtime stage applies security updates at build time; caching
+          # it pins the image to the packages of whenever it was last built.
+          no-cache-filters: runtime
           platforms: linux/amd64
           sbom: true
           provenance: mode=max
