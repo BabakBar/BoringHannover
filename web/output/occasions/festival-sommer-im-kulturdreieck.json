@@ -1,19 +1,19 @@
 {
   "meta": {
-    "updatedAt": "Fri 28 Aug 11:00"
+    "updatedAt": "Wed 02 Sep 00:56"
   },
   "occasion": {
     "id": "hannover-festivals:festival-sommer-im-kulturdreieck",
     "slug": "festival-sommer-im-kulturdreieck",
     "name": "Festival „Sommer im Kulturdreieck“",
     "kind": "festival",
-    "startDate": "2026-08-28",
+    "startDate": "2026-09-01",
     "endDate": "2026-09-02",
     "location": "Opernplatz",
-    "description": "Hannovers Innenstadt verwandelt sich vom 27. August bis 2. September 2026 in eine offene Festivalbühne: Der Sommer im Kulturdreieck bringt Film, Musik und...",
+    "description": "Hannovers Innenstadt verwandelt sich noch bis zum 2. September 2026 in eine offene Festivalbühne: Der Sommer im Kulturdreieck bringt Film, Musik und Tanz...",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/9/2/3/6/28156329-1-ger-DE/2bbf0d2d9b2b-festwchen-kuenslterhaus.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Festival-„Sommer-im-Kulturdreieck“",
-    "status": "happening_now",
+    "status": "final_weekend",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/festival-sommer-im-kulturdreieck.json",
