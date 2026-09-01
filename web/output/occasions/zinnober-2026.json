@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Wed 02 Sep 00:56"
+  },
+  "occasion": {
+    "id": "hannover-festivals:zinnober-2026",
+    "slug": "zinnober-2026",
+    "name": "ZINNOBER 2026",
+    "kind": "festival",
+    "startDate": "2026-09-05",
+    "endDate": "2026-09-06",
+    "location": "Innenstadt Hannover",
+    "description": "Zum 29. ZINNOBER, der Kult-Kunstveranstaltung zum Saisonauftakt, präsentieren sich dieses Jahr am 5. und 6. September rund 60 Kunstorte mit über 300 Künst...",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/0/7/1/6/30876170-1-ger-DE/430c0b7c8c50-IMG_0748.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/ZINNOBER-2026",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/zinnober-2026.json",
+    "preview": []
+  },
+  "programme": []
+}
