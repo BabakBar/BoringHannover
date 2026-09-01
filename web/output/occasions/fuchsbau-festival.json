@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Wed 02 Sep 00:56"
+  },
+  "occasion": {
+    "id": "hannover-festivals:fuchsbau-festival",
+    "slug": "fuchsbau-festival",
+    "name": "Fuchsbau Festival",
+    "kind": "festival",
+    "startDate": "2026-09-11",
+    "endDate": "2026-09-13",
+    "location": "Festivalgelände Fuchsbau",
+    "description": "Fuchsbau verbindet vom 11. bis 13. September zukunftsweisende Musik, Kunst und Debatten zu einem experimentellen Festival.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/redaktion-hannover.de/2014/2014_08/fuchsbau-festival/fuchsbau-festival/11272732-1-ger-DE/Fuchsbau-Festival.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Fuchsbau-Festival",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/fuchsbau-festival.json",
+    "preview": []
+  },
+  "programme": []
+}
