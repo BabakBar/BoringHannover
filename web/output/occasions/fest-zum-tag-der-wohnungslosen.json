@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Wed 02 Sep 00:56"
+  },
+  "occasion": {
+    "id": "hannover-festivals:fest-zum-tag-der-wohnungslosen",
+    "slug": "fest-zum-tag-der-wohnungslosen",
+    "name": "Fest zum Tag der Wohnungslosen",
+    "kind": "festival",
+    "startDate": "2026-09-11",
+    "endDate": "2026-09-11",
+    "location": "Andreas-Hermes-Platz",
+    "description": "Gemeinsam Zeichen setzen – füreinander da sein",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/5/2/4/1/30411425-1-ger-DE/58c4aad57b00-6_Sommerlounge-AHP_Ringelreihe-Pavillon.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Fest-zum-Tag-der-Wohnungslosen",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/fest-zum-tag-der-wohnungslosen.json",
+    "preview": []
+  },
+  "programme": []
+}
