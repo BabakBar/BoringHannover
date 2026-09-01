@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Wed 02 Sep 00:56"
+  },
+  "occasion": {
+    "id": "hannover-festivals:saisoneroffnung-kurbistasting-in-eldagsen",
+    "slug": "saisoneroffnung-kurbistasting-in-eldagsen",
+    "name": "Saisoneröffnung & Kürbistasting in Eldagsen",
+    "kind": "festival",
+    "startDate": "2026-09-06",
+    "endDate": "2026-09-06",
+    "location": "Eldagser Hoflieferant",
+    "description": "Kürbis, Genuss & Herbstvergnügen am 6. September startet um 11 Uhr auf dem Hof des Eldagser Hoflieferanten.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/9/5/6/7/30887659-1-ger-DE/1206bf47d349-eldagser-hoflieferant-5462.JPG",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Saisoneröffnung-Kürbistasting-in-Eldagsen",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/saisoneroffnung-kurbistasting-in-eldagsen.json",
+    "preview": []
+  },
+  "programme": []
+}
