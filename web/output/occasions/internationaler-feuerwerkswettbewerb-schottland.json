@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Wed 02 Sep 00:56"
+  },
+  "occasion": {
+    "id": "hannover-festivals:internationaler-feuerwerkswettbewerb-schottland",
+    "slug": "internationaler-feuerwerkswettbewerb-schottland",
+    "name": "Internationaler Feuerwerkswettbewerb-Schottland",
+    "kind": "festival",
+    "startDate": "2026-09-05",
+    "endDate": "2026-09-05",
+    "location": "Herrenhäuser Gärten",
+    "description": "Am 5. September 2026 tritt Fireworx Scotland Ltd für Schottland beim 34. Internationalen Feuerwerkswettbewerb in Hannover an.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/6/7/4/0/29560476-16-ger-DE/862c63ad5300-7.png",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Internationaler-Feuerwerkswettbewerb-Schottland",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/internationaler-feuerwerkswettbewerb-schottland.json",
+    "preview": []
+  },
+  "programme": []
+}
