@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Wed 02 Sep 00:56"
+  },
+  "occasion": {
+    "id": "hannover-festivals:zwiebelfest",
+    "slug": "zwiebelfest",
+    "name": "Zwiebelfest",
+    "kind": "festival",
+    "startDate": "2026-09-05",
+    "endDate": "2026-09-06",
+    "location": "Uetze Hindenburgplatz",
+    "description": "Auf dem Hindenburgplatz feiert Uetze am 5. und 6. September das traditionelle Zwiebelfest.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/hmtg/kommunen/entdecke-deine-region/zwiebelfest-uetze/15546533-1-ger-DE/Zwiebelfest-Uetze.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Zwiebelfest",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/zwiebelfest.json",
+    "preview": []
+  },
+  "programme": []
+}
