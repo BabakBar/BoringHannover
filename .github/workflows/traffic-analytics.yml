@@ -22,6 +22,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
+  UV_VERSION: "0.12.6"
   PYTHON_VERSION: "3.14"
 
 jobs:
@@ -58,9 +59,10 @@ jobs:
           token: ${{ secrets.TRAFFIC_TOKEN || steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
           persist-credentials: true
 
-      - name: Set up Python
-        uses: actions/setup-python@a269b596f7e8a5b23d91fb836ba33b0a234691a3 # v5.4.0
+      - name: Install uv
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
+          version: ${{ env.UV_VERSION }}
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Run traffic capture
@@ -69,7 +71,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          python scripts/capture_traffic.py --repo "${GH_REPO}" --output-dir traffic-branch
+          uv run --python "${{ env.PYTHON_VERSION }}" python scripts/capture_traffic.py --repo "${GH_REPO}" --output-dir traffic-branch
 
       - name: Commit and push analytics update
         run: |
