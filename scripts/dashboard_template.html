@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traffic Analytics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card: #161b22;
+      --border: #30363d;
+      --grid: #21262d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --blue: #58a6ff;
+      --green: #3fb950;
+      --purple: #bc8cff;
+      --orange: #f0883e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      padding-bottom: 64px;
+    }
+    a { color: var(--blue); }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(22, 27, 34, .85);
+      backdrop-filter: blur(6px);
+      position: sticky; top: 0; z-index: 30;
+      padding: 14px 0;
+      margin-bottom: 24px;
+    }
+    .head-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand svg { width: 30px; height: 30px; fill: var(--text); flex: none; }
+    h1 { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 999px;
+      background: var(--border); color: var(--blue); border: 1px solid rgba(88, 166, 255, .3);
+    }
+    .sub { font-size: 12px; color: var(--muted); margin: 2px 0 0; }
+
+    .ranges { display: flex; gap: 4px; background: var(--bg); padding: 4px; border-radius: 8px; border: 1px solid var(--border); }
+    .ranges button {
+      font: inherit; font-size: 12px; padding: 5px 11px; border-radius: 6px;
+      background: none; border: 0; color: var(--muted); cursor: pointer;
+    }
+    .ranges button:hover { color: var(--text); }
+    .ranges button[aria-pressed="true"] { background: var(--border); color: #fff; font-weight: 500; }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+    /* Six tiles: 6/3/2 per row, so the last row is never left with a single orphan. */
+    .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 22px; }
+    @media (min-width: 640px) { .kpis { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1080px) { .kpis { grid-template-columns: repeat(6, 1fr); } }
+    .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 15px 17px; }
+    .kpi-label { font-size: 12px; color: var(--muted); }
+    .kpi-value { font-size: 28px; font-weight: 600; line-height: 1.25; font-variant-numeric: tabular-nums; }
+    .kpi-sub { font-size: 11px; color: var(--muted); }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; margin-bottom: 16px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; min-width: 0; }
+    .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+    .card-head h2 { font-size: 14px; margin: 0; font-weight: 600; }
+    .toggle {
+      font: inherit; font-size: 11px; padding: 3px 9px; border-radius: 6px; cursor: pointer;
+      background: var(--bg); border: 1px solid var(--border); color: var(--muted);
+    }
+    .toggle:hover { color: var(--text); }
+    .chart-box { position: relative; height: 240px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--grid); }
+    th { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 500; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    td.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--blue); }
+    .peak { color: var(--green); font-weight: 600; }
+    .dim { color: var(--muted); }
+    .table-scroll { overflow-x: auto; }
+    .empty { color: var(--muted); padding: 14px 10px; font-style: italic; }
+
+    footer { margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+    footer ul { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+    @media (max-width: 520px) { .grid-2 { grid-template-columns: 1fr; } .chart-box { height: 200px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap head-row">
+      <div class="brand">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>
+        <div>
+          <h1><span id="repo-name">Repository</span> <span class="tag">Traffic Analytics</span></h1>
+          <p class="sub">All-time archive &bull; updated <span id="last-updated">—</span></p>
+        </div>
+      </div>
+      <div class="ranges" id="ranges" role="group" aria-label="Date range">
+        <button type="button" data-days="7">7D</button>
+        <button type="button" data-days="14">14D</button>
+        <button type="button" data-days="30">30D</button>
+        <button type="button" data-days="90">90D</button>
+        <button type="button" data-days="0" aria-pressed="true">All Time</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="kpis">
+      <div class="kpi">
+        <div class="kpi-label">Page views</div>
+        <div class="kpi-value" id="kpi-views">0</div>
+        <div class="kpi-sub" id="sub-views">All time</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Unique visitors <span class="dim">(summed daily)</span></div>
+        <div class="kpi-value" id="kpi-uniques">0</div>
+        <div class="kpi-sub" id="sub-uniques">All time</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Git clones</div>
+        <div class="kpi-value" id="kpi-clones">0</div>
+        <div class="kpi-sub" id="sub-clones">All time</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Unique cloners <span class="dim">(summed daily)</span></div>
+        <div class="kpi-value" id="kpi-cloners">0</div>
+        <div class="kpi-sub" id="sub-cloners">All time</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Stars</div>
+        <div class="kpi-value" id="kpi-stars">0</div>
+        <div class="kpi-sub" id="sub-stars">Current total</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Forks</div>
+        <div class="kpi-value" id="kpi-forks">0</div>
+        <div class="kpi-sub">Current total</div>
+      </div>
+    </section>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <h2>Page views</h2>
+          <button type="button" class="toggle" id="toggle-views" data-mode="daily">Daily</button>
+        </div>
+        <div class="chart-box"><canvas id="viewsChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h2>Git clones</h2>
+          <button type="button" class="toggle" id="toggle-clones" data-mode="daily">Daily</button>
+        </div>
+        <div class="chart-box"><canvas id="clonesChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head"><h2>Cumulative growth</h2></div>
+        <div class="chart-box"><canvas id="growthChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>Stars over time</h2></div>
+        <div class="chart-box"><canvas id="starsChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head"><h2>Top referrers</h2></div>
+        <div class="chart-box"><canvas id="referrersChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>Referrer detail</h2></div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Domain</th>
+                <th class="num">Last recorded</th>
+                <th class="num">Peak</th>
+                <th class="num">Last seen</th>
+              </tr>
+            </thead>
+            <tbody id="referrers-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Popular content paths</h2></div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Path</th>
+              <th class="num">Last recorded</th>
+              <th class="num">Peak</th>
+              <th class="num">First seen</th>
+            </tr>
+          </thead>
+          <tbody id="paths-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="wrap">
+      <div>Archive range: <span id="range-label">—</span>. GitHub discards traffic metrics after 14 days; everything here is preserved permanently.</div>
+      <ul>
+        <li><a href="data/views.csv">views.csv</a></li>
+        <li><a href="data/clones.csv">clones.csv</a></li>
+        <li><a href="data/referrers.csv">referrers.csv</a></li>
+        <li><a href="data/paths.csv">paths.csv</a></li>
+        <li><a href="data/stargazers.csv">stargazers.csv</a></li>
+        <li><a href="data/forks.csv">forks.csv</a></li>
+        <li><a href="data/summary.json">summary.json</a></li>
+        <li><a href="README.md">Markdown report</a></li>
+      </ul>
+    </footer>
+  </main>
+
+  <script id="traffic-data" type="application/json">__TRAFFIC_DATA__</script>
+  <script id="dashboard-app">
+    (function () {
+      "use strict";
+
+      const DATA = JSON.parse(document.getElementById("traffic-data").textContent);
+      const summary = DATA.summary || {};
+      const views = DATA.views || [];
+      const clones = DATA.clones || [];
+      const referrers = DATA.referrers || [];
+      const paths = DATA.paths || [];
+      const stars = DATA.stars || [];
+
+      const AXIS = "#8b949e";
+      const GRID = "#21262d";
+      const RANGE_LABELS = { 7: "Last 7 days", 14: "Last 14 days", 30: "Last 30 days", 90: "Last 90 days", 0: "All time" };
+
+      let activeDays = 0;
+      const charts = {};
+
+      function text(id, value) {
+        const node = document.getElementById(id);
+        if (node) node.textContent = value;
+      }
+
+      function number(value) {
+        return Number(value || 0).toLocaleString();
+      }
+
+      // Filter by calendar date rather than list position, so a gap in the
+      // archive never stretches a "last 30 days" window across months.
+      function inWindow(items, days) {
+        if (!days) return items.slice();
+        const cutoff = new Date(DATA.today + "T00:00:00Z");
+        cutoff.setUTCDate(cutoff.getUTCDate() - (days - 1));
+        const from = cutoff.toISOString().slice(0, 10);
+        return items.filter(function (item) { return item.date >= from; });
+      }
+
+      function sum(items, field) {
+        return items.reduce(function (total, item) { return total + Number(item[field] || 0); }, 0);
+      }
+
+      function running(items, field) {
+        let total = 0;
+        return items.map(function (item) { total += Number(item[field] || 0); return total; });
+      }
+
+      function draw(key, canvasId, config) {
+        if (charts[key]) charts[key].destroy();
+        const canvas = document.getElementById(canvasId);
+        if (canvas) charts[key] = new Chart(canvas, config);
+      }
+
+      function baseOptions(extra) {
+        const options = {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: "index", intersect: false },
+          plugins: { legend: { labels: { color: AXIS, boxWidth: 12 } } },
+          scales: {
+            x: { grid: { color: GRID }, ticks: { color: AXIS, maxRotation: 0, autoSkipPadding: 16 } },
+            y: { grid: { color: GRID }, ticks: { color: AXIS, precision: 0 }, beginAtZero: true }
+          }
+        };
+        return Object.assign(options, extra || {});
+      }
+
+      function series(items, field, cumulative) {
+        return cumulative ? running(items, field) : items.map(function (item) { return Number(item[field] || 0); });
+      }
+
+      function timeChart(key, canvasId, items, colour, labels, cumulative) {
+        draw(key, canvasId, {
+          type: "line",
+          data: {
+            labels: items.map(function (item) { return item.date; }),
+            datasets: [
+              {
+                label: labels[0],
+                data: series(items, "count", cumulative),
+                borderColor: colour,
+                backgroundColor: colour + "22",
+                fill: true,
+                tension: .3,
+                pointRadius: items.length > 60 ? 0 : 2
+              },
+              {
+                label: labels[1],
+                data: series(items, "uniques", cumulative),
+                borderColor: "#8b949e",
+                borderDash: [4, 3],
+                fill: false,
+                tension: .3,
+                pointRadius: 0
+              }
+            ]
+          },
+          options: baseOptions()
+        });
+      }
+
+      function starTimeline() {
+        const sorted = stars.slice().sort(function (a, b) {
+          return String(a.starred_at).localeCompare(String(b.starred_at));
+        });
+        draw("stars", "starsChart", {
+          type: "line",
+          data: {
+            labels: sorted.map(function (star) { return star.date; }),
+            datasets: [{
+              label: "Cumulative stars",
+              data: sorted.map(function (_, index) { return index + 1; }),
+              borderColor: "#f0883e",
+              backgroundColor: "#f0883e22",
+              fill: true,
+              stepped: true,
+              pointRadius: sorted.length > 60 ? 0 : 3
+            }]
+          },
+          options: baseOptions()
+        });
+      }
+
+      function referrerChart() {
+        const top = referrers.slice(0, 8);
+        draw("referrers", "referrersChart", {
+          type: "bar",
+          data: {
+            labels: top.map(function (ref) { return ref.referrer; }),
+            datasets: [{
+              label: "Peak views in a 14-day window",
+              data: top.map(function (ref) { return Number(ref.max_count || 0); }),
+              backgroundColor: "#bc8cff"
+            }]
+          },
+          options: baseOptions({ indexAxis: "y", scales: {
+            x: { grid: { color: GRID }, ticks: { color: AXIS, precision: 0 }, beginAtZero: true },
+            y: { grid: { display: false }, ticks: { color: AXIS } }
+          } })
+        });
+      }
+
+      function cell(row, value, className) {
+        const td = document.createElement("td");
+        td.textContent = value;
+        if (className) td.className = className;
+        row.appendChild(td);
+      }
+
+      // textContent throughout: referrer domains and page titles are third-party
+      // strings and must never be parsed as markup.
+      function fillTable(bodyId, rows, columns, emptyMessage) {
+        const body = document.getElementById(bodyId);
+        if (!body) return;
+        body.textContent = "";
+        if (!rows.length) {
+          const row = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 4;
+          td.className = "empty";
+          td.textContent = emptyMessage;
+          row.appendChild(td);
+          body.appendChild(row);
+          return;
+        }
+        rows.slice(0, 15).forEach(function (item) {
+          const row = document.createElement("tr");
+          columns.forEach(function (column) { cell(row, column.value(item), column.className); });
+          body.appendChild(row);
+        });
+      }
+
+      function renderTables() {
+        fillTable("referrers-body", referrers, [
+          { value: function (r) { return r.referrer; }, className: "mono" },
+          { value: function (r) { return number(r.latest_count); }, className: "num" },
+          { value: function (r) { return number(r.max_count); }, className: "num peak" },
+          { value: function (r) { return r.last_seen || "—"; }, className: "num dim" }
+        ], "No referrers recorded yet.");
+
+        fillTable("paths-body", paths, [
+          { value: function (p) { return p.title || p.path; }, className: "mono" },
+          { value: function (p) { return number(p.latest_count); }, className: "num" },
+          { value: function (p) { return number(p.max_count); }, className: "num peak" },
+          { value: function (p) { return p.first_seen || "—"; }, className: "num dim" }
+        ], "No popular paths recorded yet.");
+      }
+
+      function render() {
+        const windowedViews = inWindow(views, activeDays);
+        const windowedClones = inWindow(clones, activeDays);
+        const label = RANGE_LABELS[activeDays] || "All time";
+
+        text("kpi-views", number(sum(windowedViews, "count")));
+        text("kpi-uniques", number(sum(windowedViews, "uniques")));
+        text("kpi-clones", number(sum(windowedClones, "count")));
+        text("kpi-cloners", number(sum(windowedClones, "uniques")));
+        ["sub-views", "sub-uniques", "sub-clones", "sub-cloners"].forEach(function (id) { text(id, label); });
+
+        timeChart(
+          "views", "viewsChart", windowedViews, "#58a6ff",
+          ["Views", "Unique visitors"],
+          document.getElementById("toggle-views").dataset.mode === "cumulative"
+        );
+        timeChart(
+          "clones", "clonesChart", windowedClones, "#3fb950",
+          ["Clones", "Unique cloners"],
+          document.getElementById("toggle-clones").dataset.mode === "cumulative"
+        );
+
+        draw("growth", "growthChart", {
+          type: "line",
+          data: {
+            labels: windowedViews.map(function (item) { return item.date; }),
+            datasets: [
+              { label: "Views (cumulative)", data: running(windowedViews, "count"), borderColor: "#58a6ff", fill: false, tension: .3, pointRadius: 0 },
+              { label: "Clones (cumulative)", data: running(windowedClones, "count"), borderColor: "#3fb950", fill: false, tension: .3, pointRadius: 0 }
+            ]
+          },
+          options: baseOptions()
+        });
+      }
+
+      function setRange(days, button) {
+        activeDays = days;
+        document.querySelectorAll("#ranges button").forEach(function (other) {
+          other.setAttribute("aria-pressed", String(other === button));
+        });
+        render();
+      }
+
+      function bindToggle(id) {
+        const button = document.getElementById(id);
+        button.addEventListener("click", function () {
+          const next = button.dataset.mode === "daily" ? "cumulative" : "daily";
+          button.dataset.mode = next;
+          button.textContent = next === "cumulative" ? "Cumulative" : "Daily";
+          render();
+        });
+      }
+
+      text("repo-name", summary.repository || "Repository");
+      document.title = "Traffic Analytics — " + (summary.repository || "Repository");
+      text("last-updated", (summary.last_updated_utc || "").replace("T", " ").slice(0, 16) + " UTC");
+      text("kpi-stars", number(summary.current_stars));
+      text("kpi-forks", number(summary.current_forks));
+      text("sub-stars", stars.length ? "First star " + stars[0].date : "Current total");
+      text("range-label", (summary.history_start_date || "—") + " to " + (summary.history_end_date || "—") +
+        " (" + number(summary.total_days_recorded) + " days)");
+
+      document.getElementById("ranges").addEventListener("click", function (event) {
+        const button = event.target.closest("button[data-days]");
+        if (button) setRange(Number(button.dataset.days), button);
+      });
+      bindToggle("toggle-views");
+      bindToggle("toggle-clones");
+
+      renderTables();
+      referrerChart();
+      starTimeline();
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -137,13 +137,13 @@ jobs:
         run: uv sync --locked --all-groups
 
       - name: Run linter (ruff)
-        run: uv run ruff check src/
+        run: uv run ruff check src/ scripts/
 
       - name: Check formatting (ruff)
-        run: uv run ruff format --check src/
+        run: uv run ruff format --check src/ scripts/
 
       - name: Run type checker (ty)
-        run: uv run ty check src/
+        run: uv run ty check src/ scripts/
 
       - name: Run tests (pytest)
         run: uv run pytest tests/ -v --tb=short
