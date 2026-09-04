@@ -1,0 +1,27 @@
+{
+  "last_updated": "2026-09-04",
+  "snapshots": [
+    {
+      "date": "2026-09-04",
+      "timestamp": "2026-09-04T00:00:00Z",
+      "referrers": [
+        {
+          "referrer": "github.com",
+          "count": 3,
+          "uniques": 3
+        }
+      ]
+    }
+  ],
+  "all_time": [
+    {
+      "referrer": "github.com",
+      "latest_count": 3,
+      "latest_uniques": 3,
+      "max_count": 3,
+      "max_uniques": 3,
+      "first_seen": "2026-09-04",
+      "last_seen": "2026-09-04"
+    }
+  ]
+}
