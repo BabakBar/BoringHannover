@@ -239,9 +239,23 @@ dispatching Deploy manually.
 Rotate the private key like any other credential; revoking it makes the
 workflow fall back to `GITHUB_TOKEN` rather than fail.
 
+## Repository Traffic Analytics
+
+GitHub's native traffic metrics (views, clones, referrers, paths) are permanently purged after **14 days**. To maintain complete, long-term analytics:
+
+- **Workflow:** `.github/workflows/traffic-analytics.yml` runs twice daily (`03:00` and `15:00` UTC) and on manual dispatch.
+- **Storage:** All historical snapshots are losslessly merged and committed to the isolated `traffic-data` orphan branch, avoiding commit noise on `master`.
+- **Outputs generated on `traffic-data`:**
+  - `data/*.json` and `data/*.csv`: Daily views, daily clones, referrers, popular content paths, stargazers, forks, and summary metrics.
+  - `README.md`: Rendered markdown report on GitHub with KPI tables and breakdowns.
+  - `index.html`: Standalone, interactive dark-themed analytics dashboard with Chart.js and date range filters (7d, 14d, 30d, 90d, All Time).
+- **Authentication:**
+  - `TRAFFIC_TOKEN`: GitHub repository secret with `repo` scope (classic PAT) or `Administration: read` + `Contents: write` permissions (fine-grained PAT). GitHub's Traffic API restricts access to push/admin users and rejects the default `GITHUB_TOKEN`.
+
 ## Ownership
 
 The repository owner reviews major updates, triages scanner findings and owns
 suppressions. Automation handles everything else. If the weekly Security Audit
 issue stays open for more than a cycle, that is the signal that this policy is
 being ignored — a permanently red dashboard is not a control.
+
