@@ -1,553 +1,498 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analytics Dashboard — BabakBar/BoringHannover</title>
+  <title>Traffic Analytics</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            gh: {
-              bg: '#0d1117',
-              card: '#161b22',
-              border: '#30363d',
-              header: '#010409',
-              text: '#e6edf3',
-              muted: '#8b949e',
-              blue: '#58a6ff',
-              green: '#238636',
-              greenLight: '#3fb950',
-              purple: '#bc8cff',
-              orange: '#f0883e'
-            }
-          }
-        }
-      }
-    }
-  </script>
   <style>
+    :root {
+      --bg: #0d1117;
+      --card: #161b22;
+      --border: #30363d;
+      --grid: #21262d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --blue: #58a6ff;
+      --green: #3fb950;
+      --purple: #bc8cff;
+      --orange: #f0883e;
+    }
+    * { box-sizing: border-box; }
     body {
-      background-color: #0d1117;
-      color: #e6edf3;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      padding-bottom: 64px;
     }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+    a { color: var(--blue); }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(22, 27, 34, .85);
+      backdrop-filter: blur(6px);
+      position: sticky; top: 0; z-index: 30;
+      padding: 14px 0;
+      margin-bottom: 24px;
     }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #30363d;
-      border-radius: 4px;
+    .head-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand svg { width: 30px; height: 30px; fill: var(--text); flex: none; }
+    h1 { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 999px;
+      background: var(--border); color: var(--blue); border: 1px solid rgba(88, 166, 255, .3);
     }
+    .sub { font-size: 12px; color: var(--muted); margin: 2px 0 0; }
+
+    .ranges { display: flex; gap: 4px; background: var(--bg); padding: 4px; border-radius: 8px; border: 1px solid var(--border); }
+    .ranges button {
+      font: inherit; font-size: 12px; padding: 5px 11px; border-radius: 6px;
+      background: none; border: 0; color: var(--muted); cursor: pointer;
+    }
+    .ranges button:hover { color: var(--text); }
+    .ranges button[aria-pressed="true"] { background: var(--border); color: #fff; font-weight: 500; }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+    /* Six tiles: 6/3/2 per row, so the last row is never left with a single orphan. */
+    .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 22px; }
+    @media (min-width: 640px) { .kpis { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1080px) { .kpis { grid-template-columns: repeat(6, 1fr); } }
+    .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 15px 17px; }
+    .kpi-label { font-size: 12px; color: var(--muted); }
+    .kpi-value { font-size: 28px; font-weight: 600; line-height: 1.25; font-variant-numeric: tabular-nums; }
+    .kpi-sub { font-size: 11px; color: var(--muted); }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; margin-bottom: 16px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; min-width: 0; }
+    .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+    .card-head h2 { font-size: 14px; margin: 0; font-weight: 600; }
+    .toggle {
+      font: inherit; font-size: 11px; padding: 3px 9px; border-radius: 6px; cursor: pointer;
+      background: var(--bg); border: 1px solid var(--border); color: var(--muted);
+    }
+    .toggle:hover { color: var(--text); }
+    .chart-box { position: relative; height: 240px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--grid); }
+    th { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 500; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    td.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--blue); }
+    .peak { color: var(--green); font-weight: 600; }
+    .dim { color: var(--muted); }
+    .table-scroll { overflow-x: auto; }
+    .empty { color: var(--muted); padding: 14px 10px; font-style: italic; }
+
+    footer { margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+    footer ul { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+    @media (max-width: 520px) { .grid-2 { grid-template-columns: 1fr; } .chart-box { height: 200px; } }
   </style>
 </head>
-<body class="min-h-screen pb-16">
-  <!-- Top Navigation / Header -->
-  <header class="border-b border-gh-border bg-gh-card/80 backdrop-blur sticky top-0 z-30 px-6 py-4">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <svg class="w-8 h-8 text-white fill-current" viewBox="0 0 16 16">
-          <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
-        </svg>
+<body>
+  <header>
+    <div class="wrap head-row">
+      <div class="brand">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>
         <div>
-          <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            <span>BabakBar/BoringHannover</span>
-            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-gh-border text-gh-blue border border-gh-blue/30">Traffic Analytics</span>
-          </h1>
-          <p class="text-xs text-gh-muted">Persistent All-Time Traffic Archive &bull; Updated: 2026-09-04T23:07:51.758884+00:00</p>
+          <h1><span id="repo-name">Repository</span> <span class="tag">Traffic Analytics</span></h1>
+          <p class="sub">All-time archive &bull; updated <span id="last-updated">—</span></p>
         </div>
       </div>
-
-      <!-- Range Selector Filters -->
-      <div class="flex items-center gap-2 bg-gh-bg p-1 rounded-lg border border-gh-border text-xs">
-        <button onclick="setFilter('7d')" class="range-btn px-3 py-1.5 rounded-md text-gh-muted hover:text-white transition">7D</button>
-        <button onclick="setFilter('14d')" class="range-btn px-3 py-1.5 rounded-md text-gh-muted hover:text-white transition">14D</button>
-        <button onclick="setFilter('30d')" class="range-btn px-3 py-1.5 rounded-md text-gh-muted hover:text-white transition">30D</button>
-        <button onclick="setFilter('90d')" class="range-btn px-3 py-1.5 rounded-md text-gh-muted hover:text-white transition">90D</button>
-        <button onclick="setFilter('all')" class="range-btn px-3 py-1.5 rounded-md text-white bg-gh-border font-medium transition">All Time</button>
+      <div class="ranges" id="ranges" role="group" aria-label="Date range">
+        <button type="button" data-days="7">7D</button>
+        <button type="button" data-days="14">14D</button>
+        <button type="button" data-days="30">30D</button>
+        <button type="button" data-days="90">90D</button>
+        <button type="button" data-days="0" aria-pressed="true">All Time</button>
       </div>
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-6 pt-8 space-y-8">
-    <!-- Key Metric Cards -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-      <div class="bg-gh-card border border-gh-border rounded-xl p-4 flex flex-col justify-between">
-        <div class="text-xs font-semibold text-gh-muted uppercase tracking-wider">Total Views</div>
-        <div class="text-2xl font-extrabold text-gh-blue mt-2" id="kpi-views">11</div>
-        <div class="text-[11px] text-gh-muted mt-1" id="sub-views">All-time count</div>
+  <main class="wrap">
+    <section class="kpis">
+      <div class="kpi">
+        <div class="kpi-label">Page views</div>
+        <div class="kpi-value" id="kpi-views">0</div>
+        <div class="kpi-sub" id="sub-views">All time</div>
       </div>
-
-      <div class="bg-gh-card border border-gh-border rounded-xl p-4 flex flex-col justify-between">
-        <div class="text-xs font-semibold text-gh-muted uppercase tracking-wider">Unique Visitors</div>
-        <div class="text-2xl font-extrabold text-gh-greenLight mt-2" id="kpi-uniques">11</div>
-        <div class="text-[11px] text-gh-muted mt-1" id="sub-uniques">Daily unique sum</div>
+      <div class="kpi">
+        <div class="kpi-label">Unique visitors <span class="dim">(summed daily)</span></div>
+        <div class="kpi-value" id="kpi-uniques">0</div>
+        <div class="kpi-sub" id="sub-uniques">All time</div>
       </div>
-
-      <div class="bg-gh-card border border-gh-border rounded-xl p-4 flex flex-col justify-between">
-        <div class="text-xs font-semibold text-gh-muted uppercase tracking-wider">Git Clones</div>
-        <div class="text-2xl font-extrabold text-gh-purple mt-2" id="kpi-clones">382</div>
-        <div class="text-[11px] text-gh-muted mt-1" id="sub-clones">All-time count</div>
+      <div class="kpi">
+        <div class="kpi-label">Git clones</div>
+        <div class="kpi-value" id="kpi-clones">0</div>
+        <div class="kpi-sub" id="sub-clones">All time</div>
       </div>
-
-      <div class="bg-gh-card border border-gh-border rounded-xl p-4 flex flex-col justify-between">
-        <div class="text-xs font-semibold text-gh-muted uppercase tracking-wider">Unique Cloners</div>
-        <div class="text-2xl font-extrabold text-gh-orange mt-2" id="kpi-unique-cloners">136</div>
-        <div class="text-[11px] text-gh-muted mt-1" id="sub-unique-cloners">Daily unique sum</div>
+      <div class="kpi">
+        <div class="kpi-label">Unique cloners <span class="dim">(summed daily)</span></div>
+        <div class="kpi-value" id="kpi-cloners">0</div>
+        <div class="kpi-sub" id="sub-cloners">All time</div>
       </div>
-
-      <div class="bg-gh-card border border-gh-border rounded-xl p-4 flex flex-col justify-between">
-        <div class="text-xs font-semibold text-gh-muted uppercase tracking-wider">GitHub Stars</div>
-        <div class="text-2xl font-extrabold text-yellow-400 mt-2">5</div>
-        <div class="text-[11px] text-gh-muted mt-1">Stargazers</div>
+      <div class="kpi">
+        <div class="kpi-label">Stars</div>
+        <div class="kpi-value" id="kpi-stars">0</div>
+        <div class="kpi-sub" id="sub-stars">Current total</div>
       </div>
-
-      <div class="bg-gh-card border border-gh-border rounded-xl p-4 flex flex-col justify-between">
-        <div class="text-xs font-semibold text-gh-muted uppercase tracking-wider">GitHub Forks</div>
-        <div class="text-2xl font-extrabold text-slate-300 mt-2">1</div>
-        <div class="text-[11px] text-gh-muted mt-1">Forks count</div>
+      <div class="kpi">
+        <div class="kpi-label">Forks</div>
+        <div class="kpi-value" id="kpi-forks">0</div>
+        <div class="kpi-sub">Current total</div>
       </div>
-    </div>
+    </section>
 
-    <!-- Main Charts Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- Views Chart -->
-      <div class="bg-gh-card border border-gh-border rounded-xl p-5">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h2 class="text-base font-bold text-white flex items-center gap-2">
-              <span>Visitors & Page Views</span>
-            </h2>
-            <p class="text-xs text-gh-muted">Daily page views and unique visitors</p>
-          </div>
-          <div class="flex items-center gap-2 text-xs">
-            <button onclick="toggleScale('views')" id="btn-scale-views" class="px-2.5 py-1 rounded bg-gh-bg border border-gh-border text-gh-muted hover:text-white">Daily</button>
-          </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <h2>Page views</h2>
+          <button type="button" class="toggle" id="toggle-views" data-mode="daily">Daily</button>
         </div>
-        <div class="h-72">
-          <canvas id="viewsChart"></canvas>
-        </div>
+        <div class="chart-box"><canvas id="viewsChart"></canvas></div>
       </div>
-
-      <!-- Git Clones Chart -->
-      <div class="bg-gh-card border border-gh-border rounded-xl p-5">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h2 class="text-base font-bold text-white flex items-center gap-2">
-              <span>Git Clones & Cloners</span>
-            </h2>
-            <p class="text-xs text-gh-muted">Daily clone operations and unique users</p>
-          </div>
-          <div class="flex items-center gap-2 text-xs">
-            <button onclick="toggleScale('clones')" id="btn-scale-clones" class="px-2.5 py-1 rounded bg-gh-bg border border-gh-border text-gh-muted hover:text-white">Daily</button>
-          </div>
+      <div class="card">
+        <div class="card-head">
+          <h2>Git clones</h2>
+          <button type="button" class="toggle" id="toggle-clones" data-mode="daily">Daily</button>
         </div>
-        <div class="h-72">
-          <canvas id="clonesChart"></canvas>
-        </div>
+        <div class="chart-box"><canvas id="clonesChart"></canvas></div>
       </div>
     </div>
 
-    <!-- Secondary Charts Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- Cumulative Growth Curve -->
-      <div class="bg-gh-card border border-gh-border rounded-xl p-5">
-        <div class="mb-4">
-          <h2 class="text-base font-bold text-white">Cumulative Growth</h2>
-          <p class="text-xs text-gh-muted">Total views vs clones over time</p>
-        </div>
-        <div class="h-64">
-          <canvas id="growthChart"></canvas>
-        </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head"><h2>Cumulative growth</h2></div>
+        <div class="chart-box"><canvas id="growthChart"></canvas></div>
       </div>
-
-      <!-- Top Referrers -->
-      <div class="bg-gh-card border border-gh-border rounded-xl p-5">
-        <div class="mb-4">
-          <h2 class="text-base font-bold text-white">Top Referrers</h2>
-          <p class="text-xs text-gh-muted">Domains driving traffic to repository</p>
-        </div>
-        <div class="h-64">
-          <canvas id="referrersChart"></canvas>
-        </div>
-      </div>
-
-      <!-- Star History -->
-      <div class="bg-gh-card border border-gh-border rounded-xl p-5">
-        <div class="mb-4">
-          <h2 class="text-base font-bold text-white">Star History</h2>
-          <p class="text-xs text-gh-muted">Stargazer accumulation over time</p>
-        </div>
-        <div class="h-64">
-          <canvas id="starsChart"></canvas>
-        </div>
+      <div class="card">
+        <div class="card-head"><h2>Stars over time</h2></div>
+        <div class="chart-box"><canvas id="starsChart"></canvas></div>
       </div>
     </div>
 
-    <!-- Tables Breakdown -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- Popular Paths Table -->
-      <div class="bg-gh-card border border-gh-border rounded-xl p-5">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-base font-bold text-white">Popular Content Paths</h2>
-          <span class="text-xs text-gh-muted">Tracked Pages</span>
-        </div>
-        <div class="overflow-x-auto custom-scrollbar max-h-72">
-          <table class="w-full text-xs text-left">
-            <thead class="text-gh-muted border-b border-gh-border sticky top-0 bg-gh-card">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head"><h2>Top referrers</h2></div>
+        <div class="chart-box"><canvas id="referrersChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>Referrer detail</h2></div>
+        <div class="table-scroll">
+          <table>
+            <thead>
               <tr>
-                <th class="py-2 px-3">Path / Content</th>
-                <th class="py-2 px-3 text-right">Latest Views</th>
-                <th class="py-2 px-3 text-right">Peak</th>
-                <th class="py-2 px-3 text-right">First Seen</th>
+                <th>Domain</th>
+                <th class="num">Last recorded</th>
+                <th class="num">Peak</th>
+                <th class="num">Last seen</th>
               </tr>
             </thead>
-            <tbody id="paths-table-body" class="divide-y divide-gh-border/50"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Referring Domains Table -->
-      <div class="bg-gh-card border border-gh-border rounded-xl p-5">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-base font-bold text-white">Referring Domains Breakdown</h2>
-          <span class="text-xs text-gh-muted">All Time</span>
-        </div>
-        <div class="overflow-x-auto custom-scrollbar max-h-72">
-          <table class="w-full text-xs text-left">
-            <thead class="text-gh-muted border-b border-gh-border sticky top-0 bg-gh-card">
-              <tr>
-                <th class="py-2 px-3">Referrer Domain</th>
-                <th class="py-2 px-3 text-right">Latest Views</th>
-                <th class="py-2 px-3 text-right">Latest Uniques</th>
-                <th class="py-2 px-3 text-right">Peak Views</th>
-                <th class="py-2 px-3 text-right">Last Seen</th>
-              </tr>
-            </thead>
-            <tbody id="referrers-table-body" class="divide-y divide-gh-border/50"></tbody>
+            <tbody id="referrers-body"></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- Export Section -->
-    <div class="bg-gh-card border border-gh-border rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div>
-        <h3 class="text-sm font-bold text-white">Export Raw Analytics Data</h3>
-        <p class="text-xs text-gh-muted">Download complete historical datasets in standard CSV or JSON format</p>
-      </div>
-      <div class="flex flex-wrap gap-2">
-        <a href="data/views.csv" download class="px-3 py-1.5 rounded-lg bg-gh-bg border border-gh-border text-xs text-white hover:border-gh-blue transition flex items-center gap-1.5">
-          <span>📥</span> Views CSV
-        </a>
-        <a href="data/clones.csv" download class="px-3 py-1.5 rounded-lg bg-gh-bg border border-gh-border text-xs text-white hover:border-gh-purple transition flex items-center gap-1.5">
-          <span>📥</span> Clones CSV
-        </a>
-        <a href="data/referrers.csv" download class="px-3 py-1.5 rounded-lg bg-gh-bg border border-gh-border text-xs text-white hover:border-gh-green transition flex items-center gap-1.5">
-          <span>📥</span> Referrers CSV
-        </a>
-        <a href="data/summary.json" download class="px-3 py-1.5 rounded-lg bg-gh-bg border border-gh-border text-xs text-white hover:border-gh-orange transition flex items-center gap-1.5">
-          <span>📄</span> Summary JSON
-        </a>
+    <div class="card">
+      <div class="card-head"><h2>Popular content paths</h2></div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Path</th>
+              <th class="num">Last recorded</th>
+              <th class="num">Peak</th>
+              <th class="num">First seen</th>
+            </tr>
+          </thead>
+          <tbody id="paths-body"></tbody>
+        </table>
       </div>
     </div>
+
+    <footer class="wrap">
+      <div>Archive range: <span id="range-label">—</span>. GitHub discards traffic metrics after 14 days; everything here is preserved permanently.</div>
+      <ul>
+        <li><a href="data/views.csv">views.csv</a></li>
+        <li><a href="data/clones.csv">clones.csv</a></li>
+        <li><a href="data/referrers.csv">referrers.csv</a></li>
+        <li><a href="data/paths.csv">paths.csv</a></li>
+        <li><a href="data/stargazers.csv">stargazers.csv</a></li>
+        <li><a href="data/forks.csv">forks.csv</a></li>
+        <li><a href="data/summary.json">summary.json</a></li>
+        <li><a href="README.md">Markdown report</a></li>
+      </ul>
+    </footer>
   </main>
 
-  <script>
-    const rawViews = [{"date": "2026-08-21", "timestamp": "2026-08-21T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-22", "timestamp": "2026-08-22T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-23", "timestamp": "2026-08-23T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-24", "timestamp": "2026-08-24T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-25", "timestamp": "2026-08-25T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-26", "timestamp": "2026-08-26T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-27", "timestamp": "2026-08-27T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-28", "timestamp": "2026-08-28T00:00:00Z", "count": 10, "uniques": 10}, {"date": "2026-08-29", "timestamp": "2026-08-29T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-30", "timestamp": "2026-08-30T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-31", "timestamp": "2026-08-31T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-09-01", "timestamp": "2026-09-01T00:00:00Z", "count": 1, "uniques": 1}, {"date": "2026-09-02", "timestamp": "2026-09-02T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-09-03", "timestamp": "2026-09-03T00:00:00Z", "count": 0, "uniques": 0}];
-    const rawClones = [{"date": "2026-08-21", "timestamp": "2026-08-21T00:00:00Z", "count": 24, "uniques": 12}, {"date": "2026-08-22", "timestamp": "2026-08-22T00:00:00Z", "count": 18, "uniques": 7}, {"date": "2026-08-23", "timestamp": "2026-08-23T00:00:00Z", "count": 35, "uniques": 15}, {"date": "2026-08-24", "timestamp": "2026-08-24T00:00:00Z", "count": 23, "uniques": 15}, {"date": "2026-08-25", "timestamp": "2026-08-25T00:00:00Z", "count": 26, "uniques": 7}, {"date": "2026-08-26", "timestamp": "2026-08-26T00:00:00Z", "count": 44, "uniques": 15}, {"date": "2026-08-27", "timestamp": "2026-08-27T00:00:00Z", "count": 7, "uniques": 6}, {"date": "2026-08-28", "timestamp": "2026-08-28T00:00:00Z", "count": 23, "uniques": 7}, {"date": "2026-08-29", "timestamp": "2026-08-29T00:00:00Z", "count": 79, "uniques": 16}, {"date": "2026-08-30", "timestamp": "2026-08-30T00:00:00Z", "count": 8, "uniques": 5}, {"date": "2026-08-31", "timestamp": "2026-08-31T00:00:00Z", "count": 7, "uniques": 5}, {"date": "2026-09-01", "timestamp": "2026-09-01T00:00:00Z", "count": 63, "uniques": 12}, {"date": "2026-09-02", "timestamp": "2026-09-02T00:00:00Z", "count": 11, "uniques": 8}, {"date": "2026-09-03", "timestamp": "2026-09-03T00:00:00Z", "count": 14, "uniques": 6}];
-    const rawRefs = [{"referrer": "github.com", "latest_count": 3, "latest_uniques": 3, "max_count": 3, "max_uniques": 3, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}];
-    const rawPaths = [{"path": "/BabakBar/BoringHannover", "title": "Overview", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/.dockerignore", "title": "/blob/master/.dockerignore", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/.gitignore", "title": "/blob/master/.gitignore", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/Dockerfile", "title": "/blob/master/Dockerfile", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/Dockerfile.web", "title": "/blob/master/Dockerfile.web", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/LICENSE", "title": "/blob/master/LICENSE", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/README.md", "title": "/blob/master/README.md", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/docker-compose.yml", "title": "/blob/master/docker-compose.yml", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/nginx.conf", "title": "/blob/master/nginx.conf", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/pyproject.toml", "title": "/blob/master/pyproject.toml", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}];
-    const rawStars = [{"starred_at": "2025-12-16T21:04:50Z", "date": "2025-12-16", "user": "timohausmann"}, {"starred_at": "2025-12-29T21:54:40Z", "date": "2025-12-29", "user": "emsy1"}, {"starred_at": "2025-12-30T08:21:14Z", "date": "2025-12-30", "user": "zGLados"}, {"starred_at": "2026-07-27T07:25:01Z", "date": "2026-07-27", "user": "axsb"}, {"starred_at": "2026-07-28T17:00:44Z", "date": "2026-07-28", "user": "BabakBar"}];
-    const rawSummary = {"repository": "BabakBar/BoringHannover", "last_updated_utc": "2026-09-04T23:07:51.758884+00:00", "history_start_date": "2026-08-21", "history_end_date": "2026-09-03", "total_days_recorded": 14, "all_time_views": 11, "all_time_unique_visitors": 11, "all_time_clones": 382, "all_time_unique_cloners": 136, "current_stars": 5, "current_forks": 1, "current_watchers": 0, "open_issues": 21};
+  <script id="traffic-data" type="application/json">{"summary": {"repository": "BabakBar/BoringHannover", "last_updated_utc": "2026-09-04T23:54:27.147609+00:00", "history_start_date": "2026-08-21", "history_end_date": "2026-09-03", "total_days_recorded": 14, "all_time_views": 11, "sum_daily_unique_visitors": 11, "all_time_clones": 382, "sum_daily_unique_cloners": 136, "current_stars": 5, "current_forks": 1, "recorded_stars": 5, "recorded_forks": 2, "current_watchers": 0, "open_issues": 22}, "views": [{"date": "2026-08-21", "timestamp": "2026-08-21T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-22", "timestamp": "2026-08-22T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-23", "timestamp": "2026-08-23T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-24", "timestamp": "2026-08-24T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-25", "timestamp": "2026-08-25T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-26", "timestamp": "2026-08-26T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-27", "timestamp": "2026-08-27T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-28", "timestamp": "2026-08-28T00:00:00Z", "count": 10, "uniques": 10}, {"date": "2026-08-29", "timestamp": "2026-08-29T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-30", "timestamp": "2026-08-30T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-08-31", "timestamp": "2026-08-31T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-09-01", "timestamp": "2026-09-01T00:00:00Z", "count": 1, "uniques": 1}, {"date": "2026-09-02", "timestamp": "2026-09-02T00:00:00Z", "count": 0, "uniques": 0}, {"date": "2026-09-03", "timestamp": "2026-09-03T00:00:00Z", "count": 0, "uniques": 0}], "clones": [{"date": "2026-08-21", "timestamp": "2026-08-21T00:00:00Z", "count": 24, "uniques": 12}, {"date": "2026-08-22", "timestamp": "2026-08-22T00:00:00Z", "count": 18, "uniques": 7}, {"date": "2026-08-23", "timestamp": "2026-08-23T00:00:00Z", "count": 35, "uniques": 15}, {"date": "2026-08-24", "timestamp": "2026-08-24T00:00:00Z", "count": 23, "uniques": 15}, {"date": "2026-08-25", "timestamp": "2026-08-25T00:00:00Z", "count": 26, "uniques": 7}, {"date": "2026-08-26", "timestamp": "2026-08-26T00:00:00Z", "count": 44, "uniques": 15}, {"date": "2026-08-27", "timestamp": "2026-08-27T00:00:00Z", "count": 7, "uniques": 6}, {"date": "2026-08-28", "timestamp": "2026-08-28T00:00:00Z", "count": 23, "uniques": 7}, {"date": "2026-08-29", "timestamp": "2026-08-29T00:00:00Z", "count": 79, "uniques": 16}, {"date": "2026-08-30", "timestamp": "2026-08-30T00:00:00Z", "count": 8, "uniques": 5}, {"date": "2026-08-31", "timestamp": "2026-08-31T00:00:00Z", "count": 7, "uniques": 5}, {"date": "2026-09-01", "timestamp": "2026-09-01T00:00:00Z", "count": 63, "uniques": 12}, {"date": "2026-09-02", "timestamp": "2026-09-02T00:00:00Z", "count": 11, "uniques": 8}, {"date": "2026-09-03", "timestamp": "2026-09-03T00:00:00Z", "count": 14, "uniques": 6}], "referrers": [{"referrer": "github.com", "latest_count": 3, "latest_uniques": 3, "max_count": 3, "max_uniques": 3, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}], "paths": [{"path": "/BabakBar/BoringHannover", "title": "Overview", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/.dockerignore", "title": "/blob/master/.dockerignore", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/.gitignore", "title": "/blob/master/.gitignore", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/Dockerfile", "title": "/blob/master/Dockerfile", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/Dockerfile.web", "title": "/blob/master/Dockerfile.web", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/LICENSE", "title": "/blob/master/LICENSE", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/README.md", "title": "/blob/master/README.md", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/docker-compose.yml", "title": "/blob/master/docker-compose.yml", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/nginx.conf", "title": "/blob/master/nginx.conf", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}, {"path": "/BabakBar/BoringHannover/blob/master/pyproject.toml", "title": "/blob/master/pyproject.toml", "latest_count": 1, "latest_uniques": 1, "max_count": 1, "max_uniques": 1, "first_seen": "2026-09-04", "last_seen": "2026-09-04"}], "stars": [{"starred_at": "2025-12-16T21:04:50Z", "date": "2025-12-16", "user": "timohausmann"}, {"starred_at": "2025-12-29T21:54:40Z", "date": "2025-12-29", "user": "emsy1"}, {"starred_at": "2025-12-30T08:21:14Z", "date": "2025-12-30", "user": "zGLados"}, {"starred_at": "2026-07-27T07:25:01Z", "date": "2026-07-27", "user": "axsb"}, {"starred_at": "2026-07-28T17:00:44Z", "date": "2026-07-28", "user": "BabakBar"}], "today": "2026-09-04"}</script>
+  <script id="dashboard-app">
+    (function () {
+      "use strict";
 
-    let activeFilter = 'all';
-    let viewsCumulative = false;
-    let clonesCumulative = false;
+      const DATA = JSON.parse(document.getElementById("traffic-data").textContent);
+      const summary = DATA.summary || {};
+      const views = DATA.views || [];
+      const clones = DATA.clones || [];
+      const referrers = DATA.referrers || [];
+      const paths = DATA.paths || [];
+      const stars = DATA.stars || [];
 
-    let viewsChart, clonesChart, growthChart, referrersChart, starsChart;
+      const AXIS = "#8b949e";
+      const GRID = "#21262d";
+      const RANGE_LABELS = { 7: "Last 7 days", 14: "Last 14 days", 30: "Last 30 days", 90: "Last 90 days", 0: "All time" };
 
-    function filterByRange(items) {
-      if (activeFilter === 'all') return items;
-      const count = { '7d': 7, '14d': 14, '30d': 30, '90d': 90 }[activeFilter] || items.length;
-      return items.slice(-count);
-    }
+      let activeDays = 0;
+      const charts = {};
 
-    function updateKPIs(filteredViews, filteredClones) {
-      const totalViews = filteredViews.reduce((acc, v) => acc + v.count, 0);
-      const totalUniques = filteredViews.reduce((acc, v) => acc + v.uniques, 0);
-      const totalClones = filteredClones.reduce((acc, c) => acc + c.count, 0);
-      const totalUniqueCloners = filteredClones.reduce((acc, c) => acc + c.uniques, 0);
-
-      document.getElementById('kpi-views').innerText = totalViews.toLocaleString();
-      document.getElementById('kpi-uniques').innerText = totalUniques.toLocaleString();
-      document.getElementById('kpi-clones').innerText = totalClones.toLocaleString();
-      document.getElementById('kpi-unique-cloners').innerText = totalUniqueCloners.toLocaleString();
-
-      const label = activeFilter === 'all' ? 'All-time count' : `Last ${ '7d': '7 days', '14d': '14 days', '30d': '30 days', '90d': '90 days' }[activeFilter]`;
-      document.getElementById('sub-views').innerText = label;
-      document.getElementById('sub-uniques').innerText = label;
-      document.getElementById('sub-clones').innerText = label;
-      document.getElementById('sub-unique-cloners').innerText = label;
-    }
-
-    function renderCharts() {
-      const filteredViews = filterByRange(rawViews);
-      const filteredClones = filterByRange(rawClones);
-      updateKPIs(filteredViews, filteredClones);
-
-      // Views Chart
-      const viewsLabels = filteredViews.map(v => v.date);
-      let viewsData = filteredViews.map(v => v.count);
-      let uniquesData = filteredViews.map(v => v.uniques);
-
-      if (viewsCumulative) {
-        viewsData = viewsData.map((sum => val => sum += val)(0));
-        uniquesData = uniquesData.map((sum => val => sum += val)(0));
+      function text(id, value) {
+        const node = document.getElementById(id);
+        if (node) node.textContent = value;
       }
 
-      if (viewsChart) viewsChart.destroy();
-      viewsChart = new Chart(document.getElementById('viewsChart'), {
-        type: viewsCumulative ? 'line' : 'bar',
-        data: {
-          labels: viewsLabels,
-          datasets: [
-            {
-              label: 'Total Views',
-              data: viewsData,
-              backgroundColor: 'rgba(88, 166, 255, 0.65)',
-              borderColor: '#58a6ff',
-              borderWidth: 2,
-              borderRadius: 4,
-              fill: viewsCumulative
-            },
-            {
-              label: 'Unique Visitors',
-              data: uniquesData,
-              backgroundColor: 'rgba(63, 185, 80, 0.65)',
-              borderColor: '#3fb950',
-              borderWidth: 2,
-              borderRadius: 4,
-              fill: viewsCumulative
-            }
-          ]
-        },
-        options: {
+      function number(value) {
+        return Number(value || 0).toLocaleString();
+      }
+
+      // Filter by calendar date rather than list position, so a gap in the
+      // archive never stretches a "last 30 days" window across months.
+      function inWindow(items, days) {
+        if (!days) return items.slice();
+        const cutoff = new Date(DATA.today + "T00:00:00Z");
+        cutoff.setUTCDate(cutoff.getUTCDate() - (days - 1));
+        const from = cutoff.toISOString().slice(0, 10);
+        return items.filter(function (item) { return item.date >= from; });
+      }
+
+      function sum(items, field) {
+        return items.reduce(function (total, item) { return total + Number(item[field] || 0); }, 0);
+      }
+
+      function running(items, field) {
+        let total = 0;
+        return items.map(function (item) { total += Number(item[field] || 0); return total; });
+      }
+
+      function draw(key, canvasId, config) {
+        if (charts[key]) charts[key].destroy();
+        const canvas = document.getElementById(canvasId);
+        if (canvas) charts[key] = new Chart(canvas, config);
+      }
+
+      function baseOptions(extra) {
+        const options = {
           responsive: true,
           maintainAspectRatio: false,
-          interaction: { mode: 'index', intersect: false },
-          plugins: {
-            legend: { labels: { color: '#8b949e', font: { size: 11 } } }
+          interaction: { mode: "index", intersect: false },
+          plugins: { legend: { labels: { color: AXIS, boxWidth: 12 } } },
+          scales: {
+            x: { grid: { color: GRID }, ticks: { color: AXIS, maxRotation: 0, autoSkipPadding: 16 } },
+            y: { grid: { color: GRID }, ticks: { color: AXIS, precision: 0 }, beginAtZero: true }
+          }
+        };
+        return Object.assign(options, extra || {});
+      }
+
+      function series(items, field, cumulative) {
+        return cumulative ? running(items, field) : items.map(function (item) { return Number(item[field] || 0); });
+      }
+
+      function timeChart(key, canvasId, items, colour, labels, cumulative) {
+        draw(key, canvasId, {
+          type: "line",
+          data: {
+            labels: items.map(function (item) { return item.date; }),
+            datasets: [
+              {
+                label: labels[0],
+                data: series(items, "count", cumulative),
+                borderColor: colour,
+                backgroundColor: colour + "22",
+                fill: true,
+                tension: .3,
+                pointRadius: items.length > 60 ? 0 : 2
+              },
+              {
+                label: labels[1],
+                data: series(items, "uniques", cumulative),
+                borderColor: "#8b949e",
+                borderDash: [4, 3],
+                fill: false,
+                tension: .3,
+                pointRadius: 0
+              }
+            ]
           },
-          scales: {
-            x: { grid: { color: '#21262d' }, ticks: { color: '#8b949e', maxRotation: 45 } },
-            y: { grid: { color: '#21262d' }, ticks: { color: '#8b949e', precision: 0 }, beginAtZero: true }
-          }
-        }
-      });
-
-      // Clones Chart
-      const clonesLabels = filteredClones.map(c => c.date);
-      let clonesData = filteredClones.map(c => c.count);
-      let uniqueClonersData = filteredClones.map(c => c.uniques);
-
-      if (clonesCumulative) {
-        clonesData = clonesData.map((sum => val => sum += val)(0));
-        uniqueClonersData = uniqueClonersData.map((sum => val => sum += val)(0));
+          options: baseOptions()
+        });
       }
 
-      if (clonesChart) clonesChart.destroy();
-      clonesChart = new Chart(document.getElementById('clonesChart'), {
-        type: clonesCumulative ? 'line' : 'bar',
-        data: {
-          labels: clonesLabels,
-          datasets: [
-            {
-              label: 'Git Clones',
-              data: clonesData,
-              backgroundColor: 'rgba(188, 140, 255, 0.65)',
-              borderColor: '#bc8cff',
-              borderWidth: 2,
-              borderRadius: 4,
-              fill: clonesCumulative
-            },
-            {
-              label: 'Unique Cloners',
-              data: uniqueClonersData,
-              backgroundColor: 'rgba(240, 136, 62, 0.65)',
-              borderColor: '#f0883e',
-              borderWidth: 2,
-              borderRadius: 4,
-              fill: clonesCumulative
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: { mode: 'index', intersect: false },
-          plugins: {
-            legend: { labels: { color: '#8b949e', font: { size: 11 } } }
+      function starTimeline() {
+        const sorted = stars.slice().sort(function (a, b) {
+          return String(a.starred_at).localeCompare(String(b.starred_at));
+        });
+        draw("stars", "starsChart", {
+          type: "line",
+          data: {
+            labels: sorted.map(function (star) { return star.date; }),
+            datasets: [{
+              label: "Cumulative stars",
+              data: sorted.map(function (_, index) { return index + 1; }),
+              borderColor: "#f0883e",
+              backgroundColor: "#f0883e22",
+              fill: true,
+              stepped: true,
+              pointRadius: sorted.length > 60 ? 0 : 3
+            }]
           },
-          scales: {
-            x: { grid: { color: '#21262d' }, ticks: { color: '#8b949e', maxRotation: 45 } },
-            y: { grid: { color: '#21262d' }, ticks: { color: '#8b949e', precision: 0 }, beginAtZero: true }
-          }
-        }
-      });
-
-      // Cumulative Growth Chart
-      const growthLabels = rawViews.map(v => v.date);
-      let cumViews = rawViews.map(v => v.count).map((sum => val => sum += val)(0));
-      let cumClones = rawClones.map(c => c.count).map((sum => val => sum += val)(0));
-
-      if (growthChart) growthChart.destroy();
-      growthChart = new Chart(document.getElementById('growthChart'), {
-        type: 'line',
-        data: {
-          labels: growthLabels,
-          datasets: [
-            {
-              label: 'Cumulative Views',
-              data: cumViews,
-              borderColor: '#58a6ff',
-              backgroundColor: 'rgba(88, 166, 255, 0.1)',
-              fill: true,
-              tension: 0.3
-            },
-            {
-              label: 'Cumulative Clones',
-              data: cumClones,
-              borderColor: '#bc8cff',
-              backgroundColor: 'rgba(188, 140, 255, 0.1)',
-              fill: true,
-              tension: 0.3
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { labels: { color: '#8b949e', font: { size: 11 } } } },
-          scales: {
-            x: { grid: { color: '#21262d' }, ticks: { color: '#8b949e' } },
-            y: { grid: { color: '#21262d' }, ticks: { color: '#8b949e' }, beginAtZero: true }
-          }
-        }
-      });
-
-      // Top Referrers Horizontal Bar Chart
-      const topRefs = rawRefs.slice(0, 7);
-      if (referrersChart) referrersChart.destroy();
-      referrersChart = new Chart(document.getElementById('referrersChart'), {
-        type: 'bar',
-        data: {
-          labels: topRefs.map(r => r.referrer),
-          datasets: [{
-            label: 'Peak Visits',
-            data: topRefs.map(r => r.max_count),
-            backgroundColor: 'rgba(35, 134, 54, 0.8)',
-            borderColor: '#238636',
-            borderRadius: 4
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { color: '#21262d' }, ticks: { color: '#8b949e', precision: 0 } },
-            y: { grid: { display: false }, ticks: { color: '#e6edf3' } }
-          }
-        }
-      });
-
-      // Star History Chart
-      const starLabels = rawStars.map(s => s.date);
-      const starPoints = rawStars.map((_, idx) => idx + 1);
-      if (starsChart) starsChart.destroy();
-      starsChart = new Chart(document.getElementById('starsChart'), {
-        type: 'line',
-        data: {
-          labels: starLabels,
-          datasets: [{
-            label: 'Stars',
-            data: starPoints,
-            borderColor: '#e3b341',
-            backgroundColor: 'rgba(227, 179, 65, 0.15)',
-            fill: true,
-            stepped: true
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { color: '#21262d' }, ticks: { color: '#8b949e' } },
-            y: { grid: { color: '#21262d' }, ticks: { color: '#8b949e', precision: 0 }, beginAtZero: true }
-          }
-        }
-      });
-    }
-
-    function populateTables() {
-      const pathsTbody = document.getElementById('paths-table-body');
-      pathsTbody.innerHTML = rawPaths.slice(0, 15).map(p => `
-        <tr class="hover:bg-gh-bg/50 transition">
-          <td class="py-2.5 px-3 font-mono text-gh-blue truncate max-w-xs" title="${p.path}">${p.title || p.path}</td>
-          <td class="py-2.5 px-3 text-right font-medium">${p.latest_count || 0}</td>
-          <td class="py-2.5 px-3 text-right text-gh-greenLight font-bold">${p.max_count || 0}</td>
-          <td class="py-2.5 px-3 text-right text-gh-muted">${p.first_seen || '—'}</td>
-        </tr>
-      `).join('');
-
-      const refsTbody = document.getElementById('referrers-table-body');
-      refsTbody.innerHTML = rawRefs.slice(0, 15).map(r => `
-        <tr class="hover:bg-gh-bg/50 transition">
-          <td class="py-2.5 px-3 font-mono text-white">${r.referrer}</td>
-          <td class="py-2.5 px-3 text-right">${r.latest_count || 0}</td>
-          <td class="py-2.5 px-3 text-right">${r.latest_uniques || 0}</td>
-          <td class="py-2.5 px-3 text-right text-gh-greenLight font-bold">${r.max_count || 0}</td>
-          <td class="py-2.5 px-3 text-right text-gh-muted">${r.last_seen || '—'}</td>
-        </tr>
-      `).join('');
-    }
-
-    function setFilter(filter) {
-      activeFilter = filter;
-      document.querySelectorAll('.range-btn').forEach(btn => {
-        if (btn.innerText.toLowerCase() === filter || (filter === 'all' && btn.innerText === 'All Time')) {
-          btn.className = 'range-btn px-3 py-1.5 rounded-md text-white bg-gh-border font-medium transition';
-        } else {
-          btn.className = 'range-btn px-3 py-1.5 rounded-md text-gh-muted hover:text-white transition';
-        }
-      });
-      renderCharts();
-    }
-
-    function toggleScale(chartType) {
-      if (chartType === 'views') {
-        viewsCumulative = !viewsCumulative;
-        document.getElementById('btn-scale-views').innerText = viewsCumulative ? 'Cumulative' : 'Daily';
-      } else if (chartType === 'clones') {
-        clonesCumulative = !clonesCumulative;
-        document.getElementById('btn-scale-clones').innerText = clonesCumulative ? 'Cumulative' : 'Daily';
+          options: baseOptions()
+        });
       }
-      renderCharts();
-    }
 
-    // Initialization
-    window.onload = () => {
-      renderCharts();
-      populateTables();
-    };
+      function referrerChart() {
+        const top = referrers.slice(0, 8);
+        draw("referrers", "referrersChart", {
+          type: "bar",
+          data: {
+            labels: top.map(function (ref) { return ref.referrer; }),
+            datasets: [{
+              label: "Peak views in a 14-day window",
+              data: top.map(function (ref) { return Number(ref.max_count || 0); }),
+              backgroundColor: "#bc8cff"
+            }]
+          },
+          options: baseOptions({ indexAxis: "y", scales: {
+            x: { grid: { color: GRID }, ticks: { color: AXIS, precision: 0 }, beginAtZero: true },
+            y: { grid: { display: false }, ticks: { color: AXIS } }
+          } })
+        });
+      }
+
+      function cell(row, value, className) {
+        const td = document.createElement("td");
+        td.textContent = value;
+        if (className) td.className = className;
+        row.appendChild(td);
+      }
+
+      // textContent throughout: referrer domains and page titles are third-party
+      // strings and must never be parsed as markup.
+      function fillTable(bodyId, rows, columns, emptyMessage) {
+        const body = document.getElementById(bodyId);
+        if (!body) return;
+        body.textContent = "";
+        if (!rows.length) {
+          const row = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 4;
+          td.className = "empty";
+          td.textContent = emptyMessage;
+          row.appendChild(td);
+          body.appendChild(row);
+          return;
+        }
+        rows.slice(0, 15).forEach(function (item) {
+          const row = document.createElement("tr");
+          columns.forEach(function (column) { cell(row, column.value(item), column.className); });
+          body.appendChild(row);
+        });
+      }
+
+      function renderTables() {
+        fillTable("referrers-body", referrers, [
+          { value: function (r) { return r.referrer; }, className: "mono" },
+          { value: function (r) { return number(r.latest_count); }, className: "num" },
+          { value: function (r) { return number(r.max_count); }, className: "num peak" },
+          { value: function (r) { return r.last_seen || "—"; }, className: "num dim" }
+        ], "No referrers recorded yet.");
+
+        fillTable("paths-body", paths, [
+          { value: function (p) { return p.title || p.path; }, className: "mono" },
+          { value: function (p) { return number(p.latest_count); }, className: "num" },
+          { value: function (p) { return number(p.max_count); }, className: "num peak" },
+          { value: function (p) { return p.first_seen || "—"; }, className: "num dim" }
+        ], "No popular paths recorded yet.");
+      }
+
+      function render() {
+        const windowedViews = inWindow(views, activeDays);
+        const windowedClones = inWindow(clones, activeDays);
+        const label = RANGE_LABELS[activeDays] || "All time";
+
+        text("kpi-views", number(sum(windowedViews, "count")));
+        text("kpi-uniques", number(sum(windowedViews, "uniques")));
+        text("kpi-clones", number(sum(windowedClones, "count")));
+        text("kpi-cloners", number(sum(windowedClones, "uniques")));
+        ["sub-views", "sub-uniques", "sub-clones", "sub-cloners"].forEach(function (id) { text(id, label); });
+
+        timeChart(
+          "views", "viewsChart", windowedViews, "#58a6ff",
+          ["Views", "Unique visitors"],
+          document.getElementById("toggle-views").dataset.mode === "cumulative"
+        );
+        timeChart(
+          "clones", "clonesChart", windowedClones, "#3fb950",
+          ["Clones", "Unique cloners"],
+          document.getElementById("toggle-clones").dataset.mode === "cumulative"
+        );
+
+        draw("growth", "growthChart", {
+          type: "line",
+          data: {
+            labels: windowedViews.map(function (item) { return item.date; }),
+            datasets: [
+              { label: "Views (cumulative)", data: running(windowedViews, "count"), borderColor: "#58a6ff", fill: false, tension: .3, pointRadius: 0 },
+              { label: "Clones (cumulative)", data: running(windowedClones, "count"), borderColor: "#3fb950", fill: false, tension: .3, pointRadius: 0 }
+            ]
+          },
+          options: baseOptions()
+        });
+      }
+
+      function setRange(days, button) {
+        activeDays = days;
+        document.querySelectorAll("#ranges button").forEach(function (other) {
+          other.setAttribute("aria-pressed", String(other === button));
+        });
+        render();
+      }
+
+      function bindToggle(id) {
+        const button = document.getElementById(id);
+        button.addEventListener("click", function () {
+          const next = button.dataset.mode === "daily" ? "cumulative" : "daily";
+          button.dataset.mode = next;
+          button.textContent = next === "cumulative" ? "Cumulative" : "Daily";
+          render();
+        });
+      }
+
+      text("repo-name", summary.repository || "Repository");
+      document.title = "Traffic Analytics — " + (summary.repository || "Repository");
+      text("last-updated", (summary.last_updated_utc || "").replace("T", " ").slice(0, 16) + " UTC");
+      text("kpi-stars", number(summary.current_stars));
+      text("kpi-forks", number(summary.current_forks));
+      text("sub-stars", stars.length ? "First star " + stars[0].date : "Current total");
+      text("range-label", (summary.history_start_date || "—") + " to " + (summary.history_end_date || "—") +
+        " (" + number(summary.total_days_recorded) + " days)");
+
+      document.getElementById("ranges").addEventListener("click", function (event) {
+        const button = event.target.closest("button[data-days]");
+        if (button) setRange(Number(button.dataset.days), button);
+      });
+      bindToggle("toggle-views");
+      bindToggle("toggle-clones");
+
+      renderTables();
+      referrerChart();
+      starTimeline();
+      render();
+    })();
   </script>
 </body>
 </html>

@@ -2,19 +2,22 @@
 
 > Long-term historical archive preserving full repository traffic beyond GitHub's default 14-day retention window.
 
-**Last Synced:** `2026-09-04T23:07:51.758884+00:00`  
+**Last Synced:** `2026-09-04T23:54:27.147609+00:00`  
 **Archive Range:** `2026-08-21` to `2026-09-03` (`14` days recorded)
 
 ## 🚀 High-Level KPI Summary
 
 | Metric | All-Time Total | Last 14 Days | Last 7 Days |
 | :--- | :---: | :---: | :---: |
-| **Page Views** | **11** | 11 | 11 |
-| **Unique Visitors** | **11** | 11 | 11 |
-| **Git Clones** | **382** | 382 | 205 |
-| **Unique Cloners** | **136** | 136 | 59 |
+| **Page Views** | **11** | 11 | 1 |
+| **Unique Visitors (summed daily)** | **11** | 11 | 1 |
+| **Git Clones** | **382** | 358 | 182 |
+| **Unique Cloners (summed daily)** | **136** | 124 | 52 |
 | **Stargazers** | **5** | — | — |
 | **Forks** | **1** | — | — |
+
+> Unique visitors and cloners are summed per day, so someone who visits on three days counts three times.
+> GitHub's own 14-day figure deduplicates across the whole window and will read lower.
 
 ---
 
@@ -35,7 +38,6 @@
 | 2026-08-24 | 0 | 0 |
 | 2026-08-23 | 0 | 0 |
 | 2026-08-22 | 0 | 0 |
-| 2026-08-21 | 0 | 0 |
 
 ## 📦 Recent Git Clones Breakdown (Last 14 Days)
 
@@ -54,17 +56,16 @@
 | 2026-08-24 | 23 | 15 |
 | 2026-08-23 | 35 | 15 |
 | 2026-08-22 | 18 | 7 |
-| 2026-08-21 | 24 | 12 |
 
 ## 🌐 Top Referring Sites (All-Time Tracked)
 
-| Referrer Domain | Latest Count | Latest Uniques | Peak Count | First Seen | Last Seen |
+| Referrer Domain | Last Recorded | Last Uniques | Peak Count | First Seen | Last Seen |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | `github.com` | 3 | 3 | 3 | 2026-09-04 | 2026-09-04 |
 
 ## 📄 Top Content Paths (All-Time Tracked)
 
-| Path | Title | Latest Count | Latest Uniques | Peak Count | First Seen |
+| Path | Title | Last Recorded | Last Uniques | Peak Count | First Seen |
 | :--- | :--- | :---: | :---: | :---: | :---: |
 | `/BabakBar/BoringHannover` | Overview | 1 | 1 | 1 | 2026-09-04 |
 | `/BabakBar/BoringHannover/blob/master/.dockerignore` | /blob/master/.dockerignore | 1 | 1 | 1 | 2026-09-04 |
@@ -97,7 +98,7 @@ Total Stars: **5**
 - [Referrers JSON](data/referrers.json) | [Referrers CSV](data/referrers.csv)
 - [Paths JSON](data/paths.json) | [Paths CSV](data/paths.csv)
 - [Stargazers JSON](data/stargazers.json) | [Stargazers CSV](data/stargazers.csv)
+- [Forks JSON](data/forks.json) | [Forks CSV](data/forks.csv)
 - [Summary JSON](data/summary.json)
-- [Interactive HTML Dashboard](index.html)
 
 *(Automated archive maintained by `.github/workflows/traffic-analytics.yml`)*
