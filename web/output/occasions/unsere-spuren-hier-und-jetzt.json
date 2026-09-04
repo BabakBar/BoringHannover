@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Fri 04 Sep 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:unsere-spuren-hier-und-jetzt",
+    "slug": "unsere-spuren-hier-und-jetzt",
+    "name": "Unsere Spuren: Hier und Jetzt",
+    "kind": "festival",
+    "startDate": "2026-09-12",
+    "endDate": "2026-09-12",
+    "location": "Hannover Kiosk",
+    "description": "Ein Familienfest für Klein und Groß am Samstag, 12. September, 11 Uhr bis 14 Uhr.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/7/8/1/30631872-1-ger-DE/2f44e84e6eb5-Spuren-die-unsere-Zukunft-schaffen-BD-117908-Ausschnitt-.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Unsere-Spuren-Hier-und-Jetzt",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/unsere-spuren-hier-und-jetzt.json",
+    "preview": []
+  },
+  "programme": []
+}
