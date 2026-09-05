@@ -239,9 +239,47 @@ dispatching Deploy manually.
 Rotate the private key like any other credential; revoking it makes the
 workflow fall back to `GITHUB_TOKEN` rather than fail.
 
+## Repository Traffic Analytics
+
+GitHub's native traffic metrics (views, clones, referrers, paths) are permanently purged after **14 days**. To maintain complete, long-term analytics:
+
+- **Dashboard:** <https://babakbar.github.io/BoringHannover/> — GitHub Pages serves the
+  `traffic-data` branch root, so every workflow push republishes it within a minute.
+- **Workflow:** `.github/workflows/traffic-analytics.yml` runs twice daily (`03:00` and `15:00` UTC) and on manual dispatch.
+- **Storage:** All historical snapshots are losslessly merged and committed to the isolated `traffic-data` orphan branch, avoiding commit noise on `master`.
+- **Outputs generated on `traffic-data`:**
+  - `data/*.json` and `data/*.csv`: Daily views, daily clones, referrers, popular content paths, stargazers, forks, and summary metrics.
+  - `README.md`: Rendered markdown report on GitHub with KPI tables and breakdowns.
+  - `index.html`: Standalone interactive dashboard, built from `scripts/dashboard_template.html`
+    with the datasets injected into a single `application/json` block.
+- **Authentication:**
+  - `TRAFFIC_TOKEN`: GitHub repository secret with `repo` scope (classic PAT) or `Administration: read` + `Contents: write` permissions (fine-grained PAT). GitHub's Traffic API restricts access to push/admin users and rejects the default `GITHUB_TOKEN`.
+
+### Failure behaviour
+
+The capture script exits non-zero on any failed fetch, a missing token, or an unreadable
+existing archive, and writes nothing in those cases. The archive is the only copy of
+anything older than 14 days, so a partial snapshot must never overwrite a complete one.
+A red run means the archive is intact and stale, which is always recoverable; a green run
+that quietly wrote zeros is not.
+
+### Known gaps in the history
+
+- **Views and clones start `2026-08-21`.** Anything earlier was already purged by GitHub
+  before the first capture and is unrecoverable.
+- **Stars and forks are complete** back to the first star (`2025-12-16`); both endpoints
+  return real creation timestamps, so the full history was reconstructed on first run.
+- **`2026-08-21` is a partial day.** It was the oldest bucket in GitHub's rolling window
+  at first capture, truncated at the retention boundary, and is frozen at that value.
+- **Unique visitors and cloners are summed per day**, so a person visiting on three days
+  counts three times. GitHub's own 14-day figure deduplicates across the window and reads
+  lower — the two numbers are not meant to match. The JSON field names
+  (`sum_daily_unique_visitors`, `sum_daily_unique_cloners`) say so.
+
 ## Ownership
 
 The repository owner reviews major updates, triages scanner findings and owns
 suppressions. Automation handles everything else. If the weekly Security Audit
 issue stays open for more than a cycle, that is the signal that this policy is
 being ignored — a permanently red dashboard is not a control.
+

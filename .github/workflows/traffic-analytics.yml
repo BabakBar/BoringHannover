@@ -1,0 +1,92 @@
+# Automated Repository Traffic Analytics Pipeline
+# Captures daily views, clones, referrers, popular paths, stargazers, and forks
+# to preserve repository history beyond GitHub's default 14-day window.
+#
+# Pushes the persistent dataset, markdown summary, and interactive HTML dashboard
+# to the orphan 'traffic-data' branch, which GitHub Pages serves at
+# https://babakbar.github.io/BoringHannover/ -- without polluting master's history.
+
+name: Traffic Analytics
+
+permissions:
+  contents: read
+
+on:
+  schedule:
+    # Runs twice daily at 03:00 and 15:00 UTC to ensure in-progress day metrics
+    # are continuously merged and no data is lost at rolling 14-day boundaries.
+    - cron: "0 3,15 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: traffic-analytics
+  cancel-in-progress: false
+
+env:
+  UV_VERSION: "0.12.6"
+  PYTHON_VERSION: "3.14"
+
+jobs:
+  capture-traffic:
+    name: Capture & Archive Traffic
+    runs-on: ubuntu-latest
+    permissions:
+      # Pushing the archive to the traffic-data branch.
+      contents: write
+    env:
+      # Presence check only. Interpolating the secret itself would put the raw
+      # token in every step's environment, including ones that never use it.
+      HAS_TRAFFIC_TOKEN: ${{ secrets.TRAFFIC_TOKEN != '' }}
+
+    steps:
+      - name: Require the traffic token
+        if: env.HAS_TRAFFIC_TOKEN != 'true'
+        run: |
+          echo "::error::TRAFFIC_TOKEN is not configured. The traffic API rejects" \
+               "the default GITHUB_TOKEN, so this run would archive nothing." >&2
+          exit 1
+
+      - name: Checkout repository code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout traffic-data branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: traffic-data
+          path: traffic-branch
+          token: ${{ secrets.TRAFFIC_TOKEN }}
+          persist-credentials: true
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          version: ${{ env.UV_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Run traffic capture
+        env:
+          TRAFFIC_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # --no-project: the script is stdlib-only, so there is nothing to sync.
+          uv run --no-project --python "${{ env.PYTHON_VERSION }}" \
+            scripts/capture_traffic.py --repo "${GH_REPO}" --output-dir traffic-branch
+
+      - name: Commit and push analytics update
+        run: |
+          set -euo pipefail
+          cd traffic-branch
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+
+          if git diff --staged --quiet; then
+            echo "No traffic changes to commit."
+            exit 0
+          fi
+
+          git commit -m "📊 Update repository traffic analytics [skip ci]"
+          git push origin traffic-data
