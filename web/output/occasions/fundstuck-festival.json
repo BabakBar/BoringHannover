@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 06 Sep 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:fundstuck-festival",
+    "slug": "fundstuck-festival",
+    "name": "Fundstück Festival",
+    "kind": "festival",
+    "startDate": "2026-09-12",
+    "endDate": "2026-09-13",
+    "location": "Museum für textile Kunst",
+    "description": "Textile Kunst, kreatives Design, Vintage-Schätze und besondere Fundstücke: Am 12. und 13. September 2026 lädt das Fundstück Festival jeweils von 11 bis 18...",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/5/3/4/4/29124435-1-ger-DE/d308cee10ade-Style-Hannover-Museum-fuer-textile-Kunst-1-1-.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Fundstück-Festival",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/fundstuck-festival.json",
+    "preview": []
+  },
+  "programme": []
+}

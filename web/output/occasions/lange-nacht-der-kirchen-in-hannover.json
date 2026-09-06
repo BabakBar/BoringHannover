@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 06 Sep 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:lange-nacht-der-kirchen-in-hannover",
+    "slug": "lange-nacht-der-kirchen-in-hannover",
+    "name": "Lange Nacht der Kirchen in Hannover",
+    "kind": "festival",
+    "startDate": "2026-09-18",
+    "endDate": "2026-09-18",
+    "location": "Verschiedene Veranstaltungsorte in Hannover",
+    "description": "Bei der 12. Langen Nacht der Kirchen öffnen am 18. September ab 18 Uhr rund 60 Kirchen und Einrichtungen verschiedener Konfessionen in Hannover und Seelze...",
+    "imageUrl": null,
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Lange-Nacht-der-Kirchen-in-Hannover",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/lange-nacht-der-kirchen-in-hannover.json",
+    "preview": []
+  },
+  "programme": []
+}

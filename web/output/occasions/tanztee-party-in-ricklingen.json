@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 06 Sep 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:tanztee-party-in-ricklingen",
+    "slug": "tanztee-party-in-ricklingen",
+    "name": "Tanztee - Party in Ricklingen",
+    "kind": "festival",
+    "startDate": "2026-09-17",
+    "endDate": "2026-09-17",
+    "location": "Stadtteilzentrum Ricklingen",
+    "description": "Die Sommerpause ist vorbei - es kann wieder getanzt werden",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/8/7/6/30816782-1-ger-DE/a55f0e915279-signal-2025-11-19-21-39-35-483-3.jpg-Tanzteeparty.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Tanztee-Party-in-Ricklingen",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/tanztee-party-in-ricklingen.json",
+    "preview": []
+  },
+  "programme": []
+}
