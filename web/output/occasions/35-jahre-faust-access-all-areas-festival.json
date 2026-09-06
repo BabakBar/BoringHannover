@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 06 Sep 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:35-jahre-faust-access-all-areas-festival",
+    "slug": "35-jahre-faust-access-all-areas-festival",
+    "name": "35 Jahre Faust – Access All Areas Festival",
+    "kind": "festival",
+    "startDate": "2026-09-12",
+    "endDate": "2026-09-12",
+    "location": "Kulturzentrum Faust",
+    "description": "Das Kulturzentrum Faust wird 35 Jahre alt und feiert am 12. September das Jubiläum mit einem Festival, das seinem Namen alle Ehre macht: AAA öffnet das sc...",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/4/7/3/30673742-3-ger-DE/8e8e26535fe7-faust-nightlife.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/35-Jahre-Faust-–-Access-All-Areas-Festival",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/35-jahre-faust-access-all-areas-festival.json",
+    "preview": []
+  },
+  "programme": []
+}
