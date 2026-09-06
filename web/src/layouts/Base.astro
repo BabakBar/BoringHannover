@@ -1,5 +1,9 @@
 ---
 import '../styles/global.css';
+import { getDataProvenance } from '../data/loader';
+import { publicProvenance } from '../data/provenance';
+
+const provenance = publicProvenance(getDataProvenance());
 
 interface Props {
   title?: string;
@@ -106,6 +110,8 @@ const structuredData = siteUrl ? toJsonLd({
 <html lang={lang}>
   <head>
     <meta charset="UTF-8" />
+    <meta name="data-revision" content={provenance.revision} />
+    <meta name="data-provenance" content={JSON.stringify(provenance)} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
 
@@ -244,6 +250,7 @@ const structuredData = siteUrl ? toJsonLd({
     </a>
     <div class="max-w-mobile mx-auto px-4 py-6">
       <main id="main-content">
+        {provenance.source === 'mock' && <p role="status" class="mb-4 border border-current p-3">Development preview — sample events, not current listings.</p>}
         <slot />
       </main>
     </div>

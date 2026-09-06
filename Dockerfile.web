@@ -30,7 +30,7 @@ RUN bun install --frozen-lockfile --ignore-scripts
 COPY web/ ./
 
 # Production images must never silently fall back to the development mock data.
-RUN test -f output/web_events.json && bun run build
+RUN WEB_DATA_MODE=production bun run build
 
 # -----------------------------------------------------------------------------
 # Stage 2: Production nginx server

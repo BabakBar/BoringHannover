@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import { fileURLToPath } from 'node:url';
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,6 +15,9 @@ export default defineConfig({
   // German text where those spaces are meaningful, so keep HTML rules.
   compressHTML: true,
   vite: {
+    define: {
+      'import.meta.env.WEB_PROJECT_ROOT': JSON.stringify(fileURLToPath(new URL('.', import.meta.url))),
+    },
     plugins: [tailwindcss()],
   },
   build: {
