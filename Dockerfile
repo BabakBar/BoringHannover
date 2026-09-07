@@ -63,9 +63,6 @@ COPY --from=builder /app/.venv /app/.venv
 # Copy source code
 COPY --from=builder /app/src /app/src
 
-# Copy additional files needed at runtime
-COPY src/boringhannover/sources.toml /app/src/boringhannover/sources.toml
-
 # Create output directory with correct permissions
 RUN mkdir -p /app/output && chown -R boringhannover:boringhannover /app
 

@@ -1,21 +1,19 @@
 """Configuration settings for BoringHannover scrapers.
 
 All URLs, selectors, and settings are centralized here for easy maintenance.
-Uses TypedDict for structured configuration and Final for immutable constants.
+Uses Final for immutable constants.
 """
 
 from __future__ import annotations
 
-from typing import Final, TypedDict
+from typing import Final
 
 
 __all__ = [
     "ASTOR_API_URL",
-    "CONCERT_VENUES",
     "GERMAN_MONTH_MAP",
     "REQUEST_TIMEOUT_SECONDS",
     "SCRAPE_DELAY_SECONDS",
-    "SCRAPE_MAX_RETRIES",
     "USER_AGENT",
 ]
 
@@ -29,70 +27,6 @@ ASTOR_API_URL: Final[str] = "https://backend.premiumkino.de/v1/de/hannover/progr
 
 
 # =============================================================================
-# Concert Venue Configuration
-# =============================================================================
-
-
-class VenueSelectors(TypedDict, total=False):
-    """CSS selectors for extracting event data from venue pages."""
-
-    container: str
-    event: str
-    title: str
-    date: str
-    location: str
-    venue: str
-
-
-class VenueConfig(TypedDict):
-    """Configuration for a concert venue scraper."""
-
-    name: str
-    url: str
-    enabled: bool
-    selectors: VenueSelectors
-
-
-CONCERT_VENUES: Final[tuple[VenueConfig, ...]] = (
-    {
-        "name": "ZAG Arena",
-        "url": "https://www.zag-arena-hannover.de/veranstaltungen/",
-        "enabled": True,
-        "selectors": {
-            "container": ".wpem-event-listings",
-            "event": ".wpem-event-layout-wrapper",
-            "title": ".wpem-heading-text a",
-            "date": ".wpem-from-date",
-            "location": ".wpem-event-infomation",
-        },
-    },
-    {
-        "name": "Swiss Life Hall",
-        "url": "https://www.swisslife-hall.de/events/",
-        "enabled": True,
-        "selectors": {
-            "event": "a.hc-card-link-wrapper",
-            "title": "h4, h3",
-            "date": ".hc-date-info",
-            "venue": "Swiss Life Hall",
-        },
-    },
-    {
-        "name": "Capitol Hannover",
-        "url": "https://www.capitol-hannover.de/events/",
-        "enabled": True,
-        "selectors": {
-            "event": "a.hc-card-link-wrapper",
-            "title": "h4, h3",
-            "date": ".hc-date-info",
-            "venue": "Capitol Hannover",
-        },
-    },
-)
-"""Concert venue configurations with CSS selectors for scraping."""
-
-
-# =============================================================================
 # HTTP Client Settings
 # =============================================================================
 
@@ -102,9 +36,6 @@ REQUEST_TIMEOUT_SECONDS: Final[float] = 30.0
 # BS-4: Rate limiting configuration
 SCRAPE_DELAY_SECONDS: Final[float] = 1.0
 """Delay between scraping different sources to avoid IP blocks."""
-
-SCRAPE_MAX_RETRIES: Final[int] = 2
-"""Maximum retry attempts for transient network failures."""
 
 USER_AGENT: Final[str] = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "

@@ -7,7 +7,6 @@ Formats events into a structured message with two sections:
 
 from __future__ import annotations
 
-import json
 import logging
 from datetime import datetime
 from pathlib import Path
@@ -20,7 +19,7 @@ from boringhannover.output import export_all_formats
 
 
 if TYPE_CHECKING:
-    from boringhannover.models import Event, EventCategory, EventMetadata
+    from boringhannover.models import Event
     from boringhannover.occasions import OccasionDefinition
 
 
@@ -45,17 +44,6 @@ class EventsData(TypedDict):
     movies_this_week: list[Event]
     big_events_radar: list[Event]
     city_occasions: NotRequired[list[OccasionDefinition]]
-
-
-class EventJSON(TypedDict):
-    """JSON-serializable representation of an Event."""
-
-    title: str
-    date: str
-    venue: str
-    url: str
-    category: EventCategory
-    metadata: EventMetadata
 
 
 # =============================================================================
@@ -130,40 +118,14 @@ def format_message(
 # =============================================================================
 
 
-def _event_to_dict(event: Event) -> EventJSON:
-    """Convert an Event to a JSON-serializable dictionary.
-
-    Args:
-        event: Event to convert.
-
-    Returns:
-        Dictionary representation of the event.
-    """
-
-    return {
-        "title": event.title,
-        "date": event.date.isoformat(),
-        "venue": event.venue,
-        "url": event.url,
-        "category": event.category,
-        "metadata": dict(event.metadata),
-    }
-
-
 def save_to_file(
     message: str,
-    events_data: EventsData,
     output_dir: str | Path = "output",
 ) -> None:
-    """Save message and event data to local files.
-
-    Creates two files:
-    - latest_message.txt: Human-readable formatted message
-    - events.json: Structured event data in JSON format
+    """Save the human-readable digest message to a local file.
 
     Args:
         message: Formatted message string.
-        events_data: Dictionary of event lists.
         output_dir: Output directory path.
     """
     output_path = Path(output_dir)
@@ -175,26 +137,10 @@ def save_to_file(
         message_file = output_path / "latest_message.txt"
         message_file.write_text(message, encoding="utf-8")
 
-        # Save structured event data
-        json_data = {
-            "movies_this_week": [
-                _event_to_dict(e) for e in events_data.get("movies_this_week", [])
-            ],
-            "big_events_radar": [
-                _event_to_dict(e) for e in events_data.get("big_events_radar", [])
-            ],
-        }
-
-        json_file = output_path / "events.json"
-        json_file.write_text(
-            json.dumps(json_data, indent=2, ensure_ascii=False),
-            encoding="utf-8",
-        )
-
-        logger.info("Results saved to %s/", output_path)
+        logger.info("Message saved to %s", message_file)
 
     except OSError:
-        logger.exception("Failed to save results")
+        logger.exception("Failed to save message")
 
 
 def save_all_formats(
@@ -251,7 +197,7 @@ def notify(events_data: EventsData) -> bool:
         message = format_message(events_data)
 
         # Save formatted message
-        save_to_file(message, events_data)
+        save_to_file(message)
 
         # Export all formats (CSV, Markdown, Archive)
         output_paths = save_all_formats(events_data)
