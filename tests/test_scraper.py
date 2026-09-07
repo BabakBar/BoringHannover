@@ -651,8 +651,6 @@ class TestIntegration:
     @patch.dict(
         "os.environ",
         {
-            "TELEGRAM_BOT_TOKEN": "test_token",
-            "TELEGRAM_CHAT_ID": "test_chat",
             "GITHUB_TOKEN": "test_token",
             "GITHUB_REPO": "owner/repo",
         },

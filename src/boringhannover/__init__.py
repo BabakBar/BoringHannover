@@ -40,8 +40,16 @@ Adding a new source:
 
 from __future__ import annotations
 
+from importlib.metadata import PackageNotFoundError, version
 
-__version__ = "0.3.0"
+
+# pyproject.toml is the single version authority; runtime __version__ derives
+# from the installed distribution metadata rather than duplicating it.
+try:
+    __version__ = version("boringhannover")
+except PackageNotFoundError:  # pragma: no cover - running from source without install
+    __version__ = "0.0.0"
+
 __author__ = "Sia"
 
 __all__ = [  # noqa: RUF022
