@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Tue 08 Sep 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:internationaler-feuerwerkswettbewerb-schweden",
+    "slug": "internationaler-feuerwerkswettbewerb-schweden",
+    "name": "Internationaler Feuerwerkswettbewerb-Schweden",
+    "kind": "festival",
+    "startDate": "2026-09-19",
+    "endDate": "2026-09-19",
+    "location": "Herrenhäuser Gärten",
+    "description": "Sie genießen musikalisch untermalte Pyroshows, festliche Atmosphäre und gepflegte Gartenwege – ein Abend voller Eleganz.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/1/4/6/0/29560641-17-ger-DE/9beb66b43c9a-8.png",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Internationaler-Feuerwerkswettbewerb-Schweden",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/internationaler-feuerwerkswettbewerb-schweden.json",
+    "preview": []
+  },
+  "programme": []
+}
