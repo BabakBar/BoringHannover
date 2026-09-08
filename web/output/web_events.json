@@ -1,53 +1,11 @@
 {
   "meta": {
-    "week": 36,
+    "week": 37,
     "year": 2026,
-    "updatedAt": "Sun 06 Sep 20:00",
-    "updatedAtISO": "2026-09-06T20:00:56.999281+02:00"
+    "updatedAt": "Tue 08 Sep 11:00",
+    "updatedAtISO": "2026-09-08T11:00:55.148214+02:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "07.09",
-      "movies": [
-        {
-          "title": "Das Ende der Sterne",
-          "year": 2026,
-          "time": "16:40",
-          "venue": "Astor Grand Cinema",
-          "duration": "1h59m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/das-ende-der-sterne"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "20:00",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:00",
-          "venue": "Astor Grand Cinema",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
     {
       "day": "TUE",
       "date": "08.09",
@@ -85,7 +43,7 @@
         {
           "title": "Oasis: Don't Look Back in Anger",
           "year": 2026,
-          "time": "20:15",
+          "time": "20:10",
           "venue": "Astor Grand Cinema",
           "duration": "2h2m",
           "language": "EN",
@@ -100,6 +58,30 @@
       "day": "FRI",
       "date": "11.09",
       "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
         {
           "title": "Oasis: Don't Look Back in Anger",
           "year": 2026,
@@ -177,6 +159,18 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://www.apollokino.de/?v=&film=filme/01001184&anmerk=OmU-Nachtstudio-engl.%20OmU%20-%20Kinofest-nur%205%2C-%80"
+        },
+        {
+          "title": "Obsession - Du sollst mich lieben",
+          "year": 2026,
+          "time": "23:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/obsession-du-sollst-mich-lieben"
         }
       ]
     },
@@ -219,6 +213,120 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "14.09",
+      "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "20:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "15.09",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "20:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "16.09",
+      "movies": [
+        {
+          "title": "Spider-Man: Brand New Day",
+          "year": 2026,
+          "time": "16:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h20m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
         }
       ]
     },
@@ -279,62 +387,6 @@
   ],
   "concerts": [
     {
-      "title": "Offener Treff der Blauen Zone",
-      "date": "7 Sep",
-      "dateISO": "2026-09-07",
-      "day": "Mo",
-      "time": "16:00",
-      "timeConfidence": "confirmed",
-      "endTime": "18:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-09-07/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm v...",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "Swing am PLATZ",
-      "date": "7 Sep",
-      "dateISO": "2026-09-07",
-      "day": "Mo",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "endTime": "22:00",
-      "venue": "OSCO – OpenSpace",
-      "url": "https://platzprojekt.de/programm/swing-im-osco/2026-09-07/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Auf gehts zum Montags-Social-Dance im OSCO. Ganz viel Lindy, aber auch etwas Balboa, Shag, Blues oder Charleston und das ganze auf sensationellen Echtholz-Dielen. 19:00 Uhr – Party mit DJ Getränke ...",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Party",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "PTK",
-      "date": "7 Sep",
-      "dateISO": "2026-09-07",
-      "day": "Mo",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/konzerte/ptk/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "AAAchtung: PTK geht wieder auf Tour – und zwar „Aus aktuellem Anlass“! Denn in Zeiten von Krisen, Kriegen und Katastrophen brauch es Künstler, die Statements setzen, Flagge zeigen und sich positionier",
-      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/04/111111Jakob-Tillmann-2-scaled-1-357x268.webp",
-      "status": "sold_out",
-      "radarCategory": "Live Music"
-    },
-    {
       "title": "Das 50. hannoversche Rudelsingen (Zusatzshow)",
       "date": "8 Sep",
       "dateISO": "2026-09-08",
@@ -370,6 +422,24 @@
       "status": "available",
       "radarCategory": "Culture & Community",
       "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "Investieren statt Kaputtsparen",
+      "date": "9 Sep",
+      "dateISO": "2026-09-09",
+      "day": "Mi",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/investieren-statt-kaputtsparen/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/09/Investieren-Statt-Kaputtsparen.png",
+      "status": "available",
+      "radarCategory": "Live Music"
     },
     {
       "title": "Kickboxen von Lumino",
@@ -922,6 +992,24 @@
       "sourceName": "PLATZprojekt"
     },
     {
+      "title": "ANDA MORTS",
+      "date": "14 Sep",
+      "dateISO": "2026-09-14",
+      "day": "Mo",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/anda-morts",
+      "eventType": "Konzert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://images.prismic.io/cafe-glocksee/eXOOK2-wZUY_zLz4_Anda_Morts_-c-LuiseB%C3%B6ker_3.jpg?auto=format%2Ccompress&rect=0%2C0%2C2362%2C2000&w=2362&h=2000",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
       "title": "Anda Morts",
       "date": "14 Sep",
       "dateISO": "2026-09-14",
@@ -1256,24 +1344,6 @@
       "sourceName": "PLATZprojekt"
     },
     {
-      "title": "dasXperiment",
-      "date": "18 Sep",
-      "dateISO": "2026-09-18",
-      "day": "Fr",
-      "time": "19:30",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/101225/dasxperiment",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
       "title": "Wyld",
       "date": "18 Sep",
       "dateISO": "2026-09-18",
@@ -1342,6 +1412,24 @@
       "programmeCategory": null,
       "description": "Hard Rock meets Neo Hippie Space Rock! Bei diesem explosiven Doppelpack aus griffigen Riffs und pulsierendem Groove bleiben keine Wünsche offen. COSMIC TRIBE und CRYSTAL STEEL werden ihre Klassiker so",
       "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/04/PHOTO-2026-03-14-12-22-03-214x268.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "dasXperiment",
+      "date": "18 Sep",
+      "dateISO": "2026-09-18",
+      "day": "Fr",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/101225/dasxperiment",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
       "status": "available",
       "radarCategory": "Live Music"
     },
@@ -1600,7 +1688,7 @@
       "radarCategory": "Sport"
     },
     {
-      "title": "DÈЛIYA DESISLAVA MARKOVA",
+      "title": "MARKOVA-NIKOLAEVITSCH PROJECT",
       "date": "20 Sep",
       "dateISO": "2026-09-20",
       "day": "So",
@@ -1616,6 +1704,98 @@
       "imageUrl": null,
       "status": "available",
       "radarCategory": "Culture & Community"
+    },
+    {
+      "title": "Offener Treff der Blauen Zone",
+      "date": "21 Sep",
+      "dateISO": "2026-09-21",
+      "day": "Mo",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "endTime": "18:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-09-21/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm v...",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "Swing am PLATZ",
+      "date": "21 Sep",
+      "dateISO": "2026-09-21",
+      "day": "Mo",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "endTime": "22:00",
+      "venue": "OSCO – OpenSpace",
+      "url": "https://platzprojekt.de/programm/swing-im-osco/2026-09-21/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Auf gehts zum Montags-Social-Dance im OSCO. Ganz viel Lindy, aber auch etwas Balboa, Shag, Blues oder Charleston und das ganze auf sensationellen Echtholz-Dielen. 19:00 Uhr – Party mit DJ Getränke ...",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Party",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "Stand Atlantic",
+      "date": "21 Sep",
+      "dateISO": "2026-09-21",
+      "day": "Mo",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/stand-atlantic/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/07/Stand-Atlantic.png",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Lambert",
+      "date": "21 Sep",
+      "dateISO": "2026-09-21",
+      "day": "Mo",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/101270/lambert",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Stand Atlantic",
+      "date": "21 Sep",
+      "dateISO": "2026-09-21",
+      "day": "Mo",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "MusikZentrum",
+      "url": "https://www.facebook.com/StandAtlantic/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
     }
   ],
   "occasions": [
@@ -1630,27 +1810,10 @@
       "description": "Die Workshops der Xeneriquas auf der Sommerlounge am Andreas-Hermes-Platz laden Menschen unterschiedlicher Generationen und Hintergründe dazu ein, kreativ...",
       "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/5/6/9/30719652-1-ger-DE/8cf9827982fb-Sommerlounge-Workshoo-Xeneriquas_2026-08-15_c_Simona-Bednarek_WEB-16-.jpg",
       "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Workshops-der-Xeneriquas",
-      "status": "happening_now",
-      "programmeCount": 0,
-      "locationCount": 0,
-      "programmePath": "occasions/workshops-der-xeneriquas.json",
-      "preview": []
-    },
-    {
-      "id": "hannover-festivals:zwiebelfest",
-      "slug": "zwiebelfest",
-      "name": "Zwiebelfest",
-      "kind": "festival",
-      "startDate": "2026-09-05",
-      "endDate": "2026-09-06",
-      "location": "Uetze Hindenburgplatz",
-      "description": "Auf dem Hindenburgplatz feiert Uetze am 5. und 6. September das traditionelle Zwiebelfest.",
-      "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/hmtg/kommunen/entdecke-deine-region/zwiebelfest-uetze/15546533-1-ger-DE/Zwiebelfest-Uetze.jpg",
-      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Zwiebelfest",
       "status": "final_weekend",
       "programmeCount": 0,
       "locationCount": 0,
-      "programmePath": "occasions/zwiebelfest.json",
+      "programmePath": "occasions/workshops-der-xeneriquas.json",
       "preview": []
     },
     {
@@ -1787,6 +1950,23 @@
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/lange-nacht-der-kirchen-in-hannover.json",
+      "preview": []
+    },
+    {
+      "id": "hannover-festivals:internationaler-feuerwerkswettbewerb-schweden",
+      "slug": "internationaler-feuerwerkswettbewerb-schweden",
+      "name": "Internationaler Feuerwerkswettbewerb-Schweden",
+      "kind": "festival",
+      "startDate": "2026-09-19",
+      "endDate": "2026-09-19",
+      "location": "Herrenhäuser Gärten",
+      "description": "Sie genießen musikalisch untermalte Pyroshows, festliche Atmosphäre und gepflegte Gartenwege – ein Abend voller Eleganz.",
+      "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/1/4/6/0/29560641-17-ger-DE/9beb66b43c9a-8.png",
+      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Internationaler-Feuerwerkswettbewerb-Schweden",
+      "status": "upcoming",
+      "programmeCount": 0,
+      "locationCount": 0,
+      "programmePath": "occasions/internationaler-feuerwerkswettbewerb-schweden.json",
       "preview": []
     }
   ]
