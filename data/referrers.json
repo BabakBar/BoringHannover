@@ -73,8 +73,8 @@
       "referrers": [
         {
           "referrer": "github.com",
-          "count": 3,
-          "uniques": 3
+          "count": 4,
+          "uniques": 4
         }
       ]
     }
@@ -82,10 +82,10 @@
   "all_time": [
     {
       "referrer": "github.com",
-      "latest_count": 3,
-      "latest_uniques": 3,
-      "max_count": 3,
-      "max_uniques": 3,
+      "latest_count": 4,
+      "latest_uniques": 4,
+      "max_count": 4,
+      "max_uniques": 4,
       "first_seen": "2026-09-04",
       "last_seen": "2026-09-10"
     }

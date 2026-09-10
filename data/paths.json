@@ -402,6 +402,30 @@
       "timestamp": "2026-09-10T00:00:00Z",
       "paths": [
         {
+          "path": "/BabakBar/BoringHannover/blob/master/.gitignore",
+          "title": "/blob/master/.gitignore",
+          "count": 2,
+          "uniques": 2
+        },
+        {
+          "path": "/BabakBar/BoringHannover/blob/master/nginx.conf",
+          "title": "/blob/master/nginx.conf",
+          "count": 2,
+          "uniques": 2
+        },
+        {
+          "path": "/BabakBar/BoringHannover/blob/master/pyproject.toml",
+          "title": "/blob/master/pyproject.toml",
+          "count": 2,
+          "uniques": 2
+        },
+        {
+          "path": "/BabakBar/BoringHannover/blob/master/uv.lock",
+          "title": "/blob/master/uv.lock",
+          "count": 2,
+          "uniques": 2
+        },
+        {
           "path": "/BabakBar/BoringHannover",
           "title": "Overview",
           "count": 1,
@@ -410,12 +434,6 @@
         {
           "path": "/BabakBar/BoringHannover/blob/master/.dockerignore",
           "title": "/blob/master/.dockerignore",
-          "count": 1,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/blob/master/.gitignore",
-          "title": "/blob/master/.gitignore",
           "count": 1,
           "uniques": 1
         },
@@ -442,29 +460,51 @@
           "title": "/blob/master/README.md",
           "count": 1,
           "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/blob/master/docker-compose.yml",
-          "title": "/blob/master/docker-compose.yml",
-          "count": 1,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/blob/master/nginx.conf",
-          "title": "/blob/master/nginx.conf",
-          "count": 1,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/blob/master/pyproject.toml",
-          "title": "/blob/master/pyproject.toml",
-          "count": 1,
-          "uniques": 1
         }
       ]
     }
   ],
   "all_time": [
+    {
+      "path": "/BabakBar/BoringHannover/blob/master/.gitignore",
+      "title": "/blob/master/.gitignore",
+      "latest_count": 2,
+      "latest_uniques": 2,
+      "max_count": 2,
+      "max_uniques": 2,
+      "first_seen": "2026-09-04",
+      "last_seen": "2026-09-10"
+    },
+    {
+      "path": "/BabakBar/BoringHannover/blob/master/nginx.conf",
+      "title": "/blob/master/nginx.conf",
+      "latest_count": 2,
+      "latest_uniques": 2,
+      "max_count": 2,
+      "max_uniques": 2,
+      "first_seen": "2026-09-04",
+      "last_seen": "2026-09-10"
+    },
+    {
+      "path": "/BabakBar/BoringHannover/blob/master/pyproject.toml",
+      "title": "/blob/master/pyproject.toml",
+      "latest_count": 2,
+      "latest_uniques": 2,
+      "max_count": 2,
+      "max_uniques": 2,
+      "first_seen": "2026-09-04",
+      "last_seen": "2026-09-10"
+    },
+    {
+      "path": "/BabakBar/BoringHannover/blob/master/uv.lock",
+      "title": "/blob/master/uv.lock",
+      "latest_count": 2,
+      "latest_uniques": 2,
+      "max_count": 2,
+      "max_uniques": 2,
+      "first_seen": "2026-09-10",
+      "last_seen": "2026-09-10"
+    },
     {
       "path": "/BabakBar/BoringHannover",
       "title": "Overview",
@@ -478,16 +518,6 @@
     {
       "path": "/BabakBar/BoringHannover/blob/master/.dockerignore",
       "title": "/blob/master/.dockerignore",
-      "latest_count": 1,
-      "latest_uniques": 1,
-      "max_count": 1,
-      "max_uniques": 1,
-      "first_seen": "2026-09-04",
-      "last_seen": "2026-09-10"
-    },
-    {
-      "path": "/BabakBar/BoringHannover/blob/master/.gitignore",
-      "title": "/blob/master/.gitignore",
       "latest_count": 1,
       "latest_uniques": 1,
       "max_count": 1,
@@ -538,26 +568,6 @@
     {
       "path": "/BabakBar/BoringHannover/blob/master/docker-compose.yml",
       "title": "/blob/master/docker-compose.yml",
-      "latest_count": 1,
-      "latest_uniques": 1,
-      "max_count": 1,
-      "max_uniques": 1,
-      "first_seen": "2026-09-04",
-      "last_seen": "2026-09-10"
-    },
-    {
-      "path": "/BabakBar/BoringHannover/blob/master/nginx.conf",
-      "title": "/blob/master/nginx.conf",
-      "latest_count": 1,
-      "latest_uniques": 1,
-      "max_count": 1,
-      "max_uniques": 1,
-      "first_seen": "2026-09-04",
-      "last_seen": "2026-09-10"
-    },
-    {
-      "path": "/BabakBar/BoringHannover/blob/master/pyproject.toml",
-      "title": "/blob/master/pyproject.toml",
       "latest_count": 1,
       "latest_uniques": 1,
       "max_count": 1,
