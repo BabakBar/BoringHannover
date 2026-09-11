@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Fri 11 Sep 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:regionserntefest-und-dreschefest-in-schillerslage",
+    "slug": "regionserntefest-und-dreschefest-in-schillerslage",
+    "name": "Regionserntefest und Dreschefest in Schillerslage",
+    "kind": "festival",
+    "startDate": "2026-09-20",
+    "endDate": "2026-09-20",
+    "location": "Festplatz Schillerslage",
+    "description": "Beim Regionserntefest des Landvolks Hannover dreht sich am 20. September in Schillerslage alles um die Zuckerrübe und die Landwirtschaft früherer Zeiten....",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/6/2/3/2/30692326-1-ger-DE/854b85ce752c-Erntekrone_Landvolk-Hannover.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Regionserntefest-und-Dreschefest-in-Schillerslage",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/regionserntefest-und-dreschefest-in-schillerslage.json",
+    "preview": []
+  },
+  "programme": []
+}
