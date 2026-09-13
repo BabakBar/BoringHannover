@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 13 Sep 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:apfelfest-auf-dem-gut-adolphshof",
+    "slug": "apfelfest-auf-dem-gut-adolphshof",
+    "name": "Apfelfest auf dem Gut Adolphshof",
+    "kind": "festival",
+    "startDate": "2026-09-27",
+    "endDate": "2026-09-27",
+    "location": "Gut Adolphshof",
+    "description": "Äpfel bestimmen, einer mobilen Saftpresse bei der Arbeit zusehen oder das Gut bei einem herbstlichen Ausflug entdecken: Das Gut Adolphshof in Lehrte-Hämel...",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/8/8/0/4/29914088-1-ger-DE/3a01dc0bc055-Apfelfest-Gut-Adolphsho-GutAdolphshof.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Apfelfest-auf-dem-Gut-Adolphshof",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/apfelfest-auf-dem-gut-adolphshof.json",
+    "preview": []
+  },
+  "programme": []
+}
