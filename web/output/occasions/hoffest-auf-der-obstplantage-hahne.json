@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 13 Sep 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:hoffest-auf-der-obstplantage-hahne",
+    "slug": "hoffest-auf-der-obstplantage-hahne",
+    "name": "Hoffest auf der Obstplantage Hahne",
+    "kind": "festival",
+    "startDate": "2026-09-26",
+    "endDate": "2026-09-27",
+    "location": "Obstplantage Hahne",
+    "description": "Wie funktioniert moderner Obstanbau und was passiert mit Äpfeln und anderem Obst nach der Ernte? Beim Hoffest auf der Obstplantage Hahne in Laatzen können...",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/3/7/4/3/30693473-2-ger-DE/960b6dbd3a51-Hahne_HofladenGerhardts.jpeg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Hoffest-auf-der-Obstplantage-Hahne",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/hoffest-auf-der-obstplantage-hahne.json",
+    "preview": []
+  },
+  "programme": []
+}
