@@ -678,12 +678,6 @@
       "timestamp": "2026-09-16T00:00:00Z",
       "paths": [
         {
-          "path": "/BabakBar/BoringHannover",
-          "title": "Overview",
-          "count": 1,
-          "uniques": 1
-        },
-        {
           "path": "/BabakBar/BoringHannover/blob/master/.gitignore",
           "title": "/blob/master/.gitignore",
           "count": 1,
