@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Tue 15 Sep 11:00"
+    "updatedAt": "Fri 18 Sep 11:00"
   },
   "occasion": {
     "id": "hannover-festivals:lange-nacht-der-kirchen-in-hannover",
@@ -13,7 +13,7 @@
     "description": "Bei der 12. Langen Nacht der Kirchen öffnen am 18. September ab 18 Uhr rund 60 Kirchen und Einrichtungen verschiedener Konfessionen in Hannover und Seelze...",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/8/5/6/5/29685658-13-ger-DE/59f3583ece2b-kantorei-herrenhausen-teaser.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Lange-Nacht-der-Kirchen-in-Hannover",
-    "status": "upcoming",
+    "status": "final_weekend",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/lange-nacht-der-kirchen-in-hannover.json",
