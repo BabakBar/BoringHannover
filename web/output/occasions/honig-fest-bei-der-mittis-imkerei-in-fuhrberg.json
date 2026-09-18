@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Fri 18 Sep 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:honig-fest-bei-der-mittis-imkerei-in-fuhrberg",
+    "slug": "honig-fest-bei-der-mittis-imkerei-in-fuhrberg",
+    "name": "Honig-Fest bei der Mittis-Imkerei in Fuhrberg",
+    "kind": "festival",
+    "startDate": "2026-09-20",
+    "endDate": "2026-09-20",
+    "location": "Mittis Imkerei, naturnahe Bioland-Imkerei",
+    "description": "Wie entsteht eigentlich Honig und was zeichnet eine Bioland-Imkerei aus? Zum Abschluss der Honigernte lädt die Mittis-Imkerei am 20. September zu einem Ho...",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/6/1/7/7/30937716-1-ger-DE/4d211390b427-Foto_Mittis-Imkerei.png",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Honig-Fest-bei-der-Mittis-Imkerei-in-Fuhrberg",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/honig-fest-bei-der-mittis-imkerei-in-fuhrberg.json",
+    "preview": []
+  },
+  "programme": []
+}
