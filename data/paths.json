@@ -760,6 +760,12 @@
           "title": "/blob/master/uv.lock",
           "count": 1,
           "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/pulls",
+          "title": "/pulls",
+          "count": 1,
+          "uniques": 1
         }
       ]
     }
@@ -874,6 +880,16 @@
       "max_uniques": 1,
       "first_seen": "2026-09-04",
       "last_seen": "2026-09-10"
+    },
+    {
+      "path": "/BabakBar/BoringHannover/pulls",
+      "title": "/pulls",
+      "latest_count": 1,
+      "latest_uniques": 1,
+      "max_count": 1,
+      "max_uniques": 1,
+      "first_seen": "2026-09-18",
+      "last_seen": "2026-09-18"
     }
   ]
 }
