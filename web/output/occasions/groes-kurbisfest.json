@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 20 Sep 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:groes-kurbisfest",
+    "slug": "groes-kurbisfest",
+    "name": "Großes Kürbisfest",
+    "kind": "festival",
+    "startDate": "2026-10-03",
+    "endDate": "2026-10-04",
+    "location": "Eldagser Hoflieferant",
+    "description": "Lassen Sie sich am 3. und 4. Oktober verzaubern beim Eldagser Hoflieferant!",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/7/6/7/7/30887767-2-ger-DE/d4305e5a0224-eldagser-hoflieferant-0139.JPG",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Großes-Kürbisfest",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/groes-kurbisfest.json",
+    "preview": []
+  },
+  "programme": []
+}
