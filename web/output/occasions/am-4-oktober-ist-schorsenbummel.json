@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Sun 20 Sep 20:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:am-4-oktober-ist-schorsenbummel",
+    "slug": "am-4-oktober-ist-schorsenbummel",
+    "name": "Am 4. Oktober ist Schorsenbummel",
+    "kind": "festival",
+    "startDate": "2026-10-04",
+    "endDate": "2026-10-04",
+    "location": "Hannovers Innenstadt",
+    "description": "Der Schorsenbummel mit König Georg III. alias Charly Neumann, dem Teufelsgeiger, hat in Hannover Tradition. Am 4. Oktober findet diese klangvolle Veransta...",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/landeshauptstadt-hannover/meldungen/2015/april/instrumente/12513066-1-ger-DE/Instrumente.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Am-4.-Oktober-ist-Schorsenbummel",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/am-4-oktober-ist-schorsenbummel.json",
+    "preview": []
+  },
+  "programme": []
+}
