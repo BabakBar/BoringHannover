@@ -1,71 +1,11 @@
 {
   "meta": {
-    "week": 38,
+    "week": 39,
     "year": 2026,
-    "updatedAt": "Sun 20 Sep 20:00",
-    "updatedAtISO": "2026-09-20T20:00:57.312945+02:00"
+    "updatedAt": "Tue 22 Sep 11:00",
+    "updatedAtISO": "2026-09-22T11:00:58.158433+02:00"
   },
   "movies": [
-    {
-      "day": "SUN",
-      "date": "20.09",
-      "movies": [
-        {
-          "title": "Resident Evil",
-          "year": 2026,
-          "time": "20:45",
-          "venue": "Astor Grand Cinema",
-          "duration": "1h34m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/resident-evil"
-        }
-      ]
-    },
-    {
-      "day": "MON",
-      "date": "21.09",
-      "movies": [
-        {
-          "title": "Spider-Man: Brand New Day",
-          "year": 2026,
-          "time": "16:30",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h20m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/spider-man-brand-new-day"
-        },
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:40",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:20",
-          "venue": "Astor Grand Cinema",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
     {
       "day": "WED",
       "date": "23.09",
@@ -119,6 +59,30 @@
       "date": "25.09",
       "movies": [
         {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Resident Evil",
+          "year": 2026,
+          "time": "22:20",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h34m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/resident-evil"
+        },
+        {
           "title": "BUGONIA",
           "year": 2025,
           "time": "22:30",
@@ -137,6 +101,18 @@
       "date": "26.09",
       "movies": [
         {
+          "title": "Eiserne Wildnis - Heart of the Beast",
+          "year": 2026,
+          "time": "12:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/eiserne-wildnis-heart-of-the-beast"
+        },
+        {
           "title": "Avengers: Endgame - Extended",
           "year": 2019,
           "time": "16:20",
@@ -147,6 +123,18 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/avengers-endgame-extended-2026"
+        },
+        {
+          "title": "Resident Evil",
+          "year": 2026,
+          "time": "22:20",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h34m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/resident-evil"
         },
         {
           "title": "HASS - LA HAINE",
@@ -177,6 +165,72 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/avengers-endgame-extended-2026"
+        },
+        {
+          "title": "Resident Evil",
+          "year": 2026,
+          "time": "20:40",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h34m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/resident-evil"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "28.09",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Eiserne Wildnis - Heart of the Beast",
+          "year": 2026,
+          "time": "17:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/eiserne-wildnis-heart-of-the-beast"
+        },
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        },
+        {
+          "title": "Avengers: Endgame - Extended",
+          "year": 2019,
+          "time": "20:15",
+          "venue": "Astor Grand Cinema",
+          "duration": "3h8m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avengers-endgame-extended-2026"
         }
       ]
     },
@@ -185,9 +239,21 @@
       "date": "29.09",
       "movies": [
         {
+          "title": "Eiserne Wildnis - Heart of the Beast",
+          "year": 2026,
+          "time": "17:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/eiserne-wildnis-heart-of-the-beast"
+        },
+        {
           "title": "All You Need Is Kill",
           "year": 2025,
-          "time": "20:15",
+          "time": "20:10",
           "venue": "Astor Grand Cinema",
           "duration": "1h26m",
           "language": "JP",
@@ -202,6 +268,30 @@
       "day": "WED",
       "date": "30.09",
       "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Eiserne Wildnis - Heart of the Beast",
+          "year": 2026,
+          "time": "17:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h42m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/eiserne-wildnis-heart-of-the-beast"
+        },
         {
           "title": "Verity - Dunkle Geheimnisse",
           "year": 2026,
@@ -321,98 +411,6 @@
   ],
   "concerts": [
     {
-      "title": "Offener Treff der Blauen Zone",
-      "date": "21 Sep",
-      "dateISO": "2026-09-21",
-      "day": "Mo",
-      "time": "16:00",
-      "timeConfidence": "confirmed",
-      "endTime": "18:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-09-21/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm v...",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "Swing am PLATZ",
-      "date": "21 Sep",
-      "dateISO": "2026-09-21",
-      "day": "Mo",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "endTime": "22:00",
-      "venue": "OSCO – OpenSpace",
-      "url": "https://platzprojekt.de/programm/swing-im-osco/2026-09-21/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Auf gehts zum Montags-Social-Dance im OSCO. Ganz viel Lindy, aber auch etwas Balboa, Shag, Blues oder Charleston und das ganze auf sensationellen Echtholz-Dielen. 19:00 Uhr – Party mit DJ Getränke ...",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Party",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "Stand Atlantic",
-      "date": "21 Sep",
-      "dateISO": "2026-09-21",
-      "day": "Mo",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/stand-atlantic/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/07/Stand-Atlantic.png",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Lambert",
-      "date": "21 Sep",
-      "dateISO": "2026-09-21",
-      "day": "Mo",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/101270/lambert",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Stand Atlantic",
-      "date": "21 Sep",
-      "dateISO": "2026-09-21",
-      "day": "Mo",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "MusikZentrum",
-      "url": "https://www.facebook.com/StandAtlantic/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
       "title": "PLATZkino – (Überraschungs-)Hauptfilm mit Kurzfilmpremiere",
       "date": "22 Sep",
       "dateISO": "2026-09-22",
@@ -518,24 +516,6 @@
       "programmeCategory": null,
       "description": null,
       "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Ruby Tuesday | ODD BEHOLDER",
-      "date": "22 Sep",
-      "dateISO": "2026-09-22",
-      "day": "Di",
-      "time": "21:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--odd-beholder-2026",
-      "eventType": "Konzert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://images.prismic.io/cafe-glocksee/ajazCo1P9HI4Uwq__Odd-Beholder%E2%94%AC%C2%AEronjaburkard-01-web.jpg?auto=format%2Ccompress&rect=319%2C195%2C1440%2C960&w=3000&h=2000",
       "status": "available",
       "radarCategory": "Live Music"
     },
@@ -744,6 +724,25 @@
       "sourceName": "PLATZprojekt"
     },
     {
+      "title": "Teranga – afrikanisch-karibische Fusionsküche",
+      "date": "24 Sep",
+      "dateISO": "2026-09-24",
+      "day": "Do",
+      "time": "16:30",
+      "timeConfidence": "confirmed",
+      "endTime": "20:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/teranga-afrikanisch-karibische-fusionskueche/2026-09-24/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Entdecke eine einzigartige, dynamische Fusionsküche, inspiriert von der afrikanisch-karibischen Gastronomie – mit einer mediterranen Note. Die Zutaten sind die Stars in unserer Küche: organisch-Pla...",
+      "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/09/a6b8580e-7f63-4e32-92aa-8eb730a7d82a.jpeg",
+      "status": "available",
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
+    },
+    {
       "title": "Offener Rundgang auf dem PLATZprojekt",
       "date": "24 Sep",
       "dateISO": "2026-09-24",
@@ -763,7 +762,7 @@
       "sourceName": "PLATZprojekt"
     },
     {
-      "title": "Local Distortion!",
+      "title": "-ABGESAGT-Local Distortion!-ABGESAGT-",
       "date": "24 Sep",
       "dateISO": "2026-09-24",
       "day": "Do",
@@ -944,6 +943,24 @@
       "status": "available",
       "radarCategory": "Food & Drink",
       "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "SHORELINE (Emo-Hardcore / Münster)",
+      "date": "25 Sep",
+      "dateISO": "2026-09-25",
+      "day": "Fr",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-09-25/5910",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
     },
     {
       "title": "Der frühe Vogel ...tanzt am besten",
@@ -1797,9 +1814,28 @@
       "genre": null,
       "programmeCategory": null,
       "description": "Am 3. Oktober 2026 feiert die Naturfreundejugend 100 Jahre mit einem bunten Programm, mit allem, für was steht: Workshops, Vorträgen, Essen, Konzerten und Party auf dem PLATZprojekt. Die Naturfreun...",
-      "imageUrl": null,
+      "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/08/IMG-20260901-WA00053.jpg",
       "status": "available",
       "radarCategory": "Workshop",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "Teranga – afrikanisch-karibische Fusionsküche",
+      "date": "3 Okt",
+      "dateISO": "2026-10-03",
+      "day": "Sa",
+      "time": "14:00",
+      "timeConfidence": "confirmed",
+      "endTime": "20:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/teranga-afrikanisch-karibische-fusionskueche/2026-10-03/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Entdecke eine einzigartige, dynamische Fusionsküche, inspiriert von der afrikanisch-karibischen Gastronomie – mit einer mediterranen Note. Die Zutaten sind die Stars in unserer Küche: organisch-Pla...",
+      "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/09/a6b8580e-7f63-4e32-92aa-8eb730a7d82a.jpeg",
+      "status": "available",
+      "radarCategory": "Culture & Community",
       "sourceName": "PLATZprojekt"
     },
     {
@@ -1893,6 +1929,24 @@
       "radarCategory": "Live Music"
     },
     {
+      "title": "NEON – DIE 80ER PARTY",
+      "date": "3 Okt",
+      "dateISO": "2026-10-03",
+      "day": "Sa",
+      "time": "23:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/clubnight/neon-die-80er-party-14/",
+      "eventType": "party",
+      "genre": "Jazz / Blues",
+      "programmeCategory": null,
+      "description": "YEAH!!! Die 80er-Party mit coolstem SynthiePop, Wave, Indie, Classics, Funk, Pop, Rock und auch Obskuritäten! Alles für den Dancefloor! Hier werden die feinen Perlen auf den Plattenteller gelegt, wie",
+      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2019/01/50404284_2493247264022218_5839154020555423744_n-360x133.jpg",
+      "status": "available",
+      "radarCategory": "Party"
+    },
+    {
       "title": "Erdem Pancarcı",
       "date": "4 Okt",
       "dateISO": "2026-10-04",
@@ -1927,6 +1981,44 @@
       "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=thomas_d_kbcs1.jpg",
       "status": "available",
       "radarCategory": "Live Music"
+    },
+    {
+      "title": "Offener Treff der Blauen Zone",
+      "date": "5 Okt",
+      "dateISO": "2026-10-05",
+      "day": "Mo",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "endTime": "18:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-10-05/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm v...",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "Swing am PLATZ",
+      "date": "5 Okt",
+      "dateISO": "2026-10-05",
+      "day": "Mo",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "endTime": "22:00",
+      "venue": "OSCO – OpenSpace",
+      "url": "https://platzprojekt.de/programm/swing-im-osco/2026-10-05/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Auf gehts zum Montags-Social-Dance im OSCO. Ganz viel Lindy, aber auch etwas Balboa, Shag, Blues oder Charleston und das ganze auf sensationellen Echtholz-Dielen. 19:00 Uhr – Party mit DJ Getränke ...",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Party",
+      "sourceName": "PLATZprojekt"
     }
   ],
   "occasions": [
