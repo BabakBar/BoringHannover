@@ -954,30 +954,6 @@
       "timestamp": "2026-09-24T00:00:00Z",
       "paths": [
         {
-          "path": "/BabakBar/BoringHannover/blob/master/.gitignore",
-          "title": "/blob/master/.gitignore",
-          "count": 1,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/blob/master/nginx.conf",
-          "title": "/blob/master/nginx.conf",
-          "count": 1,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/blob/master/pyproject.toml",
-          "title": "/blob/master/pyproject.toml",
-          "count": 1,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/blob/master/uv.lock",
-          "title": "/blob/master/uv.lock",
-          "count": 1,
-          "uniques": 1
-        },
-        {
           "path": "/BabakBar/BoringHannover/pulls",
           "title": "/pulls",
           "count": 1,
