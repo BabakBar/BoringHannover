@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 18 Sep 11:00"
+    "updatedAt": "Fri 25 Sep 11:00"
   },
   "occasion": {
     "id": "hannover-festivals:liminale",
@@ -13,7 +13,7 @@
     "description": "Unter dem Motto \"Engineering Future\" veranstaltet die Hochschule Hannover die zweite Ausgabe des Festivals für Austausch, Innovation und Zukunftsgestaltun...",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/9/3/4/29484392-1-ger-DE/29ac7dff9a5f-Liminale-teaser.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Liminale",
-    "status": "upcoming",
+    "status": "final_weekend",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/liminale.json",
