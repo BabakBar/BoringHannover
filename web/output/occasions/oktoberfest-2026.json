@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sun 13 Sep 20:00"
+    "updatedAt": "Fri 25 Sep 11:00"
   },
   "occasion": {
     "id": "hannover-festivals:oktoberfest-2026",
@@ -13,7 +13,7 @@
     "description": "Es geht wieder rund: Vom 25. September bis zum 11. Oktober drehen sich auf dem hannoverschen Schützenplatz beim Oktoberfest die Karussells.",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/3/7/7/7/24827773-2-ger-DE/c46022c782b7-oktoberfest-riesenrad-c-hannover.de.jpg",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Oktoberfest-2026",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/oktoberfest-2026.json",
