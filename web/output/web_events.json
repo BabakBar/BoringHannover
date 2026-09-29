@@ -1,95 +1,11 @@
 {
   "meta": {
-    "week": 39,
+    "week": 40,
     "year": 2026,
-    "updatedAt": "Sun 27 Sep 20:00",
-    "updatedAtISO": "2026-09-27T20:00:51.537576+02:00"
+    "updatedAt": "Tue 29 Sep 11:00",
+    "updatedAtISO": "2026-09-29T11:00:55.059475+02:00"
   },
   "movies": [
-    {
-      "day": "SUN",
-      "date": "27.09",
-      "movies": [
-        {
-          "title": "Avengers: Endgame - Extended",
-          "year": 2019,
-          "time": "20:15",
-          "venue": "Astor Grand Cinema",
-          "duration": "3h4m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avengers-endgame-extended-2026"
-        },
-        {
-          "title": "Resident Evil",
-          "year": 2026,
-          "time": "20:40",
-          "venue": "Astor Grand Cinema",
-          "duration": "1h34m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/resident-evil"
-        }
-      ]
-    },
-    {
-      "day": "MON",
-      "date": "28.09",
-      "movies": [
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "15:45",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Eiserne Wildnis - Heart of the Beast",
-          "year": 2026,
-          "time": "17:45",
-          "venue": "Astor Grand Cinema",
-          "duration": "1h42m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/eiserne-wildnis-heart-of-the-beast"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:00",
-          "venue": "Astor Grand Cinema",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        },
-        {
-          "title": "Avengers: Endgame - Extended",
-          "year": 2019,
-          "time": "20:15",
-          "venue": "Astor Grand Cinema",
-          "duration": "3h4m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avengers-endgame-extended-2026"
-        }
-      ]
-    },
     {
       "day": "TUE",
       "date": "29.09",
@@ -179,6 +95,18 @@
       "date": "01.10",
       "movies": [
         {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "Linkin Park: Unshatter",
           "year": 2026,
           "time": "20:00",
@@ -189,6 +117,30 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/linkin-park-unshatter"
+        },
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "20:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        },
+        {
+          "title": "Avengers: Endgame - Extended",
+          "year": 2019,
+          "time": "20:15",
+          "venue": "Astor Grand Cinema",
+          "duration": "3h4m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avengers-endgame-extended-2026"
         },
         {
           "title": "Das Drama",
@@ -209,6 +161,42 @@
       "date": "02.10",
       "movies": [
         {
+          "title": "Avengers: Endgame - Extended",
+          "year": 2019,
+          "time": "16:20",
+          "venue": "Astor Grand Cinema",
+          "duration": "3h4m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avengers-endgame-extended-2026"
+        },
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "20:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        },
+        {
+          "title": "Resident Evil",
+          "year": 2026,
+          "time": "22:40",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h34m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/resident-evil"
+        },
+        {
           "title": "THE PIANO TUNER",
           "year": 2025,
           "time": "22:45",
@@ -226,6 +214,18 @@
       "day": "SAT",
       "date": "03.10",
       "movies": [
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "12:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        },
         {
           "title": "Linkin Park: Unshatter",
           "year": 2026,
@@ -261,6 +261,90 @@
           "rating": "FSK16",
           "genre": null,
           "url": "https://www.apollokino.de/?v=&film=filme/01001194&anmerk=OmU-Nachtstudio"
+        },
+        {
+          "title": "Resident Evil",
+          "year": 2026,
+          "time": "22:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h34m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/resident-evil"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "04.10",
+      "movies": [
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "12:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Digger",
+          "year": 2026,
+          "time": "20:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h9m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/digger"
+        },
+        {
+          "title": "Avengers: Endgame - Extended",
+          "year": 2019,
+          "time": "20:15",
+          "venue": "Astor Grand Cinema",
+          "duration": "3h4m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avengers-endgame-extended-2026"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "06.10",
+      "movies": [
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "20:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
         }
       ]
     },
@@ -268,6 +352,30 @@
       "day": "WED",
       "date": "07.10",
       "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Avengers: Endgame - Extended",
+          "year": 2019,
+          "time": "16:20",
+          "venue": "Astor Grand Cinema",
+          "duration": "3h4m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/avengers-endgame-extended-2026"
+        },
         {
           "title": "Queen - Budapest",
           "year": 2026,
@@ -332,79 +440,6 @@
     }
   ],
   "concerts": [
-    {
-      "title": "Offener Treff der Blauen Zone",
-      "date": "28 Sep",
-      "dateISO": "2026-09-28",
-      "day": "Mo",
-      "time": "16:00",
-      "timeConfidence": "confirmed",
-      "endTime": "18:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-09-28/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm v...",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "Ricardo & Friends XXL – ABGESAGT",
-      "date": "28 Sep",
-      "dateISO": "2026-09-28",
-      "day": "Mo",
-      "time": "18:30",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/ricardo-friends-xxl/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "AND ALSO THE TREES",
-      "date": "28 Sep",
-      "dateISO": "2026-09-28",
-      "day": "Mo",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/konzerte/and-also-the-trees-3/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": "Mit „The Devil’s Door“ präsentieren And Also The Trees, eine der ursprünglichen Post-Punk-Bands, ein Album, das wie ein stiller Sturm wirkt. Mal filmisch, mal poetisch und intensiv, mit einer Unterstr",
-      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/04/20260928_And_Also_The_Trees_c_J_Sevrette-2048x1379-1-360x242.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "LOTTE",
-      "date": "28 Sep",
-      "dateISO": "2026-09-28",
-      "day": "Mo",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/lotte/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2025/10/Lotte.png",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
     {
       "title": "Tenside/Aurorawave (Special Guest: Sugarspine)",
       "date": "29 Sep",
@@ -474,24 +509,6 @@
       "programmeCategory": null,
       "description": "Sean Koch kehrt mit einem brandneuen Album und einer noch nie dagewesenen Show nach Europa zurück. Die „Time Will Tell“-Tour feiert die Veröffentlichung von Seans drittem Studioalbum, das ebenfalls de",
       "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/03/20260929_Sean_Koch_c_Ross_Hillier-2048x1946-1-282x268.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Ruby Tuesday | SPIRIT MOTHER",
-      "date": "29 Sep",
-      "dateISO": "2026-09-29",
-      "day": "Di",
-      "time": "21:15",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--spirit-mother-2026",
-      "eventType": "Konzert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://images.prismic.io/cafe-glocksee/703pRdZwpROQfbI9_SPIRIT_MOTHER_4_DavidJacob.jpg?auto=format%2Ccompress&rect=16%2C0%2C1856%2C1152&w=1450&h=900",
       "status": "available",
       "radarCategory": "Live Music"
     },
@@ -624,6 +641,25 @@
       "sourceName": "PLATZprojekt"
     },
     {
+      "title": "Im OSCO: NACHTEULEN/KUNDÊ ŞEVÊ (Tag 1/2)",
+      "date": "1 Okt",
+      "dateISO": "2026-10-01",
+      "day": "Do",
+      "time": "10:00",
+      "timeConfidence": "confirmed",
+      "endTime": "12:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/im-osco-nachteulen-kunde-seve-tag-1-2/2026-10-01/1/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Ein deutsch-kurdisches Musiktheaterstück ab 4 Jahren // Şano ji bo zarokên ji 4 salî mezintir Schläfst du gerne? Was hält dich manchmal vom Schlafen ab? Und wer ist dieser Schlaf überhaupt? // Gelo...",
+      "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/09/Bildschirmfoto-2026-09-28-um-17.35.21.png",
+      "status": "available",
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
+    },
+    {
       "title": "Kaffeetrinken am [Ka’fe:] Container",
       "date": "1 Okt",
       "dateISO": "2026-10-01",
@@ -659,6 +695,25 @@
       "imageUrl": null,
       "status": "available",
       "radarCategory": "Market",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "Im OSCO: NACHTEULEN/KUNDÊ ŞEVÊ (Tag 1/2)",
+      "date": "1 Okt",
+      "dateISO": "2026-10-01",
+      "day": "Do",
+      "time": "15:00",
+      "timeConfidence": "confirmed",
+      "endTime": "17:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/im-osco-nachteulen-kunde-seve-tag-1-2/2026-10-01/2/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Ein deutsch-kurdisches Musiktheaterstück ab 4 Jahren // Şano ji bo zarokên ji 4 salî mezintir Schläfst du gerne? Was hält dich manchmal vom Schlafen ab? Und wer ist dieser Schlaf überhaupt? // Gelo...",
+      "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/09/Bildschirmfoto-2026-09-28-um-17.35.21.png",
+      "status": "available",
+      "radarCategory": "Culture & Community",
       "sourceName": "PLATZprojekt"
     },
     {
@@ -789,6 +844,25 @@
       "imageUrl": null,
       "status": "available",
       "radarCategory": "Live Music"
+    },
+    {
+      "title": "Im OSCO: NACHTEULEN/KUNDÊ ŞEVÊ (Tag 2/2)",
+      "date": "2 Okt",
+      "dateISO": "2026-10-02",
+      "day": "Fr",
+      "time": "10:00",
+      "timeConfidence": "confirmed",
+      "endTime": "12:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/im-osco-nachteulen-kunde-seve-tag-1-2-2/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Ein deutsch-kurdisches Musiktheaterstück ab 4 Jahren // Şano ji bo zarokên ji 4 salî mezintir Schläfst du gerne? Was hält dich manchmal vom Schlafen ab? Und wer ist dieser Schlaf überhaupt? // Gelo...",
+      "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/09/Bildschirmfoto-2026-09-28-um-17.35.21.png",
+      "status": "available",
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
     },
     {
       "title": "Trial & Error DIY Music Lab 2026: Music & Visuals",
@@ -1116,6 +1190,25 @@
       "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2019/01/50404284_2493247264022218_5839154020555423744_n-360x133.jpg",
       "status": "available",
       "radarCategory": "Party"
+    },
+    {
+      "title": "Flohmarkt (letzter der Saison)",
+      "date": "4 Okt",
+      "dateISO": "2026-10-04",
+      "day": "So",
+      "time": "12:00",
+      "timeConfidence": "confirmed",
+      "endTime": "18:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/flohmarkt-letzter-der-saison/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Das Wetter am Sonntag soll sonnig werden. Daher planen wir spontan einen letzten Flohmarkt für diese Saison. Sags gerne weiter und komm mit deinen Liebsten vorbei! Oder biete vielleicht sogar selbs...",
+      "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/09/Titel-Flohmarkt-Okt-2026.jpg",
+      "status": "available",
+      "radarCategory": "Market",
+      "sourceName": "PLATZprojekt"
     },
     {
       "title": "Erdem Pancarcı",
@@ -1938,6 +2031,61 @@
       "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=ren_el_khazraje.jpeg",
       "status": "available",
       "radarCategory": "Live Music"
+    },
+    {
+      "title": "Romans Nailed it + Henri parker and the lowered lids",
+      "date": "11 Okt",
+      "dateISO": "2026-10-11",
+      "day": "So",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Stumpf",
+      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Offener Treff der Blauen Zone",
+      "date": "12 Okt",
+      "dateISO": "2026-10-12",
+      "day": "Mo",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "endTime": "18:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-10-12/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm v...",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "JAZZWOCHE 2026",
+      "date": "12 Okt",
+      "dateISO": "2026-10-12",
+      "day": "Mo",
+      "time": "22:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/jazzwoche-2026-2/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community"
     }
   ],
   "occasions": [
@@ -1946,13 +2094,13 @@
       "slug": "oktoberfest-2026",
       "name": "Oktoberfest 2026",
       "kind": "festival",
-      "startDate": "2026-09-25",
+      "startDate": "2026-09-30",
       "endDate": "2026-10-11",
       "location": "Schützenplatz Hannover",
       "description": "Es geht wieder rund: Vom 25. September bis zum 11. Oktober drehen sich auf dem hannoverschen Schützenplatz beim Oktoberfest die Karussells.",
       "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/3/7/7/7/24827773-2-ger-DE/c46022c782b7-oktoberfest-riesenrad-c-hannover.de.jpg",
       "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Oktoberfest-2026",
-      "status": "happening_now",
+      "status": "upcoming",
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/oktoberfest-2026.json",
