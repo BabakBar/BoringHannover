@@ -655,6 +655,7 @@ class TestIntegration:
             "GITHUB_REPO": "owner/repo",
         },
     )
+    @patch("boringhannover.main.backup_run", return_value=True)
     @patch("boringhannover.main.sync_web_data_to_github")
     @patch("boringhannover.main.notify")
     @patch("boringhannover.main.fetch_all_events")
@@ -663,6 +664,7 @@ class TestIntegration:
         mock_fetch: Mock,
         mock_notify: Mock,
         mock_sync: Mock,
+        mock_backup: Mock,
     ) -> None:
         """Test the complete scraping, notification and publish workflow."""
         from boringhannover.main import run  # noqa: PLC0415
@@ -680,6 +682,7 @@ class TestIntegration:
         mock_fetch.assert_called_once()
         mock_notify.assert_called_once()
         mock_sync.assert_called_once()
+        mock_backup.assert_called_once()
 
 
 if __name__ == "__main__":
