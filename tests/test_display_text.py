@@ -5,9 +5,12 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 
 import pytest
+from bs4 import BeautifulSoup
 
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.models import Event
 from boringhannover.sanitize import sanitize_text, truncate_text
+from boringhannover.sources.concerts.faust import FaustSource
 from boringhannover.sources.concerts.glocke import GlockseeSource
 from boringhannover.sources.concerts.kulturpalast_linden import (
     KulturpalastLindenSource,
@@ -88,3 +91,41 @@ class TestGlockseeEventType:
 
     def test_other_types_pass_through(self) -> None:
         assert self._parse("party") == "party"
+
+
+class TestFaustStartTime:
+    @staticmethod
+    def _parse(start_line: str) -> Event:
+        html = (
+            '<a href="/veranstaltungen/oktober/021026-puro-barrio.html">'
+            "<span>Fr, 02.10.26</span><span>Puro Barrio</span>"
+            f"<span>{start_line}</span></a>"
+        )
+        link = BeautifulSoup(html, "html.parser").a
+        assert link is not None
+        event = FaustSource()._parse_event(link, event_type="party")
+        assert event is not None
+        return event
+
+    def test_confirmed_time_replaces_the_placeholder(self) -> None:
+        event = self._parse("Beginn: 19:30 Uhr")
+
+        assert (event.date.hour, event.date.minute) == (19, 30)
+
+    def test_24_uhr_stays_on_its_day_and_sorts_last(self) -> None:
+        event = self._parse("Einlass / Beginn: 24 Uhr")
+
+        assert event.date.date().isoformat() == "2026-10-02"
+        assert (event.date.hour, event.date.minute) == (23, 59)
+        assert event.metadata["time"] == "24:00"
+
+    def test_midnight_party_sorts_after_evening_concert(self) -> None:
+        party = self._parse("Beginn: 24 Uhr")
+        concert = self._parse("Beginn: 21 Uhr")
+
+        assert sorted([party, concert], key=lambda e: e.date) == [concert, party]
+
+    def test_unconfirmed_time_keeps_the_placeholder(self) -> None:
+        event = self._parse("Eintritt frei")
+
+        assert (event.date.hour, event.date.minute) == (20, 0)
