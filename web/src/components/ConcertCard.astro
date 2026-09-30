@@ -1,5 +1,6 @@
 ---
 import { sanitizeUrl } from '../utils/sanitize';
+import { formatEventTime } from '../utils/displayLabels';
 
 interface Props {
   title: string;
@@ -81,7 +82,7 @@ const isSoldOut = status === 'sold_out';
             <span class="text-text-muted"> &middot; </span>
           </>
         )}
-        {time && <span class="text-text-secondary tabular-nums">{time}</span>}
+        {time && <span class="text-text-secondary tabular-nums">{formatEventTime(time)}</span>}
         {time && <span> @ </span>}
         {!time && <span>@ </span>}
         <span>{venue}</span>

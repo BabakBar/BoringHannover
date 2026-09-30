@@ -1,5 +1,6 @@
 ---
 import { sanitizeUrl } from '../utils/sanitize';
+import { formatFskRating } from '../utils/displayLabels';
 import { getCinemaLabel } from '../utils/cinemaLabel';
 
 interface Props {
@@ -80,7 +81,7 @@ const langDisplay = language && subtitles
     {rating && (
       <>
         <span class="text-text-muted">&middot;</span>
-        <span class="fsk-badge">{rating}</span>
+        <span class="fsk-badge" title="German age rating (FSK)">{formatFskRating(rating)}</span>
       </>
     )}
   </div>

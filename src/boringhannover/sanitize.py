@@ -27,6 +27,7 @@ __all__ = [
     "MAX_VENUE_LENGTH",
     "sanitize_text",
     "sanitize_url",
+    "truncate_text",
 ]
 
 # Maximum lengths to prevent data corruption attacks
@@ -52,8 +53,8 @@ def sanitize_text(text: str | None, max_length: int = 500) -> str:
     Example:
         >>> sanitize_text("<script>alert('xss')</script>Hello")
         'Hello'
-        >>> sanitize_text("A" * 1000, max_length=100)
-        'AAA...AAA...'
+        >>> sanitize_text("one two three", max_length=10)
+        'one two…'
     """
     if not text:
         return ""
@@ -68,11 +69,30 @@ def sanitize_text(text: str | None, max_length: int = 500) -> str:
     # Normalize whitespace (collapse multiple spaces/newlines)
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
 
-    # Enforce length limit with ellipsis
-    if len(cleaned) > max_length:
-        cleaned = cleaned[: max_length - 3] + "..."
+    return truncate_text(cleaned, max_length)
 
-    return cleaned
+
+def truncate_text(text: str, max_length: int) -> str:
+    """Shorten text to ``max_length`` characters without cutting a word in half.
+
+    Cuts at the last space when one exists in the second half of the allowed
+    length, otherwise falls back to a hard cut (e.g. one very long word).
+    A single ``…`` marks every shortened result; untouched text gets none.
+
+    Example:
+        >>> truncate_text("Die Tour feiert das neue Album", 20)
+        'Die Tour feiert das…'
+    """
+    if len(text) <= max_length:
+        return text
+
+    cut = text[: max_length - 1]
+    # The cut already ends a word when the next character is not part of it.
+    if text[max_length - 1].isalnum():
+        last_space = cut.rfind(" ")
+        if last_space >= max_length // 2:
+            cut = cut[:last_space]
+    return cut.rstrip(" ,;:.-\u2013\u2014") + "…"
 
 
 def sanitize_url(url: str | None) -> str:
