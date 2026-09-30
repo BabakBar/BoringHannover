@@ -14,6 +14,7 @@ import sys
 from typing import NoReturn
 
 from boringhannover.aggregator import fetch_all_events
+from boringhannover.backup import backup_run
 from boringhannover.github_sync import should_sync, sync_web_data_to_github
 from boringhannover.notifier import notify
 
@@ -58,15 +59,17 @@ def run(*, local: bool = False) -> bool:
     1. Fetches events from movies (Astor) and concerts (venues)
     2. Categorizes them into movies and "On The Radar"
     3. Exports data to multiple formats (CSV, JSON, Markdown)
-    4. Syncs to GitHub to trigger frontend rebuild
+    4. Backs up the run's output
+    5. Syncs to GitHub to trigger frontend rebuild
 
     Args:
-        local: If True, runs in local/dev mode (no GitHub sync).
+        local: If True, runs in local/dev mode (no backup or GitHub sync).
 
     Returns:
         True if the workflow completed successfully. A non-local run that
         cannot publish to GitHub returns False, so the caller exits non-zero
-        rather than reporting success while the site serves stale data.
+        rather than reporting success while the site serves stale data. A
+        failed backup also returns False, after publishing.
     """
     try:
         logger.info("Starting BoringHannover scraper")
@@ -97,10 +100,14 @@ def run(*, local: bool = False) -> bool:
             logger.error("Failed to export data")
             return False
 
-        # Step 3: Sync data to GitHub. A production run that scrapes but does
-        # not publish is a failed run: the site keeps serving stale data, so
-        # this must exit non-zero for the scheduler to report it.
+        # Step 3: Back up, then sync data to GitHub. A production run that
+        # scrapes but does not publish is a failed run: the site keeps serving
+        # stale data, so this must exit non-zero for the scheduler to report
+        # it. A failed backup must not hold back fresh data, but it still
+        # fails the run so the gap in the history is noticed.
         if not local:
+            backed_up = backup_run("output")
+
             if not should_sync():
                 logger.error(
                     "GITHUB_TOKEN and GITHUB_REPO are not both set; "
@@ -113,6 +120,10 @@ def run(*, local: bool = False) -> bool:
                 logger.error("GitHub sync failed - frontend will show stale data")
                 return False
             logger.info("GitHub sync completed - frontend rebuild triggered")
+
+            if not backed_up:
+                logger.error("Backup failed - this run's output is not preserved")
+                return False
 
         logger.info("Workflow completed successfully")
 

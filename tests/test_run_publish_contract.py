@@ -21,6 +21,7 @@ def stub_scrape(monkeypatch) -> None:
         lambda: {"movies_this_week": [], "big_events_radar": []},
     )
     monkeypatch.setattr(main, "notify", lambda _events: True)
+    monkeypatch.setattr(main, "backup_run", lambda _dir: True)
 
 
 def test_run_fails_when_sync_fails(stub_scrape, monkeypatch) -> None:
@@ -57,5 +58,51 @@ def test_local_run_does_not_require_sync(stub_scrape, monkeypatch) -> None:
 
     monkeypatch.setattr(main, "should_sync", lambda: False)
     monkeypatch.setattr(main, "sync_web_data_to_github", _fail)
+
+    assert main.run(local=True) is True
+
+
+def test_run_still_publishes_but_fails_when_backup_fails(
+    stub_scrape, monkeypatch
+) -> None:
+    synced: list[str] = []
+
+    def _sync(output_dir: str) -> bool:
+        synced.append(output_dir)
+        return True
+
+    monkeypatch.setattr(main, "backup_run", lambda _dir: False)
+    monkeypatch.setattr(main, "should_sync", lambda: True)
+    monkeypatch.setattr(main, "sync_web_data_to_github", _sync)
+
+    assert main.run(local=False) is False
+    assert synced == ["output"]
+
+
+def test_run_backs_up_before_publishing(stub_scrape, monkeypatch) -> None:
+    calls: list[str] = []
+
+    def _backup(_dir: str) -> bool:
+        calls.append("backup")
+        return True
+
+    def _sync(_dir: str) -> bool:
+        calls.append("sync")
+        return True
+
+    monkeypatch.setattr(main, "backup_run", _backup)
+    monkeypatch.setattr(main, "should_sync", lambda: True)
+    monkeypatch.setattr(main, "sync_web_data_to_github", _sync)
+
+    assert main.run(local=False) is True
+    assert calls == ["backup", "sync"]
+
+
+def test_local_run_does_not_back_up(stub_scrape, monkeypatch) -> None:
+    def _fail(_dir: str) -> bool:
+        msg = "local runs must not back up"
+        raise AssertionError(msg)
+
+    monkeypatch.setattr(main, "backup_run", _fail)
 
     assert main.run(local=True) is True
