@@ -22,6 +22,7 @@ from typing import Any, ClassVar
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
+from boringhannover.sanitize import truncate_text
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
 
@@ -229,7 +230,9 @@ class ErhardtCafeSource(BaseSource):
                     "time_confidence": time_confidence,
                     "event_type": event_type,
                     "address": address,
-                    "description": description[:200] if description else "",
+                    "description": truncate_text(description, 200)
+                    if description
+                    else "",
                 },
             )
 

@@ -19,6 +19,7 @@ from bs4 import BeautifulSoup
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
+from boringhannover.sanitize import truncate_text
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
 
@@ -163,7 +164,9 @@ class MusikZentrumSource(BaseSource):
                     "time": event_date.strftime("%H:%M"),
                     "time_confidence": time_confidence,
                     "image_url": image_url,
-                    "description": description[:200] if description else "",
+                    "description": truncate_text(description, 200)
+                    if description
+                    else "",
                     "event_type": "concert",
                     "address": address or self.ADDRESS,
                 },

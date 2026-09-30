@@ -12,6 +12,7 @@ import type {
   OccasionSummary,
 } from '../../data/types';
 import { sanitizeUrl } from '../../utils/sanitize';
+import { formatEventTime } from '../../utils/displayLabels';
 
 interface Props {
   programmeData: OccasionProgramme;
@@ -288,7 +289,7 @@ const eventJsonLd = occasion.startDate
                     <div class="programme-item__time">
                       {event.time ? (
                         <time datetime={`${event.dateISO}T${event.time}`}>
-                          {event.time}
+                          {formatEventTime(event.time)}
                         </time>
                       ) : (
                         <span>—</span>

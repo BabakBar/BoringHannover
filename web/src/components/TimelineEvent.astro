@@ -1,5 +1,6 @@
 ---
 import { sanitizeUrl } from '../utils/sanitize';
+import { formatEventTime } from '../utils/displayLabels';
 import { getCanonicalGenre } from '../utils/genreFilter';
 
 interface Props {
@@ -64,7 +65,7 @@ const isSoldOut = status === 'sold_out';
           <span class="text-text-muted"> · </span>
         </>
       )}
-      {time && <span class="text-text-secondary tabular-nums">{time}</span>}
+      {time && <span class="text-text-secondary tabular-nums">{formatEventTime(time)}</span>}
       {time && <span> @ </span>}
       {!time && <span>@ </span>}
       <span>{venue}</span>

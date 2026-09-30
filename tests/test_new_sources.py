@@ -354,7 +354,8 @@ class TestKulturpalastLindenSource:
         long_line = "x" * 300
         result = source._first_description_line(long_line)
         assert result is not None
-        assert len(result) == 200
+        assert len(result) <= 200
+        assert result.endswith("…")
 
     def test_events_sorted_by_date(self) -> None:
         """Events should be sorted by start date."""

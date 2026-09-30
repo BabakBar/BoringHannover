@@ -14,6 +14,7 @@ from ics import Calendar
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
+from boringhannover.sanitize import truncate_text
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
 
@@ -129,7 +130,7 @@ class KulturpalastLindenSource(BaseSource):
             cleaned = " ".join(line.split())
             cleaned = cleaned.rstrip("\\")
             if cleaned:
-                return cleaned[:200]
+                return truncate_text(cleaned, 200)
         return None
 
     def _sanitize_ics(self, ics_text: str) -> str:

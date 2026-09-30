@@ -205,8 +205,13 @@ class GlockseeSource(BaseSource):
             uid = result.get("uid", "")
             event_url = f"{self.BASE_URL}#/event/{uid}" if uid else self.BASE_URL
 
-            # Extract event type
-            event_type = data.get("event_type", "Konzert")
+            # Extract event type; the API's German "Konzert" maps to the shared key
+            raw_type = str(data.get("event_type") or "").strip()
+            event_type = (
+                "concert"
+                if not raw_type or raw_type.casefold() == "konzert"
+                else raw_type
+            )
 
             # Extract description
             description = ""

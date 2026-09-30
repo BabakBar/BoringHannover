@@ -230,6 +230,9 @@ class FaustSource(BaseSource):
             if not title:
                 return None
 
+            if time_confidence == CONFIRMED_TIME:
+                event_date = self._apply_start_time(event_date, time_str)
+
             # For Bühne events, check if it's in English
             if requires_english:
                 full_text = " ".join(lines).lower()
@@ -274,6 +277,25 @@ class FaustSource(BaseSource):
         combined_text = f"{title} {description}".lower()
 
         return any(keyword in combined_text for keyword in ENGLISH_KEYWORDS)
+
+    @staticmethod
+    def _apply_start_time(event_date: datetime, time_str: str) -> datetime:
+        """Move the URL-derived 20:00 placeholder to the confirmed start time.
+
+        Faust lists late parties as "24 Uhr" under the evening they belong to.
+        They keep that listing day and sort last in it (23:59); the displayed
+        time stays "24:00".
+        """
+        hour_str, _, minute_str = time_str.partition(":")
+        try:
+            hour, minute = int(hour_str), int(minute_str or 0)
+        except ValueError:
+            return event_date
+        if hour == 24 and minute == 0:
+            return event_date.replace(hour=23, minute=59)
+        if 0 <= hour < 24 and 0 <= minute < 60:
+            return event_date.replace(hour=hour, minute=minute)
+        return event_date
 
     def _parse_date_from_url(self, href: str) -> datetime | None:
         """Extract date from URL pattern.

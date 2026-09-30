@@ -19,6 +19,7 @@ from boringhannover.sanitize import (
     MAX_TITLE_LENGTH,
     sanitize_text,
     sanitize_url,
+    truncate_text,
 )
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
@@ -128,7 +129,7 @@ class LuxSource(BaseSource):
         }
 
         if description:
-            metadata["subtitle"] = description[:200]
+            metadata["subtitle"] = truncate_text(description, 200)
             metadata["description"] = description
 
         image = card.select_one("img[src]")
