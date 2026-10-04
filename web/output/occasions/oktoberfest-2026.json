@@ -1,13 +1,13 @@
 {
   "meta": {
-    "updatedAt": "Fri 02 Oct 11:00"
+    "updatedAt": "Sun 04 Oct 20:00"
   },
   "occasion": {
     "id": "hannover-festivals:oktoberfest-2026",
     "slug": "oktoberfest-2026",
     "name": "Oktoberfest 2026",
     "kind": "festival",
-    "startDate": "2026-10-01",
+    "startDate": "2026-10-02",
     "endDate": "2026-10-11",
     "location": "Schützenplatz Hannover",
     "description": "Es geht wieder rund: Vom 25. September bis zum 11. Oktober drehen sich auf dem hannoverschen Schützenplatz beim Oktoberfest die Karussells.",
