@@ -99,7 +99,7 @@ jobs:
           echo "::add-mask::${basic}"
           if git ls-remote --exit-code --heads origin "${branch}"; then
             git fetch origin "${branch}:refs/remotes/origin/${branch}"
-            if git diff --quiet "refs/remotes/origin/${branch}" HEAD -- "${update_files[@]}"; then
+            if [ -n "${pr}" ] && [ "${REQUIRES_REVIEW}" = "true" ] && git diff --quiet "refs/remotes/origin/${branch}" HEAD -- "${update_files[@]}"; then
               echo "Update content is unchanged; preserving the existing PR commit."
               exit 0
             fi
