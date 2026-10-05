@@ -11,14 +11,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.2.8",
-    "zod": "^4.5.4"
+    "astro": "^7.3.5",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.3.3",
-    "@types/bun": "^1.4.1",
-    "png-to-ico": "^2.1.8",
+    "@types/bun": "^1.4.2",
+    "png-to-ico": "^3.0.2",
     "tailwindcss": "^4.3.3"
   }
 }
