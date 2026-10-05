@@ -22,6 +22,14 @@ def lock(version: str) -> str:
         ("0.12.1", "0.13.0", True),
         ("1.2.3", "1.3.0rc1", True),
         ("1.2.3", "1.2.2", True),
+        ("3.19", "3.20", False),
+        ("2.9.2", "2.10", False),
+        ("2026.3", "2026.5", False),
+        ("2.9.0.post0", "2.9.0.post1", False),
+        ("26.3", "26.4", False),
+        ("1.2", "1.3.dev1", True),
+        ("1.2", "invalid", True),
+        ("1.2", "1!1.3", True),
     ],
 )
 def test_classifies_python_updates(before: str, after: str, expected: bool) -> None:

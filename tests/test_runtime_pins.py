@@ -56,6 +56,16 @@ def test_runtime_refresh_never_downgrades() -> None:
     assert patch_update("1.4.2", "1.4.1") == "1.4.2"
 
 
+def test_runtime_minor_release_emits_review_warning(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert patch_update("1.4.2", "1.5.0") == "1.4.2"
+    assert (
+        "::warning::Runtime release requires review: 1.4.2 -> 1.5.0"
+        in capsys.readouterr().out
+    )
+
+
 def test_updates_trivy_digest_in_all_scanning_workflows(tmp_path: Path) -> None:
     for name in ("ci", "deploy", "security"):
         path = tmp_path / f".github/workflows/{name}.yml"

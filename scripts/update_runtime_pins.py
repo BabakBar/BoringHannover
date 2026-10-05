@@ -10,6 +10,8 @@ def patch_update(current: str, latest: str) -> str:
         return current
     old = tuple(map(int, current.split(".")))
     new = tuple(map(int, latest.split(".")))
+    if new > old and new[:2] != old[:2]:
+        print(f"::warning::Runtime release requires review: {current} -> {latest}")
     return latest if new[:2] == old[:2] and new > old else current
 
 

@@ -36,7 +36,9 @@ In addition to Dependabot, `dependency-refresh.yml` runs daily at 03:00 UTC.
 It refreshes Python and Bun dependencies, including transitive packages, within
 the declared ranges, synchronizes runtime and Trivy patch pins, and maintains one
 update PR. Python major, prerelease, downgrade, and pre-1.0 minor changes disable
-auto-merge. Runtime minor and major releases remain review decisions. The repository-scoped GitHub
+auto-merge. Runtime minor and major releases emit workflow warnings and remain
+review decisions. Unchanged refresh results preserve the existing PR commit,
+including PRs awaiting review. The repository-scoped GitHub
 App token triggers CI and, after merge, the normal deployment pipeline. It
 queues auto-merge only while all six CI checks remain required. Failed checks
 block the update; missing App credentials fail visibly. This closes the Bun

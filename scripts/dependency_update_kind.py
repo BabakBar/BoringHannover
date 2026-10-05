@@ -1,9 +1,10 @@
 """Require review for Python major, prerelease, or downgrade updates."""
 
-import re
 import sys
 import tomllib
 from pathlib import Path
+
+from packaging.version import InvalidVersion, Version
 
 
 def requires_review(before: str, after: str) -> bool:
@@ -18,13 +19,15 @@ def requires_review(before: str, after: str) -> bool:
         if len(old[name]) != 1 or not isinstance(version, str):
             return True
         previous = next(iter(old[name]))
-        if not all(re.fullmatch(r"\d+\.\d+\.\d+", v) for v in (previous, version)):
+        try:
+            start, end = Version(previous), Version(version)
+        except InvalidVersion:
             return True
-        start = tuple(map(int, previous.split(".")))
-        end = tuple(map(int, version.split(".")))
-        if end < start or end[0] != start[0]:
+        if end.is_prerelease or end.is_devrelease:
             return True
-        if start[0] == 0 and end[1] != start[1]:
+        if end < start or end.epoch != start.epoch or end.major != start.major:
+            return True
+        if start.major == 0 and end.minor != start.minor:
             return True
     return False
 
