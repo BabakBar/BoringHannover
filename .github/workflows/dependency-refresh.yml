@@ -91,14 +91,15 @@ jobs:
             fi
           fi
           git switch -c "${branch}"
-          git add uv.lock web/bun.lock web/package.json Dockerfile Dockerfile.web docker-compose.yml web/.bun-version .github/workflows/ci.yml .github/workflows/deploy.yml .github/workflows/security.yml .github/workflows/traffic-analytics.yml .github/workflows/dependency-refresh.yml MAINTENANCE.md
+          update_files=(uv.lock web/bun.lock web/package.json Dockerfile Dockerfile.web docker-compose.yml web/.bun-version .github/workflows/ci.yml .github/workflows/deploy.yml .github/workflows/security.yml .github/workflows/traffic-analytics.yml .github/workflows/dependency-refresh.yml MAINTENANCE.md)
+          git add "${update_files[@]}"
           git -c user.name='Dependency refresh' -c user.email='dependency-refresh@users.noreply.github.com' commit -m 'chore(deps): refresh Python and frontend lockfiles'
           # Authenticate only the push; never persist the installation token.
           basic="$(printf 'x-access-token:%s' "${GH_TOKEN}" | base64 -w0)"
           echo "::add-mask::${basic}"
           if git ls-remote --exit-code --heads origin "${branch}"; then
             git fetch origin "${branch}:refs/remotes/origin/${branch}"
-            if git diff --quiet "refs/remotes/origin/${branch}" HEAD; then
+            if git diff --quiet "refs/remotes/origin/${branch}" HEAD -- "${update_files[@]}"; then
               echo "Update content is unchanged; preserving the existing PR commit."
               exit 0
             fi
