@@ -137,7 +137,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
@@ -160,7 +160,7 @@ jobs:
       - name: Build and push backend
         id: build-backend
         if: needs.changes.outputs.backend == 'true'
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           file: ./Dockerfile
@@ -198,7 +198,7 @@ jobs:
       - name: Build and push frontend
         id: build-frontend
         if: needs.changes.outputs.frontend == 'true'
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           file: ./Dockerfile.web
@@ -253,7 +253,7 @@ jobs:
               -v "${HOME}/.cache/trivy:/root/.cache/trivy" \
               -e TRIVY_USERNAME="${REGISTRY_USER}" \
               -e TRIVY_PASSWORD="${REGISTRY_TOKEN}" \
-              aquasec/trivy:0.74.0@sha256:ee940acbf1f58ebadb42d01434ce4609530bf1b52536afbd1eee66cd7123c5c9 \
+              aquasec/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa \
               image --scanners vuln --severity HIGH,CRITICAL \
               --ignore-unfixed --exit-code 2 --no-progress "${ref}" || rc=$?
             case "${rc}" in

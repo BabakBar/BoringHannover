@@ -15,8 +15,8 @@ invoice again.
 |---|---|---|---|
 | Python (production) | 3.14 | `Dockerfile`, `.python-version` | Runtime for the scraper image |
 | Python (minimum supported) | 3.13 | `pyproject.toml` (`requires-python`) | Also tested in CI |
-| uv | 0.12.6 | `Dockerfile`, `ci.yml` (`UV_VERSION`) | Resolver + lockfile owner |
-| Bun | 1.4.0 | `web/.bun-version`, `Dockerfile.web`, `docker-compose.yml` | Frontend build + test runner |
+| uv | 0.12.23 | `Dockerfile`, `ci.yml` (`UV_VERSION`) | Resolver + lockfile owner |
+| Bun | 1.4.2 | `web/.bun-version`, `Dockerfile.web`, `docker-compose.yml` | Frontend build + test runner |
 | Astro | 7.x | `web/package.json` | Static output, no adapter |
 | Tailwind CSS | 4.x | `web/package.json` | Via `@tailwindcss/vite`, CSS-first config |
 | nginx | 1.30-alpine (stable) | `Dockerfile.web` | Serves the built site |
@@ -31,6 +31,21 @@ workflow env. A pin that lives in four files is a pin that silently rots in
 three of them.
 
 ## Update cadence
+
+In addition to Dependabot, `dependency-refresh.yml` runs daily at 03:00 UTC.
+It refreshes Python and Bun dependencies, including transitive packages, within
+the declared ranges, synchronizes runtime and Trivy patch pins, and maintains one
+update PR. Python major, prerelease, downgrade, and pre-1.0 minor changes disable
+auto-merge. Runtime minor and major releases remain review decisions. The repository-scoped GitHub
+App token triggers CI and, after merge, the normal deployment pipeline. It
+queues auto-merge only while all six CI checks remain required. Failed checks
+block the update; missing App credentials fail visibly. This closes the Bun
+security-update gap without waiting for the weekly direct-dependency PR.
+Major updates remain separate Dependabot PRs requiring review.
+The App needs **Workflows: read and write** in addition to Contents and Pull
+requests because runtime pin updates modify workflow files. Missing permission
+fails token creation instead of silently disabling updates.
+The weekly audit closes dependency tracking issues after a clean audit.
 
 | Change | How it arrives | Who reviews | Merge |
 |---|---|---|---|
@@ -219,6 +234,7 @@ dispatching Deploy manually.
 2. **Permissions** — Repository permissions only:
    - *Contents*: **Read and write** (performing the merge)
    - *Pull requests*: **Read and write** (enabling auto-merge)
+   - *Workflows*: **Read and write** (synchronizing runtime pins in workflows)
    Nothing else. Leave every organisation and account permission at *No access*.
 3. **Install it** on `BabakBar/BoringHannover` only — *Install App* → **Only
    select repositories**.
@@ -282,4 +298,3 @@ The repository owner reviews major updates, triages scanner findings and owns
 suppressions. Automation handles everything else. If the weekly Security Audit
 issue stays open for more than a cycle, that is the signal that this policy is
 being ignored — a permanently red dashboard is not a control.
-

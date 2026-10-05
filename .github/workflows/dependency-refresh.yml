@@ -1,0 +1,115 @@
+name: Dependency refresh
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout trusted default branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: master
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.23"
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: web/.bun-version
+
+      - name: Refresh lockfiles within declared ranges
+        run: |
+          cp uv.lock "${RUNNER_TEMP}/uv-before.lock"
+          uv lock --upgrade
+          cd web
+          bun update --ignore-scripts
+
+      - name: Synchronize runtime patch updates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          bun="$(gh api repos/oven-sh/bun/releases/latest --jq '.tag_name | ltrimstr("bun-v")')"
+          uv="$(gh api repos/astral-sh/uv/releases/latest --jq '.tag_name')"
+          zizmor="$(gh api repos/zizmorcore/zizmor/releases/latest --jq '.tag_name | ltrimstr("v")')"
+          trivy="$(gh api repos/aquasecurity/trivy/releases/latest --jq '.tag_name | ltrimstr("v")')"
+          # Validate release metadata before using it in a registry reference.
+          [[ "${trivy}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          digest="$(docker buildx imagetools inspect "aquasec/trivy:${trivy}" --format '{{json .Manifest}}' | jq -r '.digest')"
+          uv run python scripts/update_runtime_pins.py --bun "${bun}" --uv "${uv}" --zizmor "${zizmor}" --trivy-version "${trivy}" --trivy-digest "${digest}"
+
+      - name: Check for updates
+        id: changes
+        run: |
+          if ! git diff --quiet; then
+            echo "changed=true" >> "${GITHUB_OUTPUT}"
+          fi
+          review="$(uv run python scripts/dependency_update_kind.py "${RUNNER_TEMP}/uv-before.lock" uv.lock)"
+          echo "review=${review}" >> "${GITHUB_OUTPUT}"
+
+      # An App token raises pull_request and push events, so CI and Deploy run.
+      - name: Mint repository-scoped App token
+        id: app
+        if: steps.changes.outputs.changed == 'true'
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ secrets.AUTOMERGE_APP_ID }}
+          private-key: ${{ secrets.AUTOMERGE_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+          permission-workflows: write
+
+      - name: Create or refresh update PR and queue gated merge
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          GH_REPO: ${{ github.repository }}
+          REQUIRES_REVIEW: ${{ steps.changes.outputs.review }}
+        run: |
+          set -euo pipefail
+          branch="automation/dependency-refresh"
+          pr="$(gh pr list --base master --head "${branch}" --json url --jq '.[0].url // empty')"
+          if [ -n "${pr}" ] && [ "${REQUIRES_REVIEW}" = "true" ]; then
+            enabled="$(gh pr view "${pr}" --json autoMergeRequest --jq '.autoMergeRequest != null')"
+            if [ "${enabled}" = "true" ]; then
+              gh pr merge --disable-auto "${pr}"
+            fi
+          fi
+          git switch -c "${branch}"
+          git add uv.lock web/bun.lock web/package.json Dockerfile Dockerfile.web docker-compose.yml web/.bun-version .github/workflows/ci.yml .github/workflows/deploy.yml .github/workflows/security.yml .github/workflows/traffic-analytics.yml .github/workflows/dependency-refresh.yml MAINTENANCE.md
+          git -c user.name='Dependency refresh' -c user.email='dependency-refresh@users.noreply.github.com' commit -m 'chore(deps): refresh Python and frontend lockfiles'
+          # Authenticate only the push; never persist the installation token.
+          basic="$(printf 'x-access-token:%s' "${GH_TOKEN}" | base64 -w0)"
+          echo "::add-mask::${basic}"
+          if git ls-remote --exit-code --heads origin "${branch}"; then
+            git fetch origin "${branch}:refs/remotes/origin/${branch}"
+          fi
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic ${basic}" push --force-with-lease origin "HEAD:refs/heads/${branch}"
+          pr="$(gh pr list --base master --head "${branch}" --json url --jq '.[0].url // empty')"
+          if [ -z "${pr}" ]; then
+            pr="$(gh pr create --base master --head "${branch}" --title 'chore(deps): refresh Python and frontend lockfiles' --body 'Daily refresh of direct and transitive dependencies within declared ranges. All required CI checks must pass before auto-merge. The GitHub App merge triggers the normal deployment pipeline.')"
+          fi
+          if [ "${REQUIRES_REVIEW}" = "true" ]; then
+            echo "Python major, prerelease, or downgrade update requires manual review: ${pr}"
+            exit 0
+          fi
+          # Auto-merge waits only for required checks. Fail closed if protection drifts.
+          expected='["Version pins in sync","Backend (Python 3.13)","Backend (Python 3.14)","Frontend (Bun)","Workflow audit (zizmor)","Docker Build"]'
+          gh api "repos/${GH_REPO}/rules/branches/master" | jq -e --argjson expected "${expected}" '[.[] | select(.type == "required_status_checks") | .parameters.required_status_checks[].context] as $required | ($expected - $required | length) == 0'
+          gh api "repos/${GH_REPO}" --jq '.allow_auto_merge' | grep -qx true
+          gh pr merge --auto --squash --match-head-commit "$(git rev-parse HEAD)" "${pr}"
