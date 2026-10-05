@@ -134,9 +134,12 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          while read -r issue; do
-            gh issue close "${issue}"
-          done < <(gh issue list --state open --label security-audit --search '"Dependency audit findings" in:title' --json number --jq '.[].number')
+          issues="$(gh issue list --state open --label security-audit --search '"Dependency audit findings" in:title' --json number --jq '.[].number')"
+          if [ -n "${issues}" ]; then
+            while read -r issue; do
+              gh issue close "${issue}"
+            done <<< "${issues}"
+          fi
 
   images:
     name: Container image scan
