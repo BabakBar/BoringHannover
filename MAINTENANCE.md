@@ -32,7 +32,8 @@ three of them.
 
 ## Update cadence
 
-In addition to Dependabot, `dependency-refresh.yml` runs daily at 03:00 UTC.
+In addition to Dependabot, `dependency-refresh.yml` runs Fridays at 12:00
+Europe/Berlin, following daylight-saving changes automatically.
 It refreshes Python and Bun dependencies, including transitive packages, within
 the declared ranges, synchronizes runtime and Trivy patch pins, and maintains one
 update PR. Python major, prerelease, downgrade, and pre-1.0 minor changes disable

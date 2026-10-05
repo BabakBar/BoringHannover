@@ -2,7 +2,8 @@ name: Dependency refresh
 
 on:
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "0 12 * * 5"
+      timezone: "Europe/Berlin"
   workflow_dispatch:
 
 permissions:
@@ -107,7 +108,7 @@ jobs:
           git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic ${basic}" push --force-with-lease origin "HEAD:refs/heads/${branch}"
           pr="$(gh pr list --base master --head "${branch}" --json url --jq '.[0].url // empty')"
           if [ -z "${pr}" ]; then
-            pr="$(gh pr create --base master --head "${branch}" --title 'chore(deps): refresh Python and frontend lockfiles' --body 'Daily refresh of direct and transitive dependencies within declared ranges. All required CI checks must pass before auto-merge. The GitHub App merge triggers the normal deployment pipeline.')"
+            pr="$(gh pr create --base master --head "${branch}" --title 'chore(deps): refresh Python and frontend lockfiles' --body 'Weekly refresh of direct and transitive dependencies within declared ranges. All required CI checks must pass before auto-merge. The GitHub App merge triggers the normal deployment pipeline.')"
           fi
           if [ "${REQUIRES_REVIEW}" = "true" ]; then
             echo "Python major, prerelease, or downgrade update requires manual review: ${pr}"
