@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "updatedAt": "Tue 06 Oct 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:hannover-wies-27n",
+    "slug": "hannover-wies-27n",
+    "name": "Hannover Wies'n",
+    "kind": "festival",
+    "startDate": "2026-10-09",
+    "endDate": "2026-11-07",
+    "location": "Parkbühne",
+    "description": "Zum siebten Mal gibt es wieder Gaudi, Musik und zünftige Kost im Festzelt auf der Gilde Parkbühne bei der Hannover Wies'n.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/hmtg/meldungen/2018/2018_10/hannover-wiesn/16983185-3-ger-DE/Hannover-Wiesn.jpg",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Hannover-Wies%27n",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/hannover-wies-27n.json",
+    "preview": []
+  },
+  "programme": []
+}
