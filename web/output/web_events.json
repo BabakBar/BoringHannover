@@ -1,47 +1,11 @@
 {
   "meta": {
-    "week": 40,
+    "week": 41,
     "year": 2026,
-    "updatedAt": "Sun 04 Oct 20:00",
-    "updatedAtISO": "2026-10-04T20:00:54.965790+02:00"
+    "updatedAt": "Tue 06 Oct 11:00",
+    "updatedAtISO": "2026-10-06T11:00:51.436829+02:00"
   },
   "movies": [
-    {
-      "day": "SUN",
-      "date": "04.10",
-      "movies": [
-        {
-          "title": "Avengers: Endgame - Extended",
-          "year": 2019,
-          "time": "20:15",
-          "venue": "Astor Grand Cinema",
-          "duration": "3h4m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/avengers-endgame-extended-2026"
-        }
-      ]
-    },
-    {
-      "day": "MON",
-      "date": "05.10",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:15",
-          "venue": "Astor Grand Cinema",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
     {
       "day": "TUE",
       "date": "06.10",
@@ -103,9 +67,63 @@
       ]
     },
     {
+      "day": "THU",
+      "date": "08.10",
+      "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Linkin Park: Unshatter",
+          "year": 2026,
+          "time": "20:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h53m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/linkin-park-unshatter"
+        }
+      ]
+    },
+    {
       "day": "FRI",
       "date": "09.10",
       "movies": [
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "17:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        },
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "22:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        },
         {
           "title": "THE INVITE",
           "year": 2026,
@@ -124,6 +142,18 @@
       "day": "SAT",
       "date": "10.10",
       "movies": [
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "12:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        },
         {
           "title": "Queen - Budapest",
           "year": 2026,
@@ -147,6 +177,78 @@
           "rating": "FSK16",
           "genre": null,
           "url": "https://www.apollokino.de/?v=&film=filme/00004929&anmerk=OmU-Nachtstudio-engl.%20OmU"
+        },
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "22:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "11.10",
+      "movies": [
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "12:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Resident Evil",
+          "year": 2026,
+          "time": "20:15",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h34m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/resident-evil"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "12.10",
+      "movies": [
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "12:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
         }
       ]
     },
@@ -154,6 +256,30 @@
       "day": "TUE",
       "date": "13.10",
       "movies": [
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "12:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
         {
           "title": "Die Tribute von Panem - The Hunger Games",
           "year": 2012,
@@ -165,6 +291,60 @@
           "rating": "FSK12",
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/die-tribute-von-panem-the-hunger-games"
+        },
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "20:15",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        }
+      ]
+    },
+    {
+      "day": "WED",
+      "date": "14.10",
+      "movies": [
+        {
+          "title": "Verity - Dunkle Geheimnisse",
+          "year": 2026,
+          "time": "12:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h58m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
+          "title": "Linkin Park: Unshatter",
+          "year": 2026,
+          "time": "20:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h53m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/linkin-park-unshatter"
         }
       ]
     },
@@ -218,44 +398,6 @@
     }
   ],
   "concerts": [
-    {
-      "title": "Offener Treff der Blauen Zone",
-      "date": "5 Okt",
-      "dateISO": "2026-10-05",
-      "day": "Mo",
-      "time": "16:00",
-      "timeConfidence": "confirmed",
-      "endTime": "18:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-10-05/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm…",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "Swing am PLATZ",
-      "date": "5 Okt",
-      "dateISO": "2026-10-05",
-      "day": "Mo",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "endTime": "22:00",
-      "venue": "OSCO – OpenSpace",
-      "url": "https://platzprojekt.de/programm/swing-im-osco/2026-10-05/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Auf gehts zum Montags-Social-Dance im OSCO. Ganz viel Lindy, aber auch etwas Balboa, Shag, Blues oder Charleston und das ganze auf sensationellen Echtholz-Dielen. 19:00 Uhr – Party mit DJ Getränke…",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Party",
-      "sourceName": "PLATZprojekt"
-    },
     {
       "title": "MATTERZ",
       "date": "6 Okt",
@@ -513,25 +655,6 @@
       "sourceName": "PLATZprojekt"
     },
     {
-      "title": "PLATZ für dich – So kannst du mitmachen",
-      "date": "8 Okt",
-      "dateISO": "2026-10-08",
-      "day": "Do",
-      "time": "18:00",
-      "timeConfidence": "confirmed",
-      "endTime": "19:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/platz-fuer-dich-so-kannst-du-mitmachen/2026-10-08/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Du willst dich beim PLATZprojekt einbringen, bist dir aber nicht sicher, wo und wie? Dann ist dieses Treffen genau das Richtige für dich! Das PLATZprojekt lebt von Menschen, die sich engagieren und…",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community",
-      "sourceName": "PLATZprojekt"
-    },
-    {
       "title": "Offener Rundgang auf dem PLATZprojekt",
       "date": "8 Okt",
       "dateISO": "2026-10-08",
@@ -546,6 +669,25 @@
       "programmeCategory": null,
       "description": "Was ist das PLATZprojekt? Wie sehen die Container von innen aus? Wer macht hier was? Wann kann ich selbst mitmachen? All das und noch viel mehr kannst du erfahren, wenn du mit uns eine Runde über das…",
       "imageUrl": "https://platzprojekt.de/wp-content/uploads/2024/03/PLATZprojekt-2024-Stahlwandel.jpg",
+      "status": "available",
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "PLATZ für dich – So kannst du mitmachen",
+      "date": "8 Okt",
+      "dateISO": "2026-10-08",
+      "day": "Do",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "endTime": "20:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/platz-fuer-dich-so-kannst-du-mitmachen/2026-10-08/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Du willst dich beim PLATZprojekt einbringen, bist dir aber nicht sicher, wo und wie? Dann ist dieses Treffen genau das Richtige für dich! Das PLATZprojekt lebt von Menschen, die sich engagieren und…",
+      "imageUrl": null,
       "status": "available",
       "radarCategory": "Culture & Community",
       "sourceName": "PLATZprojekt"
@@ -804,42 +946,6 @@
       "radarCategory": "Culture & Community"
     },
     {
-      "title": "KiezKultur-Festival 2026",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "14:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/091026-kiezkultur-festival-2026.html",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=kiezkultur-festival-2026.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Speedboating – wim x Kiezkultur Festival",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "16:45",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/92854/speedboating-wim-x-kiezkultur-festival",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
       "title": "Bierausschank und -verkauf an der Braukiste",
       "date": "9 Okt",
       "dateISO": "2026-10-09",
@@ -985,42 +1091,6 @@
       "radarCategory": "Live Music"
     },
     {
-      "title": "KiezKultur-Festival / Aftershow-Party",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "24:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/091026-kiezkultur-festival-aftershow-party.html",
-      "eventType": "party",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=kiezkultur-festival_aftershow-party.jpg",
-      "status": "available",
-      "radarCategory": "Party"
-    },
-    {
-      "title": "KiezKultur-Festival 2026",
-      "date": "10 Okt",
-      "dateISO": "2026-10-10",
-      "day": "Sa",
-      "time": "14:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/101026-kiezkultur-festival-2026.html",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=kiezkultur-festival-2026.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
       "title": "PLATZprojekt Herbstfest 2026",
       "date": "10 Okt",
       "dateISO": "2026-10-10",
@@ -1033,7 +1103,7 @@
       "eventType": "event",
       "genre": null,
       "programmeCategory": null,
-      "description": "Unser Frühlingsfest läutet die Open Air Saison ein – mit einem Herbstfest wollen wir uns in diesem Jahr langsam von ihr verabschieden. Kommt vorbei und feiert mit uns! Wie bei jedem Fest sind wir…",
+      "description": "Unser Frühlingsfest läutet die Open Air Saison ein – mit unserem Herbstfest wollen wir uns in diesem Jahr langsam von ihr verabschieden. Komm vorbei und sei dabei! Wir starten pünktlich ab 15 Uhr…",
       "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/09/Herbstfest-Save-the-date-01.png",
       "status": "available",
       "radarCategory": "Culture & Community",
@@ -1199,24 +1269,6 @@
       "programmeCategory": null,
       "description": "Auf euch wartet eine epische Nacht! Die King or Queen Party ist eine Big Queer Party in Hannover. Heiße Pop, Iconic, Charts, Hits, House, Latin und Techno Beats mit extravaganten Drag Queens erwarten…",
       "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/09/image0-214x268.png",
-      "status": "available",
-      "radarCategory": "Party"
-    },
-    {
-      "title": "KiezKultur-Festival / Aftershow-Party",
-      "date": "10 Okt",
-      "dateISO": "2026-10-10",
-      "day": "Sa",
-      "time": "24:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/101026-kiezkultur-festival-aftershow-party.html",
-      "eventType": "party",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=kiezkultur-festival_aftershow-party.jpg",
       "status": "available",
       "radarCategory": "Party"
     },
@@ -2026,6 +2078,24 @@
       "radarCategory": "Live Music"
     },
     {
+      "title": "Ich Kann Fliegen",
+      "date": "17 Okt",
+      "dateISO": "2026-10-17",
+      "day": "Sa",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/171026-ich-kann-fliegen.html",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=ich_kann_fliegen_tb.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
       "title": "LORI",
       "date": "17 Okt",
       "dateISO": "2026-10-17",
@@ -2168,6 +2238,44 @@
       "imageUrl": null,
       "status": "available",
       "radarCategory": "Live Music"
+    },
+    {
+      "title": "Offener Treff der Blauen Zone",
+      "date": "19 Okt",
+      "dateISO": "2026-10-19",
+      "day": "Mo",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "endTime": "18:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-10-19/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm…",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "Swing am PLATZ",
+      "date": "19 Okt",
+      "dateISO": "2026-10-19",
+      "day": "Mo",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "endTime": "22:00",
+      "venue": "OSCO – OpenSpace",
+      "url": "https://platzprojekt.de/programm/swing-im-osco/2026-10-19/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Auf gehts zum Montags-Social-Dance im OSCO. Ganz viel Lindy, aber auch etwas Balboa, Shag, Blues oder Charleston und das ganze auf sensationellen Echtholz-Dielen. 19:00 Uhr – Party mit DJ Getränke…",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Party",
+      "sourceName": "PLATZprojekt"
     }
   ],
   "occasions": [
@@ -2176,34 +2284,103 @@
       "slug": "oktoberfest-2026",
       "name": "Oktoberfest 2026",
       "kind": "festival",
-      "startDate": "2026-10-02",
-      "endDate": "2026-10-11",
+      "startDate": "2026-10-07",
+      "endDate": "2026-10-10",
       "location": "Schützenplatz Hannover",
       "description": "Es geht wieder rund: Vom 25. September bis zum 11. Oktober drehen sich auf dem hannoverschen Schützenplatz beim Oktoberfest die Karussells.",
       "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/3/7/7/7/24827773-2-ger-DE/c46022c782b7-oktoberfest-riesenrad-c-hannover.de.jpg",
       "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Oktoberfest-2026",
-      "status": "happening_now",
+      "status": "upcoming",
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/oktoberfest-2026.json",
       "preview": []
     },
     {
-      "id": "hannover-festivals:am-4-oktober-ist-schorsenbummel",
-      "slug": "am-4-oktober-ist-schorsenbummel",
-      "name": "Am 4. Oktober ist Schorsenbummel",
+      "id": "hannover-festivals:hannover-wies-27n",
+      "slug": "hannover-wies-27n",
+      "name": "Hannover Wies'n",
       "kind": "festival",
-      "startDate": "2026-10-04",
-      "endDate": "2026-10-04",
-      "location": "Hannovers Innenstadt",
-      "description": "Der Schorsenbummel mit König Georg III. alias Charly Neumann, dem Teufelsgeiger, hat in Hannover Tradition. Am 4. Oktober findet diese klangvolle Veransta...",
-      "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/landeshauptstadt-hannover/meldungen/2015/april/instrumente/12513066-1-ger-DE/Instrumente.jpg",
-      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Am-4.-Oktober-ist-Schorsenbummel",
-      "status": "final_weekend",
+      "startDate": "2026-10-09",
+      "endDate": "2026-11-07",
+      "location": "Parkbühne",
+      "description": "Zum siebten Mal gibt es wieder Gaudi, Musik und zünftige Kost im Festzelt auf der Gilde Parkbühne bei der Hannover Wies'n.",
+      "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/hmtg/meldungen/2018/2018_10/hannover-wiesn/16983185-3-ger-DE/Hannover-Wiesn.jpg",
+      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Hannover-Wies%27n",
+      "status": "upcoming",
       "programmeCount": 0,
       "locationCount": 0,
-      "programmePath": "occasions/am-4-oktober-ist-schorsenbummel.json",
+      "programmePath": "occasions/hannover-wies-27n.json",
       "preview": []
+    },
+    {
+      "id": "hannover-festivals:kiezkultur-festival",
+      "slug": "kiezkultur-festival",
+      "name": "KiezKultur Festival",
+      "kind": "festival",
+      "startDate": "2026-10-09",
+      "endDate": "2026-10-10",
+      "location": "Zur Bettfedernfabrik 3, 30451 Hannover",
+      "description": "Faust und Glocksee: Am 9. und 10. Oktober vereinen sich zwei Kieze in Hannover zum einem Festival.",
+      "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/1/7/9/8/30428971-1-ger-DE/9e46dff4e371-KKF24-byHenrikLu-hrsen-377-C-Henrik-Lu-hrsen-1-1-.jpg",
+      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/KiezKultur-Festival",
+      "status": "upcoming",
+      "programmeCount": 5,
+      "locationCount": 2,
+      "programmePath": "occasions/kiezkultur-festival.json",
+      "preview": [
+        {
+          "title": "KiezKultur-Festival 2026",
+          "date": "9 Okt",
+          "dateISO": "2026-10-09",
+          "day": "Fr",
+          "time": "14:00",
+          "timeConfidence": "confirmed",
+          "endTime": null,
+          "venue": "Faust",
+          "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/091026-kiezkultur-festival-2026.html",
+          "eventType": "concert",
+          "genre": null,
+          "programmeCategory": null,
+          "description": null,
+          "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=kiezkultur-festival-2026.jpg",
+          "status": "available"
+        },
+        {
+          "title": "Speedboating – wim x Kiezkultur Festival",
+          "date": "9 Okt",
+          "dateISO": "2026-10-09",
+          "day": "Fr",
+          "time": "16:45",
+          "timeConfidence": "confirmed",
+          "endTime": null,
+          "venue": "Pavillon",
+          "url": "https://pavillon-hannover.de/event/details/92854/speedboating-wim-x-kiezkultur-festival",
+          "eventType": "concert",
+          "genre": null,
+          "programmeCategory": null,
+          "description": null,
+          "imageUrl": null,
+          "status": "available"
+        },
+        {
+          "title": "KiezKultur-Festival / Aftershow-Party",
+          "date": "9 Okt",
+          "dateISO": "2026-10-09",
+          "day": "Fr",
+          "time": "24:00",
+          "timeConfidence": "confirmed",
+          "endTime": null,
+          "venue": "Faust",
+          "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/091026-kiezkultur-festival-aftershow-party.html",
+          "eventType": "party",
+          "genre": null,
+          "programmeCategory": null,
+          "description": null,
+          "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=kiezkultur-festival_aftershow-party.jpg",
+          "status": "available"
+        }
+      ]
     },
     {
       "id": "hannover-festivals:tiergartenfest-hannover",
@@ -2213,7 +2390,7 @@
       "startDate": "2026-10-10",
       "endDate": "2026-10-10",
       "location": "Tiergarten",
-      "description": "Die Landeshauptstadt Hannover lädt am 10. Oktober wieder zum traditionellen Tiergartenfest ein. Von 13 bis 18:30 Uhr erwartet Besucher*innen ein buntes Fa...",
+      "description": "Die Landeshauptstadt Hannover lädt am Samstag (10. Oktober) wieder zum traditionellen Tiergartenfest ein. Von 13 bis 18:30 Uhr erwartet Besucher*innen ein...",
       "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/4/1/6/23506142-1-ger-DE/Tiergartenfest 05.jpg",
       "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Tiergartenfest-Hannover",
       "status": "upcoming",
