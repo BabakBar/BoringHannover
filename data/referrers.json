@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-05",
+  "last_updated": "2026-10-06",
   "snapshots": [
     {
       "date": "2026-09-04",
@@ -279,6 +279,11 @@
     {
       "date": "2026-10-05",
       "timestamp": "2026-10-05T00:00:00Z",
+      "referrers": []
+    },
+    {
+      "date": "2026-10-06",
+      "timestamp": "2026-10-06T00:00:00Z",
       "referrers": []
     }
   ],
