@@ -2,17 +2,20 @@
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import OccasionStatus from '../../components/OccasionStatus.astro';
 import {
   loadEventData,
   loadOccasionProgramme,
 } from '../../data/loader';
 import type {
   Concert,
+  OccasionOccurrence,
   OccasionProgramme,
   OccasionSummary,
 } from '../../data/types';
 import { sanitizeUrl } from '../../utils/sanitize';
 import { formatEventTime } from '../../utils/displayLabels';
+import { occasionJsonLd } from '../../utils/occasionJsonLd';
 
 interface Props {
   programmeData: OccasionProgramme;
@@ -44,12 +47,6 @@ export function getStaticPaths() {
 const { programmeData, week, year } = Astro.props;
 const { occasion, programme } = programmeData;
 
-const statusLabels = {
-  upcoming: 'Coming soon',
-  happening_now: 'Happening now',
-  final_weekend: 'Final weekend',
-} as const;
-
 function dateValue(isoDate: string): Date {
   return new Date(`${isoDate}T12:00:00`);
 }
@@ -61,6 +58,17 @@ function shortDate(isoDate: string): string {
   }).format(dateValue(isoDate)).toUpperCase();
 }
 
+function appointmentLabel(occurrence: OccasionOccurrence): string {
+  const day = new Intl.DateTimeFormat('en-GB', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  }).format(dateValue(occurrence.date));
+  return occurrence.startTime
+    ? `${day}, ${formatEventTime(occurrence.startTime)}`
+    : day;
+}
+
 function longDate(isoDate: string): string {
   return new Intl.DateTimeFormat('en-GB', {
     weekday: 'long',
@@ -70,6 +78,10 @@ function longDate(isoDate: string): string {
 }
 
 const dateRange = `${shortDate(occasion.startDate)} — ${shortDate(occasion.endDate)}`;
+// Sparse appointments are listed one by one; the range alone would read as
+// one continuous block.
+const appointments =
+  occasion.scheduleConfidence === 'discrete' ? occasion.occurrences ?? [] : [];
 const safeSourceUrl = sanitizeUrl(occasion.sourceUrl);
 
 const groups = new Map<string, Concert[]>();
@@ -112,32 +124,7 @@ const officialUrl = occasion.sourceUrl
 
 // Google only supports Event markup on single-event pages, which is exactly
 // what these are. The listing pages deliberately get none.
-const eventJsonLd = occasion.startDate
-  ? {
-      '@context': 'https://schema.org',
-      '@type': 'Event',
-      name: occasion.name,
-      startDate: occasion.startDate,
-      ...(occasion.endDate ? { endDate: occasion.endDate } : {}),
-      description: occasion.description,
-      ...(occasion.imageUrl ? { image: occasion.imageUrl } : {}),
-      eventStatus: 'https://schema.org/EventScheduled',
-      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-      location: {
-        '@type': 'Place',
-        name: occasion.location,
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: 'Hannover',
-          addressCountry: 'DE',
-        },
-      },
-      // url must be the page carrying the markup; the venue's own site is a
-      // sameAs reference, not a substitute for it.
-      ...(canonicalUrl ? { url: canonicalUrl } : {}),
-      ...(officialUrl ? { sameAs: officialUrl } : {}),
-    }
-  : undefined;
+const eventJsonLd = occasionJsonLd(occasion, { canonicalUrl, officialUrl });
 ---
 
 <Base
@@ -158,13 +145,33 @@ const eventJsonLd = occasion.startDate
     <div class="occasion-hero__topline">
       <span>Special in Hannover</span>
       <span class="occasion-hero__status">
-        <span aria-hidden="true"></span>
-        {statusLabels[occasion.status]}
+        <span class="occasion-hero__status-dot" aria-hidden="true"></span>
+        <OccasionStatus occasion={occasion} />
       </span>
     </div>
 
     <p class="occasion-hero__date">{dateRange}</p>
     <h1>{occasion.name}</h1>
+    {appointments.length > 0 && (
+      <ul class="occasion-hero__appointments" aria-label="Dates">
+        {appointments.map((occurrence) => (
+          <li>
+            <time
+              datetime={occurrence.startTime
+                ? `${occurrence.date}T${occurrence.startTime}`
+                : occurrence.date}
+            >
+              {appointmentLabel(occurrence)}
+            </time>
+          </li>
+        ))}
+      </ul>
+    )}
+    {occasion.hoursText && (
+      <p class="occasion-hero__hours">
+        <span>Source schedule:</span> <span lang="de">{occasion.hoursText}</span>
+      </p>
+    )}
     <p class="occasion-hero__description">{occasion.description}</p>
 
     <div class="occasion-hero__facts">
@@ -596,7 +603,7 @@ const eventJsonLd = occasion.startDate
     color: var(--text-muted);
   }
 
-  .occasion-hero__status span {
+  .occasion-hero__status-dot {
     width: 5px;
     height: 5px;
     background: var(--accent);
@@ -624,6 +631,29 @@ const eventJsonLd = occasion.startDate
     letter-spacing: -0.075em;
     line-height: 0.9;
     text-transform: uppercase;
+  }
+
+  .occasion-hero__appointments {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.9rem;
+    max-width: 24rem;
+    margin-top: 1rem;
+    color: var(--text-data);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .occasion-hero__hours {
+    position: relative;
+    z-index: 1;
+    max-width: 24rem;
+    margin-top: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.5;
   }
 
   .occasion-hero__description {

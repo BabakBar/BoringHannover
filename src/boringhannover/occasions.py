@@ -21,16 +21,42 @@ if TYPE_CHECKING:
     from boringhannover.models import Event
 
 __all__ = [
+    "SOURCE_STATUS_LABELS",
     "OccasionBundle",
     "OccasionDefinition",
     "OccasionStatus",
+    "Occurrence",
+    "ScheduleConfidence",
+    "SourceStatus",
     "build_occasion_bundles",
     "classify_programme_item",
+    "occasion_date_range",
+    "occasion_lifecycle",
 ]
 
 logger = logging.getLogger(__name__)
 
 OccasionStatus = Literal["upcoming", "happening_now", "final_weekend"]
+# continuous: every date of the envelope is a confirmed date; discrete: only
+# the listed dates are; unknown: the source schedule could not be parsed safely.
+ScheduleConfidence = Literal["continuous", "discrete", "unknown"]
+# Explicit source evidence only; a missing status means unknown, not scheduled.
+SourceStatus = Literal["scheduled", "cancelled", "postponed", "rescheduled"]
+
+SOURCE_STATUS_LABELS: dict[str, str] = {
+    "cancelled": "Cancelled",
+    "postponed": "Postponed",
+    "rescheduled": "Rescheduled",
+}
+
+
+@dataclass(frozen=True, slots=True)
+class Occurrence:
+    """One confirmed appointment; times are confirmed local HH:MM values."""
+
+    date: date
+    start_time: str | None = None
+    end_time: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -48,6 +74,11 @@ class OccasionDefinition:
     description: str
     discovery_lead_days: int = EVENT_LOOKAHEAD_DAYS
     image_url: str = ""
+    occurrences: tuple[Occurrence, ...] = ()
+    schedule_confidence: ScheduleConfidence | None = None
+    hours_text: str = ""
+    source_status: SourceStatus | None = None
+    previous_start_date: date | None = None
 
     def __post_init__(self) -> None:
         """Reject definitions that cannot produce stable public routes."""
@@ -60,19 +91,69 @@ class OccasionDefinition:
         if not self.source_url.startswith("https://"):
             msg = f"Occasion {self.id!r} requires an HTTPS source URL"
             raise ValueError(msg)
+        if any(
+            not self.start_date <= occurrence.date <= self.end_date
+            for occurrence in self.occurrences
+        ):
+            msg = f"Occasion {self.id!r} has an occurrence outside its dates"
+            raise ValueError(msg)
 
     def is_discoverable(self, today: date) -> bool:
-        """Return whether this occasion belongs on active product surfaces."""
+        """Return whether this occasion belongs on active product surfaces.
+
+        Sparse appointments are discoverable only while one falls inside the
+        inclusive horizon; their envelope is not continuous availability.
+        """
+        if self.schedule_confidence == "discrete":
+            return bool(self.occurrences_within(today))
         visible_from = self.start_date - timedelta(days=self.discovery_lead_days)
         return visible_from <= today <= self.end_date
 
+    def occurrences_within(self, today: date) -> tuple[Occurrence, ...]:
+        """Return confirmed appointments from today through the horizon."""
+        horizon_end = today + timedelta(days=self.discovery_lead_days)
+        return tuple(
+            occurrence
+            for occurrence in self.occurrences
+            if today <= occurrence.date <= horizon_end
+        )
+
     def status_on(self, today: date) -> OccasionStatus:
-        """Return deterministic lifecycle copy for a discoverable occasion."""
+        """Return deterministic lifecycle copy for a discoverable occasion.
+
+        A final weekend is a Saturday or Sunday of a multi-day occasion that
+        started before that weekend and ends within it.
+        """
         if today < self.start_date:
             return "upcoming"
-        if (self.end_date - today).days <= 2:
-            return "final_weekend"
+        if today.weekday() >= 5:
+            saturday = today - timedelta(days=today.weekday() - 5)
+            sunday = saturday + timedelta(days=1)
+            if self.start_date < saturday and self.end_date <= sunday:
+                return "final_weekend"
         return "happening_now"
+
+
+def occasion_date_range(definition: OccasionDefinition) -> str:
+    """Return digest date copy; sparse appointments are not a continuous block."""
+    span = (
+        f"{definition.start_date.strftime('%d %b')}"
+        f"-{definition.end_date.strftime('%d %b')}"
+    )
+    if definition.schedule_confidence == "discrete":
+        return f"Selected dates {span}"
+    return span
+
+
+def occasion_lifecycle(
+    definition: OccasionDefinition,
+    now: datetime,
+) -> OccasionStatus | None:
+    """Return the lifecycle at the Berlin date of ``now``; None if undiscoverable."""
+    today = now.astimezone(BERLIN_TZ).date()
+    if not definition.is_discoverable(today):
+        return None
+    return definition.status_on(today)
 
 
 @dataclass(frozen=True, slots=True)
@@ -284,13 +365,13 @@ def build_occasion_bundles(
     bundles = [
         OccasionBundle(
             definition=definition,
-            status=definition.status_on(current.date()),
+            status=status,
             events=tuple(
                 sorted(programme_by_id[occasion_id], key=lambda event: event.date)
             ),
         )
         for occasion_id, definition in definitions.items()
-        if definition.is_discoverable(current.date())
+        if (status := occasion_lifecycle(definition, current)) is not None
     ]
     bundles.sort(
         key=lambda bundle: (bundle.definition.start_date, bundle.definition.name)

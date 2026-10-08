@@ -1,0 +1,55 @@
+---
+import type { OccasionSummary } from '../data/types';
+import {
+  staticOccasionLabel,
+  type OccasionSchedule,
+} from '../utils/occasionStatus';
+
+interface Props {
+  occasion: OccasionSummary;
+}
+
+const { occasion } = Astro.props;
+const schedule: OccasionSchedule = {
+  startDate: occasion.startDate,
+  endDate: occasion.endDate,
+  occurrences: occasion.occurrences,
+  scheduleConfidence: occasion.scheduleConfidence,
+  sourceStatus: occasion.sourceStatus,
+};
+// Without JavaScript the build-time label must stay true for days; the script
+// below refines it with the reader's clock, still from confirmed facts only.
+const label = staticOccasionLabel(schedule, new Date());
+---
+
+<span
+  data-occasion-status
+  data-state={label.key}
+  data-occasion-schedule={JSON.stringify(schedule)}
+>{label.text}</span>
+
+<script>
+  import { occasionLabel, type OccasionSchedule } from '../utils/occasionStatus';
+
+  function refreshOccasionStatus() {
+    const now = new Date();
+    for (const element of document.querySelectorAll<HTMLElement>(
+      '[data-occasion-status]',
+    )) {
+      let schedule: OccasionSchedule;
+      try {
+        schedule = JSON.parse(element.dataset.occasionSchedule ?? '');
+      } catch {
+        continue;
+      }
+      const label = occasionLabel(schedule, now);
+      element.textContent = label.text;
+      element.dataset.state = label.key;
+    }
+  }
+
+  refreshOccasionStatus();
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') refreshOccasionStatus();
+  });
+</script>

@@ -48,6 +48,25 @@ export const occasionStatusSchema = z.enum([
   'happening_now',
   'final_weekend',
 ]);
+// #59 schedule evidence. All optional: snapshots exported before it still
+// parse, and this consumer must ship before a scrape publishes these values.
+const localTime = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
+export const occasionOccurrenceSchema = z.object({
+  date: z.iso.date(),
+  startTime: localTime.optional(),
+  endTime: z.union([localTime, z.literal('24:00')]).optional(),
+});
+export const scheduleConfidenceSchema = z.enum([
+  'continuous',
+  'discrete',
+  'unknown',
+]);
+export const sourceStatusSchema = z.enum([
+  'scheduled',
+  'cancelled',
+  'postponed',
+  'rescheduled',
+]);
 export const occasionSummarySchema = z.object({
   id: z.string().min(1),
   slug: z.string().regex(/^[a-z0-9-]+$/),
@@ -64,6 +83,11 @@ export const occasionSummarySchema = z.object({
   locationCount: count,
   programmePath: z.string().regex(/^occasions\/[a-z0-9-]+\.json$/),
   preview: z.array(concertSchema),
+  occurrences: z.array(occasionOccurrenceSchema).optional(),
+  scheduleConfidence: scheduleConfidenceSchema.optional(),
+  hoursText: z.string().optional(),
+  sourceStatus: sourceStatusSchema.optional(),
+  previousStartDate: z.iso.date().optional(),
 });
 export const occasionProgrammeSchema = z.object({
   meta: z.object({ updatedAt: z.string() }),

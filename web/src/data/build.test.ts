@@ -97,3 +97,113 @@ test('Astro build selects the anchored root, rejects missing production data, an
     rmSync(root, { recursive: true, force: true });
   }
 }, 120000);
+
+test('occasion pages render source status, sparse dates and source hours without JS', () => {
+  const root = mkdtempSync(join(tmpdir(), 'occasion-build-'));
+  const env = { ...process.env };
+  for (const name of ['WEB_DATA_ROOT', 'WEB_DATA_MODE', 'WEB_DATA_MAX_AGE_DAYS'])
+    delete env[name];
+  const data = join(root, 'data');
+  const outDir = join(root, 'dist');
+  const occasion = (slug: string, extra: Record<string, unknown>) => ({
+    id: `hannover-festivals:${slug}`,
+    slug,
+    name: slug,
+    kind: 'festival',
+    startDate: '2026-10-09',
+    endDate: '2026-10-17',
+    location: 'Parkbühne',
+    description: 'Ein Fest.',
+    imageUrl: null,
+    sourceUrl: `https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/${slug}`,
+    status: 'happening_now',
+    programmeCount: 0,
+    locationCount: 0,
+    programmePath: `occasions/${slug}.json`,
+    preview: [],
+    ...extra,
+  });
+  const occasions = [
+    occasion('abgesagtes-fest', { sourceStatus: 'cancelled' }),
+    occasion('wiesn', {
+      scheduleConfidence: 'discrete',
+      occurrences: [
+        { date: '2026-10-09', startTime: '18:00' },
+        { date: '2026-10-16', startTime: '18:00' },
+      ],
+    }),
+    occasion('flohmarkt', {
+      scheduleConfidence: 'unknown',
+      hoursText: '04.10.2026 bis 18.10.2026 ab 08:00 bis 17:00 Uhr sonntags',
+    }),
+  ];
+  try {
+    mkdirSync(join(data, 'occasions'), { recursive: true });
+    writeFileSync(
+      join(data, 'web_events.json'),
+      JSON.stringify({
+        meta: {
+          week: 41,
+          year: 2026,
+          updatedAt: 'Fri 09 Oct 11:00',
+          updatedAtISO: '2026-10-09T11:00:00+02:00',
+        },
+        movies: [],
+        concerts: [],
+        occasions,
+      }),
+    );
+    for (const item of occasions)
+      writeFileSync(
+        join(data, item.programmePath),
+        JSON.stringify({
+          meta: { updatedAt: 'Fri 09 Oct 11:00' },
+          occasion: item,
+          programme: [],
+        }),
+      );
+    const result = spawnSync(
+      process.execPath,
+      [
+        join(projectRoot, 'node_modules/astro/bin/astro.mjs'),
+        'build',
+        '--root',
+        projectRoot,
+        '--outDir',
+        outDir,
+      ],
+      {
+        cwd: root,
+        env: { ...env, WEB_DATA_ROOT: data, WEB_DATA_MODE: 'fixture' },
+        encoding: 'utf8',
+        timeout: 60000,
+      },
+    );
+    if (result.error) throw result.error;
+    expect(result.status, result.stdout + result.stderr).toBe(0);
+    const page = (slug: string) =>
+      readFileSync(join(outDir, 'special', slug, 'index.html'), 'utf8');
+
+    const cancelled = page('abgesagtes-fest');
+    expect(cancelled).toMatch(/data-occasion-status[^>]*>\s*Cancelled\s*</);
+    expect(cancelled).toContain('https://schema.org/EventCancelled');
+    expect(page('flohmarkt')).not.toContain('schema.org/EventScheduled');
+
+    const wiesn = page('wiesn');
+    expect(wiesn).toContain('data-occasion-schedule=');
+    // Scoped styles add data-astro-cid-* attributes to these elements.
+    expect(wiesn).toMatch(
+      /<time datetime="2026-10-09T18:00"[^>]*>\s*Fri 9 Oct, 18:00\s*<\/time>/,
+    );
+    expect(wiesn).toMatch(/<time datetime="2026-10-16T18:00"[^>]*>/);
+
+    expect(page('flohmarkt')).toMatch(
+      /<span lang="de"[^>]*>04\.10\.2026 bis 18\.10\.2026 ab 08:00 bis 17:00 Uhr sonntags<\/span>/,
+    );
+    expect(readFileSync(join(outDir, 'index.html'), 'utf8')).toContain(
+      'data-occasion-status',
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+}, 120000);

@@ -32,9 +32,11 @@ from boringhannover.event_time import (
 )
 from boringhannover.genre import normalize_genre
 from boringhannover.occasions import (
+    SOURCE_STATUS_LABELS,
     OccasionBundle,
     OccasionDefinition,
     build_occasion_bundles,
+    occasion_date_range,
 )
 from boringhannover.radar_categories import classify_radar_category
 from boringhannover.sanitize import (
@@ -299,7 +301,7 @@ def _occasion_summary(
         "",
     )
 
-    return {
+    summary: dict[str, object] = {
         "id": definition.id,
         "slug": definition.slug,
         "name": sanitize_text(definition.name, MAX_TITLE_LENGTH),
@@ -316,6 +318,34 @@ def _occasion_summary(
         "programmePath": f"occasions/{definition.slug}.json",
         "preview": preview,
     }
+    # Optional schedule evidence (#59). Keys are omitted when unknown so older
+    # snapshots keep their shape; occurrences stop at the discovery horizon
+    # while endDate keeps the occasion's true end.
+    occurrences = definition.occurrences_within(
+        generated_at.astimezone(BERLIN_TZ).date()
+    )
+    if occurrences:
+        summary["occurrences"] = [
+            {
+                "date": occurrence.date.isoformat(),
+                **(
+                    {"startTime": occurrence.start_time}
+                    if occurrence.start_time
+                    else {}
+                ),
+                **({"endTime": occurrence.end_time} if occurrence.end_time else {}),
+            }
+            for occurrence in occurrences
+        ]
+    if definition.schedule_confidence:
+        summary["scheduleConfidence"] = definition.schedule_confidence
+    if definition.hours_text:
+        summary["hoursText"] = sanitize_text(definition.hours_text, 240)
+    if definition.source_status:
+        summary["sourceStatus"] = definition.source_status
+    if definition.previous_start_date:
+        summary["previousStartDate"] = definition.previous_start_date.isoformat()
+    return summary
 
 
 def _export_occasions(
@@ -505,6 +535,7 @@ def export_markdown_digest(
     year: int,
     *,
     occasion_definitions: Sequence[OccasionDefinition] = (),
+    generated_at: datetime | None = None,
 ) -> None:
     """Export a nice markdown digest.
 
@@ -516,15 +547,17 @@ def export_markdown_digest(
         year: Current year.
     """
     md_path = output_path / "weekly_digest.md"
+    generated_at = generated_at or datetime.now(BERLIN_TZ)
     regular_concerts, occasion_bundles = build_occasion_bundles(
         concerts,
         occasion_definitions=occasion_definitions,
+        now=generated_at,
     )
 
     lines = [
         f"# Hannover Week {week_num} ({year})",
         "",
-        f"*Generated: {datetime.now(BERLIN_TZ).strftime('%Y-%m-%d %H:%M')}*",
+        f"*Generated: {generated_at.strftime('%Y-%m-%d %H:%M')}*",
         "",
         "---",
         "",
@@ -588,13 +621,14 @@ def export_markdown_digest(
         lines.extend(["## Special in Hannover", ""])
         for bundle in occasion_bundles:
             definition = bundle.definition
+            status = SOURCE_STATUS_LABELS.get(definition.source_status or "")
             lines.extend(
                 [
                     f"### {definition.name}",
                     "",
                     (
-                        f"**{definition.start_date.strftime('%d %b')}-"
-                        f"{definition.end_date.strftime('%d %b')}** · "
+                        (f"**{status}** · " if status else "")
+                        + f"**{occasion_date_range(definition)}** · "
                         f"{len(bundle.events)} programme items · "
                         f"{definition.location}"
                     ),
