@@ -2,52 +2,10 @@
   "meta": {
     "week": 41,
     "year": 2026,
-    "updatedAt": "Fri 09 Oct 11:00",
-    "updatedAtISO": "2026-10-09T11:00:53.708958+02:00"
+    "updatedAt": "Sat 10 Oct 00:19",
+    "updatedAtISO": "2026-10-10T00:19:23.017103+02:00"
   },
   "movies": [
-    {
-      "day": "FRI",
-      "date": "09.10",
-      "movies": [
-        {
-          "title": "Verity - Dunkle Geheimnisse",
-          "year": 2026,
-          "time": "17:00",
-          "venue": "Astor Grand Cinema",
-          "duration": "1h58m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
-        },
-        {
-          "title": "Verity - Dunkle Geheimnisse",
-          "year": 2026,
-          "time": "22:30",
-          "venue": "Astor Grand Cinema",
-          "duration": "1h58m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
-        },
-        {
-          "title": "THE INVITE",
-          "year": 2026,
-          "time": "22:45",
-          "venue": "Apollokino Hannover",
-          "duration": "1h47m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00005398&anmerk=OmU-Nachtstudio"
-        }
-      ]
-    },
     {
       "day": "SAT",
       "date": "10.10",
@@ -341,154 +299,27 @@
           "url": "https://www.apollokino.de/?v=&film=filme/01001104&anmerk=OmU-Nachtstudio"
         }
       ]
+    },
+    {
+      "day": "FRI",
+      "date": "23.10",
+      "movies": [
+        {
+          "title": "BUGONIA",
+          "year": 2025,
+          "time": "22:30",
+          "venue": "Apollokino Hannover",
+          "duration": "2h",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/00005165&anmerk=OmU-Nachtstudio-engl.OmU"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Bierausschank und -verkauf an der Braukiste",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "18:00",
-      "timeConfidence": "confirmed",
-      "endTime": "20:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/bierverkauf-an-der-braukiste/2026-10-09/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Frisch gezapftes Bier von der Braukiste: Probiere unsere wechselnden Biere direkt vom Fass. Jeden Freitag ab 18 Uhr an der Braukiste auf dem PLATZprojekt. Je nach Verfügbarkeit gibt es auch…",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Food & Drink",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "TSV HANNOVER-BURGDORF vs. SG FLENSBURG-HANDEWITT",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/tsv-hannover-burgdorf-vs-sg-flensburg-handewitt-6/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Mody und Lucatelli",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Broncos",
-      "url": "https://www.stadtkind-kalender.de/event/mody-lucatelli?date=2026-10-09",
-      "eventType": "concert",
-      "genre": "Electronic",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "LEONORE LILJA & MITA PANTANI",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/leonore-lilja-mita-pantani/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community"
-    },
-    {
-      "title": "WOODBEEZ",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/konzerte/woodbeez/",
-      "eventType": "concert",
-      "genre": "Rock",
-      "programmeCategory": null,
-      "description": "Local Yacht Rock ? ! Oh yeah !Fancy a time travel adventure—with a return ticket to the present?Woodbeez takes you to Los Angeles in the mid-’70s and early ’80s, a time when the sun seemed to shine…",
-      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/01/623416094_1447209824081210_8627364953747514700_n-357x268.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "HATTLER",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/92846/hattler",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Wonk Unit + Support",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "SV Arminia Vereinsgaststätte",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Frog Bog Dosenband",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "20:30",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/frog-bog-dosenband/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/02/Frog-Bog-Dosenband.png",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
     {
       "title": "PLATZprojekt Herbstfest 2026",
       "date": "10 Okt",
@@ -2149,6 +1980,242 @@
       "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=ersie_party_tb.jpg",
       "status": "available",
       "radarCategory": "Party"
+    },
+    {
+      "title": "blaublau – Wildkräuterworkshop",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "endTime": "18:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/blau-blau-kunst-und-natur-2-2/2026-10-23/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Jeden 4. Freitag im Monat um 16 Uhr gibt es blaublau, den Wildkräuterworkshop. Mit Antonia Jacobsen, Naturcoach und Künstlerin, erforschen wir ein unscheinbares Kraut, sehen es, lernen es kennen und…",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Workshop",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "Bierausschank und -verkauf an der Braukiste",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "18:00",
+      "timeConfidence": "confirmed",
+      "endTime": "20:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/bierverkauf-an-der-braukiste/2026-10-23/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Frisch gezapftes Bier von der Braukiste: Probiere unsere wechselnden Biere direkt vom Fass. Jeden Freitag ab 18 Uhr an der Braukiste auf dem PLATZprojekt. Je nach Verfügbarkeit gibt es auch…",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Food & Drink",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "Skyline Green",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "19:30",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/231026-skyline-green.html",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=skyline_green1.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Krof Records Release Party",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Broncos",
+      "url": "https://www.stadtkind-kalender.de/event/krof-records-release-party?date=2026-10-23",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Party"
+    },
+    {
+      "title": "GUACAMOLE AQUI",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/guacamole-aqui-3/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community"
+    },
+    {
+      "title": "SOKO LINX UND AKTION INDEX",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/soko-linx/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Hasz hilft. Bei allem. Auf Arbeit. In der Beziehung. Beim Hobby. In der Freundschaft. Beim Herausstellen des eigenen hochkritisch anmutenden Musikgeschmacks. Denn nur wer aufrichtig haszen kann, kann…",
+      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/04/20261023_SOKO_LiNX_1_c_Pressefotofreigabe_von_The_Living_Proof-2048x1825-1-301x268.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Sheer Terror + Tear Up + Posterboiz",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Bei Chez Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-10-23/7047",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Deine Cousine",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/deine-cousine-swiss-life-hall-d8244dbc2e44/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.swisslife-hall.de/wp-content/uploads/2026/02/credits_@capadol_251019_highres_407724_Beitragsbild.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "TSV HANNOVER-BURGDORF vs. TBV LEMGO LIPPE",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/tsv-hannover-burgdorf-vs-tbv-lemgo-lippe-5/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "0511RAP – Die Deutschrap-Party",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "21:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/0511rap-die-deutschrap-party/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/09/0511RAP.png",
+      "status": "available",
+      "radarCategory": "Party"
+    },
+    {
+      "title": "TAKE ME OUT – DIE INDIEPARTY MIT EAVO",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "23:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/clubnight/take-me-out-19/",
+      "eventType": "party",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Lust auf ne klassische Indieparty mit allem drum und dran? Dann kommt zur Take Me Out! Die bringt euch die Hits, die Hymnen und eure Lieblingssongs. Außerdem: Nostalgie ist kein Genre – deswegen…",
+      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/01/111578266876_1656147852401396_7703340062289820467_n-360x188.jpg",
+      "status": "available",
+      "radarCategory": "Party"
+    },
+    {
+      "title": "Bratty",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "24:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/231026-bratty.html",
+      "eventType": "party",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=bratty_tb3.jpg",
+      "status": "available",
+      "radarCategory": "Party"
+    },
+    {
+      "title": "Jangueoween",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "24:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/231026-jangueoween.html",
+      "eventType": "party",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=jangueoween.jpg",
+      "status": "available",
+      "radarCategory": "Party"
     }
   ],
   "occasions": [
@@ -2158,7 +2225,7 @@
       "name": "Oktoberfest 2026",
       "kind": "festival",
       "startDate": "2026-10-08",
-      "endDate": "2026-10-10",
+      "endDate": "2026-10-11",
       "location": "Schützenplatz Hannover",
       "description": "Es geht wieder rund: Vom 25. September bis zum 11. Oktober drehen sich auf dem hannoverschen Schützenplatz beim Oktoberfest die Karussells.",
       "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/3/7/7/7/24827773-2-ger-DE/c46022c782b7-oktoberfest-riesenrad-c-hannover.de.jpg.webp",
@@ -2167,7 +2234,18 @@
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/oktoberfest-2026.json",
-      "preview": []
+      "preview": [],
+      "occurrences": [
+        {
+          "date": "2026-10-10",
+          "startTime": "15:00"
+        },
+        {
+          "date": "2026-10-11",
+          "startTime": "14:00"
+        }
+      ],
+      "scheduleConfidence": "continuous"
     },
     {
       "id": "hannover-festivals:hannover-wies-27n",
@@ -2184,7 +2262,30 @@
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/hannover-wies-27n.json",
-      "preview": []
+      "preview": [],
+      "occurrences": [
+        {
+          "date": "2026-10-10",
+          "startTime": "18:00"
+        },
+        {
+          "date": "2026-10-16",
+          "startTime": "18:00"
+        },
+        {
+          "date": "2026-10-17",
+          "startTime": "18:00"
+        },
+        {
+          "date": "2026-10-23",
+          "startTime": "18:00"
+        },
+        {
+          "date": "2026-10-24",
+          "startTime": "18:00"
+        }
+      ],
+      "scheduleConfidence": "discrete"
     },
     {
       "id": "hannover-festivals:kiezkultur-festival",
@@ -2198,20 +2299,20 @@
       "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/1/7/9/8/30428971-2-ger-DE/9e46dff4e371-KKF24-byHenrikLu-hrsen-377-C-Henrik-Lu-hrsen-1-1-.jpg.webp",
       "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/KiezKultur-Festival",
       "status": "final_weekend",
-      "programmeCount": 5,
-      "locationCount": 2,
+      "programmeCount": 2,
+      "locationCount": 1,
       "programmePath": "occasions/kiezkultur-festival.json",
       "preview": [
         {
           "title": "KiezKultur-Festival 2026",
-          "date": "9 Okt",
-          "dateISO": "2026-10-09",
-          "day": "Fr",
+          "date": "10 Okt",
+          "dateISO": "2026-10-10",
+          "day": "Sa",
           "time": "14:00",
           "timeConfidence": "confirmed",
           "endTime": null,
           "venue": "Faust",
-          "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/091026-kiezkultur-festival-2026.html",
+          "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/101026-kiezkultur-festival-2026.html",
           "eventType": "concert",
           "genre": null,
           "programmeCategory": null,
@@ -2220,32 +2321,15 @@
           "status": "available"
         },
         {
-          "title": "Speedboating – wim x Kiezkultur Festival",
-          "date": "9 Okt",
-          "dateISO": "2026-10-09",
-          "day": "Fr",
-          "time": "16:45",
-          "timeConfidence": "confirmed",
-          "endTime": null,
-          "venue": "Pavillon",
-          "url": "https://pavillon-hannover.de/event/details/92854/speedboating-wim-x-kiezkultur-festival",
-          "eventType": "concert",
-          "genre": null,
-          "programmeCategory": null,
-          "description": null,
-          "imageUrl": null,
-          "status": "available"
-        },
-        {
           "title": "KiezKultur-Festival / Aftershow-Party",
-          "date": "9 Okt",
-          "dateISO": "2026-10-09",
-          "day": "Fr",
+          "date": "10 Okt",
+          "dateISO": "2026-10-10",
+          "day": "Sa",
           "time": "24:00",
           "timeConfidence": "confirmed",
           "endTime": null,
           "venue": "Faust",
-          "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/091026-kiezkultur-festival-aftershow-party.html",
+          "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/101026-kiezkultur-festival-aftershow-party.html",
           "eventType": "party",
           "genre": null,
           "programmeCategory": null,
@@ -2253,7 +2337,14 @@
           "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=kiezkultur-festival_aftershow-party.jpg",
           "status": "available"
         }
-      ]
+      ],
+      "occurrences": [
+        {
+          "date": "2026-10-10",
+          "startTime": "10:00"
+        }
+      ],
+      "scheduleConfidence": "continuous"
     },
     {
       "id": "hannover-festivals:tiergartenfest-hannover",
@@ -2266,11 +2357,19 @@
       "description": "Die Landeshauptstadt Hannover lädt am Samstag (10. Oktober) wieder zum traditionellen Tiergartenfest ein. Von 13 bis 18:30 Uhr erwartet Besucher*innen ein...",
       "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/4/1/6/23506142-1-ger-DE/Tiergartenfest 05.jpg.webp",
       "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Tiergartenfest-Hannover",
-      "status": "upcoming",
+      "status": "happening_now",
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/tiergartenfest-hannover.json",
-      "preview": []
+      "preview": [],
+      "occurrences": [
+        {
+          "date": "2026-10-10",
+          "startTime": "13:00",
+          "endTime": "18:30"
+        }
+      ],
+      "scheduleConfidence": "continuous"
     },
     {
       "id": "hannover-festivals:kunst-kurbis-in-eldagsen",
@@ -2287,7 +2386,15 @@
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/kunst-kurbis-in-eldagsen.json",
-      "preview": []
+      "preview": [],
+      "occurrences": [
+        {
+          "date": "2026-10-18",
+          "startTime": "11:00",
+          "endTime": "17:00"
+        }
+      ],
+      "scheduleConfidence": "continuous"
     }
   ]
 }
