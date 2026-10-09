@@ -186,6 +186,17 @@ jobs:
       - name: Verify nginx routing contract
         run: ./scripts/smoke-routing.sh --no-build
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+
+      # Scrape -> export -> production build; skipped in the backend jobs,
+      # which have no web/node_modules.
+      - name: Run end-to-end pipeline test
+        run: uv run --locked --all-groups pytest tests/test_end_to_end.py
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
