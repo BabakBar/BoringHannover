@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Tue 06 Oct 11:00"
+    "updatedAt": "Fri 09 Oct 11:00"
   },
   "occasion": {
     "id": "hannover-festivals:kiezkultur-festival",
@@ -10,10 +10,10 @@
     "startDate": "2026-10-09",
     "endDate": "2026-10-10",
     "location": "Zur Bettfedernfabrik 3, 30451 Hannover",
-    "description": "Faust und Glocksee: Am 9. und 10. Oktober vereinen sich zwei Kieze in Hannover zum einem Festival.",
-    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/1/7/9/8/30428971-1-ger-DE/9e46dff4e371-KKF24-byHenrikLu-hrsen-377-C-Henrik-Lu-hrsen-1-1-.jpg",
+    "description": "Faust und Glocksee: Am 9. und 10. Oktober vereinen sich zwei Kieze in Hannover zu einem Festival.",
+    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/1/7/9/8/30428971-2-ger-DE/9e46dff4e371-KKF24-byHenrikLu-hrsen-377-C-Henrik-Lu-hrsen-1-1-.jpg.webp",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/KiezKultur-Festival",
-    "status": "upcoming",
+    "status": "final_weekend",
     "programmeCount": 5,
     "locationCount": 2,
     "programmePath": "occasions/kiezkultur-festival.json",
