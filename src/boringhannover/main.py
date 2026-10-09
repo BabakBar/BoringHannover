@@ -22,11 +22,6 @@ from boringhannover.notifier import notify
 __all__ = ["main", "run"]
 
 
-# =============================================================================
-# Logging Configuration
-# =============================================================================
-
-
 def _configure_logging() -> None:
     """Configure logging for the application.
 
@@ -45,11 +40,6 @@ def _configure_logging() -> None:
 
 
 logger = logging.getLogger(__name__)
-
-
-# =============================================================================
-# Main Workflow
-# =============================================================================
 
 
 def run(*, local: bool = False) -> bool:
@@ -132,15 +122,6 @@ def run(*, local: bool = False) -> bool:
         return False
     else:
         return True
-
-
-# Backward compatibility alias
-run_scraper = run
-
-
-# =============================================================================
-# CLI Entry Point
-# =============================================================================
 
 
 def _parse_args() -> argparse.Namespace:

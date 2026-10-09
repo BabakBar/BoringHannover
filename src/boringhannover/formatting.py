@@ -30,10 +30,6 @@ __all__ = [
 ]
 
 
-# =============================================================================
-# Language Display Mapping
-# =============================================================================
-
 LANGUAGE_ABBREVIATIONS: dict[str, str] = {
     "Sprache: ": "",
     "Untertitel: ": "UT:",
@@ -79,11 +75,6 @@ GERMAN_MONTHS: dict[int, str] = {
     11: "Nov",
     12: "Dez",
 }
-
-
-# =============================================================================
-# Formatting Helpers
-# =============================================================================
 
 
 def abbreviate_language(language: str) -> str:
@@ -171,11 +162,6 @@ def format_concert_date(event: Event) -> str:
     if dt.year != datetime.now(BERLIN_TZ).year:
         return f"{day_name}, {dt.day}. {month_name} {dt.year}"
     return f"{day_name}, {dt.day}. {month_name}"
-
-
-# =============================================================================
-# Section Formatting
-# =============================================================================
 
 
 def _format_movie_entry(event: Event) -> list[str]:

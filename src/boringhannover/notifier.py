@@ -38,22 +38,12 @@ __all__ = [
 logger = logging.getLogger(__name__)
 
 
-# =============================================================================
-# Type Definitions
-# =============================================================================
-
-
 class EventsData(TypedDict):
     """Structure for categorized event data."""
 
     movies_this_week: list[Event]
     big_events_radar: list[Event]
     city_occasions: NotRequired[list[OccasionDefinition]]
-
-
-# =============================================================================
-# Message Formatting
-# =============================================================================
 
 
 def _format_occasions_section(bundles: list[OccasionBundle]) -> str:
@@ -118,11 +108,6 @@ def format_message(
     return "\n".join(lines).strip()
 
 
-# =============================================================================
-# File Output
-# =============================================================================
-
-
 def save_to_file(
     message: str,
     output_dir: str | Path = "output",
@@ -179,11 +164,6 @@ def save_all_formats(
         output_dir,
         occasion_definitions=occasions,
     )
-
-
-# =============================================================================
-# Main Notification Interface
-# =============================================================================
 
 
 def notify(events_data: EventsData) -> bool:

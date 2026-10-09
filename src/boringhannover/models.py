@@ -107,36 +107,6 @@ class Event:
         """
         return self.date.strftime("%a %d.%m.")
 
-    def format_date_long(self) -> str:
-        """Format date with month name and optional year.
-
-        Includes year only if the event is not in the current year.
-
-        Returns:
-            Formatted date like '12. Dec' or '15. Mar 2026'.
-        """
-        today = datetime.now(BERLIN_TZ)
-        if self.date.year != today.year:
-            return self.date.strftime("%d. %b %Y")
-        return self.date.strftime("%d. %b")
-
-    def format_time(self) -> str:
-        """Format as weekday and time (e.g., 'Fri 19:30').
-
-        Returns:
-            Formatted time string with weekday abbreviation.
-        """
-        return self.date.strftime("%a %H:%M")
-
-    def is_this_week(self) -> bool:
-        """Check if event occurs within the next 7 days.
-
-        Returns:
-            True if event date is between now and 7 days from now.
-        """
-
-        return self.is_within_next_days(7)
-
     def is_within_next_days(self, days: int) -> bool:
         """Check if event occurs within the next N days (inclusive).
 

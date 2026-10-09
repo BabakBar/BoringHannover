@@ -10,9 +10,7 @@
 version: 2
 
 updates:
-  # ---------------------------------------------------------------------------
   # Backend: Python dependencies + dev tooling (pyproject.toml / uv.lock)
-  # ---------------------------------------------------------------------------
   - package-ecosystem: "uv"
     directory: "/"
     schedule:
@@ -33,11 +31,9 @@ updates:
         update-types: ["minor", "patch"]
         patterns: ["*"]
 
-  # ---------------------------------------------------------------------------
   # Frontend: Astro / Tailwind / build tooling (web/package.json, web/bun.lock)
   # Dependabot supports bun version updates only; `bun audit` in CI covers the
   # security side (see .github/workflows/security.yml).
-  # ---------------------------------------------------------------------------
   - package-ecosystem: "bun"
     directory: "/web"
     schedule:
@@ -58,9 +54,7 @@ updates:
         update-types: ["minor", "patch"]
         patterns: ["*"]
 
-  # ---------------------------------------------------------------------------
   # Container base images (Dockerfile, Dockerfile.web)
-  # ---------------------------------------------------------------------------
   - package-ecosystem: "docker"
     directories:
       - "/"
@@ -81,10 +75,8 @@ updates:
         update-types: ["minor", "patch"]
         patterns: ["*"]
 
-  # ---------------------------------------------------------------------------
   # Local development stack (docker-compose.yml). Kept separate from the
   # production images so a dev-only bump never rides along with a runtime one.
-  # ---------------------------------------------------------------------------
   - package-ecosystem: "docker-compose"
     directory: "/"
     schedule:
@@ -99,11 +91,9 @@ updates:
     cooldown:
       default-days: 7
 
-  # ---------------------------------------------------------------------------
   # GitHub Actions. Actions are pinned to commit SHAs; Dependabot rewrites both
   # the SHA and the trailing version comment, which is what makes SHA pinning
   # maintainable rather than a one-off chore.
-  # ---------------------------------------------------------------------------
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

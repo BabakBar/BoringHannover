@@ -19,11 +19,6 @@ from boringhannover.notifier import format_message
 from boringhannover.sources.base import BaseSource
 
 
-# =============================================================================
-# Event Model Tests
-# =============================================================================
-
-
 class TestEventModel:
     """Tests for the Event dataclass."""
 
@@ -39,42 +34,6 @@ class TestEventModel:
         # Format: "Sun 24.11."  # noqa: ERA001
         result = event.format_date_short()
         assert "24.11." in result
-
-    def test_event_format_time(self) -> None:
-        """Test time formatting."""
-        event = Event(
-            title="Test",
-            date=datetime(2024, 11, 24, 19, 30, tzinfo=BERLIN_TZ),
-            venue="Venue",
-            url="https://example.com",
-            category="movie",
-        )
-        result = event.format_time()
-        assert "19:30" in result
-
-    def test_event_is_this_week(self) -> None:
-        """Test this week detection."""
-        today = datetime.now(BERLIN_TZ)
-        tomorrow = today + timedelta(days=1)
-        next_month = today + timedelta(days=30)
-
-        event_this_week = Event(
-            title="This Week",
-            date=tomorrow,
-            venue="Venue",
-            url="https://example.com",
-            category="movie",
-        )
-        event_next_month = Event(
-            title="Next Month",
-            date=next_month,
-            venue="Venue",
-            url="https://example.com",
-            category="movie",
-        )
-
-        assert event_this_week.is_this_week() is True
-        assert event_next_month.is_this_week() is False
 
     def test_event_normalizes_naive_datetime_to_berlin_tz(self) -> None:
         """Naive datetimes are treated as Europe/Berlin."""
@@ -123,11 +82,6 @@ class TestFetchAllEvents:
 
         assert [e.title for e in result["movies_this_week"]] == ["Movie"]
         assert [e.title for e in result["big_events_radar"]] == ["Concert"]
-
-
-# =============================================================================
-# Notifier Tests
-# =============================================================================
 
 
 class TestFormatMessage:

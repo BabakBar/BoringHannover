@@ -41,11 +41,6 @@ __all__ = [
 logger = logging.getLogger(__name__)
 
 
-# =============================================================================
-# Data Structures
-# =============================================================================
-
-
 @dataclass
 class Showtime:
     """A single showtime for a movie."""
@@ -74,11 +69,6 @@ class GroupedMovie:
     venue: str
     showtimes: list[Showtime] = field(default_factory=list)
     movie_id: str = ""
-
-
-# =============================================================================
-# Movie Grouping
-# =============================================================================
 
 
 def group_movies_by_film(movies: Sequence[Event]) -> list[GroupedMovie]:
@@ -159,11 +149,6 @@ def group_movies_by_film(movies: Sequence[Event]) -> list[GroupedMovie]:
     result.sort(key=lambda m: m.showtimes[0].date if m.showtimes else "")
 
     return result
-
-
-# =============================================================================
-# Output Manager
-# =============================================================================
 
 
 class OutputManager:

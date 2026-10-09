@@ -36,28 +36,6 @@ def should_sync() -> bool:
     return bool(os.getenv("GITHUB_TOKEN") and os.getenv("GITHUB_REPO"))
 
 
-def _get_file_sha(client: httpx.Client, repo: str, path: str) -> str | None:
-    """Get the SHA of an existing file in the repo.
-
-    Args:
-        client: HTTP client with auth headers.
-        repo: Repository in owner/repo format.
-        path: File path in the repository.
-
-    Returns:
-        File SHA if exists, None otherwise.
-    """
-    try:
-        response = client.get(f"/repos/{repo}/contents/{path}")
-    except httpx.RequestError:
-        return None
-    else:
-        if response.status_code == 200:
-            sha = response.json().get("sha")
-            return str(sha) if sha else None
-        return None
-
-
 def _get_existing_file(
     client: httpx.Client,
     repo: str,
