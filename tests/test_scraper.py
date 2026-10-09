@@ -12,6 +12,8 @@ from datetime import datetime, timedelta
 
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import FALLBACK_TIME
+from boringhannover.formatting import format_radar_section
 from boringhannover.models import Event
 from boringhannover.notifier import format_message
 from boringhannover.sources.base import BaseSource
@@ -191,3 +193,21 @@ class TestFormatMessage:
         result = format_message(test_data)
 
         assert "No OV movies" in result
+
+
+def test_radar_format_omits_fallback_time() -> None:
+    event = Event(
+        title="Date Only",
+        date=datetime(2026, 7, 4, 20, 0, tzinfo=BERLIN_TZ),
+        venue="Venue",
+        url="https://example.com",
+        category="radar",
+        metadata={"time": "20:00", "time_confidence": FALLBACK_TIME},
+    )
+
+    result = format_radar_section([event])
+
+    assert "Date Only" in result
+    assert "20:00" not in result
+    assert "| @" not in result
+    assert "Sa, 4. Jul @ Venue" in result
