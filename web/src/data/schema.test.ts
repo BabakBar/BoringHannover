@@ -48,9 +48,10 @@ describe('committed export snapshots', () => {
         ).success,
       ).toBe(true);
     }
+    // The snapshot changes with every scrape, so only assert what holds for
+    // any published data; legacy shapes are covered by the fixtures below.
     for (const occasion of manifest.occasions) {
-      expect(occasion.occurrences).toBeUndefined();
-      expect(occasion.sourceStatus).toBeUndefined();
+      expect(files).toContain(occasion.programmePath.replace('occasions/', ''));
     }
   });
 });
