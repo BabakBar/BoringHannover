@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 09 Oct 11:00"
+    "updatedAt": "Sat 10 Oct 00:19"
   },
   "occasion": {
     "id": "hannover-festivals:hannover-wies-27n",
@@ -17,7 +17,30 @@
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/hannover-wies-27n.json",
-    "preview": []
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-10-10",
+        "startTime": "18:00"
+      },
+      {
+        "date": "2026-10-16",
+        "startTime": "18:00"
+      },
+      {
+        "date": "2026-10-17",
+        "startTime": "18:00"
+      },
+      {
+        "date": "2026-10-23",
+        "startTime": "18:00"
+      },
+      {
+        "date": "2026-10-24",
+        "startTime": "18:00"
+      }
+    ],
+    "scheduleConfidence": "discrete"
   },
   "programme": []
 }
