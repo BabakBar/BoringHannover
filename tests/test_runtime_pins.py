@@ -47,13 +47,21 @@ def test_updates_all_shared_runtime_pins_in_a_real_checkout(tmp_path: Path) -> N
     assert 'ZIZMOR_VERSION: "1.30.99"' in (tmp_path / paths[4]).read_text()
 
 
-@pytest.mark.parametrize("value", ["2.0.0", "1.5.0", "1.4.0-beta.1", "invalid"])
-def test_runtime_refresh_accepts_only_stable_patch_updates(value: str) -> None:
-    assert patch_update("1.4.0", value) == "1.4.0"
-
-
-def test_runtime_refresh_never_downgrades() -> None:
-    assert patch_update("1.4.2", "1.4.1") == "1.4.2"
+@pytest.mark.parametrize(
+    ("current", "latest", "expected"),
+    [
+        ("1.4.0", "1.4.1", "1.4.1"),
+        ("1.4.0", "2.0.0", "1.4.0"),
+        ("1.4.0", "1.5.0", "1.4.0"),
+        ("1.4.0", "1.4.0-beta.1", "1.4.0"),
+        ("1.4.0", "invalid", "1.4.0"),
+        ("1.4.2", "1.4.1", "1.4.2"),
+    ],
+)
+def test_runtime_refresh_takes_only_stable_patch_upgrades(
+    current: str, latest: str, expected: str
+) -> None:
+    assert patch_update(current, latest) == expected
 
 
 def test_runtime_minor_release_emits_review_warning(
