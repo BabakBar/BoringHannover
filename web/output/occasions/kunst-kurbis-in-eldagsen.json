@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 09 Oct 11:00"
+    "updatedAt": "Sat 10 Oct 00:19"
   },
   "occasion": {
     "id": "hannover-festivals:kunst-kurbis-in-eldagsen",
@@ -17,7 +17,15 @@
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/kunst-kurbis-in-eldagsen.json",
-    "preview": []
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-10-18",
+        "startTime": "11:00",
+        "endTime": "17:00"
+      }
+    ],
+    "scheduleConfidence": "continuous"
   },
   "programme": []
 }
