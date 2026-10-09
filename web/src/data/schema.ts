@@ -111,7 +111,7 @@ export const eventMetaSchema = z.object({
     .describe(
       'Display string, e.g. Tue 28 Jul 11:01. Not parseable; use updatedAtISO.',
     ),
-  // Legacy mock data has no machine timestamp; the loader requires it for production.
+  // Older feeds have no machine timestamp; production builds require it.
   updatedAtISO: z.iso.datetime({ offset: true }).optional(),
 });
 export const eventDataSchema = z.object({

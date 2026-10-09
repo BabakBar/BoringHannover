@@ -71,7 +71,7 @@ test('resolution is anchored; explicit absolute and relative roots win', () => {
   expect(
     resolveDataConfig({ WEB_DATA_ROOT: '/fixture' }, '/project/web').dataRoot,
   ).toBe('/fixture');
-  expect(resolveDataConfig({ DEV: true }, '/project/web').mode).toBe('mock');
+  expect(resolveDataConfig({ DEV: true }, '/project/web').mode).toBe('fixture');
 });
 test('invalid configuration fails closed', () => {
   for (const env of [
@@ -98,16 +98,14 @@ test('never selects decoy parent output', () => {
   );
   expect(readSnapshot(config, now).data.meta.week).toBe(36);
 });
-test('missing production and fixture data cannot use mock; mock mode records fallback', () => {
+test('missing data fails in every mode', () => {
   for (const mode of ['production', 'fixture']) {
     const { config } = setup(mode);
-    expect(() => readSnapshot(config, now)).toThrow(`${mode}`);
+    expect(() => readSnapshot(config, now)).toThrow('cannot read manifest');
   }
-  const { config } = setup('mock');
-  expect(readSnapshot(config, now).provenance.source).toBe('mock');
 });
 test('malformed JSON and invalid schema throw without payload in every mode', () => {
-  for (const mode of ['production', 'mock', 'fixture']) {
+  for (const mode of ['production', 'fixture']) {
     const { config, write } = setup(mode);
     writeFileSync(join(config.dataRoot, 'web_events.json'), '{SECRET');
     expect(() => readSnapshot(config, now)).toThrow('malformed JSON');
@@ -146,7 +144,7 @@ test('freshness requires timestamp and respects exact budget', () => {
   ).toBe(36);
 });
 test('programme validation is eager; nonproduction skips broken occasions', () => {
-  for (const mode of ['production', 'fixture', 'mock']) {
+  for (const mode of ['production', 'fixture']) {
     const { config, write } = setup(mode);
     write({ ...feed(), occasions: [occasion] });
     if (mode === 'production')
@@ -229,13 +227,11 @@ test('programme identity and duplicate route checks fail closed', () => {
   write({ ...feed(), occasions: [occasion, occasion] });
   expect(() => readSnapshot(config, now)).toThrow('duplicate');
 });
-test('nonproduction allows stale files without switching to mock', () => {
-  for (const mode of ['fixture', 'mock']) {
-    const { config, write } = setup(mode);
-    write({
-      ...feed(),
-      meta: { ...feed().meta, updatedAtISO: '2020-01-01T00:00:00Z' },
-    });
-    expect(readSnapshot(config, now).provenance.source).toBe('file');
-  }
+test('fixture mode builds from stale files', () => {
+  const { config, write } = setup('fixture');
+  write({
+    ...feed(),
+    meta: { ...feed().meta, updatedAtISO: '2020-01-01T00:00:00Z' },
+  });
+  expect(readSnapshot(config, now).data.meta.week).toBe(36);
 });

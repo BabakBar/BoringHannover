@@ -7,7 +7,6 @@ import type { EventData, OccasionProgramme } from './types';
 import { eventDataSchema, occasionProgrammeSchema } from './schema';
 import { resolveDataConfig, type DataConfig } from './resolve';
 import { createProvenance, type Provenance } from './provenance';
-import { mockData } from './mock';
 
 export interface Snapshot {
   data: EventData;
@@ -62,27 +61,7 @@ export function readSnapshot(config: DataConfig, now = Date.now()): Snapshot {
     if (!code) {
       throw cause;
     }
-    if (mode !== 'mock') {
-      throw error(
-        manifestPath,
-        `cannot read manifest (${code}); mock fallback forbidden`,
-      );
-    }
-    warn(manifestPath, `cannot read manifest (${code}); using mock data`);
-    const data = eventDataSchema.parse(mockData);
-    return {
-      data,
-      programmes: new Map(),
-      provenance: createProvenance(data, {
-        mode,
-        source: 'mock',
-        dataRoot,
-        orphanCount: 0,
-        revision: createHash('sha256')
-          .update(JSON.stringify(data))
-          .digest('hex'),
-      }),
-    };
+    throw error(manifestPath, `cannot read manifest (${code})`);
   }
   const data = parse(content, eventDataSchema, manifestPath);
   const timestamp = data.meta.updatedAtISO
@@ -168,7 +147,6 @@ export function readSnapshot(config: DataConfig, now = Date.now()): Snapshot {
     programmes,
     provenance: createProvenance(acceptedData, {
       mode,
-      source: 'file',
       dataRoot,
       orphanCount,
       revision: digest.digest('hex'),
