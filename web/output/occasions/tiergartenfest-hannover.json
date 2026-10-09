@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 09 Oct 11:00"
+    "updatedAt": "Sat 10 Oct 00:19"
   },
   "occasion": {
     "id": "hannover-festivals:tiergartenfest-hannover",
@@ -13,11 +13,19 @@
     "description": "Die Landeshauptstadt Hannover lädt am Samstag (10. Oktober) wieder zum traditionellen Tiergartenfest ein. Von 13 bis 18:30 Uhr erwartet Besucher*innen ein...",
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/2/4/1/6/23506142-1-ger-DE/Tiergartenfest 05.jpg.webp",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Tiergartenfest-Hannover",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/tiergartenfest-hannover.json",
-    "preview": []
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-10-10",
+        "startTime": "13:00",
+        "endTime": "18:30"
+      }
+    ],
+    "scheduleConfidence": "continuous"
   },
   "programme": []
 }
