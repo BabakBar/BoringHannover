@@ -15,7 +15,7 @@ invoice again.
 |---|---|---|---|
 | Python (production) | 3.14 | `Dockerfile`, `.python-version` | Runtime for the scraper image |
 | Python (minimum supported) | 3.13 | `pyproject.toml` (`requires-python`) | Also tested in CI |
-| uv | 0.12.23 | `Dockerfile`, `ci.yml` (`UV_VERSION`) | Resolver + lockfile owner |
+| uv | 0.12.24 | `Dockerfile`, `ci.yml` (`UV_VERSION`) | Resolver + lockfile owner |
 | Bun | 1.4.2 | `web/.bun-version`, `Dockerfile.web`, `docker-compose.yml` | Frontend build + test runner |
 | Astro | 7.x | `web/package.json` | Static output, no adapter |
 | Tailwind CSS | 4.x | `web/package.json` | Via `@tailwindcss/vite`, CSS-first config |
