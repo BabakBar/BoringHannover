@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 09 Oct 11:00"
+    "updatedAt": "Sat 10 Oct 00:19"
   },
   "occasion": {
     "id": "hannover-festivals:kiezkultur-festival",
@@ -14,20 +14,20 @@
     "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/1/7/9/8/30428971-2-ger-DE/9e46dff4e371-KKF24-byHenrikLu-hrsen-377-C-Henrik-Lu-hrsen-1-1-.jpg.webp",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/KiezKultur-Festival",
     "status": "final_weekend",
-    "programmeCount": 5,
-    "locationCount": 2,
+    "programmeCount": 2,
+    "locationCount": 1,
     "programmePath": "occasions/kiezkultur-festival.json",
     "preview": [
       {
         "title": "KiezKultur-Festival 2026",
-        "date": "9 Okt",
-        "dateISO": "2026-10-09",
-        "day": "Fr",
+        "date": "10 Okt",
+        "dateISO": "2026-10-10",
+        "day": "Sa",
         "time": "14:00",
         "timeConfidence": "confirmed",
         "endTime": null,
         "venue": "Faust",
-        "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/091026-kiezkultur-festival-2026.html",
+        "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/101026-kiezkultur-festival-2026.html",
         "eventType": "concert",
         "genre": null,
         "programmeCategory": null,
@@ -36,32 +36,15 @@
         "status": "available"
       },
       {
-        "title": "Speedboating – wim x Kiezkultur Festival",
-        "date": "9 Okt",
-        "dateISO": "2026-10-09",
-        "day": "Fr",
-        "time": "16:45",
-        "timeConfidence": "confirmed",
-        "endTime": null,
-        "venue": "Pavillon",
-        "url": "https://pavillon-hannover.de/event/details/92854/speedboating-wim-x-kiezkultur-festival",
-        "eventType": "concert",
-        "genre": null,
-        "programmeCategory": null,
-        "description": null,
-        "imageUrl": null,
-        "status": "available"
-      },
-      {
         "title": "KiezKultur-Festival / Aftershow-Party",
-        "date": "9 Okt",
-        "dateISO": "2026-10-09",
-        "day": "Fr",
+        "date": "10 Okt",
+        "dateISO": "2026-10-10",
+        "day": "Sa",
         "time": "24:00",
         "timeConfidence": "confirmed",
         "endTime": null,
         "venue": "Faust",
-        "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/091026-kiezkultur-festival-aftershow-party.html",
+        "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/101026-kiezkultur-festival-aftershow-party.html",
         "eventType": "party",
         "genre": null,
         "programmeCategory": null,
@@ -69,60 +52,16 @@
         "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=kiezkultur-festival_aftershow-party.jpg",
         "status": "available"
       }
-    ]
+    ],
+    "occurrences": [
+      {
+        "date": "2026-10-10",
+        "startTime": "10:00"
+      }
+    ],
+    "scheduleConfidence": "continuous"
   },
   "programme": [
-    {
-      "title": "KiezKultur-Festival 2026",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "14:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/091026-kiezkultur-festival-2026.html",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=kiezkultur-festival-2026.jpg",
-      "status": "available"
-    },
-    {
-      "title": "Speedboating – wim x Kiezkultur Festival",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "16:45",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/92854/speedboating-wim-x-kiezkultur-festival",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available"
-    },
-    {
-      "title": "KiezKultur-Festival / Aftershow-Party",
-      "date": "9 Okt",
-      "dateISO": "2026-10-09",
-      "day": "Fr",
-      "time": "24:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/091026-kiezkultur-festival-aftershow-party.html",
-      "eventType": "party",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=kiezkultur-festival_aftershow-party.jpg",
-      "status": "available"
-    },
     {
       "title": "KiezKultur-Festival 2026",
       "date": "10 Okt",
