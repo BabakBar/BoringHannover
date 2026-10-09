@@ -36,15 +36,7 @@ ENV_KEYS: Final = (
 )
 # An explicit allow-list: logs, stale files and anything else that happens to
 # sit in the output directory must never end up in a snapshot.
-TOP_LEVEL_FILES: Final = (
-    "concerts.csv",
-    "events.json",
-    "latest_message.txt",
-    "movies.csv",
-    "movies_grouped.csv",
-    "web_events.json",
-    "weekly_digest.md",
-)
+TOP_LEVEL_FILES: Final = ("web_events.json",)
 SCHEMA_VERSION: Final = 1
 
 

@@ -10,8 +10,7 @@ from pathlib import Path
 import pytest
 
 from boringhannover.constants import BERLIN_TZ
-from boringhannover.exporters import export_markdown_digest, export_web_json
-from boringhannover.notifier import format_message
+from boringhannover.exporters import export_web_json
 from boringhannover.occasions import (
     OccasionDefinition,
     Occurrence,
@@ -742,32 +741,3 @@ def test_web_export_keeps_legacy_shape_without_schedule_evidence(
         "preview",
     }
     assert summary["status"] == "upcoming"
-
-
-def test_digests_name_source_status_and_sparse_dates(tmp_path: Path) -> None:
-    cancelled = _occasion(source_status="cancelled")
-    now = datetime(2026, 10, 9, 11, 0, tzinfo=BERLIN_TZ)
-
-    message = format_message(
-        {
-            "movies_this_week": [],
-            "big_events_radar": [],
-            "city_occasions": [cancelled, _wiesn()],
-        },
-        now=now,
-    )
-    export_markdown_digest(
-        [],
-        [],
-        tmp_path,
-        41,
-        2026,
-        occasion_definitions=[cancelled, _wiesn()],
-        generated_at=now,
-    )
-    markdown = (tmp_path / "weekly_digest.md").read_text(encoding="utf-8")
-
-    assert "Cancelled · 10 Oct-10 Oct" in message
-    assert "Selected dates 09 Oct-07 Nov" in message
-    assert "**Cancelled** · **10 Oct-10 Oct**" in markdown
-    assert "**Selected dates 09 Oct-07 Nov**" in markdown

@@ -99,14 +99,6 @@ class Event:
                 msg = f"Invalid URL scheme: {self.url[:50]}"
                 raise ValueError(msg)
 
-    def format_date_short(self) -> str:
-        """Format date as weekday and date (e.g., 'Mon 24.11.').
-
-        Returns:
-            Formatted date string with weekday abbreviation.
-        """
-        return self.date.strftime("%a %d.%m.")
-
     def is_within_next_days(self, days: int) -> bool:
         """Check if event occurs within the next N days (inclusive).
 

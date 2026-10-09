@@ -3,7 +3,7 @@
 Entry point for the weekly event aggregation workflow:
 1. Fetch events from all configured sources
 2. Categorize into movies and "On The Radar"
-3. Export formatted data to multiple output formats
+3. Export the web snapshot and the weekly archive
 """
 
 from __future__ import annotations
@@ -11,12 +11,12 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
-from typing import NoReturn
+from typing import NoReturn, cast
 
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.backup import backup_run
 from boringhannover.github_sync import should_sync, sync_web_data_to_github
-from boringhannover.notifier import notify
+from boringhannover.output import EventsData, export_run
 
 
 __all__ = ["main", "run"]
@@ -48,7 +48,7 @@ def run(*, local: bool = False) -> bool:
     This is the main orchestration function that:
     1. Fetches events from movies (Astor) and concerts (venues)
     2. Categorizes them into movies and "On The Radar"
-    3. Exports data to multiple formats (CSV, JSON, Markdown)
+    3. Exports the web snapshot and the weekly archive
     4. Backs up the run's output
     5. Syncs to GitHub to trigger frontend rebuild
 
@@ -80,15 +80,7 @@ def run(*, local: bool = False) -> bool:
 
         # Step 2: Export to files
         logger.info("Exporting data...")
-        from typing import cast
-
-        from boringhannover.notifier import EventsData
-
-        success = notify(cast("EventsData", events_data))
-
-        if not success:
-            logger.error("Failed to export data")
-            return False
+        export_run(cast("EventsData", events_data))
 
         # Step 3: Back up, then sync data to GitHub. A production run that
         # scrapes but does not publish is a failed run: the site keeps serving

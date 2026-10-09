@@ -21,7 +21,6 @@ if TYPE_CHECKING:
     from boringhannover.models import Event
 
 __all__ = [
-    "SOURCE_STATUS_LABELS",
     "OccasionBundle",
     "OccasionDefinition",
     "OccasionStatus",
@@ -30,7 +29,6 @@ __all__ = [
     "SourceStatus",
     "build_occasion_bundles",
     "classify_programme_item",
-    "occasion_date_range",
     "occasion_lifecycle",
 ]
 
@@ -42,12 +40,6 @@ OccasionStatus = Literal["upcoming", "happening_now", "final_weekend"]
 ScheduleConfidence = Literal["continuous", "discrete", "unknown"]
 # Explicit source evidence only; a missing status means unknown, not scheduled.
 SourceStatus = Literal["scheduled", "cancelled", "postponed", "rescheduled"]
-
-SOURCE_STATUS_LABELS: dict[str, str] = {
-    "cancelled": "Cancelled",
-    "postponed": "Postponed",
-    "rescheduled": "Rescheduled",
-}
 
 
 @dataclass(frozen=True, slots=True)
@@ -137,17 +129,6 @@ class OccasionDefinition:
             if self.start_date < saturday and self.end_date <= sunday:
                 return "final_weekend"
         return "happening_now"
-
-
-def occasion_date_range(definition: OccasionDefinition) -> str:
-    """Return digest date copy; sparse appointments are not a continuous block."""
-    span = (
-        f"{definition.start_date.strftime('%d %b')}"
-        f"-{definition.end_date.strftime('%d %b')}"
-    )
-    if definition.schedule_confidence == "discrete":
-        return f"Selected dates {span}"
-    return span
 
 
 def occasion_lifecycle(

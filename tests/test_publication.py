@@ -63,7 +63,7 @@ def test_run_reports_publication_and_backup_failures(
         "fetch_all_events",
         lambda: {"movies_this_week": [], "big_events_radar": []},
     )
-    monkeypatch.setattr(main, "notify", lambda _events: True)
+    monkeypatch.setattr(main, "export_run", lambda _events: None)
     monkeypatch.setattr(main, "backup_run", backup)
     monkeypatch.setattr(main, "should_sync", lambda: sync_configured)
     monkeypatch.setattr(main, "sync_web_data_to_github", sync)
