@@ -21,6 +21,7 @@ from boringhannover.occasions import (
     OccasionBundle,
     OccasionDefinition,
     build_occasion_bundles,
+    collect_occasion_definitions,
 )
 from boringhannover.radar_categories import classify_radar_category
 from boringhannover.sanitize import (
@@ -426,6 +427,13 @@ def archive_weekly_data(
     _, bundles = build_occasion_bundles(
         concerts, occasion_definitions=occasion_definitions, now=current
     )
+    # What bundling saw, including sources' own definitions, plus discovered
+    # duplicates it set aside: nothing a concert can point at is lost.
+    known = collect_occasion_definitions(occasion_definitions)
+    archived_definitions = [
+        *known.values(),
+        *(d for d in occasion_definitions if d.id not in known),
+    ]
     claimed = {
         id(event): bundle.definition.id for bundle in bundles for event in bundle.events
     }
@@ -455,7 +463,7 @@ def archive_weekly_data(
             }
             for event in concerts
         ],
-        "occasions": [asdict(definition) for definition in occasion_definitions],
+        "occasions": [asdict(definition) for definition in archived_definitions],
     }
 
     archive_dir = output_path / "archive"

@@ -25,6 +25,7 @@ from boringhannover.event_time import CONFIRMED_TIME
 from boringhannover.models import Event
 from boringhannover.occasions import OccasionDefinition, Occurrence
 from boringhannover.output import export_run
+from boringhannover.sources.festivals.maschseefest import MaschseefestSource
 
 
 if TYPE_CHECKING:
@@ -46,6 +47,22 @@ MOVIE_METADATA = {
     "cast": [{"role": "Regie", "name": "Steven Spielberg"}],
     "movie_id": 7,
 }
+CONCERT_METADATA = {
+    "event_type": "concert",
+    "genre": "Punk / Hardcore",
+    "genre_source": "programme_description",
+    "description": LONG_DESCRIPTION,
+    "image_url": "https://example.com/opening.jpg",
+    "end_time": "23:00",
+    "price": "16 € zzgl. Geb.",
+    "status": "sold_out",
+    "address": "Schwarzer Bär 2, 30449 Hannover",
+    "programme_category": "Music",
+}
+# Owned by a registered source rather than discovered this run, e.g. when
+# discovery failed: the archive must still carry its definition.
+SOURCE_OWNED = MaschseefestSource.occasion
+assert SOURCE_OWNED is not None
 
 
 def _occasion(slug: str, name: str, **overrides: object) -> OccasionDefinition:
@@ -89,7 +106,10 @@ def exported(tmp_path: Path) -> Path:
         {
             "movies_this_week": [_event("Jaws", 1, category="movie", **MOVIE_METADATA)],
             "big_events_radar": [
-                _event("Opening Concert", 1, occasion_id=lakeside.id),
+                _event(
+                    "Opening Concert", 1, occasion_id=lakeside.id, **CONCERT_METADATA
+                ),
+                _event("Maschsee Night", 2, occasion_id=SOURCE_OWNED.id),
                 # No explicit id: claimed by name and date, and shares its
                 # URL with other programme items.
                 _event("Kiezkultur Festival: Night Market", 2),
@@ -139,16 +159,28 @@ def test_restored_snapshot_keeps_every_event_and_occasion_fact(
         **MOVIE_METADATA,
     }
 
-    assert {
-        concert["title"]: concert["occasion_id"] for concert in archive["concerts"]
-    } == {
+    concerts = {concert["title"]: concert for concert in archive["concerts"]}
+    assert concerts["Opening Concert"]["metadata"] == {
+        "time": "20:00",
+        "time_confidence": CONFIRMED_TIME,
+        "occasion_id": "test:lakeside",
+        **CONCERT_METADATA,
+    }
+    assert {title: concert["occasion_id"] for title, concert in concerts.items()} == {
         "Opening Concert": "test:lakeside",
+        "Maschsee Night": SOURCE_OWNED.id,
         "Kiezkultur Festival: Night Market": "test:kiezkultur",
         "Regular Gig": None,
     }
 
     occasions = {occasion["id"]: occasion for occasion in archive["occasions"]}
-    assert set(occasions) == {"test:lakeside", "test:kiezkultur", "test:quiet-market"}
+    assert set(occasions) == {
+        "test:lakeside",
+        "test:kiezkultur",
+        "test:quiet-market",
+        SOURCE_OWNED.id,
+    }
+    assert occasions[SOURCE_OWNED.id]["description"] == SOURCE_OWNED.description
     lakeside = occasions["test:lakeside"]
     # The website summary cuts descriptions to 240 characters; the archive must not.
     assert lakeside["description"] == LONG_DESCRIPTION

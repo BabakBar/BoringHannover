@@ -29,6 +29,7 @@ __all__ = [
     "SourceStatus",
     "build_occasion_bundles",
     "classify_programme_item",
+    "collect_occasion_definitions",
     "occasion_lifecycle",
 ]
 
@@ -250,10 +251,10 @@ def _date_ranges_overlap(
     return left.start_date <= right.end_date and right.start_date <= left.end_date
 
 
-def _occasion_definitions(
+def collect_occasion_definitions(
     discovered: Sequence[OccasionDefinition],
 ) -> dict[str, OccasionDefinition]:
-    """Collect occasion definitions from enabled source plugins."""
+    """Merge enabled sources' own definitions with discovered ones, by id."""
     from boringhannover.sources import get_all_sources
 
     definitions: dict[str, OccasionDefinition] = {}
@@ -308,7 +309,7 @@ def build_occasion_bundles(
     when its programme fetch failed, enabling summary-only degradation.
     """
     current = now.astimezone(BERLIN_TZ) if now is not None else datetime.now(BERLIN_TZ)
-    definitions = _occasion_definitions(occasion_definitions)
+    definitions = collect_occasion_definitions(occasion_definitions)
     programme_by_id: dict[str, list[Event]] = {
         occasion_id: [] for occasion_id in definitions
     }
