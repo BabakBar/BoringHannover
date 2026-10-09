@@ -29,6 +29,7 @@ describe('occasionJsonLd', () => {
   test('missing source status does not assert a scheduled event', () => {
     const jsonLd = occasionJsonLd(base, urls);
 
+    expect(jsonLd).toBeDefined();
     expect(jsonLd).not.toHaveProperty('eventStatus');
     expect(jsonLd).toMatchObject({
       '@type': 'Event',
@@ -72,16 +73,38 @@ describe('occasionJsonLd', () => {
     const jsonLd = occasionJsonLd(
       {
         ...base,
-        startDate: '2026-10-09',
-        endDate: '2026-11-07',
-        scheduleConfidence: 'discrete',
-        occurrences: [{ date: '2026-10-09', startTime: '18:00' }],
+        scheduleConfidence: 'continuous',
+        occurrences: [{ date: '2026-10-10', startTime: '13:00', endTime: '18:30' }],
       },
       urls,
     );
 
-    expect(jsonLd.startDate).toBe('2026-10-09');
-    expect(jsonLd.endDate).toBe('2026-11-07');
-    expect(JSON.stringify(jsonLd)).not.toContain('18:00');
+    expect(jsonLd?.startDate).toBe('2026-10-10');
+    expect(jsonLd?.endDate).toBe('2026-10-10');
+    expect(JSON.stringify(jsonLd)).not.toContain('13:00');
+  });
+
+  test('sparse or unparsed schedules get no single Event spanning their season', () => {
+    for (const schedule of [
+      {
+        startDate: '2026-10-09',
+        endDate: '2026-11-07',
+        scheduleConfidence: 'discrete' as const,
+        occurrences: [{ date: '2026-10-09', startTime: '18:00' }],
+      },
+      {
+        startDate: '2026-10-11',
+        endDate: '2026-10-18',
+        scheduleConfidence: 'unknown' as const,
+        hoursText: '11.10.2026 bis 18.10.2026 ab 08:00 bis 17:00 Uhr sonntags',
+      },
+      {
+        scheduleConfidence: 'discrete' as const,
+        sourceStatus: 'cancelled' as const,
+        occurrences: [{ date: '2026-10-10' }],
+      },
+    ]) {
+      expect(occasionJsonLd({ ...base, ...schedule }, urls)).toBeUndefined();
+    }
   });
 });

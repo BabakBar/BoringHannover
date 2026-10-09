@@ -19,7 +19,8 @@ export type OccasionLabelKey =
   | 'tomorrow'
   | 'in_days'
   | 'upcoming'
-  | 'running';
+  | 'running'
+  | 'check_dates';
 
 export interface OccasionLabel {
   key: OccasionLabelKey;
@@ -41,6 +42,7 @@ const LABEL_TEXT: Record<Exclude<OccasionLabelKey, 'in_days'>, string> = {
   tomorrow: 'Tomorrow',
   upcoming: 'Coming soon',
   running: 'Running',
+  check_dates: 'Check dates',
 };
 
 const berlinFormat = new Intl.DateTimeFormat('en-CA', {
@@ -127,7 +129,12 @@ export function occasionLabel(
   const { date: today, minutes } = berlinClock(now);
   if (today > schedule.endDate) return label('ended');
 
-  const occurrences = schedule.occurrences ?? [];
+  // Occurrences count only for a parsed schedule; the schema enforces this
+  // too, so a stray list cannot turn into On now.
+  const parsed =
+    schedule.scheduleConfidence === 'continuous' ||
+    schedule.scheduleConfidence === 'discrete';
+  const occurrences = parsed ? schedule.occurrences ?? [] : [];
   const remaining = occurrences.filter(
     (occurrence) =>
       occurrence.date > today ||
@@ -136,10 +143,14 @@ export function occasionLabel(
   );
   const next = remaining[0];
   if (!next) {
-    // The final confirmed appointment is over. A list that stops earlier was
-    // cut at the export horizon, so only the envelope remains known.
-    if (occurrences.length && occurrences.at(-1)!.date >= schedule.endDate) {
-      return label('ended');
+    if (occurrences.length) {
+      // The final confirmed appointment is over.
+      if (occurrences.at(-1)!.date >= schedule.endDate) return label('ended');
+      // The list was cut at the export horizon and this page is older than
+      // the next dates: a sparse schedule cannot claim it is running.
+      if (schedule.scheduleConfidence === 'discrete') {
+        return label('check_dates');
+      }
     }
     return label(today < schedule.startDate ? 'upcoming' : 'running');
   }

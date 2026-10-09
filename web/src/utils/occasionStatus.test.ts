@@ -75,6 +75,18 @@ describe('labels never invent schedule facts', () => {
     }
   });
 
+  test('occurrences without a parsed schedule are not treated as confirmed', () => {
+    const occasion: OccasionSchedule = {
+      startDate: '2026-10-10',
+      endDate: '2026-10-10',
+      occurrences: [{ date: '2026-10-10', startTime: '13:00', endTime: '18:30' }],
+      scheduleConfidence: 'unknown',
+    };
+    expect(occasionLabel(occasion, new Date('2026-10-10T12:00:00Z')).key).toBe(
+      'running',
+    );
+  });
+
   test('build-time labels never use the hour or relative days', () => {
     const occasion: OccasionSchedule = {
       startDate: '2026-10-10',

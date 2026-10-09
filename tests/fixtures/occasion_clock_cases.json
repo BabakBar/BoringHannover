@@ -320,6 +320,30 @@
         "scheduleConfidence": "discrete"
       },
       "expected": { "lifecycle": null, "label": "Coming soon", "staticLabel": "Running" }
+    },
+    {
+      "name": "exhausted sparse list falls back to a neutral source check",
+      "now": "2026-10-20T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-09",
+        "endDate": "2026-11-07",
+        "occurrences": [
+          {
+            "date": "2026-10-09",
+            "startTime": "18:00"
+          },
+          {
+            "date": "2026-10-10",
+            "startTime": "18:00"
+          }
+        ],
+        "scheduleConfidence": "discrete"
+      },
+      "expected": {
+        "lifecycle": null,
+        "label": "Check dates",
+        "staticLabel": "Running"
+      }
     }
   ]
 }

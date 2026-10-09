@@ -88,7 +88,16 @@ export const occasionSummarySchema = z.object({
   hoursText: z.string().optional(),
   sourceStatus: sourceStatusSchema.optional(),
   previousStartDate: z.iso.date().optional(),
-});
+}).refine(
+  (occasion) =>
+    !occasion.occurrences?.length ||
+    occasion.scheduleConfidence === 'continuous' ||
+    occasion.scheduleConfidence === 'discrete',
+  {
+    message: 'occurrences are confirmed dates and need a parsed schedule',
+    path: ['occurrences'],
+  },
+);
 export const occasionProgrammeSchema = z.object({
   meta: z.object({ updatedAt: z.string() }),
   occasion: occasionSummarySchema,

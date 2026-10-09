@@ -31,7 +31,10 @@ were committed in `6ffbecd` without a recorded capture time.
   original date. Search results on the same day showed the same convention as
   `Verschoben: ` for postponements, but no published postponed page was
   reachable (archived pages return 404, unpublished ones redirect to login), so
-  postponement and rescheduling tests use minimized constructed markup.
+  postponement and rescheduling tests use minimized constructed markup. An
+  independent review (9 Oct) saw a search-cache rendering, not a capture, of the
+  official Nena page using `ursprünglich für … ist auf …`. The parser does not
+  read that wording, so such a page stays `postponed` without a previous date.
 
 ## Recapture
 

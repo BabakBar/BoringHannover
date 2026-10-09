@@ -187,7 +187,9 @@ test('occasion pages render source status, sparse dates and source hours without
     const cancelled = page('abgesagtes-fest');
     expect(cancelled).toMatch(/data-occasion-status[^>]*>\s*Cancelled\s*</);
     expect(cancelled).toContain('https://schema.org/EventCancelled');
-    expect(page('flohmarkt')).not.toContain('schema.org/EventScheduled');
+    // Sparse and unparsed schedules get no Event spanning their whole season.
+    expect(page('wiesn')).not.toContain('application/ld+json');
+    expect(page('flohmarkt')).not.toContain('application/ld+json');
 
     const wiesn = page('wiesn');
     expect(wiesn).toContain('data-occasion-schedule=');

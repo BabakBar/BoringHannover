@@ -75,13 +75,19 @@ describe('additive occasion schedule fields', () => {
           sourceStatus,
           previousStartDate: '2026-10-03',
           hoursText: '10.10.2026 ab 13:00 bis 18:30 Uhr',
-          occurrences: [
-            { date: '2026-10-10', startTime: '13:00', endTime: '18:30' },
-            { date: '2026-10-11' },
-          ],
+          ...(scheduleConfidence === 'unknown'
+            ? {}
+            : {
+                occurrences: [
+                  { date: '2026-10-10', startTime: '13:00', endTime: '18:30' },
+                  { date: '2026-10-11' },
+                ],
+              }),
         });
         expect(parsed.sourceStatus).toBe(sourceStatus as never);
-        expect(parsed.occurrences?.[1]).toEqual({ date: '2026-10-11' });
+        if (scheduleConfidence !== 'unknown') {
+          expect(parsed.occurrences?.[1]).toEqual({ date: '2026-10-11' });
+        }
       }
     }
   });
@@ -94,6 +100,12 @@ describe('additive occasion schedule fields', () => {
       { occurrences: [{ date: '2026-10-10', startTime: '25:00' }] },
       { occurrences: [{ date: '2026-10-10', startTime: '18' }] },
       { previousStartDate: '2026-02-31' },
+      // Occurrences are confirmed dates; they need a parsed schedule.
+      { occurrences: [{ date: '2026-10-10', startTime: '13:00' }] },
+      {
+        scheduleConfidence: 'unknown',
+        occurrences: [{ date: '2026-10-10', startTime: '13:00' }],
+      },
     ]) {
       expect(
         occasionSummarySchema.safeParse({ ...legacyOccasion, ...invalid })

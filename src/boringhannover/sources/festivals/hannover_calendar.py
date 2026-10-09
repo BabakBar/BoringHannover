@@ -13,6 +13,7 @@ from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup, Comment, NavigableString, Tag
 
 from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
+from boringhannover.date_parsing import log_unknown_month, lookup_german_month
 from boringhannover.models import Event
 from boringhannover.occasions import (
     OccasionDefinition,
@@ -57,26 +58,6 @@ _MAX_SCHEDULE_DAYS = 366
 _STATUS_PREFIX = re.compile(
     r"(?P<marker>abgesagt|verschoben)\s*:\s*(?P<name>\S.*)", re.I
 )
-_MONTHS = {
-    name: number
-    for number, name in enumerate(
-        (
-            "januar",
-            "februar",
-            "märz",
-            "april",
-            "mai",
-            "juni",
-            "juli",
-            "august",
-            "september",
-            "oktober",
-            "november",
-            "dezember",
-        ),
-        start=1,
-    )
-}
 _LOOSE_DATE = (
     r"(?P<{p}day>\d{{1,2}})\.\s*"
     r"(?:(?P<{p}month>\d{{1,2}})\.|(?P<{p}month_name>[a-zäöü]+))"
@@ -92,7 +73,11 @@ _RESCHEDULE_PATTERN = re.compile(
 
 @dataclass(frozen=True, slots=True)
 class _DetailSchedule:
-    """Dates read from an official Termine row."""
+    """Dates read from an official Termine row.
+
+    A discrete schedule without occurrences means the source excludes every
+    listed date; it is never discoverable.
+    """
 
     start_date: date
     end_date: date
@@ -410,12 +395,13 @@ class HannoverFestivalCalendarSource(BaseSource):
     def _parse_detail_schedule(cls, html: str) -> _DetailSchedule | None:
         """Read appointments and exclusions from the official Termine row.
 
-        Each line is a date or range with optional hours. Excluded dates are
-        removed before the envelope is taken, so they never become its ends.
-        A line with trailing text such as a weekday keeps its date range but
-        makes the schedule unknown: the source wording is kept as hours text
-        instead of guessing a recurrence. Invalid, reversed or contradictory
-        dates reject the whole row.
+        An exact line (a date or range with optional hours) confirms every
+        listed day; excluded days are removed first, so they never become an
+        end. A line with trailing wording such as "sonntags" only bounds a
+        source window: none of its days is confirmed, its stated ends are kept
+        rather than guessed, and the source wording becomes hours text. A row
+        whose dates are all excluded is a known schedule without appointments.
+        Invalid, reversed or contradictory dates reject the whole row.
         """
         cell = cls._detail_cell(html, "termine")
         if cell is None:
@@ -441,8 +427,9 @@ class HannoverFestivalCalendarSource(BaseSource):
             excluded_dates.add(excluded_day)
 
         hours_lines = [line.strip() for line in positive if line.strip()]
-        candidates: set[date] = set()
-        times: dict[date, tuple[str | None, str | None]] = {}
+        confirmed: dict[date, tuple[str | None, str | None]] = {}
+        listed: list[date] = []
+        bounds: list[date] = []
         exact = True
         for line in hours_lines:
             match = _APPOINTMENT_PATTERN.match(line)
@@ -470,37 +457,46 @@ class HannoverFestivalCalendarSource(BaseSource):
             if start_time is None or (end_time is not None and end_time <= start_time):
                 end_time = None
 
-            line_exact = match.end() == len(line)
-            exact = exact and line_exact
-            for offset in range((end - start).days + 1):
-                day = start + timedelta(days=offset)
-                candidates.add(day)
-                if line_exact and times.setdefault(day, (start_time, end_time)) != (
+            listed += [start, end]
+            days = [start + timedelta(days=n) for n in range((end - start).days + 1)]
+            remaining = [day for day in days if day not in excluded_dates]
+            if not remaining:
+                continue
+            if match.end() != len(line):
+                exact = False
+                bounds += [start, end]
+                continue
+            bounds += remaining
+            for day in remaining:
+                if confirmed.setdefault(day, (start_time, end_time)) != (
                     start_time,
                     end_time,
                 ):
                     exact = False
 
-        remaining = sorted(candidates - excluded_dates)
-        if not remaining:
+        if not listed:
             return None
-        start_date, end_date = remaining[0], remaining[-1]
+        if not bounds:
+            return _DetailSchedule(min(listed), max(listed), (), "discrete", "")
+        start_date, end_date = min(bounds), max(bounds)
 
         if not exact:
             hours_text = "; ".join(hours_lines)
             if excluded_dates:
-                listed = ", ".join(
+                skipped = ", ".join(
                     day.strftime("%d.%m.%Y") for day in sorted(excluded_dates)
                 )
-                hours_text = f"{hours_text}. {_EXCLUSION_LABEL} {listed}"
+                hours_text = f"{hours_text}. {_EXCLUSION_LABEL} {skipped}"
             return _DetailSchedule(start_date, end_date, (), "unknown", hours_text)
 
         span = (end_date - start_date).days + 1
         return _DetailSchedule(
             start_date=start_date,
             end_date=end_date,
-            occurrences=tuple(Occurrence(day, *times[day]) for day in remaining),
-            confidence="continuous" if len(remaining) == span else "discrete",
+            occurrences=tuple(
+                Occurrence(day, *confirmed[day]) for day in sorted(confirmed)
+            ),
+            confidence="continuous" if len(confirmed) == span else "discrete",
             hours_text="",
         )
 
@@ -558,33 +554,49 @@ class HannoverFestivalCalendarSource(BaseSource):
     ) -> tuple[SourceStatus | None, date | None]:
         """Return explicit source status and a verified rescheduling's old date.
 
-        A postponement counts as rescheduled only when the text names the
-        original date and a new date equal to the listed start.
+        A postponement counts as rescheduled only when the text names a new
+        date equal to the listed start and an original date with its own
+        year, in either direction. An original year is never inferred.
         """
         if marker == "abgesagt":
             return "cancelled", None
         if marker != "verschoben":
             return None, None
         for match in _RESCHEDULE_PATTERN.finditer(text):
+            if match["old_year"] is None:
+                continue
             if cls._loose_date(match, "new_", start_date.year) != start_date:
                 continue
             old = cls._loose_date(match, "old_", start_date.year)
-            if old is not None and match["old_year"] is None and old > start_date:
-                old = cls._loose_date(match, "old_", start_date.year - 1)
-            if old is not None and old < start_date:
+            if old is not None and old != start_date:
                 return "rescheduled", old
         return "postponed", None
 
-    @staticmethod
-    def _loose_date(match: re.Match[str], prefix: str, year: int) -> date | None:
-        """Read a German numeric or month-name date from a reschedule match."""
+    @classmethod
+    def _loose_date(
+        cls,
+        match: re.Match[str],
+        prefix: str,
+        year: int,
+    ) -> date | None:
+        """Read a German numeric or month-name date from a reschedule match.
+
+        ``year`` applies only when the date states none; the listed start
+        supplies it for the new date, which must then equal that start.
+        """
         month_name = match[f"{prefix}month_name"]
         month = (
-            _MONTHS.get(month_name.casefold())
+            lookup_german_month(month_name)
             if month_name
             else int(match[f"{prefix}month"])
         )
         if month is None:
+            log_unknown_month(
+                month_name,
+                source_key="hannover_festival_calendar",
+                raw_value=match.group(0),
+                field="previous_start" if prefix == "old_" else "rescheduled_start",
+            )
             return None
         try:
             return date(

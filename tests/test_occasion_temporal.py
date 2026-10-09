@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from datetime import date, datetime
 from pathlib import Path
 
@@ -14,6 +15,7 @@ from boringhannover.notifier import format_message
 from boringhannover.occasions import (
     OccasionDefinition,
     Occurrence,
+    build_occasion_bundles,
     occasion_lifecycle,
 )
 from boringhannover.sources.festivals.hannover_calendar import (
@@ -65,7 +67,8 @@ def _occasion(**overrides: object) -> OccasionDefinition:
 # --- Termine parsing: issue #59 regression strings -------------------------
 
 
-def test_exclusions_never_become_the_end_of_a_weekday_series() -> None:
+def test_weekday_series_keeps_its_source_window_without_guessed_ends() -> None:
+    """No appointment is derived from "sonntags": the window stays the source's."""
     schedule = SOURCE._parse_detail_schedule(
         _detail(
             "<p>04.10.2026 bis 18.10.2026 ab 08:00 bis 17:00 Uhr<br/>sonntags</p>",
@@ -77,7 +80,7 @@ def test_exclusions_never_become_the_end_of_a_weekday_series() -> None:
     assert schedule is not None
     assert (schedule.start_date, schedule.end_date) == (
         date(2026, 10, 4),
-        date(2026, 10, 17),
+        date(2026, 10, 18),
     )
     assert schedule.confidence == "unknown"
     assert schedule.occurrences == ()
@@ -102,6 +105,39 @@ def test_exclusion_inside_a_long_series_keeps_the_true_end() -> None:
     )
     assert schedule.confidence == "unknown"
     assert schedule.occurrences == ()
+
+
+def test_excluded_end_of_a_qualified_range_is_not_replaced_by_a_guess() -> None:
+    schedule = SOURCE._parse_detail_schedule(
+        _detail(
+            "<p>01.10.2026 bis 31.10.2026 ab 11:00 bis 18:00 Uhr dienstags bis sonntags</p>",
+            "<strong>Die Veranstaltung findet nicht statt am:</strong>",
+            "<p>31.10.2026</p>",
+        )
+    )
+
+    assert schedule is not None
+    assert (schedule.start_date, schedule.end_date) == (
+        date(2026, 10, 1),
+        date(2026, 10, 31),
+    )
+    assert schedule.confidence == "unknown"
+    assert schedule.occurrences == ()
+
+
+def test_excluded_exact_date_cannot_extend_a_qualified_window() -> None:
+    schedule = SOURCE._parse_detail_schedule(
+        _detail(
+            "<p>01.10.2026 bis 31.10.2026 dienstags bis sonntags</p>",
+            "<p>05.11.2026 ab 18:00 Uhr</p>",
+            "<strong>Die Veranstaltung findet nicht statt am:</strong>",
+            "<p>05.11.2026</p>",
+        )
+    )
+
+    assert schedule is not None
+    assert schedule.end_date == date(2026, 10, 31)
+    assert schedule.confidence == "unknown"
 
 
 def test_separate_evenings_stay_separate_appointments() -> None:
@@ -163,10 +199,6 @@ def test_excluded_day_inside_a_daily_range_is_not_selectable() -> None:
         ("<p>18.10.2026 bis 04.10.2026</p>",),
         ("<p>31.02.2026 ab 18:00 Uhr</p>",),
         ("<p>10.10.2026 ab 25:00 Uhr</p>",),
-        (
-            "<p>10.10.2026</p>",
-            "<p>Die Veranstaltung findet nicht statt am: 10.10.2026</p>",
-        ),
         ("<p>Termine folgen</p>",),
         (
             "<p>10.10.2026 ab 18:00 Uhr</p>",
@@ -177,6 +209,30 @@ def test_excluded_day_inside_a_daily_range_is_not_selectable() -> None:
 )
 def test_corrupt_or_empty_schedules_are_rejected(cells: tuple[str, ...]) -> None:
     assert SOURCE._parse_detail_schedule(_detail(*cells)) is None
+
+
+@pytest.mark.parametrize(
+    "cells",
+    [
+        (
+            "<p>10.10.2026 ab 13:00 bis 18:30 Uhr</p>",
+            "<strong>Die Veranstaltung findet nicht statt am:</strong>",
+            "<p>10.10.2026</p>",
+        ),
+        (
+            "<p>10.10.2026 ab 10:00 Uhr sonntags</p>",
+            "<p>Die Veranstaltung findet nicht statt am: 10.10.2026</p>",
+        ),
+    ],
+)
+def test_fully_excluded_schedule_is_known_to_have_no_appointments(
+    cells: tuple[str, ...],
+) -> None:
+    schedule = SOURCE._parse_detail_schedule(_detail(*cells))
+
+    assert schedule is not None
+    assert schedule.confidence == "discrete"
+    assert schedule.occurrences == ()
 
 
 def test_conflicting_hours_for_one_date_are_ambiguous() -> None:
@@ -198,9 +254,7 @@ def test_overnight_end_time_is_not_invented() -> None:
     )
 
     assert schedule is not None
-    assert schedule.occurrences == (
-        Occurrence(date(2026, 10, 31), start_time="21:00"),
-    )
+    assert schedule.occurrences == (Occurrence(date(2026, 10, 31), start_time="21:00"),)
 
 
 def test_reversed_listing_range_is_rejected() -> None:
@@ -214,7 +268,7 @@ def test_reversed_listing_range_is_rejected() -> None:
 # --- Termine parsing: captured hannover.de pages ---------------------------
 
 
-def test_captured_faust_flohmarkt_excludes_its_final_sunday() -> None:
+def test_captured_faust_flohmarkt_keeps_source_window_and_exclusions() -> None:
     schedule = SOURCE._parse_detail_schedule(
         _fixture("hannover_market_detail_faust_flohmarkt.html")
     )
@@ -222,9 +276,10 @@ def test_captured_faust_flohmarkt_excludes_its_final_sunday() -> None:
     assert schedule is not None
     assert (schedule.start_date, schedule.end_date) == (
         date(2026, 10, 11),
-        date(2026, 10, 17),
+        date(2026, 10, 18),
     )
     assert schedule.confidence == "unknown"
+    assert schedule.occurrences == ()
     assert "sonntags" in schedule.hours_text
     assert "18.10.2026, 25.10.2026" in schedule.hours_text
 
@@ -340,6 +395,31 @@ def test_apply_detail_keeps_listing_dates_when_termine_is_corrupt() -> None:
     assert occasion.occurrences == ()
 
 
+def test_fully_excluded_occasion_is_not_published(tmp_path: Path) -> None:
+    """An explicitly excluded only date must not fall back to the listing."""
+    now = datetime(2026, 10, 10, 12, 0, tzinfo=BERLIN_TZ)
+    occasion = SOURCE._apply_detail(
+        _occasion(),
+        _detail(
+            "<p>10.10.2026 ab 13:00 bis 18:30 Uhr</p>",
+            "<strong>Die Veranstaltung findet nicht statt am:</strong>",
+            "<p>10.10.2026</p>",
+        ),
+    )
+
+    _, bundles = build_occasion_bundles([], occasion_definitions=[occasion], now=now)
+    export_web_json(
+        [], [], tmp_path, 41, 2026, occasion_definitions=[occasion], generated_at=now
+    )
+    homepage = json.loads((tmp_path / "web_events.json").read_text(encoding="utf-8"))
+
+    assert occasion.source_status is None
+    assert occasion_lifecycle(occasion, now) is None
+    assert [bundle.definition.id for bundle in bundles] == []
+    assert homepage["occasions"] == []
+    assert not (tmp_path / "occasions" / "test-fest.json").exists()
+
+
 # --- Source status ----------------------------------------------------------
 
 
@@ -364,9 +444,7 @@ def test_listing_without_status_marker_has_unknown_status() -> None:
 
 
 def test_cancellation_is_read_from_the_official_title() -> None:
-    (occasion,) = SOURCE()._parse_calendar(
-        _card("Abgesagt: X-Fest", "22.10.2026")
-    )
+    (occasion,) = SOURCE()._parse_calendar(_card("Abgesagt: X-Fest", "22.10.2026"))
 
     assert occasion.source_status == "cancelled"
     assert occasion.name == "X-Fest"
@@ -387,9 +465,7 @@ def test_captured_cancelled_detail_page_sets_cancelled() -> None:
     assert occasion.source_status == "cancelled"
     assert occasion.name == "Zum ersten Mal in Hannover: K-Pop Forever"
     assert occasion.start_date == date(2026, 10, 22)
-    assert occasion.occurrences == (
-        Occurrence(date(2026, 10, 22), start_time="19:00"),
-    )
+    assert occasion.occurrences == (Occurrence(date(2026, 10, 22), start_time="19:00"),)
 
 
 def test_postponement_without_new_date_is_postponed() -> None:
@@ -405,31 +481,83 @@ def test_postponement_without_new_date_is_postponed() -> None:
     assert occasion.previous_start_date is None
 
 
-def test_dated_rescheduling_keeps_the_original_date() -> None:
-    (occasion,) = SOURCE()._parse_calendar(
-        _card(
-            "Verschoben: X-Fest",
+@pytest.mark.parametrize(
+    ("start", "text", "previous"),
+    [
+        (
+            "12.07.2026",
+            "Das Konzert wird vom 30. Juni 2026 auf den 12. Juli 2026 verschoben.",
+            date(2026, 6, 30),
+        ),
+        (
+            "30.06.2026",
+            "Das Konzert wird vom 12.07.2026 auf den 30.06.2026 verschoben.",
+            date(2026, 7, 12),
+        ),
+        (
+            "06.02.2026",
+            "Das Konzert wurde vom 28. November 2025 auf den 6. Februar verschoben.",
+            date(2025, 11, 28),
+        ),
+    ],
+)
+def test_dated_rescheduling_keeps_a_proven_original_date(
+    start: str,
+    text: str,
+    previous: date,
+) -> None:
+    (occasion,) = SOURCE()._parse_calendar(_card("Verschoben: X-Fest", start, text))
+
+    assert occasion.source_status == "rescheduled"
+    assert occasion.previous_start_date == previous
+
+
+@pytest.mark.parametrize(
+    ("start", "text"),
+    [
+        (
             "12.07.2026",
             "Das Konzert wird vom 30. Juni auf den 12. Juli 2026 verschoben.",
-        )
-    )
-
-    assert occasion.source_status == "rescheduled"
-    assert occasion.start_date == date(2026, 7, 12)
-    assert occasion.previous_start_date == date(2026, 6, 30)
-
-
-def test_rescheduling_across_the_year_boundary() -> None:
-    (occasion,) = SOURCE()._parse_calendar(
-        _card(
-            "Verschoben: X-Fest",
+        ),
+        (
+            "30.06.2026",
+            "Das Konzert wird vom 12. Juli auf den 30. Juni 2026 verschoben.",
+        ),
+        (
             "06.02.2026",
             "Das Konzert wurde vom 28. November auf den 6. Februar 2026 verschoben.",
-        )
-    )
+        ),
+        (
+            "12.07.2026",
+            "Das Konzert wird vom 12.07.2026 auf den 12.07.2026 verschoben.",
+        ),
+    ],
+)
+def test_rescheduling_without_a_proven_original_year_stays_postponed(
+    start: str,
+    text: str,
+) -> None:
+    (occasion,) = SOURCE()._parse_calendar(_card("Verschoben: X-Fest", start, text))
 
-    assert occasion.source_status == "rescheduled"
-    assert occasion.previous_start_date == date(2025, 11, 28)
+    assert occasion.source_status == "postponed"
+    assert occasion.previous_start_date is None
+
+
+def test_unknown_month_in_a_rescheduling_fails_closed(
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    with caplog.at_level(logging.WARNING):
+        (occasion,) = SOURCE()._parse_calendar(
+            _card(
+                "Verschoben: X-Fest",
+                "12.07.2026",
+                "Das Konzert wird vom 30. Juno 2026 auf den 12. Juli 2026 verschoben.",
+            )
+        )
+
+    assert occasion.source_status == "postponed"
+    assert occasion.previous_start_date is None
+    assert "unknown_month_token" in caplog.text
 
 
 def test_rescheduling_to_an_unlisted_date_stays_postponed() -> None:
@@ -488,8 +616,11 @@ def test_shared_clock_fixture_lifecycle(case: dict[str, object]) -> None:
     definition = _definition_from_case(case["occasion"])  # type: ignore[arg-type]
     now = datetime.fromisoformat(str(case["now"]))
 
-    assert occasion_lifecycle(definition, now) == (
-        case["expected"]["lifecycle"]  # type: ignore[index]
+    assert (
+        occasion_lifecycle(definition, now)
+        == (
+            case["expected"]["lifecycle"]  # type: ignore[index]
+        )
     )
 
 
@@ -513,6 +644,21 @@ def test_occurrences_are_limited_to_the_inclusive_horizon() -> None:
         occurrence.date
         for occurrence in definition.occurrences_within(date(2026, 12, 25))
     ] == [date(2026, 12, 25), date(2027, 1, 8)]
+
+
+def test_exported_occurrences_never_exceed_the_shared_horizon() -> None:
+    definition = _occasion(
+        start_date=date(2026, 10, 1),
+        end_date=date(2026, 10, 31),
+        occurrences=(Occurrence(date(2026, 10, 15)), Occurrence(date(2026, 10, 16))),
+        schedule_confidence="discrete",
+        discovery_lead_days=45,
+    )
+
+    assert [
+        occurrence.date
+        for occurrence in definition.occurrences_within(date(2026, 10, 1))
+    ] == [date(2026, 10, 15)]
 
 
 def test_definition_rejects_occurrences_outside_its_envelope() -> None:

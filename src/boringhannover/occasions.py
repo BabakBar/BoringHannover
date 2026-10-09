@@ -110,8 +110,13 @@ class OccasionDefinition:
         return visible_from <= today <= self.end_date
 
     def occurrences_within(self, today: date) -> tuple[Occurrence, ...]:
-        """Return confirmed appointments from today through the horizon."""
-        horizon_end = today + timedelta(days=self.discovery_lead_days)
+        """Return confirmed appointments from today through the horizon.
+
+        The shared EVENT_LOOKAHEAD_DAYS bound applies even when a definition
+        allows a longer discovery lead.
+        """
+        lead = min(self.discovery_lead_days, EVENT_LOOKAHEAD_DAYS)
+        horizon_end = today + timedelta(days=lead)
         return tuple(
             occurrence
             for occurrence in self.occurrences
