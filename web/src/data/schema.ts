@@ -76,7 +76,8 @@ export const occasionSummarySchema = z.object({
   endDate: z.iso.date(),
   location: z.string(),
   description: z.string(),
-  imageUrl: optionalText,
+  // No imageUrl: occasions publish no third-party photos (#60). Old snapshots
+  // still carry one; z.object() strips it so no page can use it.
   sourceUrl: z.string(),
   status: occasionStatusSchema,
   programmeCount: count,

@@ -62,6 +62,30 @@ def test_sanitize_text_truncates_on_word_boundary() -> None:
     assert "..." not in result
 
 
+class TestSoftHyphens:
+    """hannover.de hyphenates long titles with U+00AD (#60)."""
+
+    @pytest.mark.parametrize(
+        "raw",
+        [
+            "Fähr­manns­fest 2026",
+            "Fähr&shy;manns&shy;fest 2026",
+            "Fähr&#173;manns&#xAD;fest 2026",
+            "<span>Fähr&#xad;manns</span>­fest 2026",
+        ],
+    )
+    def test_literal_and_encoded_soft_hyphens_are_removed(self, raw: str) -> None:
+        assert sanitize_text(raw) == "Fährmannsfest 2026"
+
+    def test_ordinary_unicode_is_kept(self) -> None:
+        text = "Kunst & Kürbis \u2013 Straße, Café „Glocksee“ · 30451 Hannover"
+
+        assert sanitize_text(text) == text
+
+    def test_soft_hyphens_do_not_count_towards_the_limit(self) -> None:
+        assert sanitize_text("Ent­decker­tag", 12) == "Entdeckertag"
+
+
 def test_kulturpalast_first_line_keeps_whole_words() -> None:
     source = KulturpalastLindenSource()
 

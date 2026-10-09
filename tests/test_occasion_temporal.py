@@ -768,6 +768,7 @@ def test_web_export_keeps_legacy_shape_without_schedule_evidence(
         "occasions"
     ][0]
 
+    # imageUrl left the shape in #60: occasions publish no third-party photos.
     assert set(summary) == {
         "id",
         "slug",
@@ -777,7 +778,6 @@ def test_web_export_keeps_legacy_shape_without_schedule_evidence(
         "endDate",
         "location",
         "description",
-        "imageUrl",
         "sourceUrl",
         "status",
         "programmeCount",

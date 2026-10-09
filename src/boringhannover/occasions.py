@@ -61,7 +61,12 @@ class Occurrence:
 
 @dataclass(frozen=True, slots=True)
 class OccasionDefinition:
-    """Source-owned identity and lifecycle metadata for a City Occasion."""
+    """Source-owned identity and lifecycle metadata for a City Occasion.
+
+    ``description`` is own English copy; empty means the exporter publishes a
+    factual fallback. ``source_summary`` is the source's teaser (usually
+    German, third-party prose): evidence for parsing, never published.
+    """
 
     id: str
     slug: str
@@ -73,7 +78,7 @@ class OccasionDefinition:
     source_url: str
     description: str
     discovery_lead_days: int = EVENT_LOOKAHEAD_DAYS
-    image_url: str = ""
+    source_summary: str = ""
     occurrences: tuple[Occurrence, ...] = ()
     schedule_confidence: ScheduleConfidence | None = None
     hours_text: str = ""

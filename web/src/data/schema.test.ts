@@ -56,6 +56,24 @@ describe('committed export snapshots', () => {
   });
 });
 
+describe('occasion imagery (#60)', () => {
+  test('legacy third-party images still parse but are not exposed', () => {
+    const parsed = occasionSummarySchema.parse({
+      ...legacyOccasion,
+      imageUrl:
+        'https://www.hannover.de/var/storage/images/Tiergartenfest 05.jpg.webp',
+    });
+
+    expect(parsed).not.toHaveProperty('imageUrl');
+  });
+
+  test('summaries exported without imageUrl parse', () => {
+    const { imageUrl: _omitted, ...current } = legacyOccasion;
+
+    expect(occasionSummarySchema.safeParse(current).success).toBe(true);
+  });
+});
+
 describe('additive occasion schedule fields', () => {
   test('legacy summaries without schedule evidence parse', () => {
     expect(occasionSummarySchema.parse(legacyOccasion).scheduleConfidence)

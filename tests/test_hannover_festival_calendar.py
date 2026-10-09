@@ -11,9 +11,11 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 from urllib.parse import parse_qs, urlparse
 
+import httpx
 import pytest
 from bs4 import BeautifulSoup
 
+from boringhannover.config import REQUEST_TIMEOUT_SECONDS, USER_AGENT
 from boringhannover.occasions import OccasionDefinition
 from boringhannover.sources import get_source
 from boringhannover.sources.base import create_http_client
@@ -44,11 +46,13 @@ class FixtureServer:
     def __init__(self) -> None:
         self.routes: dict[str, tuple[int, str, bytes]] = {}
         self.requests: list[str] = []
-        routes, requests = self.routes, self.requests
+        self.user_agents: list[str] = []
+        routes, requests, user_agents = self.routes, self.requests, self.user_agents
 
         class Handler(BaseHTTPRequestHandler):
             def do_GET(self) -> None:
                 requests.append(self.path)
+                user_agents.append(self.headers.get("User-Agent", ""))
                 status, content_type, body = routes.get(
                     urlparse(self.path).path, (404, "text/plain", b"")
                 )
@@ -109,7 +113,7 @@ def _page2_items() -> list[str]:
     return payload["items"]
 
 
-def _summary(location: str) -> OccasionDefinition:
+def _summary(location: str, source_summary: str = "") -> OccasionDefinition:
     return OccasionDefinition(
         id="hannover-festivals:kiezkultur-festival",
         slug="kiezkultur-festival",
@@ -119,7 +123,8 @@ def _summary(location: str) -> OccasionDefinition:
         end_date=date(2026, 10, 10),
         location=location,
         source_url=f"{OFFICIAL_LISTING_URL}/KiezKultur-Festival",
-        description="Zwei Tage Kiezkultur.",
+        description="",
+        source_summary=source_summary or "Zwei Tage Kiezkultur.",
     )
 
 
@@ -138,13 +143,14 @@ def test_parse_calendar_discovers_city_occasions_and_excludes_region() -> None:
     assert maschseefest.start_date == date(2026, 7, 23)
     assert maschseefest.end_date == date(2026, 8, 9)
     assert maschseefest.location == "Maschseefest"
-    assert maschseefest.image_url.endswith("/maschsee-large.jpg")
     assert maschseefest.source_url.startswith("https://www.hannover.de/")
 
     faehrmannsfest = occasions[1]
     assert faehrmannsfest.start_date == date(2026, 7, 31)
     assert faehrmannsfest.end_date == date(2026, 7, 31)
-    assert faehrmannsfest.description.startswith("Das alternative")
+    # The German teaser is evidence only; English copy is chosen at export.
+    assert faehrmannsfest.source_summary.startswith("Das alternative")
+    assert faehrmannsfest.description == ""
 
 
 def test_discovery_source_is_registered_without_timeline_events() -> None:
@@ -429,3 +435,68 @@ def test_is_publishable_requires_a_city_location(
         HannoverFestivalCalendarSource._is_publishable(_summary(location))
         is publishable
     )
+
+
+def test_listing_teaser_still_excludes_the_region() -> None:
+    occasion = _summary("Hof Müller", "Das Hoffest in Springe lädt ein.")
+
+    assert HannoverFestivalCalendarSource._is_publishable(occasion) is False
+
+
+def test_apply_detail_keeps_a_rescheduling_proven_by_the_listing_teaser() -> None:
+    listing = HannoverFestivalCalendarSource()._parse_calendar(
+        """
+        <article class="interesting-single line-view-content">
+          <h3 class="interesting-single__title">Verschoben: X-Fest</h3>
+          <span class="date__duration">12.07.2026</span>
+          <span class="date__category">Swiss Life Hall</span>
+          <div class="interesting-single__description"><p>Das Konzert wird
+            vom 30. Juni 2026 auf den 12. Juli 2026 verschoben.</p></div>
+          <a class="content__read-more"
+             href="/Veranstaltungskalender/Feste-Festivals/X-Fest">mehr</a>
+        </article>
+        """
+    )[0]
+
+    occasion = HannoverFestivalCalendarSource._apply_detail(listing, "<html></html>")
+
+    assert occasion.source_status == "rescheduled"
+    assert occasion.previous_start_date == date(2026, 6, 30)
+    assert occasion.description == ""
+
+
+# --- Request identity (#60) -------------------------------------------------
+
+
+def test_calendar_requests_identify_boringhannover_with_a_contact() -> None:
+    with FixtureServer() as server:
+        server.routes[LISTING_PATH] = (200, "text/html", b"<html></html>")
+
+        class LocalCalendar(HannoverFestivalCalendarSource):
+            CALENDAR_URL = server.url(LISTING_PATH)
+
+        assert LocalCalendar().discover_occasions() == []
+
+    agent = HannoverFestivalCalendarSource.USER_AGENT
+    assert server.user_agents == [agent]
+    assert agent.startswith("BoringHannover/")
+    assert "+https://boringhannover.de/impressum/" in agent
+    assert "Mozilla" not in agent
+
+
+def test_other_sources_keep_the_shared_user_agent() -> None:
+    with FixtureServer() as server:
+        server.routes["/"] = (200, "text/plain", b"ok")
+        with create_http_client() as client:
+            client.get(server.url("/")).raise_for_status()
+
+    assert server.user_agents == [USER_AGENT]
+
+
+def test_per_source_user_agent_keeps_timeout_and_redirects() -> None:
+    with create_http_client(
+        user_agent=HannoverFestivalCalendarSource.USER_AGENT
+    ) as client:
+        assert client.follow_redirects is True
+        assert client.timeout == httpx.Timeout(REQUEST_TIMEOUT_SECONDS)
+        assert client.headers["User-Agent"] == HannoverFestivalCalendarSource.USER_AGENT

@@ -64,8 +64,9 @@ const ogLocale = (() => {
 })();
 
 function toJsonLd(value: unknown): string {
-  // JSON-LD is injected into a script tag; escape closing tags if metadata becomes dynamic.
-  return JSON.stringify(value).replaceAll('</', '<\\/');
+  // JSON-LD is injected into a script tag and carries scraped names: escaping
+  // every "<" keeps "</script" and "<!--" from ending or bending the element.
+  return JSON.stringify(value).replaceAll('<', '\\u003c');
 }
 
 const structuredData = siteUrl ? toJsonLd({

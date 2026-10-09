@@ -10,7 +10,8 @@ const EVENT_STATUS: Record<SourceStatus, string> = {
 /**
  * schema.org Event for an occasion detail page. eventStatus is asserted only
  * from explicit source status, and dates stay date-only: an envelope is not
- * evidence of opening hours.
+ * evidence of opening hours. The place is the source's location text: no
+ * locality is assumed, and no third-party photo is marked up (#60).
  *
  * Sparse (discrete) or unparsed (unknown) schedules get no markup: one Event
  * across their season would claim a continuous event, and separately held
@@ -37,7 +38,6 @@ export function occasionJsonLd(
       ? { previousStartDate: occasion.previousStartDate }
       : {}),
     description: occasion.description,
-    ...(occasion.imageUrl ? { image: occasion.imageUrl } : {}),
     ...(occasion.sourceStatus
       ? { eventStatus: EVENT_STATUS[occasion.sourceStatus] }
       : {}),
@@ -45,11 +45,6 @@ export function occasionJsonLd(
     location: {
       '@type': 'Place',
       name: occasion.location,
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'Hannover',
-        addressCountry: 'DE',
-      },
     },
     // url must be the page carrying the markup; the venue's own site is a
     // sameAs reference, not a substitute for it.
