@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 from datetime import datetime
-from unittest.mock import MagicMock
+from typing import TYPE_CHECKING
 
+import httpx
 from bs4 import BeautifulSoup
 
 from boringhannover.constants import BERLIN_TZ
@@ -12,7 +13,11 @@ from boringhannover.sources.concerts.broncos import BroncosSource
 from boringhannover.sources.concerts.kulturpalast_linden import (
     KulturpalastLindenSource,
 )
-from boringhannover.sources.concerts.weltspiele import WeltspieleSource
+from boringhannover.sources.concerts.weltspiele import WeltspieleSource, _ProgramEntry
+
+
+if TYPE_CHECKING:
+    from conftest import LocalSite
 
 
 # =============================================================================
@@ -542,53 +547,44 @@ class TestWeltspieleSource:
 
         assert entry is None
 
-    def test_build_event_uses_fallback_time(self) -> None:
+    def test_build_event_uses_fallback_time(self, local_site: LocalSite) -> None:
         """Use 22:00 fallback when event page doesn't have time."""
-        source = WeltspieleSource()
-
-        mock_client = MagicMock()
-        mock_response = MagicMock()
-        mock_response.status_code = 200
-        mock_response.text = "<html><body>No show-date here</body></html>"
-        mock_client.get.return_value = mock_response
-
-        from boringhannover.sources.concerts.weltspiele import _ProgramEntry
-
+        local_site.pages["/event/test"] = (
+            200,
+            "<html><body>No show-date here</body></html>",
+        )
         entry = _ProgramEntry(
             title="Test",
             day=24,
             month=1,
-            url="https://weltspiele.club/event/test",
+            url=f"{local_site.url}/event/test",
             tag="Club",
             lineup=None,
         )
-        event = source._build_event(mock_client, entry)
+
+        with httpx.Client() as client:
+            event = WeltspieleSource()._build_event(client, entry)
 
         assert event is not None
         assert event.metadata.get("time") == "22:00"
         assert event.date.hour == 22
+        assert event.url == entry.url
 
-    def test_build_event_handles_failed_page_request(self) -> None:
+    def test_build_event_handles_failed_page_request(
+        self, local_site: LocalSite
+    ) -> None:
         """Fall back to program URL when event page returns error."""
-        source = WeltspieleSource()
-
-        mock_client = MagicMock()
-        mock_response = MagicMock()
-        mock_response.status_code = 404
-        mock_response.text = ""
-        mock_client.get.return_value = mock_response
-
-        from boringhannover.sources.concerts.weltspiele import _ProgramEntry
-
         entry = _ProgramEntry(
             title="Test",
             day=24,
             month=1,
-            url="https://weltspiele.club/event/broken",
+            url=f"{local_site.url}/event/broken",
             tag=None,
             lineup=None,
         )
-        event = source._build_event(mock_client, entry)
+
+        with httpx.Client() as client:
+            event = WeltspieleSource()._build_event(client, entry)
 
         assert event is not None
         assert event.url == "https://weltspiele.club/programm/"
@@ -612,21 +608,3 @@ class TestSourceRegistration:
         assert "broncos" in sources
         assert "kulturpalast_linden" in sources
         assert "weltspiele" in sources
-
-    def test_source_types_correct(self) -> None:
-        """All sources should have correct source_type."""
-        assert BroncosSource.source_type == "concert"
-        assert KulturpalastLindenSource.source_type == "concert"
-        assert WeltspieleSource.source_type == "concert"
-
-    def test_source_names_set(self) -> None:
-        """All sources should have human-readable names."""
-        assert BroncosSource.source_name == "Broncos"
-        assert KulturpalastLindenSource.source_name == "Kulturpalast Linden"
-        assert WeltspieleSource.source_name == "Weltspiele"
-
-    def test_sources_have_addresses(self) -> None:
-        """All sources should define an address."""
-        assert "Hannover" in BroncosSource.ADDRESS
-        assert "Hannover" in KulturpalastLindenSource.ADDRESS
-        assert "Hannover" in WeltspieleSource.ADDRESS

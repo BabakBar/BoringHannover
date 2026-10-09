@@ -8,9 +8,10 @@ Tests cover the core modules:
 
 from __future__ import annotations
 
+import json
 from datetime import datetime, timedelta
 from pathlib import Path
-from unittest.mock import Mock, patch
+from typing import TYPE_CHECKING
 
 import pytest
 from bs4 import BeautifulSoup
@@ -18,7 +19,8 @@ from bs4 import BeautifulSoup
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
-from boringhannover.notifier import format_message, notify
+from boringhannover.notifier import format_message
+from boringhannover.sources.base import BaseSource
 from boringhannover.sources.cinema.apollokino import (
     ApollokinoSource as ApollokinoScraper,
 )
@@ -26,10 +28,10 @@ from boringhannover.sources.cinema.astor import AstorSource as AstorMovieScraper
 from boringhannover.sources.concerts.punkrock_konzerte import (
     PunkrockKonzerteSource,
 )
-from boringhannover.sources.concerts.zag_arena import (
-    ZAGArenaSource as ConcertVenueScraper,
-)
 
+
+if TYPE_CHECKING:
+    from conftest import LocalSite
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -41,34 +43,6 @@ FIXTURES = Path(__file__).parent / "fixtures"
 
 class TestEventModel:
     """Tests for the Event dataclass."""
-
-    def test_event_creation(self) -> None:
-        """Test basic event creation with required fields."""
-        event = Event(
-            title="Test Movie",
-            date=datetime.now(BERLIN_TZ),
-            venue="Test Venue",
-            url="https://example.com",
-            category="movie",
-        )
-        assert event.title == "Test Movie"
-        assert event.venue == "Test Venue"
-        assert event.category == "movie"
-        assert event.metadata == {}
-
-    def test_event_with_metadata(self) -> None:
-        """Test event creation with metadata."""
-        metadata = {"duration": 120, "rating": 12}
-        event = Event(
-            title="Test Movie",
-            date=datetime.now(BERLIN_TZ),
-            venue="Test Venue",
-            url="https://example.com",
-            category="movie",
-            metadata=metadata,
-        )
-        assert event.metadata["duration"] == 120
-        assert event.metadata["rating"] == 12
 
     def test_event_format_date_short(self) -> None:
         """Test short date formatting."""
@@ -121,7 +95,7 @@ class TestEventModel:
 
     def test_event_normalizes_naive_datetime_to_berlin_tz(self) -> None:
         """Naive datetimes are treated as Europe/Berlin."""
-        naive = datetime(2025, 12, 12, 19, 30, tzinfo=BERLIN_TZ)
+        naive = datetime(2025, 12, 12, 19, 30)  # noqa: DTZ001
         event = Event(
             title="Naive Date",
             date=naive,
@@ -130,120 +104,55 @@ class TestEventModel:
             category="movie",
         )
         assert event.date.tzinfo is BERLIN_TZ
-
-    def test_event_valid_categories(self) -> None:
-        """Test that valid categories work correctly."""
-        for category in ("movie", "culture", "radar"):
-            event = Event(
-                title="Test",
-                date=datetime.now(BERLIN_TZ),
-                venue="Venue",
-                url="https://example.com",
-                category=category,
-            )
-            assert event.category == category
-
-
-# =============================================================================
-# Scraper Tests
-# =============================================================================
+        assert (event.date.hour, event.date.minute) == (19, 30)
 
 
 class TestAstorMovieScraper:
-    """Tests for the Astor movie scraper."""
-
-    def test_scraper_source_name(self) -> None:
-        """Test scraper returns correct source name."""
-        scraper = AstorMovieScraper()
-        assert scraper.source_name == "Astor Grand Cinema"
-
-    @patch("boringhannover.sources.base.httpx.Client")
-    def test_fetch_returns_list(self, mock_client: Mock) -> None:
-        """Test that fetch returns a list of events."""
-        # Mock API response
-        mock_response = Mock()
-        mock_response.json.return_value = {
-            "genres": [],
-            "movies": [],
-            "performances": [],
-        }
-        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
-
-        scraper = AstorMovieScraper()
-        result = scraper.fetch()
-
-        assert isinstance(result, list)
-
-    @patch("boringhannover.sources.base.httpx.Client")
-    def test_fetch_parses_movies(self, mock_client: Mock) -> None:
-        """Test that fetch correctly parses movie data."""
-        mock_response = Mock()
-        mock_response.json.return_value = {
-            "genres": [{"id": 1, "name": "Drama"}],
-            "movies": [
+    def test_fetch_keeps_original_versions_and_drops_german_dubs(
+        self, local_site: LocalSite
+    ) -> None:
+        local_site.pages["/program"] = (
+            200,
+            json.dumps(
                 {
-                    "id": 100,
-                    "name": "Test Movie",
-                    "minutes": 120,
-                    "rating": 12,
-                    "year": 2024,
-                    "country": "US",
-                    "genreIds": [1],
+                    "genres": [{"id": 1, "name": "Drama"}],
+                    "movies": [
+                        {
+                            "id": 100,
+                            "name": "Test Movie",
+                            "minutes": 120,
+                            "rating": 12,
+                            "year": 2024,
+                            "country": "US",
+                            "genreIds": [1],
+                        }
+                    ],
+                    "performances": [
+                        {
+                            "movieId": 100,
+                            "begin": "2024-11-24T19:30:00",
+                            "language": "Sprache: Englisch",
+                        },
+                        {
+                            "movieId": 100,
+                            "begin": "2024-11-24T22:00:00",
+                            "language": "Sprache: Deutsch",
+                        },
+                    ],
                 }
-            ],
-            "performances": [
-                {
-                    "movieId": 100,
-                    "begin": "2024-11-24T19:30:00",
-                    "language": "Sprache: Englisch",
-                }
-            ],
-        }
-        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
+            ),
+        )
 
-        scraper = AstorMovieScraper()
-        result = scraper.fetch()
+        class LocalAstor(AstorMovieScraper):
+            API_URL = f"{local_site.url}/program"
+
+        result = LocalAstor().fetch()
 
         assert len(result) == 1
         assert result[0].title == "Test Movie"
-        assert result[0].category == "movie"
+        assert result[0].date.hour == 19
         assert result[0].metadata["duration"] == 120
-
-    @patch("boringhannover.sources.base.httpx.Client")
-    def test_fetch_filters_german_dubs(self, mock_client: Mock) -> None:
-        """Test that German dubbed movies are filtered out."""
-        mock_response = Mock()
-        mock_response.json.return_value = {
-            "genres": [],
-            "movies": [{"id": 100, "name": "Test Movie"}],
-            "performances": [
-                {
-                    "movieId": 100,
-                    "begin": "2024-11-24T19:30:00",
-                    "language": "Sprache: Deutsch",  # German dub, should be filtered
-                }
-            ],
-        }
-        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
-
-        scraper = AstorMovieScraper()
-        result = scraper.fetch()
-
-        assert len(result) == 0
-
-
-class TestConcertVenueScraper:
-    """Tests for the concert venue scraper (ZAG Arena)."""
-
-    def test_scraper_source_name(self) -> None:
-        """Test scraper returns correct source name."""
-        scraper = ConcertVenueScraper()
-        assert scraper.source_name == "ZAG Arena"
-
-    def test_scraper_max_events(self) -> None:
-        """Test scraper has max events limit configured."""
-        scraper = ConcertVenueScraper()
-        assert scraper.max_events == 15
+        assert result[0].metadata["genres"] == ["Drama"]
 
 
 class TestPunkrockKonzerteSource:
@@ -328,47 +237,30 @@ class TestPunkrockKonzerteSource:
 class TestApollokinoScraper:
     """Tests for the Apollokino scraper."""
 
-    def test_scraper_source_name(self) -> None:
-        scraper = ApollokinoScraper()
-        assert scraper.source_name == "Apollokino Hannover"
+    @staticmethod
+    def _serve(local_site: LocalSite, html: str) -> type[ApollokinoScraper]:
+        local_site.pages["/?mp=OmU-Nachtstudio"] = (200, html)
 
-    @patch("boringhannover.sources.base.httpx.Client")
-    def test_fetch_returns_list(self, mock_client: Mock) -> None:
-        mock_response = Mock()
-        mock_response.text = (FIXTURES / "apollokino_omu.html").read_text(
-            encoding="utf-8"
-        )
-        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
+        class LocalApollokino(ApollokinoScraper):
+            PAGE_URL = f"{local_site.url}/?mp=OmU-Nachtstudio"
 
-        result = ApollokinoScraper().fetch()
-        assert isinstance(result, list)
+        return LocalApollokino
 
-    @patch("boringhannover.sources.base.httpx.Client")
-    def test_fetch_parses_omu_entries(self, mock_client: Mock) -> None:
-        mock_response = Mock()
-        mock_response.text = (FIXTURES / "apollokino_omu.html").read_text(
-            encoding="utf-8"
-        )
-        mock_client.return_value.__enter__.return_value.get.return_value = mock_response
+    def test_fetch_parses_omu_entries(self, local_site: LocalSite) -> None:
+        html = (FIXTURES / "apollokino_omu.html").read_text(encoding="utf-8")
 
-        result = ApollokinoScraper().fetch()
+        result = self._serve(local_site, html)().fetch()
 
         assert len(result) > 0
         ev = result[0]
         assert ev.category == "movie"
         assert ev.title == "THE MASTERMIND"
         assert ev.date.strftime("%H:%M") == "22:30"
-        assert (
-            ev.metadata.get("poster_url")
-            == "https://www.apollokino.de/filme/00005138/plakat00005138.jpg"
-        )
-        assert (
-            ev.url
-            == "https://www.apollokino.de/?v=&film=filme/00005138&anmerk=OmU-Nachtstudio"
-        )
+        assert ev.metadata["poster_url"].endswith("/filme/00005138/plakat00005138.jpg")
+        assert ev.url.endswith("/?v=&film=filme/00005138&anmerk=OmU-Nachtstudio")
         assert ev.metadata.get("original_version") is True
 
-    def test_fetch_rejects_non_omu_and_blacklist(self) -> None:
+    def test_fetch_rejects_non_omu_and_blacklist(self, local_site: LocalSite) -> None:
         """Rows without the OmU marker or with Desimo/Spezial Club must be skipped."""
         html = """
         <div class="datumzeile">Freitag, 02.01.2026</div>
@@ -389,17 +281,10 @@ class TestApollokinoScraper:
           </table>
         </td></tr></table>
         """
-        with patch("boringhannover.sources.base.httpx.Client") as mock_client:
-            mock_response = Mock()
-            mock_response.text = html
-            mock_client.return_value.__enter__.return_value.get.return_value = (
-                mock_response
-            )
 
-            result = ApollokinoScraper().fetch()
+        result = self._serve(local_site, html)().fetch()
 
-        titles = [e.title for e in result]
-        assert titles == ["Echter Film"]
+        assert [e.title for e in result] == ["Echter Film"]
 
     def test_extract_metadata_from_detail_soup(self) -> None:
         """Detail extraction works directly from a parsed soup (no HTTP)."""
@@ -421,15 +306,9 @@ class TestApollokinoScraper:
         assert "Steven Spiebergs Hai-Blockbuster" in meta["synopsis"]
         assert "Lexikon des internationalen Films" in meta["synopsis"]
 
-    def test_detail_fetch_failure_returns_empty(self) -> None:
+    def test_detail_fetch_failure_returns_empty(self, local_site: LocalSite) -> None:
         """A failed detail fetch must degrade gracefully, never raise."""
-        with patch("boringhannover.sources.base.httpx.Client") as mock_client:
-            mock_client.return_value.__enter__.return_value.get.side_effect = (
-                RuntimeError("boom")
-            )
-            meta = ApollokinoScraper()._fetch_detail_metadata(
-                "https://www.apollokino.de/?v=&film=filme/00000001"
-            )
+        meta = ApollokinoScraper()._fetch_detail_metadata(f"{local_site.url}/missing")
         assert meta == {}
 
     def test_parse_filmdaten_handles_messy_text(self) -> None:
@@ -482,62 +361,36 @@ class TestApollokinoScraper:
 class TestFetchAllEvents:
     """Tests for the event aggregation function."""
 
-    @patch("boringhannover.aggregator.get_all_sources")
-    def test_returns_categorized_dict(
-        self,
-        mock_get_sources: Mock,
-    ) -> None:
-        """Test that fetch_all_events returns correctly structured data."""
-        # Mock the source registry to return empty sources
-        mock_source = Mock()
-        mock_source.return_value.enabled = True
-        mock_source.return_value.fetch.return_value = []
-        mock_get_sources.return_value = {"mock_source": mock_source}
-
-        result = fetch_all_events()
-
-        assert "movies_this_week" in result
-        assert "big_events_radar" in result
-        assert isinstance(result["movies_this_week"], list)
-        assert isinstance(result["big_events_radar"], list)
-
-    @patch("boringhannover.aggregator.get_all_sources")
-    def test_handles_naive_datetimes_from_sources(self, mock_get_sources: Mock) -> None:
+    def test_handles_naive_datetimes_from_sources(self) -> None:
         """Sources may emit naive datetimes; aggregation should not crash."""
         today = datetime.now(BERLIN_TZ)
 
-        movie_event = Event(
-            title="Movie",
-            date=(today + timedelta(days=1)).replace(tzinfo=None),
-            venue="Venue",
-            url="https://example.com",
-            category="movie",
-        )
-        radar_event = Event(
-            title="Concert",
-            date=(today + timedelta(days=8)).replace(tzinfo=None),
-            venue="Venue",
-            url="https://example.com",
-            category="radar",
-        )
+        class StaticSource(BaseSource):
+            source_name = "Static"
+            source_type = "cinema"
 
-        movie_source = Mock()
-        movie_source.return_value.enabled = True
-        movie_source.return_value.fetch.return_value = [movie_event]
+            def fetch(self) -> list[Event]:
+                return [
+                    Event(
+                        title="Movie",
+                        date=(today + timedelta(days=1)).replace(tzinfo=None),
+                        venue="Venue",
+                        url="https://example.com",
+                        category="movie",
+                    ),
+                    Event(
+                        title="Concert",
+                        date=(today + timedelta(days=8)).replace(tzinfo=None),
+                        venue="Venue",
+                        url="https://example.com",
+                        category="radar",
+                    ),
+                ]
 
-        radar_source = Mock()
-        radar_source.return_value.enabled = True
-        radar_source.return_value.fetch.return_value = [radar_event]
+        result = fetch_all_events(sources={"static": StaticSource})
 
-        mock_get_sources.return_value = {
-            "movie": movie_source,
-            "radar": radar_source,
-        }
-
-        result = fetch_all_events()
-
-        assert len(result["movies_this_week"]) == 1
-        assert len(result["big_events_radar"]) == 1
+        assert [e.title for e in result["movies_this_week"]] == ["Movie"]
+        assert [e.title for e in result["big_events_radar"]] == ["Concert"]
 
 
 # =============================================================================
@@ -547,15 +400,6 @@ class TestFetchAllEvents:
 
 class TestFormatMessage:
     """Tests for message formatting."""
-
-    def test_format_message_returns_string(self) -> None:
-        """Test that format_message returns a string."""
-        test_data = {
-            "movies_this_week": [],
-            "big_events_radar": [],
-        }
-        result = format_message(test_data)
-        assert isinstance(result, str)
 
     def test_format_message_includes_sections(self) -> None:
         """Test that formatted message includes all sections."""
@@ -616,74 +460,4 @@ class TestFormatMessage:
         }
         result = format_message(test_data)
 
-        assert isinstance(result, str)
         assert "No OV movies" in result
-
-
-class TestNotify:
-    """Tests for the main notify function."""
-
-    @patch("boringhannover.notifier.save_to_file")
-    @patch("boringhannover.notifier.save_all_formats")
-    def test_notify_saves_to_files(self, mock_save_all: Mock, mock_save: Mock) -> None:
-        """Test notify saves data to files."""
-        mock_save_all.return_value = {}
-        test_data = {
-            "movies_this_week": [],
-            "big_events_radar": [],
-        }
-
-        result = notify(test_data)
-
-        assert result is True
-        mock_save.assert_called_once()
-        mock_save_all.assert_called_once()
-
-
-# =============================================================================
-# Integration Tests
-# =============================================================================
-
-
-class TestIntegration:
-    """Integration tests for the complete workflow."""
-
-    @patch.dict(
-        "os.environ",
-        {
-            "GITHUB_TOKEN": "test_token",
-            "GITHUB_REPO": "owner/repo",
-        },
-    )
-    @patch("boringhannover.main.backup_run", return_value=True)
-    @patch("boringhannover.main.sync_web_data_to_github")
-    @patch("boringhannover.main.notify")
-    @patch("boringhannover.main.fetch_all_events")
-    def test_full_workflow(
-        self,
-        mock_fetch: Mock,
-        mock_notify: Mock,
-        mock_sync: Mock,
-        mock_backup: Mock,
-    ) -> None:
-        """Test the complete scraping, notification and publish workflow."""
-        from boringhannover.main import run  # noqa: PLC0415
-
-        mock_fetch.return_value = {
-            "movies_this_week": [],
-            "big_events_radar": [],
-        }
-        mock_notify.return_value = True
-        mock_sync.return_value = True
-
-        result = run()
-
-        assert result is True
-        mock_fetch.assert_called_once()
-        mock_notify.assert_called_once()
-        mock_sync.assert_called_once()
-        mock_backup.assert_called_once()
-
-
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])

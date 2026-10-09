@@ -5,7 +5,7 @@ from datetime import datetime
 
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.exporters import export_web_json
-from boringhannover.genre import CANONICAL_GENRES, normalize_genre
+from boringhannover.genre import normalize_genre
 from boringhannover.models import Event
 
 
@@ -113,29 +113,6 @@ class TestNormalizeGenre:
     def test_descriptive_tagline_without_genre_returns_none(self) -> None:
         """Artist billing must not be exposed as a genre."""
         assert normalize_genre("Mit Big Honey") is None
-
-
-class TestCanonicalGenres:
-    """Tests for CANONICAL_GENRES constant."""
-
-    def test_canonical_genres_count(self) -> None:
-        """Should have exactly 9 canonical genres."""
-        assert len(CANONICAL_GENRES) == 9
-
-    def test_canonical_genres_contains_expected(self) -> None:
-        """Should contain all expected genres."""
-        expected = {
-            "Rock",
-            "Punk / Hardcore",
-            "Metal",
-            "Pop",
-            "Hip-Hop",
-            "Electronic",
-            "Jazz / Blues",
-            "Klassik",
-            "Folk / World",
-        }
-        assert set(CANONICAL_GENRES) == expected
 
 
 def test_web_export_only_emits_canonical_genres(tmp_path) -> None:

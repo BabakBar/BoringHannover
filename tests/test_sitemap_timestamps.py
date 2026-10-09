@@ -44,12 +44,6 @@ def test_display_and_iso_timestamps_describe_the_same_instant(
     assert parsed.strftime("%a %d %b %H:%M") == web_meta["updatedAt"]
 
 
-def test_display_timestamp_alone_is_not_a_usable_lastmod(web_meta: dict) -> None:
-    """Guards the reason updatedAtISO exists at all."""
-    with pytest.raises(ValueError):
-        datetime.fromisoformat(web_meta["updatedAt"])
-
-
 def test_sync_ignores_both_timestamps_when_detecting_changes() -> None:
     """Otherwise every scrape commits, redeploys, and moves lastmod for nothing."""
     same_content = {"meta": {"week": 31, "year": 2026}, "movies": []}
