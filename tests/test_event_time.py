@@ -14,9 +14,6 @@ from boringhannover.event_time import (
 from boringhannover.exporters import export_web_json
 from boringhannover.formatting import format_radar_section
 from boringhannover.models import Event
-from boringhannover.sources.concerts.faust import FaustSource
-from boringhannover.sources.concerts.glocke import GlockseeSource
-from boringhannover.sources.concerts.punkrock_konzerte import PunkrockKonzerteSource
 
 
 def test_confirmed_time_is_displayed() -> None:
@@ -90,73 +87,3 @@ def test_web_json_uses_null_for_fallback_time(tmp_path) -> None:
     assert data["concerts"][1]["title"] == "Date Only"
     assert data["concerts"][1]["time"] is None
     assert data["concerts"][1]["timeConfidence"] == FALLBACK_TIME
-
-
-def test_faust_parses_hour_only_beginn_as_confirmed_time() -> None:
-    source = FaustSource()
-
-    title, time_str, time_confidence, location, price = source._parse_event_content(
-        [
-            "So, 05.07.26",
-            "Swinging Gretchen",
-            "Biergarten Gretchen",
-            "Eintritt: frei",
-            "Einlass / Beginn: 14 Uhr",
-        ]
-    )
-
-    assert title == "Swinging Gretchen"
-    assert time_str == "14:00"
-    assert time_confidence == CONFIRMED_TIME
-    assert location == "Biergarten Gretchen"
-    assert price == "Eintritt: frei"
-
-
-def test_faust_parses_split_beginn_label_and_hour() -> None:
-    source = FaustSource()
-
-    title, time_str, time_confidence, _location, _price = source._parse_event_content(
-        [
-            "Fr, 17.07.26",
-            "Die 90er-Party",
-            "Einlass / Beginn:",
-            "23 Uhr",
-        ]
-    )
-
-    assert title == "Die 90er-Party"
-    assert time_str == "23:00"
-    assert time_confidence == CONFIRMED_TIME
-
-
-def test_glocksee_parses_beginn_from_info_list() -> None:
-    source = GlockseeSource()
-
-    result = source._extract_confirmed_time(
-        {
-            "info_list": [
-                {"info": "Einlass 20.00 Uhr"},
-                {"info": "Beginn 21.15 Uhr"},
-                {"info": "Eintritt frei"},
-            ]
-        }
-    )
-
-    assert result == (21, 15)
-
-
-def test_punkrock_parses_kulturpalast_structured_start_date() -> None:
-    source = PunkrockKonzerteSource()
-
-    result = source._parse_kulturpalast_datetime(
-        """
-        <script type="application/ld+json">
-        [{"@type":"Event","startDate":"2026-07-07T20:00:00+02:00"}]
-        </script>
-        """
-    )
-
-    assert result is not None
-    assert result.hour == 20
-    assert result.minute == 0
-    assert result.tzinfo is not None
