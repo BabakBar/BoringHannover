@@ -10,8 +10,10 @@ const EVENT_STATUS: Record<SourceStatus, string> = {
 /**
  * schema.org Event for an occasion detail page. eventStatus is asserted only
  * from explicit source status, and dates stay date-only: an envelope is not
- * evidence of opening hours. The place is the source's location text: no
- * locality is assumed, and no third-party photo is marked up (#60).
+ * evidence of opening hours. The place carries a PostalAddress only when the
+ * source gave one; no locality is assumed, and no third-party photo is
+ * marked up (#60). Entry is free only when the source says so without a
+ * condition.
  *
  * Sparse (discrete) or unparsed (unknown) schedules get no markup: one Event
  * across their season would claim a continuous event, and separately held
@@ -28,6 +30,7 @@ export function occasionJsonLd(
   ) {
     return undefined;
   }
+  const { place } = occasion;
   return {
     '@context': 'https://schema.org',
     '@type': 'Event',
@@ -42,9 +45,25 @@ export function occasionJsonLd(
       ? { eventStatus: EVENT_STATUS[occasion.sourceStatus] }
       : {}),
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    ...(occasion.admission?.length === 1 &&
+    occasion.admission[0].price === 'free' &&
+    !occasion.admission[0].label
+      ? { isAccessibleForFree: true }
+      : {}),
     location: {
       '@type': 'Place',
-      name: occasion.location,
+      name: place?.venue || occasion.location,
+      ...(place
+        ? {
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: place.street,
+              postalCode: place.postalCode,
+              addressLocality: place.locality,
+              addressCountry: 'DE',
+            },
+          }
+        : {}),
     },
     // url must be the page carrying the markup; the venue's own site is a
     // sameAs reference, not a substitute for it.

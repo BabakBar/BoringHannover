@@ -9,7 +9,6 @@ import {
 } from '../../data/loader';
 import type {
   Concert,
-  OccasionOccurrence,
   OccasionProgramme,
   OccasionSummary,
 } from '../../data/types';
@@ -17,9 +16,19 @@ import { sanitizeUrl } from '../../utils/sanitize';
 import { formatEventTime } from '../../utils/displayLabels';
 import { occasionJsonLd } from '../../utils/occasionJsonLd';
 import { occasionSourceLink } from '../../utils/occasionSource';
+import {
+  entryPrice,
+  mapUrl,
+  onwardOccasions,
+  placeAddress,
+  sheetDateLine,
+  whenFacts,
+} from '../../utils/occasionSheet';
+import { berlinClock } from '../../utils/occasionStatus';
 
 interface Props {
   programmeData: OccasionProgramme;
+  occasions: OccasionSummary[];
   week: number;
   year: number;
 }
@@ -38,6 +47,7 @@ export function getStaticPaths() {
       params: { slug: occasion.slug },
       props: {
         programmeData,
+        occasions: eventData.occasions,
         week: eventData.meta.week,
         year: eventData.meta.year,
       },
@@ -45,7 +55,7 @@ export function getStaticPaths() {
   });
 }
 
-const { programmeData, week, year } = Astro.props;
+const { programmeData, occasions, week, year } = Astro.props;
 const { occasion, programme } = programmeData;
 
 function dateValue(isoDate: string): Date {
@@ -59,17 +69,6 @@ function shortDate(isoDate: string): string {
   }).format(dateValue(isoDate)).toUpperCase();
 }
 
-function appointmentLabel(occurrence: OccasionOccurrence): string {
-  const day = new Intl.DateTimeFormat('en-GB', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-  }).format(dateValue(occurrence.date));
-  return occurrence.startTime
-    ? `${day}, ${formatEventTime(occurrence.startTime)}`
-    : day;
-}
-
 function longDate(isoDate: string): string {
   return new Intl.DateTimeFormat('en-GB', {
     weekday: 'long',
@@ -78,12 +77,24 @@ function longDate(isoDate: string): string {
   }).format(dateValue(isoDate));
 }
 
-const dateRange = `${shortDate(occasion.startDate)} — ${shortDate(occasion.endDate)}`;
-// Sparse appointments are listed one by one; the range alone would read as
-// one continuous block.
-const appointments =
-  occasion.scheduleConfidence === 'discrete' ? occasion.occurrences ?? [] : [];
+// The sheet (#54): decision facts first, every row only when the source
+// states it. Unknown facts and unsafe actions are left out, not guessed.
+const when = whenFacts(occasion);
+const { place } = occasion;
+const dayTrip =
+  occasion.area === 'region' && place?.municipality
+    ? `Day trip · ${place.municipality}`
+    : null;
+const admission = occasion.admission ?? [];
+const freeEntry =
+  admission.length === 1 && admission[0].price === 'free' && !admission[0].label;
 const source = occasionSourceLink(occasion.sourceUrl);
+// Cancelled or undated postponed occasions keep their facts, not actions;
+// the browser also drops them once the occasion has ended.
+const actionable =
+  occasion.sourceStatus !== 'cancelled' && occasion.sourceStatus !== 'postponed';
+const address = place ? placeAddress(place) : null;
+const onward = onwardOccasions(occasion, occasions, berlinClock(new Date()).date);
 
 const groups = new Map<string, Concert[]>();
 for (const event of programme) {
@@ -145,55 +156,147 @@ const eventJsonLd = occasionJsonLd(occasion, {
     <span>Weekly digest</span>
   </a>
 
-  <header class="occasion-hero">
-    <div class="occasion-hero__topline">
-      <span>Special in Hannover</span>
-      <span class="occasion-hero__status">
-        <span class="occasion-hero__status-dot" aria-hidden="true"></span>
-        <OccasionStatus occasion={occasion} />
-      </span>
-    </div>
-
-    <p class="occasion-hero__date">{dateRange}</p>
-    <h1>{occasion.name}</h1>
-    {appointments.length > 0 && (
-      <ul class="occasion-hero__appointments" aria-label="Dates">
-        {appointments.map((occurrence) => (
-          <li>
-            <time
-              datetime={occurrence.startTime
-                ? `${occurrence.date}T${occurrence.startTime}`
-                : occurrence.date}
-            >
-              {appointmentLabel(occurrence)}
-            </time>
-          </li>
-        ))}
-      </ul>
-    )}
-    {occasion.hoursText && (
-      <p class="occasion-hero__hours">
-        <span>Source schedule:</span> <span lang="de">{occasion.hoursText}</span>
+  <article class="sheet" aria-labelledby="occasion-title">
+    <header class="sheet__head">
+      <p class="sheet__kicker">City Occasion</p>
+      <!-- Occasion names are the source's German proper names. -->
+      <h1 id="occasion-title" lang="de">{occasion.name}</h1>
+      <p class="sheet__status">
+        <span class="sheet__status-label">
+          <span class="sheet__status-dot" aria-hidden="true"></span>
+          <OccasionStatus occasion={occasion} />
+        </span>
+        <span aria-hidden="true">·</span>
+        <span>{sheetDateLine(occasion)}</span>
       </p>
-    )}
-    <p class="occasion-hero__description">{occasion.description}</p>
+    </header>
 
-    <div class="occasion-hero__facts">
-      <span>{occasion.location}</span>
-      <span aria-hidden="true">·</span>
-      <span>
-        {occasion.programmeCount > 0
-          ? `${occasion.programmeCount} programme items`
-          : 'Official event listing'}
-      </span>
-      {occasion.locationCount > 0 && (
-        <>
-          <span aria-hidden="true">·</span>
-          <span>{occasion.locationCount} locations</span>
-        </>
+    <dl class="sheet__facts">
+      <div class="fact">
+        <dt>When</dt>
+        <dd>
+          {when.range && <p>{when.range}</p>}
+          {when.selectedDatesOnly && (
+            <p class="fact__note">Selected dates only:</p>
+          )}
+          {when.appointments.length > 0 && (
+            <ul class="fact__list">
+              {when.appointments.map((appointment) => (
+                <li data-occurrence-date={appointment.date}>
+                  <time datetime={appointment.datetime}>{appointment.text}</time>
+                </li>
+              ))}
+            </ul>
+          )}
+          {when.sourceHours && (
+            <p class="fact__note">
+              Source schedule: <span lang="de">{when.sourceHours}</span>
+            </p>
+          )}
+        </dd>
+      </div>
+
+      <div class="fact">
+        <dt>Where</dt>
+        <dd>
+          {place ? (
+            <p class="fact__lines">
+              {place.venue && <span>{place.venue}</span>}
+              <span>{place.street}</span>
+              <span>{place.postalCode} {place.locality}</span>
+            </p>
+          ) : (
+            <p>{occasion.location}</p>
+          )}
+          {dayTrip && <p class="fact__tag">{dayTrip}</p>}
+        </dd>
+      </div>
+
+      {admission.length > 0 && (
+        <div class="fact">
+          <dt>Entry</dt>
+          <dd>
+            {freeEntry ? (
+              <p>Free entry</p>
+            ) : (
+              <>
+                <ul class="fact__list">
+                  {admission.map((item) => (
+                    <li>
+                      {item.label && <><span lang="de">{item.label}</span>: </>}
+                      <strong>{entryPrice(item.price)}</strong>
+                    </li>
+                  ))}
+                </ul>
+                <p class="fact__note">As listed by the source.</p>
+              </>
+            )}
+          </dd>
+        </div>
       )}
-    </div>
-  </header>
+
+      {source && (
+        <div class="fact">
+          <dt>Source</dt>
+          <dd>
+            <a
+              href={source.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="fact__link"
+              data-umami-event="occasion-source-open"
+              data-umami-event-occasion={occasion.slug}
+            >{source.label}<span aria-hidden="true">&nbsp;↗</span></a>
+          </dd>
+        </div>
+      )}
+    </dl>
+
+    {actionable && (
+      <div class="sheet__actions" data-occasion-actions>
+        {place && (
+          <a
+            href={mapUrl(place)}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="sheet__action"
+            aria-label={`Map: ${address} on OpenStreetMap`}
+            data-umami-event="occasion-directions-open"
+            data-umami-event-occasion={occasion.slug}
+          >Map<span aria-hidden="true">&nbsp;↗</span></a>
+        )}
+        {address && (
+          <button
+            type="button"
+            class="sheet__action"
+            data-copy-address={address}
+            hidden
+          >Copy address</button>
+        )}
+        <button
+          type="button"
+          class="sheet__action"
+          data-share
+          data-share-title={occasion.name}
+          data-umami-event="occasion-share"
+          data-umami-event-occasion={occasion.slug}
+          hidden
+        >Share</button>
+        <p class="sr-only" role="status" data-action-status></p>
+      </div>
+    )}
+
+    <section class="sheet__about" aria-labelledby="about-title">
+      <h2 id="about-title">About</h2>
+      <p>{occasion.description}</p>
+      {source && (
+        <p class="sheet__provenance">
+          Facts from the {source.label.charAt(0).toLowerCase() + source.label.slice(1)},
+          checked {programmeData.meta.updatedAt}.
+        </p>
+      )}
+    </section>
+  </article>
 
   {programme.length > 0 && (
     <section class="programme" aria-labelledby="programme-title">
@@ -356,22 +459,142 @@ const eventJsonLd = occasionJsonLd(occasion, {
     </section>
   )}
 
-  {source && (
-    <a
-      href={source.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="occasion-source"
-      data-umami-event="occasion-source-open"
-      data-umami-event-occasion={occasion.slug}
-    >
-      <span>{source.label}</span>
-      <span aria-hidden="true">↗</span>
+  <nav class="onward" aria-labelledby="onward-title">
+    <h2 id="onward-title">More occasions</h2>
+    {onward.length > 0 && (
+      <ul class="onward__list">
+        {onward.map((item) => (
+          <li data-onward-item>
+            <a
+              href={`/special/${item.slug}/`}
+              class="onward__link"
+              data-umami-event="occasion-onward-open"
+              data-umami-event-occasion={item.slug}
+            >
+              <span class="onward__name" lang="de">{item.name}</span>
+              <span class="onward__meta">
+                <OccasionStatus occasion={item} />
+                <span aria-hidden="true">·</span>
+                <span>{sheetDateLine(item)}</span>
+                {item.area === 'region' && item.place?.municipality && (
+                  <span>· Day trip · {item.place.municipality}</span>
+                )}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+    <p class="onward__empty" data-onward-empty hidden={onward.length > 0}>
+      No other City Occasions are listed right now.
+    </p>
+    <a href="/special/" class="sheet__action onward__index" data-umami-event="occasion-index-open">
+      All City Occasions
     </a>
-  )}
+  </nav>
 
   <Footer updatedAt={programmeData.meta.updatedAt} />
 </Base>
+
+<script>
+  import {
+    berlinClock,
+    occasionLabel,
+    type OccasionSchedule,
+  } from '../../utils/occasionStatus';
+
+  // The sheet is complete without JavaScript; this only refreshes what the
+  // reader's Berlin clock changes and adds clipboard and share actions.
+  function schedule(element: Element | null): OccasionSchedule | null {
+    const raw = element?.querySelector<HTMLElement>('[data-occasion-schedule]')
+      ?.dataset.occasionSchedule;
+    try {
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function refreshSheet() {
+    const now = new Date();
+    const today = berlinClock(now).date;
+    for (const item of document.querySelectorAll<HTMLElement>(
+      '[data-occurrence-date]',
+    )) {
+      item.hidden = (item.dataset.occurrenceDate ?? '') < today;
+    }
+
+    const own = schedule(document.querySelector('.sheet__head'));
+    const actions = document.querySelector<HTMLElement>('[data-occasion-actions]');
+    if (own && actions) {
+      actions.hidden = occasionLabel(own, now).key === 'ended';
+    }
+
+    let current = 0;
+    for (const item of document.querySelectorAll<HTMLElement>(
+      '[data-onward-item]',
+    )) {
+      const itemSchedule = schedule(item);
+      const key = itemSchedule ? occasionLabel(itemSchedule, now).key : null;
+      item.hidden = key === 'ended' || key === 'check_dates';
+      if (!item.hidden) current += 1;
+    }
+    document
+      .querySelector<HTMLElement>('[data-onward-empty]')
+      ?.toggleAttribute('hidden', current > 0);
+  }
+
+  const actionStatus = document.querySelector<HTMLElement>('[data-action-status]');
+  function acknowledge(button: HTMLButtonElement, message: string) {
+    // Keep the resting label, so a second click cannot make "copied" stick.
+    button.dataset.label ??= button.textContent ?? '';
+    button.textContent = message;
+    if (actionStatus) actionStatus.textContent = message;
+    window.setTimeout(() => {
+      button.textContent = button.dataset.label ?? '';
+    }, 2000);
+  }
+
+  const copyButton = document.querySelector<HTMLButtonElement>(
+    '[data-copy-address]',
+  );
+  if (copyButton && navigator.clipboard) {
+    copyButton.hidden = false;
+    copyButton.addEventListener('click', () => {
+      navigator.clipboard
+        .writeText(copyButton.dataset.copyAddress ?? '')
+        .then(() => acknowledge(copyButton, 'Address copied'))
+        .catch(() => {});
+    });
+  }
+
+  const shareButton = document.querySelector<HTMLButtonElement>('[data-share]');
+  const shareUrl =
+    document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href ??
+    window.location.href;
+  if (shareButton && typeof navigator.share === 'function') {
+    shareButton.hidden = false;
+    shareButton.addEventListener('click', () => {
+      navigator
+        .share({ title: shareButton.dataset.shareTitle, url: shareUrl })
+        .catch(() => {});
+    });
+  } else if (shareButton && navigator.clipboard) {
+    shareButton.hidden = false;
+    shareButton.textContent = 'Copy link';
+    shareButton.addEventListener('click', () => {
+      navigator.clipboard
+        .writeText(shareUrl)
+        .then(() => acknowledge(shareButton, 'Link copied'))
+        .catch(() => {});
+    });
+  }
+
+  refreshSheet();
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') refreshSheet();
+  });
+</script>
 
 <script>
   import type { Concert } from '../../data/types';
@@ -549,121 +772,235 @@ const eventJsonLd = occasionJsonLd(occasion, {
     color: var(--accent);
   }
 
-  .occasion-hero {
-    position: relative;
-    overflow: hidden;
-    padding: 1.25rem 0 2rem;
+  .sheet {
+    padding-top: 1rem;
     border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
   }
 
-  .occasion-hero::after {
-    content: '';
-    position: absolute;
-    top: 2.5rem;
-    right: -5rem;
-    width: 11rem;
-    height: 11rem;
-    background: var(--accent-dim);
-    border: 1px solid var(--accent);
-    border-radius: 50%;
-    opacity: 0.55;
-    pointer-events: none;
-  }
-
-  .occasion-hero__topline,
-  .occasion-hero__facts {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.35rem;
+  .sheet__kicker,
+  .sheet__about h2,
+  .onward h2 {
+    color: var(--accent);
     font-family: 'Space Mono', monospace;
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  .occasion-hero__topline {
-    justify-content: space-between;
-    color: var(--accent);
+  /* Long German names wrap instead of being clipped (#54). */
+  .sheet h1 {
+    margin-top: 0.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
 
-  .occasion-hero__status {
+  .sheet__status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+    margin-top: 0.75rem;
+    color: var(--text-primary);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8125rem;
+  }
+
+  .sheet__status-label {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    color: var(--text-muted);
+    font-weight: 700;
   }
 
-  .occasion-hero__status-dot {
-    width: 5px;
-    height: 5px;
+  .sheet__status-dot {
+    width: 0.4rem;
+    height: 0.4rem;
     background: var(--accent);
     border-radius: 50%;
   }
 
-  .occasion-hero__date {
-    position: relative;
-    z-index: 1;
-    margin-top: 2.4rem;
-    color: var(--text-data);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
+  .sheet__facts {
+    margin-top: 1.25rem;
+    border-bottom: 1px solid var(--border);
   }
 
-  .occasion-hero h1 {
-    position: relative;
-    z-index: 1;
-    max-width: 24rem;
-    margin-top: 0.3rem;
+  /* Label beside value on a phone; the value wraps below when text grows. */
+  .fact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.75rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .fact dt {
+    flex: 0 0 4.25rem;
+    padding-top: 0.15rem;
+    color: var(--text-secondary);
     font-family: 'Space Mono', monospace;
-    font-size: clamp(2.2rem, 13vw, 4rem);
-    font-weight: 700;
-    letter-spacing: -0.075em;
-    line-height: 0.9;
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
-  .occasion-hero__appointments {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem 0.9rem;
-    max-width: 24rem;
-    margin-top: 1rem;
-    color: var(--text-data);
+  .fact dd {
+    flex: 1 1 11rem;
+    min-width: 0;
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .fact__list,
+  .fact__lines {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .fact__list li[hidden] {
+    display: none;
+  }
+
+  .fact__note {
+    margin-top: 0.2rem;
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+  }
+
+  .fact__tag {
+    display: inline-block;
+    margin-top: 0.35rem;
+    padding: 0.1rem 0.45rem;
+    border: 1px solid var(--accent);
+    border-radius: 3px;
     font-family: 'Space Mono', monospace;
     font-size: 0.75rem;
   }
 
-  .occasion-hero__hours {
-    position: relative;
-    z-index: 1;
-    max-width: 24rem;
-    margin-top: 1rem;
-    color: var(--text-secondary);
-    font-size: 0.8125rem;
-    line-height: 1.5;
+  .fact__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin: -0.6rem 0;
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
-  .occasion-hero__description {
-    position: relative;
-    z-index: 1;
-    max-width: 24rem;
+  .fact__link:hover {
+    color: var(--accent);
+  }
+
+  .sheet__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin-top: 1rem;
+  }
+
+  .sheet__actions[hidden] {
+    display: none;
+  }
+
+  .sheet__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.5rem 0.9rem;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .sheet__action[hidden] {
+    display: none;
+  }
+
+  .sheet__action:hover {
+    border-color: var(--accent);
+  }
+
+  .sheet__about {
+    margin-top: 1.75rem;
+  }
+
+  .sheet__about p {
+    max-width: 34rem;
+    margin-top: 0.4rem;
     color: var(--text-secondary);
     font-size: 0.9375rem;
     line-height: 1.55;
+    overflow-wrap: anywhere;
   }
 
-  .occasion-hero__facts {
+  .sheet__about .sheet__provenance {
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .onward {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .onward__list {
+    margin-top: 0.5rem;
+  }
+
+  .onward__list li[hidden] {
+    display: none;
+  }
+
+  .onward__link {
+    display: grid;
+    gap: 0.2rem;
+    min-height: 44px;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .onward__name {
+    color: var(--text-primary);
+    font-weight: 600;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .onward__link:hover .onward__name {
+    color: var(--accent);
+  }
+
+  .onward__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 0.4rem;
+    color: var(--text-secondary);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .onward__empty {
+    margin-top: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .onward__index {
+    width: 100%;
     margin-top: 1rem;
-    color: var(--text-muted);
-    letter-spacing: 0;
   }
 
   .programme {
@@ -925,24 +1262,4 @@ const eventJsonLd = occasionJsonLd(occasion, {
     text-align: center;
   }
 
-  .occasion-source {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 48px;
-    margin-top: 2rem;
-    padding: 0.75rem;
-    color: var(--text-secondary);
-    border: 1px dashed var(--border);
-    border-radius: 4px;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-  }
-
-  .occasion-source:hover {
-    color: var(--text-primary);
-    background: var(--bg-secondary);
-    border-color: var(--accent);
-  }
 </style>

@@ -36,6 +36,7 @@ from boringhannover.occasions import (
     OccasionBundle,
     OccasionDefinition,
     build_occasion_bundles,
+    occasion_area,
     occasion_date_range,
 )
 from boringhannover.radar_categories import classify_radar_category
@@ -359,6 +360,29 @@ def _occasion_summary(
         summary["sourceStatus"] = definition.source_status
     if definition.previous_start_date:
         summary["previousStartDate"] = definition.previous_start_date.isoformat()
+    # Detail-sheet facts (#54), only when the source states them.
+    if definition.place:
+        place = definition.place
+        summary["place"] = {
+            **(
+                {"venue": sanitize_text(place.venue, MAX_VENUE_LENGTH)}
+                if place.venue
+                else {}
+            ),
+            "street": sanitize_text(place.street, MAX_VENUE_LENGTH),
+            "postalCode": place.postal_code,
+            "locality": sanitize_text(place.locality, MAX_VENUE_LENGTH),
+        }
+        if area := occasion_area(place):
+            summary["area"], summary["place"]["municipality"] = area
+    if definition.admission:
+        summary["admission"] = [
+            {
+                **({"label": sanitize_text(item.label, 120)} if item.label else {}),
+                "price": item.price,
+            }
+            for item in definition.admission
+        ]
     return summary
 
 

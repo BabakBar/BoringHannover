@@ -21,15 +21,20 @@ if TYPE_CHECKING:
     from boringhannover.models import Event
 
 __all__ = [
+    "REGION_HANNOVER_MUNICIPALITIES",
     "SOURCE_STATUS_LABELS",
+    "Admission",
+    "OccasionArea",
     "OccasionBundle",
     "OccasionDefinition",
     "OccasionStatus",
     "Occurrence",
+    "Place",
     "ScheduleConfidence",
     "SourceStatus",
     "build_occasion_bundles",
     "classify_programme_item",
+    "occasion_area",
     "occasion_date_range",
     "occasion_lifecycle",
 ]
@@ -49,6 +54,36 @@ SOURCE_STATUS_LABELS: dict[str, str] = {
     "rescheduled": "Rescheduled",
 }
 
+OccasionArea = Literal["city", "region"]
+# The 20 towns and municipalities of Region Hannover besides the city, as
+# listed at https://www.hannover.de/Leben-in-der-Region-Hannover/
+# Verwaltungen-Kommunen/Kommunen-in-der-Region-Hannover (read 2026-10-09).
+# Only an exact official locality counts; villages and postcodes do not.
+REGION_HANNOVER_MUNICIPALITIES: frozenset[str] = frozenset(
+    {
+        "Barsinghausen",
+        "Burgdorf",
+        "Burgwedel",
+        "Garbsen",
+        "Gehrden",
+        "Hemmingen",
+        "Isernhagen",
+        "Laatzen",
+        "Langenhagen",
+        "Lehrte",
+        "Neustadt am Rübenberge",
+        "Pattensen",
+        "Ronnenberg",
+        "Seelze",
+        "Sehnde",
+        "Springe",
+        "Uetze",
+        "Wedemark",
+        "Wennigsen",
+        "Wunstorf",
+    }
+)
+
 
 @dataclass(frozen=True, slots=True)
 class Occurrence:
@@ -57,6 +92,24 @@ class Occurrence:
     date: date
     start_time: str | None = None
     end_time: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class Place:
+    """An official postal address; the venue name is optional."""
+
+    street: str
+    postal_code: str
+    locality: str
+    venue: str = ""
+
+
+@dataclass(frozen=True, slots=True)
+class Admission:
+    """One official entry condition; ``price`` is "free" or e.g. "€3.50"."""
+
+    price: str
+    label: str = ""
 
 
 @dataclass(frozen=True, slots=True)
@@ -84,6 +137,8 @@ class OccasionDefinition:
     hours_text: str = ""
     source_status: SourceStatus | None = None
     previous_start_date: date | None = None
+    place: Place | None = None
+    admission: tuple[Admission, ...] = ()
 
     def __post_init__(self) -> None:
         """Reject definitions that cannot produce stable public routes."""
@@ -153,6 +208,18 @@ def occasion_date_range(definition: OccasionDefinition) -> str:
     if definition.schedule_confidence == "discrete":
         return f"Selected dates {span}"
     return span
+
+
+def occasion_area(place: Place) -> tuple[OccasionArea, str] | None:
+    """Return the city or Region municipality of an official address.
+
+    Unknown or unlisted localities stay unknown; they are not Hannover.
+    """
+    if place.locality == "Hannover":
+        return "city", "Hannover"
+    if place.locality in REGION_HANNOVER_MUNICIPALITIES:
+        return "region", place.locality
+    return None
 
 
 def occasion_lifecycle(

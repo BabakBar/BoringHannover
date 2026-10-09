@@ -136,4 +136,50 @@ describe('occasionJsonLd', () => {
       occasionJsonLd(base, { canonicalUrl: urls.canonicalUrl, officialUrl: null }),
     ).not.toHaveProperty('sameAs');
   });
+
+  test('an official address becomes the PostalAddress, venue the place name', () => {
+    const jsonLd = occasionJsonLd(
+      {
+        ...base,
+        place: {
+          venue: 'Eldagser Hoflieferant',
+          street: 'Lange Straße 142',
+          postalCode: '31832',
+          locality: 'Springe',
+          municipality: 'Springe',
+        },
+      },
+      urls,
+    );
+
+    expect(jsonLd?.location).toEqual({
+      '@type': 'Place',
+      name: 'Eldagser Hoflieferant',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Lange Straße 142',
+        postalCode: '31832',
+        addressLocality: 'Springe',
+        addressCountry: 'DE',
+      },
+    });
+  });
+
+  test('only unconditional free entry is marked free', () => {
+    expect(
+      occasionJsonLd({ ...base, admission: [{ price: 'free' }] }, urls),
+    ).toHaveProperty('isAccessibleForFree', true);
+    expect(
+      occasionJsonLd(
+        {
+          ...base,
+          admission: [
+            { label: 'Mit Baumscheibe', price: 'free' },
+            { label: 'Erwachsene', price: '€3' },
+          ],
+        },
+        urls,
+      ),
+    ).not.toHaveProperty('isAccessibleForFree');
+  });
 });
