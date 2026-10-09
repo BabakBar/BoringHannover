@@ -28,7 +28,7 @@ env:
   SITE: https://boringhannover.de
   # Toolchain pins. MAINTENANCE.md is the policy; these are the values,
   # and the `pins` job below asserts the container images agree with them.
-  UV_VERSION: "0.12.23"
+  UV_VERSION: "0.12.24"
   PYTHON_PRODUCTION: "3.14"
   ZIZMOR_VERSION: "1.30.1"
 
