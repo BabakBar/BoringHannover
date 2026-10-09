@@ -1,5 +1,6 @@
 ---
 import type { OccasionSummary } from '../data/types';
+import OccasionStatus from './OccasionStatus.astro';
 
 interface Props {
   occasion: OccasionSummary;
@@ -7,12 +8,6 @@ interface Props {
 }
 
 const { occasion, compact = false } = Astro.props;
-
-const statusLabels = {
-  upcoming: 'Coming soon',
-  happening_now: 'Happening now',
-  final_weekend: 'Final weekend',
-} as const;
 
 function shortDate(isoDate: string): string {
   return new Intl.DateTimeFormat('en-GB', {
@@ -37,7 +32,7 @@ const detailUrl = `/special/${occasion.slug}/`;
     <span>Special in Hannover</span>
     <span class="occasion-spotlight__status">
       <span class="occasion-spotlight__live-dot" aria-hidden="true"></span>
-      {statusLabels[occasion.status]}
+      <OccasionStatus occasion={occasion} />
     </span>
   </div>
 

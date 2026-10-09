@@ -14,7 +14,12 @@ from typing import TYPE_CHECKING, NotRequired, TypedDict
 
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.formatting import format_movies_section, format_radar_section
-from boringhannover.occasions import OccasionBundle, build_occasion_bundles
+from boringhannover.occasions import (
+    SOURCE_STATUS_LABELS,
+    OccasionBundle,
+    build_occasion_bundles,
+    occasion_date_range,
+)
 from boringhannover.output import export_all_formats
 
 
@@ -56,10 +61,10 @@ def _format_occasions_section(bundles: list[OccasionBundle]) -> str:
     lines = ["*Special in Hannover*"]
     for bundle in bundles:
         definition = bundle.definition
-        date_range = (
-            f"{definition.start_date.strftime('%d %b')}"
-            f"-{definition.end_date.strftime('%d %b')}"
-        )
+        status = SOURCE_STATUS_LABELS.get(definition.source_status or "")
+        date_range = occasion_date_range(definition)
+        if status:
+            date_range = f"{status} · {date_range}"
         lines.extend(
             [
                 f"  *{definition.name}*",

@@ -1,0 +1,349 @@
+{
+  "description": "Shared clock expectations for #59. `lifecycle` is the Python OccasionDefinition lifecycle at the Berlin date of `now` (null: not discoverable). `label` is the browser label at `now`; `staticLabel` is the conservative build-time label. Occurrence dates in these schedules come from the regression strings and captures in HANNOVER_CAPTURES.md.",
+  "cases": [
+    {
+      "name": "one-day event later today says Today, not On now or Final weekend",
+      "now": "2026-10-10T08:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-10",
+        "endDate": "2026-10-10",
+        "occurrences": [{ "date": "2026-10-10", "startTime": "13:00", "endTime": "18:30" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Today", "staticLabel": "Running" }
+    },
+    {
+      "name": "one-day event inside confirmed hours is On now",
+      "now": "2026-10-10T12:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-10",
+        "endDate": "2026-10-10",
+        "occurrences": [{ "date": "2026-10-10", "startTime": "13:00", "endTime": "18:30" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "On now", "staticLabel": "Running" }
+    },
+    {
+      "name": "one-day event after its confirmed end has ended",
+      "now": "2026-10-10T17:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-10",
+        "endDate": "2026-10-10",
+        "occurrences": [{ "date": "2026-10-10", "startTime": "13:00", "endTime": "18:30" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Ended", "staticLabel": "Running" }
+    },
+    {
+      "name": "one-day event tomorrow",
+      "now": "2026-10-09T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-10",
+        "endDate": "2026-10-10",
+        "occurrences": [{ "date": "2026-10-10", "startTime": "13:00", "endTime": "18:30" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "upcoming", "label": "Tomorrow", "staticLabel": "Coming soon" }
+    },
+    {
+      "name": "Berlin midnight differs from the UTC date",
+      "now": "2026-10-09T22:30:00Z",
+      "occasion": {
+        "startDate": "2026-10-10",
+        "endDate": "2026-10-10",
+        "occurrences": [{ "date": "2026-10-10", "startTime": "13:00", "endTime": "18:30" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Today", "staticLabel": "Running" }
+    },
+    {
+      "name": "one-day weekday occasion on its day is never Final weekend",
+      "now": "2026-10-13T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-13",
+        "endDate": "2026-10-13",
+        "occurrences": [{ "date": "2026-10-13" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Today", "staticLabel": "Running" }
+    },
+    {
+      "name": "two days before a weekday end is not Final weekend",
+      "now": "2026-10-12T10:00:00Z",
+      "occasion": { "startDate": "2026-10-05", "endDate": "2026-10-14" },
+      "expected": { "lifecycle": "happening_now", "label": "Running", "staticLabel": "Running" }
+    },
+    {
+      "name": "sparse appointment unknown end time is Today, never On now",
+      "now": "2026-10-09T17:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-09",
+        "endDate": "2026-10-17",
+        "occurrences": [
+          { "date": "2026-10-09", "startTime": "18:00" },
+          { "date": "2026-10-10", "startTime": "18:00" },
+          { "date": "2026-10-16", "startTime": "18:00" },
+          { "date": "2026-10-17", "startTime": "18:00" }
+        ],
+        "scheduleConfidence": "discrete"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Today", "staticLabel": "Running" }
+    },
+    {
+      "name": "sparse appointments are not open between dates",
+      "now": "2026-10-12T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-09",
+        "endDate": "2026-10-17",
+        "occurrences": [
+          { "date": "2026-10-09", "startTime": "18:00" },
+          { "date": "2026-10-10", "startTime": "18:00" },
+          { "date": "2026-10-16", "startTime": "18:00" },
+          { "date": "2026-10-17", "startTime": "18:00" }
+        ],
+        "scheduleConfidence": "discrete"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "In 4 days", "staticLabel": "Running" }
+    },
+    {
+      "name": "sparse appointment tomorrow",
+      "now": "2026-10-15T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-09",
+        "endDate": "2026-10-17",
+        "occurrences": [
+          { "date": "2026-10-09", "startTime": "18:00" },
+          { "date": "2026-10-10", "startTime": "18:00" },
+          { "date": "2026-10-16", "startTime": "18:00" },
+          { "date": "2026-10-17", "startTime": "18:00" }
+        ],
+        "scheduleConfidence": "discrete"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Tomorrow", "staticLabel": "Running" }
+    },
+    {
+      "name": "final sparse appointment on a Saturday is the last day",
+      "now": "2026-10-17T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-09",
+        "endDate": "2026-10-17",
+        "occurrences": [
+          { "date": "2026-10-09", "startTime": "18:00" },
+          { "date": "2026-10-10", "startTime": "18:00" },
+          { "date": "2026-10-16", "startTime": "18:00" },
+          { "date": "2026-10-17", "startTime": "18:00" }
+        ],
+        "scheduleConfidence": "discrete"
+      },
+      "expected": { "lifecycle": "final_weekend", "label": "Last day", "staticLabel": "Running" }
+    },
+    {
+      "name": "real final weekend Saturday",
+      "now": "2026-10-10T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-08",
+        "endDate": "2026-10-11",
+        "occurrences": [
+          { "date": "2026-10-08", "startTime": "15:00" },
+          { "date": "2026-10-09", "startTime": "15:00" },
+          { "date": "2026-10-10", "startTime": "15:00" },
+          { "date": "2026-10-11", "startTime": "14:00" }
+        ],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "final_weekend", "label": "Final weekend", "staticLabel": "Running" }
+    },
+    {
+      "name": "real final weekend Sunday is the last day",
+      "now": "2026-10-11T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-08",
+        "endDate": "2026-10-11",
+        "occurrences": [
+          { "date": "2026-10-08", "startTime": "15:00" },
+          { "date": "2026-10-09", "startTime": "15:00" },
+          { "date": "2026-10-10", "startTime": "15:00" },
+          { "date": "2026-10-11", "startTime": "14:00" }
+        ],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "final_weekend", "label": "Last day", "staticLabel": "Running" }
+    },
+    {
+      "name": "Friday before a final weekend is an ordinary day",
+      "now": "2026-10-09T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-08",
+        "endDate": "2026-10-11",
+        "occurrences": [
+          { "date": "2026-10-08", "startTime": "15:00" },
+          { "date": "2026-10-09", "startTime": "15:00" },
+          { "date": "2026-10-10", "startTime": "15:00" },
+          { "date": "2026-10-11", "startTime": "14:00" }
+        ],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Today", "staticLabel": "Running" }
+    },
+    {
+      "name": "weekend-only occasion is not a final weekend",
+      "now": "2026-10-10T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-10",
+        "endDate": "2026-10-11",
+        "occurrences": [{ "date": "2026-10-10" }, { "date": "2026-10-11" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Today", "staticLabel": "Running" }
+    },
+    {
+      "name": "weekday recurrence with unknown hours stays neutral",
+      "now": "2026-10-11T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-04",
+        "endDate": "2026-10-17",
+        "scheduleConfidence": "unknown",
+        "hoursText": "04.10.2026 bis 18.10.2026 ab 08:00 bis 17:00 Uhr sonntags. Die Veranstaltung findet nicht statt am: 18.10.2026, 25.10.2026"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Running", "staticLabel": "Running" }
+    },
+    {
+      "name": "unknown schedule before its start has no confirmed countdown",
+      "now": "2026-10-02T10:00:00Z",
+      "occasion": { "startDate": "2026-10-04", "endDate": "2026-10-17", "scheduleConfidence": "unknown" },
+      "expected": { "lifecycle": "upcoming", "label": "Coming soon", "staticLabel": "Coming soon" }
+    },
+    {
+      "name": "source cancellation takes precedence",
+      "now": "2026-10-10T12:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-10",
+        "endDate": "2026-10-10",
+        "occurrences": [{ "date": "2026-10-10", "startTime": "13:00", "endTime": "18:30" }],
+        "scheduleConfidence": "continuous",
+        "sourceStatus": "cancelled"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Cancelled", "staticLabel": "Cancelled" }
+    },
+    {
+      "name": "postponement without a verified new date",
+      "now": "2026-10-12T10:00:00Z",
+      "occasion": { "startDate": "2026-10-22", "endDate": "2026-10-22", "sourceStatus": "postponed" },
+      "expected": { "lifecycle": "upcoming", "label": "Postponed", "staticLabel": "Postponed" }
+    },
+    {
+      "name": "dated rescheduling",
+      "now": "2026-10-12T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-22",
+        "endDate": "2026-10-22",
+        "occurrences": [{ "date": "2026-10-22", "startTime": "19:00" }],
+        "scheduleConfidence": "continuous",
+        "sourceStatus": "rescheduled",
+        "previousStartDate": "2026-10-15"
+      },
+      "expected": { "lifecycle": "upcoming", "label": "Rescheduled", "staticLabel": "Rescheduled" }
+    },
+    {
+      "name": "DST end day: Berlin midnight before the change",
+      "now": "2026-10-24T22:30:00Z",
+      "occasion": {
+        "startDate": "2026-10-25",
+        "endDate": "2026-10-25",
+        "occurrences": [{ "date": "2026-10-25", "startTime": "10:00", "endTime": "12:00" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Today", "staticLabel": "Running" }
+    },
+    {
+      "name": "DST end day: hours use the winter offset",
+      "now": "2026-10-25T10:30:00Z",
+      "occasion": {
+        "startDate": "2026-10-25",
+        "endDate": "2026-10-25",
+        "occurrences": [{ "date": "2026-10-25", "startTime": "10:00", "endTime": "12:00" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "On now", "staticLabel": "Running" }
+    },
+    {
+      "name": "DST end day: next Berlin midnight has ended",
+      "now": "2026-10-25T23:30:00Z",
+      "occasion": {
+        "startDate": "2026-10-25",
+        "endDate": "2026-10-25",
+        "occurrences": [{ "date": "2026-10-25", "startTime": "10:00", "endTime": "12:00" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": null, "label": "Ended", "staticLabel": "Ended" }
+    },
+    {
+      "name": "year rollover final day",
+      "now": "2026-12-31T23:30:00Z",
+      "occasion": {
+        "startDate": "2026-12-31",
+        "endDate": "2027-01-01",
+        "occurrences": [{ "date": "2026-12-31", "startTime": "18:00" }, { "date": "2027-01-01" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "happening_now", "label": "Last day", "staticLabel": "Running" }
+    },
+    {
+      "name": "horizon includes today+14 across the year boundary",
+      "now": "2026-12-25T11:00:00Z",
+      "occasion": {
+        "startDate": "2027-01-08",
+        "endDate": "2027-01-08",
+        "occurrences": [{ "date": "2027-01-08", "startTime": "19:00" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": "upcoming", "label": "In 14 days", "staticLabel": "Coming soon" }
+    },
+    {
+      "name": "horizon excludes today+15",
+      "now": "2026-12-25T11:00:00Z",
+      "occasion": {
+        "startDate": "2027-01-09",
+        "endDate": "2027-01-09",
+        "occurrences": [{ "date": "2027-01-09", "startTime": "19:00" }],
+        "scheduleConfidence": "continuous"
+      },
+      "expected": { "lifecycle": null, "label": "Coming soon", "staticLabel": "Coming soon" }
+    },
+    {
+      "name": "sparse schedule with no appointment inside the horizon is not discoverable",
+      "now": "2026-10-15T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-01",
+        "endDate": "2026-10-30",
+        "occurrences": [{ "date": "2026-10-01" }, { "date": "2026-10-30" }],
+        "scheduleConfidence": "discrete"
+      },
+      "expected": { "lifecycle": null, "label": "Coming soon", "staticLabel": "Running" }
+    },
+    {
+      "name": "exhausted sparse list falls back to a neutral source check",
+      "now": "2026-10-20T10:00:00Z",
+      "occasion": {
+        "startDate": "2026-10-09",
+        "endDate": "2026-11-07",
+        "occurrences": [
+          {
+            "date": "2026-10-09",
+            "startTime": "18:00"
+          },
+          {
+            "date": "2026-10-10",
+            "startTime": "18:00"
+          }
+        ],
+        "scheduleConfidence": "discrete"
+      },
+      "expected": {
+        "lifecycle": null,
+        "label": "Check dates",
+        "staticLabel": "Running"
+      }
+    }
+  ]
+}
