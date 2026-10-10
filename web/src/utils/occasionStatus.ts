@@ -7,7 +7,7 @@ export type OccasionSchedule = Pick<
   'startDate' | 'endDate' | 'occurrences' | 'scheduleConfidence' | 'sourceStatus'
 >;
 
-export type OccasionLabelKey =
+type OccasionLabelKey =
   | 'cancelled'
   | 'postponed'
   | 'rescheduled'

@@ -1,6 +1,6 @@
 import type { OccasionSummary } from '../data/types';
 
-export const LANDING_OCCASION_LIMIT = 2;
+const LANDING_OCCASION_LIMIT = 2;
 
 export function selectLandingOccasions(
   occasions: ReadonlyArray<OccasionSummary>,
