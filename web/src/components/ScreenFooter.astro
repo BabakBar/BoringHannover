@@ -1,0 +1,151 @@
+---
+import { facts } from '../data/hannover';
+
+interface Props {
+  movies: number;
+  concerts: number;
+  occasions: number;
+}
+
+const { movies, concerts, occasions } = Astro.props;
+const bins = [
+  { label: 'Movie listings', value: movies },
+  { label: 'Concerts & events', value: concerts },
+  { label: 'City occasions', value: occasions },
+];
+---
+
+<footer class="foot reveal reveal-5" data-facts={JSON.stringify(facts)}>
+  <div class="conti">
+    <button type="button" class="horse" data-toast="Continental's horse comes from the Sachsenross, Lower Saxony's rearing horse. They've made tyres in Hannover since 1871." aria-label="A rearing horse, for Continental">
+      <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 6.5 L7 3.5 L10 1.8 L11 0.3 L12 2.2 Q15.5 2.5 16.8 7 Q19 11 23 14.5 Q26 15.5 26 18.5 Q29 17.5 31.5 22 Q28.5 22.5 26 21 L25.2 24 L25 31 L23.2 31 L23.3 25 L22 23.5 L21.6 28 L22.2 31 L20.4 31 L19.8 27 L18.8 21.5 Q16.5 19.5 14.8 16.5 L12.5 18.2 L10.3 17.6 L8.8 19.3 L7.6 18.4 L9.7 16.2 L12.2 15.3 L13 14.2 L10.3 13.6 L7.3 14.8 L6.2 13.8 L9.3 12.1 L12.6 11.6 Q12.3 8.6 10.6 6.7 L7.6 7.8 Q5.8 8 5 6.5 Z" /></svg>
+    </button>
+    <div class="tread" aria-hidden="true">
+      <svg width="0" height="0" class="defs">
+        <symbol id="tyre" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="11.5" fill="#111" />
+          <circle cx="12" cy="12" r="10.6" fill="none" stroke="#3a3a3a" stroke-width="1.6" stroke-dasharray="2.775 2.775" />
+          <circle cx="12" cy="12" r="8.2" fill="#1f1f1f" />
+          <circle cx="12" cy="12" r="7.6" fill="none" stroke="#ffa500" stroke-width="0.5" />
+          <circle cx="12" cy="12" r="5.6" fill="#c8c8c4" />
+          <path d="M12 7 V17 M7.67 9.5 L16.33 14.5 M7.67 14.5 L16.33 9.5" stroke="#6b6b67" stroke-width="1.1" />
+          <circle cx="12" cy="12" r="1.6" fill="#111" />
+        </symbol>
+      </svg>
+      <div class="tyres">
+        {Array.from({ length: 44 }, () => <svg class="tyre" viewBox="0 0 24 24"><use href="#tyre" /></svg>)}
+      </div>
+    </div>
+  </div>
+  <ul class="bins">
+    {bins.map((bin, index) => (
+      <li class="bin" tabindex="0" aria-label={`${bin.label}: ${bin.value}`}>
+        <div class="bin-top"><span class="idx">{String(index + 1).padStart(2, '0')}</span><span class="lab">{bin.label}</span></div>
+        <div class="bin-val" data-count={bin.value}>{bin.value}</div>
+        <div class="bin-note" aria-hidden="true">Leibniz, of Hannover, wrote numbers like this.</div>
+      </li>
+    ))}
+  </ul>
+  <div class="sign">
+    <button type="button" class="fact" id="fact" aria-label="Show another fact about Hannover">
+      <span class="fact-tag">Hannover</span>
+      <span id="fact-text">{facts[0]}</span>
+    </button>
+    <a class="coords" href="https://www.openstreetmap.org/#map=12/52.3759/9.7320" rel="noopener noreferrer">52.3759° N · 9.7320° E</a>
+  </div>
+  <p class="fine">
+    Boring Hannover · MIT · <a href="https://github.com/BabakBar/BoringHannover" rel="noopener noreferrer">Source</a> · Made by <a href="https://github.com/BabakBar">Sia</a> · Open source, for Hannover.
+  </p>
+</footer>
+
+<script>
+  import { countAt, toBinary } from '../utils/easterEggs';
+
+  const footer = document.querySelector<HTMLElement>('.foot')!;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // A different Hannover fact on every visit; click for the next one.
+  const facts: string[] = JSON.parse(footer.dataset.facts!);
+  const factText = document.getElementById('fact-text')!;
+  let current = Math.floor(Math.random() * facts.length);
+  const showFact = () => { factText.textContent = facts[current]; };
+  showFact();
+  document.getElementById('fact')!.addEventListener('click', () => {
+    current = (current + 1) % facts.length;
+    showFact();
+  });
+
+  const values = [...footer.querySelectorAll<HTMLElement>('.bin-val')];
+
+  // Counts tick up once, when the footer scrolls into view.
+  if (!reduced) {
+    for (const value of values) value.textContent = '0';
+    new IntersectionObserver((entries, observer) => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      observer.disconnect();
+      const start = performance.now();
+      const step = (now: number) => {
+        const t = (now - start) / 900;
+        for (const value of values) value.textContent = String(countAt(t, Number(value.dataset.count)));
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }).observe(footer);
+  }
+
+  // Hover or focus a count to see it the way Leibniz wrote it.
+  for (const bin of footer.querySelectorAll<HTMLElement>('.bin')) {
+    const value = bin.querySelector<HTMLElement>('.bin-val')!;
+    const show = () => { value.textContent = `${toBinary(Number(value.dataset.count))}₂`; bin.classList.add('binary'); };
+    const hide = () => { value.textContent = value.dataset.count!; bin.classList.remove('binary'); };
+    bin.addEventListener('pointerenter', show);
+    bin.addEventListener('pointerleave', hide);
+    bin.addEventListener('focus', show);
+    bin.addEventListener('blur', hide);
+  }
+</script>
+
+<style>
+  .foot {
+    margin-top: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    font-family: var(--font-display);
+  }
+  .conti { --conti: #ffa500; display: flex; height: 34px; overflow: hidden; border-radius: 6px 6px 0 0; background: var(--conti); }
+  .horse { flex: none; display: grid; place-items: center; width: 52px; padding: 0; border: 0; background: #111; color: var(--conti); cursor: pointer; }
+  .horse path { fill: currentColor; }
+  .horse:hover svg, .horse:focus-visible svg { animation: rear 0.5s ease-in-out infinite alternate; }
+  .horse:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .tread { flex: 1; display: flex; align-items: center; overflow: hidden; }
+  .defs { position: absolute; }
+  /* One cycle moves a tyre one pitch (half its circumference) and turns it 180°, so it rolls without slipping and loops seamlessly. */
+  .tyres { --pitch: 37.7px; display: flex; gap: calc(var(--pitch) - 24px); animation: tyres-roll 4s linear infinite; }
+  .tyre { flex: none; width: 24px; height: 24px; animation: tyre-turn 4s linear infinite; }
+  @keyframes tyres-roll { from { transform: translateX(calc(-1 * var(--pitch))); } to { transform: translateX(0); } }
+  @keyframes tyre-turn { to { rotate: 180deg; } }
+  @keyframes rear { from { transform: rotate(0); } to { transform: rotate(-14deg) translateY(-1px); } }
+  .bins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin: 0; padding: 1.25rem 1.25rem 0; list-style: none; }
+  @media (max-width: 640px) { .bins { grid-template-columns: 1fr; } }
+  .bin { padding: 0.7rem 0.85rem 0.6rem; border: 1px solid var(--border); border-radius: 3px; background: var(--bg-primary); transition: border-color 0.15s; }
+  .bin:hover, .bin:focus-visible { border-color: var(--accent); outline: none; }
+  .bin-top { display: flex; gap: 0.7rem; align-items: baseline; }
+  .idx { font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em; }
+  .lab { font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+  .bin-val { margin-top: 0.6rem; font: 500 1.4rem/1 'Archivo Wide', var(--font-display); font-stretch: 125%; letter-spacing: 0.06em; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .bin.binary .bin-val { color: var(--accent); }
+  .bin-note { height: 1rem; margin-top: 0.5rem; font-size: 0.6rem; letter-spacing: 0.04em; color: var(--text-muted); opacity: 0; transition: opacity 0.2s; }
+  .bin:hover .bin-note, .bin:focus-visible .bin-note { opacity: 1; }
+  .sign { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.6rem 2rem; padding: 0.75rem 1.25rem 0; }
+  .fact { display: inline-flex; gap: 0.8rem; align-items: baseline; max-width: 46rem; padding: 0.25rem 0; border: 0; background: none; color: var(--text-secondary); font: 400 0.72rem/1.5 var(--font-display); letter-spacing: 0.03em; text-align: left; cursor: pointer; }
+  .fact:hover { color: var(--text-primary); }
+  .fact-tag { flex: none; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  .fact:focus-visible, .coords:focus-visible, .fine a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .coords { font-size: 0.66rem; letter-spacing: 0.1em; color: var(--text-muted); text-decoration: none; font-variant-numeric: tabular-nums; }
+  .coords:hover { color: var(--accent); }
+  .fine { margin: 0; padding: 0.4rem 1.25rem 1.1rem; font-size: 0.66rem; letter-spacing: 0.08em; color: var(--text-muted); }
+  .fine a { color: var(--text-primary); text-decoration: none; border-bottom: 1px solid var(--border); }
+  .fine a:hover { color: var(--accent); border-color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) { .bin, .bin-note { transition: none; } .tyres, .tyre, .horse svg { animation: none !important; } }
+</style>
