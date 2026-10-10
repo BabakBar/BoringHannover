@@ -66,7 +66,7 @@ def fetch_all_events(
         sources = get_all_sources()
     logger.info("Found %d registered sources", len(sources))
 
-    # Fetch from each enabled source with rate limiting (BS-4)
+    # Fetch from each enabled source with rate limiting
     source_count = 0
     for name, source_cls in sources.items():
         try:
@@ -77,7 +77,7 @@ def fetch_all_events(
                 logger.debug("Skipping disabled source: %s", name)
                 continue
 
-            # BS-4: Add delay between sources to avoid IP blocks
+            # Delay between sources to avoid IP blocks
             if source_count > 0:
                 logger.debug(
                     "Rate limiting: waiting %.1fs before next source",
