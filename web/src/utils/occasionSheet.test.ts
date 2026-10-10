@@ -184,7 +184,8 @@ describe('place and entry', () => {
 });
 
 describe('onwardOccasions', () => {
-  const today = '2026-10-10';
+  // An explicit Berlin clock: build-time selection must respect hours too.
+  const today = new Date('2026-10-10T12:00:00+02:00');
 
   test('excludes itself, cancelled, undated postponed and ended occasions', () => {
     const current = occasion('current');
@@ -255,5 +256,21 @@ describe('onwardOccasions', () => {
       'same-sunday',
       'running-now',
     ]);
+  });
+
+  test('an occasion that closed earlier today is no longer onward', () => {
+    const current = occasion('current', { startDate: '2026-10-11', endDate: '2026-10-11' });
+    const closesAt1830 = occasion('closes-at-1830', {
+      startDate: '2026-10-10',
+      endDate: '2026-10-10',
+      scheduleConfidence: 'continuous',
+      occurrences: [{ date: '2026-10-10', startTime: '13:00', endTime: '18:30' }],
+    });
+    const at = (time: string) => new Date(`2026-10-10T${time}:00+02:00`);
+
+    expect(
+      onwardOccasions(current, [closesAt1830], at('14:00')).map((item) => item.slug),
+    ).toEqual(['closes-at-1830']);
+    expect(onwardOccasions(current, [closesAt1830], at('19:00'))).toEqual([]);
   });
 });

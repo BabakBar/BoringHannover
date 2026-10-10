@@ -4,7 +4,11 @@ import type {
   OccasionSummary,
 } from '../data/types';
 import { formatEventTime } from './displayLabels';
-import { OCCASION_HORIZON_DAYS } from './occasionStatus';
+import {
+  OCCASION_HORIZON_DAYS,
+  berlinClock,
+  occasionIsCurrent,
+} from './occasionStatus';
 
 // Pure helpers for the occasion detail sheet (#54). They read only exported
 // facts; anything the source did not state is left out, never guessed.
@@ -173,17 +177,19 @@ function weekendOf(date: string): string | null {
 }
 
 /**
- * Up to three other current occasions for onward discovery. Cancelled,
- * undated postponed, ended and exhausted sparse occasions are left out.
+ * Up to three other current occasions at `now` for onward discovery.
+ * Cancelled, undated postponed, ended and exhausted sparse occasions are
+ * left out, including one whose last appointment closed earlier today.
  * Those sharing a date or a weekend with this one come first, then by
  * next date.
  */
 export function onwardOccasions(
   current: OccasionSummary,
   occasions: OccasionSummary[],
-  today: string,
+  now: Date,
   limit = 3,
 ): OccasionSummary[] {
+  const today = berlinClock(now).date;
   const own = currentDates(current, today);
   const ownDays = new Set(own);
   const ownWeekends = new Set(own.map(weekendOf).filter(Boolean));
@@ -192,7 +198,8 @@ export function onwardOccasions(
       (occasion) =>
         occasion.id !== current.id &&
         occasion.sourceStatus !== 'cancelled' &&
-        occasion.sourceStatus !== 'postponed',
+        occasion.sourceStatus !== 'postponed' &&
+        occasionIsCurrent(occasion, now),
     )
     .map((occasion) => {
       const dates = currentDates(occasion, today);

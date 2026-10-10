@@ -27,7 +27,7 @@ import {
   sheetDateLine,
   whenFacts,
 } from '../../utils/occasionSheet';
-import { berlinClock, occasionHasEnded } from '../../utils/occasionStatus';
+import { occasionHasEnded } from '../../utils/occasionStatus';
 
 interface Props {
   programmeData: OccasionProgramme;
@@ -96,15 +96,17 @@ const freeEntry =
   admission.length === 1 && admission[0].price === 'free' && !admission[0].label;
 const germanConditions = admission.some((item) => item.label && !item.explained);
 const source = occasionSourceLink(occasion.sourceUrl);
+// One build clock for actions and onward links, so both honour closing times.
+const builtAt = new Date();
 // Cancelled, undated postponed and ended occasions keep their facts, not
 // actions. Expiry comes from the dates, never the status label, so an ended
 // Rescheduled occasion loses them too; the browser rechecks on its clock.
 const actionable =
   occasion.sourceStatus !== 'cancelled' &&
   occasion.sourceStatus !== 'postponed' &&
-  !occasionHasEnded(occasion, new Date());
+  !occasionHasEnded(occasion, builtAt);
 const address = place ? placeAddress(place) : null;
-const onward = onwardOccasions(occasion, occasions, berlinClock(new Date()).date);
+const onward = onwardOccasions(occasion, occasions, builtAt);
 
 const groups = new Map<string, Concert[]>();
 for (const event of programme) {
