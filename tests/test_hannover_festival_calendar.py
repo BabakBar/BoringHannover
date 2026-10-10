@@ -9,9 +9,11 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 from urllib.parse import parse_qs, urlsplit
 
+import httpx
 import pytest
 from bs4 import BeautifulSoup
 
+from boringhannover.config import REQUEST_TIMEOUT_SECONDS, USER_AGENT
 from boringhannover.occasions import OccasionDefinition
 from boringhannover.sources.base import create_http_client
 from boringhannover.sources.festivals.hannover_calendar import (
@@ -63,7 +65,7 @@ def _calendar_html(local_site: LocalSite) -> str:
         return SOURCE()._fetch_calendar_html(client, f"{local_site.url}{LISTING_PATH}")
 
 
-def _summary(location: str) -> OccasionDefinition:
+def _summary(location: str, source_summary: str = "") -> OccasionDefinition:
     return OccasionDefinition(
         id="hannover-festivals:kiezkultur-festival",
         slug="kiezkultur-festival",
@@ -73,7 +75,8 @@ def _summary(location: str) -> OccasionDefinition:
         end_date=date(2026, 10, 10),
         location=location,
         source_url="https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/KiezKultur-Festival",
-        description="Zwei Tage Kiezkultur.",
+        description="",
+        source_summary=source_summary or "Zwei Tage Kiezkultur.",
     )
 
 
@@ -89,12 +92,13 @@ def test_captured_listing_discovers_city_occasions_and_excludes_region() -> None
     assert maschseefest.start_date == date(2026, 7, 23)
     assert maschseefest.end_date == date(2026, 8, 9)
     assert maschseefest.location == "Maschseefest"
-    assert maschseefest.image_url.endswith("/maschsee-large.jpg")
     assert maschseefest.source_url.startswith("https://www.hannover.de/")
 
     assert faehrmannsfest.start_date == date(2026, 7, 31)
     assert faehrmannsfest.end_date == date(2026, 7, 31)
-    assert faehrmannsfest.description.startswith("Das alternative")
+    # The German teaser is evidence only; English copy is chosen at export.
+    assert faehrmannsfest.source_summary.startswith("Das alternative")
+    assert faehrmannsfest.description == ""
 
     listing = {
         occasion.slug: occasion
@@ -315,3 +319,52 @@ def test_detail_fills_only_a_missing_location(
 )
 def test_publishing_requires_a_city_location(location: str, publishable: bool) -> None:
     assert SOURCE._is_publishable(_summary(location)) is publishable
+
+
+def test_listing_teaser_still_excludes_the_region() -> None:
+    occasion = _summary("Hof Müller", "Das Hoffest in Springe lädt ein.")
+
+    assert SOURCE._is_publishable(occasion) is False
+
+
+def test_detail_keeps_a_rescheduling_proven_by_the_listing_teaser() -> None:
+    (listing,) = SOURCE()._parse_calendar(
+        """
+        <article class="interesting-single line-view-content">
+          <h3 class="interesting-single__title">Verschoben: X-Fest</h3>
+          <span class="date__duration">12.07.2026</span>
+          <span class="date__category">Swiss Life Hall</span>
+          <div class="interesting-single__description"><p>Das Konzert wird
+            vom 30. Juni 2026 auf den 12. Juli 2026 verschoben.</p></div>
+          <a class="content__read-more"
+             href="/Veranstaltungskalender/Feste-Festivals/X-Fest">mehr</a>
+        </article>
+        """
+    )
+
+    occasion = SOURCE._apply_detail(listing, "<html></html>")
+
+    assert occasion.source_status == "rescheduled"
+    assert occasion.previous_start_date == date(2026, 6, 30)
+    assert occasion.description == ""
+
+
+def test_calendar_identifies_itself_while_other_sources_keep_the_shared_agent(
+    local_site: LocalSite,
+) -> None:
+    local_site.pages[LISTING_PATH] = (200, "<html></html>")
+
+    class LocalCalendar(SOURCE):
+        CALENDAR_URL = f"{local_site.url}{LISTING_PATH}"
+
+    assert LocalCalendar().discover_occasions() == []
+    with create_http_client() as client:
+        client.get(f"{local_site.url}{LISTING_PATH}").raise_for_status()
+
+    agent = SOURCE.USER_AGENT
+    assert local_site.user_agents == [agent, USER_AGENT]
+    assert agent.startswith("BoringHannover (+https://boringhannover.de/impressum/;")
+    # Only the header changes: timeout and redirects stay shared.
+    with create_http_client(user_agent=agent) as client:
+        assert client.follow_redirects is True
+        assert client.timeout == httpx.Timeout(REQUEST_TIMEOUT_SECONDS)

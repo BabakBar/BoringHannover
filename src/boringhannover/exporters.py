@@ -156,6 +156,29 @@ def _format_web_event(
     return formatted_event
 
 
+def _occasion_programme_item(event: Event, year: int) -> dict[str, object]:
+    """Format a programme item; occasion pages publish no third-party photos."""
+    item = _format_web_event(event, year, include_radar_facets=False)
+    del item["imageUrl"]
+    return item
+
+
+def _occasion_description(definition: OccasionDefinition) -> str:
+    """Return own English copy, or a factual fallback from name and place.
+
+    A source teaser is third-party, usually German prose and is never
+    published; the fallback states nothing the source did not.
+    """
+    if definition.description:
+        return sanitize_text(definition.description, 240)
+    name = sanitize_text(definition.name, MAX_TITLE_LENGTH)
+    place = sanitize_text(definition.location, MAX_VENUE_LENGTH)
+    subject = f"{name} at {place}" if place else name
+    if not subject.endswith((".", "!", "?", "…")):
+        subject += "."
+    return f"{subject} See the source for details."
+
+
 def _occasion_summary(
     bundle: OccasionBundle,
     programme: list[dict[str, object]],
@@ -171,14 +194,6 @@ def _occasion_summary(
     ]
     preview = upcoming[:3] if upcoming else programme[:3]
     locations = {event.venue for event in bundle.events if event.venue}
-    first_image = next(
-        (
-            str(item["imageUrl"])
-            for item in programme
-            if isinstance(item.get("imageUrl"), str)
-        ),
-        "",
-    )
 
     summary: dict[str, object] = {
         "id": definition.id,
@@ -188,8 +203,7 @@ def _occasion_summary(
         "startDate": definition.start_date.isoformat(),
         "endDate": definition.end_date.isoformat(),
         "location": sanitize_text(definition.location, MAX_VENUE_LENGTH),
-        "description": sanitize_text(definition.description, 240),
-        "imageUrl": sanitize_url(definition.image_url) or first_image or None,
+        "description": _occasion_description(definition),
         "sourceUrl": sanitize_url(definition.source_url),
         "status": bundle.status,
         "programmeCount": len(programme),
@@ -241,10 +255,7 @@ def _export_occasions(
     expected_files: set[str] = set()
 
     for bundle in bundles:
-        programme = [
-            _format_web_event(event, year, include_radar_facets=False)
-            for event in bundle.events
-        ]
+        programme = [_occasion_programme_item(event, year) for event in bundle.events]
         summary = _occasion_summary(
             bundle,
             programme,

@@ -175,14 +175,17 @@ class BaseSource(ABC):
         return f"<{self.__class__.__name__}(name={self.source_name!r}, type={self.source_type!r})>"
 
 
-def create_http_client() -> httpx.Client:
+def create_http_client(*, user_agent: str = USER_AGENT) -> httpx.Client:
     """Create a configured HTTP client with standard headers.
+
+    Args:
+        user_agent: Overrides the shared User-Agent for one source's client.
 
     Returns:
         Configured httpx.Client instance.
     """
     return httpx.Client(
-        headers={"User-Agent": USER_AGENT},
+        headers={"User-Agent": user_agent},
         timeout=REQUEST_TIMEOUT_SECONDS,
         follow_redirects=True,
     )

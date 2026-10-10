@@ -16,6 +16,7 @@ import type {
 import { sanitizeUrl } from '../../utils/sanitize';
 import { formatEventTime } from '../../utils/displayLabels';
 import { occasionJsonLd } from '../../utils/occasionJsonLd';
+import { occasionSourceLink } from '../../utils/occasionSource';
 
 interface Props {
   programmeData: OccasionProgramme;
@@ -82,7 +83,7 @@ const dateRange = `${shortDate(occasion.startDate)} — ${shortDate(occasion.end
 // one continuous block.
 const appointments =
   occasion.scheduleConfidence === 'discrete' ? occasion.occurrences ?? [] : [];
-const safeSourceUrl = sanitizeUrl(occasion.sourceUrl);
+const source = occasionSourceLink(occasion.sourceUrl);
 
 const groups = new Map<string, Concert[]>();
 for (const event of programme) {
@@ -111,27 +112,30 @@ const categories = countedOptions(
 );
 const venues = countedOptions(programme.map(event => event.venue));
 
+// English metadata that names the authoritative event; the fallback
+// description already starts with the name.
+const summary = occasion.description.includes(occasion.name)
+  ? occasion.description
+  : `${occasion.name}: ${occasion.description}`;
 const description = occasion.programmeCount > 0
-  ? `${occasion.name}: ${occasion.description} Explore the official programme by day, category, and location.`
-  : `${occasion.name}: ${occasion.description} Official event details for Hannover.`;
+  ? `${summary} Explore the official programme by day, category, and location.`
+  : summary;
 
 const canonicalUrl = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).toString()
   : undefined;
-const officialUrl = occasion.sourceUrl
-  ? sanitizeUrl(occasion.sourceUrl)
-  : null;
 
 // Google only supports Event markup on single-event pages, which is exactly
 // what these are. The listing pages deliberately get none.
-const eventJsonLd = occasionJsonLd(occasion, { canonicalUrl, officialUrl });
+const eventJsonLd = occasionJsonLd(occasion, {
+  canonicalUrl,
+  officialUrl: source?.url ?? null,
+});
 ---
 
 <Base
   title={`${occasion.name} · City Occasion · boringhannover`}
   description={description}
-  image={occasion.imageUrl ?? undefined}
-  imageAlt={`${occasion.name} in Hannover`}
   jsonLd={eventJsonLd}
 >
   <Header week={week} year={year} brandAsHeading={false} />
@@ -180,7 +184,7 @@ const eventJsonLd = occasionJsonLd(occasion, { canonicalUrl, officialUrl });
       <span>
         {occasion.programmeCount > 0
           ? `${occasion.programmeCount} programme items`
-          : 'Official listing'}
+          : 'Official event listing'}
       </span>
       {occasion.locationCount > 0 && (
         <>
@@ -191,7 +195,7 @@ const eventJsonLd = occasionJsonLd(occasion, { canonicalUrl, officialUrl });
     </div>
   </header>
 
-  {programme.length > 0 ? (
+  {programme.length > 0 && (
     <section class="programme" aria-labelledby="programme-title">
       <div class="programme__heading">
         <div>
@@ -350,28 +354,18 @@ const eventJsonLd = occasionJsonLd(occasion, { canonicalUrl, officialUrl });
         </span>
       </button>
     </section>
-  ) : (
-    <section class="programme-empty-state">
-      <p class="programme__kicker">Programme update</p>
-      <h2>The occasion is here. The detailed programme is catching up.</h2>
-      <p>
-        The official source is still the best place for the latest details.
-        BoringHannover will attach the full programme automatically when the
-        structured listing is available again.
-      </p>
-    </section>
   )}
 
-  {safeSourceUrl !== '#' && (
+  {source && (
     <a
-      href={safeSourceUrl}
+      href={source.url}
       target="_blank"
       rel="noopener noreferrer"
       class="occasion-source"
       data-umami-event="occasion-source-open"
       data-umami-event-occasion={occasion.slug}
     >
-      <span>Official {occasion.name} website</span>
+      <span>{source.label}</span>
       <span aria-hidden="true">↗</span>
     </a>
   )}
@@ -692,8 +686,7 @@ const eventJsonLd = occasionJsonLd(occasion, { canonicalUrl, officialUrl });
     text-transform: uppercase;
   }
 
-  .programme__heading h2,
-  .programme-empty-state h2 {
+  .programme__heading h2 {
     margin-top: 0.15rem;
     font-family: 'Space Mono', monospace;
     font-size: 1.35rem;
@@ -930,21 +923,6 @@ const eventJsonLd = occasionJsonLd(occasion, { canonicalUrl, officialUrl });
     color: var(--text-muted);
     font-size: 0.875rem;
     text-align: center;
-  }
-
-  .programme-empty-state {
-    margin-top: 2.5rem;
-    padding: 1.25rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-  }
-
-  .programme-empty-state p:last-child {
-    margin-top: 0.8rem;
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    line-height: 1.55;
   }
 
   .occasion-source {

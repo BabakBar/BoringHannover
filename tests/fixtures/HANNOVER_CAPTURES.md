@@ -38,9 +38,16 @@ were committed in `6ffbecd` without a recorded capture time.
 
 ## Recapture
 
+Send the source's own User-Agent (`HannoverFestivalCalendarSource.USER_AGENT`),
+so captures and scrapes identify themselves the same way:
+
 ```sh
-curl -sS "https://www.hannover.de/Veranstaltungskalender/M%C3%A4rkte/Faust-Flohmarkt" -o page.html
+curl -sS -A "BoringHannover (+https://boringhannover.de/impressum/; https://github.com/BabakBar/BoringHannover)" \
+  "https://www.hannover.de/Veranstaltungskalender/M%C3%A4rkte/Faust-Flohmarkt" -o page.html
 ```
+
+On 2026-10-10T00:20:01Z a live discovery run with that User-Agent read the
+listing, its load-more page and five detail pages, each answering `200 OK`.
 
 Then keep only the selectors listed above. Dates in these pages change as the
 city updates them; update the test expectations with the new capture date.

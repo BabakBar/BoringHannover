@@ -98,6 +98,12 @@ class HannoverFestivalCalendarSource(BaseSource):
     BASE_URL: ClassVar[str] = "https://www.hannover.de"
     CALENDAR_URL: ClassVar[str] = f"{BASE_URL}/Veranstaltungskalender/Feste-Festivals"
     MAX_LOAD_MORE_PAGES: ClassVar[int] = 10
+    # Identify ourselves to the city's calendar with a contact; other sources
+    # keep the shared browser User-Agent.
+    USER_AGENT: ClassVar[str] = (
+        "BoringHannover (+https://boringhannover.de/impressum/; "
+        "https://github.com/BabakBar/BoringHannover)"
+    )
 
     def fetch(self) -> list[Event]:
         """Return no timeline events; this source discovers parent occasions."""
@@ -105,7 +111,7 @@ class HannoverFestivalCalendarSource(BaseSource):
 
     def discover_occasions(self) -> list[OccasionDefinition]:
         """Fetch and normalize the current official festival index."""
-        with create_http_client() as client:
+        with create_http_client(user_agent=self.USER_AGENT) as client:
             html = self._fetch_calendar_html(client, self.CALENDAR_URL)
             occasions = [
                 self._enrich_from_detail(client, occasion)
@@ -286,13 +292,6 @@ class HannoverFestivalCalendarSource(BaseSource):
             if not slug:
                 continue
 
-            image = card.select_one("img")
-            image_url = ""
-            if image is not None:
-                raw_image = image.get("data-large-image") or image.get("src")
-                if isinstance(raw_image, str):
-                    image_url = urljoin(self.BASE_URL, raw_image.strip())
-
             start_date, end_date = dates
             source_status, previous_start_date = self._source_status(
                 marker, description, start_date
@@ -308,8 +307,8 @@ class HannoverFestivalCalendarSource(BaseSource):
                     end_date=end_date,
                     location=location,
                     source_url=source_url,
-                    description=description or f"{title} in Hannover.",
-                    image_url=image_url,
+                    description="",
+                    source_summary=description,
                     source_status=source_status,
                     previous_start_date=previous_start_date,
                 ),
@@ -376,7 +375,7 @@ class HannoverFestivalCalendarSource(BaseSource):
             )
         summary = cls._text(soup.select_one(".content-detail__summary"))
         source_status, previous_start_date = cls._source_status(
-            marker, f"{occasion.description} {summary}", occasion.start_date
+            marker, f"{occasion.source_summary} {summary}", occasion.start_date
         )
         return replace(
             occasion,
@@ -648,7 +647,7 @@ class HannoverFestivalCalendarSource(BaseSource):
     def _is_publishable(cls, occasion: OccasionDefinition) -> bool:
         """Require a known location inside the city after detail enrichment."""
         return bool(occasion.location) and not cls._is_outside_city(
-            f"{occasion.name} {occasion.location} {occasion.description}"
+            f"{occasion.name} {occasion.location} {occasion.source_summary}"
         )
 
     @staticmethod

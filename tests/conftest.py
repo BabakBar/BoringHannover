@@ -18,12 +18,14 @@ class LocalSite:
     """A real HTTP server on localhost, so sources exercise their actual httpx code.
 
     Pages match on the full path first, then on the path without its query.
-    Unregistered paths answer 404. Every requested path is recorded.
+    Unregistered paths answer 404. Every requested path and User-Agent is
+    recorded.
     """
 
     url: str
     pages: dict[str, tuple[int, str]] = field(default_factory=dict)
     requests: list[str] = field(default_factory=list)
+    user_agents: list[str] = field(default_factory=list)
 
 
 @pytest.fixture
@@ -33,6 +35,7 @@ def local_site() -> Iterator[LocalSite]:
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self) -> None:
             site.requests.append(self.path)
+            site.user_agents.append(self.headers.get("User-Agent", ""))
             status, body = site.pages.get(
                 self.path, site.pages.get(urlsplit(self.path).path, (404, ""))
             )

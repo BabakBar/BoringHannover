@@ -107,4 +107,33 @@ describe('occasionJsonLd', () => {
       expect(occasionJsonLd({ ...base, ...schedule }, urls)).toBeUndefined();
     }
   });
+
+  test('place is the source location without a Hannover default', () => {
+    const jsonLd = occasionJsonLd(
+      { ...base, location: 'Eldagser Hoflieferant' },
+      urls,
+    );
+
+    expect(jsonLd?.location).toEqual({
+      '@type': 'Place',
+      name: 'Eldagser Hoflieferant',
+    });
+    expect(JSON.stringify(jsonLd)).not.toContain('addressLocality');
+  });
+
+  test('a third-party image in old input is never marked up', () => {
+    const legacy = {
+      ...base,
+      imageUrl:
+        'https://www.hannover.de/var/storage/images/Tiergartenfest 05.jpg.webp',
+    } as OccasionSummary;
+
+    expect(occasionJsonLd(legacy, urls)).not.toHaveProperty('image');
+  });
+
+  test('sameAs needs a safe official URL', () => {
+    expect(
+      occasionJsonLd(base, { canonicalUrl: urls.canonicalUrl, officialUrl: null }),
+    ).not.toHaveProperty('sameAs');
+  });
 });

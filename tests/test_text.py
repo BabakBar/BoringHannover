@@ -146,3 +146,31 @@ def test_long_descriptions_end_on_a_whole_word() -> None:
     sanitized = sanitize_text(f"<p>{LUX_TEXT}</p>", 200)
     assert sanitized.endswith("ebenfalls…")
     assert "..." not in sanitized
+
+
+@pytest.mark.parametrize(
+    ("raw", "limit", "expected"),
+    [
+        # hannover.de hyphenates titles with U+00AD, literally or encoded (#60).
+        ("Fähr\N{SOFT HYPHEN}manns\N{SOFT HYPHEN}fest 2026", 500, "Fährmannsfest 2026"),
+        ("Fähr&shy;manns&shy;fest 2026", 500, "Fährmannsfest 2026"),
+        ("Fähr&#173;manns&#xAD;fest 2026", 500, "Fährmannsfest 2026"),
+        (
+            "<span>Fähr&#xad;manns</span>\N{SOFT HYPHEN}fest 2026",
+            500,
+            "Fährmannsfest 2026",
+        ),
+        # Soft hyphens are dropped before the limit applies.
+        ("Ent\N{SOFT HYPHEN}decker\N{SOFT HYPHEN}tag", 12, "Entdeckertag"),
+        # Ordinary Unicode is kept.
+        (
+            "Kunst & Kürbis \N{EN DASH} Café „Glocksee“",
+            500,
+            "Kunst & Kürbis \N{EN DASH} Café „Glocksee“",
+        ),
+    ],
+)
+def test_sanitize_text_removes_soft_hyphens(
+    raw: str, limit: int, expected: str
+) -> None:
+    assert sanitize_text(raw, limit) == expected
