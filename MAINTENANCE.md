@@ -24,11 +24,15 @@ The CI `pins` job fails when these disagree across files.
 | Python majors, prereleases, downgrades, pre-1.0 minors | same PR, auto-merge off | **You** |
 | Bun, uv, zizmor, Trivy minor/major releases | same PR, auto-merge off | **You** |
 | Frontend package majors | Dependabot, one PR each | **You** |
-| Python and nginx base images | Dependabot (patch/minor grouped) | Auto; majors **you** |
+| nginx base image | Dependabot (patch/minor grouped) | Auto; majors **you** |
+| Python interpreter (e.g. 3.14 → 3.15) | Dependabot bumps the Dockerfile only | **You**: also update `.python-version` and CI `PYTHON_PRODUCTION`; the `pins` check fails until they agree |
 | GitHub Action SHAs | Dependabot (patch/minor grouped) | Auto; majors **you** |
-| Security advisories | Dependabot security PRs, immediately | **You** |
+| Security advisories | Dependabot security PRs, immediately | Auto unless major |
 
-New releases wait 7 days (14 for majors) before Dependabot proposes them.
+The refresh is one PR, so a change held for review also holds the routine
+updates bundled with it until you merge it. Closing it does not help: the next
+run proposes the same change again. New releases wait 7 days (14 for majors) before Dependabot
+proposes them (security updates do not wait).
 Framework migrations (Astro, Tailwind, Python) are hand-written PRs: follow the
 upstream guide, run the full build and tests, and compare rendered text on real
 pages (Astro 7's `compressHTML: 'jsx'` once turned "25 Aug" into "25Aug"; this
