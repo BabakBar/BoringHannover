@@ -29,7 +29,7 @@ RUN bun install --frozen-lockfile --ignore-scripts
 # Copy source files
 COPY web/ ./
 
-# Production images must never silently fall back to the development mock data.
+# Production builds reject missing, malformed or stale data.
 RUN WEB_DATA_MODE=production bun run build
 
 # -----------------------------------------------------------------------------

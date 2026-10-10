@@ -69,7 +69,7 @@ def test_merge_time_series_lossless_and_monotonic() -> None:
 
 
 def test_merge_referrers_accumulates_domain_stats() -> None:
-    """Referrers preserve snapshots and maintain all-time peak and seen tracking."""
+    """Referrers keep snapshots, all-time peaks and first/last seen dates."""
     existing = {
         "snapshots": [],
         "all_time": [
@@ -81,7 +81,16 @@ def test_merge_referrers_accumulates_domain_stats() -> None:
                 "max_uniques": 8,
                 "first_seen": "2026-08-01",
                 "last_seen": "2026-08-01",
-            }
+            },
+            {
+                "referrer": "news.ycombinator.com",
+                "latest_count": 90,
+                "latest_uniques": 40,
+                "max_count": 90,
+                "max_uniques": 40,
+                "first_seen": "2026-07-01",
+                "last_seen": "2026-07-02",
+            },
         ],
     }
 
@@ -109,31 +118,9 @@ def test_merge_referrers_accumulates_domain_stats() -> None:
     assert all_time["reddit.com"]["first_seen"] == "2026-08-15"
     assert all_time["reddit.com"]["max_count"] == 4
 
-
-def test_merge_referrers_retains_domains_absent_from_the_snapshot() -> None:
-    """A domain that drops out of GitHub's 14-day window keeps its recorded history."""
-    existing = {
-        "snapshots": [],
-        "all_time": [
-            {
-                "referrer": "news.ycombinator.com",
-                "latest_count": 90,
-                "latest_uniques": 40,
-                "max_count": 90,
-                "max_uniques": 40,
-                "first_seen": "2026-07-01",
-                "last_seen": "2026-07-02",
-            }
-        ],
-    }
-
-    result = merge_referrers(
-        existing, [{"referrer": "google.com", "count": 1}], "2026-08-15"
-    )
-
-    hn = next(r for r in result["all_time"] if r["referrer"] == "news.ycombinator.com")
-    assert hn["max_count"] == 90
-    assert hn["last_seen"] == "2026-07-02"
+    # A domain that drops out of GitHub's 14-day window keeps its history.
+    assert all_time["news.ycombinator.com"]["max_count"] == 90
+    assert all_time["news.ycombinator.com"]["last_seen"] == "2026-07-02"
 
 
 def test_merge_paths_tracks_popular_endpoints() -> None:
@@ -182,27 +169,19 @@ def test_merge_keyed_never_drops_existing_records() -> None:
 
     users = [record["user"] for record in merged]
     assert users == ["timohausmann", "emsy1", "axsb"]
-
-
-def test_merge_keyed_rejects_an_empty_snapshot_silently_wiping_history() -> None:
-    """An empty fetch result must not empty the archive."""
-    existing = [{"user": "timohausmann", "starred_at": "2025-12-16T21:04:50Z"}]
-
+    # An empty fetch result must not empty the archive.
     assert merge_keyed(existing, [], key="user", sort_field="starred_at") == existing
 
 
-def test_load_json_raises_on_a_corrupt_archive(tmp_path: Path) -> None:
+def test_load_json_treats_only_a_missing_archive_as_empty(tmp_path: Path) -> None:
     """A truncated archive file is a stop condition, never a silent reset to empty."""
+    assert load_json(tmp_path / "views.json", default=[]) == []
+
     corrupt = tmp_path / "views.json"
     corrupt.write_text('[{"date": "2026-08-01", "count": 3', encoding="utf-8")
 
     with pytest.raises(TrafficCaptureError, match=r"views\.json"):
         load_json(corrupt, default=[])
-
-
-def test_load_json_returns_default_for_a_first_run(tmp_path: Path) -> None:
-    """A missing file is the legitimate empty case."""
-    assert load_json(tmp_path / "views.json", default=[]) == []
 
 
 def test_window_selects_calendar_days_not_list_positions() -> None:
@@ -226,7 +205,7 @@ def test_require_token_fails_loudly_when_unauthenticated() -> None:
 
 
 def test_generate_markdown_report_includes_kpis_and_tables() -> None:
-    """Report contains formatted KPI values and markdown tables."""
+    """Report contains formatted KPIs and bounded markdown tables."""
     summary = {
         "repository": "BabakBar/BoringHannover",
         "last_updated_utc": "2026-08-20T12:00:00Z",
@@ -256,7 +235,10 @@ def test_generate_markdown_report_includes_kpis_and_tables() -> None:
             }
         ]
     }
-    stargazers = [{"date": "2026-08-10", "user": "alice"}]
+    stargazers = [
+        {"date": "2026-01-01", "user": f"user{i}", "starred_at": "2026-01-01T00:00:00Z"}
+        for i in range(120)
+    ] + [{"date": "2026-08-10", "user": "alice", "starred_at": "2026-08-10T00:00:00Z"}]
 
     md = generate_markdown_report(
         summary, views, clones, referrers, paths, stargazers, today="2026-08-20"
@@ -269,21 +251,9 @@ def test_generate_markdown_report_includes_kpis_and_tables() -> None:
     assert "@alice" in md
     # The summed-uniques figure must not be labelled as a distinct-visitor count
     assert "Unique Visitors (summed daily)" in md
-
-
-def test_markdown_report_caps_the_stargazer_table() -> None:
-    """The report is regenerated twice daily; the star table cannot grow without bound."""
-    stargazers = [
-        {"date": "2026-01-01", "user": f"user{i}", "starred_at": "2026-01-01T00:00:00Z"}
-        for i in range(120)
-    ]
-
-    md = generate_markdown_report(
-        {"repository": "r"}, [], [], {}, {}, stargazers, today="2026-08-20"
-    )
-
+    # Regenerated twice daily: the star table is capped, the total is not.
     assert md.count("| @user") <= 50
-    assert "120" in md  # the true total is still reported
+    assert "121" in md
 
 
 def _extract_app_script(html: str) -> str:
@@ -292,33 +262,6 @@ def _extract_app_script(html: str) -> str:
     )
     assert match, "dashboard app script block not found"
     return match.group(1)
-
-
-def test_dashboard_embeds_data_and_chart_canvases() -> None:
-    """Interactive HTML dashboard renders with embedded datasets and Chart.js canvases."""
-    summary = {
-        "repository": "BabakBar/BoringHannover",
-        "all_time_views": 100,
-        "sum_daily_unique_visitors": 50,
-        "all_time_clones": 200,
-        "sum_daily_unique_cloners": 80,
-        "current_stars": 5,
-        "current_forks": 1,
-    }
-
-    html = render_dashboard(summary, [], [], {}, {}, [], today="2026-09-05")
-
-    assert "<!DOCTYPE html>" in html
-    assert "chart.umd.min.js" in html
-    for canvas in (
-        "viewsChart",
-        "clonesChart",
-        "growthChart",
-        "referrersChart",
-        "starsChart",
-    ):
-        assert f'id="{canvas}"' in html
-    assert "BabakBar/BoringHannover" in html
 
 
 @pytest.mark.skipif(
@@ -335,6 +278,17 @@ def test_dashboard_script_is_valid_javascript(tmp_path: Path) -> None:
         [{"date": "2026-01-01", "user": "alice", "starred_at": "2026-01-01T00:00:00Z"}],
         today="2026-09-05",
     )
+
+    assert "<!DOCTYPE html>" in html
+    assert "chart.umd.min.js" in html
+    for canvas in (
+        "viewsChart",
+        "clonesChart",
+        "growthChart",
+        "referrersChart",
+        "starsChart",
+    ):
+        assert f'id="{canvas}"' in html
 
     script = tmp_path / "dashboard.js"
     script.write_text(_extract_app_script(html), encoding="utf-8")

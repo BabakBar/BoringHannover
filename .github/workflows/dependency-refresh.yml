@@ -40,7 +40,9 @@ jobs:
           cd web
           bun update --ignore-scripts
 
-      - name: Synchronize runtime patch updates
+      # Minor and major runtime releases are taken but hold the PR for review.
+      - name: Synchronize runtime pins
+        id: runtime
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -52,15 +54,19 @@ jobs:
           # Validate release metadata before using it in a registry reference.
           [[ "${trivy}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
           digest="$(docker buildx imagetools inspect "aquasec/trivy:${trivy}" --format '{{json .Manifest}}' | jq -r '.digest')"
-          uv run --no-project python scripts/update_runtime_pins.py --bun "${bun}" --uv "${uv}" --zizmor "${zizmor}" --trivy-version "${trivy}" --trivy-digest "${digest}"
+          review="$(uv run --no-project python scripts/update_runtime_pins.py --bun "${bun}" --uv "${uv}" --zizmor "${zizmor}" --trivy-version "${trivy}" --trivy-digest "${digest}")"
+          echo "review=${review}" >> "${GITHUB_OUTPUT}"
 
       - name: Check for updates
         id: changes
+        env:
+          RUNTIME_REVIEW: ${{ steps.runtime.outputs.review }}
         run: |
           if ! git diff --quiet; then
             echo "changed=true" >> "${GITHUB_OUTPUT}"
           fi
           review="$(uv run python scripts/dependency_update_kind.py "${RUNNER_TEMP}/uv-before.lock" uv.lock)"
+          if [ "${RUNTIME_REVIEW}" = "true" ]; then review=true; fi
           echo "review=${review}" >> "${GITHUB_OUTPUT}"
 
       # An App token raises pull_request and push events, so CI and Deploy run.
@@ -92,7 +98,7 @@ jobs:
             fi
           fi
           git switch -c "${branch}"
-          update_files=(uv.lock web/bun.lock web/package.json Dockerfile Dockerfile.web docker-compose.yml web/.bun-version .github/workflows/ci.yml .github/workflows/deploy.yml .github/workflows/security.yml .github/workflows/traffic-analytics.yml .github/workflows/dependency-refresh.yml MAINTENANCE.md)
+          update_files=(uv.lock web/bun.lock web/package.json Dockerfile Dockerfile.web docker-compose.yml web/.bun-version scripts/trivy-scan.sh .github/workflows/ci.yml .github/workflows/security.yml .github/workflows/traffic-analytics.yml .github/workflows/dependency-refresh.yml)
           git add "${update_files[@]}"
           git -c user.name='Dependency refresh' -c user.email='dependency-refresh@users.noreply.github.com' commit -m 'chore(deps): refresh Python and frontend lockfiles'
           # Authenticate only the push; never persist the installation token.
@@ -111,7 +117,7 @@ jobs:
             pr="$(gh pr create --base master --head "${branch}" --title 'chore(deps): refresh Python and frontend lockfiles' --body 'Weekly refresh of direct and transitive dependencies within declared ranges. All required CI checks must pass before auto-merge. The GitHub App merge triggers the normal deployment pipeline.')"
           fi
           if [ "${REQUIRES_REVIEW}" = "true" ]; then
-            echo "Python major, prerelease, or downgrade update requires manual review: ${pr}"
+            echo "Update needs review (Python major/prerelease/downgrade or a runtime minor/major): ${pr}"
             exit 0
           fi
           # Auto-merge waits only for required checks. Fail closed if protection drifts.

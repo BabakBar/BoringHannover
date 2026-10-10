@@ -3,7 +3,7 @@
 #
 # Every published image carries an SBOM and SLSA build provenance, and the
 # immutable digest that was actually deployed is recorded in the run summary so
-# a rollback has something to point at (see MAINTENANCE.md).
+# a rollback has something to point at.
 
 name: Deploy
 
@@ -169,8 +169,7 @@ jobs:
           labels: ${{ steps.meta-backend.outputs.labels }}
           cache-from: type=gha,scope=backend
           cache-to: type=gha,mode=max,scope=backend
-          # The runtime stage applies security updates at build time; caching
-          # it pins the image to the packages of whenever it was last built.
+          # Never cache the stage that applies OS security updates.
           no-cache-filters: runtime
           platforms: linux/amd64
           sbom: true
@@ -209,8 +208,7 @@ jobs:
             SITE=${{ env.SITE }}
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,mode=max,scope=frontend
-          # The runtime stage applies security updates at build time; caching
-          # it pins the image to the packages of whenever it was last built.
+          # Never cache the stage that applies OS security updates.
           no-cache-filters: runtime
           platforms: linux/amd64
           sbom: true
@@ -232,51 +230,15 @@ jobs:
           FRONTEND_REF: ${{ env.FRONTEND_IMAGE }}@${{ steps.build-frontend.outputs.digest }}
           DO_BACKEND: ${{ needs.changes.outputs.backend }}
           DO_FRONTEND: ${{ needs.changes.outputs.frontend }}
-          # Trivy pulls these by digest from GHCR, where the packages are
-          # private by default, so it needs the same credentials the push used.
-          REGISTRY_USER: ${{ github.actor }}
-          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GHCR packages are private by default; Trivy pulls with the push credentials.
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -uo pipefail
-
-          # --exit-code 2 is what separates a finding from a broken scan: Trivy
-          # exits with this value when it finds something, and with 1 when it
-          # could not scan at all (bad reference, registry auth, network). Both
-          # must block the deploy, but they are different problems and the
-          # message has to say which one happened — the mixed-case reference
-          # that broke the first deploy was reported as a vulnerability.
-          vulnerable=""
-          errored=""
-          scan() {
-            local name="$1" ref="$2" rc=0
-            docker run --rm \
-              -v "${HOME}/.cache/trivy:/root/.cache/trivy" \
-              -e TRIVY_USERNAME="${REGISTRY_USER}" \
-              -e TRIVY_PASSWORD="${REGISTRY_TOKEN}" \
-              aquasec/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa \
-              image --scanners vuln --severity HIGH,CRITICAL \
-              --ignore-unfixed --exit-code 2 --no-progress "${ref}" || rc=$?
-            case "${rc}" in
-              0) echo "${name}: clean (${ref})" ;;
-              2) vulnerable="${vulnerable} ${name}" ;;
-              *) errored="${errored} ${name}" ;;
-            esac
-          }
-
-          # Scan everything that was published before failing, so one run
-          # reports every finding rather than only the first image.
-          if [ "${DO_BACKEND}" = "true" ]; then scan backend "${BACKEND_REF}"; fi
-          if [ "${DO_FRONTEND}" = "true" ]; then scan frontend "${FRONTEND_REF}"; fi
-
-          if [ -n "${errored}" ]; then
-            echo "::error::Trivy could not scan (scanner error, not a vulnerability finding), not deploying:${errored}"
-          fi
-          if [ -n "${vulnerable}" ]; then
-            echo "::error::HIGH/CRITICAL vulnerabilities found, not deploying:${vulnerable}"
-          fi
-          if [ -n "${errored}${vulnerable}" ]; then
-            exit 1
-          fi
+          set -euo pipefail
+          images=()
+          if [ "${DO_BACKEND}" = "true" ]; then images+=("backend=${BACKEND_REF}"); fi
+          if [ "${DO_FRONTEND}" = "true" ]; then images+=("frontend=${FRONTEND_REF}"); fi
+          ./scripts/trivy-scan.sh "${images[@]}"
 
   # Trigger Coolify deployment
   deploy:

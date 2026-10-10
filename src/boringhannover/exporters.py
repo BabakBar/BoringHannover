@@ -1,12 +1,4 @@
-"""Export functions for different output formats.
-
-Provides specialized export functions for:
-- JSON (enhanced with metadata)
-- Markdown (human-readable digest)
-- Weekly archives for historical tracking
-
-CSV exports are in the csv_exporters module.
-"""
+"""Exports: the web snapshot the frontend builds from, and the weekly archive."""
 
 from __future__ import annotations
 
@@ -14,30 +6,23 @@ import json
 import logging
 import shutil
 import tempfile
-from datetime import datetime
+from dataclasses import asdict
+from datetime import date, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-# Re-export CSV functions for backward compatibility
 from boringhannover.constants import BERLIN_TZ
-from boringhannover.csv_exporters import (
-    export_concerts_csv,
-    export_movies_csv,
-    export_movies_grouped_csv,
-)
 from boringhannover.event_time import (
-    UNKNOWN_TIME_LABEL,
     get_display_time,
     get_time_confidence,
 )
 from boringhannover.genre import normalize_genre
 from boringhannover.occasions import (
-    SOURCE_STATUS_LABELS,
     OccasionBundle,
     OccasionDefinition,
     build_occasion_bundles,
+    collect_occasion_definitions,
     occasion_area,
-    occasion_date_range,
 )
 from boringhannover.radar_categories import classify_radar_category
 from boringhannover.sanitize import (
@@ -47,26 +32,14 @@ from boringhannover.sanitize import (
     sanitize_text,
     sanitize_url,
 )
-from boringhannover.sources import get_all_sources
 
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from boringhannover.models import Event
-    from boringhannover.output import GroupedMovie
 
-__all__ = [  # noqa: RUF022
-    # CSV exports (re-exported)
-    "export_movies_csv",
-    "export_movies_grouped_csv",
-    "export_concerts_csv",
-    # JSON/Markdown/Archive exports
-    "export_enhanced_json",
-    "export_web_json",
-    "export_markdown_digest",
-    "archive_weekly_data",
-]
+__all__ = ["archive_weekly_data", "export_web_json"]
 
 logger = logging.getLogger(__name__)
 
@@ -79,100 +52,6 @@ def _format_duration(minutes: int) -> str:
     if hours > 0:
         return f"{hours}h{mins}m" if mins else f"{hours}h"
     return f"{mins}m"
-
-
-def export_enhanced_json(
-    movies: Sequence[Event],
-    concerts: Sequence[Event],
-    grouped_movies: list[GroupedMovie],
-    output_path: Path,
-    week_num: int,
-    year: int,
-) -> None:
-    """Export enhanced JSON with all data.
-
-    Args:
-        movies: List of movie events.
-        concerts: List of concert events.
-        grouped_movies: List of grouped movies.
-        output_path: Path to output directory.
-        week_num: Current week number.
-        year: Current year.
-    """
-    json_path = output_path / "events.json"
-
-    data = {
-        "meta": {
-            "week": week_num,
-            "year": year,
-            "generated_at": datetime.now(BERLIN_TZ).isoformat(),
-            "sources": sorted(
-                {cls.source_name for cls in get_all_sources().values() if cls.enabled}
-            ),
-            "total_movie_showtimes": len(movies),
-            "total_unique_films": len(grouped_movies),
-            "total_concerts": len(concerts),
-        },
-        "movies": {
-            "unique_films": [
-                {
-                    "title": m.title,
-                    "year": m.year,
-                    "duration_min": m.duration_min,
-                    "rating": f"FSK{m.rating}" if m.rating else "",
-                    "country": m.country,
-                    "genres": m.genres,
-                    "synopsis": m.synopsis,
-                    "poster_url": m.poster_url,
-                    "trailer_url": m.trailer_url,
-                    "cast": m.cast[:5],
-                    "ticket_url": m.ticket_url,
-                    "venue": m.venue,
-                    "showtimes": [
-                        {
-                            "date": st.date,
-                            "time": st.time,
-                            "language": st.language,
-                        }
-                        for st in m.showtimes
-                    ],
-                }
-                for m in grouped_movies
-            ],
-            "all_showtimes": [
-                {
-                    "title": e.title,
-                    "date": e.date.isoformat(),
-                    "venue": e.venue,
-                    "url": e.url,
-                    "metadata": dict(e.metadata),
-                }
-                for e in movies
-            ],
-        },
-        "concerts": [
-            {
-                "artist": e.title,
-                "date": e.date.isoformat(),
-                "venue": e.venue,
-                "url": e.url,
-                "time": get_display_time(e),
-                "time_confidence": get_time_confidence(e),
-                "event_type": e.metadata.get("event_type", "concert"),
-                "status": e.metadata.get("status", "available"),
-                "image_url": e.metadata.get("image_url", ""),
-                "address": e.metadata.get("address", ""),
-            }
-            for e in concerts
-        ],
-    }
-
-    json_path.write_text(
-        json.dumps(data, indent=2, ensure_ascii=False),
-        encoding="utf-8",
-    )
-
-    logger.info("Exported enhanced JSON to %s", json_path)
 
 
 _DAY_ABBREVS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
@@ -562,203 +441,79 @@ def export_web_json(
     logger.info("Exported web frontend JSON to %s (atomic write)", json_path)
 
 
-def export_markdown_digest(
-    grouped_movies: list[GroupedMovie],
-    concerts: Sequence[Event],
-    output_path: Path,
-    week_num: int,
-    year: int,
-    *,
-    occasion_definitions: Sequence[OccasionDefinition] = (),
-    generated_at: datetime | None = None,
-) -> None:
-    """Export a nice markdown digest.
-
-    Args:
-        grouped_movies: List of grouped movies.
-        concerts: List of concert events.
-        output_path: Path to output directory.
-        week_num: Current week number.
-        year: Current year.
-    """
-    md_path = output_path / "weekly_digest.md"
-    generated_at = generated_at or datetime.now(BERLIN_TZ)
-    regular_concerts, occasion_bundles = build_occasion_bundles(
-        concerts,
-        occasion_definitions=occasion_definitions,
-        now=generated_at,
-    )
-
-    lines = [
-        f"# Hannover Week {week_num} ({year})",
-        "",
-        f"*Generated: {generated_at.strftime('%Y-%m-%d %H:%M')}*",
-        "",
-        "---",
-        "",
-        "## Movies (Original Version)",
-        "",
-        f"**{len(grouped_movies)} films** with **{sum(len(m.showtimes) for m in grouped_movies)} showtimes** coming up",
-        "",
-    ]
-
-    # Movies section
-    for movie in grouped_movies:
-        rating_str = f"FSK{movie.rating}" if movie.rating else ""
-        duration_str = _format_duration(movie.duration_min)
-        genres_str = ", ".join(movie.genres) if movie.genres else ""
-
-        lines.append(f"### {movie.title} ({movie.year})")
-        lines.append("")
-
-        meta_parts = []
-        if duration_str:
-            meta_parts.append(duration_str)
-        if rating_str:
-            meta_parts.append(rating_str)
-        if movie.country:
-            meta_parts.append(movie.country)
-        if genres_str:
-            meta_parts.append(genres_str)
-
-        if meta_parts:
-            lines.append(f"*{' | '.join(meta_parts)}*")
-            lines.append("")
-
-        if movie.synopsis:
-            synopsis = (
-                movie.synopsis[:300] + "..."
-                if len(movie.synopsis) > 300
-                else movie.synopsis
-            )
-            lines.append(f"> {synopsis}")
-            lines.append("")
-
-        # Showtimes table
-        lines.append("| Date | Time | Language |")
-        lines.append("|------|------|----------|")
-        lines.extend(
-            f"| {st.date} | {st.time} | {st.language} |" for st in movie.showtimes
-        )
-        lines.append("")
-
-        if movie.poster_url:
-            lines.append(
-                f"[Poster]({movie.poster_url}) | [Tickets]({movie.ticket_url})"
-            )
-        else:
-            lines.append(f"[Tickets]({movie.ticket_url})")
-        lines.append("")
-        lines.append("---")
-        lines.append("")
-
-    if occasion_bundles:
-        lines.extend(["## Special in Hannover", ""])
-        for bundle in occasion_bundles:
-            definition = bundle.definition
-            status = SOURCE_STATUS_LABELS.get(definition.source_status or "")
-            lines.extend(
-                [
-                    f"### {definition.name}",
-                    "",
-                    (
-                        (f"**{status}** · " if status else "")
-                        + f"**{occasion_date_range(definition)}** · "
-                        f"{len(bundle.events)} programme items · "
-                        f"{definition.location}"
-                    ),
-                    "",
-                    f"[Explore the official programme]({definition.source_url})",
-                    "",
-                ]
-            )
-
-    # Concerts section
-    lines.extend(
-        [
-            "## On The Radar",
-            "",
-            f"**{len(regular_concerts)} upcoming events**",
-            "",
-            "| Date | Artist | Venue | Status |",
-            "|------|--------|-------|--------|",
-        ]
-    )
-
-    for event in regular_concerts:
-        date_str = event.date.strftime("%Y-%m-%d")
-        time_str = get_display_time(event) or UNKNOWN_TIME_LABEL
-        status = event.metadata.get("status", "available")
-        status_display = "Available" if status == "available" else "Sold Out"
-
-        lines.append(
-            f"| {date_str} {time_str} | [{event.title}]({event.url}) | {event.venue} | {status_display} |"
-        )
-
-    lines.append("")
-    lines.append("---")
-    lines.append("")
-    lines.append(
-        "*Data sourced from Astor Grand Cinema, ZAG Arena, Swiss Life Hall, Capitol Hannover*"
-    )
-
-    md_path.write_text("\n".join(lines), encoding="utf-8")
-
-    logger.info("Exported markdown digest to %s", md_path)
-
-
 def archive_weekly_data(
     movies: Sequence[Event],
     concerts: Sequence[Event],
     output_path: Path,
     week_num: int,
     year: int,
+    *,
+    occasion_definitions: Sequence[OccasionDefinition] = (),
+    now: datetime | None = None,
 ) -> None:
-    """Archive the weekly data snapshot.
+    """Archive everything this run captured, without the website's trimming.
 
-    Args:
-        movies: List of movie events.
-        concerts: List of concert events.
-        output_path: Path to output directory.
-        week_num: Current week number.
-        year: Current year.
+    Each concert records its occasion: the one that claimed it in the web
+    export (by explicit id, or by name and date), else any explicit id the
+    source set. Occasion definitions are kept whole, including occasions
+    without a programme.
     """
-    archive_dir = output_path / "archive"
-    archive_dir.mkdir(parents=True, exist_ok=True)
+    current = now or datetime.now(BERLIN_TZ)
+    _, bundles = build_occasion_bundles(
+        concerts, occasion_definitions=occasion_definitions, now=current
+    )
+    # What bundling saw, including sources' own definitions, plus discovered
+    # duplicates it set aside: nothing a concert can point at is lost.
+    known = collect_occasion_definitions(occasion_definitions)
+    archived_definitions = [
+        *known.values(),
+        *(d for d in occasion_definitions if d.id not in known),
+    ]
+    claimed = {
+        id(event): bundle.definition.id for bundle in bundles for event in bundle.events
+    }
 
-    archive_path = archive_dir / f"{year}-W{week_num:02d}.json"
+    def record(event: Event) -> dict[str, object]:
+        return {
+            "title": event.title,
+            "date": event.date.isoformat(),
+            "venue": event.venue,
+            "url": event.url,
+            "metadata": dict(event.metadata),
+        }
 
     data = {
         "meta": {
             "week": week_num,
             "year": year,
-            "archived_at": datetime.now(BERLIN_TZ).isoformat(),
+            "archived_at": current.isoformat(),
         },
-        "movies": [
-            {
-                "title": e.title,
-                "date": e.date.isoformat(),
-                "venue": e.venue,
-                "url": e.url,
-                "metadata": dict(e.metadata),
-            }
-            for e in movies
-        ],
+        "movies": [record(event) for event in movies],
         "concerts": [
             {
-                "title": e.title,
-                "date": e.date.isoformat(),
-                "venue": e.venue,
-                "url": e.url,
-                "metadata": dict(e.metadata),
+                **record(event),
+                "occasion_id": claimed.get(id(event))
+                or event.metadata.get("occasion_id")
+                or None,
             }
-            for e in concerts
+            for event in concerts
         ],
+        "occasions": [asdict(definition) for definition in archived_definitions],
     }
 
+    archive_dir = output_path / "archive"
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    archive_path = archive_dir / f"{year}-W{week_num:02d}.json"
     archive_path.write_text(
-        json.dumps(data, indent=2, ensure_ascii=False),
+        json.dumps(data, indent=2, ensure_ascii=False, default=_isoformat),
         encoding="utf-8",
     )
 
     logger.info("Archived weekly data to %s", archive_path)
+
+
+def _isoformat(value: object) -> str:
+    if isinstance(value, date):
+        return value.isoformat()
+    msg = f"Cannot archive {type(value).__name__}"
+    raise TypeError(msg)

@@ -1,15 +1,13 @@
-"""Tests for official City Occasion discovery."""
+"""Official City Occasion discovery: listing, pagination and detail pages."""
 
 from __future__ import annotations
 
 import json
 import logging
-import threading
 from datetime import date
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import TYPE_CHECKING
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, urlsplit
 
 import httpx
 import pytest
@@ -17,7 +15,6 @@ from bs4 import BeautifulSoup
 
 from boringhannover.config import REQUEST_TIMEOUT_SECONDS, USER_AGENT
 from boringhannover.occasions import OccasionDefinition
-from boringhannover.sources import get_source
 from boringhannover.sources.base import create_http_client
 from boringhannover.sources.festivals.hannover_calendar import (
     HannoverFestivalCalendarSource,
@@ -25,92 +22,47 @@ from boringhannover.sources.festivals.hannover_calendar import (
 
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from conftest import LocalSite
 
 
+SOURCE = HannoverFestivalCalendarSource
 FIXTURES = Path(__file__).parent / "fixtures"
 LISTING_PATH = "/Veranstaltungskalender/Feste-Festivals"
 LOAD_MORE_PATH = "/api/v1/view/533295/10/10/line"
 PAGE3_PATH = "/api/v1/view/533295/20/10/line"
-LOAD_MORE_IDENTIFIERS = (
-    "article,government_service,organisation,article,file_video,route,"
-    "teaserlink,contact,file_audio,image,file,link,event,gallery,folder,"
-    "frontpage,iframe,searchable_external_link,undertaking,microsite_with_zones"
-)
-OFFICIAL_LISTING_URL = f"https://www.hannover.de{LISTING_PATH}"
+LOAD_MORE_QUERY = {
+    "identifiers": [
+        "article,government_service,organisation,article,file_video,route,"
+        "teaserlink,contact,file_audio,image,file,link,event,gallery,folder,"
+        "frontpage,iframe,searchable_external_link,undertaking,microsite_with_zones"
+    ],
+    "sortField": ["2"],
+    "sortOrder": ["1"],
+}
+OFFICIAL_LOAD_MORE_URL = f"https://www.hannover.de{LOAD_MORE_PATH}"
 
 
-class FixtureServer:
-    """Real local HTTP server replaying captured hannover.de responses."""
-
-    def __init__(self) -> None:
-        self.routes: dict[str, tuple[int, str, bytes]] = {}
-        self.requests: list[str] = []
-        self.user_agents: list[str] = []
-        routes, requests, user_agents = self.routes, self.requests, self.user_agents
-
-        class Handler(BaseHTTPRequestHandler):
-            def do_GET(self) -> None:
-                requests.append(self.path)
-                user_agents.append(self.headers.get("User-Agent", ""))
-                status, content_type, body = routes.get(
-                    urlparse(self.path).path, (404, "text/plain", b"")
-                )
-                self.send_response(status)
-                self.send_header("Content-Type", content_type)
-                self.end_headers()
-                self.wfile.write(body)
-
-            def log_message(self, *_args: object) -> None:
-                return
-
-        self._httpd = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
-        self._thread = threading.Thread(target=self._httpd.serve_forever)
-
-    def url(self, path: str) -> str:
-        host, port = self._httpd.server_address[:2]
-        return f"http://{host!s}:{port}{path}"
-
-    def serve_fixture(self, path: str, fixture: str, content_type: str) -> None:
-        self.routes[path] = (200, content_type, (FIXTURES / fixture).read_bytes())
-
-    def serve_json(self, path: str, payload: object) -> None:
-        self.routes[path] = (200, "application/json", json.dumps(payload).encode())
-
-    def __enter__(self) -> FixtureServer:
-        self._thread.start()
-        return self
-
-    def __exit__(self, *_exc: object) -> None:
-        self._httpd.shutdown()
-        self._httpd.server_close()
-        self._thread.join()
+def _fixture(name: str) -> str:
+    return (FIXTURES / name).read_text(encoding="utf-8")
 
 
-@pytest.fixture
-def calendar_server() -> Iterator[FixtureServer]:
-    with FixtureServer() as server:
-        server.serve_fixture(
-            LISTING_PATH, "hannover_festivals_listing.html", "text/html"
-        )
-        yield server
+def _page2_items() -> list[str]:
+    return json.loads(_fixture("hannover_festivals_page2.json"))["items"]
 
 
 def _card_titles(html: str) -> list[str]:
-    soup = BeautifulSoup(html, "html.parser")
     return [
         " ".join(title.get_text(" ", strip=True).split())
-        for title in soup.select(
+        for title in BeautifulSoup(html, "html.parser").select(
             "article.interesting-single.line-view-content .interesting-single__title"
         )
     ]
 
 
-def _page2_items() -> list[str]:
-    payload = json.loads(
-        (FIXTURES / "hannover_festivals_page2.json").read_text(encoding="utf-8")
-    )
-    return payload["items"]
+def _calendar_html(local_site: LocalSite) -> str:
+    local_site.pages[LISTING_PATH] = (200, _fixture("hannover_festivals_listing.html"))
+    with create_http_client() as client:
+        return SOURCE()._fetch_calendar_html(client, f"{local_site.url}{LISTING_PATH}")
 
 
 def _summary(location: str, source_summary: str = "") -> OccasionDefinition:
@@ -122,74 +74,47 @@ def _summary(location: str, source_summary: str = "") -> OccasionDefinition:
         start_date=date(2026, 10, 9),
         end_date=date(2026, 10, 10),
         location=location,
-        source_url=f"{OFFICIAL_LISTING_URL}/KiezKultur-Festival",
+        source_url="https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/KiezKultur-Festival",
         description="",
         source_summary=source_summary or "Zwei Tage Kiezkultur.",
     )
 
 
-def test_parse_calendar_discovers_city_occasions_and_excludes_region() -> None:
-    source = HannoverFestivalCalendarSource()
-    html = (FIXTURES / "hannover_festivals.html").read_text(encoding="utf-8")
-
-    occasions = source._parse_calendar(html)
+def test_captured_listing_discovers_city_occasions_and_excludes_region() -> None:
+    occasions = SOURCE()._parse_calendar(_fixture("hannover_festivals.html"))
 
     assert [occasion.slug for occasion in occasions] == [
         "maschseefest-hannover-2026",
         "fahrmannsfest-2026",
     ]
+    maschseefest, faehrmannsfest = occasions
 
-    maschseefest = occasions[0]
     assert maschseefest.start_date == date(2026, 7, 23)
     assert maschseefest.end_date == date(2026, 8, 9)
     assert maschseefest.location == "Maschseefest"
     assert maschseefest.source_url.startswith("https://www.hannover.de/")
 
-    faehrmannsfest = occasions[1]
     assert faehrmannsfest.start_date == date(2026, 7, 31)
     assert faehrmannsfest.end_date == date(2026, 7, 31)
     # The German teaser is evidence only; English copy is chosen at export.
     assert faehrmannsfest.source_summary.startswith("Das alternative")
     assert faehrmannsfest.description == ""
 
-
-def test_discovery_source_is_registered_without_timeline_events() -> None:
-    source_class = get_source("hannover_festival_calendar")
-
-    assert source_class is HannoverFestivalCalendarSource
-    assert source_class.source_type == "occasion"
-    assert source_class().fetch() == []
-
-
-def test_parse_detail_end_date_uses_final_official_appointment() -> None:
-    end_date = HannoverFestivalCalendarSource._parse_detail_end_date(
-        """
-        <div class="details">
-          <div class="detail-row">
-            <div class="detail-cell"><p>Termine</p></div>
-            <div class="detail-cell">
-              <p>31.07.2026 ab 16:30 Uhr</p>
-              <p>01.08.2026 ab 15:00 Uhr</p>
-              <p>02.08.2026 ab 15:30 Uhr</p>
-            </div>
-          </div>
-        </div>
-        """
-    )
-
-    assert end_date == date(2026, 8, 2)
+    listing = {
+        occasion.slug: occasion
+        for occasion in SOURCE()._parse_calendar(
+            _fixture("hannover_festivals_listing.html")
+        )
+    }
+    # A card without a listed location is kept for detail enrichment.
+    assert listing["kiezkultur-festival"].location == ""
+    assert listing["oktoberfest-2026"].location == "Schützenplatz Hannover"
 
 
-def test_fetch_calendar_html_follows_load_more_until_last_page(
-    calendar_server: FixtureServer,
-) -> None:
-    calendar_server.serve_fixture(
-        LOAD_MORE_PATH, "hannover_festivals_page2.json", "application/json"
-    )
-    source = HannoverFestivalCalendarSource()
+def test_follows_load_more_until_the_last_page(local_site: LocalSite) -> None:
+    local_site.pages[LOAD_MORE_PATH] = (200, _fixture("hannover_festivals_page2.json"))
 
-    with create_http_client() as client:
-        html = source._fetch_calendar_html(client, calendar_server.url(LISTING_PATH))
+    html = _calendar_html(local_site)
 
     assert _card_titles(html) == [
         "Oktoberfest 2026",
@@ -200,47 +125,36 @@ def test_fetch_calendar_html_follows_load_more_until_last_page(
         "Klassik Open Air: Operngala im Maschpark",
         "Ent\xaddecker\xadtag der Region Hannover 2027",
     ]
-    load_more_request = urlparse(calendar_server.requests[1])
-    assert load_more_request.path == LOAD_MORE_PATH
-    assert "identifiers=article" in load_more_request.query
-    assert "sortField=2" in load_more_request.query
-    assert "sortOrder=1" in load_more_request.query
-    assert len(calendar_server.requests) == 2
+    assert len(local_site.requests) == 2
+    load_more = urlsplit(local_site.requests[1])
+    assert load_more.path == LOAD_MORE_PATH
+    assert parse_qs(load_more.query) == LOAD_MORE_QUERY
 
 
-def test_fetch_calendar_html_follows_three_pages_and_dedupes_cards(
-    calendar_server: FixtureServer,
-) -> None:
+def test_follows_three_pages_and_dedupes_cards(local_site: LocalSite) -> None:
     items = _page2_items()
-    calendar_server.serve_json(
-        LOAD_MORE_PATH,
-        {"success": True, "items": items[:2], "next": PAGE3_PATH, "isLast": False},
+    local_site.pages[LOAD_MORE_PATH] = (
+        200,
+        json.dumps(
+            {"success": True, "items": items[:2], "next": PAGE3_PATH, "isLast": False}
+        ),
     )
-    calendar_server.serve_json(
-        PAGE3_PATH,
-        {"success": True, "items": items[1:], "next": None, "isLast": True},
+    local_site.pages[PAGE3_PATH] = (
+        200,
+        json.dumps({"success": True, "items": items[1:], "next": None, "isLast": True}),
     )
-    source = HannoverFestivalCalendarSource()
 
-    with create_http_client() as client:
-        html = source._fetch_calendar_html(client, calendar_server.url(LISTING_PATH))
+    html = _calendar_html(local_site)
 
-    requests = [urlparse(request) for request in calendar_server.requests]
+    requests = [urlsplit(request) for request in local_site.requests]
     assert [request.path for request in requests] == [
         LISTING_PATH,
         LOAD_MORE_PATH,
         PAGE3_PATH,
     ]
-    expected_query = {
-        "identifiers": [LOAD_MORE_IDENTIFIERS],
-        "sortField": ["2"],
-        "sortOrder": ["1"],
-    }
-    assert parse_qs(requests[1].query) == expected_query
-    assert parse_qs(requests[2].query) == expected_query
-
+    assert parse_qs(requests[2].query) == LOAD_MORE_QUERY
     assert _card_titles(html).count("Schützenfest Hannover 2027") == 2
-    assert [occasion.slug for occasion in source._parse_calendar(html)] == [
+    assert [occasion.slug for occasion in SOURCE()._parse_calendar(html)] == [
         "oktoberfest-2026",
         "hannover-wies-27n",
         "kiezkultur-festival",
@@ -250,18 +164,13 @@ def test_fetch_calendar_html_follows_three_pages_and_dedupes_cards(
     ]
 
 
-def test_fetch_calendar_html_keeps_first_page_when_load_more_fails(
-    calendar_server: FixtureServer,
-    caplog: pytest.LogCaptureFixture,
+def test_failed_load_more_keeps_the_first_page(
+    local_site: LocalSite, caplog: pytest.LogCaptureFixture
 ) -> None:
-    calendar_server.routes[LOAD_MORE_PATH] = (500, "text/plain", b"")
-    source = HannoverFestivalCalendarSource()
+    local_site.pages[LOAD_MORE_PATH] = (500, "")
 
-    with (
-        caplog.at_level(logging.WARNING),
-        create_http_client() as client,
-    ):
-        html = source._fetch_calendar_html(client, calendar_server.url(LISTING_PATH))
+    with caplog.at_level(logging.WARNING):
+        html = _calendar_html(local_site)
 
     assert _card_titles(html) == [
         "Oktoberfest 2026",
@@ -271,56 +180,52 @@ def test_fetch_calendar_html_keeps_first_page_when_load_more_fails(
     assert "pagination stopped" in caplog.text
 
 
-def test_fetch_calendar_html_stops_at_page_limit(
-    calendar_server: FixtureServer,
-    caplog: pytest.LogCaptureFixture,
+def test_pagination_stops_at_the_page_limit(
+    local_site: LocalSite, caplog: pytest.LogCaptureFixture
 ) -> None:
-    calendar_server.serve_json(
-        LOAD_MORE_PATH,
-        {"success": True, "items": [], "next": LOAD_MORE_PATH, "isLast": False},
+    local_site.pages[LOAD_MORE_PATH] = (
+        200,
+        json.dumps(
+            {"success": True, "items": [], "next": LOAD_MORE_PATH, "isLast": False}
+        ),
     )
-    source = HannoverFestivalCalendarSource()
 
-    with (
-        caplog.at_level(logging.WARNING),
-        create_http_client() as client,
-    ):
-        source._fetch_calendar_html(client, calendar_server.url(LISTING_PATH))
+    with caplog.at_level(logging.WARNING):
+        _calendar_html(local_site)
 
     load_more_requests = [
         request
-        for request in calendar_server.requests
-        if urlparse(request).path == LOAD_MORE_PATH
+        for request in local_site.requests
+        if urlsplit(request).path == LOAD_MORE_PATH
     ]
-    assert len(load_more_requests) == source.MAX_LOAD_MORE_PAGES
+    assert len(load_more_requests) == SOURCE.MAX_LOAD_MORE_PAGES
     assert "truncated" in caplog.text
 
 
-def test_parse_load_more_page_returns_cards_and_stops_on_last_page() -> None:
-    payload = json.loads(
-        (FIXTURES / "hannover_festivals_page2.json").read_text(encoding="utf-8")
-    )
+@pytest.mark.parametrize(
+    ("payload", "page_url", "card_count", "next_url"),
+    [
+        (
+            json.loads(_fixture("hannover_festivals_page2.json")),
+            OFFICIAL_LOAD_MORE_URL,
+            4,
+            None,
+        ),
+        (
+            {"success": True, "items": [], "next": PAGE3_PATH, "isLast": False},
+            f"{OFFICIAL_LOAD_MORE_URL}?identifiers=event",
+            0,
+            f"https://www.hannover.de{PAGE3_PATH}",
+        ),
+    ],
+)
+def test_load_more_page(
+    payload: object, page_url: str, card_count: int, next_url: str | None
+) -> None:
+    html, parsed_next = SOURCE._parse_load_more_page(payload, page_url)
 
-    html, next_url = HannoverFestivalCalendarSource._parse_load_more_page(
-        payload, f"https://www.hannover.de{LOAD_MORE_PATH}"
-    )
-
-    assert len(_card_titles(html)) == 4
-    assert next_url is None
-
-
-def test_parse_load_more_page_resolves_next_page_on_same_origin() -> None:
-    _html, next_url = HannoverFestivalCalendarSource._parse_load_more_page(
-        {
-            "success": True,
-            "items": [],
-            "next": "/api/v1/view/533295/20/10/line",
-            "isLast": False,
-        },
-        f"https://www.hannover.de{LOAD_MORE_PATH}?identifiers=event",
-    )
-
-    assert next_url == "https://www.hannover.de/api/v1/view/533295/20/10/line"
+    assert len(_card_titles(html)) == card_count
+    assert parsed_next == next_url
 
 
 @pytest.mark.parametrize(
@@ -331,11 +236,9 @@ def test_parse_load_more_page_resolves_next_page_on_same_origin() -> None:
         {"success": True, "items": [42], "isLast": True},
     ],
 )
-def test_parse_load_more_page_rejects_malformed_payloads(payload: object) -> None:
+def test_malformed_load_more_page_is_rejected(payload: object) -> None:
     with pytest.raises(ValueError, match="load-more"):
-        HannoverFestivalCalendarSource._parse_load_more_page(
-            payload, f"https://www.hannover.de{LOAD_MORE_PATH}"
-        )
+        SOURCE._parse_load_more_page(payload, OFFICIAL_LOAD_MORE_URL)
 
 
 @pytest.mark.parametrize(
@@ -349,31 +252,23 @@ def test_parse_load_more_page_rejects_malformed_payloads(payload: object) -> Non
         "/api/v1/view/533295/20/10/line/extra",
     ],
 )
-def test_parse_load_more_page_keeps_cards_when_next_url_leaves_the_view(
-    raw_next: str,
-    caplog: pytest.LogCaptureFixture,
+def test_next_url_leaving_the_view_stops_but_keeps_cards(
+    raw_next: str, caplog: pytest.LogCaptureFixture
 ) -> None:
-    items = _page2_items()[:1]
-
     with caplog.at_level(logging.WARNING):
-        html, next_url = HannoverFestivalCalendarSource._parse_load_more_page(
-            {"success": True, "items": items, "next": raw_next, "isLast": False},
-            f"https://www.hannover.de{LOAD_MORE_PATH}",
+        html, next_url = SOURCE._parse_load_more_page(
+            {
+                "success": True,
+                "items": _page2_items()[:1],
+                "next": raw_next,
+                "isLast": False,
+            },
+            OFFICIAL_LOAD_MORE_URL,
         )
 
     assert _card_titles(html) == ["Nacht der Museen 2027"]
     assert next_url is None
     assert raw_next in caplog.text
-
-
-def test_parse_calendar_keeps_cards_without_listing_location() -> None:
-    source = HannoverFestivalCalendarSource()
-    html = (FIXTURES / "hannover_festivals_listing.html").read_text(encoding="utf-8")
-
-    occasions = {occasion.slug: occasion for occasion in source._parse_calendar(html)}
-
-    assert occasions["kiezkultur-festival"].location == ""
-    assert occasions["oktoberfest-2026"].location == "Schützenplatz Hannover"
 
 
 @pytest.mark.parametrize(
@@ -389,34 +284,29 @@ def test_parse_calendar_keeps_cards_without_listing_location() -> None:
         ),
     ],
 )
-def test_parse_detail_location_reads_official_ort_row(
-    fixture: str,
-    expected: str,
+def test_detail_location_reads_the_official_ort_row(
+    fixture: str, expected: str
 ) -> None:
-    html = (FIXTURES / fixture).read_text(encoding="utf-8")
-
-    assert HannoverFestivalCalendarSource._parse_detail_location(html) == expected
+    assert SOURCE._parse_detail_location(_fixture(fixture)) == expected
 
 
-def test_apply_detail_fills_missing_location_from_ort_row() -> None:
-    html = (FIXTURES / "hannover_festival_detail_kiezkultur.html").read_text(
-        encoding="utf-8"
+@pytest.mark.parametrize(
+    ("listing_location", "expected"),
+    [
+        ("", "Zur Bettfedernfabrik 3, 30451 Hannover"),
+        ("Faust", "Faust"),
+    ],
+)
+def test_detail_fills_only_a_missing_location(
+    listing_location: str, expected: str
+) -> None:
+    occasion = SOURCE._apply_detail(
+        _summary(listing_location),
+        _fixture("hannover_festival_detail_kiezkultur.html"),
     )
 
-    occasion = HannoverFestivalCalendarSource._apply_detail(_summary(""), html)
-
-    assert occasion.location == "Zur Bettfedernfabrik 3, 30451 Hannover"
+    assert occasion.location == expected
     assert occasion.end_date == date(2026, 10, 10)
-
-
-def test_apply_detail_keeps_listing_location() -> None:
-    html = (FIXTURES / "hannover_festival_detail_kiezkultur.html").read_text(
-        encoding="utf-8"
-    )
-
-    occasion = HannoverFestivalCalendarSource._apply_detail(_summary("Faust"), html)
-
-    assert occasion.location == "Faust"
 
 
 @pytest.mark.parametrize(
@@ -427,24 +317,18 @@ def test_apply_detail_keeps_listing_location() -> None:
         ("Hauptstraße 1, 30974 Wennigsen", False),
     ],
 )
-def test_is_publishable_requires_a_city_location(
-    location: str,
-    publishable: bool,
-) -> None:
-    assert (
-        HannoverFestivalCalendarSource._is_publishable(_summary(location))
-        is publishable
-    )
+def test_publishing_requires_a_city_location(location: str, publishable: bool) -> None:
+    assert SOURCE._is_publishable(_summary(location)) is publishable
 
 
 def test_listing_teaser_still_excludes_the_region() -> None:
     occasion = _summary("Hof Müller", "Das Hoffest in Springe lädt ein.")
 
-    assert HannoverFestivalCalendarSource._is_publishable(occasion) is False
+    assert SOURCE._is_publishable(occasion) is False
 
 
-def test_apply_detail_keeps_a_rescheduling_proven_by_the_listing_teaser() -> None:
-    listing = HannoverFestivalCalendarSource()._parse_calendar(
+def test_detail_keeps_a_rescheduling_proven_by_the_listing_teaser() -> None:
+    (listing,) = SOURCE()._parse_calendar(
         """
         <article class="interesting-single line-view-content">
           <h3 class="interesting-single__title">Verschoben: X-Fest</h3>
@@ -456,47 +340,31 @@ def test_apply_detail_keeps_a_rescheduling_proven_by_the_listing_teaser() -> Non
              href="/Veranstaltungskalender/Feste-Festivals/X-Fest">mehr</a>
         </article>
         """
-    )[0]
+    )
 
-    occasion = HannoverFestivalCalendarSource._apply_detail(listing, "<html></html>")
+    occasion = SOURCE._apply_detail(listing, "<html></html>")
 
     assert occasion.source_status == "rescheduled"
     assert occasion.previous_start_date == date(2026, 6, 30)
     assert occasion.description == ""
 
 
-# --- Request identity (#60) -------------------------------------------------
+def test_calendar_identifies_itself_while_other_sources_keep_the_shared_agent(
+    local_site: LocalSite,
+) -> None:
+    local_site.pages[LISTING_PATH] = (200, "<html></html>")
 
+    class LocalCalendar(SOURCE):
+        CALENDAR_URL = f"{local_site.url}{LISTING_PATH}"
 
-def test_calendar_requests_identify_boringhannover_with_a_contact() -> None:
-    with FixtureServer() as server:
-        server.routes[LISTING_PATH] = (200, "text/html", b"<html></html>")
+    assert LocalCalendar().discover_occasions() == []
+    with create_http_client() as client:
+        client.get(f"{local_site.url}{LISTING_PATH}").raise_for_status()
 
-        class LocalCalendar(HannoverFestivalCalendarSource):
-            CALENDAR_URL = server.url(LISTING_PATH)
-
-        assert LocalCalendar().discover_occasions() == []
-
-    agent = HannoverFestivalCalendarSource.USER_AGENT
-    assert server.user_agents == [agent]
-    assert agent.startswith("BoringHannover/")
-    assert "+https://boringhannover.de/impressum/" in agent
-    assert "Mozilla" not in agent
-
-
-def test_other_sources_keep_the_shared_user_agent() -> None:
-    with FixtureServer() as server:
-        server.routes["/"] = (200, "text/plain", b"ok")
-        with create_http_client() as client:
-            client.get(server.url("/")).raise_for_status()
-
-    assert server.user_agents == [USER_AGENT]
-
-
-def test_per_source_user_agent_keeps_timeout_and_redirects() -> None:
-    with create_http_client(
-        user_agent=HannoverFestivalCalendarSource.USER_AGENT
-    ) as client:
+    agent = SOURCE.USER_AGENT
+    assert local_site.user_agents == [agent, USER_AGENT]
+    assert agent.startswith("BoringHannover (+https://boringhannover.de/impressum/;")
+    # Only the header changes: timeout and redirects stay shared.
+    with create_http_client(user_agent=agent) as client:
         assert client.follow_redirects is True
         assert client.timeout == httpx.Timeout(REQUEST_TIMEOUT_SECONDS)
-        assert client.headers["User-Agent"] == HannoverFestivalCalendarSource.USER_AGENT

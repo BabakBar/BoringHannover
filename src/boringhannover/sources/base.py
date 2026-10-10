@@ -52,9 +52,6 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
-# =============================================================================
-# Source Registry
-# =============================================================================
 
 _REGISTRY: dict[str, type[BaseSource]] = {}
 
@@ -131,11 +128,6 @@ def get_sources_by_type(source_type: str) -> dict[str, type[BaseSource]]:
     }
 
 
-# =============================================================================
-# Base Source Class
-# =============================================================================
-
-
 class BaseSource(ABC):
     """Abstract base class for all event sources.
 
@@ -181,11 +173,6 @@ class BaseSource(ABC):
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__}(name={self.source_name!r}, type={self.source_type!r})>"
-
-
-# =============================================================================
-# Shared Helper Functions
-# =============================================================================
 
 
 def create_http_client(*, user_agent: str = USER_AGENT) -> httpx.Client:

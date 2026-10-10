@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable
 from pathlib import Path
 
 import pytest
@@ -53,30 +54,30 @@ def test_lookup_german_month_recognises_supported_tokens(
 
 
 @pytest.mark.parametrize("token", ["", "   ", "Foo", "Septembre", "Settembre"])
-def test_lookup_german_month_rejects_unknown_tokens(token: str) -> None:
-    assert lookup_german_month(token) is None
-
-
-def test_lookup_german_month_is_pure(
-    caplog: pytest.LogCaptureFixture,
+def test_lookup_german_month_rejects_unknown_tokens_without_logging(
+    token: str, caplog: pytest.LogCaptureFixture
 ) -> None:
+    # Logging is the caller's job; the lookup stays pure.
     with caplog.at_level(logging.WARNING, logger="boringhannover.date_parsing"):
-        assert lookup_german_month("unknown") is None
+        assert lookup_german_month(token) is None
 
     assert caplog.records == []
 
 
 @pytest.mark.parametrize(
     ("raw_value", "month"),
-    [("05SEP2026", 9), ("16OKT2026", 10), ("03NOV2026", 11)],
+    [
+        ("05SEP2026", 9),
+        ("16OKT2026", 10),
+        ("03NOV2026", 11),
+        ("not a date", None),
+        ("", None),
+    ],
 )
-def test_parse_venue_date_accepts_observed_month_formats(
-    raw_value: str, month: int
-) -> None:
+def test_parse_venue_date(raw_value: str, month: int | None) -> None:
     result = parse_venue_date(raw_value, source_key="swiss_life_hall")
 
-    assert result is not None
-    assert result.month == month
+    assert (result.month if result else None) == month
 
 
 def test_parse_venue_date_rejects_unknown_month_with_full_diagnostic(
@@ -100,84 +101,53 @@ def test_parse_venue_date_rejects_unknown_month_with_full_diagnostic(
     assert raw_value in record.getMessage()
 
 
-def test_parse_venue_date_returns_none_when_pattern_does_not_match() -> None:
-    assert parse_venue_date("not a date", source_key="test") is None
-    assert parse_venue_date("", source_key="test") is None
+def _zag_item(day: str, month: str) -> Tag:
+    item = BeautifulSoup(
+        '<div class="wpem-event-layout-wrapper">'
+        '<div class="wpem-heading-text">Mystery Show</div>'
+        f'<span class="wpem-date">{day}</span>'
+        f'<span class="wpem-month">{month}</span>'
+        '<a class="wpem-event-action-url" href="/event/mystery">Tickets</a>'
+        "</div>",
+        "html.parser",
+    ).select_one(".wpem-event-layout-wrapper")
+    assert item is not None
+    return item
 
 
-class TestZagArenaDayMonthFallback:
-    @staticmethod
-    def _item(day: str, month: str) -> Tag:
-        html = (
-            '<div class="wpem-event-layout-wrapper">'
-            f'<span class="wpem-date">{day}</span>'
-            f'<span class="wpem-month">{month}</span>'
-            "</div>"
-        )
-        item = BeautifulSoup(html, "html.parser").select_one(
-            ".wpem-event-layout-wrapper"
-        )
-        assert item is not None
-        return item
+def test_zag_arena_accepts_observed_punctuated_abbreviation() -> None:
+    event_date, _time, _confidence = ZAGArenaSource()._parse_date(
+        _zag_item("22", "Sep.")
+    )
 
-    def test_accepts_observed_punctuated_abbreviation(self) -> None:
-        event_date, _time, _confidence = ZAGArenaSource()._parse_date(
-            self._item("22", "Sep.")
-        )
-
-        assert event_date is not None
-        assert event_date.month == 9
-        assert event_date.day == 22
-
-    def test_rejects_unknown_month_with_full_diagnostic(
-        self, caplog: pytest.LogCaptureFixture
-    ) -> None:
-        with caplog.at_level(logging.WARNING, logger="boringhannover.date_parsing"):
-            event_date, _time, _confidence = ZAGArenaSource()._parse_date(
-                self._item("22", "Xyz.")
-            )
-
-        assert event_date is None
-        assert caplog.records[0].date_parse_failure["rawValue"] == "22 Xyz."
-
-    def test_malformed_month_cannot_reach_an_event(self) -> None:
-        html = (
-            '<div class="wpem-event-layout-wrapper">'
-            '<div class="wpem-heading-text">Mystery Show</div>'
-            '<span class="wpem-date">22</span>'
-            '<span class="wpem-month">Xyz</span>'
-            '<a class="wpem-event-action-url" href="/event/mystery">Tickets</a>'
-            "</div>"
-        )
-        item = BeautifulSoup(html, "html.parser").select_one(
-            ".wpem-event-layout-wrapper"
-        )
-        assert item is not None
-
-        assert ZAGArenaSource()._parse_event(item) is None
+    assert event_date is not None
+    assert (event_date.month, event_date.day) == (9, 22)
 
 
-def test_bei_chez_heinz_rejects_unknown_month_with_date_diagnostic(
-    caplog: pytest.LogCaptureFixture,
+@pytest.mark.parametrize(
+    ("parse", "raw_value"),
+    [
+        (lambda: ZAGArenaSource()._parse_date(_zag_item("22", "Xyz."))[0], "22 Xyz."),
+        # The whole event is dropped, not just its date.
+        (lambda: ZAGArenaSource()._parse_event(_zag_item("22", "Xyz")), "22 Xyz"),
+        (
+            lambda: BeiChezHeinzSource()._parse_date_time(
+                "Samstag 22. Foobar 2025 | Beginn: 20.00 Uhr"
+            )[0],
+            "22. Foobar 2025",
+        ),
+        (
+            lambda: WeltspieleSource()._parse_show_date("Sat 27 Septembre 22:00-10:00"),
+            "Sat 27 Septembre 22:00-10:00",
+        ),
+    ],
+)
+def test_sources_fail_closed_on_unknown_months(
+    parse: Callable[[], object], raw_value: str, caplog: pytest.LogCaptureFixture
 ) -> None:
     with caplog.at_level(logging.WARNING, logger="boringhannover.date_parsing"):
-        event_date, _time, _confidence = BeiChezHeinzSource()._parse_date_time(
-            "Samstag 22. Foobar 2025 | Beginn: 20.00 Uhr"
-        )
+        assert parse() is None
 
-    assert event_date is None
-    assert caplog.records[0].date_parse_failure["rawValue"] == "22. Foobar 2025"
-
-
-def test_weltspiele_rejects_unknown_month_with_full_diagnostic(
-    caplog: pytest.LogCaptureFixture,
-) -> None:
-    raw_value = "Sat 27 Septembre 22:00-10:00"
-
-    with caplog.at_level(logging.WARNING, logger="boringhannover.date_parsing"):
-        result = WeltspieleSource()._parse_show_date(raw_value)
-
-    assert result is None
     assert caplog.records[0].date_parse_failure["rawValue"] == raw_value
 
 
