@@ -106,6 +106,10 @@ const { week, year } = Astro.props;
     .wordmark { justify-self: start; }
     .name { font-size: 0.9rem; letter-spacing: 0.2em; }
   }
+  @media (max-width: 480px) {
+    .top { grid-template-columns: minmax(0, 1fr); }
+    .status { justify-self: start; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .wordmark:hover .dots i, .wordmark .dots:hover i, .back-btn .arrow { animation: none; transition: none; }
   }

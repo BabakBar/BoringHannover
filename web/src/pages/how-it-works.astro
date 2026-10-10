@@ -33,9 +33,9 @@ const inspectorData = JSON.stringify({
   <ScreenHeader week={meta.week} year={meta.year} />
 
   <section aria-labelledby="architecture">
-    <p id="architecture" class="reveal reveal-2 headline mb-3 max-w-4xl text-2xl leading-tight text-text-primary md:text-3xl">
+    <h1 id="architecture" class="reveal reveal-2 headline mb-3 max-w-4xl text-[1.5rem] leading-tight text-text-primary sm:text-2xl md:text-3xl">
       How boringhannover.de is built
-    </p>
+    </h1>
     <p class="reveal reveal-3 mb-6 max-w-2xl text-sm leading-relaxed text-text-secondary">
       BoringHannover turns the listings of Hannover's venues into a fast static
       site. A Python scraper collects and publishes the data, CI builds, scans
@@ -84,14 +84,14 @@ const inspectorData = JSON.stringify({
           <text class="cap" x="924" y="507" text-anchor="end">VPS · managed by Coolify</text>
 
           {routed.map(edge => (
-            <g class="link" data-edge={edge.id} data-flow={edge.flow} data-from={edge.from} data-to={edge.to}>
+            <g class="link" data-edge={edge.id} data-flow={edge.flow} data-from={edge.from} data-to={edge.to} role="button" tabindex="0" aria-pressed="false" aria-label={`${nodeById.get(edge.from)!.title} to ${nodeById.get(edge.to)!.title}: ${edge.protocol}`}>
               <path class:list={['edge', { optional: edge.optional }]} d={edge.d}></path>
               <path class="hit" d={edge.d}></path>
             </g>
           ))}
 
           {nodes.map(node => (
-            <g class="node" data-node={node.id} role="button" tabindex="0" aria-label={`${node.title}: ${node.tech}`}>
+            <g class="node" data-node={node.id} role="button" tabindex="0" aria-pressed="false" aria-label={`${node.title}: ${node.tech}`}>
               <rect x={node.x} y={node.y} width={NODE_W} height={NODE_H} rx="7"></rect>
               <text class="nt" x={node.x + 14} y={node.y + 24}>{node.title}</text>
               <text class="ns" x={node.x + 14} y={node.y + 42}>{node.tech}</text>
@@ -110,6 +110,27 @@ const inspectorData = JSON.stringify({
       </div>
 
       <div class="inspector" id="inspector" role="region" aria-label="Details" aria-live="polite"></div>
+      <noscript>
+        <div class="inspector">
+          {nodes.map(node => (
+            <details class="mb-3">
+              <summary>{node.title} · {node.tech}</summary>
+              <h2 class="ins-label">What it does</h2>
+              <p class="ins-text">{node.role}</p>
+              <h2 class="ins-label">Why it's built this way</h2>
+              <p class="ins-text">{node.why}</p>
+            </details>
+          ))}
+          {flows.map(flow => (
+            <details class="mb-3">
+              <summary>{flow.label}</summary>
+              <ol>
+                {edges.filter(edge => edge.flow === flow.id).map(edge => <li class="ins-text">{edge.summary}</li>)}
+              </ol>
+            </details>
+          ))}
+        </div>
+      </noscript>
     </div>
 
     <p class="mt-4 max-w-3xl font-display text-[11px] leading-relaxed text-text-muted">
@@ -213,12 +234,14 @@ const inspectorData = JSON.stringify({
     for (const node of nodeEls) {
       const nodeId = node.dataset.node!;
       node.classList.toggle('sel', kind === 'node' && nodeId === id);
+      node.setAttribute('aria-pressed', String(kind === 'node' && nodeId === id));
       node.classList.toggle('conn', !!edge && (nodeId === edge.from || nodeId === edge.to));
     }
     for (const link of linkEls) {
       const touches = kind === 'node' && (link.dataset.from === id || link.dataset.to === id);
       link.classList.toggle('conn', touches);
       link.classList.toggle('sel', kind === 'edge' && link.dataset.edge === id);
+      link.setAttribute('aria-pressed', String(kind === 'edge' && link.dataset.edge === id));
     }
     if (kind === 'node') renderNode(nodeInfo.get(id)!); else renderEdge(edgeInfo.get(id)!);
     if (updateHash) history.replaceState(null, '', `#${id}`);
@@ -231,7 +254,13 @@ const inspectorData = JSON.stringify({
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activate(); }
     });
   }
-  for (const link of linkEls) link.addEventListener('click', () => select('edge', link.dataset.edge!));
+  for (const link of linkEls) {
+    const activate = () => select('edge', link.dataset.edge!);
+    link.addEventListener('click', activate);
+    link.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activate(); }
+    });
+  }
   for (const badge of svg.querySelectorAll<SVGGElement>('.badge')) {
     badge.addEventListener('click', () => select('edge', badge.dataset.edge!));
   }
@@ -253,7 +282,7 @@ const inspectorData = JSON.stringify({
 </script>
 
 <style is:global>
-  .headline { font-family: 'Archivo Wide', var(--font-display); font-stretch: 125%; font-weight: 600; letter-spacing: 0.01em; }
+  .headline { font-family: 'Archivo Wide', var(--font-display); font-stretch: 125%; font-weight: 600; letter-spacing: 0.01em; overflow-wrap: anywhere; }
   .reveal { animation: reveal 0.55s ease-out both; }
   .reveal-2 { animation-delay: 0.08s; } .reveal-3 { animation-delay: 0.16s; } .reveal-4 { animation-delay: 0.24s; } .reveal-5 { animation-delay: 0.32s; }
   @keyframes reveal { from { opacity: 0; transform: translateY(8px); } }
@@ -296,7 +325,7 @@ const inspectorData = JSON.stringify({
   #arch .edge { fill: none; stroke: var(--text-muted); stroke-opacity: 0.55; stroke-width: 1.4; stroke-linecap: round; marker-end: url(#arrow); transition: stroke-opacity 0.15s; }
   #arch .edge.optional { stroke-dasharray: 3 4; }
   #arch .hit { fill: none; stroke: transparent; stroke-width: 16; cursor: pointer; pointer-events: stroke; }
-  #arch .link:hover .edge { stroke: var(--text-primary); stroke-opacity: 0.9; }
+  #arch .link:hover .edge, #arch .link:focus-visible .edge { stroke: var(--text-primary); stroke-opacity: 0.9; stroke-width: 2.6; }
   #arch .link.conn .edge { stroke: var(--accent); stroke-opacity: 0.9; stroke-width: 2; marker-end: url(#arrow-hot); }
   #arch .link.sel .edge { stroke: var(--accent); stroke-opacity: 1; stroke-width: 2.6; marker-end: url(#arrow-hot); }
   #arch[data-flow]:not([data-flow='all']) .link:not(.sel):not(.conn) .edge { stroke-opacity: 0.18; }
