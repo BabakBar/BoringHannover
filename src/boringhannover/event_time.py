@@ -14,7 +14,6 @@ if TYPE_CHECKING:
 
 CONFIRMED_TIME: Final[str] = "confirmed"
 FALLBACK_TIME: Final[str] = "fallback"
-UNKNOWN_TIME_LABEL: Final[str] = "TBA"
 
 
 def get_display_time(event: Event) -> str | None:

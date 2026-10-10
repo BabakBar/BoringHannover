@@ -1,6 +1,6 @@
 import { isAbsolute, resolve } from 'node:path';
 
-export type DataMode = 'production' | 'mock' | 'fixture';
+export type DataMode = 'production' | 'fixture';
 export interface DataConfig {
   mode: DataMode;
   dataRoot: string;
@@ -20,14 +20,14 @@ export function resolveDataConfig(
   if (!isAbsolute(projectRoot)) {
     throw new Error('WEB data projectRoot must be absolute');
   }
-  const mode = env.WEB_DATA_MODE ?? (env.DEV ? 'mock' : 'production');
+  const mode = env.WEB_DATA_MODE ?? (env.DEV ? 'fixture' : 'production');
   const dataRoot = resolve(projectRoot, env.WEB_DATA_ROOT ?? 'output');
   const fail = (reason: string): never => {
     throw new Error(
       `[web-data] mode=${JSON.stringify(mode)} path=${JSON.stringify(dataRoot)}: ${reason}`,
     );
   };
-  if (!['production', 'mock', 'fixture'].includes(mode)) {
+  if (!['production', 'fixture'].includes(mode)) {
     fail('invalid WEB_DATA_MODE');
   }
   if (env.WEB_DATA_ROOT?.trim() === '') {

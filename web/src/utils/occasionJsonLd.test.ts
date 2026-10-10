@@ -107,4 +107,79 @@ describe('occasionJsonLd', () => {
       expect(occasionJsonLd({ ...base, ...schedule }, urls)).toBeUndefined();
     }
   });
+
+  test('place is the source location without a Hannover default', () => {
+    const jsonLd = occasionJsonLd(
+      { ...base, location: 'Eldagser Hoflieferant' },
+      urls,
+    );
+
+    expect(jsonLd?.location).toEqual({
+      '@type': 'Place',
+      name: 'Eldagser Hoflieferant',
+    });
+    expect(JSON.stringify(jsonLd)).not.toContain('addressLocality');
+  });
+
+  test('a third-party image in old input is never marked up', () => {
+    const legacy = {
+      ...base,
+      imageUrl:
+        'https://www.hannover.de/var/storage/images/Tiergartenfest 05.jpg.webp',
+    } as OccasionSummary;
+
+    expect(occasionJsonLd(legacy, urls)).not.toHaveProperty('image');
+  });
+
+  test('sameAs needs a safe official URL', () => {
+    expect(
+      occasionJsonLd(base, { canonicalUrl: urls.canonicalUrl, officialUrl: null }),
+    ).not.toHaveProperty('sameAs');
+  });
+
+  test('an official address becomes the PostalAddress, venue the place name', () => {
+    const jsonLd = occasionJsonLd(
+      {
+        ...base,
+        place: {
+          venue: 'Eldagser Hoflieferant',
+          street: 'Lange Straße 142',
+          postalCode: '31832',
+          locality: 'Springe',
+          municipality: 'Springe',
+        },
+      },
+      urls,
+    );
+
+    expect(jsonLd?.location).toEqual({
+      '@type': 'Place',
+      name: 'Eldagser Hoflieferant',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Lange Straße 142',
+        postalCode: '31832',
+        addressLocality: 'Springe',
+        addressCountry: 'DE',
+      },
+    });
+  });
+
+  test('only unconditional free entry is marked free', () => {
+    expect(
+      occasionJsonLd({ ...base, admission: [{ price: 'free' }] }, urls),
+    ).toHaveProperty('isAccessibleForFree', true);
+    expect(
+      occasionJsonLd(
+        {
+          ...base,
+          admission: [
+            { label: 'Mit Baumscheibe', price: 'free' },
+            { label: 'Erwachsene', price: '€3' },
+          ],
+        },
+        urls,
+      ),
+    ).not.toHaveProperty('isAccessibleForFree');
+  });
 });

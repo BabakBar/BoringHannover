@@ -67,6 +67,18 @@ export const sourceStatusSchema = z.enum([
   'postponed',
   'rescheduled',
 ]);
+// #54 detail-sheet facts, present only when the source states them.
+export const occasionPlaceSchema = z.object({
+  venue: z.string().optional(),
+  street: z.string().min(1),
+  postalCode: z.string().regex(/^\d{5}$/),
+  locality: z.string().min(1),
+  municipality: z.string().optional(),
+});
+export const occasionAdmissionSchema = z.object({
+  label: z.string().optional(),
+  price: z.union([z.literal('free'), z.string().regex(/^€\d+(\.\d{2})?$/)]),
+});
 export const occasionSummarySchema = z.object({
   id: z.string().min(1),
   slug: z.string().regex(/^[a-z0-9-]+$/),
@@ -76,7 +88,8 @@ export const occasionSummarySchema = z.object({
   endDate: z.iso.date(),
   location: z.string(),
   description: z.string(),
-  imageUrl: optionalText,
+  // No imageUrl: occasions publish no third-party photos (#60). Old snapshots
+  // still carry one; z.object() strips it so no page can use it.
   sourceUrl: z.string(),
   status: occasionStatusSchema,
   programmeCount: count,
@@ -88,6 +101,9 @@ export const occasionSummarySchema = z.object({
   hoursText: z.string().optional(),
   sourceStatus: sourceStatusSchema.optional(),
   previousStartDate: z.iso.date().optional(),
+  place: occasionPlaceSchema.optional(),
+  area: z.enum(['city', 'region']).optional(),
+  admission: z.array(occasionAdmissionSchema).optional(),
 }).refine(
   (occasion) =>
     !occasion.occurrences?.length ||
@@ -111,7 +127,7 @@ export const eventMetaSchema = z.object({
     .describe(
       'Display string, e.g. Tue 28 Jul 11:01. Not parseable; use updatedAtISO.',
     ),
-  // Legacy mock data has no machine timestamp; the loader requires it for production.
+  // Older feeds have no machine timestamp; production builds require it.
   updatedAtISO: z.iso.datetime({ offset: true }).optional(),
 });
 export const eventDataSchema = z.object({

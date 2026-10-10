@@ -12,6 +12,8 @@ tracking markup are removed. Times are UTC.
 | `hannover_festival_detail_oktoberfest.html` | `/Veranstaltungskalender/Feste-Festivals/Oktoberfest-2026` | 2026-10-08T22:02:11Z | `.details` |
 | `hannover_festival_detail_winterzauber.html` | `/Veranstaltungskalender/Feste-Festivals/Winterzauber-Herrenhausen` | 2026-10-08T22:02:12Z | `.details` |
 | `hannover_concert_detail_cancelled.html` | `/Veranstaltungskalender/Konzerte/Abgesagt-Zum-ersten-Mal-in-Hannover-K-Pop-Forever` | 2026-10-08T22:06:15Z | `h1.content-detail__title`, `.content-detail__summary`, `.details` |
+| `hannover_festival_detail_tiergartenfest.html` (recaptured) | `/Veranstaltungskalender/Feste-Festivals/Tiergartenfest-Hannover` | 2026-10-09T23:41:02Z | `.details-table.max-w-90` (Termine, Ort, nested price `.table.details-table`) |
+| `hannover_festival_detail_kunst_kurbis.html` | `/Veranstaltungskalender/Feste-Festivals/Kunst-K%C3%BCrbis-in-Eldagsen` | 2026-10-09T23:41:02Z | `.details-table.max-w-90` (Termine, Ort, free-entry sentence) |
 
 The fixtures from #58 (`hannover_festivals_listing.html`, `hannover_festivals_page2.json`,
 `hannover_festival_detail_kiezkultur.html`, `hannover_festival_detail_tiergartenfest.html`)
@@ -36,11 +38,29 @@ were committed in `6ffbecd` without a recorded capture time.
   official Nena page using `ursprünglich für … ist auf …`. The parser does not
   read that wording, so such a page stays `postponed` without a previous date.
 
+- The Ort row reads `[venue,] street with house number, PLZ locality`, one line
+  per `<br>`. A Region event names its own municipality there (Kunst & Kürbis:
+  `31832 Springe`), checked against the official list at
+  `/Leben-in-der-Region-Hannover/Verwaltungen-Kommunen/Kommunen-in-der-Region-Hannover`
+  (read 2026-10-09T23:43:13Z: Hannover plus 20 towns and municipalities).
+- Prices are a nested `.table.details-table` of label/value rows under Termine
+  and Ort. Tiergartenfest lists `Mit Baumscheibe (…) frei`, `Erwachsene 3 €`,
+  `Kinder (bis 14 Jahre) 2 €`: the free row is a condition, not free entry.
+  A free event instead carries the sentence `Dies ist eine Veranstaltung mit
+  freiem Eintritt`. Oktoberfest, Wies'n and KiezKultur listed no prices.
+
 ## Recapture
 
+Send the source's own User-Agent (`HannoverFestivalCalendarSource.USER_AGENT`),
+so captures and scrapes identify themselves the same way:
+
 ```sh
-curl -sS "https://www.hannover.de/Veranstaltungskalender/M%C3%A4rkte/Faust-Flohmarkt" -o page.html
+curl -sS -A "BoringHannover (+https://boringhannover.de/impressum/; https://github.com/BabakBar/BoringHannover)" \
+  "https://www.hannover.de/Veranstaltungskalender/M%C3%A4rkte/Faust-Flohmarkt" -o page.html
 ```
+
+On 2026-10-10T00:20:01Z a live discovery run with that User-Agent read the
+listing, its load-more page and five detail pages, each answering `200 OK`.
 
 Then keep only the selectors listed above. Dates in these pages change as the
 city updates them; update the test expectations with the new capture date.

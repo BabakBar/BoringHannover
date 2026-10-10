@@ -21,16 +21,20 @@ if TYPE_CHECKING:
     from boringhannover.models import Event
 
 __all__ = [
-    "SOURCE_STATUS_LABELS",
+    "REGION_HANNOVER_MUNICIPALITIES",
+    "Admission",
+    "OccasionArea",
     "OccasionBundle",
     "OccasionDefinition",
     "OccasionStatus",
     "Occurrence",
+    "Place",
     "ScheduleConfidence",
     "SourceStatus",
     "build_occasion_bundles",
     "classify_programme_item",
-    "occasion_date_range",
+    "collect_occasion_definitions",
+    "occasion_area",
     "occasion_lifecycle",
 ]
 
@@ -43,11 +47,35 @@ ScheduleConfidence = Literal["continuous", "discrete", "unknown"]
 # Explicit source evidence only; a missing status means unknown, not scheduled.
 SourceStatus = Literal["scheduled", "cancelled", "postponed", "rescheduled"]
 
-SOURCE_STATUS_LABELS: dict[str, str] = {
-    "cancelled": "Cancelled",
-    "postponed": "Postponed",
-    "rescheduled": "Rescheduled",
-}
+OccasionArea = Literal["city", "region"]
+# The 20 towns and municipalities of Region Hannover besides the city, as
+# listed at https://www.hannover.de/Leben-in-der-Region-Hannover/
+# Verwaltungen-Kommunen/Kommunen-in-der-Region-Hannover (read 2026-10-09).
+# Only an exact official locality counts; villages and postcodes do not.
+REGION_HANNOVER_MUNICIPALITIES: frozenset[str] = frozenset(
+    {
+        "Barsinghausen",
+        "Burgdorf",
+        "Burgwedel",
+        "Garbsen",
+        "Gehrden",
+        "Hemmingen",
+        "Isernhagen",
+        "Laatzen",
+        "Langenhagen",
+        "Lehrte",
+        "Neustadt am Rübenberge",
+        "Pattensen",
+        "Ronnenberg",
+        "Seelze",
+        "Sehnde",
+        "Springe",
+        "Uetze",
+        "Wedemark",
+        "Wennigsen",
+        "Wunstorf",
+    }
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -60,8 +88,31 @@ class Occurrence:
 
 
 @dataclass(frozen=True, slots=True)
+class Place:
+    """An official postal address; the venue name is optional."""
+
+    street: str
+    postal_code: str
+    locality: str
+    venue: str = ""
+
+
+@dataclass(frozen=True, slots=True)
+class Admission:
+    """One official entry condition; ``price`` is "free" or e.g. "€3.50"."""
+
+    price: str
+    label: str = ""
+
+
+@dataclass(frozen=True, slots=True)
 class OccasionDefinition:
-    """Source-owned identity and lifecycle metadata for a City Occasion."""
+    """Source-owned identity and lifecycle metadata for a City Occasion.
+
+    ``description`` is own English copy; empty means the exporter publishes a
+    factual fallback. ``source_summary`` is the source's teaser (usually
+    German, third-party prose): evidence for parsing, never published.
+    """
 
     id: str
     slug: str
@@ -73,12 +124,14 @@ class OccasionDefinition:
     source_url: str
     description: str
     discovery_lead_days: int = EVENT_LOOKAHEAD_DAYS
-    image_url: str = ""
+    source_summary: str = ""
     occurrences: tuple[Occurrence, ...] = ()
     schedule_confidence: ScheduleConfidence | None = None
     hours_text: str = ""
     source_status: SourceStatus | None = None
     previous_start_date: date | None = None
+    place: Place | None = None
+    admission: tuple[Admission, ...] = ()
 
     def __post_init__(self) -> None:
         """Reject definitions that cannot produce stable public routes."""
@@ -139,15 +192,16 @@ class OccasionDefinition:
         return "happening_now"
 
 
-def occasion_date_range(definition: OccasionDefinition) -> str:
-    """Return digest date copy; sparse appointments are not a continuous block."""
-    span = (
-        f"{definition.start_date.strftime('%d %b')}"
-        f"-{definition.end_date.strftime('%d %b')}"
-    )
-    if definition.schedule_confidence == "discrete":
-        return f"Selected dates {span}"
-    return span
+def occasion_area(place: Place) -> tuple[OccasionArea, str] | None:
+    """Return the city or Region municipality of an official address.
+
+    Unknown or unlisted localities stay unknown; they are not Hannover.
+    """
+    if place.locality == "Hannover":
+        return "city", "Hannover"
+    if place.locality in REGION_HANNOVER_MUNICIPALITIES:
+        return "region", place.locality
+    return None
 
 
 def occasion_lifecycle(
@@ -269,10 +323,10 @@ def _date_ranges_overlap(
     return left.start_date <= right.end_date and right.start_date <= left.end_date
 
 
-def _occasion_definitions(
+def collect_occasion_definitions(
     discovered: Sequence[OccasionDefinition],
 ) -> dict[str, OccasionDefinition]:
-    """Collect occasion definitions from enabled source plugins."""
+    """Merge enabled sources' own definitions with discovered ones, by id."""
     from boringhannover.sources import get_all_sources
 
     definitions: dict[str, OccasionDefinition] = {}
@@ -327,7 +381,7 @@ def build_occasion_bundles(
     when its programme fetch failed, enabling summary-only degradation.
     """
     current = now.astimezone(BERLIN_TZ) if now is not None else datetime.now(BERLIN_TZ)
-    definitions = _occasion_definitions(occasion_definitions)
+    definitions = collect_occasion_definitions(occasion_definitions)
     programme_by_id: dict[str, list[Event]] = {
         occasion_id: [] for occasion_id in definitions
     }

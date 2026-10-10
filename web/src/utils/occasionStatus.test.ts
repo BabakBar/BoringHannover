@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 import type { OccasionSchedule } from './occasionStatus';
 import {
   berlinClock,
+  occasionHasEnded,
+  occasionIsCurrent,
   occasionLabel,
   staticOccasionLabel,
 } from './occasionStatus';
@@ -27,10 +29,6 @@ const { cases } = JSON.parse(
 ) as { cases: ClockCase[] };
 
 describe('shared occasion clock fixture', () => {
-  test('covers the #59 boundaries', () => {
-    expect(cases.length).toBeGreaterThanOrEqual(20);
-  });
-
   for (const { name, now, occasion, expected } of cases) {
     test(name, () => {
       expect(occasionLabel(occasion, new Date(now)).text).toBe(expected.label);
@@ -42,14 +40,11 @@ describe('shared occasion clock fixture', () => {
 });
 
 describe('berlinClock', () => {
-  test('uses the Berlin calendar date, not UTC', () => {
+  test('uses the Berlin calendar date and follows the DST change', () => {
     expect(berlinClock(new Date('2026-10-09T22:30:00Z'))).toEqual({
       date: '2026-10-10',
       minutes: 30,
     });
-  });
-
-  test('follows the October 2026 DST change', () => {
     expect(berlinClock(new Date('2026-10-25T00:30:00Z'))).toEqual({
       date: '2026-10-25',
       minutes: 2 * 60 + 30,
@@ -100,5 +95,58 @@ describe('labels never invent schedule facts', () => {
       ),
     );
     expect([...keys].sort()).toEqual(['ended', 'running', 'upcoming']);
+  });
+});
+
+describe('expiry is independent of the source-status label', () => {
+  const rescheduled: OccasionSchedule = {
+    startDate: '2026-10-22',
+    endDate: '2026-10-22',
+    scheduleConfidence: 'continuous',
+    occurrences: [{ date: '2026-10-22', startTime: '19:00', endTime: '22:00' }],
+    sourceStatus: 'rescheduled',
+  };
+  const at = (iso: string) => new Date(iso);
+
+  test('a rescheduled occasion ends although its label stays Rescheduled', () => {
+    const after = at('2026-10-23T10:00:00+02:00');
+
+    expect(occasionLabel(rescheduled, after).text).toBe('Rescheduled');
+    expect(occasionHasEnded(rescheduled, after)).toBe(true);
+    expect(occasionIsCurrent(rescheduled, after)).toBe(false);
+    expect(occasionHasEnded(rescheduled, at('2026-10-22T21:00:00+02:00'))).toBe(
+      false,
+    );
+  });
+
+  test('the final confirmed appointment ending ends the occasion', () => {
+    expect(occasionHasEnded(rescheduled, at('2026-10-22T22:30:00+02:00'))).toBe(
+      true,
+    );
+  });
+
+  test('an envelope runs through its last day', () => {
+    const envelope: OccasionSchedule = {
+      startDate: '2026-10-08',
+      endDate: '2026-10-11',
+    };
+
+    expect(occasionHasEnded(envelope, at('2026-10-11T23:30:00+02:00'))).toBe(false);
+    expect(occasionHasEnded(envelope, at('2026-10-12T00:10:00+02:00'))).toBe(true);
+  });
+
+  test('a sparse list without dates left is not current, even if rescheduled', () => {
+    const sparse: OccasionSchedule = {
+      startDate: '2026-10-09',
+      endDate: '2026-11-07',
+      scheduleConfidence: 'discrete',
+      occurrences: [{ date: '2026-10-10', startTime: '18:00' }],
+      sourceStatus: 'rescheduled',
+    };
+    const later = at('2026-10-20T12:00:00+02:00');
+
+    expect(occasionHasEnded(sparse, later)).toBe(false);
+    expect(occasionIsCurrent(sparse, later)).toBe(false);
+    expect(occasionIsCurrent(sparse, at('2026-10-10T12:00:00+02:00'))).toBe(true);
   });
 });

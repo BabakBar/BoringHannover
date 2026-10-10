@@ -56,6 +56,69 @@ describe('committed export snapshots', () => {
   });
 });
 
+describe('occasion imagery (#60)', () => {
+  test('legacy third-party images still parse but are not exposed', () => {
+    const parsed = occasionSummarySchema.parse({
+      ...legacyOccasion,
+      imageUrl:
+        'https://www.hannover.de/var/storage/images/Tiergartenfest 05.jpg.webp',
+    });
+
+    expect(parsed).not.toHaveProperty('imageUrl');
+  });
+
+  test('summaries exported without imageUrl parse', () => {
+    const { imageUrl: _omitted, ...current } = legacyOccasion;
+
+    expect(occasionSummarySchema.safeParse(current).success).toBe(true);
+  });
+});
+
+describe('detail-sheet facts (#54)', () => {
+  const facts = {
+    place: {
+      venue: 'Tiergarten',
+      street: 'Tiergartenstraße 117',
+      postalCode: '30559',
+      locality: 'Hannover',
+      municipality: 'Hannover',
+    },
+    area: 'city',
+    admission: [
+      { label: 'Mit Baumscheibe', price: 'free' },
+      { label: 'Erwachsene', price: '€3' },
+      { price: '€3.50' },
+    ],
+  };
+
+  test('place, area and entry parse, and legacy summaries still do', () => {
+    const parsed = occasionSummarySchema.parse({ ...legacyOccasion, ...facts });
+
+    expect(parsed.place?.locality).toBe('Hannover');
+    expect(parsed.area).toBe('city');
+    expect(parsed.admission?.map((item) => item.price)).toEqual([
+      'free',
+      '€3',
+      '€3.50',
+    ]);
+    expect(occasionSummarySchema.parse(legacyOccasion).place).toBeUndefined();
+  });
+
+  test('malformed facts are rejected', () => {
+    for (const invalid of [
+      { place: { ...facts.place, postalCode: '3055' } },
+      { place: { ...facts.place, street: '' } },
+      { area: 'beyond' },
+      { admission: [{ price: '3 €' }] },
+      { admission: [{ price: 'frei' }] },
+    ]) {
+      expect(
+        occasionSummarySchema.safeParse({ ...legacyOccasion, ...invalid }).success,
+      ).toBe(false);
+    }
+  });
+});
+
 describe('additive occasion schedule fields', () => {
   test('legacy summaries without schedule evidence parse', () => {
     expect(occasionSummarySchema.parse(legacyOccasion).scheduleConfidence)

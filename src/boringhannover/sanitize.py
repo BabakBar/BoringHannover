@@ -30,6 +30,10 @@ __all__ = [
     "truncate_text",
 ]
 
+# U+00AD: an invisible hyphenation hint. hannover.de puts it inside titles,
+# where it breaks copy-paste and search (#60).
+_SOFT_HYPHEN: Final[str] = "\u00ad"
+
 # Maximum lengths to prevent data corruption attacks
 MAX_TITLE_LENGTH: Final[int] = 200
 MAX_VENUE_LENGTH: Final[int] = 100
@@ -63,8 +67,8 @@ def sanitize_text(text: str | None, max_length: int = 500) -> str:
     # This is safer than trying to maintain an allowlist
     cleaned = nh3.clean(text, tags=set())
 
-    # Decode HTML entities (e.g., &amp; -> &)
-    cleaned = html.unescape(cleaned)
+    # Decode HTML entities (e.g., &amp; -> &, &shy; -> U+00AD)
+    cleaned = html.unescape(cleaned).replace(_SOFT_HYPHEN, "")
 
     # Normalize whitespace (collapse multiple spaces/newlines)
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
