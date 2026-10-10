@@ -35,7 +35,7 @@ RUN WEB_DATA_MODE=production bun run build
 # -----------------------------------------------------------------------------
 # Stage 2: Production nginx server
 # -----------------------------------------------------------------------------
-FROM nginx:1.30-alpine AS runtime
+FROM nginx:1.31-alpine AS runtime
 
 # Apply any security updates the base image has not been rebuilt with yet.
 # Without this the image ships whatever was current when nginx:1.30-alpine was
