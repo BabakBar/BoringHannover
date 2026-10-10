@@ -1,0 +1,116 @@
+---
+interface Props {
+  week: number;
+  year: number;
+}
+
+const { week, year } = Astro.props;
+---
+
+<header class="top reveal" aria-label="Page header">
+  <a class="back-btn" href="/">
+    <span class="arrow" aria-hidden="true">←</span>
+    Back to the weekly digest
+  </a>
+  <p class="wordmark" data-egg="wordmark">
+    <span class="dots" aria-hidden="true" title="Three dots, three Nanas: Sophie, Charlotte and Caroline, on the Leibnizufer since 1974."><i>▪</i><i>▪</i><i>▪</i></span>
+    <span class="name">Boring Hannover</span>
+  </p>
+  <div class="status">
+    <p class="readout">W{week} · {year}</p>
+    <button id="theme-toggle" type="button" class="theme" aria-label="Toggle theme" aria-pressed="false">
+      <svg class="sun-icon hidden" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="12" cy="12" r="5"></circle>
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+      </svg>
+      <svg class="moon-icon" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  const sync = () => {
+    const dark = document.documentElement.classList.contains('dark');
+    toggle?.querySelector('.sun-icon')?.classList.toggle('hidden', !dark);
+    toggle?.querySelector('.moon-icon')?.classList.toggle('hidden', dark);
+    toggle?.setAttribute('aria-pressed', String(dark));
+  };
+  sync();
+  toggle?.addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+    document.getElementById('theme-color')?.setAttribute('content', dark ? '#0a0a0a' : '#fafaf9');
+    sync();
+  });
+</script>
+
+<style>
+  .top {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    margin-bottom: 2.25rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-secondary);
+  }
+  .back-btn {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    padding: 0 1.1rem 0 0.9rem;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    background: var(--bg-primary);
+    color: var(--accent);
+    font: 600 0.75rem var(--font-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .back-btn .arrow { display: inline-block; font-size: 1rem; transition: transform 0.15s; }
+  .back-btn:hover { background: var(--accent); color: #fff; }
+  .back-btn:hover .arrow { transform: translateX(-4px); }
+  .back-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .wordmark { display: inline-flex; align-items: center; gap: 0.8rem; margin: 0; color: var(--text-primary); user-select: none; }
+  .dots { display: inline-flex; gap: 0.12rem; color: var(--accent); font-size: 0.8rem; }
+  .dots i { font-style: normal; }
+  .wordmark:hover .dots i { animation: dot 0.9s ease-in-out infinite; }
+  .wordmark:hover .dots i:nth-child(2) { animation-delay: 0.15s; }
+  .wordmark:hover .dots i:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes dot { 50% { opacity: 0.2; transform: translateY(-2px); } }
+  .dots i { display: inline-block; transition: color 0.2s, transform 0.25s; }
+  .wordmark .dots:hover i { animation: nana 0.6s ease-in-out infinite alternate; }
+  .wordmark .dots:hover i:nth-child(1) { color: #f5b700; }
+  .wordmark .dots:hover i:nth-child(2) { color: #13a89e; animation-delay: 0.2s; }
+  .wordmark .dots:hover i:nth-child(3) { color: #e5397a; animation-delay: 0.4s; }
+  @keyframes nana { from { transform: rotate(-12deg) scale(1.25); } to { transform: rotate(12deg) scale(1.25) translateY(-2px); } }
+  .name { font: 600 1.05rem/1 'Archivo Wide', var(--font-display); font-stretch: 125%; letter-spacing: 0.28em; text-transform: uppercase; }
+  .status { justify-self: end; display: flex; align-items: center; gap: 1rem; }
+  .readout { margin: 0; font: 400 0.8rem var(--font-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); }
+  .theme { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-primary); color: var(--text-secondary); cursor: pointer; }
+  .theme:hover { color: var(--text-primary); }
+  .theme:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .hidden { display: none; }
+  @media (max-width: 760px) {
+    .top { grid-template-columns: 1fr auto; }
+    .back-btn { grid-column: 1 / -1; justify-self: stretch; justify-content: center; }
+    .wordmark { justify-self: start; }
+    .name { font-size: 0.9rem; letter-spacing: 0.2em; }
+  }
+  @media (max-width: 480px) {
+    .top { grid-template-columns: minmax(0, 1fr); }
+    .status { justify-self: start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wordmark:hover .dots i, .wordmark .dots:hover i, .back-btn .arrow { animation: none; transition: none; }
+  }
+</style>

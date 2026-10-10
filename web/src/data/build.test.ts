@@ -54,6 +54,19 @@ test('Astro build selects the anchored root and rejects missing production data'
     const html = readFileSync(join(outDir, 'index.html'), 'utf8');
     expect(html).toContain('name="data-revision"');
     expect(html).not.toContain(projectRoot);
+    const architecture = readFileSync(join(outDir, 'how-it-works/index.html'), 'utf8');
+    expect(/<h1\b[^>]*>\s*How boringhannover\.de is built\s*<\/h1>/.test(architecture)).toBe(true);
+    const noScript = architecture.match(/<noscript>([\s\S]*?)<\/noscript>/)?.[1];
+    expect(noScript).toContain('What it does');
+    expect(noScript).toContain('Why it');
+    expect(noScript).toContain('Data update');
+    expect(noScript).toContain('manifest last');
+    expect(noScript).not.toMatch(/CSV|Markdown/);
+    expect(noScript).toContain('JSON web snapshot');
+    expect(noScript).toContain('patch and minor');
+    expect(noScript).toContain('major updates need review');
+    expect(noScript).toContain('Trivy scans the published images');
+    expect(/<g\b[^>]*data-edge="commit"[^>]*role="button"[^>]*tabindex="0"/.test(architecture)).toBe(true);
     const missing = join(root, 'missing');
     const rejected = build({
       WEB_DATA_ROOT: missing,

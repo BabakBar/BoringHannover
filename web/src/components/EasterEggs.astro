@@ -1,0 +1,272 @@
+---
+---
+
+<!--
+                 |
+                /^\
+               (   )
+           ____|[ ]|____
+          | [] [] [] [] |
+   _______|  _   _   _  |_______
+  | [] [] | | | | | | | | [] [] |
+  |_______|_|_|_|_|_|_|_|_______|
+
+  The Neues Rathaus stands on 6,026 beech piles.
+  This site rests on a lot of small, boring parts too.
+  Try typing 96.
+-->
+<div class="red-thread" id="red-thread" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="ball" id="ball" aria-hidden="true" hidden>
+  <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="13.5" fill="#fafaf9" stroke="#1c1917" stroke-width="1.2"/><path d="M15 9.5 L20 13 L18.2 19 H11.8 L10 13 Z" fill="#1c1917"/><path d="M15 9.5 V2 M20 13 L27.5 10.5 M18.2 19 L22.5 26 M11.8 19 L7.5 26 M10 13 L2.5 10.5" stroke="#1c1917" stroke-width="1"/></svg>
+</div>
+<div class="stamp" id="stamp" aria-hidden="true" hidden><span>96</span></div>
+<button type="button" class="van" id="van" data-toast="The VW Transporter, the Bulli, has been built in Hannover-Stöcken since 1956." aria-label="A van from Hannover-Stöcken drives past" hidden>
+  <svg width="64" height="34" viewBox="0 0 64 34" aria-hidden="true">
+    <path d="M6 6 Q6 2 10 2 H54 Q60 2 61 9 L62 26 H2 V12 Q2 6 6 6 Z" fill="#f5f5f4" stroke="#1c1917" stroke-width="1.2"/>
+    <path d="M2 16 H62 V26 H2 Z" fill="var(--accent)"/>
+    <path d="M62 16 L52 9 L42 16" fill="none" stroke="#f5f5f4" stroke-width="1.6"/>
+    <rect x="7" y="6" width="9" height="7" rx="1.5" fill="#1c1917"/>
+    <rect x="19" y="6" width="9" height="7" rx="1.5" fill="#1c1917"/>
+    <rect x="31" y="6" width="9" height="7" rx="1.5" fill="#1c1917"/>
+    <rect x="44" y="5" width="12" height="7" rx="2" fill="#1c1917"/>
+    <circle class="wheel" cx="15" cy="27" r="5" fill="#1c1917"/>
+    <circle class="wheel" cx="50" cy="27" r="5" fill="#1c1917"/>
+    <circle cx="15" cy="27" r="1.8" fill="#a8a29e"/>
+    <circle cx="50" cy="27" r="1.8" fill="#a8a29e"/>
+  </svg>
+</button>
+
+<script>
+  import { KONAMI, NINETY_SIX, konamiStep, sequenceStep } from '../utils/easterEggs';
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const toastEl = document.getElementById('toast')!;
+  const thread = document.getElementById('red-thread')!;
+  let toastTimer: number | undefined;
+
+  function toast(message: string) {
+    toastEl.textContent = message;
+    toastEl.classList.add('show');
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => toastEl.classList.remove('show'), 4800);
+  }
+
+  // The Roter Faden: a red line painted down the edge of the page as you read.
+  if (!reduced) {
+    let waiting = false;
+    const draw = () => {
+      waiting = false;
+      const max = document.documentElement.scrollHeight - innerHeight;
+      thread.style.setProperty('--p', String(max > 0 ? Math.min(1, scrollY / max) : 0));
+    };
+    addEventListener('scroll', () => { if (!waiting) { waiting = true; requestAnimationFrame(draw); } }, { passive: true });
+    draw();
+  } else {
+    thread.style.display = 'none';
+  }
+
+  // Triple-click the wordmark.
+  const wordmark = document.querySelector<HTMLElement>('[data-egg="wordmark"]');
+  let clicks = 0;
+  let clickTimer: number | undefined;
+  wordmark?.addEventListener('click', () => {
+    clicks += 1;
+    window.clearTimeout(clickTimer);
+    clickTimer = window.setTimeout(() => { clicks = 0; }, 600);
+    if (clicks === 3) {
+      clicks = 0;
+      toast('Hallo! Not Moin. Hannover is said to speak the purest standard German.');
+    }
+  });
+
+  const glow = () => {
+    thread.classList.add('found');
+    window.setTimeout(() => thread.classList.remove('found'), 2400);
+  };
+
+  // Konami code, and 96 for the club.
+  let progress = 0;
+  let club = 0;
+  addEventListener('keydown', event => {
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    progress = konamiStep(progress, event.key);
+    if (progress === KONAMI.length) {
+      progress = 0;
+      glow();
+      toast('You found the Roter Faden. In Hannover it is painted on the pavement; here it is the red line on the left.');
+    }
+    club = sequenceStep(NINETY_SIX, club, event.key);
+    if (club === NINETY_SIX.length) {
+      club = 0;
+      matchday();
+    }
+  });
+
+  // 96: the thread becomes a scarf, a ball rolls past, and the number flips over and stays 96.
+  const ball = document.getElementById('ball')!;
+  const stamp = document.getElementById('stamp')!;
+  function matchday() {
+    toast('Hannover 96, founded 1896. Their stadium is right by the Maschsee. Club colours black, white and green, yet the kit is red: Die Roten. Flip 96 over, still 96.');
+    thread.classList.add('scarf');
+    window.setTimeout(() => thread.classList.remove('scarf'), 5000);
+    if (reduced) return;
+    for (const el of [ball, stamp]) {
+      el.hidden = true;
+      void el.offsetWidth;
+      el.hidden = false;
+    }
+  }
+  ball.addEventListener('animationend', event => { if (event.animationName === 'kick') ball.hidden = true; });
+  stamp.addEventListener('animationend', () => { stamp.hidden = true; });
+
+  // Any egg with a data-toast says its line when clicked; the stadium starts a matchday.
+  document.addEventListener('click', event => {
+    const target = event.target as Element;
+    if (target.closest('[data-matchday]')) return matchday();
+    const egg = target.closest<HTMLElement>('[data-toast]');
+    if (egg) toast(egg.dataset.toast!);
+  });
+
+  // A Bulli from Stöcken keeps driving past, back and forth.
+  const van = document.getElementById('van')!;
+  if (!reduced) {
+    let forward = true;
+    const schedule = (ms: number) => window.setTimeout(drive, ms);
+    function drive() {
+      if (document.hidden) return schedule(5000);
+      van.classList.toggle('back', !forward);
+      forward = !forward;
+      van.hidden = false;
+    }
+    van.addEventListener('animationend', event => {
+      if (!event.animationName.startsWith('drive')) return;
+      van.hidden = true;
+      schedule(15_000 + Math.random() * 10_000);
+    });
+    schedule(4000);
+  }
+
+  // Leave the tab or the window and it waits where Hannover always waits.
+  const title = document.title;
+  const away = () => { document.title = "We'll wait under the Kröpcke clock"; };
+  const back = () => { document.title = title; };
+  document.addEventListener('visibilitychange', () => (document.hidden ? away() : back()));
+  addEventListener('blur', away);
+  addEventListener('focus', back);
+
+  // For anyone who opens the console.
+  console.log(
+    '%cBoring Hannover%c\nLooking under the hood? Good. The source is MIT: https://github.com/BabakBar/BoringHannover\nP.S. Try ↑ ↑ ↓ ↓ ← → ← → B A, Click the horse, the stadium, the boat and the pelican. View source for the Rathaus.',
+    'font: 700 14px monospace; color: #dc2626; letter-spacing: 0.15em; text-transform: uppercase;',
+    'font: 12px monospace;',
+  );
+</script>
+
+<style>
+  .red-thread {
+    --p: 0;
+    position: fixed;
+    top: 0;
+    left: max(4px, calc(50% - 36rem - 28px));
+    z-index: 5;
+    width: 2px;
+    height: 100vh;
+    background: var(--accent);
+    border-radius: 1px;
+    transform: scaleY(var(--p));
+    transform-origin: top;
+    pointer-events: none;
+  }
+  .red-thread.found { width: 5px; box-shadow: 0 0 14px var(--accent); transition: width 0.3s, box-shadow 0.3s; }
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 1.25rem;
+    z-index: 20;
+    max-width: min(34rem, calc(100vw - 2rem));
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font: 400 0.75rem/1.5 var(--font-display);
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transform: translate(-50%, 8px);
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+  .van {
+    position: fixed;
+    left: 0;
+    bottom: 6px;
+    z-index: 15;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    animation: drive 8s linear forwards;
+  }
+  .van[hidden], .ball[hidden], .stamp[hidden] { display: none; }
+  .van.back { animation-name: drive-back; }
+  .van.back svg { transform: scaleX(-1); }
+  @keyframes drive-back { from { transform: translateX(calc(100vw + 10px)); } to { transform: translateX(-80px); } }
+  .red-thread.scarf {
+    width: 8px;
+    background: repeating-linear-gradient(180deg, #111 0 22px, #fafaf9 22px 30px, #1fa83a 30px 52px, #fafaf9 52px 60px);
+    transition: width 0.3s;
+  }
+  .ball { position: fixed; left: 0; bottom: 8px; z-index: 16; pointer-events: none; animation: kick 2.6s linear forwards; }
+  .ball svg { display: block; animation: hop 0.65s cubic-bezier(0.3, 0, 0.7, 1) infinite alternate, spin 0.8s linear infinite; }
+  @keyframes kick { from { transform: translateX(-40px); } to { transform: translateX(calc(100vw + 10px)); } }
+  @keyframes hop { from { translate: 0 0; } to { translate: 0 -90px; } }
+  @keyframes spin { to { rotate: 360deg; } }
+  .stamp {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 14;
+    pointer-events: none;
+    display: grid;
+    place-items: center;
+    width: min(70vw, 26rem);
+    aspect-ratio: 1;
+    border: min(2vw, 0.8rem) solid #111;
+    border-radius: 50%;
+    background: #1fa83a;
+    box-shadow: inset 0 0 0 min(1.4vw, 0.55rem) #fafaf9;
+    animation: flip 2.4s cubic-bezier(0.5, 0, 0.3, 1) forwards;
+  }
+  .stamp span {
+    font: 900 min(36vw, 13.5rem)/1 'Archivo Wide', var(--font-display);
+    font-stretch: 110%;
+    letter-spacing: -0.06em;
+    color: #111;
+    -webkit-text-stroke: min(1.6vw, 0.6rem) #fafaf9;
+    paint-order: stroke fill;
+    transform: skewX(-10deg);
+  }
+  @keyframes flip {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.6) rotate(0); }
+    20% { opacity: 0.95; transform: translate(-50%, -50%) scale(1) rotate(0); }
+    65% { opacity: 0.95; transform: translate(-50%, -50%) scale(1) rotate(180deg); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1) rotate(180deg); }
+  }
+  .van:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .van .wheel { animation: bump 0.35s ease-in-out infinite alternate; }
+  @keyframes drive { from { transform: translateX(-80px); } to { transform: translateX(calc(100vw + 10px)); } }
+  @keyframes bump { to { transform: translateY(-0.6px); } }
+  @media print {
+    :global(body)::after {
+      content: 'Printed from Hannover, where Pelikan has made ink since 1838.';
+      display: block;
+      margin-top: 2rem;
+      font: 10px monospace;
+      text-align: center;
+    }
+    .van, .toast, .red-thread, .ball, .stamp { display: none; }
+  }
+</style>
