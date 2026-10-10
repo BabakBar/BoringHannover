@@ -36,9 +36,16 @@ def test_classifies_python_updates(before: str, after: str, expected: bool) -> N
     assert requires_review(lock(before), lock(after)) is expected
 
 
-def test_new_transitive_dependency_is_allowed() -> None:
-    assert not requires_review("", lock("2.0.0"))
-
-
-def test_multiple_versions_of_one_package_require_review() -> None:
-    assert requires_review(lock("1.2.3"), lock("1.2.4") + lock("2.0.0"))
+@pytest.mark.parametrize(
+    ("before", "after", "expected"),
+    [
+        # A new transitive dependency is routine.
+        ("", lock("2.0.0"), False),
+        # Two versions of one package cannot be classified safely.
+        (lock("1.2.3"), lock("1.2.4") + lock("2.0.0"), True),
+    ],
+)
+def test_classifies_lockfile_shape_changes(
+    before: str, after: str, expected: bool
+) -> None:
+    assert requires_review(before, after) is expected

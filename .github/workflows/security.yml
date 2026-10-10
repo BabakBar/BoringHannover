@@ -4,9 +4,6 @@
 # code that is *already* on master become vulnerable since it was merged?
 # It runs weekly, opens/updates a single tracking issue when it finds something,
 # and publishes an SBOM for the current state of the repository.
-#
-# Triage policy, severity SLAs and the suppression format live in
-# MAINTENANCE.md. A scanner without an owner is not a control.
 
 name: Security Audit
 
@@ -110,7 +107,7 @@ jobs:
         run: |
           set -euo pipefail
           title="Dependency audit findings"
-          body="$(printf 'The weekly dependency audit reported findings in: %s\n\nRun: %s\n\nTriage per MAINTENANCE.md — assign a severity, fix or record an expiring suppression.' "${FINDINGS}" "${RUN_URL}")"
+          body="$(printf 'The weekly dependency audit reported findings in: %s\n\nRun: %s\n\nAssign a severity, then fix it or record an expiring suppression in .trivyignore.' "${FINDINGS}" "${RUN_URL}")"
           gh label create security-audit --color B60205 --description "Findings from the weekly dependency audit" 2>/dev/null || true
           existing="$(gh issue list --state open --label security-audit --search "${title} in:title" --json number --jq '.[0].number // empty')"
           if [ -n "${existing}" ]; then
@@ -174,48 +171,8 @@ jobs:
           build-args: |
             SITE=https://boringhannover.de
 
-      # Pinned by digest: the trivy-action's tags were force-pushed in a March
-      # 2026 supply-chain attack, so the image digest is the trustworthy handle.
       - name: Scan images
-        run: |
-          set -uo pipefail
-
-          # --exit-code 2 is what separates a finding from a broken scan: Trivy
-          # exits with this value when it finds something, and with 1 when it
-          # could not scan at all. Mapping both to 1 makes a scanner failure
-          # indistinguishable from a vulnerable image, and the two need different
-          # fixes.
-          vulnerable=""
-          errored=""
-          scan() {
-            local name="$1" rc=0
-            docker run --rm \
-              -v /var/run/docker.sock:/var/run/docker.sock \
-              -v "${HOME}/.cache/trivy:/root/.cache/trivy" \
-              aquasec/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa \
-              image --scanners vuln --severity HIGH,CRITICAL \
-              --ignore-unfixed --exit-code 2 --no-progress "boringhannover-${name}:audit" || rc=$?
-            case "${rc}" in
-              0) echo "${name}: clean" ;;
-              2) vulnerable="${vulnerable} ${name}" ;;
-              *) errored="${errored} ${name}" ;;
-            esac
-          }
-
-          # Both images are scanned before failing, so one run reports every
-          # finding instead of hiding the second image behind the first.
-          scan backend
-          scan frontend
-
-          if [ -n "${errored}" ]; then
-            echo "::error::Trivy could not scan (scanner error, not a vulnerability finding):${errored}"
-          fi
-          if [ -n "${vulnerable}" ]; then
-            echo "::error::HIGH/CRITICAL vulnerabilities found:${vulnerable}"
-          fi
-          if [ -n "${errored}${vulnerable}" ]; then
-            exit 1
-          fi
+        run: ./scripts/trivy-scan.sh backend=boringhannover-backend:audit frontend=boringhannover-frontend:audit
 
   sbom:
     name: SBOM

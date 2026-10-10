@@ -3,7 +3,6 @@ import type { EventData } from './types';
 
 export interface Provenance {
   mode: DataMode;
-  source: 'file' | 'mock';
   dataRoot: string;
   revision: string;
   week: number;
@@ -19,7 +18,7 @@ export function createProvenance(
   data: EventData,
   input: Pick<
     Provenance,
-    'mode' | 'source' | 'dataRoot' | 'revision' | 'orphanCount'
+    'mode' | 'dataRoot' | 'revision' | 'orphanCount'
   >,
 ): Provenance {
   return {

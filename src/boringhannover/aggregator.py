@@ -22,15 +22,20 @@ from boringhannover.sources import get_all_sources
 
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from boringhannover.models import Event
     from boringhannover.occasions import OccasionDefinition
+    from boringhannover.sources.base import BaseSource
 
 __all__ = ["fetch_all_events"]
 
 logger = logging.getLogger(__name__)
 
 
-def fetch_all_events() -> dict[str, list[Event] | list[OccasionDefinition]]:
+def fetch_all_events(
+    sources: Mapping[str, type[BaseSource]] | None = None,
+) -> dict[str, list[Event] | list[OccasionDefinition]]:
     """Fetch and categorize events from all registered sources.
 
     Orchestrates all registered and enabled scrapers, then categorizes
@@ -39,6 +44,9 @@ def fetch_all_events() -> dict[str, list[Event] | list[OccasionDefinition]]:
     - big_events_radar: Concerts/events within the configured lookahead window
 
     Both categories use the same 2-week window to keep the UI focused.
+
+    Args:
+        sources: Sources to fetch from; defaults to every registered source.
 
     Returns:
         Dictionary with categorized event lists.
@@ -54,8 +62,8 @@ def fetch_all_events() -> dict[str, list[Event] | list[OccasionDefinition]]:
     radar_events: list[Event] = []
     city_occasions: list[OccasionDefinition] = []
 
-    # Get all registered sources
-    sources = get_all_sources()
+    if sources is None:
+        sources = get_all_sources()
     logger.info("Found %d registered sources", len(sources))
 
     # Fetch from each enabled source with rate limiting (BS-4)

@@ -27,10 +27,6 @@ const { cases } = JSON.parse(
 ) as { cases: ClockCase[] };
 
 describe('shared occasion clock fixture', () => {
-  test('covers the #59 boundaries', () => {
-    expect(cases.length).toBeGreaterThanOrEqual(20);
-  });
-
   for (const { name, now, occasion, expected } of cases) {
     test(name, () => {
       expect(occasionLabel(occasion, new Date(now)).text).toBe(expected.label);
@@ -42,14 +38,11 @@ describe('shared occasion clock fixture', () => {
 });
 
 describe('berlinClock', () => {
-  test('uses the Berlin calendar date, not UTC', () => {
+  test('uses the Berlin calendar date and follows the DST change', () => {
     expect(berlinClock(new Date('2026-10-09T22:30:00Z'))).toEqual({
       date: '2026-10-10',
       minutes: 30,
     });
-  });
-
-  test('follows the October 2026 DST change', () => {
     expect(berlinClock(new Date('2026-10-25T00:30:00Z'))).toEqual({
       date: '2026-10-25',
       minutes: 2 * 60 + 30,

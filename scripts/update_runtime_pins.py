@@ -1,47 +1,52 @@
-"""Keep shared runtime patch versions synchronized before dependency refresh."""
+"""Move shared runtime pins to their latest stable release.
+
+Prints "true" when a change needs review (a minor or major runtime release),
+"false" otherwise, for the dependency-refresh workflow.
+"""
 
 import argparse
 import re
 from pathlib import Path
 
 
-def patch_update(current: str, latest: str) -> str:
+TRIVY_SCRIPT = "scripts/trivy-scan.sh"
+
+
+def runtime_update(current: str, latest: str) -> tuple[str, bool]:
+    """Return the version to pin and whether the move needs review.
+
+    Only stable x.y.z releases newer than the current pin are taken.
+    """
     if not re.fullmatch(r"\d+\.\d+\.\d+", latest):
-        return current
+        return current, False
     old = tuple(map(int, current.split(".")))
     new = tuple(map(int, latest.split(".")))
-    if new > old and new[:2] != old[:2]:
-        print(f"::warning::Runtime release requires review: {current} -> {latest}")
-    return latest if new[:2] == old[:2] and new > old else current
+    if new <= old:
+        return current, False
+    return latest, new[:2] != old[:2]
 
 
-def update_trivy_pin(root: Path, version: str, digest: str) -> None:
+def update_trivy_pin(root: Path, version: str, digest: str) -> bool:
     if not re.fullmatch(r"sha256:[a-f0-9]{64}", digest):
         raise ValueError("Invalid Trivy image digest")
-    paths = [
-        root / f".github/workflows/{name}.yml" for name in ("ci", "deploy", "security")
-    ]
-    updates: dict[Path, str] = {}
-    old_ref: str | None = None
-    for path in paths:
-        content = path.read_text()
-        matches = re.findall(
-            r"aquasec/trivy:(\d+\.\d+\.\d+)@sha256:[a-f0-9]{64}", content
+    path = root / TRIVY_SCRIPT
+    content = path.read_text()
+    matches = re.findall(r"aquasec/trivy:(\d+\.\d+\.\d+)@sha256:[a-f0-9]{64}", content)
+    if len(matches) != 1:
+        raise ValueError(f"Expected one Trivy pin in {TRIVY_SCRIPT}")
+    new_version, review = runtime_update(matches[0], version)
+    if new_version != matches[0]:
+        path.write_text(
+            re.sub(
+                r"aquasec/trivy:[\d.]+@sha256:[a-f0-9]{64}",
+                f"aquasec/trivy:{version}@{digest}",
+                content,
+            )
         )
-        if len(matches) != 1:
-            raise ValueError(f"Expected one Trivy pin in {path.name}")
-        match = re.search(r"aquasec/trivy:[\d.]+@sha256:[a-f0-9]{64}", content)
-        if match is None or (old_ref is not None and match[0] != old_ref):
-            raise ValueError("Trivy pins disagree")
-        old_ref = match[0]
-        if patch_update(matches[0], version) == matches[0]:
-            return
-        updates[path] = content.replace(old_ref, f"aquasec/trivy:{version}@{digest}")
-    for path, content in updates.items():
-        path.write_text(content)
+    return review
 
 
-def update_pins(root: Path, *, bun: str, uv: str, zizmor: str) -> None:
+def update_pins(root: Path, *, bun: str, uv: str, zizmor: str) -> bool:
     ci = (root / ".github/workflows/ci.yml").read_text()
     old_bun = (root / "web/.bun-version").read_text().strip()
     uv_match = re.search(r'UV_VERSION: "([\d.]+)"', ci)
@@ -49,9 +54,9 @@ def update_pins(root: Path, *, bun: str, uv: str, zizmor: str) -> None:
     if uv_match is None or zizmor_match is None:
         raise ValueError("CI runtime version pins are missing")
     old_uv, old_zizmor = uv_match[1], zizmor_match[1]
-    new_bun = patch_update(old_bun, bun)
-    new_uv = patch_update(old_uv, uv)
-    new_zizmor = patch_update(old_zizmor, zizmor)
+    new_bun, bun_review = runtime_update(old_bun, bun)
+    new_uv, uv_review = runtime_update(old_uv, uv)
+    new_zizmor, zizmor_review = runtime_update(old_zizmor, zizmor)
     replacements = {
         "web/.bun-version": [(old_bun, new_bun)],
         "Dockerfile.web": [(f"oven/bun:{old_bun}", f"oven/bun:{new_bun}")],
@@ -63,10 +68,6 @@ def update_pins(root: Path, *, bun: str, uv: str, zizmor: str) -> None:
         ],
         ".github/workflows/dependency-refresh.yml": [
             (f'version: "{old_uv}"', f'version: "{new_uv}"'),
-        ],
-        "MAINTENANCE.md": [
-            (f"| uv | {old_uv} |", f"| uv | {new_uv} |"),
-            (f"| Bun | {old_bun} |", f"| Bun | {new_bun} |"),
         ],
     }
     for name in ("security", "traffic-analytics"):
@@ -84,6 +85,7 @@ def update_pins(root: Path, *, bun: str, uv: str, zizmor: str) -> None:
         updates[path] = content
     for path, content in updates.items():
         path.write_text(content)
+    return bun_review or uv_review or zizmor_review
 
 
 if __name__ == "__main__":
@@ -94,12 +96,7 @@ if __name__ == "__main__":
     parser.add_argument("--trivy-version", required=True)
     parser.add_argument("--trivy-digest", required=True)
     args = parser.parse_args()
-    update_pins(
-        Path(__file__).resolve().parents[1],
-        bun=args.bun,
-        uv=args.uv,
-        zizmor=args.zizmor,
-    )
-    update_trivy_pin(
-        Path(__file__).resolve().parents[1], args.trivy_version, args.trivy_digest
-    )
+    root = Path(__file__).resolve().parents[1]
+    pins_review = update_pins(root, bun=args.bun, uv=args.uv, zizmor=args.zizmor)
+    trivy_review = update_trivy_pin(root, args.trivy_version, args.trivy_digest)
+    print(str(pins_review or trivy_review).lower())

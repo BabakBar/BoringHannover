@@ -124,13 +124,13 @@ def test_soft_hyphens_leave_display_names_but_not_identity(tmp_path: Path) -> No
     # As published on 2026-08: the source hyphenates both title and link.
     source_url = (
         "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/"
-        "Fähr­manns­fest-2026"
+        "Fähr\N{SOFT HYPHEN}manns\N{SOFT HYPHEN}fest-2026"
     )
     definition = _tiergartenfest(
         id="hannover-festivals:fahrmannsfest-2026",
         slug="fahrmannsfest-2026",
-        name="Fähr­manns­fest 2026",
-        location="Justus-­Garten-Brücke",
+        name="Fähr\N{SOFT HYPHEN}manns\N{SOFT HYPHEN}fest 2026",
+        location="Justus-\N{SOFT HYPHEN}Garten-Brücke",
         source_url=source_url,
     )
 

@@ -12,7 +12,6 @@ from urllib.parse import urljoin, urlparse
 
 from bs4 import BeautifulSoup, Comment, NavigableString, Tag
 
-from boringhannover import __version__
 from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
 from boringhannover.date_parsing import log_unknown_month, lookup_german_month
 from boringhannover.models import Event
@@ -102,8 +101,7 @@ class HannoverFestivalCalendarSource(BaseSource):
     # Identify ourselves to the city's calendar with a contact; other sources
     # keep the shared browser User-Agent.
     USER_AGENT: ClassVar[str] = (
-        f"BoringHannover/{__version__} "
-        "(+https://boringhannover.de/impressum/; "
+        "BoringHannover (+https://boringhannover.de/impressum/; "
         "https://github.com/BabakBar/BoringHannover)"
     )
 
@@ -385,12 +383,6 @@ class HannoverFestivalCalendarSource(BaseSource):
             source_status=source_status or occasion.source_status,
             previous_start_date=previous_start_date,
         )
-
-    @classmethod
-    def _parse_detail_end_date(cls, html: str) -> date | None:
-        """Return the final date from the official detail-page Termine row."""
-        schedule = cls._parse_detail_schedule(html)
-        return schedule.end_date if schedule is not None else None
 
     @classmethod
     def _parse_detail_schedule(cls, html: str) -> _DetailSchedule | None:
