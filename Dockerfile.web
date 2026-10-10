@@ -1,11 +1,7 @@
-# =============================================================================
 # BoringHannover Frontend Dockerfile
 # Multi-stage build for Astro static site with nginx
-# =============================================================================
 
-# -----------------------------------------------------------------------------
 # Stage 1: Build the Astro site
-# -----------------------------------------------------------------------------
 # Pin to specific version for reproducible builds
 FROM oven/bun:1.4.2-alpine AS builder
 
@@ -32,13 +28,11 @@ COPY web/ ./
 # Production builds reject missing, malformed or stale data.
 RUN WEB_DATA_MODE=production bun run build
 
-# -----------------------------------------------------------------------------
 # Stage 2: Production nginx server
-# -----------------------------------------------------------------------------
 FROM nginx:1.31-alpine AS runtime
 
 # Apply any security updates the base image has not been rebuilt with yet.
-# Without this the image ships whatever was current when nginx:1.30-alpine was
+# Without this the image ships whatever was current when the base image was
 # last published, which is what the CI vulnerability gate flags.
 RUN apk upgrade --no-cache
 

@@ -1,89 +1,24 @@
-# =============================================================================
-# Docker Build Ignore File
-# Excludes unnecessary files from Docker build context
-# =============================================================================
-
-# Git
+# Build context: the backend copies pyproject.toml, uv.lock, README.md and src/;
+# the frontend copies web/ and nginx.conf. Everything else stays out.
 .git
-.gitignore
-.gitattributes
-
-# Documentation
-*.md
-!README.md
-docs/
-LICENSE
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
+.github
+.claude/
 .venv/
-venv/
-ENV/
-.eggs/
-*.egg-info/
-*.egg
-.mypy_cache/
 .pytest_cache/
 .ruff_cache/
-.coverage
-htmlcov/
-.tox/
-.nox/
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-.project
-.pydevproject
-.settings/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Environment
-.env
-.env.*
-!.env.example
-
-# Build artifacts
-dist/
-build/
-*.whl
-
-# Test files
-tests/
-test_*.py
-conftest.py
-
-# Output (runtime generated)
+**/__pycache__
+**/.DS_Store
+**/.env
+**/.env.*
+**/*.log
+*.md
+!README.md
+backup/
+docs/
 output/
-!web/output/
-!web/output/web_events.json
-!web/output/occasions/
-!web/output/occasions/*.json
-*.log
-boringhannover.log
-
-# Node (frontend - when building backend)
+tests/
 web/node_modules/
 web/.astro/
 web/dist/
-
-# Docker
 Dockerfile*
 docker-compose*.yml
-.docker/
-
-# CI/CD
-.github/
-
-# Coolify
-coolify/
