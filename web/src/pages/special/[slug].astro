@@ -13,7 +13,10 @@ import type {
   OccasionSummary,
 } from '../../data/types';
 import { sanitizeUrl } from '../../utils/sanitize';
-import { formatEventTime } from '../../utils/displayLabels';
+import {
+  explainAdmissionLabel,
+  formatEventTime,
+} from '../../utils/displayLabels';
 import { occasionJsonLd } from '../../utils/occasionJsonLd';
 import { occasionSourceLink } from '../../utils/occasionSource';
 import {
@@ -24,7 +27,7 @@ import {
   sheetDateLine,
   whenFacts,
 } from '../../utils/occasionSheet';
-import { berlinClock } from '../../utils/occasionStatus';
+import { berlinClock, occasionHasEnded } from '../../utils/occasionStatus';
 
 interface Props {
   programmeData: OccasionProgramme;
@@ -85,14 +88,21 @@ const dayTrip =
   occasion.area === 'region' && place?.municipality
     ? `Day trip · ${place.municipality}`
     : null;
-const admission = occasion.admission ?? [];
+const admission = (occasion.admission ?? []).map((item) => ({
+  ...item,
+  explained: item.label ? explainAdmissionLabel(item.label) : null,
+}));
 const freeEntry =
   admission.length === 1 && admission[0].price === 'free' && !admission[0].label;
+const germanConditions = admission.some((item) => item.label && !item.explained);
 const source = occasionSourceLink(occasion.sourceUrl);
-// Cancelled or undated postponed occasions keep their facts, not actions;
-// the browser also drops them once the occasion has ended.
+// Cancelled, undated postponed and ended occasions keep their facts, not
+// actions. Expiry comes from the dates, never the status label, so an ended
+// Rescheduled occasion loses them too; the browser rechecks on its clock.
 const actionable =
-  occasion.sourceStatus !== 'cancelled' && occasion.sourceStatus !== 'postponed';
+  occasion.sourceStatus !== 'cancelled' &&
+  occasion.sourceStatus !== 'postponed' &&
+  !occasionHasEnded(occasion, new Date());
 const address = place ? placeAddress(place) : null;
 const onward = onwardOccasions(occasion, occasions, berlinClock(new Date()).date);
 
@@ -223,12 +233,23 @@ const eventJsonLd = occasionJsonLd(occasion, {
                 <ul class="fact__list">
                   {admission.map((item) => (
                     <li>
-                      {item.label && <><span lang="de">{item.label}</span>: </>}
+                      {item.explained ? (
+                        <>{item.explained.english}: </>
+                      ) : (
+                        item.label && <><span lang="de">{item.label}</span>: </>
+                      )}
                       <strong>{entryPrice(item.price)}</strong>
+                      {item.explained?.keepOriginal && (
+                        <span lang="de" class="fact__original">{item.label}</span>
+                      )}
                     </li>
                   ))}
                 </ul>
-                <p class="fact__note">As listed by the source.</p>
+                <p class="fact__note">
+                  {germanConditions
+                    ? 'Conditions in German, as listed by the source.'
+                    : 'As listed by the source.'}
+                </p>
               </>
             )}
           </dd>
@@ -499,7 +520,8 @@ const eventJsonLd = occasionJsonLd(occasion, {
 <script>
   import {
     berlinClock,
-    occasionLabel,
+    occasionHasEnded,
+    occasionIsCurrent,
     type OccasionSchedule,
   } from '../../utils/occasionStatus';
 
@@ -526,8 +548,9 @@ const eventJsonLd = occasionJsonLd(occasion, {
 
     const own = schedule(document.querySelector('.sheet__head'));
     const actions = document.querySelector<HTMLElement>('[data-occasion-actions]');
+    // Dates decide expiry; a Rescheduled label must not keep actions alive.
     if (own && actions) {
-      actions.hidden = occasionLabel(own, now).key === 'ended';
+      actions.hidden = occasionHasEnded(own, now);
     }
 
     let current = 0;
@@ -535,8 +558,7 @@ const eventJsonLd = occasionJsonLd(occasion, {
       '[data-onward-item]',
     )) {
       const itemSchedule = schedule(item);
-      const key = itemSchedule ? occasionLabel(itemSchedule, now).key : null;
-      item.hidden = key === 'ended' || key === 'check_dates';
+      item.hidden = itemSchedule ? !occasionIsCurrent(itemSchedule, now) : false;
       if (!item.hidden) current += 1;
     }
     document
@@ -865,6 +887,12 @@ const eventJsonLd = occasionJsonLd(occasion, {
 
   .fact__list li[hidden] {
     display: none;
+  }
+
+  .fact__original {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
   }
 
   .fact__note {

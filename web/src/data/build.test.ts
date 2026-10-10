@@ -447,6 +447,36 @@ test('the occasion sheet puts decision facts before prose and works without JS (
       },
       area: 'city',
     }),
+    // Pages can outlive their dates (stale data, ended retention): neither
+    // may offer actions, and neither is onward discovery.
+    occasion('gestern-vorbei', {
+      name: 'Gestern vorbei',
+      startDate: day(-2),
+      endDate: day(-1),
+      place: {
+        street: 'Bruchmeisterallee 1A',
+        postalCode: '30169',
+        locality: 'Hannover',
+        municipality: 'Hannover',
+      },
+      area: 'city',
+    }),
+    occasion('verlegt-und-vorbei', {
+      name: 'Verlegt und vorbei',
+      startDate: day(-1),
+      endDate: day(-1),
+      sourceStatus: 'rescheduled',
+      previousStartDate: day(-5),
+      scheduleConfidence: 'continuous',
+      occurrences: [{ date: day(-1), startTime: '19:00', endTime: '22:00' }],
+      place: {
+        street: 'Bruchmeisterallee 1A',
+        postalCode: '30169',
+        locality: 'Hannover',
+        municipality: 'Hannover',
+      },
+      area: 'city',
+    }),
   ];
   try {
     mkdirSync(join(data, 'occasions'), { recursive: true });
@@ -537,6 +567,13 @@ test('the occasion sheet puts decision facts before prose and works without JS (
       /<span lang="de"[^>]*>Mit Baumscheibe \(für Eichel- und Kastaniensammler\*innen\)<\/span>/,
     );
     expect(tiergartenText).toContain('€3');
+    // Entry conditions read in English; the gate's German term stays.
+    expect(tiergartenText).toContain(
+      'With a tree slice, for acorn and chestnut collectors: free',
+    );
+    expect(tiergartenText).toContain('Adults: €3');
+    expect(tiergartenText).toContain('Children up to age 14: €2');
+    expect(tiergartenText).not.toContain('Erwachsene');
     // The tree-slice row is conditional; the page never calls entry free.
     expect(tiergartenText).not.toContain('Free entry');
     expect(tiergarten).toContain(
@@ -550,6 +587,8 @@ test('the occasion sheet puts decision facts before prose and works without JS (
     expect(onward).toContain('href="/special/kunst-kurbis-in-eldagsen/"');
     expect(onward).toContain('href="/special/hannover-wies-27n/"');
     expect(onward).not.toContain('href="/special/abgesagtes-fest/"');
+    expect(onward).not.toContain('href="/special/gestern-vorbei/"');
+    expect(onward).not.toContain('href="/special/verlegt-und-vorbei/"');
     expect(onward).toContain('href="/special/"');
     // Hannover itself is no day trip (the onward list may show one).
     const facts = tiergarten.slice(
@@ -574,6 +613,17 @@ test('the occasion sheet puts decision facts before prose and works without JS (
     expect(cancelled).toMatch(/data-occasion-status[^>]*>\s*Cancelled\s*</);
     expect(cancelled).not.toContain('openstreetmap.org');
     expect(cancelled).toContain('href="/special/"');
+
+    // Expiry is read from the dates, not the status label, also without JS.
+    for (const slug of ['gestern-vorbei', 'verlegt-und-vorbei']) {
+      const ended = page(slug);
+      expect(ended, slug).not.toContain('openstreetmap.org');
+      expect(ended, slug).not.toContain('data-occasion-actions');
+      expect(ended, slug).toContain('href="/special/"');
+    }
+    expect(page('verlegt-und-vorbei')).toMatch(
+      /data-occasion-status[^>]*>\s*Rescheduled\s*</,
+    );
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
