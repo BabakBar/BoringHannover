@@ -25,9 +25,6 @@ Yet the Goethe Institut calls it "[probably the most underrated city in the worl
 
 ## Development
 
-Supported runtimes, update cadence and the supply-chain gates are documented in
-[MAINTENANCE.md](MAINTENANCE.md).
-
 **Backend (Python 3.13+, 3.14 in production):**
 ```bash
 uv sync

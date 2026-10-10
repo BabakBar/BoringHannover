@@ -21,7 +21,6 @@ if TYPE_CHECKING:
     from boringhannover.models import Event
 
 __all__ = [
-    "SOURCE_STATUS_LABELS",
     "OccasionBundle",
     "OccasionDefinition",
     "OccasionStatus",
@@ -30,7 +29,7 @@ __all__ = [
     "SourceStatus",
     "build_occasion_bundles",
     "classify_programme_item",
-    "occasion_date_range",
+    "collect_occasion_definitions",
     "occasion_lifecycle",
 ]
 
@@ -42,12 +41,6 @@ OccasionStatus = Literal["upcoming", "happening_now", "final_weekend"]
 ScheduleConfidence = Literal["continuous", "discrete", "unknown"]
 # Explicit source evidence only; a missing status means unknown, not scheduled.
 SourceStatus = Literal["scheduled", "cancelled", "postponed", "rescheduled"]
-
-SOURCE_STATUS_LABELS: dict[str, str] = {
-    "cancelled": "Cancelled",
-    "postponed": "Postponed",
-    "rescheduled": "Rescheduled",
-}
 
 
 @dataclass(frozen=True, slots=True)
@@ -137,17 +130,6 @@ class OccasionDefinition:
             if self.start_date < saturday and self.end_date <= sunday:
                 return "final_weekend"
         return "happening_now"
-
-
-def occasion_date_range(definition: OccasionDefinition) -> str:
-    """Return digest date copy; sparse appointments are not a continuous block."""
-    span = (
-        f"{definition.start_date.strftime('%d %b')}"
-        f"-{definition.end_date.strftime('%d %b')}"
-    )
-    if definition.schedule_confidence == "discrete":
-        return f"Selected dates {span}"
-    return span
 
 
 def occasion_lifecycle(
@@ -269,10 +251,10 @@ def _date_ranges_overlap(
     return left.start_date <= right.end_date and right.start_date <= left.end_date
 
 
-def _occasion_definitions(
+def collect_occasion_definitions(
     discovered: Sequence[OccasionDefinition],
 ) -> dict[str, OccasionDefinition]:
-    """Collect occasion definitions from enabled source plugins."""
+    """Merge enabled sources' own definitions with discovered ones, by id."""
     from boringhannover.sources import get_all_sources
 
     definitions: dict[str, OccasionDefinition] = {}
@@ -327,7 +309,7 @@ def build_occasion_bundles(
     when its programme fetch failed, enabling summary-only degradation.
     """
     current = now.astimezone(BERLIN_TZ) if now is not None else datetime.now(BERLIN_TZ)
-    definitions = _occasion_definitions(occasion_definitions)
+    definitions = collect_occasion_definitions(occasion_definitions)
     programme_by_id: dict[str, list[Event]] = {
         occasion_id: [] for occasion_id in definitions
     }

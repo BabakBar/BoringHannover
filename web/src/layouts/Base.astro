@@ -250,7 +250,6 @@ const structuredData = siteUrl ? toJsonLd({
     </a>
     <div class="max-w-mobile mx-auto px-4 py-6">
       <main id="main-content">
-        {provenance.source === 'mock' && <p role="status" class="mb-4 border border-current p-3">Development preview — sample events, not current listings.</p>}
         <slot />
       </main>
     </div>

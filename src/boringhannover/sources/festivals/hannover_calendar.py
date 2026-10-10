@@ -386,12 +386,6 @@ class HannoverFestivalCalendarSource(BaseSource):
         )
 
     @classmethod
-    def _parse_detail_end_date(cls, html: str) -> date | None:
-        """Return the final date from the official detail-page Termine row."""
-        schedule = cls._parse_detail_schedule(html)
-        return schedule.end_date if schedule is not None else None
-
-    @classmethod
     def _parse_detail_schedule(cls, html: str) -> _DetailSchedule | None:
         """Read appointments and exclusions from the official Termine row.
 

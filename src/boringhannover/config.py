@@ -18,17 +18,9 @@ __all__ = [
 ]
 
 
-# =============================================================================
-# API and Web Endpoints
-# =============================================================================
-
 ASTOR_API_URL: Final[str] = "https://backend.premiumkino.de/v1/de/hannover/program"
 """Astor Grand Cinema API endpoint for movie program data."""
 
-
-# =============================================================================
-# HTTP Client Settings
-# =============================================================================
 
 REQUEST_TIMEOUT_SECONDS: Final[float] = 30.0
 """HTTP request timeout in seconds."""
@@ -44,10 +36,6 @@ USER_AGENT: Final[str] = (
 )
 """User-Agent header for HTTP requests."""
 
-
-# =============================================================================
-# German Month Name Mappings
-# =============================================================================
 
 GERMAN_MONTH_MAP: Final[dict[str, int]] = {
     "jan": 1,

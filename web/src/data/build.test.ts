@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
 const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
-test('Astro build selects the anchored root, rejects missing production data, and labels mock HTML', () => {
+test('Astro build selects the anchored root and rejects missing production data', () => {
   const root = mkdtempSync(join(tmpdir(), 'handoff-build-'));
   const env = { ...process.env };
   for (const name of [
@@ -53,7 +53,6 @@ test('Astro build selects the anchored root, rejects missing production data, an
     expect(anchored.log.match(/\[web-data\] \{/g)?.length).toBe(1);
     const html = readFileSync(join(outDir, 'index.html'), 'utf8');
     expect(html).toContain('name="data-revision"');
-    expect(html).not.toContain('Development preview');
     expect(html).not.toContain(projectRoot);
     const missing = join(root, 'missing');
     const rejected = build({
@@ -62,13 +61,7 @@ test('Astro build selects the anchored root, rejects missing production data, an
     });
     expect(rejected.status).not.toBe(0);
     expect(rejected.log).toContain(join(missing, 'web_events.json'));
-    expect(rejected.log).toContain('mock fallback forbidden');
-    const mock = build({ WEB_DATA_ROOT: missing, WEB_DATA_MODE: 'mock' });
-    expect(mock.status).toBe(0);
-    const mockHtml = readFileSync(join(outDir, 'index.html'), 'utf8');
-    expect(mockHtml).toContain('Development preview');
-    expect(mockHtml).toContain('&quot;source&quot;:&quot;mock&quot;');
-    expect(mockHtml).not.toContain(missing);
+    expect(rejected.log).toContain('cannot read manifest');
     const fixture = join(root, 'fixture');
     mkdirSync(fixture);
     writeFileSync(
