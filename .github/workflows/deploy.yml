@@ -3,7 +3,7 @@
 #
 # Every published image carries an SBOM and SLSA build provenance, and the
 # immutable digest that was actually deployed is recorded in the run summary so
-# a rollback has something to point at (see MAINTENANCE.md).
+# a rollback has something to point at.
 
 name: Deploy
 

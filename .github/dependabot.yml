@@ -1,6 +1,6 @@
 # Dependabot covers what the weekly dependency-refresh workflow does not:
 # GitHub Action SHAs, base images, and frontend majors. Security updates are
-# unaffected by these settings. See MAINTENANCE.md.
+# unaffected by these settings.
 version: 2
 
 updates:

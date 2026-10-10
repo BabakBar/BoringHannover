@@ -7,12 +7,12 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DOC_FILES = ("README.md", "MAINTENANCE.md", "CLAUDE.md")
+DOC_FILES = ("README.md", "CLAUDE.md")
 _LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
 
 
 def test_local_doc_links_resolve() -> None:
-    """README/MAINTENANCE/CLAUDE must not link to missing local files."""
+    """README/CLAUDE must not link to missing local files."""
     broken: list[str] = []
     for name in DOC_FILES:
         doc = REPO_ROOT / name

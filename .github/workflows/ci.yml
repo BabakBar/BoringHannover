@@ -2,8 +2,7 @@
 # Runs tests, linting, type checking and supply-chain gates on every PR and push.
 #
 # Every action is pinned to a commit SHA (a tag can be moved; a SHA cannot).
-# Dependabot updates the SHA and the version comment together — see
-# .github/dependabot.yml and MAINTENANCE.md.
+# Dependabot updates the SHA and the version comment together.
 
 name: CI
 
@@ -26,8 +25,7 @@ concurrency:
 
 env:
   SITE: https://boringhannover.de
-  # Toolchain pins. MAINTENANCE.md is the policy; these are the values,
-  # and the `pins` job below asserts the container images agree with them.
+  # Toolchain pins; the `pins` job below asserts the container images agree.
   UV_VERSION: "0.12.24"
   PYTHON_PRODUCTION: "3.14"
   ZIZMOR_VERSION: "1.30.1"

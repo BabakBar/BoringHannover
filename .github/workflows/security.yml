@@ -4,9 +4,6 @@
 # code that is *already* on master become vulnerable since it was merged?
 # It runs weekly, opens/updates a single tracking issue when it finds something,
 # and publishes an SBOM for the current state of the repository.
-#
-# Triage policy, severity SLAs and the suppression format live in
-# MAINTENANCE.md.
 
 name: Security Audit
 
@@ -110,7 +107,7 @@ jobs:
         run: |
           set -euo pipefail
           title="Dependency audit findings"
-          body="$(printf 'The weekly dependency audit reported findings in: %s\n\nRun: %s\n\nTriage per MAINTENANCE.md — assign a severity, fix or record an expiring suppression.' "${FINDINGS}" "${RUN_URL}")"
+          body="$(printf 'The weekly dependency audit reported findings in: %s\n\nRun: %s\n\nAssign a severity, then fix it or record an expiring suppression in .trivyignore.' "${FINDINGS}" "${RUN_URL}")"
           gh label create security-audit --color B60205 --description "Findings from the weekly dependency audit" 2>/dev/null || true
           existing="$(gh issue list --state open --label security-audit --search "${title} in:title" --json number --jq '.[0].number // empty')"
           if [ -n "${existing}" ]; then
