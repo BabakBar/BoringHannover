@@ -695,3 +695,15 @@
     transform: none !important;
   }
 }
+
+/* Wide display face for the architecture page (wordmark, headline, counts).
+   SIL Open Font License, see /fonts/archivo-OFL.txt. */
+@layer base {
+  @font-face {
+    font-family: 'Archivo Wide';
+    src: url('/fonts/archivo-latin-wdth.woff2') format('woff2');
+    font-weight: 100 900;
+    font-stretch: 62% 125%;
+    font-display: swap;
+  }
+}
