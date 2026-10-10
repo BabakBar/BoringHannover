@@ -52,7 +52,6 @@ updates:
       prefix: "chore(deps)"
     cooldown:
       default-days: 7
-      semver-major-days: 14
     ignore:
       - dependency-name: "oven/bun"
       - dependency-name: "astral-sh/uv"
@@ -77,7 +76,6 @@ updates:
       prefix: "chore(ci)"
     cooldown:
       default-days: 7
-      semver-major-days: 14
     groups:
       actions-minor-patch:
         update-types: ["minor", "patch"]
