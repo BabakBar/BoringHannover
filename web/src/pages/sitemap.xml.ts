@@ -17,6 +17,7 @@ const routes: SitemapRoute[] = [
     path: `/special/${occasion.slug}/`,
     lastmod: dataUpdatedAt,
   })),
+  { path: '/how-it-works/' },
   { path: '/impressum/' },
   { path: '/datenschutz/' },
 ];

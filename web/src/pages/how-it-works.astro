@@ -1,0 +1,334 @@
+---
+import Base from '../layouts/Base.astro';
+import ScreenHeader from '../components/ScreenHeader.astro';
+import ScreenFooter from '../components/ScreenFooter.astro';
+import EasterEggs from '../components/EasterEggs.astro';
+import Maschsee from '../components/Maschsee.astro';
+import { getDataProvenance, loadEventData } from '../data/loader';
+import { publicProvenance } from '../data/provenance';
+import { VIEWBOX, edges, flows, nodes } from '../data/architecture';
+import { NODE_H, NODE_W, SHEET_COLUMNS, SHEET_ROWS, labelPoint, routePoints, sheetRef, toPath } from '../utils/diagram';
+
+const { meta } = loadEventData();
+const provenance = publicProvenance(getDataProvenance());
+const columnWidth = VIEWBOX.width / SHEET_COLUMNS;
+const rowHeight = VIEWBOX.height / SHEET_ROWS;
+const nodeById = new Map(nodes.map(node => [node.id, node]));
+const routed = edges.map(edge => {
+  const points = routePoints({ ...edge, from: nodeById.get(edge.from)!, to: nodeById.get(edge.to)! });
+  return { ...edge, d: toPath(points, 8), badge: labelPoint(points) };
+});
+const inspectorData = JSON.stringify({
+  nodes: nodes.map(node => ({ id: node.id, tag: node.tag, title: node.title, tech: node.tech, ref: node.ref, host: node.host, role: node.role, why: node.why, cell: sheetRef(node, VIEWBOX) })),
+  edges: routed.map(({ id, flow, step, from, to, protocol, summary, payload, log }) => ({ id, flow, step, from, to, protocol, summary, payload, log })),
+});
+---
+
+<Base
+  wide
+  title="Architecture · boringhannover"
+  description="How BoringHannover is built: a Python scraper, GitHub Actions, Coolify on a VPS and a static site, explained component by component."
+>
+  <EasterEggs />
+  <ScreenHeader week={meta.week} year={meta.year} />
+
+  <section aria-labelledby="architecture">
+    <p id="architecture" class="reveal reveal-2 headline mb-3 max-w-4xl text-2xl leading-tight text-text-primary md:text-3xl">
+      How boringhannover.de is built
+    </p>
+    <p class="reveal reveal-3 mb-6 max-w-2xl text-sm leading-relaxed text-text-secondary">
+      BoringHannover turns the listings of Hannover's venues into a fast static
+      site. A Python scraper collects and publishes the data, CI builds, scans
+      and attests the images, and a single VPS serves them. There's no
+      application database and nothing to run at request time. Select any part
+      to see how it works.
+    </p>
+
+    <div class="rig reveal reveal-4 rounded-md border border-border bg-bg-secondary">
+      <div class="flex flex-wrap items-center gap-2 border-b border-border p-3">
+        <div class="flex flex-wrap gap-1" role="group" aria-label="Number the steps of a flow">
+          <button type="button" class="seg" data-flow="all" aria-pressed="true">All</button>
+          {flows.map(flow => (
+            <button type="button" class="seg" data-flow={flow.id} aria-pressed="false">{flow.label}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <svg id="arch" class="block h-auto w-full min-w-[900px]" data-flow="all" viewBox={`0 0 ${VIEWBOX.width} ${VIEWBOX.height}`} role="group"
+          aria-label="Architecture diagram. Every box and every line can be selected; the details show up below it.">
+          <defs>
+            <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1"></circle></pattern>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z"></path></marker>
+            <marker id="arrow-hot" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z"></path></marker>
+          </defs>
+          <rect class="grid" width={VIEWBOX.width} height={VIEWBOX.height}></rect>
+          {Array.from({ length: SHEET_COLUMNS }, (_, index) => (
+            <>
+              <text class="gridref" x={columnWidth * index + columnWidth / 2} y="14">{index + 1}</text>
+              <text class="gridref" x={columnWidth * index + columnWidth / 2} y={VIEWBOX.height - 6}>{index + 1}</text>
+              {index > 0 && <path class="tick" d={`M${columnWidth * index},0 v7 M${columnWidth * index},${VIEWBOX.height} v-7`}></path>}
+            </>
+          ))}
+          {Array.from({ length: SHEET_ROWS }, (_, index) => (
+            <>
+              <text class="gridref" x="12" y={rowHeight * index + rowHeight / 2 + 4}>{'ABCD'[index]}</text>
+              <text class="gridref" x={VIEWBOX.width - 12} y={rowHeight * index + rowHeight / 2 + 4}>{'ABCD'[index]}</text>
+              {index > 0 && <path class="tick" d={`M0,${rowHeight * index} h7 M${VIEWBOX.width},${rowHeight * index} h-7`}></path>}
+            </>
+          ))}
+
+          <rect class="zone" x="250" y="36" width="690" height="128" rx="10"></rect>
+          <text class="cap" x="266" y="54">GitHub · third party</text>
+          <rect class="zone" x="250" y="204" width="690" height="312" rx="10"></rect>
+          <text class="cap" x="924" y="507" text-anchor="end">VPS · managed by Coolify</text>
+
+          {routed.map(edge => (
+            <g class="link" data-edge={edge.id} data-flow={edge.flow} data-from={edge.from} data-to={edge.to}>
+              <path class:list={['edge', { optional: edge.optional }]} d={edge.d}></path>
+              <path class="hit" d={edge.d}></path>
+            </g>
+          ))}
+
+          {nodes.map(node => (
+            <g class="node" data-node={node.id} role="button" tabindex="0" aria-label={`${node.title}: ${node.tech}`}>
+              <rect x={node.x} y={node.y} width={NODE_W} height={NODE_H} rx="7"></rect>
+              <text class="nt" x={node.x + 14} y={node.y + 24}>{node.title}</text>
+              <text class="ns" x={node.x + 14} y={node.y + 42}>{node.tech}</text>
+              {node.ref && <text class="nr" x={node.x + 14} y={node.y + 58}>{node.ref}</text>}
+            </g>
+          ))}
+
+          {routed.map(edge => (
+            <g class="badge" data-edge={edge.id} data-flow={edge.flow} transform={`translate(${edge.badge.x},${edge.badge.y})`}>
+              <circle r="10"></circle>
+              <text y="4">{edge.step}</text>
+            </g>
+          ))}
+
+        </svg>
+      </div>
+
+      <div class="inspector" id="inspector" role="region" aria-label="Details" aria-live="polite"></div>
+    </div>
+
+    <p class="mt-4 max-w-3xl font-display text-[11px] leading-relaxed text-text-muted">
+      Dashed boxes are trust boundaries. The Caddy, Cloudflare and nginx log
+      lines are paraphrased, not captured output.
+    </p>
+  </section>
+
+  <script type="application/json" id="inspector-data" set:html={inspectorData}></script>
+
+  <ScreenFooter movies={provenance.movieCount} concerts={provenance.concertCount} occasions={provenance.occasionCount} />
+  <Maschsee />
+</Base>
+
+<script>
+  interface NodeInfo { id: string; tag: string; title: string; tech: string; ref?: string; host: string; role: string; why: string; cell: string }
+  interface EdgeInfo { id: string; flow: string; step: number; from: string; to: string; protocol: string; summary: string; payload: string; log: { node: string; text: string }[] }
+  const HOSTS: Record<string, string> = { outside: 'Outside', github: 'GitHub', vps: 'VPS' };
+  const data: { nodes: NodeInfo[]; edges: EdgeInfo[] } = JSON.parse(document.getElementById('inspector-data')!.textContent!);
+  const nodeInfo = new Map(data.nodes.map(node => [node.id, node]));
+  const edgeInfo = new Map(data.edges.map(edge => [edge.id, edge]));
+
+  const svg = document.getElementById('arch') as unknown as SVGSVGElement;
+  const inspector = document.getElementById('inspector')!;
+  const nodeEls = [...svg.querySelectorAll<SVGGElement>('.node')];
+  const linkEls = [...svg.querySelectorAll<SVGGElement>('.link')];
+  const flowButtons = [...document.querySelectorAll<HTMLButtonElement>('button.seg[data-flow]')];
+
+  function el<K extends keyof HTMLElementTagNameMap>(tag: K, className?: string, text?: string) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+
+  function block(label: string, ...content: (Node | string)[]) {
+    const wrap = el('div', 'ins-col');
+    wrap.append(el('h3', 'ins-label', label), ...content.map(item => (typeof item === 'string' ? el('p', 'ins-text', item) : item)));
+    return wrap;
+  }
+
+  function chip(text: string) { return el('span', 'chip', text); }
+
+  function pick(button: HTMLElement, kind: 'node' | 'edge', id: string) {
+    button.addEventListener('click', () => select(kind, id));
+    return button;
+  }
+
+  function connections(nodeId: string) {
+    const list = el('ul', 'ins-links');
+    for (const edge of data.edges) {
+      if (edge.from !== nodeId && edge.to !== nodeId) continue;
+      const outgoing = edge.from === nodeId;
+      const other = nodeInfo.get(outgoing ? edge.to : edge.from)!;
+      const row = el('li');
+      const button = el('button', 'link-btn');
+      button.type = 'button';
+      button.append(el('span', 'dir', outgoing ? '→' : '←'), el('span', 'who', other.title), chip(edge.protocol));
+      row.append(pick(button, 'edge', edge.id));
+      list.append(row);
+    }
+    return list;
+  }
+
+  function renderNode(info: NodeInfo) {
+    const head = el('div', 'ins-head');
+    head.append(el('h2', 'ins-title', info.title), chip(HOSTS[info.host]), chip(`Ref ${info.cell}`), el('span', 'ins-tech', info.tech));
+    if (info.ref) head.append(el('code', 'ins-ref', info.ref));
+    const grid = el('div', 'ins-grid');
+    grid.append(block('What it does', info.role), block('Connections', connections(info.id)), block("Why it's built this way", info.why));
+    inspector.replaceChildren(head, grid);
+  }
+
+  function renderEdge(info: EdgeInfo) {
+    const head = el('div', 'ins-head');
+    const from = el('button', 'link-btn');
+    from.type = 'button';
+    from.textContent = nodeInfo.get(info.from)!.title;
+    const to = el('button', 'link-btn');
+    to.type = 'button';
+    to.textContent = nodeInfo.get(info.to)!.title;
+    head.append(pick(from, 'node', info.from), el('span', 'ins-arrow', '→'), pick(to, 'node', info.to), chip(info.protocol));
+    const flowLabel = flowButtons.find(button => button.dataset.flow === info.flow)?.textContent ?? info.flow;
+    head.append(el('span', 'ins-tech', `${flowLabel} · step ${info.step}`));
+    const logs = el('div', 'ins-log');
+    for (const line of info.log) {
+      const row = el('div', 'ln');
+      row.append(el('span', 'pfx', nodeInfo.get(line.node)!.tag), el('span', undefined, line.text));
+      logs.append(row);
+    }
+    const carries = el('code', 'ins-payload', info.payload);
+    const grid = el('div', 'ins-grid');
+    grid.append(block('What happens', info.summary), block('Carries', carries), block('Typically logs', logs));
+    inspector.replaceChildren(head, grid);
+  }
+
+  function select(kind: 'node' | 'edge', id: string, updateHash = true) {
+    const info = kind === 'node' ? nodeInfo.get(id) : edgeInfo.get(id);
+    if (!info) return;
+    const edge = kind === 'edge' ? edgeInfo.get(id)! : undefined;
+    for (const node of nodeEls) {
+      const nodeId = node.dataset.node!;
+      node.classList.toggle('sel', kind === 'node' && nodeId === id);
+      node.classList.toggle('conn', !!edge && (nodeId === edge.from || nodeId === edge.to));
+    }
+    for (const link of linkEls) {
+      const touches = kind === 'node' && (link.dataset.from === id || link.dataset.to === id);
+      link.classList.toggle('conn', touches);
+      link.classList.toggle('sel', kind === 'edge' && link.dataset.edge === id);
+    }
+    if (kind === 'node') renderNode(nodeInfo.get(id)!); else renderEdge(edgeInfo.get(id)!);
+    if (updateHash) history.replaceState(null, '', `#${id}`);
+  }
+
+  for (const node of nodeEls) {
+    const activate = () => select('node', node.dataset.node!);
+    node.addEventListener('click', activate);
+    node.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activate(); }
+    });
+  }
+  for (const link of linkEls) link.addEventListener('click', () => select('edge', link.dataset.edge!));
+  for (const badge of svg.querySelectorAll<SVGGElement>('.badge')) {
+    badge.addEventListener('click', () => select('edge', badge.dataset.edge!));
+  }
+
+  function setFlow(flow: string) {
+    svg.dataset.flow = flow;
+    for (const button of flowButtons) button.setAttribute('aria-pressed', String(button.dataset.flow === flow));
+  }
+  for (const button of flowButtons) button.addEventListener('click', () => setFlow(button.dataset.flow!));
+
+  const initial = location.hash.slice(1);
+  if (edgeInfo.has(initial)) select('edge', initial, false);
+  else select('node', nodeInfo.has(initial) ? initial : 'backend', false);
+  window.addEventListener('hashchange', () => {
+    const id = location.hash.slice(1);
+    if (edgeInfo.has(id)) select('edge', id, false);
+    else if (nodeInfo.has(id)) select('node', id, false);
+  });
+</script>
+
+<style is:global>
+  .headline { font-family: 'Archivo Wide', var(--font-display); font-stretch: 125%; font-weight: 600; letter-spacing: 0.01em; }
+  .reveal { animation: reveal 0.55s ease-out both; }
+  .reveal-2 { animation-delay: 0.08s; } .reveal-3 { animation-delay: 0.16s; } .reveal-4 { animation-delay: 0.24s; } .reveal-5 { animation-delay: 0.32s; }
+  @keyframes reveal { from { opacity: 0; transform: translateY(8px); } }
+  @media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
+
+  .rig { overflow: hidden; box-shadow: 0 0 0 4px var(--bg-primary), 0 0 0 5px var(--border); margin: 5px; }
+  .seg {
+    min-height: 2.25rem;
+    padding: 0.25rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    font: 500 0.75rem var(--font-display);
+    cursor: pointer;
+  }
+  .seg:hover { color: var(--text-primary); }
+  .seg[aria-pressed='true'] { color: var(--text-primary); border-color: var(--text-primary); }
+  .seg:focus-visible, .link-btn:focus-visible, #arch .node:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  #arch .grid { fill: url(#grid); }
+  #arch .gridref { font: 500 9px var(--font-display); fill: var(--text-muted); text-anchor: middle; letter-spacing: 0.08em; }
+  #arch .tick { stroke: var(--text-muted); stroke-opacity: 0.6; stroke-width: 1; }
+  #arch pattern circle { fill: var(--text-muted); fill-opacity: 0.2; }
+  #arch .zone { fill: none; stroke: var(--text-muted); stroke-opacity: 0.4; stroke-width: 1.2; stroke-dasharray: 4 5; }
+  #arch .cap { font: 500 10px var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; fill: var(--text-muted); }
+
+  #arch .node { cursor: pointer; outline: none; }
+  #arch .node rect { fill: var(--bg-primary); stroke: var(--text-muted); stroke-opacity: 0.5; stroke-width: 1; transition: stroke 0.15s, stroke-opacity 0.15s, fill 0.15s; }
+  #arch .node:hover rect { stroke: var(--text-primary); stroke-opacity: 0.9; }
+  #arch .node:focus-visible rect { stroke: var(--accent); stroke-opacity: 1; }
+  #arch .node.conn rect { stroke: var(--accent); stroke-opacity: 0.7; }
+  #arch .node.sel rect { stroke: var(--accent); stroke-opacity: 1; stroke-width: 1.6; fill: color-mix(in srgb, var(--accent) 7%, var(--bg-primary)); }
+  #arch .nt { font: 600 13px var(--font-body); fill: var(--text-primary); }
+  #arch .ns { font: 400 11px var(--font-body); fill: var(--text-secondary); }
+  #arch .nr { font: 400 9.5px var(--font-display); fill: var(--text-muted); }
+
+  #arch marker path { fill: var(--text-muted); }
+  #arch marker#arrow-hot path { fill: var(--accent); }
+  #arch .edge { fill: none; stroke: var(--text-muted); stroke-opacity: 0.55; stroke-width: 1.4; stroke-linecap: round; marker-end: url(#arrow); transition: stroke-opacity 0.15s; }
+  #arch .edge.optional { stroke-dasharray: 3 4; }
+  #arch .hit { fill: none; stroke: transparent; stroke-width: 16; cursor: pointer; pointer-events: stroke; }
+  #arch .link:hover .edge { stroke: var(--text-primary); stroke-opacity: 0.9; }
+  #arch .link.conn .edge { stroke: var(--accent); stroke-opacity: 0.9; stroke-width: 2; marker-end: url(#arrow-hot); }
+  #arch .link.sel .edge { stroke: var(--accent); stroke-opacity: 1; stroke-width: 2.6; marker-end: url(#arrow-hot); }
+  #arch[data-flow]:not([data-flow='all']) .link:not(.sel):not(.conn) .edge { stroke-opacity: 0.18; }
+  #arch[data-flow='run'] .link[data-flow='run'] .edge,
+  #arch[data-flow='deploy'] .link[data-flow='deploy'] .edge,
+  #arch[data-flow='visit'] .link[data-flow='visit'] .edge { stroke-opacity: 0.9; }
+
+  #arch .badge { display: none; cursor: pointer; }
+  #arch[data-flow='run'] .badge[data-flow='run'],
+  #arch[data-flow='deploy'] .badge[data-flow='deploy'],
+  #arch[data-flow='visit'] .badge[data-flow='visit'] { display: inline; }
+  #arch .badge circle { fill: var(--bg-primary); stroke: var(--text-primary); stroke-opacity: 0.7; stroke-width: 1.2; }
+  #arch .badge text { font: 600 11px var(--font-display); fill: var(--text-primary); text-anchor: middle; }
+
+  .inspector { min-height: 12.5rem; padding: 1.25rem 1.25rem 1.5rem; border-top: 1px solid var(--border); background: var(--bg-primary); }
+  .ins-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; margin-bottom: 1rem; }
+  .ins-title { font: 600 1.05rem var(--font-display); color: var(--text-primary); }
+  .ins-arrow { color: var(--text-muted); font-family: var(--font-display); }
+  .ins-tech { font-size: 0.8rem; color: var(--text-secondary); }
+  .ins-ref { font: 0.72rem var(--font-display); color: var(--text-muted); }
+  .chip { padding: 0.05rem 0.45rem; border: 1px solid var(--border); border-radius: 4px; font: 400 0.65rem var(--font-display); color: var(--text-muted); white-space: nowrap; }
+  .ins-grid { display: grid; gap: 1.5rem 2rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 800px) { .ins-grid { grid-template-columns: 1fr; } }
+  .ins-label { margin-bottom: 0.4rem; font: 500 0.65rem var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+  .ins-text { font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); }
+  .ins-payload { font: 0.8rem var(--font-display); color: var(--text-primary); }
+  .ins-links { display: grid; gap: 0.15rem; margin: 0; padding: 0; list-style: none; }
+  .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.2rem 0.4rem; margin-left: -0.4rem; border: 0; border-radius: 4px; background: none; color: var(--text-primary); font: 500 0.82rem var(--font-body); cursor: pointer; text-align: left; }
+  .link-btn:hover { background: var(--bg-secondary); }
+  .link-btn .dir { color: var(--accent); font-family: var(--font-display); }
+  .ins-head .link-btn { margin-left: 0; padding-left: 0; font: 600 1.05rem var(--font-display); }
+  .ins-log { display: grid; gap: 0.2rem; font: 0.75rem/1.5 var(--font-display); color: var(--text-secondary); }
+  .ins-log .ln { display: flex; gap: 0.75rem; }
+  .ins-log .pfx { flex: none; width: 4.2rem; color: var(--text-muted); text-align: right; }
+</style>
