@@ -16,8 +16,10 @@ from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
 from boringhannover.date_parsing import log_unknown_month, lookup_german_month
 from boringhannover.models import Event
 from boringhannover.occasions import (
+    Admission,
     OccasionDefinition,
     Occurrence,
+    Place,
     ScheduleConfidence,
     SourceStatus,
 )
@@ -63,6 +65,15 @@ _LOOSE_DATE = (
     r"(?:(?P<{p}month>\d{{1,2}})\.|(?P<{p}month_name>[a-zäöü]+))"
     r"\s*(?P<{p}year>\d{{4}})?"
 )
+# The last two Ort lines of a postal address: "Straße 1A" and "30169 Hannover".
+_POSTAL_LINE = re.compile(r"(?P<postal_code>\d{5})\s+(?P<locality>\S.*)")
+# One entry price, "3 €", "3,50 €" or "€ 3"; anything qualified is unreadable.
+_PRICE = re.compile(
+    r"(?:(?P<euros>\d+)(?:[.,](?P<cents>\d{1,2}))?\s*€"
+    r"|€\s*(?P<euros_after>\d+)(?:[.,](?P<cents_after>\d{1,2}))?)"
+)
+_FREE_PRICES = frozenset({"frei", "kostenlos", "eintritt frei"})
+_FREE_ENTRY_STATEMENT = "Dies ist eine Veranstaltung mit freiem Eintritt"
 # An explicit dated move: "vom 30. Juni auf den 12. Juli 2026 verschoben".
 _RESCHEDULE_PATTERN = re.compile(
     rf"\bvom\s+{_LOOSE_DATE.format(p='old_')}\s+auf\s+(?:den\s+)?"
@@ -382,6 +393,8 @@ class HannoverFestivalCalendarSource(BaseSource):
             location=occasion.location or cls._parse_detail_location(html),
             source_status=source_status or occasion.source_status,
             previous_start_date=previous_start_date,
+            place=cls._parse_detail_place(html) or occasion.place,
+            admission=cls._parse_detail_admission(html) or occasion.admission,
         )
 
     @classmethod
@@ -601,13 +614,77 @@ class HannoverFestivalCalendarSource(BaseSource):
     @classmethod
     def _parse_detail_location(cls, html: str) -> str:
         """Return the official detail-page Ort row as one address line."""
+        return ", ".join(cls._ort_lines(html))
+
+    @classmethod
+    def _parse_detail_place(cls, html: str) -> Place | None:
+        """Return the Ort row as a postal address, or None if it is not one.
+
+        The row reads [venue,] street with a house number, "PLZ locality".
+        A venue name alone is not an address, so it gets no directions.
+        """
+        lines = cls._ort_lines(html)
+        if len(lines) < 2:
+            return None
+        postal = _POSTAL_LINE.fullmatch(lines[-1])
+        street = lines[-2]
+        if postal is None or not any(character.isdigit() for character in street):
+            return None
+        return Place(
+            street=street,
+            postal_code=postal["postal_code"],
+            locality=postal["locality"],
+            venue=" ".join(lines[:-2]),
+        )
+
+    @classmethod
+    def _parse_detail_admission(cls, html: str) -> tuple[Admission, ...]:
+        """Read official entry prices in source order.
+
+        Prices are a nested table under the Termine and Ort rows; a free
+        event says so in one sentence instead. One unreadable row makes the
+        whole entry unknown, so a condition is never dropped from a price.
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        admission: list[Admission] = []
+        for row in soup.select(".details-table .table.details-table .detail-row"):
+            cells = row.select(".detail-cell")
+            label = cls._text(cells[0]) if len(cells) == 2 else ""
+            price = cls._price(cls._text(cells[1])) if label else None
+            if price is None:
+                return ()
+            admission.append(Admission(price=price, label=label))
+        if admission:
+            return tuple(admission)
+        if any(
+            cls._text(statement).rstrip(".") == _FREE_ENTRY_STATEMENT
+            for statement in soup.select(".details-table > p")
+        ):
+            return (Admission(price="free"),)
+        return ()
+
+    @staticmethod
+    def _price(value: str) -> str | None:
+        """Normalize one listed price to "free" or English "€3.50" notation."""
+        if value.casefold() in _FREE_PRICES:
+            return "free"
+        match = _PRICE.fullmatch(value)
+        if match is None:
+            return None
+        euros = int(match["euros"] or match["euros_after"])
+        cents = match["cents"] or match["cents_after"]
+        return f"€{euros}.{cents.ljust(2, '0')}" if cents else f"€{euros}"
+
+    @classmethod
+    def _ort_lines(cls, html: str) -> list[str]:
+        """Return the official Ort row's lines, whitespace-normalized."""
         cell = cls._detail_cell(html, "ort")
         if cell is None:
-            return ""
+            return []
         for line_break in cell.find_all("br"):
             line_break.replace_with("\n")
         lines = (" ".join(line.split()) for line in cell.get_text(" ").split("\n"))
-        return ", ".join(line for line in lines if line)
+        return [line for line in lines if line]
 
     @classmethod
     def _detail_cell(cls, html: str, label: str) -> Tag | None:

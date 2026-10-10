@@ -97,6 +97,73 @@ function isFinalWeekend(schedule: OccasionSchedule, today: string): boolean {
   );
 }
 
+/** Confirmed occurrences, only for a parsed schedule (the schema agrees). */
+function confirmedOccurrences(schedule: OccasionSchedule) {
+  const parsed =
+    schedule.scheduleConfidence === 'continuous' ||
+    schedule.scheduleConfidence === 'discrete';
+  return parsed ? schedule.occurrences ?? [] : [];
+}
+
+/** Occurrences not yet over at Berlin `today` and `minutes`. */
+function remainingOccurrences(
+  schedule: OccasionSchedule,
+  today: string,
+  minutes: number,
+) {
+  return confirmedOccurrences(schedule).filter(
+    (occurrence) =>
+      occurrence.date > today ||
+      (occurrence.date === today &&
+        !(occurrence.endTime && minutes >= minutesOf(occurrence.endTime))),
+  );
+}
+
+function hasEndedAt(
+  schedule: OccasionSchedule,
+  today: string,
+  minutes: number,
+): boolean {
+  if (today > schedule.endDate) return true;
+  const occurrences = confirmedOccurrences(schedule);
+  // The final confirmed appointment is over.
+  return (
+    occurrences.length > 0 &&
+    remainingOccurrences(schedule, today, minutes).length === 0 &&
+    occurrences.at(-1)!.date >= schedule.endDate
+  );
+}
+
+/**
+ * Whether the occasion is over at `now`, read from its dates alone. A source
+ * status (Rescheduled, Cancelled) wins the label but never keeps an
+ * occasion's actions or onward links alive past its end.
+ */
+export function occasionHasEnded(
+  schedule: OccasionSchedule,
+  now: Date,
+): boolean {
+  const { date, minutes } = berlinClock(now);
+  return hasEndedAt(schedule, date, minutes);
+}
+
+/**
+ * Whether the occasion still has dates ahead at `now`: not ended, and a
+ * sparse list cut at the export horizon has a date left.
+ */
+export function occasionIsCurrent(
+  schedule: OccasionSchedule,
+  now: Date,
+): boolean {
+  const { date, minutes } = berlinClock(now);
+  if (hasEndedAt(schedule, date, minutes)) return false;
+  return !(
+    schedule.scheduleConfidence === 'discrete' &&
+    confirmedOccurrences(schedule).length > 0 &&
+    remainingOccurrences(schedule, date, minutes).length === 0
+  );
+}
+
 /**
  * Build-time label for no-JS HTML. A static page can be served for days, so
  * it never uses the hour or relative days: only source status and whether the
@@ -127,30 +194,17 @@ export function occasionLabel(
   if (status) return status;
 
   const { date: today, minutes } = berlinClock(now);
-  if (today > schedule.endDate) return label('ended');
+  if (hasEndedAt(schedule, today, minutes)) return label('ended');
 
   // Occurrences count only for a parsed schedule; the schema enforces this
   // too, so a stray list cannot turn into On now.
-  const parsed =
-    schedule.scheduleConfidence === 'continuous' ||
-    schedule.scheduleConfidence === 'discrete';
-  const occurrences = parsed ? schedule.occurrences ?? [] : [];
-  const remaining = occurrences.filter(
-    (occurrence) =>
-      occurrence.date > today ||
-      (occurrence.date === today &&
-        !(occurrence.endTime && minutes >= minutesOf(occurrence.endTime))),
-  );
-  const next = remaining[0];
+  const occurrences = confirmedOccurrences(schedule);
+  const next = remainingOccurrences(schedule, today, minutes)[0];
   if (!next) {
-    if (occurrences.length) {
-      // The final confirmed appointment is over.
-      if (occurrences.at(-1)!.date >= schedule.endDate) return label('ended');
-      // The list was cut at the export horizon and this page is older than
-      // the next dates: a sparse schedule cannot claim it is running.
-      if (schedule.scheduleConfidence === 'discrete') {
-        return label('check_dates');
-      }
+    // The list was cut at the export horizon and this page is older than
+    // the next dates: a sparse schedule cannot claim it is running.
+    if (occurrences.length && schedule.scheduleConfidence === 'discrete') {
+      return label('check_dates');
     }
     return label(today < schedule.startDate ? 'upcoming' : 'running');
   }

@@ -7,6 +7,8 @@ import type {
   occasionOccurrenceSchema,
   scheduleConfidenceSchema,
   sourceStatusSchema,
+  occasionPlaceSchema,
+  occasionAdmissionSchema,
   occasionSummarySchema,
   occasionProgrammeSchema,
   eventMetaSchema,
@@ -20,6 +22,8 @@ export type OccasionStatus = z.infer<typeof occasionStatusSchema>;
 export type OccasionOccurrence = z.infer<typeof occasionOccurrenceSchema>;
 export type ScheduleConfidence = z.infer<typeof scheduleConfidenceSchema>;
 export type SourceStatus = z.infer<typeof sourceStatusSchema>;
+export type OccasionPlace = z.infer<typeof occasionPlaceSchema>;
+export type OccasionAdmission = z.infer<typeof occasionAdmissionSchema>;
 export type OccasionSummary = z.infer<typeof occasionSummarySchema>;
 export type OccasionProgramme = z.infer<typeof occasionProgrammeSchema>;
 export type EventMeta = z.infer<typeof eventMetaSchema>;

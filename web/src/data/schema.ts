@@ -67,6 +67,18 @@ export const sourceStatusSchema = z.enum([
   'postponed',
   'rescheduled',
 ]);
+// #54 detail-sheet facts, present only when the source states them.
+export const occasionPlaceSchema = z.object({
+  venue: z.string().optional(),
+  street: z.string().min(1),
+  postalCode: z.string().regex(/^\d{5}$/),
+  locality: z.string().min(1),
+  municipality: z.string().optional(),
+});
+export const occasionAdmissionSchema = z.object({
+  label: z.string().optional(),
+  price: z.union([z.literal('free'), z.string().regex(/^€\d+(\.\d{2})?$/)]),
+});
 export const occasionSummarySchema = z.object({
   id: z.string().min(1),
   slug: z.string().regex(/^[a-z0-9-]+$/),
@@ -89,6 +101,9 @@ export const occasionSummarySchema = z.object({
   hoursText: z.string().optional(),
   sourceStatus: sourceStatusSchema.optional(),
   previousStartDate: z.iso.date().optional(),
+  place: occasionPlaceSchema.optional(),
+  area: z.enum(['city', 'region']).optional(),
+  admission: z.array(occasionAdmissionSchema).optional(),
 }).refine(
   (occasion) =>
     !occasion.occurrences?.length ||
