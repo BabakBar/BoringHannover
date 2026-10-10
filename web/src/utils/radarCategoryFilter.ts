@@ -2,7 +2,7 @@ import type { Concert } from '../data/types';
 
 export const ALL_RADAR_CATEGORIES = 'all';
 
-export const RADAR_CATEGORIES = [
+const RADAR_CATEGORIES = [
   'Live Music',
   'Party',
   'Culture & Community',
@@ -13,10 +13,7 @@ export const RADAR_CATEGORIES = [
   'Food & Drink',
 ] as const;
 
-export type RadarCategory = (typeof RADAR_CATEGORIES)[number];
-export type RadarCategorySelection =
-  | RadarCategory
-  | typeof ALL_RADAR_CATEGORIES;
+type RadarCategory = (typeof RADAR_CATEGORIES)[number];
 
 export interface RadarCategoryOption {
   category: RadarCategory;

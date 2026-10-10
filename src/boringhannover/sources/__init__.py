@@ -1,23 +1,4 @@
-"""Source registry and autodiscovery for BoringHannover event sources.
-
-This package provides a plugin-based architecture for event sources.
-Each source is registered automatically when its module is imported.
-
-Usage:
-    from boringhannover.sources import get_all_sources, get_source
-
-    # Get all registered sources
-    sources = get_all_sources()
-
-    # Get a specific source by name
-    astor = get_source("astor_hannover")
-
-Adding a new source:
-    1. Create a new module in the appropriate subdirectory
-    2. Import BaseSource and register_source from boringhannover.sources.base
-    3. Decorate your source class with @register_source("source_name")
-    4. The source will be auto-discovered on import
-"""
+"""Source registry: importing this package registers every source module."""
 
 from __future__ import annotations
 
@@ -29,8 +10,6 @@ from pathlib import Path
 from boringhannover.sources.base import (
     BaseSource,
     get_all_sources,
-    get_source,
-    get_sources_by_type,
     register_source,
 )
 
@@ -39,8 +18,6 @@ __all__ = [
     "BaseSource",
     "discover_sources",
     "get_all_sources",
-    "get_source",
-    "get_sources_by_type",
     "register_source",
 ]
 
@@ -50,7 +27,7 @@ logger = logging.getLogger(__name__)
 def discover_sources() -> int:
     """Auto-import all source modules to trigger registration.
 
-    Scans subdirectories (cinema, concerts, theaters, etc.) and imports
+    Scans subdirectories (cinema, concerts, festivals, sports) and imports
     all Python modules found, which triggers the @register_source decorator.
 
     Returns:
@@ -63,9 +40,7 @@ def discover_sources() -> int:
     source_types = [
         "cinema",
         "concerts",
-        "theaters",
         "festivals",
-        "museums",
         "sports",
     ]
 

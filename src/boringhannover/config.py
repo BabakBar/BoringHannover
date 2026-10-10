@@ -25,7 +25,7 @@ ASTOR_API_URL: Final[str] = "https://backend.premiumkino.de/v1/de/hannover/progr
 REQUEST_TIMEOUT_SECONDS: Final[float] = 30.0
 """HTTP request timeout in seconds."""
 
-# BS-4: Rate limiting configuration
+# Rate limiting configuration
 SCRAPE_DELAY_SECONDS: Final[float] = 1.0
 """Delay between scraping different sources to avoid IP blocks."""
 

@@ -1,11 +1,7 @@
-# =============================================================================
 # BoringHannover Backend Dockerfile
 # Multi-stage build for Python 3.14 with uv package manager
-# =============================================================================
 
-# -----------------------------------------------------------------------------
 # Stage 1: Build environment
-# -----------------------------------------------------------------------------
 FROM python:3.14-slim-trixie AS builder
 
 # Install uv - pinned version for reproducibility
@@ -26,9 +22,7 @@ COPY src/ ./src/
 # Install the project itself
 RUN uv sync --frozen --no-dev
 
-# -----------------------------------------------------------------------------
 # Stage 2: Runtime environment
-# -----------------------------------------------------------------------------
 FROM python:3.14-slim-trixie AS runtime
 
 # Security: Create non-root user
@@ -80,8 +74,7 @@ ENV PATH="/app/.venv/bin:$PATH" \
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import boringhannover; print('OK')" || exit 1
 
-# Keep container alive - actual scraping done by Coolify scheduled task
-# Scheduled task runs: Monday 5 PM (0 17 * * 1)
+# Keep container alive - actual scraping done by Coolify scheduled tasks
 CMD ["tail", "-f", "/dev/null"]
 
 # Labels for container metadata

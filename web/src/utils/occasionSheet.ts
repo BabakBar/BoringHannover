@@ -59,7 +59,7 @@ function hours({ startTime, endTime }: OccasionOccurrence): string | null {
     : `from ${formatEventTime(startTime)}`;
 }
 
-export interface Appointment {
+interface Appointment {
   date: string;
   datetime: string;
   text: string;

@@ -2,7 +2,7 @@ import type { Concert } from '../data/types';
 
 export const ALL_GENRES = 'all';
 
-export const CANONICAL_GENRES = [
+const CANONICAL_GENRES = [
   'Rock',
   'Punk / Hardcore',
   'Metal',
@@ -15,7 +15,6 @@ export const CANONICAL_GENRES = [
 ] as const;
 
 export type CanonicalGenre = (typeof CANONICAL_GENRES)[number];
-export type GenreSelection = CanonicalGenre | typeof ALL_GENRES;
 
 export interface GenreOption {
   genre: CanonicalGenre;

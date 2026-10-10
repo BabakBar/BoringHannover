@@ -1,6 +1,6 @@
 import type { Side } from '../utils/diagram';
 
-export type Host = 'outside' | 'github' | 'vps';
+type Host = 'outside' | 'github' | 'vps';
 
 
 export interface Node {

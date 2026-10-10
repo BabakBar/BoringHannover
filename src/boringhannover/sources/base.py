@@ -3,7 +3,7 @@
 This module provides:
 - BaseSource: Abstract base class for all event sources
 - @register_source: Decorator for automatic source registration
-- Registry functions: get_source, get_all_sources, get_sources_by_type
+- Registry function: get_all_sources
 
 Example:
     @register_source("my_venue")
@@ -42,8 +42,6 @@ __all__ = [
     "BaseSource",
     "create_http_client",
     "get_all_sources",
-    "get_source",
-    "get_sources_by_type",
     "is_original_version",
     "parse_german_date",
     "parse_venue_date",
@@ -87,24 +85,6 @@ def register_source(name: str) -> Callable[[type[T]], type[T]]:
     return decorator
 
 
-def get_source(name: str) -> type[BaseSource]:
-    """Get a source class by its registered name.
-
-    Args:
-        name: The registered source name.
-
-    Returns:
-        The source class.
-
-    Raises:
-        KeyError: If source is not found.
-    """
-    if name not in _REGISTRY:
-        available = ", ".join(_REGISTRY.keys())
-        raise KeyError(f"Source '{name}' not found. Available: {available}")
-    return _REGISTRY[name]
-
-
 def get_all_sources() -> dict[str, type[BaseSource]]:
     """Get all registered sources.
 
@@ -112,20 +92,6 @@ def get_all_sources() -> dict[str, type[BaseSource]]:
         Dictionary mapping source names to source classes.
     """
     return _REGISTRY.copy()
-
-
-def get_sources_by_type(source_type: str) -> dict[str, type[BaseSource]]:
-    """Get all sources of a specific type.
-
-    Args:
-        source_type: Type to filter by (e.g., "cinema", "concert").
-
-    Returns:
-        Dictionary of matching sources.
-    """
-    return {
-        name: cls for name, cls in _REGISTRY.items() if cls.source_type == source_type
-    }
 
 
 class BaseSource(ABC):
