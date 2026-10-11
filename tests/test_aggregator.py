@@ -8,6 +8,7 @@ import pytest
 
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.occasions import OccasionDefinition, occasion_lifecycle
 from boringhannover.sources.base import BaseSource
@@ -117,3 +118,40 @@ def test_window_runs_through_the_end_of_berlin_day_14(
     assert last_day == now.date() + timedelta(days=EVENT_LOOKAHEAD_DAYS)
     assert occasion_lifecycle(one_day_occasion(EVENT_LOOKAHEAD_DAYS), now) is not None
     assert occasion_lifecycle(one_day_occasion(EVENT_LOOKAHEAD_DAYS + 1), now) is None
+
+
+def test_date_only_events_stay_listed_for_their_whole_berlin_day() -> None:
+    """A fallback time is a placeholder, so it never expires an event early."""
+    now = berlin(2026, 10, 11, 20, 1)  # the Sunday-evening scrape
+
+    class StaticSource(BaseSource):
+        source_name = "Static"
+        source_type = "concert"
+
+        def fetch(self) -> list[Event]:
+            return [
+                Event(
+                    title=title,
+                    date=when,
+                    venue="Venue",
+                    url="https://example.com",
+                    category="radar",
+                    metadata={"time_confidence": confidence},
+                )
+                for title, when, confidence in [
+                    ("all day", berlin(2026, 10, 11, 12, 0), FALLBACK_TIME),
+                    ("date only", berlin(2026, 10, 11, 20, 0), FALLBACK_TIME),
+                    ("started", berlin(2026, 10, 11, 20, 0), CONFIRMED_TIME),
+                    ("yesterday", berlin(2026, 10, 10, 20, 0), FALLBACK_TIME),
+                    ("day 14", berlin(2026, 10, 25, 20, 0), FALLBACK_TIME),
+                    ("day 15", berlin(2026, 10, 26, 20, 0), FALLBACK_TIME),
+                ]
+            ]
+
+    result = fetch_all_events(sources={"static": StaticSource}, now=now)
+
+    assert [event.title for event in result["big_events_radar"]] == [
+        "all day",
+        "date only",
+        "day 14",
+    ]

@@ -14,7 +14,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING, Any, ClassVar
 
 from boringhannover.constants import BERLIN_TZ
-from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME, has_started
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
@@ -197,8 +197,9 @@ class GlockseeSource(BaseSource):
                 else CONFIRMED_TIME
             )
 
-            # Skip past events
-            if event_date < now:
+            if has_started(
+                event_date, now, fallback_time=time_confidence == FALLBACK_TIME
+            ):
                 return None
 
             # Build event URL

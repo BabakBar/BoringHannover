@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, ClassVar
 from bs4 import BeautifulSoup
 
 from boringhannover.constants import BERLIN_TZ
-from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME, has_started
 from boringhannover.models import Event
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
@@ -90,7 +90,11 @@ class PunkrockKonzerteSource(BaseSource):
         return events
 
     def _parse_events(
-        self, soup: BeautifulSoup, client: Client | None = None
+        self,
+        soup: BeautifulSoup,
+        client: Client | None = None,
+        *,
+        now: datetime | None = None,
     ) -> list[Event]:
         """Parse all events from the Hannover listings page.
 
@@ -101,11 +105,12 @@ class PunkrockKonzerteSource(BaseSource):
             List of parsed Event objects.
         """
         events: list[Event] = []
+        reference = now or datetime.now(BERLIN_TZ)
 
         for row in soup.select(
             "div.row[itemscope][itemtype='http://schema.org/Event']"
         ):
-            event = self._parse_event(row, client)
+            event = self._parse_event(row, reference, client)
             if event:
                 events.append(event)
                 if self.max_events and len(events) >= self.max_events:
@@ -113,7 +118,9 @@ class PunkrockKonzerteSource(BaseSource):
 
         return events
 
-    def _parse_event(self, row: Tag, client: Client | None = None) -> Event | None:
+    def _parse_event(
+        self, row: Tag, now: datetime, client: Client | None = None
+    ) -> Event | None:
         """Parse a single event row.
 
         Args:
@@ -131,7 +138,9 @@ class PunkrockKonzerteSource(BaseSource):
             if not event_date:
                 return None
 
-            if event_date < datetime.now(BERLIN_TZ):
+            if has_started(
+                event_date, now, fallback_time=time_confidence == FALLBACK_TIME
+            ):
                 return None
 
             venue = self._normalize_venue(self._extract_venue(row)) or self.source_name

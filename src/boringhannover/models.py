@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from typing import Literal
 
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import FALLBACK_TIME, has_started
 
 
 __all__ = ["Event", "EventCategory", "EventMetadata"]
@@ -104,7 +105,7 @@ class Event:
 
         The window ends with Berlin day today+N, like City Occasions, so a
         late event on the last day counts. An event that has already started
-        is out, as before; a date-only event's fallback time decides that.
+        is out; a date-only event stays in for its whole Berlin day.
 
         Args:
             days: Lookahead window in days.
@@ -118,4 +119,9 @@ class Event:
 
         current = (now or datetime.now(BERLIN_TZ)).astimezone(BERLIN_TZ)
         last_day = current.date() + timedelta(days=days)
-        return current <= self.date and self.date.date() <= last_day
+        started = has_started(
+            self.date,
+            current,
+            fallback_time=self.metadata.get("time_confidence") == FALLBACK_TIME,
+        )
+        return not started and self.date.date() <= last_day
