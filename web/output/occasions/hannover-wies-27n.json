@@ -1,28 +1,23 @@
 {
   "meta": {
-    "updatedAt": "Sat 10 Oct 00:19"
+    "updatedAt": "Sun 11 Oct 20:00"
   },
   "occasion": {
     "id": "hannover-festivals:hannover-wies-27n",
     "slug": "hannover-wies-27n",
     "name": "Hannover Wies'n",
     "kind": "festival",
-    "startDate": "2026-10-09",
+    "startDate": "2026-10-16",
     "endDate": "2026-11-07",
     "location": "Parkbühne",
-    "description": "Zum siebten Mal gibt es wieder Gaudi, Musik und zünftige Kost im Festzelt auf der Gilde Parkbühne bei der Hannover Wies'n.",
-    "imageUrl": "https://www.hannover.de/var/storage/images/_aliases/full/media/01-data-neu/bilder/hmtg/meldungen/2018/2018_10/hannover-wiesn/16983185-3-ger-DE/Hannover-Wiesn.jpg.webp",
+    "description": "Hannover Wies'n at Parkbühne. See the source for details.",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Hannover-Wies%27n",
-    "status": "happening_now",
+    "status": "upcoming",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/hannover-wies-27n.json",
     "preview": [],
     "occurrences": [
-      {
-        "date": "2026-10-10",
-        "startTime": "18:00"
-      },
       {
         "date": "2026-10-16",
         "startTime": "18:00"
@@ -40,7 +35,15 @@
         "startTime": "18:00"
       }
     ],
-    "scheduleConfidence": "discrete"
+    "scheduleConfidence": "discrete",
+    "place": {
+      "venue": "Parkbühne",
+      "street": "Ferdinand-Wilhelm-Fricke-Weg 8",
+      "postalCode": "30169",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
   },
   "programme": []
 }
