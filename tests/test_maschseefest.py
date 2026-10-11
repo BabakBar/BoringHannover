@@ -5,12 +5,18 @@ from __future__ import annotations
 import json
 from datetime import date, datetime
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from bs4 import BeautifulSoup
 
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.event_time import CONFIRMED_TIME
+from boringhannover.sources.base import create_http_client
 from boringhannover.sources.festivals.maschseefest import MaschseefestSource
+
+
+if TYPE_CHECKING:
+    from conftest import LocalSite
 
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -132,3 +138,36 @@ def test_to_event_uses_safe_fallbacks_without_inventing_a_start_time() -> None:
     assert event.date == datetime(2026, 8, 9, 12, 0, tzinfo=BERLIN_TZ)
     assert event.venue == "Maschseefest"
     assert event.metadata["time_confidence"] == "fallback"
+
+
+def test_programme_keeps_a_late_event_on_the_last_day_of_the_window(
+    local_site: LocalSite,
+) -> None:
+    """A 21:00 concert on day 14 is in for a run at 10:00 on day 0 (#45)."""
+    local_site.pages["/veranstaltungen/"] = (
+        200,
+        (FIXTURES / "maschseefest_programme.html").read_text(encoding="utf-8"),
+    )
+
+    class LocalMaschseefest(MaschseefestSource):
+        PROGRAMME_URL = f"{local_site.url}/veranstaltungen/"
+
+    inventory = {
+        "https://www.maschseefest.de/veranstaltungen/country-night-mit-sascha-salvati/": (
+            "Country Night mit Sascha Salvati"
+        ),
+        "https://www.maschseefest.de/veranstaltungen/np-sommerfestival-10/": (
+            "NP-Sommerfestival"
+        ),
+    }
+    now = datetime(2026, 7, 17, 10, 0, tzinfo=BERLIN_TZ)
+    with create_http_client() as client:
+        events = LocalMaschseefest()._fetch_programme(client, inventory, now)
+
+    # NP-Sommerfestival (9 Aug) is beyond the window.
+    assert [(event.title, event.date) for event in events] == [
+        (
+            "Country Night mit Sascha Salvati",
+            datetime(2026, 7, 31, 21, 0, tzinfo=BERLIN_TZ),
+        )
+    ]

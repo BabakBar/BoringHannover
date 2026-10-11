@@ -11,10 +11,12 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+from datetime import datetime
 from typing import NoReturn, cast
 
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.backup import backup_run
+from boringhannover.constants import BERLIN_TZ
 from boringhannover.github_sync import should_sync, sync_web_data_to_github
 from boringhannover.output import EventsData, export_run
 
@@ -67,8 +69,10 @@ def run(*, local: bool = False) -> bool:
             logger.info("Running in local mode (GitHub sync disabled)")
         logger.info("Fetching events from all sources...")
 
-        # Step 1: Gather all events
-        events_data = fetch_all_events()
+        # Step 1: Gather all events. One clock for the run, so events and
+        # occasions share the same 14-day window.
+        now = datetime.now(BERLIN_TZ)
+        events_data = fetch_all_events(now=now)
 
         # Log summary
         movies_count = len(events_data.get("movies_this_week", []))
@@ -80,7 +84,7 @@ def run(*, local: bool = False) -> bool:
 
         # Step 2: Export to files
         logger.info("Exporting data...")
-        export_run(cast("EventsData", events_data))
+        export_run(cast("EventsData", events_data), now=now)
 
         # Step 3: Back up, then sync data to GitHub. A production run that
         # scrapes but does not publish is a failed run: the site keeps serving

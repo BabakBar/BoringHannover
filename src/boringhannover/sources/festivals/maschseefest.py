@@ -88,14 +88,13 @@ class MaschseefestSource(BaseSource):
             logger.info("%s is outside its active 2026 season", self.source_name)
             return []
 
-        cutoff = now + timedelta(days=EVENT_LOOKAHEAD_DAYS)
         with create_http_client() as client:
             inventory = self._fetch_inventory(client)
             if not inventory:
                 logger.warning("%s REST inventory is empty", self.source_name)
                 return []
 
-            events = self._fetch_programme(client, inventory, now, cutoff)
+            events = self._fetch_programme(client, inventory, now)
 
         events.sort(key=lambda event: event.date)
         logger.info("Found %d events from %s", len(events), self.source_name)
@@ -171,9 +170,9 @@ class MaschseefestSource(BaseSource):
         client: httpx.Client,
         inventory: dict[str, str],
         now: datetime,
-        cutoff: datetime,
     ) -> list[Event]:
         """Fetch sorted programme pages and enrich incomplete cards."""
+        last_day = now.date() + timedelta(days=EVENT_LOOKAHEAD_DAYS)
         events: list[Event] = []
         seen_urls: set[str] = set()
         page = 1
@@ -195,19 +194,19 @@ class MaschseefestSource(BaseSource):
                     continue
 
                 event_day = entry.date
-                if event_day is None or not (now.date() <= event_day <= cutoff.date()):
+                if event_day is None or not (now.date() <= event_day <= last_day):
                     continue
 
                 if self._needs_detail(entry):
                     entry = self._fetch_detail(client, entry)
 
                 event = self._to_event(entry)
-                if now <= event.date <= cutoff:
+                if event.is_within_next_days(EVENT_LOOKAHEAD_DAYS, now=now):
                     events.append(event)
                     seen_urls.add(entry.url)
 
             if dated_entries and all(
-                entry.date is not None and entry.date > cutoff.date()
+                entry.date is not None and entry.date > last_day
                 for entry in dated_entries
             ):
                 break

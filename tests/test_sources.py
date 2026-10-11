@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup
 
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
+from boringhannover.sources.base import create_http_client
 from boringhannover.sources.cinema.apollokino import ApollokinoSource
 from boringhannover.sources.cinema.astor import AstorSource
 from boringhannover.sources.concerts.broncos import BroncosSource
@@ -190,6 +191,34 @@ class TestApollokino:
         assert {"role": "Darsteller", "name": "Roy Scheider"} in meta["cast"]
         assert "Steven Spiebergs Hai-Blockbuster" in meta["synopsis"]
         assert "Lexikon des internationalen Films" in meta["synopsis"]
+
+    def test_fetches_details_for_a_late_show_on_the_last_day(
+        self, local_site: LocalSite
+    ) -> None:
+        """A 22:30 show on day 14 gets its details for a run at 10:00 (#45)."""
+        local_site.pages["/"] = (
+            200,
+            (FIXTURES / "apollokino_detail.html").read_text(encoding="utf-8"),
+        )
+
+        class LocalApollokino(ApollokinoSource):
+            PAGE_URL = f"{local_site.url}/?mp=OmU-Nachtstudio"
+
+        row = BeautifulSoup(
+            '<table><tr><td><a href="/?v=&film=filme/00005138">'
+            '<h2 class="filmtitel">22:30: THE MASTERMIND</h2></a>'
+            '<div class="filmanmerkung">OmU-Nachtstudio</div></td></tr></table>',
+            "html.parser",
+        ).find("tr")
+        now = datetime(2025, 12, 16, 10, 0, tzinfo=BERLIN_TZ)
+        with create_http_client() as client:
+            event = LocalApollokino()._parse_row(
+                row, datetime(2025, 12, 30, tzinfo=BERLIN_TZ), client, now
+            )
+
+        assert event is not None
+        assert event.date == datetime(2025, 12, 30, 22, 30, tzinfo=BERLIN_TZ)
+        assert event.metadata["duration"] == 124
 
     def test_failed_detail_fetch_degrades_to_no_metadata(
         self, local_site: LocalSite
