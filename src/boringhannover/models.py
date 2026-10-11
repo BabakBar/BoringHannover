@@ -99,18 +99,23 @@ class Event:
                 msg = f"Invalid URL scheme: {self.url[:50]}"
                 raise ValueError(msg)
 
-    def is_within_next_days(self, days: int) -> bool:
-        """Check if event occurs within the next N days (inclusive).
+    def is_within_next_days(self, days: int, *, now: datetime | None = None) -> bool:
+        """Check if event occurs within the next N Berlin calendar days (inclusive).
+
+        The window ends with Berlin day today+N, like City Occasions, so a
+        late event on the last day counts. An event that has already started
+        is out, as before; a date-only event's fallback time decides that.
 
         Args:
             days: Lookahead window in days.
+            now: The run's clock; defaults to the current time.
 
         Returns:
-            True if event date is between now and now + days.
+            True if the event starts from now through the end of day today+N.
         """
         if days < 0:
             return False
 
-        today = datetime.now(BERLIN_TZ)
-        cutoff = today + timedelta(days=days)
-        return today <= self.date <= cutoff
+        current = (now or datetime.now(BERLIN_TZ)).astimezone(BERLIN_TZ)
+        last_day = current.date() + timedelta(days=days)
+        return current <= self.date and self.date.date() <= last_day

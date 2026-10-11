@@ -1,12 +1,15 @@
-"""Sources may emit naive datetimes; they are read as Berlin local time."""
+"""Aggregation keeps events in whole Berlin calendar days, read as Berlin time."""
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
+
+import pytest
 
 from boringhannover.aggregator import fetch_all_events
-from boringhannover.constants import BERLIN_TZ
+from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
 from boringhannover.models import Event
+from boringhannover.occasions import OccasionDefinition, occasion_lifecycle
 from boringhannover.sources.base import BaseSource
 
 
@@ -24,9 +27,47 @@ def test_event_normalizes_naive_datetime_to_berlin_tz() -> None:
     assert (event.date.hour, event.date.minute) == (19, 30)
 
 
-def test_handles_naive_datetimes_from_sources() -> None:
-    """Sources may emit naive datetimes; aggregation should not crash."""
-    today = datetime.now(BERLIN_TZ)
+def berlin(year: int, month: int, day: int, hour: int, minute: int) -> datetime:
+    return datetime(year, month, day, hour, minute, tzinfo=BERLIN_TZ)
+
+
+# Day 14 of each clock is a hard case: the autumn and spring clock changes,
+# and a horizon that crosses New Year. ``inside`` is in chronological order.
+@pytest.mark.parametrize(
+    ("now", "inside", "outside"),
+    [
+        pytest.param(
+            berlin(2026, 10, 11, 9, 0),
+            [
+                berlin(2026, 10, 11, 20, 0),
+                datetime(2026, 10, 25, 0, 30),  # noqa: DTZ001 - naive is Berlin
+                datetime(2026, 10, 25, 22, 30, tzinfo=UTC),  # 23:30 in Berlin
+            ],
+            [
+                berlin(2026, 10, 11, 8, 0),  # already started
+                datetime(2026, 10, 25, 23, 30, tzinfo=UTC),  # 00:30 on day 15
+                datetime(2026, 10, 26, 0, 0),  # noqa: DTZ001
+            ],
+            id="autumn-clock-change-on-day-14",
+        ),
+        pytest.param(
+            berlin(2026, 3, 15, 23, 0),
+            [berlin(2026, 3, 15, 23, 30), berlin(2026, 3, 29, 23, 59)],
+            [berlin(2026, 3, 30, 0, 0)],
+            id="spring-clock-change-on-day-14",
+        ),
+        pytest.param(
+            berlin(2026, 12, 21, 12, 0),
+            [berlin(2027, 1, 4, 23, 0)],
+            [berlin(2026, 12, 21, 11, 59), berlin(2027, 1, 5, 0, 0)],
+            id="year-rollover",
+        ),
+    ],
+)
+def test_window_runs_through_the_end_of_berlin_day_14(
+    now: datetime, inside: list[datetime], outside: list[datetime]
+) -> None:
+    """Movies and Radar keep today..today+14 inclusive, like City Occasions."""
 
     class StaticSource(BaseSource):
         source_name = "Static"
@@ -35,22 +76,44 @@ def test_handles_naive_datetimes_from_sources() -> None:
         def fetch(self) -> list[Event]:
             return [
                 Event(
-                    title="Movie",
-                    date=(today + timedelta(days=1)).replace(tzinfo=None),
+                    title=f"{category} {when.isoformat()}",
+                    date=when,
                     venue="Venue",
                     url="https://example.com",
-                    category="movie",
-                ),
-                Event(
-                    title="Concert",
-                    date=(today + timedelta(days=8)).replace(tzinfo=None),
-                    venue="Venue",
-                    url="https://example.com",
-                    category="radar",
-                ),
+                    category=category,
+                )
+                for when in [*outside, *inside]
+                for category in ("movie", "radar")
             ]
 
-    result = fetch_all_events(sources={"static": StaticSource})
+    result = fetch_all_events(sources={"static": StaticSource}, now=now)
 
-    assert [e.title for e in result["movies_this_week"]] == ["Movie"]
-    assert [e.title for e in result["big_events_radar"]] == ["Concert"]
+    assert [event.title for event in result["movies_this_week"]] == [
+        f"movie {when.isoformat()}" for when in inside
+    ]
+    assert [event.title for event in result["big_events_radar"]] == [
+        f"radar {when.isoformat()}" for when in inside
+    ]
+
+    # The same clock lists a one-day occasion on day 14, not one on day 15.
+    def one_day_occasion(offset: int) -> OccasionDefinition:
+        day = now.date() + timedelta(days=offset)
+        return OccasionDefinition(
+            id=f"test:{day}",
+            slug=f"test-{day}",
+            name="Fest",
+            kind="festival",
+            start_date=day,
+            end_date=day,
+            location="Venue",
+            source_url="https://example.com",
+            description="",
+        )
+
+    last = inside[-1]
+    last_day = (
+        last.astimezone(BERLIN_TZ) if last.tzinfo else last.replace(tzinfo=BERLIN_TZ)
+    ).date()
+    assert last_day == now.date() + timedelta(days=EVENT_LOOKAHEAD_DAYS)
+    assert occasion_lifecycle(one_day_occasion(EVENT_LOOKAHEAD_DAYS), now) is not None
+    assert occasion_lifecycle(one_day_occasion(EVENT_LOOKAHEAD_DAYS + 1), now) is None

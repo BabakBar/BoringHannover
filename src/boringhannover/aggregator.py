@@ -14,10 +14,11 @@ from __future__ import annotations
 
 import logging
 import time
+from datetime import datetime
 from typing import TYPE_CHECKING
 
 from boringhannover.config import SCRAPE_DELAY_SECONDS
-from boringhannover.constants import EVENT_LOOKAHEAD_DAYS
+from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
 from boringhannover.sources import get_all_sources
 
 
@@ -35,6 +36,8 @@ logger = logging.getLogger(__name__)
 
 def fetch_all_events(
     sources: Mapping[str, type[BaseSource]] | None = None,
+    *,
+    now: datetime | None = None,
 ) -> dict[str, list[Event] | list[OccasionDefinition]]:
     """Fetch and categorize events from all registered sources.
 
@@ -47,6 +50,7 @@ def fetch_all_events(
 
     Args:
         sources: Sources to fetch from; defaults to every registered source.
+        now: The clock both windows share; defaults to after fetching.
 
     Returns:
         Dictionary with categorized event lists.
@@ -123,15 +127,20 @@ def fetch_all_events(
             # Continue with other sources - graceful degradation
             source_count += 1  # Still count failed sources for rate limiting
 
+    now = now or datetime.now(BERLIN_TZ)
     # Filter movies to the configured lookahead window
     movies_this_week = sorted(
-        (m for m in all_movies if m.is_within_next_days(EVENT_LOOKAHEAD_DAYS)),
+        (m for m in all_movies if m.is_within_next_days(EVENT_LOOKAHEAD_DAYS, now=now)),
         key=lambda e: e.date,
     )
 
     # Filter concerts to the same lookahead window as movies
     big_events_radar = sorted(
-        (r for r in radar_events if r.is_within_next_days(EVENT_LOOKAHEAD_DAYS)),
+        (
+            r
+            for r in radar_events
+            if r.is_within_next_days(EVENT_LOOKAHEAD_DAYS, now=now)
+        ),
         key=lambda e: e.date,
     )
 

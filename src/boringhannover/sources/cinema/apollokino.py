@@ -117,7 +117,6 @@ class ApollokinoSource(BaseSource):
 
         events: list[Event] = []
         now = datetime.now(BERLIN_TZ)
-        cutoff = now + timedelta(days=EVENT_LOOKAHEAD_DAYS)
 
         with create_http_client() as client:
             resp = client.get(self.PAGE_URL)
@@ -139,7 +138,7 @@ class ApollokinoSource(BaseSource):
                     continue
 
                 for row in self._iter_show_rows(film_table):
-                    event = self._parse_row(row, base_date, client, now, cutoff)
+                    event = self._parse_row(row, base_date, client, now)
                     if event is not None:
                         events.append(event)
 
@@ -177,7 +176,6 @@ class ApollokinoSource(BaseSource):
         base_date: datetime,
         client: httpx.Client,
         now: datetime,
-        cutoff: datetime,
     ) -> Event | None:
         td = row.find("td")
         if not isinstance(td, Tag):
@@ -220,7 +218,8 @@ class ApollokinoSource(BaseSource):
         }
 
         detail_url = self._absolute_url(detail_href)
-        if detail_url and now <= dt <= cutoff:
+        last_day = now.date() + timedelta(days=EVENT_LOOKAHEAD_DAYS)
+        if detail_url and now <= dt and dt.date() <= last_day:
             detail_meta = self._fetch_detail_metadata(detail_url, client=client)
             if detail_meta:
                 metadata.update(detail_meta)
