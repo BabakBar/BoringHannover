@@ -137,6 +137,7 @@ const listed = groups.some((group) => group.entries.length > 0);
       }),
     );
 
+    const focused = document.activeElement;
     const placed = new Set<HTMLElement>();
     for (const group of occasionIndex(rows, new Date())) {
       const section = document.querySelector<HTMLElement>(
@@ -144,7 +145,8 @@ const listed = groups.some((group) => group.entries.length > 0);
       )!;
       section.querySelector('[data-index-name]')!.textContent = group.name;
       section.querySelector('[data-index-dates]')!.textContent = group.dates ?? '';
-      for (const entry of group.entries) {
+      const list = section.querySelector('[data-index-list]')!;
+      group.entries.forEach((entry, position) => {
         const { element } = entry.occasion;
         const { when, span } = indexDates(entry);
         const spanElement = element.querySelector<HTMLElement>('[data-index-span]')!;
@@ -152,13 +154,24 @@ const listed = groups.some((group) => group.entries.length > 0);
         spanElement.textContent = span ?? '';
         spanElement.hidden = !span;
         element.hidden = false;
-        section.querySelector('[data-index-list]')!.append(element);
+        // Only move rows that are out of place: moving a node drops focus.
+        if (list.children[position] !== element) {
+          list.insertBefore(element, list.children[position] ?? null);
+        }
         placed.add(element);
-      }
+      });
       section.hidden = group.entries.length === 0;
     }
     for (const { element } of rows) {
       if (!placed.has(element)) element.hidden = true;
+    }
+    // A row that changed group was moved; keep the reader's place in it.
+    if (
+      focused instanceof HTMLElement &&
+      focused !== document.activeElement &&
+      !focused.closest('[hidden]')
+    ) {
+      focused.focus({ preventScroll: true });
     }
     document
       .querySelector<HTMLElement>('[data-index-empty]')!
