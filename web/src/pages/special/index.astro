@@ -33,12 +33,6 @@ const listed = groups.some((group) => group.entries.length > 0);
 
   <section aria-labelledby="city-occasions">
     <SectionHeader id="city-occasions" title="City Occasions" as="h1" />
-    <p class="mb-7 max-w-120 text-sm leading-relaxed text-text-secondary">
-      The festivals, neighbourhood gatherings and one-off city moments of the
-      next two weeks, in order of their next confirmed date. Discovered
-      automatically, then kept out of the regular event stream so the weekly
-      digest stays calm.
-    </p>
 
     {groups.map((group) => (
       <section
@@ -51,12 +45,6 @@ const listed = groups.some((group) => group.entries.length > 0);
           <span class="index-group__name" data-index-name>{group.dates ? null : group.name}</span>
           <span class="index-group__dates" data-index-dates>{group.dates}</span>
         </h2>
-        {group.key === 'check' && (
-          <p class="index-group__note">
-            Within their overall dates, but the source gives no day ahead that
-            we could confirm. Check the listing before you go.
-          </p>
-        )}
         <ol class="index-list" data-index-list>
           {group.entries.map((entry) => {
             const { occasion } = entry;
@@ -217,14 +205,6 @@ const listed = groups.some((group) => group.entries.length > 0);
 
   .index-group__dates {
     color: var(--text-secondary);
-  }
-
-  .index-group__note {
-    max-width: 30rem;
-    margin-bottom: 0.4rem;
-    color: var(--text-secondary);
-    font-size: 0.8125rem;
-    line-height: 1.45;
   }
 
   /* The red thread: one line per group, a stop per occasion. */
