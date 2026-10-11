@@ -75,7 +75,6 @@ function dayNumber(isoDate: string): number {
   return Date.UTC(year, month - 1, day) / 86_400_000;
 }
 
-/** The ISO date `days` after `isoDate`. */
 export function addDays(isoDate: string, days: number): string {
   return new Date((dayNumber(isoDate) + days) * 86_400_000)
     .toISOString()

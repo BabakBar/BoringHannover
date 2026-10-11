@@ -53,8 +53,8 @@ const listed = groups.some((group) => group.entries.length > 0);
         </h2>
         {group.key === 'check' && (
           <p class="index-group__note">
-            No confirmed date ahead that we could read from the source. Check
-            the listing before you go.
+            Within their overall dates, but the source gives no day ahead that
+            we could confirm. Check the listing before you go.
           </p>
         )}
         <ol class="index-list" data-index-list>
@@ -66,17 +66,7 @@ const listed = groups.some((group) => group.entries.length > 0);
                 ? `Day trip · ${occasion.place.municipality}`
                 : null;
             return (
-              <li
-                class="index-item"
-                data-index-occasion={JSON.stringify({
-                  name: occasion.name,
-                  startDate: occasion.startDate,
-                  endDate: occasion.endDate,
-                  occurrences: occasion.occurrences,
-                  scheduleConfidence: occasion.scheduleConfidence,
-                  sourceStatus: occasion.sourceStatus,
-                })}
-              >
+              <li class="index-item" data-index-row>
                 <a
                   href={`/special/${occasion.slug}/`}
                   class="index-item__link"
@@ -89,7 +79,7 @@ const listed = groups.some((group) => group.entries.length > 0);
                     <span data-index-when>{when}</span>
                   </span>
                   {/* Occasion names are the source's German proper names. */}
-                  <span class="index-item__name" lang="de">{occasion.name}</span>
+                  <span class="index-item__name" lang="de" data-index-row-name>{occasion.name}</span>
                   <span class="index-item__facts">
                     <span lang="de">{occasion.place?.venue ?? occasion.location}</span>
                     {dayTrip && <span class="index-item__tag">{dayTrip}</span>}
@@ -129,47 +119,40 @@ const listed = groups.some((group) => group.entries.length > 0);
     occasionIndex,
     type IndexOccasion,
   } from '../../utils/occasionIndex';
+  import type { OccasionSchedule } from '../../utils/occasionStatus';
 
   // Same grouping as the build, on the reader's Berlin clock: rows move to
   // their current group, ended ones disappear and headings become relative.
+  // Each row's schedule is the one its status label already carries.
   function refreshIndex() {
-    const rows = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-index-occasion]'),
-    ).flatMap((element) => {
-      try {
-        const occasion: IndexOccasion = JSON.parse(
-          element.dataset.indexOccasion ?? '',
-        );
-        return [{ ...occasion, element }];
-      } catch {
-        return [];
-      }
-    });
-    if (rows.length === 0) return;
+    const rows: Array<IndexOccasion & { element: HTMLElement }> = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-index-row]'),
+      (element) => ({
+        ...(JSON.parse(
+          element.querySelector<HTMLElement>('[data-occasion-schedule]')!.dataset
+            .occasionSchedule!,
+        ) as OccasionSchedule),
+        name: element.querySelector('[data-index-row-name]')!.textContent!,
+        element,
+      }),
+    );
 
     const placed = new Set<HTMLElement>();
     for (const group of occasionIndex(rows, new Date())) {
       const section = document.querySelector<HTMLElement>(
         `[data-index-group="${group.key}"]`,
-      );
-      const list = section?.querySelector('[data-index-list]');
-      if (!section || !list) continue;
-      const name = section.querySelector('[data-index-name]');
-      const dates = section.querySelector('[data-index-dates]');
-      if (name) name.textContent = group.name;
-      if (dates) dates.textContent = group.dates ?? '';
+      )!;
+      section.querySelector('[data-index-name]')!.textContent = group.name;
+      section.querySelector('[data-index-dates]')!.textContent = group.dates ?? '';
       for (const entry of group.entries) {
         const { element } = entry.occasion;
         const { when, span } = indexDates(entry);
-        const whenElement = element.querySelector('[data-index-when]');
-        const spanElement = element.querySelector<HTMLElement>('[data-index-span]');
-        if (whenElement) whenElement.textContent = when;
-        if (spanElement) {
-          spanElement.textContent = span ?? '';
-          spanElement.hidden = !span;
-        }
+        const spanElement = element.querySelector<HTMLElement>('[data-index-span]')!;
+        element.querySelector('[data-index-when]')!.textContent = when;
+        spanElement.textContent = span ?? '';
+        spanElement.hidden = !span;
         element.hidden = false;
-        list.append(element);
+        section.querySelector('[data-index-list]')!.append(element);
         placed.add(element);
       }
       section.hidden = group.entries.length === 0;
@@ -178,8 +161,8 @@ const listed = groups.some((group) => group.entries.length > 0);
       if (!placed.has(element)) element.hidden = true;
     }
     document
-      .querySelector<HTMLElement>('[data-index-empty]')
-      ?.toggleAttribute('hidden', placed.size > 0);
+      .querySelector<HTMLElement>('[data-index-empty]')!
+      .toggleAttribute('hidden', placed.size > 0);
   }
 
   refreshIndex();

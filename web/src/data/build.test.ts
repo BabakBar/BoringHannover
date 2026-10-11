@@ -102,9 +102,12 @@ test('Astro build selects the anchored root and rejects missing production data'
     );
     // No occasions: the index says so and points to the digest and the source.
     const emptyIndex = readFileSync(join(outDir, 'special/index.html'), 'utf8');
-    expect(emptyIndex).toMatch(/<div[^>]*data-index-empty(?![^>]*hidden)[^>]*>/);
-    expect(emptyIndex).toContain('href="/"');
-    expect(emptyIndex).toContain(
+    const empty = emptyIndex.match(
+      /<div[^>]*data-index-empty(?![^>]*hidden)[^>]*>([\s\S]*?)<\/div>\s*<\/div>/,
+    )?.[1];
+    expect(empty).toContain('No City Occasions are listed for the next two weeks.');
+    expect(empty).toContain('href="/"');
+    expect(empty).toContain(
       'href="https://www.hannover.de/Veranstaltungskalender/Feste-Festivals"',
     );
     expect(emptyIndex).not.toMatch(/data-index-group="\w+"(?![^>]*hidden)/);

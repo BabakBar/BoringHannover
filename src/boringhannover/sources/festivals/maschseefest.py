@@ -76,6 +76,8 @@ class MaschseefestSource(BaseSource):
         end_date=SEASON_END,
         location="Around the Maschsee",
         source_url=PROGRAMME_URL,
+        # Open every day of the season (hannover.de: 22 Jul to 9 Aug 2026, daily).
+        schedule_confidence="continuous",
         description=(
             "Music, food, family moments and late nights around Hannover's lake."
         ),
