@@ -10,6 +10,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { sheetDateLine } from '../utils/occasionSheet';
 
 const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
 test('Astro build selects the anchored root and rejects missing production data', () => {
@@ -99,6 +100,17 @@ test('Astro build selects the anchored root and rejects missing production data'
     expect(readFileSync(join(outDir, 'index.html'), 'utf8')).toContain(
       'Explicit fixture',
     );
+    // No occasions: the index says so and points to the digest and the source.
+    const emptyIndex = readFileSync(join(outDir, 'special/index.html'), 'utf8');
+    const empty = emptyIndex.match(
+      /<div[^>]*data-index-empty(?![^>]*hidden)[^>]*>([\s\S]*?)<\/div>\s*<\/div>/,
+    )?.[1];
+    expect(empty).toContain('No City Occasions are listed for the next two weeks.');
+    expect(empty).toContain('href="/"');
+    expect(empty).toContain(
+      'href="https://www.hannover.de/Veranstaltungskalender/Feste-Festivals"',
+    );
+    expect(emptyIndex).not.toMatch(/data-index-group="\w+"(?![^>]*hidden)/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -630,6 +642,185 @@ test('the occasion sheet puts decision facts before prose and works without JS (
     expect(page('verlegt-und-vorbei')).toMatch(
       /data-occasion-status[^>]*>\s*Rescheduled\s*</,
     );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+}, 120000);
+
+test('the occasion index groups by next confirmed date and works without JS (#54)', () => {
+  const root = mkdtempSync(join(tmpdir(), 'occasion-index-'));
+  const env = { ...process.env };
+  for (const name of ['WEB_DATA_ROOT', 'WEB_DATA_MODE', 'WEB_DATA_MAX_AGE_DAYS'])
+    delete env[name];
+  const data = join(root, 'data');
+  const outDir = join(root, 'dist');
+  const berlinToday = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Berlin',
+  }).format(new Date());
+  const day = (offset: number) =>
+    new Date(Date.parse(`${berlinToday}T12:00:00Z`) + offset * 86400000)
+      .toISOString()
+      .slice(0, 10);
+  const occasion = (slug: string, offset: number, extra: Record<string, unknown> = {}) => ({
+    id: `hannover-festivals:${slug}`,
+    slug,
+    name: slug,
+    kind: 'festival',
+    startDate: day(offset),
+    endDate: day(offset),
+    location: 'Parkbühne',
+    description: `${slug} at Parkbühne. See the source for details.`,
+    sourceUrl: `https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/${slug}`,
+    status: 'upcoming',
+    programmeCount: 0,
+    locationCount: 0,
+    programmePath: `occasions/${slug}.json`,
+    preview: [],
+    ...extra,
+  });
+  const longName =
+    'Internationaler Feuerwerkswettbewerb Herrenhausen: Finale mit Musikbegleitung und Illumination';
+  // Manifest order is deliberately not the index order.
+  const occasions = [
+    occasion('day-fourteen', 14, { name: longName }),
+    occasion('abgesagt', 2, { sourceStatus: 'cancelled' }),
+    occasion('day-eight', 8),
+    occasion('kunst-kurbis-in-eldagsen', 7, {
+      name: 'Kunst & Kürbis in Eldagsen',
+      scheduleConfidence: 'continuous',
+      occurrences: [{ date: day(7), startTime: '11:00', endTime: '17:00' }],
+      place: {
+        venue: 'Eldagser Hoflieferant',
+        street: 'Lange Straße 142',
+        postalCode: '31832',
+        locality: 'Springe',
+        municipality: 'Springe',
+      },
+      area: 'region',
+    }),
+    // Sparse: the envelope covers today, its next listed date is day 3.
+    occasion('wiesn', -2, {
+      name: "Hannover Wies'n",
+      endDate: day(27),
+      scheduleConfidence: 'discrete',
+      occurrences: [
+        { date: day(-2), startTime: '18:00' },
+        { date: day(3), startTime: '18:00' },
+      ],
+    }),
+    occasion('flohmarkt', -7, { endDate: day(7), scheduleConfidence: 'unknown' }),
+    occasion('gestern-vorbei', -1),
+    occasion('heute', 0, {
+      place: {
+        venue: 'Tiergarten',
+        street: 'Tiergartenstraße 117',
+        postalCode: '30559',
+        locality: 'Hannover',
+        municipality: 'Hannover',
+      },
+      area: 'city',
+    }),
+  ];
+  try {
+    mkdirSync(join(data, 'occasions'), { recursive: true });
+    writeFileSync(
+      join(data, 'web_events.json'),
+      JSON.stringify({
+        meta: {
+          week: 41,
+          year: 2026,
+          updatedAt: 'Sun 11 Oct 09:00',
+          updatedAtISO: `${day(0)}T00:30:00+02:00`,
+        },
+        movies: [],
+        concerts: [],
+        occasions,
+      }),
+    );
+    for (const item of occasions)
+      writeFileSync(
+        join(data, item.programmePath),
+        JSON.stringify({
+          meta: { updatedAt: 'Sun 11 Oct 09:00' },
+          occasion: item,
+          programme: [],
+        }),
+      );
+    const result = spawnSync(
+      process.execPath,
+      [
+        join(projectRoot, 'node_modules/astro/bin/astro.mjs'),
+        'build',
+        '--root',
+        projectRoot,
+        '--outDir',
+        outDir,
+      ],
+      {
+        cwd: root,
+        env: { ...env, WEB_DATA_ROOT: data, WEB_DATA_MODE: 'fixture' },
+        encoding: 'utf8',
+        timeout: 60000,
+      },
+    );
+    if (result.error) throw result.error;
+    expect(result.status, result.stdout + result.stderr).toBe(0);
+    const html = readFileSync(join(outDir, 'special', 'index.html'), 'utf8');
+    const text = (markup: string) =>
+      markup
+        .replace(/<script[\s\S]*?<\/script>/g, ' ')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    const sections = [
+      ...html.matchAll(/<section[^>]*data-index-group="(\w+)"([^>]*)>([\s\S]*?)<\/section>/g),
+    ].map(([, key, attributes, body]) => ({
+      key,
+      hidden: /\shidden\b/.test(attributes),
+      heading: text(body.match(/<h2[\s\S]*?<\/h2>/)?.[0] ?? ''),
+      slugs: [...body.matchAll(/href="\/special\/([a-z0-9-]+)\/"/g)].map(
+        ([, slug]) => slug,
+      ),
+    }));
+
+    // Ordered by next confirmed date; each occasion once; ended ones gone.
+    expect(sections.map(({ key, hidden, slugs }) => [key, hidden, slugs])).toEqual([
+      ['today', false, ['heute']],
+      ['next', false, ['wiesn', 'kunst-kurbis-in-eldagsen']],
+      ['following', false, ['day-eight', 'day-fourteen']],
+      ['check', false, ['flohmarkt']],
+      ['off', false, ['abgesagt']],
+    ]);
+    expect(html).not.toContain('href="/special/gestern-vorbei/"');
+    // Without JS a heading is a date range, true however long the page is
+    // served; the browser adds Today / Next 7 days from the reader's clock.
+    const dates = (from: number, to: number) =>
+      sheetDateLine({ startDate: day(from), endDate: day(to) });
+    expect(sections.map(({ heading }) => heading)).toEqual([
+      dates(0, 0),
+      dates(1, 7),
+      dates(8, 14),
+      'Check dates',
+      'Cancelled or postponed',
+    ]);
+
+    const row = (slug: string) => {
+      const start = html.indexOf(`href="/special/${slug}/"`);
+      return text(html.slice(start, html.indexOf('</li>', start)));
+    };
+    // The sparse row shows the appointment that placed it, then its season.
+    expect(row('wiesn')).toContain(
+      `${sheetDateLine({ startDate: day(3), endDate: day(3) })} · from 18:00`,
+    );
+    expect(row('wiesn')).toContain('Selected dates ·');
+    expect(row('kunst-kurbis-in-eldagsen')).toContain('Day trip · Springe');
+    expect(row('kunst-kurbis-in-eldagsen')).toContain('11:00–17:00');
+    expect(row('heute')).toContain('Tiergarten');
+    expect(row('heute')).not.toContain('Day trip');
+    expect(row('flohmarkt')).not.toMatch(/\d\d:\d\d/);
+    expect(row('abgesagt')).toMatch(/Cancelled/);
+    expect(html).toMatch(new RegExp(`lang="de"[^>]*>\\s*${longName}`));
+    expect(html).toMatch(/data-index-empty[^>]*hidden/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

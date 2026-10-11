@@ -2,12 +2,18 @@
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
-import OccasionSpotlight from '../../components/OccasionSpotlight.astro';
+import OccasionStatus from '../../components/OccasionStatus.astro';
 import Footer from '../../components/Footer.astro';
 import { loadEventData } from '../../data/loader';
+import { indexDates, occasionIndex } from '../../utils/occasionIndex';
 
 const eventData = loadEventData();
 const { meta, occasions } = eventData;
+// Grouped on the build clock. Dated headings show only their dates here, so
+// they stay true however long the page is served; the script below regroups
+// on the reader's clock and names them Today / Next 7 days.
+const groups = occasionIndex(occasions, new Date());
+const listed = groups.some((group) => group.entries.length > 0);
 ---
 
 <Base
@@ -27,23 +33,303 @@ const { meta, occasions } = eventData;
 
   <section aria-labelledby="city-occasions">
     <SectionHeader id="city-occasions" title="City Occasions" as="h1" />
-    <p class="mb-7 max-w-120 text-sm leading-relaxed text-text-secondary">
-      The festivals, neighbourhood gatherings and one-off city moments worth
-      knowing about — discovered automatically, then kept out of the regular
-      event stream so the weekly digest stays calm.
-    </p>
 
-    {occasions.map((occasion, index) => (
-      <OccasionSpotlight occasion={occasion} compact={index > 0} />
+    {groups.map((group) => (
+      <section
+        class:list={['index-group', `index-group--${group.key}`]}
+        data-index-group={group.key}
+        aria-labelledby={`index-${group.key}`}
+        hidden={group.entries.length === 0}
+      >
+        <h2 id={`index-${group.key}`} class="index-group__heading">
+          <span class="index-group__name" data-index-name>{group.dates ? null : group.name}</span>
+          <span class="index-group__dates" data-index-dates>{group.dates}</span>
+        </h2>
+        <ol class="index-list" data-index-list>
+          {group.entries.map((entry) => {
+            const { occasion } = entry;
+            const { when, span } = indexDates(entry);
+            const dayTrip =
+              occasion.area === 'region' && occasion.place?.municipality
+                ? `Day trip · ${occasion.place.municipality}`
+                : null;
+            return (
+              <li class="index-item" data-index-row>
+                <a
+                  href={`/special/${occasion.slug}/`}
+                  class="index-item__link"
+                  data-umami-event="occasion-open"
+                  data-umami-event-occasion={occasion.slug}
+                >
+                  <span class="index-item__when">
+                    <OccasionStatus occasion={occasion} />
+                    <span aria-hidden="true">·</span>
+                    <span data-index-when>{when}</span>
+                  </span>
+                  {/* Occasion names are the source's German proper names. */}
+                  <span class="index-item__name" lang="de" data-index-row-name>{occasion.name}</span>
+                  <span class="index-item__facts">
+                    <span lang="de">{occasion.place?.venue ?? occasion.location}</span>
+                    {dayTrip && <span class="index-item__tag">{dayTrip}</span>}
+                    {occasion.programmeCount > 0 && (
+                      <span>{occasion.programmeCount} programme items</span>
+                    )}
+                  </span>
+                  <span class="index-item__span" data-index-span hidden={!span}>{span}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
     ))}
 
-    {occasions.length === 0 && (
-      <p class="py-8 text-sm text-text-muted">
-        No City Occasions are active right now. The weekly digest is still
-        available on the homepage.
-      </p>
-    )}
+    <div class="index-empty" data-index-empty hidden={listed}>
+      <p>No City Occasions are listed for the next two weeks.</p>
+      <div class="index-empty__actions">
+        <a href="/" class="index-empty__action">Weekly digest</a>
+        <a
+          href="https://www.hannover.de/Veranstaltungskalender/Feste-Festivals"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="index-empty__action"
+        >Festival listing on hannover.de<span aria-hidden="true">&nbsp;↗</span></a>
+      </div>
+    </div>
   </section>
 
   <Footer updatedAt={meta.updatedAt} />
 </Base>
+
+<script>
+  import {
+    indexDates,
+    occasionIndex,
+    type IndexOccasion,
+  } from '../../utils/occasionIndex';
+  import type { OccasionSchedule } from '../../utils/occasionStatus';
+
+  // Same grouping as the build, on the reader's Berlin clock: rows move to
+  // their current group, ended ones disappear and headings become relative.
+  // Each row's schedule is the one its status label already carries.
+  function refreshIndex() {
+    const rows: Array<IndexOccasion & { element: HTMLElement }> = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-index-row]'),
+      (element) => ({
+        ...(JSON.parse(
+          element.querySelector<HTMLElement>('[data-occasion-schedule]')!.dataset
+            .occasionSchedule!,
+        ) as OccasionSchedule),
+        name: element.querySelector('[data-index-row-name]')!.textContent!,
+        element,
+      }),
+    );
+
+    const focused = document.activeElement;
+    const placed = new Set<HTMLElement>();
+    for (const group of occasionIndex(rows, new Date())) {
+      const section = document.querySelector<HTMLElement>(
+        `[data-index-group="${group.key}"]`,
+      )!;
+      section.querySelector('[data-index-name]')!.textContent = group.name;
+      section.querySelector('[data-index-dates]')!.textContent = group.dates ?? '';
+      const list = section.querySelector('[data-index-list]')!;
+      group.entries.forEach((entry, position) => {
+        const { element } = entry.occasion;
+        const { when, span } = indexDates(entry);
+        const spanElement = element.querySelector<HTMLElement>('[data-index-span]')!;
+        element.querySelector('[data-index-when]')!.textContent = when;
+        spanElement.textContent = span ?? '';
+        spanElement.hidden = !span;
+        element.hidden = false;
+        // Only move rows that are out of place: moving a node drops focus.
+        if (list.children[position] !== element) {
+          list.insertBefore(element, list.children[position] ?? null);
+        }
+        placed.add(element);
+      });
+      section.hidden = group.entries.length === 0;
+    }
+    for (const { element } of rows) {
+      if (!placed.has(element)) element.hidden = true;
+    }
+    // A row that changed group was moved; keep the reader's place in it.
+    if (
+      focused instanceof HTMLElement &&
+      focused !== document.activeElement &&
+      !focused.closest('[hidden]')
+    ) {
+      focused.focus({ preventScroll: true });
+    }
+    document
+      .querySelector<HTMLElement>('[data-index-empty]')!
+      .toggleAttribute('hidden', placed.size > 0);
+  }
+
+  refreshIndex();
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') refreshIndex();
+  });
+</script>
+
+<style>
+  .index-group {
+    margin-bottom: 2rem;
+  }
+
+  .index-group__heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.15rem 0.6rem;
+    margin-bottom: 0.4rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .index-group__name {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .index-group__name:empty {
+    display: none;
+  }
+
+  .index-group--check .index-group__name,
+  .index-group--off .index-group__name {
+    color: var(--text-secondary);
+  }
+
+  .index-group__dates {
+    color: var(--text-secondary);
+  }
+
+  /* The red thread: one line per group, a stop per occasion. */
+  .index-list {
+    margin-left: 0.35rem;
+    padding-left: 1.1rem;
+    border-left: 2px solid var(--accent);
+  }
+
+  .index-group--check .index-list,
+  .index-group--off .index-list {
+    border-left-color: var(--border);
+  }
+
+  .index-item {
+    position: relative;
+  }
+
+  .index-item::before {
+    content: '';
+    position: absolute;
+    top: 1.05rem;
+    left: calc(-1.1rem - 6px);
+    width: 10px;
+    height: 10px;
+    background: var(--bg-primary);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+  }
+
+  .index-group--check .index-item::before,
+  .index-group--off .index-item::before {
+    border-color: var(--text-muted);
+  }
+
+  .index-item__link {
+    display: grid;
+    gap: 0.2rem;
+    min-height: 44px;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .index-item:last-child .index-item__link {
+    border-bottom: 0;
+  }
+
+  .index-item__when {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 0.4rem;
+    color: var(--text-data);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .index-item__name {
+    color: var(--text-primary);
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+
+  .index-item__link:hover .index-item__name {
+    color: var(--accent);
+  }
+
+  .index-group--off .index-item__name {
+    color: var(--text-secondary);
+  }
+
+  .index-item__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+  }
+
+  .index-item__tag {
+    padding: 0 0.4rem;
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6875rem;
+  }
+
+  .index-item__span {
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6875rem;
+  }
+
+  .index-empty {
+    padding: 2rem 0;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .index-empty__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .index-empty__action {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.5rem 0.9rem;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .index-empty__action:hover {
+    border-color: var(--accent);
+  }
+</style>

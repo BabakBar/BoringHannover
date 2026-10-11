@@ -1,4 +1,4 @@
-import type { OccasionSummary } from '../data/types';
+import type { OccasionOccurrence, OccasionSummary } from '../data/types';
 
 // Labels follow the #59 temporal contract: they read only confirmed facts and
 // take the clock as an argument, so the build and the browser share one helper.
@@ -73,6 +73,12 @@ function label(key: Exclude<OccasionLabelKey, 'in_days'>): OccasionLabel {
 function dayNumber(isoDate: string): number {
   const [year, month, day] = isoDate.split('-').map(Number);
   return Date.UTC(year, month - 1, day) / 86_400_000;
+}
+
+export function addDays(isoDate: string, days: number): string {
+  return new Date((dayNumber(isoDate) + days) * 86_400_000)
+    .toISOString()
+    .slice(0, 10);
 }
 
 function minutesOf(time: string): number {
@@ -162,6 +168,36 @@ export function occasionIsCurrent(
     confirmedOccurrences(schedule).length > 0 &&
     remainingOccurrences(schedule, date, minutes).length === 0
   );
+}
+
+/**
+ * The next confirmed appointment at `now`. A continuous schedule confirms
+ * every date of its envelope, so it is today once started, or tomorrow when
+ * today's listed hours are over. A sparse schedule has only its listed dates,
+ * and an unparsed or legacy one only its start date. Null when the facts
+ * confirm none: ended, listed dates all past, or an unparsed run under way.
+ */
+export function nextAppointment(
+  schedule: OccasionSchedule,
+  now: Date,
+): OccasionOccurrence | null {
+  const { date: today, minutes } = berlinClock(now);
+  if (hasEndedAt(schedule, today, minutes)) return null;
+  const remaining = remainingOccurrences(schedule, today, minutes);
+  if (schedule.scheduleConfidence === 'discrete') return remaining[0] ?? null;
+  if (schedule.scheduleConfidence !== 'continuous') {
+    return today <= schedule.startDate ? { date: schedule.startDate } : null;
+  }
+  const closedToday = confirmedOccurrences(schedule).some(
+    (occurrence) => occurrence.date === today && !remaining.includes(occurrence),
+  );
+  const date =
+    today < schedule.startDate
+      ? schedule.startDate
+      : closedToday
+        ? addDays(today, 1)
+        : today;
+  return remaining.find((occurrence) => occurrence.date === date) ?? { date };
 }
 
 /**
