@@ -20,7 +20,7 @@ from datetime import datetime
 from typing import Any, ClassVar
 
 from boringhannover.constants import BERLIN_TZ
-from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME, has_started
 from boringhannover.models import Event
 from boringhannover.sanitize import truncate_text
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
@@ -169,7 +169,9 @@ class ErhardtCafeSource(BaseSource):
 
         return events
 
-    def _parse_wix_event(self, event_data: dict[str, Any]) -> Event | None:
+    def _parse_wix_event(
+        self, event_data: dict[str, Any], *, now: datetime | None = None
+    ) -> Event | None:
         """Parse a single Wix event into an Event object.
 
         Args:
@@ -197,13 +199,16 @@ class ErhardtCafeSource(BaseSource):
             if not event_date:
                 return None
 
-            # Skip past events
-            if event_date < datetime.now(BERLIN_TZ):
-                return None
-
             # Get formatted time from scheduling (None if not available)
             time_str = scheduling.get("startTimeFormatted") or ""
             time_confidence = CONFIRMED_TIME if time_str else FALLBACK_TIME
+
+            if has_started(
+                event_date,
+                now or datetime.now(BERLIN_TZ),
+                fallback_time=time_confidence == FALLBACK_TIME,
+            ):
+                return None
 
             # Get location
             location = event_data.get("location", {})

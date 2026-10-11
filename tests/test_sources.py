@@ -18,6 +18,7 @@ from boringhannover.sources.base import create_http_client
 from boringhannover.sources.cinema.apollokino import ApollokinoSource
 from boringhannover.sources.cinema.astor import AstorSource
 from boringhannover.sources.concerts.broncos import BroncosSource
+from boringhannover.sources.concerts.erhardt import ErhardtCafeSource
 from boringhannover.sources.concerts.faust import FaustSource
 from boringhannover.sources.concerts.glocke import GlockseeSource
 from boringhannover.sources.concerts.kulturpalast_linden import (
@@ -33,6 +34,7 @@ from boringhannover.sources.sports.hannover_96 import Hannover96Source
 
 
 if TYPE_CHECKING:
+    from boringhannover.models import Event
     from conftest import LocalSite
 
 
@@ -526,7 +528,7 @@ class TestWeltspiele:
 
 
 class TestPunkrockKonzerte:
-    def test_skips_lux_and_past_gigs(self) -> None:
+    def test_skips_lux_and_past_gigs_but_keeps_tonight(self) -> None:
         def gig(date_box: str, venue: str, title: str) -> str:
             return f"""
             <div class="row bg_gig result" itemscope itemtype="http://schema.org/Event">
@@ -553,15 +555,23 @@ class TestPunkrockKonzerte:
                     "Faust",
                     "Past Band",
                 ),
+                # Date only: the 20:00 default must not expire it at 20:01.
+                gig(
+                    '11.10.2026 <meta itemprop="startDate" content="2026-10-11" />',
+                    "Stumpf",
+                    "Tonight Band",
+                ),
             ]
         )
 
         events = PunkrockKonzerteSource()._parse_events(
-            BeautifulSoup(html, "html.parser")
+            BeautifulSoup(html, "html.parser"),
+            now=datetime(2026, 10, 11, 20, 1, tzinfo=BERLIN_TZ),
         )
 
         assert [(e.title, e.venue) for e in events] == [
-            ("Another Band", "Bei Chez Heinz")
+            ("Another Band", "Bei Chez Heinz"),
+            ("Tonight Band", PunkrockKonzerteSource.STUMPF_VENUE),
         ]
         assert events[0].metadata["address"] == "Hannover"
         assert events[0].metadata["time"] == "20:00"
@@ -754,6 +764,25 @@ def test_faust_start_times(
     assert event.metadata["time_confidence"] == confidence
 
 
+def test_erhardt_date_only_event_lasts_its_whole_day() -> None:
+    """Without a formatted time the Wix start is a placeholder, not a start."""
+    now = datetime(2026, 10, 11, 20, 1, tzinfo=BERLIN_TZ)
+
+    def parse(start: str, formatted: str | None) -> Event | None:
+        scheduling: dict[str, object] = {"config": {"startDate": start}}
+        if formatted:
+            scheduling["startTimeFormatted"] = formatted
+        return ErhardtCafeSource()._parse_wix_event(
+            {"title": "Lesung", "scheduling": scheduling}, now=now
+        )
+
+    tonight = parse("2026-10-11T08:00:00.000Z", None)
+    assert tonight is not None
+    assert tonight.metadata["time_confidence"] == FALLBACK_TIME
+    assert parse("2026-10-11T17:00:00.000Z", "19:00") is None
+    assert parse("2026-10-10T08:00:00.000Z", None) is None
+
+
 class TestGlocksee:
     @pytest.mark.parametrize(
         ("raw", "expected"),
@@ -778,6 +807,23 @@ class TestGlocksee:
 
         assert event is not None
         assert event.metadata["event_type"] == expected
+
+    def test_date_only_show_lasts_its_whole_day(self) -> None:
+        """The API's midnight means "no time"; it must not expire the show."""
+        now = datetime(2026, 10, 11, 20, 1, tzinfo=BERLIN_TZ)
+
+        def parse(when: str) -> Event | None:
+            data = {"title": [{"text": "Test Show"}], "datetime": when}
+            return GlockseeSource()._parse_event({"uid": "x", "data": data}, now)
+
+        tonight = parse("2026-10-11T00:00:00+02:00")
+        assert tonight is not None
+        assert (tonight.date, tonight.metadata["time_confidence"]) == (
+            datetime(2026, 10, 11, 20, 0, tzinfo=BERLIN_TZ),
+            FALLBACK_TIME,
+        )
+        assert parse("2026-10-11T19:00:00+02:00") is None
+        assert parse("2026-10-10T00:00:00+02:00") is None
 
     def test_start_time_comes_from_beginn_not_einlass(self) -> None:
         result = GlockseeSource()._extract_confirmed_time(

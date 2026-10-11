@@ -8,12 +8,27 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Final
 
+from boringhannover.constants import BERLIN_TZ
+
 
 if TYPE_CHECKING:
+    from datetime import datetime
+
     from boringhannover.models import Event
 
 CONFIRMED_TIME: Final[str] = "confirmed"
 FALLBACK_TIME: Final[str] = "fallback"
+
+
+def has_started(start: datetime, now: datetime, *, fallback_time: bool) -> bool:
+    """Whether an event has started, for listing purposes.
+
+    A fallback time only sorts a date-only event, so that event stays listed
+    for its whole Berlin day; a confirmed time counts from the minute itself.
+    """
+    if fallback_time:
+        return start.astimezone(BERLIN_TZ).date() < now.astimezone(BERLIN_TZ).date()
+    return start < now
 
 
 def get_display_time(event: Event) -> str | None:
