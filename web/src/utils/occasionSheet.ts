@@ -6,6 +6,7 @@ import type {
 import { formatEventTime } from './displayLabels';
 import {
   OCCASION_HORIZON_DAYS,
+  addDays,
   berlinClock,
   occasionIsCurrent,
 } from './occasionStatus';
@@ -13,17 +14,9 @@ import {
 // Pure helpers for the occasion detail sheet (#54). They read only exported
 // facts; anything the source did not state is left out, never guessed.
 
-const DAY_MS = 86_400_000;
-
 function utcDate(isoDate: string): Date {
   const [year, month, day] = isoDate.split('-').map(Number);
   return new Date(Date.UTC(year, month - 1, day));
-}
-
-function addDays(isoDate: string, days: number): string {
-  return new Date(utcDate(isoDate).getTime() + days * DAY_MS)
-    .toISOString()
-    .slice(0, 10);
 }
 
 function format(isoDate: string, options: Intl.DateTimeFormatOptions): string {
@@ -57,6 +50,17 @@ function hours({ startTime, endTime }: OccasionOccurrence): string | null {
   return endTime
     ? `${formatEventTime(startTime)}–${formatEventTime(endTime)}`
     : `from ${formatEventTime(startTime)}`;
+}
+
+/** "Sat 10 Oct · 13:00–18:30", or the day alone without confirmed hours. */
+export function appointmentText(occurrence: OccasionOccurrence): string {
+  const day = format(occurrence.date, {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  });
+  const time = hours(occurrence);
+  return time ? `${day} · ${time}` : day;
 }
 
 interface Appointment {
@@ -107,21 +111,13 @@ export function whenFacts(occasion: OccasionSummary): WhenFacts {
     };
   }
 
-  const appointments = occurrences.map((occurrence) => {
-    const time = hours(occurrence);
-    const day = format(occurrence.date, {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'short',
-    });
-    return {
-      date: occurrence.date,
-      datetime: occurrence.startTime
-        ? `${occurrence.date}T${occurrence.startTime}`
-        : occurrence.date,
-      text: time ? `${day} · ${time}` : day,
-    };
-  });
+  const appointments = occurrences.map((occurrence) => ({
+    date: occurrence.date,
+    datetime: occurrence.startTime
+      ? `${occurrence.date}T${occurrence.startTime}`
+      : occurrence.date,
+    text: appointmentText(occurrence),
+  }));
   const single =
     occasion.startDate === occasion.endDate && appointments.length === 1;
   return {
