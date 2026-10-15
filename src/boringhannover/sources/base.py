@@ -134,7 +134,12 @@ class BaseSource(ABC):
         """
 
     def discover_occasions(self) -> list[OccasionDefinition]:
-        """Return source-owned occasion summaries, if this source has one."""
+        """Return source-owned occasion summaries, if this source has one.
+
+        An override observes a source instead, so its result is recorded as
+        an outcome: it must return the complete inventory, or raise
+        IncompleteDiscoveryError with the part it read.
+        """
         return [self.occasion] if self.occasion is not None else []
 
     def __repr__(self) -> str:

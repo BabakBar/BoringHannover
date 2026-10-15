@@ -489,7 +489,7 @@ def _card(title: str, dates: str, description: str = "") -> str:
 def test_listing_source_status(
     title: str, dates: str, text: str, status: str | None, previous: date | None
 ) -> None:
-    (occasion,) = SOURCE()._parse_calendar(_card(title, dates, text))
+    (occasion,), _ = SOURCE()._parse_calendar(_card(title, dates, text))
 
     assert (occasion.source_status, occasion.previous_start_date) == (
         status,
@@ -504,7 +504,7 @@ def test_unknown_month_in_a_rescheduling_fails_closed(
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     with caplog.at_level(logging.WARNING):
-        (occasion,) = SOURCE()._parse_calendar(
+        (occasion,), _ = SOURCE()._parse_calendar(
             _card(
                 "Verschoben: X-Fest",
                 "12.07.2026",
