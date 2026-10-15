@@ -94,7 +94,7 @@ def run(*, local: bool = False) -> bool:
         # Step 3: Refuse to replace the public site on a critical or total
         # collection failure. Its output is neither published nor backed up
         # as a recovery point.
-        refusal = publication_refusal(events_data.get("source_outcomes", []))
+        refusal = publication_refusal(events_data)
         if refusal is not None:
             if local:
                 logger.warning("This run would not be published: %s", refusal)

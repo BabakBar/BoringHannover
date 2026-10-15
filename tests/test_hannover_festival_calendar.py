@@ -68,7 +68,7 @@ def _card_titles(html: str) -> list[str]:
     ]
 
 
-def _calendar_html(local_site: LocalSite) -> tuple[str, str | None]:
+def _calendar_html(local_site: LocalSite) -> tuple[str, list[str]]:
     local_site.pages[LISTING_PATH] = (200, _fixture("hannover_festivals_listing.html"))
     with create_http_client() as client:
         return SOURCE()._fetch_calendar_html(client, f"{local_site.url}{LISTING_PATH}")
@@ -125,9 +125,9 @@ def test_captured_listing_discovers_city_occasions_and_excludes_region() -> None
 def test_follows_load_more_until_the_last_page(local_site: LocalSite) -> None:
     local_site.pages[LOAD_MORE_PATH] = (200, _fixture("hannover_festivals_page2.json"))
 
-    html, gap = _calendar_html(local_site)
+    html, gaps = _calendar_html(local_site)
 
-    assert gap is None
+    assert gaps == []
     assert _card_titles(html) == [
         "Oktoberfest 2026",
         "KiezKultur Festival",
@@ -156,9 +156,9 @@ def test_follows_three_pages_and_dedupes_cards(local_site: LocalSite) -> None:
         json.dumps({"success": True, "items": items[1:], "next": None, "isLast": True}),
     )
 
-    html, gap = _calendar_html(local_site)
+    html, gaps = _calendar_html(local_site)
 
-    assert gap is None
+    assert gaps == []
     requests = [urlsplit(request) for request in local_site.requests]
     assert [request.path for request in requests] == [
         LISTING_PATH,
@@ -183,14 +183,14 @@ def test_failed_load_more_keeps_the_first_page(
     local_site.pages[LOAD_MORE_PATH] = (500, "")
 
     with caplog.at_level(logging.WARNING):
-        html, gap = _calendar_html(local_site)
+        html, gaps = _calendar_html(local_site)
 
     assert _card_titles(html) == [
         "Oktoberfest 2026",
         "KiezKultur Festival",
         "Hannover Wies'n",
     ]
-    assert gap is not None
+    (gap,) = gaps
     assert gap.startswith("pagination stopped after 1 pages: HTTPStatusError")
     assert gap in caplog.text
 
@@ -203,7 +203,7 @@ def test_pagination_stops_at_the_page_limit(local_site: LocalSite) -> None:
         ),
     )
 
-    _, gap = _calendar_html(local_site)
+    _, gaps = _calendar_html(local_site)
 
     load_more_requests = [
         request
@@ -211,11 +211,10 @@ def test_pagination_stops_at_the_page_limit(local_site: LocalSite) -> None:
         if urlsplit(request).path == LOAD_MORE_PATH
     ]
     assert len(load_more_requests) == SOURCE.MAX_LOAD_MORE_PAGES
-    assert gap is not None
-    assert gap == (
+    assert gaps == [
         "pagination stopped after 11 pages: "
         "ValueError: page limit reached before the last page"
-    )
+    ]
 
 
 @pytest.mark.parametrize(
@@ -229,11 +228,13 @@ def test_pagination_stops_at_the_page_limit(local_site: LocalSite) -> None:
         ),
     ],
 )
-def test_load_more_page(payload: object, card_count: int, next_url: str | None) -> None:
-    html, parsed_next = SOURCE._parse_load_more_page(payload)
+def test_load_more_page(
+    payload: dict[str, object], card_count: int, next_url: str | None
+) -> None:
+    items = SOURCE._load_more_items(payload)
 
-    assert len(_card_titles(html)) == card_count
-    assert parsed_next == next_url
+    assert len(_card_titles("\n".join(items))) == card_count
+    assert SOURCE._load_more_next(payload) == next_url
 
 
 @pytest.mark.parametrize(
@@ -242,14 +243,24 @@ def test_load_more_page(payload: object, card_count: int, next_url: str | None) 
         {"success": False, "items": [], "next": None, "isLast": True},
         {"success": True, "items": "<article></article>", "isLast": True},
         {"success": True, "items": [42], "isLast": True},
+    ],
+)
+def test_malformed_load_more_page_is_rejected(payload: object) -> None:
+    with pytest.raises(ValueError, match="load-more"):
+        SOURCE._load_more_items(payload)
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
         # Neither the last page nor a way on: not a confirmed end.
         {"success": True, "items": [], "isLast": False},
         {"success": True, "items": [], "next": None},
     ],
 )
-def test_malformed_load_more_page_is_rejected(payload: object) -> None:
-    with pytest.raises(ValueError, match="load-more"):
-        SOURCE._parse_load_more_page(payload)
+def test_missing_continuation_is_not_an_end(payload: dict[str, object]) -> None:
+    with pytest.raises(ValueError, match="load-more next URL"):
+        SOURCE._load_more_next(payload)
 
 
 @pytest.mark.parametrize(
@@ -278,11 +289,11 @@ def test_next_url_leaving_the_view_stops_but_keeps_cards(
         ),
     )
 
-    html, gap = _calendar_html(local_site)
+    html, gaps = _calendar_html(local_site)
 
     assert _card_titles(html)[-1] == "Nacht der Museen 2027"
     assert len(local_site.requests) == 2
-    assert gap is not None
+    (gap,) = gaps
     assert gap.startswith("pagination stopped after 2 pages: ValueError")
     assert raw_next in gap
 
@@ -435,6 +446,14 @@ def _undetailed_unlocated_card(local_site: LocalSite) -> None:
     del local_site.pages["/Veranstaltungskalender/Feste-Festivals/KiezKultur-Festival"]
 
 
+def _maintenance_detail_for_unlocated_card(local_site: LocalSite) -> None:
+    _serve_listing(local_site)
+    local_site.pages["/Veranstaltungskalender/Feste-Festivals/KiezKultur-Festival"] = (
+        200,
+        "<html><body>Wartungsarbeiten</body></html>",
+    )
+
+
 def _undetailed_located_card(local_site: LocalSite) -> None:
     _serve_listing(local_site)
     del local_site.pages["/Veranstaltungskalender/Feste-Festivals/Oktoberfest-2026"]
@@ -510,8 +529,54 @@ def _undetailed_located_card(local_site: LocalSite) -> None:
             "partial",
             ["oktoberfest-2026", "hannover-wies-27n"],
             "incomplete",
-            "no details for 1 occasions without a listed location",
+            "1 occasions without a location",
             id="unlocated-without-details",
+        ),
+        # A 200 page that is not a detail page leaves the location just as unknown.
+        pytest.param(
+            _maintenance_detail_for_unlocated_card,
+            "partial",
+            ["oktoberfest-2026", "hannover-wies-27n"],
+            "incomplete",
+            "1 occasions without a location",
+            id="unlocated-with-unreadable-details",
+        ),
+        # Content the parser cannot read is not an empty page.
+        pytest.param(
+            lambda site: _serve_listing(
+                site,
+                load_more=json.dumps(
+                    {
+                        "success": True,
+                        "items": ["<div>unrecognized listing markup</div>"],
+                        "isLast": True,
+                    }
+                ),
+            ),
+            "partial",
+            LISTING_SLUGS,
+            "incomplete",
+            "page 2: 1 of 1 entries unreadable",
+            id="later-page-unreadable",
+        ),
+        # A broken continuation keeps the cards of the page that carried it.
+        pytest.param(
+            lambda site: _serve_listing(
+                site,
+                load_more=json.dumps(
+                    {
+                        "success": True,
+                        "items": _page2_items()[1:2],
+                        "next": None,
+                        "isLast": False,
+                    }
+                ),
+            ),
+            "partial",
+            [*LISTING_SLUGS, "schutzenfest-hannover-2027"],
+            "incomplete",
+            "pagination stopped after 2 pages: ValueError: Malformed load-more next URL",
+            id="malformed-continuation-keeps-its-page",
         ),
     ],
 )

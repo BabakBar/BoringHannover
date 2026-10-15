@@ -12,9 +12,8 @@ from typing import TYPE_CHECKING, Literal
 
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
-
     from boringhannover.occasions import OccasionDefinition
+    from boringhannover.output import EventsData
 
 __all__ = [
     "IncompleteDiscoveryError",
@@ -106,20 +105,27 @@ class SourceOutcome:
         return f"{text} ({self.reason})" if self.reason else text
 
 
-def publication_refusal(outcomes: Sequence[SourceOutcome]) -> str | None:
+def publication_refusal(events_data: EventsData) -> str | None:
     """Return why this run must not replace the public site, or None if it may.
 
     Every publication replaces the whole public inventory, and nothing yet
     carries forward what a run failed to see (#26). So:
 
+    - Without outcomes, nothing says what the run read.
     - Occasion discovery is critical. An occasion missing from a failed or
       partial discovery would disappear from the site although nothing says
       it ended. Only a complete discovery may be published, including a
       complete empty one.
-    - Fetches stay isolated: a failed venue costs only its own events. But if
-      the fetches together produced nothing, publishing would empty the site
-      on no evidence, since no fetch can confirm it read a complete source.
+    - Fetches stay isolated: a failed venue costs only its own events. But a
+      replacement without any movie or Radar event would empty the site on no
+      evidence, since no fetch can confirm it read a complete source. What
+      counts is what would be published: rows a source returned may all lie
+      outside the window, so fetch counts serve only as diagnosis.
     """
+    outcomes = events_data.get("source_outcomes")
+    if outcomes is None:
+        return "no source outcomes recorded"
+
     unsafe = [
         outcome
         for outcome in outcomes
@@ -129,10 +135,11 @@ def publication_refusal(outcomes: Sequence[SourceOutcome]) -> str | None:
     if unsafe:
         return "incomplete occasion discovery: " + "; ".join(map(str, unsafe))
 
-    fetches = [outcome for outcome in outcomes if outcome.operation == "fetch"]
-    if not any(outcome.count for outcome in fetches):
-        failed = [str(outcome) for outcome in fetches if outcome.state == "failed"]
-        return "no source fetched any events" + (
-            ": " + "; ".join(failed) if failed else ""
-        )
+    if not events_data["movies_this_week"] and not events_data["big_events_radar"]:
+        failed = [
+            str(outcome)
+            for outcome in outcomes
+            if outcome.operation == "fetch" and outcome.state == "failed"
+        ]
+        return "no events to publish" + (": " + "; ".join(failed) if failed else "")
     return None

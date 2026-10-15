@@ -49,11 +49,24 @@ FETCHED = SourceOutcome("venue", "fetch", "success", 1, "unknown")
 PARTIAL = SourceOutcome(
     "festivals", "discover_occasions", "partial", 2, "incomplete", "page 2 failed"
 )
+CONCERT = Event(
+    title="Concert",
+    date=datetime(2026, 10, 16, 20, 0, tzinfo=BERLIN_TZ),
+    venue="Venue",
+    url="https://example.com/concert",
+    category="radar",
+)
+SAFE = {
+    "movies_this_week": [],
+    "big_events_radar": [CONCERT],
+    "source_outcomes": [FETCHED],
+}
+UNSAFE = {**SAFE, "source_outcomes": [FETCHED, PARTIAL]}
 
 
 @pytest.mark.parametrize(
     (
-        "outcomes",
+        "events_data",
         "local",
         "sync_configured",
         "sync_ok",
@@ -62,11 +75,9 @@ PARTIAL = SourceOutcome(
         "calls",
     ),
     [
+        pytest.param(SAFE, False, True, True, True, True, ["backup", "sync"], id="ok"),
         pytest.param(
-            [FETCHED], False, True, True, True, True, ["backup", "sync"], id="ok"
-        ),
-        pytest.param(
-            [FETCHED],
+            SAFE,
             False,
             True,
             False,
@@ -76,7 +87,7 @@ PARTIAL = SourceOutcome(
             id="sync-fails",
         ),
         pytest.param(
-            [FETCHED],
+            SAFE,
             False,
             False,
             True,
@@ -87,7 +98,7 @@ PARTIAL = SourceOutcome(
         ),
         # Fresh data still goes out; the gap in the history fails the run.
         pytest.param(
-            [FETCHED],
+            SAFE,
             False,
             True,
             True,
@@ -96,24 +107,38 @@ PARTIAL = SourceOutcome(
             ["backup", "sync"],
             id="backup-fails",
         ),
-        pytest.param(
-            [FETCHED], True, False, False, False, True, [], id="local-skips-both"
-        ),
+        pytest.param(SAFE, True, False, False, False, True, [], id="local-skips-both"),
         # Unsafe output is neither backed up nor published.
-        pytest.param(
-            [FETCHED, PARTIAL], False, True, True, True, False, [], id="unsafe"
-        ),
+        pytest.param(UNSAFE, False, True, True, True, False, [], id="unsafe"),
         # Without outcomes there is no evidence the output is safe.
-        pytest.param([], False, True, True, True, False, [], id="no-outcomes"),
-        # A local run publishes nothing, so it only warns.
         pytest.param(
-            [FETCHED, PARTIAL], True, True, True, True, True, [], id="local-unsafe"
+            {"movies_this_week": [], "big_events_radar": [CONCERT]},
+            False,
+            True,
+            True,
+            True,
+            False,
+            [],
+            id="no-outcomes",
         ),
+        # Sources answered, but nothing would be published.
+        pytest.param(
+            {**SAFE, "big_events_radar": []},
+            False,
+            True,
+            True,
+            True,
+            False,
+            [],
+            id="empty-replacement",
+        ),
+        # A local run publishes nothing, so it only warns.
+        pytest.param(UNSAFE, True, True, True, True, True, [], id="local-unsafe"),
     ],
 )
 def test_run_reports_publication_and_backup_failures(
     monkeypatch: pytest.MonkeyPatch,
-    outcomes: list[SourceOutcome],
+    events_data: dict[str, object],
     local: bool,
     sync_configured: bool,
     sync_ok: bool,
@@ -136,11 +161,7 @@ def test_run_reports_publication_and_backup_failures(
     monkeypatch.setattr(
         main,
         "fetch_all_events",
-        lambda **_: {
-            "movies_this_week": [],
-            "big_events_radar": [],
-            "source_outcomes": outcomes,
-        },
+        lambda **_: events_data,
     )
     monkeypatch.setattr(main, "export_run", lambda _events, **_: None)
     monkeypatch.setattr(main, "backup_run", backup)
@@ -166,14 +187,14 @@ def _serve_listing_with_failed_page(site: LocalSite) -> None:
 
 
 @pytest.mark.parametrize(
-    ("serve", "venue_fails", "published", "occasions", "reason"),
+    ("serve", "venue", "published", "occasions", "reason"),
     [
         pytest.param(
-            _serve_empty_listing, False, True, [], None, id="empty-season-publishes"
+            _serve_empty_listing, "ok", True, [], None, id="empty-season-publishes"
         ),
         pytest.param(
             _serve_failed_listing,
-            False,
+            "ok",
             False,
             [],
             "Not publishing: incomplete occasion discovery: festivals "
@@ -185,7 +206,7 @@ def _serve_listing_with_failed_page(site: LocalSite) -> None:
         # proof that publishing is safe.
         pytest.param(
             _serve_listing_with_failed_page,
-            False,
+            "ok",
             False,
             [
                 "hannover-festivals:oktoberfest-2026",
@@ -197,11 +218,20 @@ def _serve_listing_with_failed_page(site: LocalSite) -> None:
         ),
         pytest.param(
             _serve_empty_listing,
-            True,
+            "fails",
             False,
             [],
-            "Not publishing: no source fetched any events: venue fetch: failed",
+            "Not publishing: no events to publish: venue fetch: failed",
             id="total-fetch-failure-refused",
+        ),
+        # Rows a source returned are not publishable if all have ended.
+        pytest.param(
+            _serve_empty_listing,
+            "stale",
+            False,
+            [],
+            "Not publishing: no events to publish",
+            id="only-expired-rows-refused",
         ),
     ],
 )
@@ -211,27 +241,27 @@ def test_run_publishes_only_safe_source_outcomes(
     local_site: LocalSite,
     tmp_path: Path,
     serve: Callable[[LocalSite], None],
-    venue_fails: bool,
+    venue: str,
     published: bool,
     occasions: list[str],
     reason: str | None,
 ) -> None:
     """Real aggregation of localhost sources decides whether main.run publishes."""
     serve(local_site)
-    tomorrow = datetime.now(BERLIN_TZ) + timedelta(days=1)
+    when = datetime.now(BERLIN_TZ) + timedelta(days=-30 if venue == "stale" else 1)
 
     class Venue(BaseSource):
         source_name = "Venue"
         source_type = "concert"
 
         def fetch(self) -> list[Event]:
-            if venue_fails:
+            if venue == "fails":
                 msg = "venue unreachable"
                 raise ConnectionError(msg)
             return [
                 Event(
                     title="Concert",
-                    date=tomorrow,
+                    date=when,
                     venue="Venue",
                     url="https://example.com/concert",
                     category="radar",
