@@ -28,6 +28,15 @@ const {
 } = Astro.props;
 
 const safeUrl = sanitizeUrl(url);
+// Umami's own click binding records an official destination opened from the
+// Radar. A missing or rejected URL ('#') leads nowhere, so it counts nothing.
+// Missing properties are left out rather than sent empty.
+const tracking = safeUrl === '#' ? {} : {
+  'data-umami-event': 'event-click',
+  'data-umami-event-title': title,
+  'data-umami-event-venue': venue || undefined,
+  'data-umami-event-type': eventType || undefined,
+};
 const canonicalGenre = getCanonicalGenre(genre);
 const infoTag = canonicalGenre || radarCategory || (
   eventType && eventType !== 'concert' ? eventType : null
@@ -42,6 +51,7 @@ const isSoldOut = status === 'sold_out';
   class="timeline-event group block relative"
   data-event-item
   data-radar-category={radarCategory ?? ''}
+  {...tracking}
 >
   <!-- Hover dot (appears on hover) -->
   <span class="timeline-hover-dot" aria-hidden="true"></span>
