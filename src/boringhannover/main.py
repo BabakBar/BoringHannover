@@ -12,13 +12,14 @@ import argparse
 import logging
 import sys
 from datetime import datetime
-from typing import NoReturn, cast
+from typing import NoReturn
 
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.backup import backup_run
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.github_sync import should_sync, sync_web_data_to_github
-from boringhannover.output import EventsData, export_run
+from boringhannover.output import export_run
+from boringhannover.source_outcomes import publication_refusal
 
 
 __all__ = ["main", "run"]
@@ -51,8 +52,9 @@ def run(*, local: bool = False) -> bool:
     1. Fetches events from movies (Astor) and concerts (venues)
     2. Categorizes them into movies and "On The Radar"
     3. Exports the web snapshot and the weekly archive
-    4. Backs up the run's output
-    5. Syncs to GitHub to trigger frontend rebuild
+    4. Checks the run's source outcomes allow replacing the public site
+    5. Backs up the run's output
+    6. Syncs to GitHub to trigger frontend rebuild
 
     Args:
         local: If True, runs in local/dev mode (no backup or GitHub sync).
@@ -61,6 +63,8 @@ def run(*, local: bool = False) -> bool:
         True if the workflow completed successfully. A non-local run that
         cannot publish to GitHub returns False, so the caller exits non-zero
         rather than reporting success while the site serves stale data. A
+        run whose sources make publishing unsafe also returns False, before
+        backing up or publishing, so the site keeps its current data. A
         failed backup also returns False, after publishing.
     """
     try:
@@ -82,11 +86,25 @@ def run(*, local: bool = False) -> bool:
         logger.info("  - Movies: %d", movies_count)
         logger.info("  - Concerts (On Radar): %d", radar_count)
 
-        # Step 2: Export to files
+        # Step 2: Export to files. A run that may not be published still
+        # writes its local output, partial results included, for diagnosis.
         logger.info("Exporting data...")
-        export_run(cast("EventsData", events_data), now=now)
+        export_run(events_data, now=now)
 
-        # Step 3: Back up, then sync data to GitHub. A production run that
+        # Step 3: Refuse to replace the public site on a critical or total
+        # collection failure. Its output is neither published nor backed up
+        # as a recovery point.
+        refusal = publication_refusal(events_data)
+        if refusal is not None:
+            if local:
+                logger.warning("This run would not be published: %s", refusal)
+            else:
+                logger.error(
+                    "Not publishing: %s. The site keeps its current data", refusal
+                )
+                return False
+
+        # Step 4: Back up, then sync data to GitHub. A production run that
         # scrapes but does not publish is a failed run: the site keeps serving
         # stale data, so this must exit non-zero for the scheduler to report
         # it. A failed backup must not hold back fresh data, but it still

@@ -13,8 +13,10 @@ import httpx
 import pytest
 from bs4 import BeautifulSoup
 
+from boringhannover.aggregator import fetch_all_events
 from boringhannover.config import REQUEST_TIMEOUT_SECONDS, USER_AGENT
 from boringhannover.occasions import OccasionDefinition
+from boringhannover.source_outcomes import SourceOutcome
 from boringhannover.sources.base import create_http_client
 from boringhannover.sources.festivals.hannover_calendar import (
     HannoverFestivalCalendarSource,
@@ -22,6 +24,8 @@ from boringhannover.sources.festivals.hannover_calendar import (
 
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from conftest import LocalSite
 
 
@@ -46,6 +50,17 @@ def _fixture(name: str) -> str:
     return (FIXTURES / name).read_text(encoding="utf-8")
 
 
+def _region_only_listing() -> str:
+    """The captured listing with only its Langenhagen card: read, then filtered."""
+    soup = BeautifulSoup(
+        (FIXTURES / "hannover_festivals.html").read_text("utf-8"), "html.parser"
+    )
+    for card in soup.select("article"):
+        if "Langenhagen" not in card.get_text():
+            card.decompose()
+    return str(soup)
+
+
 def _page2_items() -> list[str]:
     return json.loads(_fixture("hannover_festivals_page2.json"))["items"]
 
@@ -59,7 +74,7 @@ def _card_titles(html: str) -> list[str]:
     ]
 
 
-def _calendar_html(local_site: LocalSite) -> str:
+def _calendar_html(local_site: LocalSite) -> tuple[str, list[str]]:
     local_site.pages[LISTING_PATH] = (200, _fixture("hannover_festivals_listing.html"))
     with create_http_client() as client:
         return SOURCE()._fetch_calendar_html(client, f"{local_site.url}{LISTING_PATH}")
@@ -81,8 +96,10 @@ def _summary(location: str, source_summary: str = "") -> OccasionDefinition:
 
 
 def test_captured_listing_discovers_city_occasions_and_excludes_region() -> None:
-    occasions = SOURCE()._parse_calendar(_fixture("hannover_festivals.html"))
+    occasions, unread = SOURCE()._parse_calendar(_fixture("hannover_festivals.html"))
 
+    # The Langenhagen card is filtered out, which leaves nothing unread.
+    assert unread == []
     assert [occasion.slug for occasion in occasions] == [
         "maschseefest-hannover-2026",
         "fahrmannsfest-2026",
@@ -104,7 +121,7 @@ def test_captured_listing_discovers_city_occasions_and_excludes_region() -> None
         occasion.slug: occasion
         for occasion in SOURCE()._parse_calendar(
             _fixture("hannover_festivals_listing.html")
-        )
+        )[0]
     }
     # A card without a listed location is kept for detail enrichment.
     assert listing["kiezkultur-festival"].location == ""
@@ -114,8 +131,9 @@ def test_captured_listing_discovers_city_occasions_and_excludes_region() -> None
 def test_follows_load_more_until_the_last_page(local_site: LocalSite) -> None:
     local_site.pages[LOAD_MORE_PATH] = (200, _fixture("hannover_festivals_page2.json"))
 
-    html = _calendar_html(local_site)
+    html, gaps = _calendar_html(local_site)
 
+    assert gaps == []
     assert _card_titles(html) == [
         "Oktoberfest 2026",
         "KiezKultur Festival",
@@ -144,8 +162,9 @@ def test_follows_three_pages_and_dedupes_cards(local_site: LocalSite) -> None:
         json.dumps({"success": True, "items": items[1:], "next": None, "isLast": True}),
     )
 
-    html = _calendar_html(local_site)
+    html, gaps = _calendar_html(local_site)
 
+    assert gaps == []
     requests = [urlsplit(request) for request in local_site.requests]
     assert [request.path for request in requests] == [
         LISTING_PATH,
@@ -154,7 +173,7 @@ def test_follows_three_pages_and_dedupes_cards(local_site: LocalSite) -> None:
     ]
     assert parse_qs(requests[2].query) == LOAD_MORE_QUERY
     assert _card_titles(html).count("Schützenfest Hannover 2027") == 2
-    assert [occasion.slug for occasion in SOURCE()._parse_calendar(html)] == [
+    assert [occasion.slug for occasion in SOURCE()._parse_calendar(html)[0]] == [
         "oktoberfest-2026",
         "hannover-wies-27n",
         "kiezkultur-festival",
@@ -170,19 +189,19 @@ def test_failed_load_more_keeps_the_first_page(
     local_site.pages[LOAD_MORE_PATH] = (500, "")
 
     with caplog.at_level(logging.WARNING):
-        html = _calendar_html(local_site)
+        html, gaps = _calendar_html(local_site)
 
     assert _card_titles(html) == [
         "Oktoberfest 2026",
         "KiezKultur Festival",
         "Hannover Wies'n",
     ]
-    assert "pagination stopped" in caplog.text
+    (gap,) = gaps
+    assert gap.startswith("pagination stopped after 1 pages: HTTPStatusError")
+    assert gap in caplog.text
 
 
-def test_pagination_stops_at_the_page_limit(
-    local_site: LocalSite, caplog: pytest.LogCaptureFixture
-) -> None:
+def test_pagination_stops_at_the_page_limit(local_site: LocalSite) -> None:
     local_site.pages[LOAD_MORE_PATH] = (
         200,
         json.dumps(
@@ -190,8 +209,7 @@ def test_pagination_stops_at_the_page_limit(
         ),
     )
 
-    with caplog.at_level(logging.WARNING):
-        _calendar_html(local_site)
+    _, gaps = _calendar_html(local_site)
 
     load_more_requests = [
         request
@@ -199,33 +217,30 @@ def test_pagination_stops_at_the_page_limit(
         if urlsplit(request).path == LOAD_MORE_PATH
     ]
     assert len(load_more_requests) == SOURCE.MAX_LOAD_MORE_PAGES
-    assert "truncated" in caplog.text
+    assert gaps == [
+        "pagination stopped after 11 pages: "
+        "ValueError: page limit reached before the last page"
+    ]
 
 
 @pytest.mark.parametrize(
-    ("payload", "page_url", "card_count", "next_url"),
+    ("payload", "card_count", "next_url"),
     [
-        (
-            json.loads(_fixture("hannover_festivals_page2.json")),
-            OFFICIAL_LOAD_MORE_URL,
-            4,
-            None,
-        ),
+        (json.loads(_fixture("hannover_festivals_page2.json")), 4, None),
         (
             {"success": True, "items": [], "next": PAGE3_PATH, "isLast": False},
-            f"{OFFICIAL_LOAD_MORE_URL}?identifiers=event",
             0,
-            f"https://www.hannover.de{PAGE3_PATH}",
+            PAGE3_PATH,
         ),
     ],
 )
 def test_load_more_page(
-    payload: object, page_url: str, card_count: int, next_url: str | None
+    payload: dict[str, object], card_count: int, next_url: str | None
 ) -> None:
-    html, parsed_next = SOURCE._parse_load_more_page(payload, page_url)
+    items = SOURCE._load_more_items(payload)
 
-    assert len(_card_titles(html)) == card_count
-    assert parsed_next == next_url
+    assert len(_card_titles("\n".join(items))) == card_count
+    assert SOURCE._load_more_next(payload) == next_url
 
 
 @pytest.mark.parametrize(
@@ -238,7 +253,7 @@ def test_load_more_page(
 )
 def test_malformed_load_more_page_is_rejected(payload: object) -> None:
     with pytest.raises(ValueError, match="load-more"):
-        SOURCE._parse_load_more_page(payload, OFFICIAL_LOAD_MORE_URL)
+        SOURCE._load_more_items(payload)
 
 
 @pytest.mark.parametrize(
@@ -253,22 +268,27 @@ def test_malformed_load_more_page_is_rejected(payload: object) -> None:
     ],
 )
 def test_next_url_leaving_the_view_stops_but_keeps_cards(
-    raw_next: str, caplog: pytest.LogCaptureFixture
+    local_site: LocalSite, raw_next: str
 ) -> None:
-    with caplog.at_level(logging.WARNING):
-        html, next_url = SOURCE._parse_load_more_page(
+    local_site.pages[LOAD_MORE_PATH] = (
+        200,
+        json.dumps(
             {
                 "success": True,
                 "items": _page2_items()[:1],
                 "next": raw_next,
                 "isLast": False,
-            },
-            OFFICIAL_LOAD_MORE_URL,
-        )
+            }
+        ),
+    )
 
-    assert _card_titles(html) == ["Nacht der Museen 2027"]
-    assert next_url is None
-    assert raw_next in caplog.text
+    html, gaps = _calendar_html(local_site)
+
+    assert _card_titles(html)[-1] == "Nacht der Museen 2027"
+    assert len(local_site.requests) == 2
+    (gap,) = gaps
+    assert gap.startswith("pagination stopped after 2 pages: ValueError")
+    assert raw_next in gap
 
 
 @pytest.mark.parametrize(
@@ -328,7 +348,7 @@ def test_listing_teaser_still_excludes_the_region() -> None:
 
 
 def test_detail_keeps_a_rescheduling_proven_by_the_listing_teaser() -> None:
-    (listing,) = SOURCE()._parse_calendar(
+    (listing,), _ = SOURCE()._parse_calendar(
         """
         <article class="interesting-single line-view-content">
           <h3 class="interesting-single__title">Verschoben: X-Fest</h3>
@@ -352,7 +372,7 @@ def test_detail_keeps_a_rescheduling_proven_by_the_listing_teaser() -> None:
 def test_calendar_identifies_itself_while_other_sources_keep_the_shared_agent(
     local_site: LocalSite,
 ) -> None:
-    local_site.pages[LISTING_PATH] = (200, "<html></html>")
+    local_site.pages[LISTING_PATH] = (200, _region_only_listing())
 
     class LocalCalendar(SOURCE):
         CALENDAR_URL = f"{local_site.url}{LISTING_PATH}"
@@ -368,3 +388,238 @@ def test_calendar_identifies_itself_while_other_sources_keep_the_shared_agent(
     with create_http_client(user_agent=agent) as client:
         assert client.follow_redirects is True
         assert client.timeout == httpx.Timeout(REQUEST_TIMEOUT_SECONDS)
+
+
+DETAIL_PAGES = {
+    "/Veranstaltungskalender/Feste-Festivals/Oktoberfest-2026": (
+        "hannover_festival_detail_oktoberfest.html"
+    ),
+    "/Veranstaltungskalender/Feste-Festivals/KiezKultur-Festival": (
+        "hannover_festival_detail_kiezkultur.html"
+    ),
+    "/Veranstaltungskalender/Feste-Festivals/Hannover-Wies%27n": (
+        "hannover_festival_detail_wiesn.html"
+    ),
+}
+LAST_PAGE = json.dumps({"success": True, "items": [], "isLast": True})
+LISTING_SLUGS = ["oktoberfest-2026", "hannover-wies-27n", "kiezkultur-festival"]
+
+
+def _serve_listing(
+    local_site: LocalSite, listing: str | None = None, load_more: str = LAST_PAGE
+) -> None:
+    """Serve the captured three-card listing, its last page and its details."""
+    local_site.pages[LISTING_PATH] = (
+        200,
+        listing or _fixture("hannover_festivals_listing.html"),
+    )
+    local_site.pages[LOAD_MORE_PATH] = (200, load_more)
+    for path, fixture in DETAIL_PAGES.items():
+        local_site.pages[path] = (200, _fixture(fixture))
+
+
+def _unreadable_card(local_site: LocalSite) -> None:
+    listing = _fixture("hannover_festivals_listing.html")
+    _serve_listing(
+        local_site, listing.replace("09.10.2026 bis 10.10.2026", "Termin folgt")
+    )
+
+
+def _pages_never_end(local_site: LocalSite) -> None:
+    _serve_listing(
+        local_site,
+        load_more=json.dumps(
+            {"success": True, "items": [], "next": LOAD_MORE_PATH, "isLast": False}
+        ),
+    )
+
+
+def _undetailed_unlocated_card(local_site: LocalSite) -> None:
+    _serve_listing(local_site)
+    del local_site.pages["/Veranstaltungskalender/Feste-Festivals/KiezKultur-Festival"]
+
+
+def _maintenance_detail_for_unlocated_card(local_site: LocalSite) -> None:
+    _serve_listing(local_site)
+    local_site.pages["/Veranstaltungskalender/Feste-Festivals/KiezKultur-Festival"] = (
+        200,
+        "<html><body>Wartungsarbeiten</body></html>",
+    )
+
+
+def _undetailed_located_card(local_site: LocalSite) -> None:
+    _serve_listing(local_site)
+    del local_site.pages["/Veranstaltungskalender/Feste-Festivals/Oktoberfest-2026"]
+
+
+@pytest.mark.parametrize(
+    ("serve", "state", "slugs", "completion", "reason"),
+    [
+        pytest.param(
+            _serve_listing, "success", LISTING_SLUGS, "complete", "", id="complete"
+        ),
+        # Missing optional details keep a located occasion and the inventory whole.
+        pytest.param(
+            _undetailed_located_card,
+            "success",
+            LISTING_SLUGS,
+            "complete",
+            "",
+            id="details-optional",
+        ),
+        pytest.param(
+            lambda site: site.pages.update(
+                {LISTING_PATH: (200, _region_only_listing())}
+            ),
+            "empty",
+            [],
+            "complete",
+            "",
+            id="all-cards-filtered",
+        ),
+        # Zero cards proves nothing: an empty season, a redesign that renders
+        # cards in the browser, and an error page all look the same.
+        pytest.param(
+            lambda site: site.pages.update(
+                {
+                    LISTING_PATH: (
+                        200,
+                        '<html><body><h1 class="content-detail__title">'
+                        'Feste &amp; Festivals</h1><div id="app"></div></body></html>',
+                    )
+                }
+            ),
+            "failed",
+            [],
+            "incomplete",
+            "ValueError: Listing has no cards",
+            id="listing-without-cards",
+        ),
+        pytest.param(
+            lambda site: site.pages.update({LISTING_PATH: (503, "")}),
+            "failed",
+            [],
+            "incomplete",
+            "HTTPStatusError: Server error '503 Service Unavailable'",
+            id="listing-request-fails",
+        ),
+        pytest.param(
+            lambda site: site.pages.update(
+                {LISTING_PATH: (200, "<html><body>Wartungsarbeiten</body></html>")}
+            ),
+            "failed",
+            [],
+            "incomplete",
+            "ValueError: Listing has no cards",
+            id="not-the-listing",
+        ),
+        pytest.param(
+            lambda site: _serve_listing(site, load_more="not json"),
+            "partial",
+            LISTING_SLUGS,
+            "incomplete",
+            "pagination stopped after 1 pages: JSONDecodeError",
+            id="later-page-malformed",
+        ),
+        pytest.param(
+            _pages_never_end,
+            "partial",
+            LISTING_SLUGS,
+            "incomplete",
+            "pagination stopped after 11 pages: ValueError: page limit reached",
+            id="page-limit",
+        ),
+        pytest.param(
+            _unreadable_card,
+            "partial",
+            ["oktoberfest-2026", "hannover-wies-27n"],
+            "incomplete",
+            "1 listing entries unreadable",
+            id="unreadable-card",
+        ),
+        pytest.param(
+            _undetailed_unlocated_card,
+            "partial",
+            ["oktoberfest-2026", "hannover-wies-27n"],
+            "incomplete",
+            "1 occasions without a location",
+            id="unlocated-without-details",
+        ),
+        # A 200 page that is not a detail page leaves the location just as unknown.
+        pytest.param(
+            _maintenance_detail_for_unlocated_card,
+            "partial",
+            ["oktoberfest-2026", "hannover-wies-27n"],
+            "incomplete",
+            "1 occasions without a location",
+            id="unlocated-with-unreadable-details",
+        ),
+        # Content the parser cannot read is not an empty page.
+        pytest.param(
+            lambda site: _serve_listing(
+                site,
+                load_more=json.dumps(
+                    {
+                        "success": True,
+                        "items": ["<div>unrecognized listing markup</div>"],
+                        "isLast": True,
+                    }
+                ),
+            ),
+            "partial",
+            LISTING_SLUGS,
+            "incomplete",
+            "page 2: 1 of 1 entries unreadable",
+            id="later-page-unreadable",
+        ),
+        # A broken continuation keeps the cards of the page that carried it.
+        pytest.param(
+            lambda site: _serve_listing(
+                site,
+                load_more=json.dumps(
+                    {
+                        "success": True,
+                        "items": _page2_items()[1:2],
+                        "next": None,
+                        "isLast": False,
+                    }
+                ),
+            ),
+            "partial",
+            [*LISTING_SLUGS, "schutzenfest-hannover-2027"],
+            "incomplete",
+            "pagination stopped after 2 pages: ValueError: Malformed load-more next URL",
+            id="malformed-continuation-keeps-its-page",
+        ),
+    ],
+)
+def test_discovery_outcome_tells_empty_from_failed_and_partial(
+    local_site: LocalSite,
+    serve: Callable[[LocalSite], None],
+    state: str,
+    slugs: list[str],
+    completion: str,
+    reason: str,
+) -> None:
+    """Aggregation keeps every occasion read and says how much that was."""
+    serve(local_site)
+
+    class LocalCalendar(SOURCE):
+        CALENDAR_URL = f"{local_site.url}{LISTING_PATH}"
+
+    result = fetch_all_events(sources={"festivals": LocalCalendar})
+
+    fetched, discovered = result["source_outcomes"]
+    # The source never fetches timeline events, so its empty fetch is normal
+    # and says nothing about discovery.
+    assert fetched == SourceOutcome("festivals", "fetch", "empty", 0, "unknown")
+    assert (discovered.operation, discovered.state) == ("discover_occasions", state)
+    assert discovered.completion == completion
+    assert discovered.count == len(slugs)
+    assert discovered.reason.startswith(reason)
+    assert [occasion.slug for occasion in result.get("city_occasions", [])] == slugs
+    # Occasions keep their public hannover.de URLs; only requests went local.
+    assert all(
+        occasion.source_url.startswith("https://www.hannover.de/")
+        for occasion in result.get("city_occasions", [])
+    )

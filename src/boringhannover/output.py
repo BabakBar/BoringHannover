@@ -14,6 +14,7 @@ from boringhannover.exporters import archive_weekly_data, export_web_json
 if TYPE_CHECKING:
     from boringhannover.models import Event
     from boringhannover.occasions import OccasionDefinition
+    from boringhannover.source_outcomes import SourceOutcome
 
 __all__ = ["EventsData", "export_run"]
 
@@ -21,11 +22,12 @@ logger = logging.getLogger(__name__)
 
 
 class EventsData(TypedDict):
-    """Categorized events from one scrape."""
+    """Categorized events from one scrape, and what each source operation did."""
 
     movies_this_week: list[Event]
     big_events_radar: list[Event]
     city_occasions: NotRequired[list[OccasionDefinition]]
+    source_outcomes: list[SourceOutcome]
 
 
 def export_run(

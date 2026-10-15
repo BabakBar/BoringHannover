@@ -155,3 +155,70 @@ def test_date_only_events_stay_listed_for_their_whole_berlin_day() -> None:
         "date only",
         "day 14",
     ]
+
+
+def test_fetch_and_discovery_outcomes_stay_distinct() -> None:
+    """A failed fetch neither skips discovery nor is hidden by its success,
+    and configuration is never recorded as an observation."""
+    now = berlin(2026, 10, 15, 9, 0)
+    fest = OccasionDefinition(
+        id="test:fest",
+        slug="fest",
+        name="Fest",
+        kind="festival",
+        start_date=now.date(),
+        end_date=now.date(),
+        location="Venue",
+        source_url="https://example.com",
+        description="",
+    )
+
+    class BrokenVenue(BaseSource):
+        source_name = "Broken"
+        source_type = "concert"
+
+        def fetch(self) -> list[Event]:
+            msg = "venue moved"
+            raise ConnectionError(msg)
+
+        def discover_occasions(self) -> list[OccasionDefinition]:
+            return [fest]
+
+    class OwnOccasion(BaseSource):
+        source_name = "Own"
+        source_type = "festival"
+        occasion = fest
+
+        def fetch(self) -> list[Event]:
+            return []
+
+    class Disabled(OwnOccasion):
+        enabled = False
+
+    class Unbuildable(BrokenVenue):
+        def __init__(self) -> None:
+            msg = "bad config"
+            raise ValueError(msg)
+
+    result = fetch_all_events(
+        sources={
+            "broken": BrokenVenue,
+            "own": OwnOccasion,
+            "off": Disabled,
+            "unbuildable": Unbuildable,
+        },
+        now=now,
+    )
+
+    assert [str(outcome) for outcome in result["source_outcomes"]] == [
+        "broken fetch: failed, 0 usable, completion incomplete "
+        "(ConnectionError: venue moved)",
+        "broken discover_occasions: success, 1 usable, completion complete",
+        "own fetch: empty, 0 usable, completion unknown",
+        # Discovery that never ran is a failure, not a missing observation.
+        "unbuildable fetch: failed, 0 usable, completion incomplete "
+        "(ValueError: bad config)",
+        "unbuildable discover_occasions: failed, 0 usable, completion incomplete "
+        "(ValueError: bad config)",
+    ]
+    assert result.get("city_occasions") == [fest, fest]

@@ -23,6 +23,7 @@ from boringhannover.occasions import (
     ScheduleConfidence,
     SourceStatus,
 )
+from boringhannover.source_outcomes import IncompleteDiscoveryError, describe_error
 from boringhannover.sources.base import BaseSource, create_http_client, register_source
 
 
@@ -54,6 +55,7 @@ _APPOINTMENT_PATTERN = re.compile(
     r"(?:\s+ab\s+(?P<from>\d{1,2}:\d{2})(?:\s+bis\s+(?P<to>\d{1,2}:\d{2}))?\s+Uhr)?"
 )
 _TIME_PATTERN = re.compile(r"(\d{1,2}):(\d{2})")
+_CARD = "article.interesting-single.line-view-content"
 _EXCLUSION_LABEL = "Die Veranstaltung findet nicht statt am:"
 _MAX_SCHEDULE_DAYS = 366
 # hannover.de prefixes a changed entry's title with its status.
@@ -121,17 +123,39 @@ class HannoverFestivalCalendarSource(BaseSource):
         return []
 
     def discover_occasions(self) -> list[OccasionDefinition]:
-        """Fetch and normalize the current official festival index."""
+        """Fetch and normalize the current official festival index.
+
+        Returns the complete inventory, which is empty only when every card
+        was read and none could be published. A listing that cannot be read
+        at all, including one without any cards, raises.
+
+        Raises:
+            IncompleteDiscoveryError: If part of the listing could not be read:
+                a page, an entry, or the location of an occasion inside the
+                discovery horizon. It carries every occasion that was read, so
+                a gap is never mistaken for an occasion that has ended.
+        """
         with create_http_client(user_agent=self.USER_AGENT) as client:
-            html = self._fetch_calendar_html(client, self.CALENDAR_URL)
+            html, gaps = self._fetch_calendar_html(client, self.CALENDAR_URL)
+            listed, unread = self._parse_calendar(html)
             occasions = [
-                self._enrich_from_detail(client, occasion)
-                for occasion in self._parse_calendar(html)
+                self._enrich_from_detail(client, occasion) for occasion in listed
             ]
 
         unlocated = [occasion.name for occasion in occasions if not occasion.location]
         if unlocated:
             logger.info("Skipped occasions without a location: %s", unlocated)
+        # A location is required to publish, and only the listing or the detail
+        # page supplies one. Inside the horizon, an occasion still without one
+        # was not read, whatever the detail page answered; outside the city it
+        # would never have been published.
+        unresolved = [
+            occasion
+            for occasion in occasions
+            if not occasion.location
+            and self._within_horizon(occasion)
+            and not self._is_outside_city(f"{occasion.name} {occasion.source_summary}")
+        ]
         occasions = [
             occasion for occasion in occasions if self._is_publishable(occasion)
         ]
@@ -140,48 +164,76 @@ class HannoverFestivalCalendarSource(BaseSource):
             len(occasions),
             self.source_name,
         )
+
+        if unread:
+            gaps.append(f"{len(unread)} listing entries unreadable")
+        if unresolved:
+            gaps.append(f"{len(unresolved)} occasions without a location")
+        if gaps:
+            raise IncompleteDiscoveryError(occasions, "; ".join(gaps))
         return occasions
 
-    def _fetch_calendar_html(self, client: httpx.Client, url: str) -> str:
-        """Return the first listing page plus every load-more page's cards.
+    def _fetch_calendar_html(
+        self,
+        client: httpx.Client,
+        url: str,
+    ) -> tuple[str, list[str]]:
+        """Return every listing page's cards, and what could not be read.
 
         The listing renders ten cards; its "mehr" button pages through the
-        rest via a JSON API. A failed later page keeps the cards already read.
+        rest via a JSON API. A failed first page raises. A later page's
+        entries that are not cards are a gap, not an empty page. Paging that
+        stops before the API's last page, on a failed or malformed page, a
+        rejected load-more or next URL, or the page limit, keeps the cards
+        already read and names the gap instead of passing for the end of the
+        listing.
         """
         response = client.get(url)
         response.raise_for_status()
         pages = [response.text]
 
-        load_more = self._parse_load_more_request(response.text, str(response.url))
-        next_url, params = load_more if load_more is not None else (None, {})
-        for _ in range(self.MAX_LOAD_MORE_PAGES):
-            if next_url is None:
-                break
-            try:
+        gaps: list[str] = []
+        try:
+            load_more = self._parse_load_more_request(response.text, str(response.url))
+            next_url, params = load_more if load_more is not None else (None, {})
+            while next_url is not None:
+                if len(pages) > self.MAX_LOAD_MORE_PAGES:
+                    msg = "page limit reached before the last page"
+                    raise ValueError(msg)
                 response = client.get(next_url, params=params)
                 response.raise_for_status()
-                items_html, next_url = self._parse_load_more_page(
-                    response.json(), str(response.url)
+                payload = response.json()
+                entries = [
+                    item for item in self._load_more_items(payload) if item.strip()
+                ]
+                pages.append("\n".join(entries))
+                unreadable = sum(
+                    BeautifulSoup(entry, "html.parser").select_one(_CARD) is None
+                    for entry in entries
                 )
-            except Exception as exc:
-                logger.warning(
-                    "%s pagination stopped after %d pages: %s",
-                    self.source_name,
-                    len(pages),
-                    exc,
+                if unreadable:
+                    gaps.append(
+                        f"page {len(pages)}: {unreadable} of {len(entries)} "
+                        "entries unreadable"
+                    )
+                raw_next = self._load_more_next(payload)
+                if raw_next is None:
+                    break
+                next_url = self._load_more_url(
+                    raw_next, str(response.url), continuation=True
                 )
-                break
-            pages.append(items_html)
-        else:
-            if next_url is not None:
-                logger.warning(
-                    "%s listing truncated at %d pages",
-                    self.source_name,
-                    len(pages),
-                )
+                if next_url is None:
+                    msg = f"unexpected next URL {raw_next!r}"
+                    raise ValueError(msg)
+        except Exception as exc:
+            gaps.append(
+                f"pagination stopped after {len(pages)} pages: {describe_error(exc)}"
+            )
 
+        for gap in gaps:
+            logger.warning("%s %s", self.source_name, gap)
         logger.info("Read %d listing pages from %s", len(pages), self.source_name)
-        return "\n".join(pages)
+        return "\n".join(pages), gaps
 
     @classmethod
     def _parse_load_more_request(
@@ -189,17 +241,22 @@ class HannoverFestivalCalendarSource(BaseSource):
         html: str,
         page_url: str,
     ) -> tuple[str, dict[str, str]] | None:
-        """Mirror the official "mehr" button's first load-more request."""
+        """Mirror the official "mehr" button's first load-more request.
+
+        Raises:
+            ValueError: If the button points outside the listing's view API.
+        """
         button = BeautifulSoup(html, "html.parser").select_one(
             "button.more-items[data-tile_query]"
         )
         if button is None:
             return None
 
-        url = cls._load_more_url(str(button.get("data-tile_query")), page_url)
+        raw_url = str(button.get("data-tile_query"))
+        url = cls._load_more_url(raw_url, page_url)
         if url is None:
-            logger.warning("Ignoring unexpected load-more URL on %s", page_url)
-            return None
+            msg = f"unexpected load-more URL {raw_url!r}"
+            raise ValueError(msg)
 
         params = {"identifiers": str(button.get("data-identi_query") or "")}
         sort_field = button.get("data-sort_field")
@@ -208,13 +265,9 @@ class HannoverFestivalCalendarSource(BaseSource):
             params |= {"sortField": str(sort_field), "sortOrder": str(sort_order)}
         return url, params
 
-    @classmethod
-    def _parse_load_more_page(
-        cls,
-        payload: object,
-        page_url: str,
-    ) -> tuple[str, str | None]:
-        """Return a load-more page's card HTML and the next page URL, if any."""
+    @staticmethod
+    def _load_more_items(payload: object) -> list[str]:
+        """Return a successful load-more page's entries as HTML strings."""
         if not isinstance(payload, dict) or payload.get("success") is not True:
             msg = "Unsuccessful load-more response"
             raise ValueError(msg)
@@ -225,20 +278,21 @@ class HannoverFestivalCalendarSource(BaseSource):
         ):
             msg = "Malformed load-more items"
             raise ValueError(msg)
+        return items
 
-        html = "\n".join(items)
+    @staticmethod
+    def _load_more_next(payload: dict[str, object]) -> str | None:
+        """Return a load-more page's raw next URL, or None on the last page.
+
+        Read after the page's entries, so a broken continuation keeps them.
+        """
         raw_next = payload.get("next")
-        if payload.get("isLast") is True or not isinstance(raw_next, str):
-            return html, None
-
-        next_url = cls._load_more_url(raw_next, page_url, continuation=True)
-        if next_url is None:
-            logger.warning(
-                "%s pagination stopped at unexpected next URL %r",
-                cls.source_name,
-                raw_next,
-            )
-        return html, next_url
+        if payload.get("isLast") is True:
+            return None
+        if not isinstance(raw_next, str):
+            msg = "Malformed load-more next URL"
+            raise ValueError(msg)
+        return raw_next
 
     @staticmethod
     def _load_more_url(
@@ -266,33 +320,50 @@ class HannoverFestivalCalendarSource(BaseSource):
                 return None
         return parsed._replace(query="", fragment="").geturl()
 
-    def _parse_calendar(self, html: str) -> list[OccasionDefinition]:
+    def _parse_calendar(
+        self,
+        html: str,
+    ) -> tuple[list[OccasionDefinition], list[str]]:
         """Parse stable line-view event cards from the official calendar.
 
+        Returns the occasions and what could not be read: a card without a
+        title, valid dates or an official link, and an official occasion link
+        outside any card. Cards outside the city or linking off the calendar
+        could never be published, so skipping them leaves nothing unread.
         Cards without a listing location are kept with an empty location so
         detail enrichment can read the official Ort row.
+
+        Raises:
+            ValueError: If the page has no cards. An empty season, a redesign
+                that renders cards in the browser and an error page answering
+                200 look the same, so none of them is a confirmed empty listing.
         """
         soup = BeautifulSoup(html, "html.parser")
-        occasions: dict[str, OccasionDefinition] = {}
+        cards = soup.select(_CARD)
+        if not cards:
+            msg = "Listing has no cards"
+            raise ValueError(msg)
 
-        for card in soup.select("article.interesting-single.line-view-content"):
+        occasions: dict[str, OccasionDefinition] = {}
+        unread: list[str] = []
+        for card in cards:
             marker, title = self._split_status(
                 self._text(card.select_one(".interesting-single__title"))
             )
-            dates = self._parse_dates(self._text(card.select_one(".date__duration")))
+            raw_dates = self._text(card.select_one(".date__duration"))
+            dates = self._parse_dates(raw_dates)
             location = self._text(card.select_one(".date__category"))
             description = self._text(
                 card.select_one(".interesting-single__description p")
             )
             link = card.select_one("a.content__read-more[href]")
             raw_href = link.get("href") if link is not None else None
+            card.decompose()
 
-            if (
-                not title
-                or dates is None
-                or not isinstance(raw_href, str)
-                or self._is_outside_city(f"{title} {location} {description}")
-            ):
+            if self._is_outside_city(f"{title} {location} {description}"):
+                continue
+            if not title or dates is None or not isinstance(raw_href, str):
+                unread.append(f"card {title or raw_href!r} with dates {raw_dates!r}")
                 continue
 
             source_url = urljoin(self.BASE_URL, raw_href.strip())
@@ -301,6 +372,7 @@ class HannoverFestivalCalendarSource(BaseSource):
 
             slug = self._slug_from_url(source_url)
             if not slug:
+                unread.append(f"card {title!r}: no slug in {raw_href!r}")
                 continue
 
             start_date, end_date = dates
@@ -325,23 +397,43 @@ class HannoverFestivalCalendarSource(BaseSource):
                 ),
             )
 
+        listing_path = f"{urlparse(self.CALENDAR_URL).path.rstrip('/')}/"
+        for link in soup.select("a[href]"):
+            url = urljoin(self.BASE_URL, str(link.get("href")).strip())
+            if self._is_official_url(url) and urlparse(url).path.startswith(
+                listing_path
+            ):
+                unread.append(f"link outside any card: {url}")
+
+        for entry in unread:
+            logger.warning("%s could not read %s", self.source_name, entry)
         return sorted(
             occasions.values(),
             key=lambda occasion: (occasion.start_date, occasion.name),
-        )
+        ), unread
 
     def _enrich_from_detail(
         self,
         client: httpx.Client,
         occasion: OccasionDefinition,
     ) -> OccasionDefinition:
-        """Read official detail rows for occasions inside the discovery horizon."""
-        today = datetime.now(BERLIN_TZ).date()
-        if occasion.start_date > today + timedelta(days=EVENT_LOOKAHEAD_DAYS):
+        """Read official detail rows for occasions inside the discovery horizon.
+
+        Details are optional facts, so an unreadable detail page keeps the
+        listing's own. Like load-more pages, the page is requested from the
+        listing's origin.
+        """
+        if not self._within_horizon(occasion):
             return occasion
 
+        listing = urlparse(self.CALENDAR_URL)
+        detail_url = (
+            urlparse(occasion.source_url)
+            ._replace(scheme=listing.scheme, netloc=listing.netloc)
+            .geturl()
+        )
         try:
-            response = client.get(occasion.source_url)
+            response = client.get(detail_url)
             response.raise_for_status()
         except Exception as exc:
             logger.warning(
@@ -351,6 +443,12 @@ class HannoverFestivalCalendarSource(BaseSource):
             )
             return occasion
         return self._apply_detail(occasion, response.text)
+
+    @staticmethod
+    def _within_horizon(occasion: OccasionDefinition) -> bool:
+        """Whether an occasion starts by the end of today's discovery horizon."""
+        today = datetime.now(BERLIN_TZ).date()
+        return occasion.start_date <= today + timedelta(days=EVENT_LOOKAHEAD_DAYS)
 
     @classmethod
     def _apply_detail(
