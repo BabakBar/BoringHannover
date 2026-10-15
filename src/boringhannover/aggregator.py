@@ -199,9 +199,6 @@ def _discover_occasions(
 
     try:
         occasions = source.discover_occasions()
-        if not isinstance(occasions, list):
-            msg = "invalid occasion collection"
-            raise TypeError(msg)
     except IncompleteDiscoveryError as exc:
         logger.warning(
             "Occasion discovery for source %s is incomplete: %s", name, exc.reason

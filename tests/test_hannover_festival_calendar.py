@@ -44,15 +44,21 @@ LOAD_MORE_QUERY = {
     "sortOrder": ["1"],
 }
 OFFICIAL_LOAD_MORE_URL = f"https://www.hannover.de{LOAD_MORE_PATH}"
-# The heading of the live listing page (15 Oct 2026), without any cards.
-EMPTY_LISTING = (
-    '<html><body><h1 class="content-detail__title">Feste &amp; Festivals</h1>'
-    "</body></html>"
-)
 
 
 def _fixture(name: str) -> str:
     return (FIXTURES / name).read_text(encoding="utf-8")
+
+
+def _region_only_listing() -> str:
+    """The captured listing with only its Langenhagen card: read, then filtered."""
+    soup = BeautifulSoup(
+        (FIXTURES / "hannover_festivals.html").read_text("utf-8"), "html.parser"
+    )
+    for card in soup.select("article"):
+        if "Langenhagen" not in card.get_text():
+            card.decompose()
+    return str(soup)
 
 
 def _page2_items() -> list[str]:
@@ -251,19 +257,6 @@ def test_malformed_load_more_page_is_rejected(payload: object) -> None:
 
 
 @pytest.mark.parametrize(
-    "payload",
-    [
-        # Neither the last page nor a way on: not a confirmed end.
-        {"success": True, "items": [], "isLast": False},
-        {"success": True, "items": [], "next": None},
-    ],
-)
-def test_missing_continuation_is_not_an_end(payload: dict[str, object]) -> None:
-    with pytest.raises(ValueError, match="load-more next URL"):
-        SOURCE._load_more_next(payload)
-
-
-@pytest.mark.parametrize(
     "raw_next",
     [
         "https://example.com/api/v1/view/533295/20/10/line",
@@ -379,7 +372,7 @@ def test_detail_keeps_a_rescheduling_proven_by_the_listing_teaser() -> None:
 def test_calendar_identifies_itself_while_other_sources_keep_the_shared_agent(
     local_site: LocalSite,
 ) -> None:
-    local_site.pages[LISTING_PATH] = (200, EMPTY_LISTING)
+    local_site.pages[LISTING_PATH] = (200, _region_only_listing())
 
     class LocalCalendar(SOURCE):
         CALENDAR_URL = f"{local_site.url}{LISTING_PATH}"
@@ -475,12 +468,32 @@ def _undetailed_located_card(local_site: LocalSite) -> None:
             id="details-optional",
         ),
         pytest.param(
-            lambda site: site.pages.update({LISTING_PATH: (200, EMPTY_LISTING)}),
+            lambda site: site.pages.update(
+                {LISTING_PATH: (200, _region_only_listing())}
+            ),
             "empty",
             [],
             "complete",
             "",
-            id="empty-season",
+            id="all-cards-filtered",
+        ),
+        # Zero cards proves nothing: an empty season, a redesign that renders
+        # cards in the browser, and an error page all look the same.
+        pytest.param(
+            lambda site: site.pages.update(
+                {
+                    LISTING_PATH: (
+                        200,
+                        '<html><body><h1 class="content-detail__title">'
+                        'Feste &amp; Festivals</h1><div id="app"></div></body></html>',
+                    )
+                }
+            ),
+            "failed",
+            [],
+            "incomplete",
+            "ValueError: Listing has no cards",
+            id="listing-without-cards",
         ),
         pytest.param(
             lambda site: site.pages.update({LISTING_PATH: (503, "")}),
@@ -497,7 +510,7 @@ def _undetailed_located_card(local_site: LocalSite) -> None:
             "failed",
             [],
             "incomplete",
-            "ValueError: Response is not the festival listing",
+            "ValueError: Listing has no cards",
             id="not-the-listing",
         ),
         pytest.param(

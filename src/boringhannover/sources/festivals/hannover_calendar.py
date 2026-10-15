@@ -56,9 +56,6 @@ _APPOINTMENT_PATTERN = re.compile(
 )
 _TIME_PATTERN = re.compile(r"(\d{1,2}):(\d{2})")
 _CARD = "article.interesting-single.line-view-content"
-# The listing page's own heading; without cards, it is what tells an empty
-# listing from an error or consent page that happens to answer 200.
-_LISTING_HEADING = "Feste & Festivals"
 _EXCLUSION_LABEL = "Die Veranstaltung findet nicht statt am:"
 _MAX_SCHEDULE_DAYS = 366
 # hannover.de prefixes a changed entry's title with its status.
@@ -128,8 +125,9 @@ class HannoverFestivalCalendarSource(BaseSource):
     def discover_occasions(self) -> list[OccasionDefinition]:
         """Fetch and normalize the current official festival index.
 
-        Returns the complete inventory, which may be legitimately empty. A
-        listing that cannot be read at all raises.
+        Returns the complete inventory, which is empty only when every card
+        was read and none could be published. A listing that cannot be read
+        at all, including one without any cards, raises.
 
         Raises:
             IncompleteDiscoveryError: If part of the listing could not be read:
@@ -336,14 +334,14 @@ class HannoverFestivalCalendarSource(BaseSource):
         detail enrichment can read the official Ort row.
 
         Raises:
-            ValueError: If the page has neither cards nor the listing heading.
+            ValueError: If the page has no cards. An empty season, a redesign
+                that renders cards in the browser and an error page answering
+                200 look the same, so none of them is a confirmed empty listing.
         """
         soup = BeautifulSoup(html, "html.parser")
         cards = soup.select(_CARD)
-        if not cards and (
-            self._text(soup.select_one("h1.content-detail__title")) != _LISTING_HEADING
-        ):
-            msg = "Response is not the festival listing"
+        if not cards:
+            msg = "Listing has no cards"
             raise ValueError(msg)
 
         occasions: dict[str, OccasionDefinition] = {}

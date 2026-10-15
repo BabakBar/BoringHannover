@@ -111,7 +111,6 @@ def publication_refusal(events_data: EventsData) -> str | None:
     Every publication replaces the whole public inventory, and nothing yet
     carries forward what a run failed to see (#26). So:
 
-    - Without outcomes, nothing says what the run read.
     - Occasion discovery is critical. An occasion missing from a failed or
       partial discovery would disappear from the site although nothing says
       it ended. Only a complete discovery may be published, including a
@@ -122,10 +121,7 @@ def publication_refusal(events_data: EventsData) -> str | None:
       counts is what would be published: rows a source returned may all lie
       outside the window, so fetch counts serve only as diagnosis.
     """
-    outcomes = events_data.get("source_outcomes")
-    if outcomes is None:
-        return "no source outcomes recorded"
-
+    outcomes = events_data["source_outcomes"]
     unsafe = [
         outcome
         for outcome in outcomes

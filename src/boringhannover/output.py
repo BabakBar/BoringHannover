@@ -27,7 +27,7 @@ class EventsData(TypedDict):
     movies_this_week: list[Event]
     big_events_radar: list[Event]
     city_occasions: NotRequired[list[OccasionDefinition]]
-    source_outcomes: NotRequired[list[SourceOutcome]]
+    source_outcomes: list[SourceOutcome]
 
 
 def export_run(

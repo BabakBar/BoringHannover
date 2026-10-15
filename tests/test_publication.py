@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
+from bs4 import BeautifulSoup
 
 from boringhannover import main
 from boringhannover.aggregator import fetch_all_events
@@ -41,10 +42,6 @@ if TYPE_CHECKING:
 FIXTURES = Path(__file__).parent / "fixtures"
 LISTING_PATH = "/Veranstaltungskalender/Feste-Festivals"
 LOAD_MORE_PATH = "/api/v1/view/533295/10/10/line"
-EMPTY_LISTING = (
-    '<html><body><h1 class="content-detail__title">Feste &amp; Festivals</h1>'
-    "</body></html>"
-)
 FETCHED = SourceOutcome("venue", "fetch", "success", 1, "unknown")
 PARTIAL = SourceOutcome(
     "festivals", "discover_occasions", "partial", 2, "incomplete", "page 2 failed"
@@ -110,17 +107,6 @@ UNSAFE = {**SAFE, "source_outcomes": [FETCHED, PARTIAL]}
         pytest.param(SAFE, True, False, False, False, True, [], id="local-skips-both"),
         # Unsafe output is neither backed up nor published.
         pytest.param(UNSAFE, False, True, True, True, False, [], id="unsafe"),
-        # Without outcomes there is no evidence the output is safe.
-        pytest.param(
-            {"movies_this_week": [], "big_events_radar": [CONCERT]},
-            False,
-            True,
-            True,
-            True,
-            False,
-            [],
-            id="no-outcomes",
-        ),
         # Sources answered, but nothing would be published.
         pytest.param(
             {**SAFE, "big_events_radar": []},
@@ -173,7 +159,7 @@ def test_run_reports_publication_and_backup_failures(
 
 
 def _serve_empty_listing(site: LocalSite) -> None:
-    site.pages[LISTING_PATH] = (200, EMPTY_LISTING)
+    site.pages[LISTING_PATH] = (200, _region_only_listing())
 
 
 def _serve_failed_listing(site: LocalSite) -> None:
@@ -186,11 +172,22 @@ def _serve_listing_with_failed_page(site: LocalSite) -> None:
     site.pages[LOAD_MORE_PATH] = (502, "")
 
 
+def _region_only_listing() -> str:
+    """The captured listing with only its Langenhagen card: read, then filtered."""
+    soup = BeautifulSoup(
+        (FIXTURES / "hannover_festivals.html").read_text("utf-8"), "html.parser"
+    )
+    for card in soup.select("article"):
+        if "Langenhagen" not in card.get_text():
+            card.decompose()
+    return str(soup)
+
+
 @pytest.mark.parametrize(
     ("serve", "venue", "published", "occasions", "reason"),
     [
         pytest.param(
-            _serve_empty_listing, "ok", True, [], None, id="empty-season-publishes"
+            _serve_empty_listing, "ok", True, [], None, id="empty-discovery-publishes"
         ),
         pytest.param(
             _serve_failed_listing,
