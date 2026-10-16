@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "updatedAt": "Fri 16 Oct 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:exit-x-electric-sunday",
+    "slug": "exit-x-electric-sunday",
+    "name": "EXIT x Electric Sunday",
+    "kind": "festival",
+    "startDate": "2026-10-30",
+    "endDate": "2026-10-30",
+    "location": "Hannover Congress Centrum (HCC)",
+    "description": "EXIT x Electric Sunday at Hannover Congress Centrum (HCC). See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/EXIT-x-Electric-Sunday",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/exit-x-electric-sunday.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-10-30",
+        "startTime": "10:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Hannover Congress Centrum (HCC)",
+      "street": "Theodor-Heuss-Platz 1",
+      "postalCode": "30175",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
