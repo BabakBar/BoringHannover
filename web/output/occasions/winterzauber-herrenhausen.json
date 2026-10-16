@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "updatedAt": "Fri 16 Oct 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:winterzauber-herrenhausen",
+    "slug": "winterzauber-herrenhausen",
+    "name": "Winterzauber Herrenhausen",
+    "kind": "festival",
+    "startDate": "2026-10-28",
+    "endDate": "2026-11-01",
+    "location": "Galerie Herrenhausen",
+    "description": "Winterzauber Herrenhausen at Galerie Herrenhausen. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Winterzauber-Herrenhausen",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/winterzauber-herrenhausen.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-10-28",
+        "startTime": "13:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-10-29",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-10-30",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Galerie Herrenhausen",
+      "street": "Herrenhäuser Straße 3a",
+      "postalCode": "30419",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
