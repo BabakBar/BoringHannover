@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sun 11 Oct 20:00"
+    "updatedAt": "Fri 16 Oct 11:00"
   },
   "occasion": {
     "id": "hannover-festivals:hannover-wies-27n",
@@ -12,7 +12,7 @@
     "location": "Parkbühne",
     "description": "Hannover Wies'n at Parkbühne. See the source for details.",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Hannover-Wies%27n",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/hannover-wies-27n.json",
@@ -32,6 +32,14 @@
       },
       {
         "date": "2026-10-24",
+        "startTime": "18:00"
+      },
+      {
+        "date": "2026-10-29",
+        "startTime": "18:00"
+      },
+      {
+        "date": "2026-10-30",
         "startTime": "18:00"
       }
     ],
