@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 16 Oct 11:00"
+    "updatedAt": "Sun 18 Oct 20:00"
   },
   "occasion": {
     "id": "hannover-festivals:winterzauber-herrenhausen",
@@ -32,6 +32,16 @@
         "date": "2026-10-30",
         "startTime": "11:00",
         "endTime": "21:00"
+      },
+      {
+        "date": "2026-10-31",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-11-01",
+        "startTime": "11:00",
+        "endTime": "19:00"
       }
     ],
     "scheduleConfidence": "continuous",
