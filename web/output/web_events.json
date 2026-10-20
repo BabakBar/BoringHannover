@@ -1,41 +1,11 @@
 {
   "meta": {
-    "week": 42,
+    "week": 43,
     "year": 2026,
-    "updatedAt": "Sun 18 Oct 20:00",
-    "updatedAtISO": "2026-10-18T20:00:11.849903+02:00"
+    "updatedAt": "Tue 20 Oct 11:00",
+    "updatedAtISO": "2026-10-20T11:00:08.910200+02:00"
   },
   "movies": [
-    {
-      "day": "MON",
-      "date": "19.10",
-      "movies": [
-        {
-          "title": "Verity - Dunkle Geheimnisse",
-          "year": 2026,
-          "time": "12:00",
-          "venue": "Astor Grand Cinema",
-          "duration": "1h58m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/verity-dunkle-geheimnisse"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:20",
-          "venue": "Astor Grand Cinema",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
     {
       "day": "TUE",
       "date": "20.10",
@@ -125,6 +95,18 @@
       "date": "22.10",
       "movies": [
         {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
+        {
           "title": "FARGO",
           "year": 1996,
           "time": "22:45",
@@ -201,6 +183,36 @@
           "rating": null,
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/bts-world-tour-arirang-in-buenos-aires-live-viewing"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "26.10",
+      "movies": [
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:20",
+          "venue": "Astor Grand Cinema",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
         }
       ]
     },
@@ -226,6 +238,18 @@
       "day": "WED",
       "date": "28.10",
       "movies": [
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "15:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
         {
           "title": "Ozzy & Black Sabbath: Back to the Beginning",
           "year": 2025,
@@ -341,83 +365,27 @@
           "url": "https://www.apollokino.de/?v=&film=filme/01001194&anmerk=OmU-Nachtstudio"
         }
       ]
+    },
+    {
+      "day": "TUE",
+      "date": "03.11",
+      "movies": [
+        {
+          "title": "Die Tribute von Panem - Mockingjay, Teil 2",
+          "year": 2015,
+          "time": "19:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h17m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-tribute-von-panem-mockingjay-teil-2"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "ANVIL (Heavy Metal / Kanada)",
-      "date": "18 Okt",
-      "dateISO": "2026-10-18",
-      "day": "So",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-10-18/6632",
-      "eventType": "concert",
-      "genre": "Metal",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "brutal verschimmelt + die ueblichen",
-      "date": "18 Okt",
-      "dateISO": "2026-10-18",
-      "day": "So",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "SV Arminia, Bischofsholer Damm 119",
-      "url": "https://www.brutalverschimmelt.org/2026-tour/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Offener Treff der Blauen Zone",
-      "date": "19 Okt",
-      "dateISO": "2026-10-19",
-      "day": "Mo",
-      "time": "16:00",
-      "timeConfidence": "confirmed",
-      "endTime": "18:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-10-19/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm…",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "Swing am PLATZ",
-      "date": "19 Okt",
-      "dateISO": "2026-10-19",
-      "day": "Mo",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "endTime": "22:00",
-      "venue": "OSCO – OpenSpace",
-      "url": "https://platzprojekt.de/programm/swing-im-osco/2026-10-19/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Auf gehts zum Montags-Social-Dance im OSCO. Ganz viel Lindy, aber auch etwas Balboa, Shag, Blues oder Charleston und das ganze auf sensationellen Echtholz-Dielen. 19:00 Uhr – Party mit DJ Getränke…",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Party",
-      "sourceName": "PLATZprojekt"
-    },
     {
       "title": "The Iron Roses",
       "date": "20 Okt",
@@ -598,24 +566,6 @@
       "imageUrl": "https://images.prismic.io/cafe-glocksee/aiMRtAeQX7-eW6kR_0040781944_25.jpg?auto=format%2Ccompress&rect=0%2C51%2C700%2C420&w=700&h=420",
       "status": "available",
       "radarCategory": "Live Music"
-    },
-    {
-      "title": "COSMIC SLOP SESSION-NIGHT",
-      "date": "21 Okt",
-      "dateISO": "2026-10-21",
-      "day": "Mi",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/cosmic-slop-session-night-7/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community"
     },
     {
       "title": "Bella & The Bizarre",
@@ -820,24 +770,6 @@
       "radarCategory": "Live Music"
     },
     {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "22 Okt",
-      "dateISO": "2026-10-22",
-      "day": "Do",
-      "time": "20:30",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-57/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
       "title": "Ersie-Party 2026",
       "date": "22 Okt",
       "dateISO": "2026-10-22",
@@ -912,6 +844,24 @@
       "radarCategory": "Live Music"
     },
     {
+      "title": "SOKO LINX UND AKTION INDEX",
+      "date": "23 Okt",
+      "dateISO": "2026-10-23",
+      "day": "Fr",
+      "time": "19:30",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/soko-linx/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Hasz hilft. Bei allem. Auf Arbeit. In der Beziehung. Beim Hobby. In der Freundschaft. Beim Herausstellen des eigenen hochkritisch anmutenden Musikgeschmacks. Denn nur wer aufrichtig haszen kann, kann…",
+      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/04/20261023_SOKO_LiNX_1_c_Pressefotofreigabe_von_The_Living_Proof-2048x1825-1-301x268.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
       "title": "SHEER TERROR (Hardcore-Oi-Punk / New York)",
       "date": "23 Okt",
       "dateISO": "2026-10-23",
@@ -962,42 +912,6 @@
       "programmeCategory": null,
       "description": null,
       "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=nancy2.jpeg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "GUACAMOLE AQUI",
-      "date": "23 Okt",
-      "dateISO": "2026-10-23",
-      "day": "Fr",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/guacamole-aqui-3/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community"
-    },
-    {
-      "title": "SOKO LINX UND AKTION INDEX",
-      "date": "23 Okt",
-      "dateISO": "2026-10-23",
-      "day": "Fr",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/konzerte/soko-linx/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Hasz hilft. Bei allem. Auf Arbeit. In der Beziehung. Beim Hobby. In der Freundschaft. Beim Herausstellen des eigenen hochkritisch anmutenden Musikgeschmacks. Denn nur wer aufrichtig haszen kann, kann…",
-      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/04/20261023_SOKO_LiNX_1_c_Pressefotofreigabe_von_The_Living_Proof-2048x1825-1-301x268.jpg",
       "status": "available",
       "radarCategory": "Live Music"
     },
@@ -1159,10 +1073,28 @@
       "genre": null,
       "programmeCategory": null,
       "description": "💜📢SAVE YOUR SPACE📢💜 Wenn Freiräume gekürzt werden, rücken wir umso näher zusammen. Wir gestalten Kultur gemeinsam. Ohne euch funktioniert der OSCO nicht. Und um das zu zelebrieren, lassen wir alle…",
-      "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/09/495fc0ee-97e0-11f1-997b-f2f4a260c85f.avif",
+      "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/09/2026-10-15-20.35.06.jpg",
       "status": "available",
       "radarCategory": "Party",
       "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "LAGRIMAS (Melodic Crust - Screamo / Los Angeles), SOASTASPHRENAS (Emoviolence / Berlin), MIR (Blackened Screamo / Hamburg)",
+      "date": "24 Okt",
+      "dateISO": "2026-10-24",
+      "day": "Sa",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-10-24/6615",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
     },
     {
       "title": "Rafael Alejandro und Nmadria",
@@ -1289,24 +1221,6 @@
       "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=party_2000_tb_4.jpg",
       "status": "available",
       "radarCategory": "Party"
-    },
-    {
-      "title": "GENERATION EXIT & MACSAT",
-      "date": "25 Okt",
-      "dateISO": "2026-10-25",
-      "day": "So",
-      "time": "18:30",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/generation-exit-mascat/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community"
     },
     {
       "title": "Codefendants",
@@ -1436,24 +1350,6 @@
       "radarCategory": "Live Music"
     },
     {
-      "title": "DOC ROTTEN & TBA",
-      "date": "27 Okt",
-      "dateISO": "2026-10-27",
-      "day": "Di",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/doc-rotten-tba/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community"
-    },
-    {
       "title": "THE KILKENNYS",
       "date": "27 Okt",
       "dateISO": "2026-10-27",
@@ -1581,24 +1477,6 @@
       "imageUrl": null,
       "status": "available",
       "radarCategory": "Live Music"
-    },
-    {
-      "title": "KULTURPALAST LINDEN SONGWRITER NIGHT: CHELSEA LEGAY",
-      "date": "28 Okt",
-      "dateISO": "2026-10-28",
-      "day": "Mi",
-      "time": "20:30",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/kulturpalast-linden-songwriter-night-tba/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community"
     },
     {
       "title": "Hannover 96 vs. 1. FC Kaiserslautern",
@@ -1858,22 +1736,23 @@
       "radarCategory": "Live Music"
     },
     {
-      "title": "LINDEN JAZZ SESSION",
-      "date": "29 Okt",
-      "dateISO": "2026-10-29",
-      "day": "Do",
-      "time": "20:30",
+      "title": "UNSIGNED. HALLOWEEN SPECIAL",
+      "date": "30 Okt",
+      "dateISO": "2026-10-30",
+      "day": "Fr",
+      "time": "17:00",
       "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/linden-jazz-session-58/",
+      "endTime": "03:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/unsigned-halloween-special/",
       "eventType": "event",
       "genre": null,
       "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
+      "description": "Unser alljährliches Halloween Special steht wieder vor der Tür! Am 30.10. erwartet euch eine Nacht voller Musik, Halloween-Vibes und ordentlich Energie auf der Tanzfläche. 🧡🔥 Mit dabei: – HLNA…",
+      "imageUrl": "https://platzprojekt.de/wp-content/uploads/2026/10/UD_26_04_Halloween_Story.jpg",
       "status": "available",
-      "radarCategory": "Live Music"
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
     },
     {
       "title": "Bierausschank und -verkauf an der Braukiste",
@@ -1965,24 +1844,6 @@
       "imageUrl": "https://www.capitol-hannover.de/wp-content/uploads/2026/10/40JahreCapitol_OpenHouseParty_Artwork_SoMe_1080x1350px_slide1.jpg",
       "status": "available",
       "radarCategory": "Party"
-    },
-    {
-      "title": "SONJA DIE BAND",
-      "date": "30 Okt",
-      "dateISO": "2026-10-30",
-      "day": "Fr",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/sonja-die-band-6/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community"
     },
     {
       "title": "Hi! Spencer",
@@ -2112,7 +1973,7 @@
       "radarCategory": "Live Music"
     },
     {
-      "title": "ANCHORS & HEARTS UND GÄSTE",
+      "title": "ANCHORS & HEARTS UND HAFEN 040",
       "date": "31 Okt",
       "dateISO": "2026-10-31",
       "day": "Sa",
@@ -2234,6 +2095,97 @@
       "programmeCategory": null,
       "description": null,
       "imageUrl": "https://www.swisslife-hall.de/wp-content/uploads/2025/08/bastianbochinski_marteria_2025_berlin-61_Andere.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Offener Treff der Blauen Zone",
+      "date": "2 Nov",
+      "dateISO": "2026-11-02",
+      "day": "Mo",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "endTime": "18:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-11-02/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm…",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "VANDALISBIN",
+      "date": "2 Nov",
+      "dateISO": "2026-11-02",
+      "day": "Mo",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/vandalisbin/",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "programmeCategory": null,
+      "description": "Mit der „Wanderlesben Tour 2026“ kündigt VANDALISBIN eine neue Live-Etappe an, die Anfang November durch ausgewählte Clubs im deutschsprachigen Raum führt. Zwischen Indie, Punk und queerem Pop…",
+      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/05/@anna.bcrt-ANNA-BORCHERT-1574-scaled-1-179x268.webp",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Das 51. hannoversche Rudelsingen (Zusatzshow)",
+      "date": "3 Nov",
+      "dateISO": "2026-11-03",
+      "day": "Di",
+      "time": "19:30",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/101449/das-51-hannoversche-rudelsingen-zusatzshow",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Il Civetto",
+      "date": "3 Nov",
+      "dateISO": "2026-11-03",
+      "day": "Di",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/il-civetto-capitol-hannover-ae49f9c69d77/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.capitol-hannover.de/wp-content/uploads/2025/12/IlCivetto_c_1_JuleMehrhoff_1125-scaled.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Ruby Tuesday | KESHAVARA",
+      "date": "3 Nov",
+      "dateISO": "2026-11-03",
+      "day": "Di",
+      "time": "21:15",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--keshavara",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://images.prismic.io/cafe-glocksee/AG5c62TV50Km9Nct_Keshavara_tunnel_%C2%A9_niclasweber_.jpg?auto=format%2Ccompress&rect=0%2C913%2C1875%2C1125&w=2000&h=1200",
       "status": "available",
       "radarCategory": "Live Music"
     }
