@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-20",
+  "last_updated": "2026-10-21",
   "snapshots": [
     {
       "date": "2026-09-04",
@@ -415,6 +415,17 @@
           "uniques": 1
         }
       ]
+    },
+    {
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T00:00:00Z",
+      "referrers": [
+        {
+          "referrer": "github.com",
+          "count": 1,
+          "uniques": 1
+        }
+      ]
     }
   ],
   "all_time": [
@@ -425,7 +436,7 @@
       "max_count": 4,
       "max_uniques": 4,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-10-20"
+      "last_seen": "2026-10-21"
     }
   ]
 }
