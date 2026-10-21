@@ -2274,6 +2274,12 @@
           "uniques": 1
         },
         {
+          "path": "/BabakBar/BoringHannover/blob/master/README.md",
+          "title": "/blob/master/README.md",
+          "count": 2,
+          "uniques": 2
+        },
+        {
           "path": "/BabakBar/BoringHannover",
           "title": "Overview",
           "count": 2,
@@ -2312,12 +2318,6 @@
         {
           "path": "/BabakBar/BoringHannover/pull/78",
           "title": "/pull/78",
-          "count": 1,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/pull/79",
-          "title": "/pull/79",
           "count": 1,
           "uniques": 1
         }
@@ -2388,12 +2388,12 @@
     {
       "path": "/BabakBar/BoringHannover/blob/master/README.md",
       "title": "/blob/master/README.md",
-      "latest_count": 1,
-      "latest_uniques": 1,
+      "latest_count": 2,
+      "latest_uniques": 2,
       "max_count": 2,
       "max_uniques": 2,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-10-20"
+      "last_seen": "2026-10-21"
     },
     {
       "path": "/BabakBar/BoringHannover",
