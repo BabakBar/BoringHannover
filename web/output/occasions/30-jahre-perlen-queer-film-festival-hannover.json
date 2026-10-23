@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "updatedAt": "Fri 23 Oct 11:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:30-jahre-perlen-queer-film-festival-hannover",
+    "slug": "30-jahre-perlen-queer-film-festival-hannover",
+    "name": "30 Jahre Perlen – Queer Film Festival Hannover",
+    "kind": "festival",
+    "startDate": "2026-10-23",
+    "endDate": "2026-10-31",
+    "location": "Kino im Künstlerhaus Hannover",
+    "description": "30 Jahre Perlen – Queer Film Festival Hannover at Kino im Künstlerhaus Hannover. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/30-Jahre-Perlen-–-Queer-Film-Festival-Hannover",
+    "status": "happening_now",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/30-jahre-perlen-queer-film-festival-hannover.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-10-23",
+        "startTime": "15:00"
+      },
+      {
+        "date": "2026-10-24",
+        "startTime": "15:00"
+      },
+      {
+        "date": "2026-10-25",
+        "startTime": "14:00"
+      },
+      {
+        "date": "2026-10-26",
+        "startTime": "18:00"
+      },
+      {
+        "date": "2026-10-27",
+        "startTime": "18:00"
+      },
+      {
+        "date": "2026-10-28",
+        "startTime": "18:00"
+      },
+      {
+        "date": "2026-10-29",
+        "startTime": "16:00"
+      },
+      {
+        "date": "2026-10-30",
+        "startTime": "16:00"
+      },
+      {
+        "date": "2026-10-31",
+        "startTime": "15:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Kino im Künstlerhaus Hannover",
+      "street": "Sophienstraße 2",
+      "postalCode": "30159",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "label": "Regulär",
+        "price": "€8"
+      },
+      {
+        "label": "Ermäßigt",
+        "price": "€5"
+      }
+    ]
+  },
+  "programme": []
+}
