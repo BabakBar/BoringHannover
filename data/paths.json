@@ -2550,18 +2550,6 @@
           "uniques": 1
         },
         {
-          "path": "/BabakBar/BoringHannover/blob/master/nginx.conf",
-          "title": "/blob/master/nginx.conf",
-          "count": 1,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/blob/master/pyproject.toml",
-          "title": "/blob/master/pyproject.toml",
-          "count": 1,
-          "uniques": 1
-        },
-        {
           "path": "/BabakBar/BoringHannover/issues/25",
           "title": "/issues/25",
           "count": 1,

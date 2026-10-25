@@ -463,13 +463,7 @@
     {
       "date": "2026-10-25",
       "timestamp": "2026-10-25T00:00:00Z",
-      "referrers": [
-        {
-          "referrer": "github.com",
-          "count": 1,
-          "uniques": 1
-        }
-      ]
+      "referrers": []
     }
   ],
   "all_time": [
