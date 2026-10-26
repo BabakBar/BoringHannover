@@ -21,12 +21,16 @@ for arg in "$@"; do
   name="${arg%%=*}"
   ref="${arg#*=}"
   rc=0
+  # The default Google mirror can return blob 404s that prevent fallback.
+  # Use the official registries directly, with ECR for transient GHCR failures.
   docker run --rm \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v "${HOME}/.cache/trivy:/root/.cache/trivy" \
     -e TRIVY_USERNAME -e TRIVY_PASSWORD \
     "${TRIVY_IMAGE}" \
     image --scanners vuln --severity HIGH,CRITICAL \
+    --db-repository ghcr.io/aquasecurity/trivy-db:2 \
+    --db-repository public.ecr.aws/aquasecurity/trivy-db:2 \
     --ignore-unfixed --exit-code 2 --no-progress "${ref}" || rc=$?
   case "${rc}" in
     0) echo "${name}: clean (${ref})" ;;

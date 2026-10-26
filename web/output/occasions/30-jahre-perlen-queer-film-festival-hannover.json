@@ -1,13 +1,13 @@
 {
   "meta": {
-    "updatedAt": "Fri 23 Oct 11:00"
+    "updatedAt": "Sun 25 Oct 19:00"
   },
   "occasion": {
     "id": "hannover-festivals:30-jahre-perlen-queer-film-festival-hannover",
     "slug": "30-jahre-perlen-queer-film-festival-hannover",
     "name": "30 Jahre Perlen – Queer Film Festival Hannover",
     "kind": "festival",
-    "startDate": "2026-10-23",
+    "startDate": "2026-10-25",
     "endDate": "2026-10-31",
     "location": "Kino im Künstlerhaus Hannover",
     "description": "30 Jahre Perlen – Queer Film Festival Hannover at Kino im Künstlerhaus Hannover. See the source for details.",
@@ -18,14 +18,6 @@
     "programmePath": "occasions/30-jahre-perlen-queer-film-festival-hannover.json",
     "preview": [],
     "occurrences": [
-      {
-        "date": "2026-10-23",
-        "startTime": "15:00"
-      },
-      {
-        "date": "2026-10-24",
-        "startTime": "15:00"
-      },
       {
         "date": "2026-10-25",
         "startTime": "14:00"
