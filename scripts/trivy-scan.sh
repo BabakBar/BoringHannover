@@ -13,7 +13,7 @@
 # force-pushed in a March 2026 supply-chain attack.
 set -uo pipefail
 
-TRIVY_IMAGE="aquasec/trivy:0.76.0@sha256:2416d1f74045b57274df1a340eee6b510cacd73c66a6ccb8da092b117eb7d222"
+TRIVY_IMAGE="aquasec/trivy:0.76.1@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7bac8db623eca6c06c"
 
 vulnerable=""
 errored=""
@@ -21,12 +21,16 @@ for arg in "$@"; do
   name="${arg%%=*}"
   ref="${arg#*=}"
   rc=0
+  # The default Google mirror can return blob 404s that prevent fallback.
+  # Use the official registries directly, with ECR for transient GHCR failures.
   docker run --rm \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v "${HOME}/.cache/trivy:/root/.cache/trivy" \
     -e TRIVY_USERNAME -e TRIVY_PASSWORD \
     "${TRIVY_IMAGE}" \
     image --scanners vuln --severity HIGH,CRITICAL \
+    --db-repository ghcr.io/aquasecurity/trivy-db:2 \
+    --db-repository public.ecr.aws/aquasecurity/trivy-db:2 \
     --ignore-unfixed --exit-code 2 --no-progress "${ref}" || rc=$?
   case "${rc}" in
     0) echo "${name}: clean (${ref})" ;;

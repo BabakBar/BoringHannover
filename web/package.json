@@ -3,20 +3,20 @@
   "type": "module",
   "version": "0.1.0",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "bun ./node_modules/astro/bin/astro.mjs dev",
     "test": "bun test",
-    "build": "bun scripts/generate-icons.mjs && astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "build": "bun scripts/generate-icons.mjs && bun ./node_modules/astro/bin/astro.mjs build",
+    "preview": "bun ./node_modules/astro/bin/astro.mjs preview",
+    "astro": "bun ./node_modules/astro/bin/astro.mjs"
   },
   "dependencies": {
-    "astro": "^7.4.0",
+    "astro": "^7.4.2",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.3.3",
-    "@types/bun": "^1.4.3",
+    "@types/bun": "^1.4.4",
     "playwright-core": "^1.64.1",
     "png-to-ico": "^3.0.2",
     "tailwindcss": "^4.3.3"
