@@ -1,47 +1,11 @@
 {
   "meta": {
-    "week": 43,
+    "week": 44,
     "year": 2026,
-    "updatedAt": "Sun 25 Oct 19:00",
-    "updatedAtISO": "2026-10-25T19:00:07.927765+01:00"
+    "updatedAt": "Tue 27 Oct 10:00",
+    "updatedAtISO": "2026-10-27T10:00:12.919888+01:00"
   },
   "movies": [
-    {
-      "day": "SUN",
-      "date": "25.10",
-      "movies": [
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:30",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        }
-      ]
-    },
-    {
-      "day": "MON",
-      "date": "26.10",
-      "movies": [
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:20",
-          "venue": "Astor Grand Cinema",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
     {
       "day": "TUE",
       "date": "27.10",
@@ -95,9 +59,33 @@
       "date": "29.10",
       "movies": [
         {
+          "title": "Clayface",
+          "year": 2026,
+          "time": "17:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/clayface"
+        },
+        {
+          "title": "Other Mommy",
+          "year": 2026,
+          "time": "19:50",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h34m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/other-mommy"
+        },
+        {
           "title": "Ozzy & Black Sabbath: Back to the Beginning",
           "year": 2025,
-          "time": "20:00",
+          "time": "20:10",
           "venue": "Astor Grand Cinema",
           "duration": "2h32m",
           "language": "EN",
@@ -205,9 +193,51 @@
       ]
     },
     {
+      "day": "MON",
+      "date": "02.11",
+      "movies": [
+        {
+          "title": "Sneak Preview (OV)",
+          "year": 0,
+          "time": "20:15",
+          "venue": "Astor Grand Cinema",
+          "duration": "",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK18",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
+        }
+      ]
+    },
+    {
       "day": "TUE",
       "date": "03.11",
       "movies": [
+        {
+          "title": "Clayface",
+          "year": 2026,
+          "time": "17:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h49m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK16",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/clayface"
+        },
+        {
+          "title": "Die Odyssee",
+          "year": 2026,
+          "time": "19:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h52m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-odyssee"
+        },
         {
           "title": "Die Tribute von Panem - Mockingjay, Teil 2",
           "year": 2015,
@@ -311,136 +341,27 @@
           "url": "https://www.apollokino.de/?v=&film=filme/00005523&anmerk=OmU-Nachtstudio-"
         }
       ]
+    },
+    {
+      "day": "TUE",
+      "date": "10.11",
+      "movies": [
+        {
+          "title": "Die Tribute von Panem - The Ballad of Songbirds & Snakes",
+          "year": 2023,
+          "time": "19:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h37m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-tribute-von-panem-the-ballad-of-songbirds-und-snakes"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Codefendants",
-      "date": "25 Okt",
-      "dateISO": "2026-10-25",
-      "day": "So",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/251026-codefendants.html",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=codefendants2.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Naked Cameo",
-      "date": "25 Okt",
-      "dateISO": "2026-10-25",
-      "day": "So",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/251026-naked-cameo.html",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=naked_cameo1.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Codefendants",
-      "date": "25 Okt",
-      "dateISO": "2026-10-25",
-      "day": "So",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/oktober/251026-codefendants.html",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Offener Treff der Blauen Zone",
-      "date": "26 Okt",
-      "dateISO": "2026-10-26",
-      "day": "Mo",
-      "time": "16:00",
-      "timeConfidence": "confirmed",
-      "endTime": "18:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-10-26/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm…",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "GARDENS (Indie Rock Folk/ Wien)",
-      "date": "26 Okt",
-      "dateISO": "2026-10-26",
-      "day": "Mo",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-10-26/7131",
-      "eventType": "concert",
-      "genre": "Folk / World",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "TAY OSKEE",
-      "date": "26 Okt",
-      "dateISO": "2026-10-26",
-      "day": "Mo",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/konzerte/tay-oskee/",
-      "eventType": "concert",
-      "genre": "Folk / World",
-      "programmeCategory": null,
-      "description": "Der Name Tay Oskee steht mittlerweile als Synonym für allerbesten Feel-Good-Indie-Folk. Seine Melodien gehen tief unter die Haut, sein Katalog ist vielseitig, und das Hören seiner Songs hinterlässt…",
-      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/04/1111PRESS-4_3-Carolina-Sierra-1-scaled-1-357x268.webp",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Chris Norman",
-      "date": "26 Okt",
-      "dateISO": "2026-10-26",
-      "day": "Mo",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/chris-norman-swiss-life-hall-b1497d221e6a/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.swisslife-hall.de/wp-content/uploads/2025/10/02_Pressefoto_ChrisNorman_LIFELINES_Fotocredit_MarcelBrell_Beitragsbild.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
     {
       "title": "Kalben",
       "date": "27 Okt",
@@ -1245,6 +1166,24 @@
       "radarCategory": "Party"
     },
     {
+      "title": "LUX-SCHALLPLATTENBÖRSE",
+      "date": "1 Nov",
+      "dateISO": "2026-11-01",
+      "day": "So",
+      "time": "12:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/clubnight/lux-schallplattenboerse-5/",
+      "eventType": "party",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Für alle Vinyl-Lovers und Musik-Liebhaber*innen…. ihr könnt bummeln, stöbern, kaufen, tauschen & fachsimpeln auf unserer kleinen feinen Plattenbörse…. Falls noch jmd Interesse hat meldet euch gern…",
+      "imageUrl": "https://www.lux-linden.de/wp-content/themes/bootstrapWP/img/no-picture.jpg",
+      "status": "available",
+      "radarCategory": "Party"
+    },
+    {
       "title": "Hannover 96 vs. Dynamo Dresden",
       "date": "1 Nov",
       "dateISO": "2026-11-01",
@@ -1261,6 +1200,25 @@
       "imageUrl": null,
       "status": "available",
       "radarCategory": "Sport"
+    },
+    {
+      "title": "Eltern-Kind-Kickern in der Lok",
+      "date": "1 Nov",
+      "dateISO": "2026-11-01",
+      "day": "So",
+      "time": "15:00",
+      "timeConfidence": "confirmed",
+      "endTime": "18:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/eltern-kind-kickern-in-der-lok/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Ein Angebot des TFC Lokomotive Hannover e.V. für alle Kinder ab etwa 8 Jahren, die mit ihren Eltern gemeinsam vorbeischauen möchten, um Kontakt zum Tischfußball und anderen “Krökelkids“ aufzunehmen…",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Sport",
+      "sourceName": "PLATZprojekt"
     },
     {
       "title": "D3LTA & TBA",
@@ -1952,6 +1910,42 @@
       "radarCategory": "Live Music"
     },
     {
+      "title": "Enkay",
+      "date": "7 Nov",
+      "dateISO": "2026-11-07",
+      "day": "Sa",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/071126-enkay.html",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=enkay1.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Vandermeer & Tento",
+      "date": "7 Nov",
+      "dateISO": "2026-11-07",
+      "day": "Sa",
+      "time": "19:30",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/071126-vandermeer-tento.html",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=vandermeer.jpeg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
       "title": "FAHNENFLUCHT – SUPPORT: DANKESCHATZ",
       "date": "7 Nov",
       "dateISO": "2026-11-07",
@@ -2076,6 +2070,133 @@
       "imageUrl": "https://www.swisslife-hall.de/wp-content/uploads/2026/02/AFFICHE-4-SAISONS-TCH_Beitragsbild-scaled.jpg",
       "status": "available",
       "radarCategory": "Live Music"
+    },
+    {
+      "title": "Offener Treff der Blauen Zone",
+      "date": "9 Nov",
+      "dateISO": "2026-11-09",
+      "day": "Mo",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "endTime": "18:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-11-09/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm…",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "MARGARITA & THE BOYS MIT ALEXANDER BAUM",
+      "date": "9 Nov",
+      "dateISO": "2026-11-09",
+      "day": "Mo",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/margerita-the-boys-mit-alexander-baum/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community"
+    },
+    {
+      "title": "YARIS",
+      "date": "9 Nov",
+      "dateISO": "2026-11-09",
+      "day": "Mo",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/yaris-2/",
+      "eventType": "concert",
+      "genre": "Rock",
+      "programmeCategory": null,
+      "description": "Mit gerade einmal 22 Jahren bringt Yaris eine Reife auf die Bühne, die man im modernen Deutschrock selten findet. Aufgewachsen auf Mallorca und heute in Tutzing zu Hause, hat er sich längst aus dem…",
+      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/05/1111quer-Yaris-12-C-Krisztian-Miklos.jpg-2048x1365-1-360x240.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Nils Petter Molvaer",
+      "date": "9 Nov",
+      "dateISO": "2026-11-09",
+      "day": "Mo",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/101539/nils-petter-molvaer",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Fatoni",
+      "date": "10 Nov",
+      "dateISO": "2026-11-10",
+      "day": "Di",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/fatoni-capitol-hannover-34e5478e30fe/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.capitol-hannover.de/wp-content/uploads/2025/07/02-fatoni-pressefoto-8-c-stephie-braun_klein.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "MILOW",
+      "date": "10 Nov",
+      "dateISO": "2026-11-10",
+      "day": "Di",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/101554/milow",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Ruby Tuesday | DAILY THOMPSON",
+      "date": "10 Nov",
+      "dateISO": "2026-11-10",
+      "day": "Di",
+      "time": "21:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Glocksee",
+      "url": "https://cafe-glocksee.de#/event/ruby-tuesday--daily-thompson",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://images.prismic.io/cafe-glocksee/h2XGrEa8333bajJc_DT_Promo_HiRes-1_all_credits_by_Jonas_Wenz-9-.jpg?auto=format%2Ccompress&rect=663%2C442%2C1980%2C1320&w=3307&h=2205",
+      "status": "available",
+      "radarCategory": "Live Music"
     }
   ],
   "occasions": [
@@ -2084,7 +2205,7 @@
       "slug": "30-jahre-perlen-queer-film-festival-hannover",
       "name": "30 Jahre Perlen – Queer Film Festival Hannover",
       "kind": "festival",
-      "startDate": "2026-10-25",
+      "startDate": "2026-10-26",
       "endDate": "2026-10-31",
       "location": "Kino im Künstlerhaus Hannover",
       "description": "30 Jahre Perlen – Queer Film Festival Hannover at Kino im Künstlerhaus Hannover. See the source for details.",
@@ -2095,14 +2216,6 @@
       "programmePath": "occasions/30-jahre-perlen-queer-film-festival-hannover.json",
       "preview": [],
       "occurrences": [
-        {
-          "date": "2026-10-25",
-          "startTime": "14:00"
-        },
-        {
-          "date": "2026-10-26",
-          "startTime": "18:00"
-        },
         {
           "date": "2026-10-27",
           "startTime": "18:00"
@@ -2197,6 +2310,41 @@
       "area": "city"
     },
     {
+      "id": "hannover-festivals:40-jahre-capitol-mit-badmomzjay-und-open-house",
+      "slug": "40-jahre-capitol-mit-badmomzjay-und-open-house",
+      "name": "40 Jahre Capitol mit Badmómzjay und Open House",
+      "kind": "festival",
+      "startDate": "2026-10-29",
+      "endDate": "2026-10-30",
+      "location": "Capitol",
+      "description": "40 Jahre Capitol mit Badmómzjay und Open House at Capitol. See the source for details.",
+      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/40-Jahre-Capitol-mit-Badmómzjay-und-Open-House",
+      "status": "upcoming",
+      "programmeCount": 0,
+      "locationCount": 0,
+      "programmePath": "occasions/40-jahre-capitol-mit-badmomzjay-und-open-house.json",
+      "preview": [],
+      "occurrences": [
+        {
+          "date": "2026-10-29",
+          "startTime": "20:00"
+        },
+        {
+          "date": "2026-10-30",
+          "startTime": "18:00"
+        }
+      ],
+      "scheduleConfidence": "continuous",
+      "place": {
+        "venue": "Capitol",
+        "street": "Schwarzer Bär 2",
+        "postalCode": "30449",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
+    },
+    {
       "id": "hannover-festivals:hannover-wies-27n",
       "slug": "hannover-wies-27n",
       "name": "Hannover Wies'n",
@@ -2265,7 +2413,7 @@
       "occurrences": [
         {
           "date": "2026-10-30",
-          "startTime": "10:00"
+          "startTime": "21:00"
         }
       ],
       "scheduleConfidence": "continuous",
@@ -2308,6 +2456,60 @@
         "municipality": "Hannover"
       },
       "area": "city"
+    },
+    {
+      "id": "hannover-festivals:lichterfest-im-straenbahn-museum",
+      "slug": "lichterfest-im-straenbahn-museum",
+      "name": "Lichterfest im Straßenbahn-Museum",
+      "kind": "festival",
+      "startDate": "2026-10-31",
+      "endDate": "2026-10-31",
+      "location": "Hannoversches Straßenbahn-Museum e.V.",
+      "description": "Lichterfest im Straßenbahn-Museum at Hannoversches Straßenbahn-Museum e.V. See the source for details.",
+      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Lichterfest-im-Straßenbahn-Museum",
+      "status": "upcoming",
+      "programmeCount": 0,
+      "locationCount": 0,
+      "programmePath": "occasions/lichterfest-im-straenbahn-museum.json",
+      "preview": [],
+      "occurrences": [
+        {
+          "date": "2026-10-31",
+          "startTime": "14:00",
+          "endTime": "20:00"
+        }
+      ],
+      "scheduleConfidence": "continuous",
+      "place": {
+        "venue": "Hannoversches Straßenbahn-Museum e.V.",
+        "street": "Hohenfelser Straße 16",
+        "postalCode": "31319",
+        "locality": "Sehnde",
+        "municipality": "Sehnde"
+      },
+      "area": "region",
+      "admission": [
+        {
+          "label": "Kinder unter 6 Jahre",
+          "price": "free"
+        },
+        {
+          "label": "Erwachsene",
+          "price": "€8"
+        },
+        {
+          "label": "Kinder (6-15 Jahre)",
+          "price": "€4.50"
+        },
+        {
+          "label": "Familien (Eltern + eigene Kinder)",
+          "price": "€21"
+        },
+        {
+          "label": "Erwachsene ermäßigt (Rentner, Auszubildende etc.)",
+          "price": "€7"
+        }
+      ]
     }
   ]
 }
