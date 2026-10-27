@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "updatedAt": "Tue 27 Oct 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:40-jahre-capitol-mit-badmomzjay-und-open-house",
+    "slug": "40-jahre-capitol-mit-badmomzjay-und-open-house",
+    "name": "40 Jahre Capitol mit Badmómzjay und Open House",
+    "kind": "festival",
+    "startDate": "2026-10-29",
+    "endDate": "2026-10-30",
+    "location": "Capitol",
+    "description": "40 Jahre Capitol mit Badmómzjay und Open House at Capitol. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/40-Jahre-Capitol-mit-Badmómzjay-und-Open-House",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/40-jahre-capitol-mit-badmomzjay-und-open-house.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-10-29",
+        "startTime": "20:00"
+      },
+      {
+        "date": "2026-10-30",
+        "startTime": "18:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Capitol",
+      "street": "Schwarzer Bär 2",
+      "postalCode": "30449",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
