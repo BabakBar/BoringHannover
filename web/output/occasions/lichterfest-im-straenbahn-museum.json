@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "updatedAt": "Tue 27 Oct 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:lichterfest-im-straenbahn-museum",
+    "slug": "lichterfest-im-straenbahn-museum",
+    "name": "Lichterfest im Straßenbahn-Museum",
+    "kind": "festival",
+    "startDate": "2026-10-31",
+    "endDate": "2026-10-31",
+    "location": "Hannoversches Straßenbahn-Museum e.V.",
+    "description": "Lichterfest im Straßenbahn-Museum at Hannoversches Straßenbahn-Museum e.V. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Lichterfest-im-Straßenbahn-Museum",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/lichterfest-im-straenbahn-museum.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-10-31",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Hannoversches Straßenbahn-Museum e.V.",
+      "street": "Hohenfelser Straße 16",
+      "postalCode": "31319",
+      "locality": "Sehnde",
+      "municipality": "Sehnde"
+    },
+    "area": "region",
+    "admission": [
+      {
+        "label": "Kinder unter 6 Jahre",
+        "price": "free"
+      },
+      {
+        "label": "Erwachsene",
+        "price": "€8"
+      },
+      {
+        "label": "Kinder (6-15 Jahre)",
+        "price": "€4.50"
+      },
+      {
+        "label": "Familien (Eltern + eigene Kinder)",
+        "price": "€21"
+      },
+      {
+        "label": "Erwachsene ermäßigt (Rentner, Auszubildende etc.)",
+        "price": "€7"
+      }
+    ]
+  },
+  "programme": []
+}
