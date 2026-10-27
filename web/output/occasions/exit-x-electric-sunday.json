@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 16 Oct 11:00"
+    "updatedAt": "Tue 27 Oct 10:00"
   },
   "occasion": {
     "id": "hannover-festivals:exit-x-electric-sunday",
@@ -20,7 +20,7 @@
     "occurrences": [
       {
         "date": "2026-10-30",
-        "startTime": "10:00"
+        "startTime": "21:00"
       }
     ],
     "scheduleConfidence": "continuous",
