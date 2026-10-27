@@ -2634,27 +2634,57 @@
       "timestamp": "2026-10-27T00:00:00Z",
       "paths": [
         {
+          "path": "/BabakBar/BoringHannover/pulls",
+          "title": "/pulls",
+          "count": 5,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover",
+          "title": "Overview",
+          "count": 4,
+          "uniques": 2
+        },
+        {
           "path": "/BabakBar/BoringHannover/issues",
           "title": "/issues",
           "count": 4,
           "uniques": 1
         },
         {
-          "path": "/BabakBar/BoringHannover/pulls",
-          "title": "/pulls",
+          "path": "/BabakBar/BoringHannover/blob/master/README.md",
+          "title": "/blob/master/README.md",
           "count": 3,
+          "uniques": 3
+        },
+        {
+          "path": "/BabakBar/BoringHannover/blob/master/.github/workflows/ci.yml",
+          "title": "/blob/master/.github/workflows/ci.yml",
+          "count": 1,
           "uniques": 1
         },
         {
-          "path": "/BabakBar/BoringHannover/blob/master/README.md",
-          "title": "/blob/master/README.md",
-          "count": 2,
-          "uniques": 2
+          "path": "/BabakBar/BoringHannover/blob/master/Dockerfile",
+          "title": "/blob/master/Dockerfile",
+          "count": 1,
+          "uniques": 1
         },
         {
-          "path": "/BabakBar/BoringHannover",
-          "title": "Overview",
-          "count": 2,
+          "path": "/BabakBar/BoringHannover/blob/master/LICENSE",
+          "title": "/blob/master/LICENSE",
+          "count": 1,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/blob/master/docker-compose.yml",
+          "title": "/blob/master/docker-compose.yml",
+          "count": 1,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/blob/master/nginx.conf",
+          "title": "/blob/master/nginx.conf",
+          "count": 1,
           "uniques": 1
         },
         {
@@ -2662,29 +2692,21 @@
           "title": "/issues/25",
           "count": 1,
           "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/pull/78",
-          "title": "/pull/78",
-          "count": 1,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/pull/79",
-          "title": "/pull/79",
-          "count": 1,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/pull/80",
-          "title": "/pull/80",
-          "count": 1,
-          "uniques": 1
         }
       ]
     }
   ],
   "all_time": [
+    {
+      "path": "/BabakBar/BoringHannover/pulls",
+      "title": "/pulls",
+      "latest_count": 5,
+      "latest_uniques": 1,
+      "max_count": 5,
+      "max_uniques": 1,
+      "first_seen": "2026-09-18",
+      "last_seen": "2026-10-27"
+    },
     {
       "path": "/BabakBar/BoringHannover/issues",
       "title": "/issues",
@@ -2696,13 +2718,23 @@
       "last_seen": "2026-10-27"
     },
     {
-      "path": "/BabakBar/BoringHannover/pulls",
-      "title": "/pulls",
+      "path": "/BabakBar/BoringHannover",
+      "title": "Overview",
+      "latest_count": 4,
+      "latest_uniques": 2,
+      "max_count": 4,
+      "max_uniques": 2,
+      "first_seen": "2026-09-04",
+      "last_seen": "2026-10-27"
+    },
+    {
+      "path": "/BabakBar/BoringHannover/blob/master/README.md",
+      "title": "/blob/master/README.md",
       "latest_count": 3,
-      "latest_uniques": 1,
+      "latest_uniques": 3,
       "max_count": 3,
-      "max_uniques": 1,
-      "first_seen": "2026-09-18",
+      "max_uniques": 3,
+      "first_seen": "2026-09-04",
       "last_seen": "2026-10-27"
     },
     {
@@ -2723,7 +2755,7 @@
       "max_count": 2,
       "max_uniques": 2,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-10-25"
+      "last_seen": "2026-10-27"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/pyproject.toml",
@@ -2746,26 +2778,6 @@
       "last_seen": "2026-10-24"
     },
     {
-      "path": "/BabakBar/BoringHannover/blob/master/README.md",
-      "title": "/blob/master/README.md",
-      "latest_count": 2,
-      "latest_uniques": 2,
-      "max_count": 2,
-      "max_uniques": 2,
-      "first_seen": "2026-09-04",
-      "last_seen": "2026-10-27"
-    },
-    {
-      "path": "/BabakBar/BoringHannover",
-      "title": "Overview",
-      "latest_count": 2,
-      "latest_uniques": 1,
-      "max_count": 2,
-      "max_uniques": 1,
-      "first_seen": "2026-09-04",
-      "last_seen": "2026-10-27"
-    },
-    {
       "path": "/BabakBar/BoringHannover/blob/master/.dockerignore",
       "title": "/blob/master/.dockerignore",
       "latest_count": 1,
@@ -2783,7 +2795,7 @@
       "max_count": 1,
       "max_uniques": 1,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-10-11"
+      "last_seen": "2026-10-27"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/Dockerfile.web",
@@ -2803,7 +2815,7 @@
       "max_count": 1,
       "max_uniques": 1,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-10-11"
+      "last_seen": "2026-10-27"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/docker-compose.yml",
@@ -2813,7 +2825,7 @@
       "max_count": 1,
       "max_uniques": 1,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-10-11"
+      "last_seen": "2026-10-27"
     },
     {
       "path": "/BabakBar/BoringHannover/issues/25",
@@ -2853,6 +2865,16 @@
       "max_count": 1,
       "max_uniques": 1,
       "first_seen": "2026-10-24",
+      "last_seen": "2026-10-27"
+    },
+    {
+      "path": "/BabakBar/BoringHannover/blob/master/.github/workflows/ci.yml",
+      "title": "/blob/master/.github/workflows/ci.yml",
+      "latest_count": 1,
+      "latest_uniques": 1,
+      "max_count": 1,
+      "max_uniques": 1,
+      "first_seen": "2026-10-27",
       "last_seen": "2026-10-27"
     }
   ]

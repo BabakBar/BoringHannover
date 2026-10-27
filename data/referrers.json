@@ -473,18 +473,24 @@
     {
       "date": "2026-10-27",
       "timestamp": "2026-10-27T00:00:00Z",
-      "referrers": []
+      "referrers": [
+        {
+          "referrer": "github.com",
+          "count": 3,
+          "uniques": 3
+        }
+      ]
     }
   ],
   "all_time": [
     {
       "referrer": "github.com",
-      "latest_count": 1,
-      "latest_uniques": 1,
+      "latest_count": 3,
+      "latest_uniques": 3,
       "max_count": 4,
       "max_uniques": 4,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-10-25"
+      "last_seen": "2026-10-27"
     }
   ]
 }
