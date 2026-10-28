@@ -2700,16 +2700,16 @@
       "timestamp": "2026-10-28T00:00:00Z",
       "paths": [
         {
+          "path": "/BabakBar/BoringHannover",
+          "title": "Overview",
+          "count": 5,
+          "uniques": 2
+        },
+        {
           "path": "/BabakBar/BoringHannover/pulls",
           "title": "/pulls",
           "count": 5,
           "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover",
-          "title": "Overview",
-          "count": 4,
-          "uniques": 2
         },
         {
           "path": "/BabakBar/BoringHannover/issues",
@@ -2726,6 +2726,12 @@
         {
           "path": "/BabakBar/BoringHannover/blob/master/.github/workflows/ci.yml",
           "title": "/blob/master/.github/workflows/ci.yml",
+          "count": 1,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/blob/master/.gitignore",
+          "title": "/blob/master/.gitignore",
           "count": 1,
           "uniques": 1
         },
@@ -2752,12 +2758,6 @@
           "title": "/blob/master/nginx.conf",
           "count": 1,
           "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/issues/25",
-          "title": "/issues/25",
-          "count": 1,
-          "uniques": 1
         }
       ]
     }
@@ -2774,6 +2774,16 @@
       "last_seen": "2026-10-28"
     },
     {
+      "path": "/BabakBar/BoringHannover",
+      "title": "Overview",
+      "latest_count": 5,
+      "latest_uniques": 2,
+      "max_count": 5,
+      "max_uniques": 2,
+      "first_seen": "2026-09-04",
+      "last_seen": "2026-10-28"
+    },
+    {
       "path": "/BabakBar/BoringHannover/issues",
       "title": "/issues",
       "latest_count": 4,
@@ -2781,16 +2791,6 @@
       "max_count": 4,
       "max_uniques": 1,
       "first_seen": "2026-10-16",
-      "last_seen": "2026-10-28"
-    },
-    {
-      "path": "/BabakBar/BoringHannover",
-      "title": "Overview",
-      "latest_count": 4,
-      "latest_uniques": 2,
-      "max_count": 4,
-      "max_uniques": 2,
-      "first_seen": "2026-09-04",
       "last_seen": "2026-10-28"
     },
     {
@@ -2811,7 +2811,7 @@
       "max_count": 2,
       "max_uniques": 2,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-10-24"
+      "last_seen": "2026-10-28"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/nginx.conf",
