@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Tue 27 Oct 10:00"
+    "updatedAt": "Fri 30 Oct 10:00"
   },
   "occasion": {
     "id": "hannover-festivals:exit-x-electric-sunday",
@@ -12,7 +12,7 @@
     "location": "Hannover Congress Centrum (HCC)",
     "description": "EXIT x Electric Sunday at Hannover Congress Centrum (HCC). See the source for details.",
     "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/EXIT-x-Electric-Sunday",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/exit-x-electric-sunday.json",
