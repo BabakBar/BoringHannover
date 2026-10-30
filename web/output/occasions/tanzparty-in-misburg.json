@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Fri 30 Oct 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:tanzparty-in-misburg",
+    "slug": "tanzparty-in-misburg",
+    "name": "Tanzparty in Misburg",
+    "kind": "festival",
+    "startDate": "2026-11-12",
+    "endDate": "2026-11-12",
+    "location": "Bürgerhaus & Kulturbüro",
+    "description": "Tanzparty in Misburg at Bürgerhaus & Kulturbüro. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Tanzparty-in-Misburg",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/tanzparty-in-misburg.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-12",
+        "startTime": "15:00",
+        "endTime": "17:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Bürgerhaus & Kulturbüro",
+      "street": "Seckbruchstraße 20",
+      "postalCode": "30629",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
