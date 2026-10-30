@@ -2840,12 +2840,6 @@
         {
           "path": "/BabakBar/BoringHannover/pulls",
           "title": "/pulls",
-          "count": 5,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/issues",
-          "title": "/issues",
           "count": 4,
           "uniques": 1
         },
@@ -2890,6 +2884,12 @@
           "title": "/blob/master/nginx.conf",
           "count": 1,
           "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/blob/master/pyproject.toml",
+          "title": "/blob/master/pyproject.toml",
+          "count": 1,
+          "uniques": 1
         }
       ]
     }
@@ -2898,7 +2898,7 @@
     {
       "path": "/BabakBar/BoringHannover/pulls",
       "title": "/pulls",
-      "latest_count": 5,
+      "latest_count": 4,
       "latest_uniques": 1,
       "max_count": 5,
       "max_uniques": 1,
@@ -2963,7 +2963,7 @@
       "max_count": 2,
       "max_uniques": 2,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-10-25"
+      "last_seen": "2026-10-30"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/uv.lock",
