@@ -1,6 +1,6 @@
 path,title,latest_count,latest_uniques,max_count,max_uniques,first_seen,last_seen
-/BabakBar/BoringHannover/pulls,/pulls,4,1,5,1,2026-09-18,2026-10-31
-/BabakBar/BoringHannover,Overview,5,2,5,2,2026-09-04,2026-10-31
+/BabakBar/BoringHannover/pulls,/pulls,2,1,5,1,2026-09-18,2026-10-31
+/BabakBar/BoringHannover,Overview,3,1,5,2,2026-09-04,2026-10-31
 /BabakBar/BoringHannover/issues,/issues,4,1,4,1,2026-10-16,2026-10-30
 /BabakBar/BoringHannover/blob/master/README.md,/blob/master/README.md,3,3,3,3,2026-09-04,2026-10-31
 /BabakBar/BoringHannover/blob/master/.gitignore,/blob/master/.gitignore,1,1,2,2,2026-09-04,2026-10-31

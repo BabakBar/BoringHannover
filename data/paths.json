@@ -2898,22 +2898,22 @@
       "timestamp": "2026-10-31T00:00:00Z",
       "paths": [
         {
-          "path": "/BabakBar/BoringHannover",
-          "title": "Overview",
-          "count": 5,
-          "uniques": 2
-        },
-        {
-          "path": "/BabakBar/BoringHannover/pulls",
-          "title": "/pulls",
-          "count": 4,
-          "uniques": 1
-        },
-        {
           "path": "/BabakBar/BoringHannover/blob/master/README.md",
           "title": "/blob/master/README.md",
           "count": 3,
           "uniques": 3
+        },
+        {
+          "path": "/BabakBar/BoringHannover",
+          "title": "Overview",
+          "count": 3,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/pulls",
+          "title": "/pulls",
+          "count": 2,
+          "uniques": 1
         },
         {
           "path": "/BabakBar/BoringHannover/blob/master/.github/workflows/ci.yml",
@@ -2964,7 +2964,7 @@
     {
       "path": "/BabakBar/BoringHannover/pulls",
       "title": "/pulls",
-      "latest_count": 4,
+      "latest_count": 2,
       "latest_uniques": 1,
       "max_count": 5,
       "max_uniques": 1,
@@ -2974,8 +2974,8 @@
     {
       "path": "/BabakBar/BoringHannover",
       "title": "Overview",
-      "latest_count": 5,
-      "latest_uniques": 2,
+      "latest_count": 3,
+      "latest_uniques": 1,
       "max_count": 5,
       "max_uniques": 2,
       "first_seen": "2026-09-04",
