@@ -8,10 +8,13 @@ import {
   OCCASION_HORIZON_DAYS,
   addDays,
   berlinClock,
+  nextAppointment,
+  occasionHasEnded,
   occasionIsCurrent,
+  type OccasionSchedule,
 } from './occasionStatus';
 
-// Pure helpers for the occasion detail sheet (#54). They read only exported
+// Pure helpers for occasion views (#54). They read only exported
 // facts; anything the source did not state is left out, never guessed.
 
 function utcDate(isoDate: string): Date {
@@ -61,6 +64,30 @@ export function appointmentText(occurrence: OccasionOccurrence): string {
   });
   const time = hours(occurrence);
   return time ? `${day} · ${time}` : day;
+}
+
+/** The homepage's next supported date, with the whole run kept as context. */
+export function spotlightDates(
+  occasion: OccasionSchedule,
+  now: Date,
+): { when: string; span: string | null } {
+  const unavailable =
+    occasion.sourceStatus === 'cancelled' || occasion.sourceStatus === 'postponed';
+  const next = unavailable ? null : nextAppointment(occasion, now);
+  const appointment =
+    next && next.date <= addDays(berlinClock(now).date, OCCASION_HORIZON_DAYS)
+      ? next
+      : null;
+  return {
+    when: appointment
+      ? appointmentText(appointment)
+      : !unavailable && occasionHasEnded(occasion, now)
+        ? 'Ended'
+        : 'Check source for dates',
+    span: appointment && occasion.startDate === occasion.endDate
+      ? null
+      : `${occasion.scheduleConfidence === 'discrete' ? 'Selected dates · ' : ''}${sheetDateLine(occasion)}`,
+  };
 }
 
 interface Appointment {

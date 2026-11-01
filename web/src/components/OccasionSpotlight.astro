@@ -1,6 +1,7 @@
 ---
 import type { OccasionSummary } from '../data/types';
 import OccasionStatus from './OccasionStatus.astro';
+import { spotlightDates } from '../utils/occasionSheet';
 
 interface Props {
   occasion: OccasionSummary;
@@ -9,20 +10,14 @@ interface Props {
 
 const { occasion, compact = false } = Astro.props;
 
-function shortDate(isoDate: string): string {
-  return new Intl.DateTimeFormat('en-GB', {
-    day: 'numeric',
-    month: 'short',
-  }).format(new Date(`${isoDate}T12:00:00`)).toUpperCase();
-}
-
-const dateRange = `${shortDate(occasion.startDate)} — ${shortDate(occasion.endDate)}`;
+const dates = spotlightDates(occasion, new Date());
 const detailUrl = `/special/${occasion.slug}/`;
 ---
 
 <article
   class:list={['occasion-spotlight', { 'occasion-spotlight--compact': compact }]}
   aria-labelledby={`occasion-${occasion.id}`}
+  data-occasion-spotlight
 >
   <div class="occasion-spotlight__signal" aria-hidden="true">
     <span></span><span></span><span></span>
@@ -37,8 +32,9 @@ const detailUrl = `/special/${occasion.slug}/`;
   </div>
 
   <div class="occasion-spotlight__body">
-    <p class="occasion-spotlight__date">{dateRange}</p>
-    <h2 id={`occasion-${occasion.id}`}>{occasion.name}</h2>
+    <p class="occasion-spotlight__date" data-spotlight-when>{dates.when}</p>
+    <p class="occasion-spotlight__span" data-spotlight-span hidden={!dates.span}>{dates.span}</p>
+    <h2 id={`occasion-${occasion.id}`} lang="de">{occasion.name}</h2>
     <p class="occasion-spotlight__description">{occasion.description}</p>
 
     <div class="occasion-spotlight__facts" aria-label="Occasion details">
@@ -83,6 +79,34 @@ const detailUrl = `/special/${occasion.slug}/`;
   </a>
 </article>
 
+<script>
+  import { spotlightDates } from '../utils/occasionSheet';
+  import { occasionLabel, type OccasionSchedule } from '../utils/occasionStatus';
+
+  function refreshSpotlights() {
+    const now = new Date();
+    for (const card of document.querySelectorAll<HTMLElement>('[data-occasion-spotlight]')) {
+      const status = card.querySelector<HTMLElement>('[data-occasion-schedule]')!;
+      const schedule = JSON.parse(status.dataset.occasionSchedule!) as OccasionSchedule;
+      const dates = spotlightDates(schedule, now);
+      card.querySelector('[data-spotlight-when]')!.textContent = dates.when;
+      const span = card.querySelector<HTMLElement>('[data-spotlight-span]')!;
+      span.textContent = dates.span ?? '';
+      span.hidden = !dates.span;
+      // Keep the status and appointment on the same clock when hours end.
+      const label = occasionLabel(schedule, now);
+      status.textContent = label.text;
+      status.dataset.state = label.key;
+    }
+  }
+
+  refreshSpotlights();
+  setInterval(refreshSpotlights, 60_000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') refreshSpotlights();
+  });
+</script>
+
 <style>
   .occasion-spotlight {
     position: relative;
@@ -124,6 +148,7 @@ const detailUrl = `/special/${occasion.slug}/`;
 
   .occasion-spotlight__eyebrow {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
@@ -161,6 +186,15 @@ const detailUrl = `/special/${occasion.slug}/`;
     font-family: 'Space Mono', monospace;
     font-size: 0.6875rem;
     letter-spacing: 0.08em;
+    line-height: 1.6;
+  }
+
+  .occasion-spotlight__span {
+    margin-top: 0.15rem;
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.625rem;
+    line-height: 1.6;
   }
 
   .occasion-spotlight h2 {
@@ -171,6 +205,8 @@ const detailUrl = `/special/${occasion.slug}/`;
     letter-spacing: -0.06em;
     line-height: 0.98;
     text-transform: uppercase;
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
 
   .occasion-spotlight__description {
