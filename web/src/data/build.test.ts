@@ -13,6 +13,63 @@ import { spawnSync } from 'node:child_process';
 import { sheetDateLine } from '../utils/occasionSheet';
 
 const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
+test('homepage always links to the occasion index, including small and empty inventories', () => {
+  const root = mkdtempSync(join(tmpdir(), 'occasion-navigation-'));
+  const data = join(root, 'data');
+  const outDir = join(root, 'dist');
+  mkdirSync(join(data, 'occasions'), { recursive: true });
+  const env = { ...process.env };
+  for (const name of Object.keys(env)) {
+    if (name.startsWith('WEB_DATA_')) delete env[name];
+  }
+  const meta = { week: 45, year: 2026, updatedAt: 'Navigation fixture', updatedAtISO: new Date().toISOString() };
+  const occasions = Array.from({ length: 3 }, (_, index) => ({
+    id: `navigation:${index}`,
+    slug: `occasion-${index}`,
+    name: `Occasion ${index}`,
+    kind: 'festival',
+    startDate: '2026-11-01',
+    endDate: '2026-11-08',
+    location: 'Hannover',
+    description: 'A city festival.',
+    sourceUrl: 'https://example.com/festival',
+    status: 'happening_now',
+    programmeCount: 0,
+    locationCount: 0,
+    programmePath: `occasions/occasion-${index}.json`,
+    preview: [],
+  }));
+  try {
+    for (const occasion of occasions) {
+      writeFileSync(join(data, occasion.programmePath), JSON.stringify({ meta, occasion, programme: [] }));
+    }
+    for (const count of [0, 1, 2, 3]) {
+      writeFileSync(join(data, 'web_events.json'), JSON.stringify({
+        meta, movies: [], concerts: [], occasions: occasions.slice(0, count),
+      }));
+      const result = spawnSync(process.execPath, [
+        join(projectRoot, 'node_modules/astro/bin/astro.mjs'),
+        'build', '--root', projectRoot, '--outDir', outDir,
+      ], {
+        cwd: root,
+        env: { ...env, WEB_DATA_ROOT: data, WEB_DATA_MODE: 'production' },
+        encoding: 'utf8',
+        timeout: 30000,
+      });
+      if (result.error) throw result.error;
+      expect(result.status, result.stdout + result.stderr).toBe(0);
+      const html = readFileSync(join(outDir, 'index.html'), 'utf8');
+      const links = html.match(/<a\b[^>]*href="\/special\/"[^>]*>[\s\S]*?<\/a>/g) ?? [];
+      expect(links.length, `${count} occasions`).toBe(1);
+      expect(links[0]).toContain('See all City Occasions');
+      expect(readFileSync(join(outDir, 'special/index.html'), 'utf8')).toContain('City Occasions');
+      expect(html.match(/class="occasion-spotlight__body"/g)?.length ?? 0).toBe(Math.min(count, 2));
+    }
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+}, 120000);
+
 test('Astro build selects the anchored root and rejects missing production data', () => {
   const root = mkdtempSync(join(tmpdir(), 'handoff-build-'));
   const env = { ...process.env };
