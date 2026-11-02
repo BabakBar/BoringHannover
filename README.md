@@ -44,7 +44,7 @@ Know a venue, gallery, theater, or club missing? **love your help!**
 
 Add a new source in 3 steps:
 
-1. Create `src/boringhannover/sources/your_venue.py`
+1. Create `src/boringhannover/sources/concerts/your_venue.py` (or use the existing `cinema/`, `festivals/` or `sports/` directory)
 2. Implement `BaseSource` with a `fetch()` method
 3. Register with `@register_source("your_venue")`
 
@@ -52,11 +52,12 @@ Example:
 
 ```python
 from boringhannover.sources import BaseSource, register_source
+from boringhannover.models import Event
 
 @register_source("my_venue")
 class MyVenueSource(BaseSource):
     source_name = "My Venue"
-    source_type = "concert"  # or "cinema", "theater", etc.
+    source_type = "concert"
 
     def fetch(self) -> list[Event]:
         # Scrape, parse API, whatever works
@@ -67,11 +68,24 @@ That's it. No central registry, no config changes. See existing sources in `src/
 
 **Don't code?** Open an issue with the venue name and website, i'll add it.
 
+## Publication
+
+Each scrape records source outcomes separately from event counts. Production preserves the
+current publication when occasion discovery is incomplete or both the movie and Radar
+inventories would be empty. A refused run writes local diagnostic output and fails before
+backup or GitHub sync. Accepted runs upload occasion programmes before the manifest.
+
+Known-occasion carry-forward and ended-page retention remain tracked in
+[#26](https://github.com/BabakBar/BoringHannover/issues/26); exact HTTP expiry belongs to
+[#31](https://github.com/BabakBar/BoringHannover/issues/31). Current deployment workflows
+do not yet wait for all required CI checks on the selected revision
+([#45](https://github.com/BabakBar/BoringHannover/issues/45)).
+
 ## Philosophy
 
 > "A side project that ships is worth more than a perfect system that never launches."
 
-Stateless. No database. Runs weekly. Filters noise. Ships fast!!
+File-based. No database. Scheduled scrapes. Filters noise. Ships fast!!
 
 ---
 
