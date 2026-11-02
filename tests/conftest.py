@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import base64
+import hashlib
+import json
 import threading
 from dataclasses import dataclass, field
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -26,6 +29,8 @@ class LocalSite:
     pages: dict[str, tuple[int, str]] = field(default_factory=dict)
     requests: list[str] = field(default_factory=list)
     user_agents: list[str] = field(default_factory=list)
+    puts: list[tuple[str, dict[str, object]]] = field(default_factory=list)
+    put_statuses: dict[str, int] = field(default_factory=dict)
 
 
 @pytest.fixture
@@ -33,6 +38,15 @@ def local_site() -> Iterator[LocalSite]:
     site = LocalSite(url="")
 
     class Handler(BaseHTTPRequestHandler):
+        def do_PUT(self) -> None:
+            payload = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+            site.puts.append((self.path, payload))
+            body = json.dumps({"commit": {"sha": "c" * 40}}).encode()
+            self.send_response(site.put_statuses.get(self.path, 200))
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
         def do_GET(self) -> None:
             site.requests.append(self.path)
             site.user_agents.append(self.headers.get("User-Agent", ""))
@@ -57,3 +71,46 @@ def local_site() -> Iterator[LocalSite]:
     finally:
         server.shutdown()
         server.server_close()
+
+
+def serve_github_publication(
+    site: LocalSite,
+    files: dict[str, bytes],
+    *,
+    revision: str = "a" * 40,
+    tree_sha: str = "b" * 40,
+    parents: tuple[str, ...] = (),
+) -> None:
+    site.pages["/repos/test/events"] = (200, json.dumps({"default_branch": "master"}))
+    commit = (
+        200,
+        json.dumps(
+            {
+                "sha": revision,
+                "commit": {"tree": {"sha": tree_sha}},
+                "parents": [{"sha": parent} for parent in parents],
+            }
+        ),
+    )
+    site.pages["/repos/test/events/commits/master"] = commit
+    site.pages[f"/repos/test/events/commits/{revision}"] = commit
+    entries = []
+    for path, raw in files.items():
+        sha = hashlib.sha1(f"blob {len(raw)}\0".encode() + raw).hexdigest()
+        entries.append({"path": path, "mode": "100644", "type": "blob", "sha": sha})
+        site.pages[f"/repos/test/events/contents/{path}"] = (
+            200,
+            json.dumps(
+                {
+                    "type": "file",
+                    "encoding": "base64",
+                    "size": len(raw),
+                    "sha": sha,
+                    "content": base64.b64encode(raw).decode(),
+                }
+            ),
+        )
+    site.pages[f"/repos/test/events/git/trees/{tree_sha}"] = (
+        200,
+        json.dumps({"sha": tree_sha, "truncated": False, "tree": entries}),
+    )

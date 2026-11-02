@@ -17,7 +17,11 @@ from typing import NoReturn
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.backup import backup_run
 from boringhannover.constants import BERLIN_TZ
-from boringhannover.github_sync import should_sync, sync_web_data_to_github
+from boringhannover.github_sync import (
+    carry_forward_occasions,
+    should_sync,
+    sync_web_data_to_github,
+)
 from boringhannover.output import export_run
 from boringhannover.source_outcomes import publication_refusal
 
@@ -53,19 +57,21 @@ def run(*, local: bool = False) -> bool:
     2. Categorizes them into movies and "On The Radar"
     3. Exports the web snapshot and the weekly archive
     4. Checks the run's source outcomes allow replacing the public site
-    5. Backs up the run's output
-    6. Syncs to GitHub to trigger frontend rebuild
+    5. Validates prior publication and carries forward omitted known occasions
+    6. Backs up the reconciled output
+    7. Syncs to GitHub to trigger frontend rebuild
 
     Args:
-        local: If True, runs in local/dev mode (no backup or GitHub sync).
+        local: If True, skips prior GitHub reads, backup and GitHub sync.
 
     Returns:
         True if the workflow completed successfully. A non-local run that
         cannot publish to GitHub returns False, so the caller exits non-zero
         rather than reporting success while the site serves stale data. A
         run whose sources make publishing unsafe also returns False, before
-        backing up or publishing, so the site keeps its current data. A
-        failed backup also returns False, after publishing.
+        backing up or publishing, so the site keeps its current data. Unreadable
+        or inconsistent prior publication also fails before backup or sync.
+        A failed backup returns False after attempting publication.
     """
     try:
         logger.info("Starting BoringHannover scraper")
@@ -104,20 +110,26 @@ def run(*, local: bool = False) -> bool:
                 )
                 return False
 
-        # Step 4: Back up, then sync data to GitHub. A production run that
+        # Step 4: Validate and reconcile before backup, then sync. A production run that
         # scrapes but does not publish is a failed run: the site keeps serving
         # stale data, so this must exit non-zero for the scheduler to report
         # it. A failed backup must not hold back fresh data, but it still
         # fails the run so the gap in the history is noticed.
         if not local:
-            backed_up = backup_run("output")
-
             if not should_sync():
                 logger.error(
                     "GITHUB_TOKEN and GITHUB_REPO are not both set; "
                     "cannot publish and will not report success"
                 )
                 return False
+
+            carry_forward_occasions(
+                "output",
+                definitions=events_data.get("city_occasions", []),
+                now=now,
+                events=events_data["big_events_radar"],
+            )
+            backed_up = backup_run("output")
 
             logger.info("Syncing data to GitHub...")
             if not sync_web_data_to_github("output"):

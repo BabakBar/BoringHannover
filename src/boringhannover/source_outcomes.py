@@ -108,13 +108,14 @@ class SourceOutcome:
 def publication_refusal(events_data: EventsData) -> str | None:
     """Return why this run must not replace the public site, or None if it may.
 
-    Every publication replaces the whole public inventory, and nothing yet
-    carries forward what a run failed to see (#26). So:
+    Every publication replaces the whole public inventory. Carry-forward
+    protects known occasions omitted by a complete discovery, but does not
+    establish that an incomplete discovery is safe to publish. So:
 
     - Occasion discovery is critical. An occasion missing from a failed or
-      partial discovery would disappear from the site although nothing says
-      it ended. Only a complete discovery may be published, including a
-      complete empty one.
+      partial discovery leaves an unverified inventory gap. Only a complete
+      discovery may be published, including a complete empty one reconciled
+      against validated prior publication.
     - Fetches stay isolated: a failed venue costs only its own events. But a
       replacement without any movie or Radar event would empty the site on no
       evidence, since no fetch can confirm it read a complete source. What
