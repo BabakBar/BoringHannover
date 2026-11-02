@@ -542,7 +542,7 @@
       "referrers": [
         {
           "referrer": "github.com",
-          "count": 4,
+          "count": 5,
           "uniques": 3
         }
       ]
@@ -551,9 +551,9 @@
   "all_time": [
     {
       "referrer": "github.com",
-      "latest_count": 4,
+      "latest_count": 5,
       "latest_uniques": 3,
-      "max_count": 4,
+      "max_count": 5,
       "max_uniques": 4,
       "first_seen": "2026-09-04",
       "last_seen": "2026-11-02"
