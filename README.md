@@ -73,9 +73,16 @@ That's it. No central registry, no config changes. See existing sources in `src/
 Each scrape records source outcomes separately from event counts. Production preserves the
 current publication when occasion discovery is incomplete or both the movie and Radar
 inventories would be empty. A refused run writes local diagnostic output and fails before
-backup or GitHub sync. Accepted runs upload occasion programmes before the manifest.
+backup or GitHub sync. Accepted production runs validate the prior manifest and its
+referenced programmes at one Git commit, then preserve eligible known occasions omitted
+by complete discovery. Invalid or unavailable prior state stops publication; local runs
+skip this read. Interrupted programme uploads recover from the nearest coherent ancestor
+with the same manifest, without rewinding newer manifest facts. Newly fetched programme
+events join their carried occasion rather than appearing twice in Radar and the programme.
+Carried facts retain their original checked timestamp. Occasion programmes upload before
+the manifest.
 
-Known-occasion carry-forward and ended-page retention remain tracked in
+Remaining occasion lifecycle work, including ended-page retention, is tracked in
 [#26](https://github.com/BabakBar/BoringHannover/issues/26); exact HTTP expiry belongs to
 [#31](https://github.com/BabakBar/BoringHannover/issues/31). Current deployment workflows
 do not yet wait for all required CI checks on the selected revision

@@ -15,16 +15,19 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+import httpx
 import pytest
 
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.exporters import export_web_json
+from boringhannover.github_sync import carry_forward_occasions
 from boringhannover.occasions import OccasionDefinition
 from boringhannover.sources.cinema.astor import AstorSource
 from boringhannover.sources.concerts.kulturpalast_linden import (
     KulturpalastLindenSource,
 )
+from conftest import serve_github_publication
 
 
 if TYPE_CHECKING:
@@ -113,6 +116,34 @@ def test_scraped_events_reach_the_built_site(
         occasion_definitions=events["city_occasions"],
     )
 
+    serve_github_publication(
+        local_site,
+        {
+            f"web/output/{path.relative_to(data_root).as_posix()}": path.read_bytes()
+            for path in [
+                data_root / "web_events.json",
+                *sorted((data_root / "occasions").glob("*.json")),
+            ]
+        },
+    )
+    prior = json.loads((data_root / "occasions/pipeline-fest.json").read_text())
+    export_web_json(
+        events["movies_this_week"],
+        events["big_events_radar"],
+        data_root,
+        iso_week,
+        iso_year,
+        occasion_definitions=[],
+        generated_at=now,
+    )
+    assert not (data_root / "occasions/pipeline-fest.json").exists()
+    with httpx.Client(base_url=local_site.url) as client:
+        carry_forward_occasions(
+            data_root, definitions=[], now=now, client=client, repo="test/events"
+        )
+    retained = json.loads((data_root / "occasions/pipeline-fest.json").read_text())
+    assert retained["meta"] == prior["meta"]
+
     dist = tmp_path / "dist"
     env = {
         key: value
@@ -135,4 +166,6 @@ def test_scraped_events_reach_the_built_site(
     assert "Pipeline Concert" in homepage
     assert "Pipeline Fest" in homepage
     occasion_page = dist / "special" / "pipeline-fest" / "index.html"
-    assert "Pipeline Fest" in occasion_page.read_text(encoding="utf-8")
+    html = occasion_page.read_text(encoding="utf-8")
+    assert "Pipeline Fest" in html
+    assert f"checked {prior['meta']['updatedAt']}" in html

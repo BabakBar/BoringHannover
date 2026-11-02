@@ -11,13 +11,29 @@ import base64
 import json
 import logging
 import os
+from contextlib import nullcontext
+from datetime import datetime
 from pathlib import Path
-from typing import Final
+from typing import TYPE_CHECKING, Final
 
 import httpx
 
+from boringhannover.publication import read_published_occasions, reconcile_occasions
 
-__all__ = ["should_sync", "sync_to_github", "sync_web_data_to_github"]
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from boringhannover.models import Event
+    from boringhannover.occasions import OccasionDefinition
+
+
+__all__ = [
+    "carry_forward_occasions",
+    "should_sync",
+    "sync_to_github",
+    "sync_web_data_to_github",
+]
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +41,36 @@ GITHUB_API_BASE: Final[str] = "https://api.github.com"
 WEB_EVENTS_REPO_PATH: Final[str] = "web/output/web_events.json"
 WEB_OCCASIONS_REPO_DIR: Final[str] = "web/output/occasions"
 COMMIT_MESSAGE: Final[str] = "chore: update weekly event data [automated]"
+
+
+def carry_forward_occasions(
+    output_dir: str | Path,
+    *,
+    definitions: Sequence[OccasionDefinition],
+    now: datetime,
+    events: Sequence[Event] = (),
+    client: httpx.Client | None = None,
+    repo: str | None = None,
+) -> None:
+    """Validate prior publication before any backup or upload of this candidate."""
+    repository = repo or os.environ["GITHUB_REPO"]
+    with (
+        nullcontext(client)
+        if client is not None
+        else httpx.Client(
+            base_url=GITHUB_API_BASE,
+            headers={
+                "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
+                "Accept": "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28",
+            },
+            timeout=30,
+        ) as github
+    ):
+        prior = read_published_occasions(github, repository)
+    reconcile_occasions(
+        output_dir, prior, definitions=definitions, now=now, events=events
+    )
 
 
 def should_sync() -> bool:

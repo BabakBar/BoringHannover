@@ -36,6 +36,7 @@ __all__ = [
     "collect_occasion_definitions",
     "occasion_area",
     "occasion_lifecycle",
+    "occasion_status_on",
 ]
 
 logger = logging.getLogger(__name__)
@@ -182,14 +183,18 @@ class OccasionDefinition:
         A final weekend is a Saturday or Sunday of a multi-day occasion that
         started before that weekend and ends within it.
         """
-        if today < self.start_date:
-            return "upcoming"
-        if today.weekday() >= 5:
-            saturday = today - timedelta(days=today.weekday() - 5)
-            sunday = saturday + timedelta(days=1)
-            if self.start_date < saturday and self.end_date <= sunday:
-                return "final_weekend"
-        return "happening_now"
+        return occasion_status_on(self.start_date, self.end_date, today)
+
+
+def occasion_status_on(start: date, end: date, today: date) -> OccasionStatus:
+    """Share date-derived lifecycle between source definitions and carried web records."""
+    if today < start:
+        return "upcoming"
+    if today.weekday() >= 5:
+        saturday = today - timedelta(days=today.weekday() - 5)
+        if start < saturday and end <= saturday + timedelta(days=1):
+            return "final_weekend"
+    return "happening_now"
 
 
 def occasion_area(place: Place) -> tuple[OccasionArea, str] | None:
