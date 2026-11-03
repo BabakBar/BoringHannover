@@ -3098,7 +3098,7 @@
         {
           "path": "/BabakBar/BoringHannover",
           "title": "Overview",
-          "count": 7,
+          "count": 8,
           "uniques": 1
         },
         {
@@ -3162,9 +3162,9 @@
     {
       "path": "/BabakBar/BoringHannover",
       "title": "Overview",
-      "latest_count": 7,
+      "latest_count": 8,
       "latest_uniques": 1,
-      "max_count": 7,
+      "max_count": 8,
       "max_uniques": 2,
       "first_seen": "2026-09-04",
       "last_seen": "2026-11-03"
