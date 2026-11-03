@@ -175,7 +175,7 @@ export function entryPrice(price: string): string {
 /**
  * Dates on which an occasion is current from `today`: its remaining
  * confirmed appointments if sparse, otherwise its envelope inside the
- * inclusive today..today+14 horizon.
+ * inclusive today..today+30 horizon.
  */
 function currentDates(occasion: OccasionSummary, today: string): string[] {
   if (occasion.scheduleConfidence === 'discrete') {

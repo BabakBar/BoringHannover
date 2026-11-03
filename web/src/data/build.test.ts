@@ -11,6 +11,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { sheetDateLine } from '../utils/occasionSheet';
+import { addDays, berlinClock } from '../utils/occasionStatus';
 
 const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
 test('homepage always links to the occasion index, including small and empty inventories', () => {
@@ -23,13 +24,14 @@ test('homepage always links to the occasion index, including small and empty inv
     if (name.startsWith('WEB_DATA_')) delete env[name];
   }
   const meta = { week: 45, year: 2026, updatedAt: 'Navigation fixture', updatedAtISO: new Date().toISOString() };
+  const today = berlinClock(new Date()).date;
   const occasions = Array.from({ length: 3 }, (_, index) => ({
     id: `navigation:${index}`,
     slug: `occasion-${index}`,
     name: `Occasion ${index}`,
     kind: 'festival',
-    startDate: '2026-11-01',
-    endDate: '2026-11-08',
+    startDate: addDays(today, index + 1),
+    endDate: addDays(today, index + 1),
     location: 'Hannover',
     description: 'A city festival.',
     sourceUrl: 'https://example.com/festival',
@@ -39,13 +41,14 @@ test('homepage always links to the occasion index, including small and empty inv
     programmePath: `occasions/occasion-${index}.json`,
     preview: [],
   }));
+  const expired = { ...occasions[0], id: 'expired', slug: 'expired', name: 'Expired festival', startDate: addDays(today, -2), endDate: addDays(today, -1), programmePath: 'occasions/expired.json' };
   try {
-    for (const occasion of occasions) {
+    for (const occasion of [...occasions, expired]) {
       writeFileSync(join(data, occasion.programmePath), JSON.stringify({ meta, occasion, programme: [] }));
     }
     for (const count of [0, 1, 2, 3]) {
       writeFileSync(join(data, 'web_events.json'), JSON.stringify({
-        meta, movies: [], concerts: [], occasions: occasions.slice(0, count),
+        meta, movies: [], concerts: [], occasions: [expired, ...occasions.slice(0, count)],
       }));
       const result = spawnSync(process.execPath, [
         join(projectRoot, 'node_modules/astro/bin/astro.mjs'),
@@ -63,7 +66,10 @@ test('homepage always links to the occasion index, including small and empty inv
       expect(links.length, `${count} occasions`).toBe(1);
       expect(links[0]).toContain('See all City Occasions');
       expect(readFileSync(join(outDir, 'special/index.html'), 'utf8')).toContain('City Occasions');
-      expect(html.match(/class="occasion-spotlight__body"/g)?.length ?? 0).toBe(Math.min(count, 2));
+      const visible = [...html.matchAll(/<article\b([^>]*)>([\s\S]*?)<\/article>/g)]
+        .filter(([, attrs]) => attrs.includes('data-occasion-spotlight') && !/\shidden\b/.test(attrs));
+      expect(visible.length).toBe(Math.min(count, 2));
+      expect(visible.map(([, , body]) => body).join('')).not.toContain('Expired festival');
     }
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -162,7 +168,7 @@ test('Astro build selects the anchored root and rejects missing production data'
     const empty = emptyIndex.match(
       /<div[^>]*data-index-empty(?![^>]*hidden)[^>]*>([\s\S]*?)<\/div>\s*<\/div>/,
     )?.[1];
-    expect(empty).toContain('No City Occasions are listed for the next two weeks.');
+    expect(empty).toContain('No City Occasions are listed for the next 30 days.');
     expect(empty).toContain('href="/"');
     expect(empty).toContain(
       'href="https://www.hannover.de/Veranstaltungskalender/Feste-Festivals"',
@@ -740,6 +746,8 @@ test('the occasion index groups by next confirmed date and works without JS (#54
   // Manifest order is deliberately not the index order.
   const occasions = [
     occasion('day-fourteen', 14, { name: longName }),
+    occasion('day-thirty', 30),
+    occasion('day-thirty-one', 31),
     occasion('abgesagt', 2, { sourceStatus: 'cancelled' }),
     occasion('day-eight', 8),
     occasion('kunst-kurbis-in-eldagsen', 7, {
@@ -845,10 +853,12 @@ test('the occasion index groups by next confirmed date and works without JS (#54
       ['today', false, ['heute']],
       ['next', false, ['wiesn', 'kunst-kurbis-in-eldagsen']],
       ['following', false, ['day-eight', 'day-fourteen']],
+      ['later', false, ['day-thirty']],
       ['check', false, ['flohmarkt']],
       ['off', false, ['abgesagt']],
     ]);
     expect(html).not.toContain('href="/special/gestern-vorbei/"');
+    expect(html).not.toContain('href="/special/day-thirty-one/"');
     // Without JS a heading is a date range, true however long the page is
     // served; the browser adds Today / Next 7 days from the reader's clock.
     const dates = (from: number, to: number) =>
@@ -857,6 +867,7 @@ test('the occasion index groups by next confirmed date and works without JS (#54
       dates(0, 0),
       dates(1, 7),
       dates(8, 14),
+      dates(15, 30),
       'Check dates',
       'Cancelled or postponed',
     ]);

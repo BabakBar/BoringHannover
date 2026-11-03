@@ -47,11 +47,11 @@ test.skipIf(!executablePath && !process.env.CI)(
       { occasion: sparse, when: `${dateText(day(3))} · 18:00–20:00`, span: `Selected dates · ${sheetDateLine(sparse)}` },
       { occasion: continuous, when: `${dateText(day(3))} · 18:00–20:00`, span: sheetDateLine(continuous) },
       { occasion: occasion('unknown-hours', { startDate: day(-3), scheduleConfidence: 'unknown' }), when: 'Check source for dates' },
-      { occasion: occasion('cancelled', { ...sparse, id: 'spotlight:cancelled', slug: 'cancelled', programmePath: 'occasions/cancelled.json', sourceStatus: 'cancelled' }), when: 'Check source for dates', span: `Selected dates · ${sheetDateLine(sparse)}` },
-      { occasion: occasion('postponed', { sourceStatus: 'postponed', startDate: day(3) }), when: 'Check source for dates' },
-      { occasion: occasion('ended', { startDate: day(-2), endDate: day(-1), sourceStatus: 'rescheduled' }), when: 'Ended' },
-      { occasion: occasion('date-only', { startDate: day(14), endDate: day(14) }), when: dateText(day(14)), span: null },
-      { occasion: occasion('outside-horizon', { startDate: day(15), scheduleConfidence: 'discrete', occurrences: [{ date: day(15), startTime: '18:00' }] }), when: 'Check source for dates', span: `Selected dates · ${sheetDateLine({ startDate: day(15), endDate: day(30) })}` },
+      { occasion: occasion('cancelled', { ...sparse, id: 'spotlight:cancelled', slug: 'cancelled', programmePath: 'occasions/cancelled.json', sourceStatus: 'cancelled' }), when: 'Check source for dates', span: `Selected dates · ${sheetDateLine(sparse)}`, visible: false },
+      { occasion: occasion('postponed', { sourceStatus: 'postponed', startDate: day(3) }), when: 'Check source for dates', visible: false },
+      { occasion: occasion('ended', { startDate: day(-2), endDate: day(-1), sourceStatus: 'rescheduled' }), when: 'Ended', visible: false },
+      { occasion: occasion('date-only', { startDate: day(30), endDate: day(30) }), when: dateText(day(30)), span: null },
+      { occasion: occasion('outside-horizon', { startDate: day(31), endDate: day(31), scheduleConfidence: 'discrete', occurrences: [{ date: day(31), startTime: '18:00' }] }), when: 'Check source for dates', span: `Selected dates · ${sheetDateLine({ startDate: day(31), endDate: day(31) })}`, visible: false },
     ];
     const env = { ...process.env };
     for (const name of Object.keys(env)) {
@@ -72,11 +72,13 @@ test.skipIf(!executablePath && !process.env.CI)(
       browser = await chromium.launch(executablePath ? { executablePath } : { channel: 'chrome' });
       for (let offset = 0; offset < cases.length; offset += 2) {
         const pair = cases.slice(offset, offset + 2);
-        for (const { occasion } of pair) {
+        const reserve = occasion('later-festival', { startDate: day(20), endDate: day(20) });
+        const inventory = [...pair.map(item => item.occasion), ...(offset === 0 ? [reserve] : [])];
+        for (const occasion of inventory) {
           writeFileSync(join(data, occasion.programmePath), JSON.stringify({ meta, occasion, programme: [] }));
         }
         writeFileSync(join(data, 'web_events.json'), JSON.stringify({
-          meta, movies: [], concerts: [], occasions: pair.map(item => item.occasion),
+          meta, movies: [], concerts: [], occasions: inventory,
         }));
         const build = spawnSync(process.execPath, [
           join(projectRoot, 'node_modules/astro/bin/astro.mjs'),
@@ -96,14 +98,29 @@ test.skipIf(!executablePath && !process.env.CI)(
         await page.goto(origin);
         for (const [index, item] of pair.entries()) {
           const card = page.locator('.occasion-spotlight').nth(index);
+          expect(await card.isVisible()).toBe(item.visible !== false);
           expect((await card.locator('.occasion-spotlight__date').textContent())?.trim()).toBe(item.when);
           const span = card.locator('[data-spotlight-span]');
-          expect(await span.isVisible()).toBe(item.span !== null);
+          expect(await span.isVisible()).toBe(item.visible !== false && item.span !== null);
           expect((await span.textContent())?.trim()).toBe(item.span ?? (item.span === null ? '' : sheetDateLine(item.occasion)));
-          expect(await card.getByRole('link').getAttribute('href')).toBe(`/special/${item.occasion.slug}/`);
+          expect(await card.locator('a').getAttribute('href')).toBe(`/special/${item.occasion.slug}/`);
         }
+        if (offset === 0) expect(await page.locator('.occasion-spotlight').nth(2).isVisible()).toBe(false);
         await plain.close();
 
+        if (offset === 6) {
+          const context = await browser.newContext();
+          await context.route('**/*', route => route.request().url().startsWith(origin) ? route.continue() : route.abort());
+          const page = await context.newPage();
+          await page.clock.install({ time: new Date(`${day(0)}T12:00:00Z`) });
+          await page.goto(origin);
+          expect(await page.locator('.occasion-spotlight').nth(0).isVisible()).toBe(true);
+          expect(await page.locator('.occasion-spotlight').nth(1).isVisible()).toBe(false);
+          await page.clock.setSystemTime(new Date(`${day(1)}T12:00:00Z`));
+          await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+          expect(await page.locator('.occasion-spotlight').nth(1).isVisible()).toBe(true);
+          await context.close();
+        }
         if (offset !== 0) continue;
         const context = await browser.newContext({ viewport: { width: 390, height: 900 } });
         await context.route('**/*', route => route.request().url().startsWith(origin) ? route.continue() : route.abort());
@@ -132,16 +149,26 @@ test.skipIf(!executablePath && !process.env.CI)(
         await live.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
         expect(await cards.nth(0).locator('[data-spotlight-when]').textContent()).toBe('Check source for dates');
         expect(await cards.nth(0).locator('[data-occasion-status]').textContent()).toBe('Check dates');
+        expect(await cards.nth(0).isVisible()).toBe(false);
+        expect(await cards.nth(1).isVisible()).toBe(true);
+        expect(await cards.nth(2).isVisible()).toBe(true);
+        expect(await cards.nth(1).getAttribute('class')).not.toContain('occasion-spotlight--compact');
+        expect(await cards.nth(2).getAttribute('class')).toContain('occasion-spotlight--compact');
         for (const width of [320, 390, 1280]) {
           await live.setViewportSize({ width, height: 900 });
           for (const fontSize of ['16px', '32px']) {
             await live.evaluate(value => { document.documentElement.style.fontSize = value; }, fontSize);
-            for (const text of await cards.locator('h2, .occasion-spotlight__eyebrow, [data-spotlight-when], [data-spotlight-span]').all()) {
+            for (const text of await live.locator('.occasion-spotlight:not([hidden])').locator('h2, .occasion-spotlight__eyebrow, [data-spotlight-when], [data-spotlight-span]').all()) {
               const size = await text.evaluate(el => ({ text: el.textContent, content: el.scrollWidth, width: el.clientWidth }));
               expect(size.content, JSON.stringify({ viewport: width, fontSize, ...size })).toBeLessThanOrEqual(size.width);
             }
           }
         }
+        await live.clock.setSystemTime(new Date(`${day(32)}T12:00:00Z`));
+        await live.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+        expect(await live.locator('.occasion-spotlight:not([hidden])').count()).toBe(0);
+        expect(await live.getByRole('link', { name: 'See all City Occasions' }).isVisible()).toBe(true);
+        expect(await live.locator('[data-occasion-index-link]').getAttribute('class')).not.toContain('-mt-6');
         await context.close();
       }
     } finally {

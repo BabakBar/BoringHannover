@@ -22,7 +22,7 @@ export interface IndexEntry<T extends IndexOccasion> {
 }
 
 export interface IndexGroup<T extends IndexOccasion> {
-  key: 'today' | 'next' | 'following' | 'check' | 'off';
+  key: 'today' | 'next' | 'following' | 'later' | 'check' | 'off';
   name: string;
   /** The Berlin dates a dated group covers. */
   dates: string | null;
@@ -32,7 +32,8 @@ export interface IndexGroup<T extends IndexOccasion> {
 const DATED_GROUPS = [
   { key: 'today', name: 'Today', from: 0, to: 0 },
   { key: 'next', name: 'Next 7 days', from: 1, to: 7 },
-  { key: 'following', name: 'Following 7 days', from: 8, to: OCCASION_HORIZON_DAYS },
+  { key: 'following', name: 'Following 7 days', from: 8, to: 14 },
+  { key: 'later', name: 'In 15–30 days', from: 15, to: OCCASION_HORIZON_DAYS },
 ] as const;
 
 function byName<T extends IndexOccasion>(left: IndexEntry<T>, right: IndexEntry<T>) {
@@ -40,8 +41,8 @@ function byName<T extends IndexOccasion>(left: IndexEntry<T>, right: IndexEntry<
 }
 
 /**
- * Disjoint groups in page order: Today, Next 7 days and Following 7 days up
- * to the inclusive horizon, then Check dates (no confirmed date ahead) and
+ * Disjoint dated groups through the inclusive 30-day horizon,
+ * then Check dates (no confirmed date ahead) and
  * Cancelled or postponed. Ended occasions and those beyond the horizon are
  * left out. Dated groups sort by appointment, untimed after timed.
  */

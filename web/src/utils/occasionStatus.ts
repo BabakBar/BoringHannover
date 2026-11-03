@@ -27,8 +27,8 @@ export interface OccasionLabel {
   text: string;
 }
 
-/** Inclusive today..today+14 Berlin horizon, matching EVENT_LOOKAHEAD_DAYS. */
-export const OCCASION_HORIZON_DAYS = 14;
+/** Inclusive today..today+30 Berlin horizon, matching OCCASION_LOOKAHEAD_DAYS. */
+export const OCCASION_HORIZON_DAYS = 30;
 
 const LABEL_TEXT: Record<Exclude<OccasionLabelKey, 'in_days'>, string> = {
   cancelled: 'Cancelled',

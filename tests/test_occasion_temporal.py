@@ -590,22 +590,22 @@ def test_shared_clock_fixture_lifecycle(case: dict[str, object]) -> None:
                 schedule_confidence="discrete",
             ),
             date(2026, 12, 25),
-            [date(2026, 12, 25), date(2027, 1, 8)],
+            [date(2026, 12, 25), date(2027, 1, 8), date(2027, 1, 9)],
             id="inclusive-horizon",
         ),
         pytest.param(
             _occasion(
                 start_date=date(2026, 10, 1),
-                end_date=date(2026, 10, 31),
+                end_date=date(2026, 11, 1),
                 occurrences=(
-                    Occurrence(date(2026, 10, 15)),
-                    Occurrence(date(2026, 10, 16)),
+                    Occurrence(date(2026, 10, 31)),
+                    Occurrence(date(2026, 11, 1)),
                 ),
                 schedule_confidence="discrete",
                 discovery_lead_days=45,
             ),
             date(2026, 10, 1),
-            [date(2026, 10, 15)],
+            [date(2026, 10, 31)],
             id="discovery-lead-never-widens-the-shared-horizon",
         ),
     ],
@@ -669,6 +669,13 @@ def test_web_export_adds_horizon_limited_schedule_fields(tmp_path: Path) -> None
         {"date": "2026-10-16", "startTime": "18:00"},
         {"date": "2026-10-17", "startTime": "18:00"},
         {"date": "2026-10-23", "startTime": "18:00"},
+        {"date": "2026-10-24", "startTime": "18:00"},
+        {"date": "2026-10-29", "startTime": "18:00"},
+        {"date": "2026-10-30", "startTime": "18:00"},
+        {"date": "2026-10-31", "startTime": "18:00"},
+        {"date": "2026-11-01", "startTime": "11:30"},
+        {"date": "2026-11-06", "startTime": "18:00"},
+        {"date": "2026-11-07", "startTime": "18:00"},
     ]
     assert "sourceStatus" not in summary
     assert "hoursText" not in summary

@@ -58,8 +58,9 @@ describe('occasionIndex', () => {
         }),
         ['following', '2026-10-25'],
       ],
-      // Outside the two-week horizon; no discovery surface lists it.
-      [occasion('day-15', on('2026-10-26')), undefined],
+      [occasion('day-15', on('2026-10-26')), ['later', '2026-10-26']],
+      [occasion('day-30', on('2026-11-10')), ['later', '2026-11-10']],
+      [occasion('day-31', on('2026-11-11')), undefined],
       [occasion('ended-yesterday', on('2026-10-10')), undefined],
       [
         occasion('running-with-hours-today', {
@@ -162,6 +163,7 @@ describe('occasionIndex', () => {
       ['today', 'Today', 'Sun 11 Oct'],
       ['next', 'Next 7 days', 'Mon 12 – Sun 18 Oct'],
       ['following', 'Following 7 days', 'Mon 19 – Sun 25 Oct'],
+      ['later', 'In 15–30 days', 'Mon 26 Oct – Tue 10 Nov'],
       ['check', 'Check dates', null],
       ['off', 'Cancelled or postponed', null],
     ]);
@@ -235,6 +237,7 @@ describe('occasionIndex', () => {
       today: ['afternoon', 'evening', 'a-untimed', 'b-untimed'],
       next: ['tomorrow', 'later-this-week'],
       following: [],
+      later: [],
       check: ['check-earlier', 'check-a', 'check-b'],
       off: [],
     });

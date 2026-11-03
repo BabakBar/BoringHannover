@@ -79,8 +79,7 @@ def run(*, local: bool = False) -> bool:
             logger.info("Running in local mode (GitHub sync disabled)")
         logger.info("Fetching events from all sources...")
 
-        # Step 1: Gather all events. One clock for the run, so events and
-        # occasions share the same 14-day window.
+        # Step 1: One clock for the run: 14 days for movies/Radar, 30 for occasions.
         now = datetime.now(BERLIN_TZ)
         events_data = fetch_all_events(now=now)
 
