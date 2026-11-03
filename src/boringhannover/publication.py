@@ -16,7 +16,7 @@ from urllib.parse import quote, urlsplit
 
 import httpx
 
-from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
+from boringhannover.constants import BERLIN_TZ, OCCASION_LOOKAHEAD_DAYS
 from boringhannover.exporters import (
     _format_web_event,
     _occasion_programme_item,
@@ -370,7 +370,7 @@ def _refresh(programme: Record, today: date, now: datetime) -> None:
             for item in _rows(summary["occurrences"])
             if today
             <= _date(item["date"])
-            <= today + timedelta(days=EVENT_LOOKAHEAD_DAYS)
+            <= today + timedelta(days=OCCASION_LOOKAHEAD_DAYS)
         ]
     items = _events(programme["programme"])
     upcoming = [
@@ -565,10 +565,12 @@ def reconcile_occasions(
         if identity in current:
             raise ValueError("Current occasion has no matching source definition")
         start, end = _date(previous["startDate"]), _date(previous["endDate"])
-        if end < today or start > today + timedelta(days=EVENT_LOOKAHEAD_DAYS):
+        if end < today or start > today + timedelta(days=OCCASION_LOOKAHEAD_DAYS):
             continue
         if previous.get("scheduleConfidence") == "discrete" and not any(
-            today <= _date(item["date"]) <= today + timedelta(days=EVENT_LOOKAHEAD_DAYS)
+            today
+            <= _date(item["date"])
+            <= today + timedelta(days=OCCASION_LOOKAHEAD_DAYS)
             for item in _rows(previous.get("occurrences", []))
         ):
             continue

@@ -289,23 +289,23 @@
       "expected": { "lifecycle": "happening_now", "label": "Last day", "staticLabel": "Running" }
     },
     {
-      "name": "horizon includes today+14 across the year boundary",
+      "name": "horizon includes today+30 across the year boundary",
       "now": "2026-12-25T11:00:00Z",
       "occasion": {
-        "startDate": "2027-01-08",
-        "endDate": "2027-01-08",
-        "occurrences": [{ "date": "2027-01-08", "startTime": "19:00" }],
+        "startDate": "2027-01-24",
+        "endDate": "2027-01-24",
+        "occurrences": [{ "date": "2027-01-24", "startTime": "19:00" }],
         "scheduleConfidence": "continuous"
       },
-      "expected": { "lifecycle": "upcoming", "label": "In 14 days", "staticLabel": "Coming soon" }
+      "expected": { "lifecycle": "upcoming", "label": "In 30 days", "staticLabel": "Coming soon" }
     },
     {
-      "name": "horizon excludes today+15",
+      "name": "horizon excludes today+31",
       "now": "2026-12-25T11:00:00Z",
       "occasion": {
-        "startDate": "2027-01-09",
-        "endDate": "2027-01-09",
-        "occurrences": [{ "date": "2027-01-09", "startTime": "19:00" }],
+        "startDate": "2027-01-25",
+        "endDate": "2027-01-25",
+        "occurrences": [{ "date": "2027-01-25", "startTime": "19:00" }],
         "scheduleConfidence": "continuous"
       },
       "expected": { "lifecycle": null, "label": "Coming soon", "staticLabel": "Coming soon" }
@@ -315,8 +315,8 @@
       "now": "2026-10-15T10:00:00Z",
       "occasion": {
         "startDate": "2026-10-01",
-        "endDate": "2026-10-30",
-        "occurrences": [{ "date": "2026-10-01" }, { "date": "2026-10-30" }],
+        "endDate": "2026-11-15",
+        "occurrences": [{ "date": "2026-10-01" }, { "date": "2026-11-15" }],
         "scheduleConfidence": "discrete"
       },
       "expected": { "lifecycle": null, "label": "Coming soon", "staticLabel": "Running" }

@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING, Literal
 
-from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
+from boringhannover.constants import BERLIN_TZ, OCCASION_LOOKAHEAD_DAYS
 
 
 if TYPE_CHECKING:
@@ -124,7 +124,7 @@ class OccasionDefinition:
     location: str
     source_url: str
     description: str
-    discovery_lead_days: int = EVENT_LOOKAHEAD_DAYS
+    discovery_lead_days: int = OCCASION_LOOKAHEAD_DAYS
     source_summary: str = ""
     occurrences: tuple[Occurrence, ...] = ()
     schedule_confidence: ScheduleConfidence | None = None
@@ -166,10 +166,10 @@ class OccasionDefinition:
     def occurrences_within(self, today: date) -> tuple[Occurrence, ...]:
         """Return confirmed appointments from today through the horizon.
 
-        The shared EVENT_LOOKAHEAD_DAYS bound applies even when a definition
+        The shared OCCASION_LOOKAHEAD_DAYS bound applies even when a definition
         allows a longer discovery lead.
         """
-        lead = min(self.discovery_lead_days, EVENT_LOOKAHEAD_DAYS)
+        lead = min(self.discovery_lead_days, OCCASION_LOOKAHEAD_DAYS)
         horizon_end = today + timedelta(days=lead)
         return tuple(
             occurrence

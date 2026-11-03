@@ -932,7 +932,7 @@ def test_current_source_evidence_wins_without_reinventing_old_facts(
             prior, source_status="cancelled", start_date=today + timedelta(days=1)
         )
     elif change in ("rescheduled", "rescheduled-outside-window"):
-        offset = 2 if change == "rescheduled" else 30
+        offset = 2 if change == "rescheduled" else 31
         current = replace(
             prior,
             start_date=today + timedelta(days=offset),

@@ -7,7 +7,11 @@ from datetime import UTC, datetime, timedelta
 import pytest
 
 from boringhannover.aggregator import fetch_all_events
-from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
+from boringhannover.constants import (
+    BERLIN_TZ,
+    EVENT_LOOKAHEAD_DAYS,
+    OCCASION_LOOKAHEAD_DAYS,
+)
 from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.models import Event
 from boringhannover.occasions import OccasionDefinition, occasion_lifecycle
@@ -68,7 +72,7 @@ def berlin(year: int, month: int, day: int, hour: int, minute: int) -> datetime:
 def test_window_runs_through_the_end_of_berlin_day_14(
     now: datetime, inside: list[datetime], outside: list[datetime]
 ) -> None:
-    """Movies and Radar keep today..today+14 inclusive, like City Occasions."""
+    """Movies and Radar keep 14 days; City Occasions keep 30 days."""
 
     class StaticSource(BaseSource):
         source_name = "Static"
@@ -96,7 +100,7 @@ def test_window_runs_through_the_end_of_berlin_day_14(
         f"radar {when.isoformat()}" for when in inside
     ]
 
-    # The same clock lists a one-day occasion on day 14, not one on day 15.
+    # City Occasions have their own longer window on the same Berlin clock.
     def one_day_occasion(offset: int) -> OccasionDefinition:
         day = now.date() + timedelta(days=offset)
         return OccasionDefinition(
@@ -116,8 +120,12 @@ def test_window_runs_through_the_end_of_berlin_day_14(
         last.astimezone(BERLIN_TZ) if last.tzinfo else last.replace(tzinfo=BERLIN_TZ)
     ).date()
     assert last_day == now.date() + timedelta(days=EVENT_LOOKAHEAD_DAYS)
-    assert occasion_lifecycle(one_day_occasion(EVENT_LOOKAHEAD_DAYS), now) is not None
-    assert occasion_lifecycle(one_day_occasion(EVENT_LOOKAHEAD_DAYS + 1), now) is None
+    assert (
+        occasion_lifecycle(one_day_occasion(OCCASION_LOOKAHEAD_DAYS), now) is not None
+    )
+    assert (
+        occasion_lifecycle(one_day_occasion(OCCASION_LOOKAHEAD_DAYS + 1), now) is None
+    )
 
 
 def test_date_only_events_stay_listed_for_their_whole_berlin_day() -> None:

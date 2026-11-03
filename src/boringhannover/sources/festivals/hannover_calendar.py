@@ -12,7 +12,7 @@ from urllib.parse import urljoin, urlparse
 
 from bs4 import BeautifulSoup, Comment, NavigableString, Tag
 
-from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
+from boringhannover.constants import BERLIN_TZ, OCCASION_LOOKAHEAD_DAYS
 from boringhannover.date_parsing import log_unknown_month, lookup_german_month
 from boringhannover.models import Event
 from boringhannover.occasions import (
@@ -448,7 +448,7 @@ class HannoverFestivalCalendarSource(BaseSource):
     def _within_horizon(occasion: OccasionDefinition) -> bool:
         """Whether an occasion starts by the end of today's discovery horizon."""
         today = datetime.now(BERLIN_TZ).date()
-        return occasion.start_date <= today + timedelta(days=EVENT_LOOKAHEAD_DAYS)
+        return occasion.start_date <= today + timedelta(days=OCCASION_LOOKAHEAD_DAYS)
 
     @classmethod
     def _apply_detail(

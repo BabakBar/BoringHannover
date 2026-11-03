@@ -21,7 +21,15 @@ Yet the Goethe Institut calls it "[probably the most underrated city in the worl
   SV Arminia, and Stumpf
 - **Sports:** Hannover 96 home matches
 - **City Occasions:** automatic discovery from Hannover's official festival
-  calendar, with rich Maschseefest programme enrichment
+  calendar, looking 30 days ahead, with rich Maschseefest programme enrichment
+
+City Occasions include Berlin today through today + 30 days, inclusive. Movies and
+Radar keep their 14-day window. The full occasion index groups the month ahead by
+next confirmed appointment; the homepage shows up to two eligible occasions and
+replaces ended, cancelled, postponed or exhausted cards with remaining candidates.
+Selection runs at build time for no-JS readers and refreshes in the browser each
+minute and when the page becomes visible. A fresh backend scrape and frontend
+publication are needed to add newly discovered occasions to the public site.
 
 ## Development
 

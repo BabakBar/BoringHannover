@@ -33,6 +33,7 @@ const listed = groups.some((group) => group.entries.length > 0);
 
   <section aria-labelledby="city-occasions">
     <SectionHeader id="city-occasions" title="City Occasions" as="h1" />
+    <p class="mb-6 text-sm text-text-muted">Festivals and city occasions for the next 30 days.</p>
 
     {groups.map((group) => (
       <section
@@ -85,7 +86,7 @@ const listed = groups.some((group) => group.entries.length > 0);
     ))}
 
     <div class="index-empty" data-index-empty hidden={listed}>
-      <p>No City Occasions are listed for the next two weeks.</p>
+      <p>No City Occasions are listed for the next 30 days.</p>
       <div class="index-empty__actions">
         <a href="/" class="index-empty__action">Weekly digest</a>
         <a
