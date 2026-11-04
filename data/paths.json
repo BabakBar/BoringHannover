@@ -3164,14 +3164,8 @@
         {
           "path": "/BabakBar/BoringHannover",
           "title": "Overview",
-          "count": 8,
+          "count": 9,
           "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/blob/master/README.md",
-          "title": "/blob/master/README.md",
-          "count": 3,
-          "uniques": 3
         },
         {
           "path": "/BabakBar/BoringHannover/pulls",
@@ -3210,6 +3204,12 @@
           "uniques": 1
         },
         {
+          "path": "/BabakBar/BoringHannover/blob/master/README.md",
+          "title": "/blob/master/README.md",
+          "count": 1,
+          "uniques": 1
+        },
+        {
           "path": "/BabakBar/BoringHannover/blob/master/docker-compose.yml",
           "title": "/blob/master/docker-compose.yml",
           "count": 1,
@@ -3228,9 +3228,9 @@
     {
       "path": "/BabakBar/BoringHannover",
       "title": "Overview",
-      "latest_count": 8,
+      "latest_count": 9,
       "latest_uniques": 1,
-      "max_count": 8,
+      "max_count": 9,
       "max_uniques": 2,
       "first_seen": "2026-09-04",
       "last_seen": "2026-11-04"
@@ -3258,8 +3258,8 @@
     {
       "path": "/BabakBar/BoringHannover/blob/master/README.md",
       "title": "/blob/master/README.md",
-      "latest_count": 3,
-      "latest_uniques": 3,
+      "latest_count": 1,
+      "latest_uniques": 1,
       "max_count": 3,
       "max_uniques": 3,
       "first_seen": "2026-09-04",
