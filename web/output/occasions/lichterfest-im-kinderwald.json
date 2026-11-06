@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:lichterfest-im-kinderwald",
+    "slug": "lichterfest-im-kinderwald",
+    "name": "Lichterfest im Kinderwald",
+    "kind": "festival",
+    "startDate": "2026-11-14",
+    "endDate": "2026-11-14",
+    "location": "Kinderwald Hannover",
+    "description": "Lichterfest im Kinderwald at Kinderwald Hannover. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Lichterfest-im-Kinderwald",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/lichterfest-im-kinderwald.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-14",
+        "startTime": "16:00",
+        "endTime": "18:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Kinderwald Hannover",
+      "street": "Schulenburger Landstraße 331A",
+      "postalCode": "30419",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
