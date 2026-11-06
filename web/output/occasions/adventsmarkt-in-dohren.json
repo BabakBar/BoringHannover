@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 21:22"
+  },
+  "occasion": {
+    "id": "hannover-festivals:adventsmarkt-in-dohren",
+    "slug": "adventsmarkt-in-dohren",
+    "name": "Adventsmarkt in Döhren",
+    "kind": "festival",
+    "startDate": "2026-11-28",
+    "endDate": "2026-11-29",
+    "location": "Fiedelerplatz",
+    "description": "Adventsmarkt in Döhren at Fiedelerplatz. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Adventsmarkt-in-Döhren",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/adventsmarkt-in-dohren.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-28",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-11-29",
+        "startTime": "12:00",
+        "endTime": "18:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
