@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 21:22"
+  },
+  "occasion": {
+    "id": "hannover-festivals:magische-lichterwelten-im-zoo",
+    "slug": "magische-lichterwelten-im-zoo",
+    "name": "Magische Lichterwelten im Zoo",
+    "kind": "festival",
+    "startDate": "2026-11-17",
+    "endDate": "2027-02-02",
+    "location": "Erlebnis-Zoo Hannover",
+    "description": "Magische Lichterwelten im Zoo at Erlebnis-Zoo Hannover. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Magische-Lichterwelten-im-Zoo",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/magische-lichterwelten-im-zoo.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-17",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-18",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-19",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-20",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-21",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-22",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-24",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-25",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-26",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-27",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-28",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-29",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-01",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-02",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-03",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-04",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-05",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-06",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      }
+    ],
+    "scheduleConfidence": "discrete",
+    "place": {
+      "venue": "Erlebnis-Zoo Hannover",
+      "street": "Adenauerallee 3",
+      "postalCode": "30175",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "label": "Erwachsene",
+        "price": "€23.80",
+        "isFrom": true
+      },
+      {
+        "label": "Kinder (5-17 Jahre)",
+        "price": "€14.80",
+        "isFrom": true
+      }
+    ]
+  },
+  "programme": []
+}
