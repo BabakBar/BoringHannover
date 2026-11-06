@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 21:22"
+  },
+  "occasion": {
+    "id": "hannover-festivals:weihnachtsdorf-am-hauptbahnhof",
+    "slug": "weihnachtsdorf-am-hauptbahnhof",
+    "name": "Weihnachtsdorf am Hauptbahnhof",
+    "kind": "festival",
+    "startDate": "2026-11-23",
+    "endDate": "2026-12-30",
+    "location": "Ernst-August-Platz",
+    "description": "Weihnachtsdorf am Hauptbahnhof at Ernst-August-Platz. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weih­nachts­dorf-am-Haupt­bahnhof",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/weihnachtsdorf-am-hauptbahnhof.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-23",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-11-24",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-11-25",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-11-26",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-11-27",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-11-28",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-11-29",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-11-30",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-01",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-02",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-03",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-04",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-05",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-06",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      }
+    ],
+    "scheduleConfidence": "discrete"
+  },
+  "programme": []
+}
