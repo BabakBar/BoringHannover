@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 21:22"
+  },
+  "occasion": {
+    "id": "hannover-festivals:weihnachtsmarkt-rund-um-die-bethlehemkirche",
+    "slug": "weihnachtsmarkt-rund-um-die-bethlehemkirche",
+    "name": "Weihnachtsmarkt rund um die Bethlehemkirche",
+    "kind": "festival",
+    "startDate": "2026-11-28",
+    "endDate": "2026-11-28",
+    "location": "Bethlehemkirche",
+    "description": "Weihnachtsmarkt rund um die Bethlehemkirche at Bethlehemkirche. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weihnachtsmarkt-rund-um-die-Bethlehemkirche",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/weihnachtsmarkt-rund-um-die-bethlehemkirche.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-28",
+        "startTime": "15:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Bethlehemkirche",
+      "street": "Bethlehemplatz 1",
+      "postalCode": "30451",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
