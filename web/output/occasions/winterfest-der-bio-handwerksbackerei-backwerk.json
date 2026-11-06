@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:winterfest-der-bio-handwerksbackerei-backwerk",
+    "slug": "winterfest-der-bio-handwerksbackerei-backwerk",
+    "name": "Winterfest der Bio-Handwerksbäckerei Backwerk",
+    "kind": "festival",
+    "startDate": "2026-11-22",
+    "endDate": "2026-11-22",
+    "location": "Backwerk Bio Handwerksbäckerei",
+    "description": "Winterfest der Bio-Handwerksbäckerei Backwerk at Backwerk Bio Handwerksbäckerei. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Winterfest-der-Bio-Handwerksbäckerei-Backwerk",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/winterfest-der-bio-handwerksbackerei-backwerk.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-22",
+        "startTime": "11:00",
+        "endTime": "13:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Backwerk Bio Handwerksbäckerei",
+      "street": "Heinrich-Heine-Straße 38",
+      "postalCode": "30173",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
