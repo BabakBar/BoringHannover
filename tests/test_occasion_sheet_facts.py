@@ -190,7 +190,9 @@ def test_decimal_prices_use_english_notation() -> None:
     )
 
 
-@pytest.mark.parametrize("value", ["ab 5 €", "Spende erbeten", "3 € / 5 €", ""])
+@pytest.mark.parametrize(
+    "value", ["ab 5 € zzgl. Gebühren", "ab frei", "Spende erbeten", "3 € / 5 €", ""]
+)
 def test_one_unreadable_price_makes_the_whole_entry_unknown(value: str) -> None:
     assert (
         SOURCE._parse_detail_admission(

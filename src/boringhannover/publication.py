@@ -201,6 +201,11 @@ def _summary(value: object) -> Record:
             price = _text(condition, "price")
             if price != "free" and not re.fullmatch(r"€\d+(?:\.\d{2})?", price):
                 raise ValueError("Invalid occasion admission")
+            if "isFrom" in condition and (
+                type(condition["isFrom"]) is not bool
+                or (condition["isFrom"] and price == "free")
+            ):
+                raise ValueError("Invalid occasion minimum price")
             if "label" in condition:
                 _text(condition, "label")
     return row

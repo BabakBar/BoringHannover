@@ -100,10 +100,11 @@ class Place:
 
 @dataclass(frozen=True, slots=True)
 class Admission:
-    """One official entry condition; ``price`` is "free" or e.g. "€3.50"."""
+    """One official entry condition, keeping a stated minimum price qualified."""
 
     price: str
     label: str = ""
+    is_from: bool = False
 
 
 @dataclass(frozen=True, slots=True)

@@ -769,6 +769,8 @@ def test_recovery_preserves_programme_only_updates_without_rewinding_new_manifes
         "duplicate-identity",
         "unsafe-path",
         "invalid-schedule",
+        "invalid-minimum-price",
+        "minimum-free-entry",
         "symlink",
         "truncated-tree",
         "wrong-blob",
@@ -811,6 +813,14 @@ def test_run_never_backs_up_or_publishes_unvalidated_prior_state(
     elif fault == "invalid-schedule":
         manifest["occasions"][0]["occurrences"] = [
             {"date": event.date.date().isoformat(), "startTime": "25:70"}
+        ]
+        files[manifest_path] = json.dumps(manifest).encode()
+    elif fault in ("invalid-minimum-price", "minimum-free-entry"):
+        manifest["occasions"][0]["admission"] = [
+            {
+                "price": "free" if fault == "minimum-free-entry" else "€23.80",
+                "isFrom": True if fault == "minimum-free-entry" else "true",
+            }
         ]
         files[manifest_path] = json.dumps(manifest).encode()
     elif fault == "oversized-file":

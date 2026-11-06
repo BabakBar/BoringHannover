@@ -283,8 +283,9 @@ test('occasion pages render source status, sparse dates and source hours without
     expect(wiesn).toMatch(/<time datetime="2026-10-16T18:00"[^>]*>/);
 
     expect(page('flohmarkt')).toMatch(
-      /<span lang="de"[^>]*>04\.10\.2026 bis 18\.10\.2026 ab 08:00 bis 17:00 Uhr sonntags<\/span>/,
+      /<p[^>]*lang="de"[^>]*>04\.10\.2026 bis 18\.10\.2026 ab 08:00 bis 17:00 Uhr sonntags<\/p>/,
     );
+    expect(page('flohmarkt')).toContain('Read source schedule (German)');
     expect(readFileSync(join(outDir, 'index.html'), 'utf8')).toContain(
       'data-occasion-status',
     );

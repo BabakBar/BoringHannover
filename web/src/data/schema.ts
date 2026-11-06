@@ -78,6 +78,9 @@ export const occasionPlaceSchema = z.object({
 export const occasionAdmissionSchema = z.object({
   label: z.string().optional(),
   price: z.union([z.literal('free'), z.string().regex(/^€\d+(\.\d{2})?$/)]),
+  isFrom: z.boolean().optional(),
+}).refine(item => !(item.isFrom && item.price === 'free'), {
+  message: 'A minimum price cannot establish free entry',
 });
 export const occasionSummarySchema = z.object({
   id: z.string().min(1),

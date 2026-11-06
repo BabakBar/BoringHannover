@@ -129,7 +129,12 @@ export function whenFacts(occasion: OccasionSummary): WhenFacts {
   }
 
   const daily = new Set(occurrences.map(hours));
-  if (!selectedDatesOnly && occurrences.length > 1 && daily.size === 1) {
+  if (
+    !selectedDatesOnly && occurrences.length > 1 && daily.size === 1 &&
+    occurrences[0].date === occasion.startDate &&
+    occurrences.at(-1)!.date === occasion.endDate &&
+    addDays(occasion.startDate, occurrences.length - 1) === occasion.endDate
+  ) {
     return {
       range: `${range} · daily ${hours(occurrences[0])}`,
       appointments: [],
@@ -168,8 +173,8 @@ export function mapUrl(place: OccasionPlace): string {
 }
 
 /** Entry price in English; "free" stays attached to its own condition row. */
-export function entryPrice(price: string): string {
-  return price === 'free' ? 'free' : price;
+export function entryPrice(price: string, isFrom = false): string {
+  return isFrom ? `from ${price}` : price;
 }
 
 /**
