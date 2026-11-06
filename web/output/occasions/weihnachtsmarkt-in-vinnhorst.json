@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 21:22"
+  },
+  "occasion": {
+    "id": "hannover-festivals:weihnachtsmarkt-in-vinnhorst",
+    "slug": "weihnachtsmarkt-in-vinnhorst",
+    "name": "Weihnachtsmarkt in Vinnhorst",
+    "kind": "festival",
+    "startDate": "2026-11-28",
+    "endDate": "2026-11-28",
+    "location": "Weihnachtsmarkt Vinnhorst",
+    "description": "Weihnachtsmarkt in Vinnhorst at Weihnachtsmarkt Vinnhorst. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weihnachtsmarkt-in-Vinnhorst",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/weihnachtsmarkt-in-vinnhorst.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-28",
+        "startTime": "14:00",
+        "endTime": "18:30"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Weihnachtsmarkt Vinnhorst",
+      "street": "Kalabisstraße 3",
+      "postalCode": "30419",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
