@@ -47,8 +47,8 @@ jobs:
 
           expected=(
             "Version pins in sync"
-            "Backend (Python 3.13)"
             "Backend (Python 3.14)"
+            "Backend (Python 3.15)"
             "Frontend (Bun)"
             "Workflow audit (zizmor)"
             "Docker Build"

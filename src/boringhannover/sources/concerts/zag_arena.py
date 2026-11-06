@@ -208,7 +208,7 @@ class ZAGArenaSource(BaseSource):
                     if month < datetime.now(BERLIN_TZ).month:
                         year += 1
                     event_date = datetime(year, month, day, 20, 0, tzinfo=BERLIN_TZ)
-                except (ValueError, TypeError):
+                except ValueError, TypeError:
                     pass
 
         return event_date, time_str, time_confidence

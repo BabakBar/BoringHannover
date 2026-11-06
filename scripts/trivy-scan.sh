@@ -13,7 +13,7 @@
 # force-pushed in a March 2026 supply-chain attack.
 set -uo pipefail
 
-TRIVY_IMAGE="aquasec/trivy:0.76.1@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7bac8db623eca6c06c"
+TRIVY_IMAGE="aquasec/trivy:0.76.2@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb"
 
 vulnerable=""
 errored=""

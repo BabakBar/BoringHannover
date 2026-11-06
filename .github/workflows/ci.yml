@@ -12,12 +12,9 @@ permissions:
 on:
   push:
     branches: [master]
-    paths-ignore:
-      - "web/output/**"
   pull_request:
     branches: [master]
-    paths-ignore:
-      - "web/output/**"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -26,9 +23,9 @@ concurrency:
 env:
   SITE: https://boringhannover.de
   # Toolchain pins; the `pins` job below asserts the container images agree.
-  UV_VERSION: "0.13.6"
+  UV_VERSION: "0.13.7"
   PYTHON_PRODUCTION: "3.14"
-  ZIZMOR_VERSION: "1.31.1"
+  ZIZMOR_VERSION: "1.32.0"
 
 jobs:
   # Toolchain pins must agree across CI, Dockerfiles and the dev stack.
@@ -111,9 +108,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Minimum supported and production runtime — both are tested so raising
-        # the floor later is a one-line change, not an investigation.
-        python-version: ["3.13", "3.14"]
+        python-version: ["3.14", "3.15"]
 
     steps:
       - name: Checkout code
@@ -141,7 +136,7 @@ jobs:
         run: uv run ruff format --check src/ scripts/
 
       - name: Run type checker (ty)
-        run: uv run ty check src/ scripts/
+        run: uv run ty check --python-version "${UV_PYTHON}" src/ scripts/
 
       - name: Run tests (pytest)
         run: uv run pytest tests/ -v --tb=short
@@ -242,7 +237,6 @@ jobs:
   docker:
     name: Docker Build
     runs-on: ubuntu-latest
-    needs: [backend, frontend]
 
     steps:
       - name: Checkout code
@@ -261,8 +255,8 @@ jobs:
           push: false
           load: true
           tags: boringhannover-backend:test
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # Deploy maintains these caches; CI only reads them.
+          cache-from: type=gha,scope=backend
           # Never cache the stage that applies OS security updates.
           no-cache-filters: runtime
 
@@ -276,8 +270,7 @@ jobs:
           tags: boringhannover-frontend:test
           build-args: |
             SITE=${{ env.SITE }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=frontend
           # Never cache the stage that applies OS security updates.
           no-cache-filters: runtime
 

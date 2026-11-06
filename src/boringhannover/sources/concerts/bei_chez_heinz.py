@@ -283,7 +283,7 @@ class BeiChezHeinzSource(BaseSource):
         try:
             year, month, day = match.groups()
             return datetime(int(year), int(month), int(day), 20, 0, tzinfo=BERLIN_TZ)
-        except (ValueError, TypeError):
+        except ValueError, TypeError:
             return None
 
     def _extract_price(self, text: str) -> str:
