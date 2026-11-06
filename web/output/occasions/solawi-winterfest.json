@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:solawi-winterfest",
+    "slug": "solawi-winterfest",
+    "name": "Solawi Winterfest",
+    "kind": "festival",
+    "startDate": "2026-11-30",
+    "endDate": "2026-11-30",
+    "location": "Gärtnerei Solawi Bunte Beete",
+    "description": "Solawi Winterfest at Gärtnerei Solawi Bunte Beete. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Solawi-Winterfest",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/solawi-winterfest.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-30",
+        "startTime": "13:00",
+        "endTime": "16:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Gärtnerei Solawi Bunte Beete",
+      "street": "Göxer Straße 27",
+      "postalCode": "30989",
+      "locality": "Gehrden",
+      "municipality": "Gehrden"
+    },
+    "area": "region",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
