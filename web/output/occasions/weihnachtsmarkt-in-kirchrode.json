@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 21:22"
+  },
+  "occasion": {
+    "id": "hannover-festivals:weihnachtsmarkt-in-kirchrode",
+    "slug": "weihnachtsmarkt-in-kirchrode",
+    "name": "Weihnachtsmarkt in Kirchrode",
+    "kind": "festival",
+    "startDate": "2026-11-27",
+    "endDate": "2026-11-29",
+    "location": "Jakobikirche (Gemeindehaus)",
+    "description": "Weihnachtsmarkt in Kirchrode at Jakobikirche (Gemeindehaus). See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weihnachtsmarkt-in-Kirchrode",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/weihnachtsmarkt-in-kirchrode.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-27",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-28",
+        "startTime": "15:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-29",
+        "startTime": "11:00",
+        "endTime": "17:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Jakobikirche (Gemeindehaus)",
+      "street": "Kleiner Hillen 3",
+      "postalCode": "30559",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
