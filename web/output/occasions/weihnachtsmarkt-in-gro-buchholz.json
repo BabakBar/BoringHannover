@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 21:22"
+  },
+  "occasion": {
+    "id": "hannover-festivals:weihnachtsmarkt-in-gro-buchholz",
+    "slug": "weihnachtsmarkt-in-gro-buchholz",
+    "name": "Weihnachtsmarkt in Groß-Buchholz",
+    "kind": "festival",
+    "startDate": "2026-11-28",
+    "endDate": "2026-11-28",
+    "location": "Bürgerhaus Groß-Buchholz",
+    "description": "Weihnachtsmarkt in Groß-Buchholz at Bürgerhaus Groß-Buchholz. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weihnachtsmarkt-in-Groß-Buchholz",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/weihnachtsmarkt-in-gro-buchholz.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-28",
+        "startTime": "14:00",
+        "endTime": "19:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Bürgerhaus Groß-Buchholz",
+      "street": "Pinkenburger Straße 8a",
+      "postalCode": "30655",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
