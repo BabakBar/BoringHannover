@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 21:22"
+  },
+  "occasion": {
+    "id": "hannover-festivals:designachten",
+    "slug": "designachten",
+    "name": "Designachten",
+    "kind": "festival",
+    "startDate": "2026-11-27",
+    "endDate": "2026-11-29",
+    "location": "Kulturzentrum Pavillon",
+    "description": "Designachten at Kulturzentrum Pavillon. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Designachten",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/designachten.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-27",
+        "startTime": "18:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-11-28",
+        "startTime": "12:00",
+        "endTime": "19:00"
+      },
+      {
+        "date": "2026-11-29",
+        "startTime": "11:00",
+        "endTime": "18:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Kulturzentrum Pavillon",
+      "street": "Lister Meile 4",
+      "postalCode": "30161",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "label": "Tagesticket",
+        "price": "€7"
+      },
+      {
+        "label": "Wochenendticket",
+        "price": "€10"
+      },
+      {
+        "label": "Kinder bis 14 Jahre",
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
