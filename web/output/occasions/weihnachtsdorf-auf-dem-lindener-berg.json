@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "updatedAt": "Fri 06 Nov 21:22"
+  },
+  "occasion": {
+    "id": "hannover-festivals:weihnachtsdorf-auf-dem-lindener-berg",
+    "slug": "weihnachtsdorf-auf-dem-lindener-berg",
+    "name": "Weihnachtsdorf auf dem Lindener Berg",
+    "kind": "festival",
+    "startDate": "2026-11-20",
+    "endDate": "2026-12-20",
+    "location": "Lindener Turm",
+    "description": "Weihnachtsdorf auf dem Lindener Berg at Lindener Turm. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weihnachtsdorf-auf-dem-Lindener-Berg",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/weihnachtsdorf-auf-dem-lindener-berg.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-20",
+        "startTime": "16:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-11-21",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-11-22",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-11-27",
+        "startTime": "16:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-11-28",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-11-29",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-12-04",
+        "startTime": "16:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-12-05",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-12-06",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      }
+    ],
+    "scheduleConfidence": "discrete",
+    "place": {
+      "venue": "Lindener Turm",
+      "street": "Am Lindener Berge 29A",
+      "postalCode": "30449",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
