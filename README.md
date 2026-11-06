@@ -38,7 +38,7 @@ disclosures that work without JavaScript. Unknown conditions stay source-labelle
 
 ## Development
 
-**Backend (Python 3.13+, 3.14 in production):**
+**Backend (Python 3.14+, CI on 3.14 and 3.15, 3.14 in production):**
 ```bash
 uv sync
 uv run boringhannover --local
@@ -97,9 +97,10 @@ the manifest.
 
 Remaining occasion lifecycle work, including ended-page retention, is tracked in
 [#26](https://github.com/BabakBar/BoringHannover/issues/26); exact HTTP expiry belongs to
-[#31](https://github.com/BabakBar/BoringHannover/issues/31). Current deployment workflows
-do not yet wait for all required CI checks on the selected revision
-([#45](https://github.com/BabakBar/BoringHannover/issues/45)).
+[#31](https://github.com/BabakBar/BoringHannover/issues/31). Deployments require successful
+same-revision CI, including data-only changes and manual runs. Scanned images are promoted
+only after a second CI/current-master check. Exact digest pinning through the Coolify
+rollout remains [#45](https://github.com/BabakBar/BoringHannover/issues/45).
 
 ## Philosophy
 

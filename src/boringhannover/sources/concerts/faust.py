@@ -319,7 +319,7 @@ class FaustSource(BaseSource):
             # Convert 2-digit year to 4-digit (25 -> 2025)
             full_year = 2000 + int(year)
             return datetime(full_year, int(month), int(day), 20, 0, tzinfo=BERLIN_TZ)
-        except (ValueError, TypeError):
+        except ValueError, TypeError:
             return None
 
     def _parse_event_content(self, lines: list[str]) -> tuple[str, str, str, str, str]:

@@ -43,14 +43,28 @@ jobs:
   changes:
     name: Detect Changes
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    timeout-minutes: 20
     permissions:
       contents: read
+      actions: read
 
     outputs:
       backend: ${{ steps.manual.outputs.backend || steps.push.outputs.backend }}
       frontend: ${{ steps.manual.outputs.frontend || steps.push.outputs.frontend }}
 
     steps:
+      - name: Checkout selected revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Require successful same-revision CI
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/wait-for-ci.sh "${GITHUB_SHA}"
+
       - name: Detect changes (push)
         id: push
         if: github.event_name == 'push'
@@ -88,13 +102,13 @@ jobs:
 
           while IFS= read -r file; do
             case "${file}" in
-              src/*|Dockerfile|pyproject.toml|uv.lock)
+              src/*|Dockerfile|pyproject.toml|uv.lock|.dockerignore)
                 backend=true
                 ;;
             esac
 
             case "${file}" in
-              web/*|Dockerfile.web|nginx.conf)
+              web/*|Dockerfile.web|nginx.conf|.dockerignore)
                 frontend=true
                 ;;
             esac
@@ -134,6 +148,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ github.sha }}
           persist-credentials: false
 
       - name: Set up Docker Buildx
@@ -153,9 +168,9 @@ jobs:
         uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
         with:
           images: ${{ env.BACKEND_IMAGE }}
+          flavor: latest=false
           tags: |
             type=sha,prefix=
-            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push backend
         id: build-backend
@@ -190,9 +205,9 @@ jobs:
         uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
         with:
           images: ${{ env.FRONTEND_IMAGE }}
+          flavor: latest=false
           tags: |
             type=sha,prefix=
-            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push frontend
         id: build-frontend
@@ -249,8 +264,45 @@ jobs:
     environment: production
     permissions:
       contents: read
+      actions: read
+      packages: write
 
     steps:
+      - name: Checkout selected revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      # Builds can outlive a newer push or a CI rerun. Check again before moving
+      # the tags consumed by Coolify; failed image scans never reach this job.
+      - name: Recheck CI and current master before promotion
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/wait-for-ci.sh "${GITHUB_SHA}" 0
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Promote scanned images
+        env:
+          BACKEND_DIGEST: ${{ needs.build.outputs.backend_digest }}
+          FRONTEND_DIGEST: ${{ needs.build.outputs.frontend_digest }}
+          DO_BACKEND: ${{ needs.changes.outputs.backend }}
+          DO_FRONTEND: ${{ needs.changes.outputs.frontend }}
+        run: |
+          set -euo pipefail
+          if [ "${DO_BACKEND}" = "true" ]; then
+            docker buildx imagetools create --prefer-index=false --tag "${BACKEND_IMAGE}:latest" "${BACKEND_IMAGE}@${BACKEND_DIGEST}"
+          fi
+          if [ "${DO_FRONTEND}" = "true" ]; then
+            docker buildx imagetools create --prefer-index=false --tag "${FRONTEND_IMAGE}:latest" "${FRONTEND_IMAGE}@${FRONTEND_DIGEST}"
+          fi
+
       - name: Trigger backend deployment
         if: needs.changes.outputs.backend == 'true'
         env:

@@ -5,7 +5,7 @@ description = "Weekly event aggregator for Hannover - Movies, Culture, and Conce
 authors = [{ name = "Sia" }]
 readme = "README.md"
 license = { text = "MIT" }
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 keywords = ["concerts", "events", "movies", "hannover"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -14,8 +14,8 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     "Typing :: Typed",
 ]
@@ -50,7 +50,7 @@ filterwarnings = ["ignore::DeprecationWarning:ics"]
 
 # Linting Configuration (Ruff)
 [tool.ruff]
-target-version = "py313"
+target-version = "py314"
 line-length = 88
 src = ["src", "tests"]
 
@@ -84,11 +84,11 @@ docstring-code-format = true
 
 # Type Checking Configuration (ty)
 [tool.ty.environment]
-python-version = "3.13"
+python-version = "3.14"
 
 [tool.ty.rules]
 # ics and bs4 lack type stubs
-unresolved-import = "ignore"
+import-not-found = "ignore"
 
 # Development tooling lives in a single dependency group (PEP 735) so that
 # pyproject.toml is the one place a version floor is declared.
