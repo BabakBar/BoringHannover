@@ -114,6 +114,8 @@ class OccasionDefinition:
     ``description`` is own English copy; empty means the exporter publishes a
     factual fallback. ``source_summary`` is the source's teaser (usually
     German, third-party prose): evidence for parsing, never published.
+    ``hours_text`` retains normalized schedule evidence after parsing as well;
+    only unknown schedules expose that wording in the web snapshot.
     """
 
     id: str

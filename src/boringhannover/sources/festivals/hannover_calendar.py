@@ -103,7 +103,8 @@ class _DetailSchedule:
     """Dates read from an official Termine row.
 
     A discrete schedule without occurrences means the source excludes every
-    listed date; it is never discoverable.
+    listed date; it is never discoverable. Source hours remain evidence even
+    after parsing, so publication can recognize an unchanged schedule.
     """
 
     start_date: date
@@ -603,17 +604,17 @@ class HannoverFestivalCalendarSource(BaseSource):
 
         if not listed:
             return None
+        hours_text = "; ".join(hours_lines)
+        if excluded_dates:
+            skipped = ", ".join(
+                day.strftime("%d.%m.%Y") for day in sorted(excluded_dates)
+            )
+            hours_text = f"{hours_text}. {_EXCLUSION_LABEL} {skipped}"
         if not bounds:
-            return _DetailSchedule(min(listed), max(listed), (), "discrete", "")
+            return _DetailSchedule(min(listed), max(listed), (), "discrete", hours_text)
         start_date, end_date = min(bounds), max(bounds)
 
         if not exact:
-            hours_text = "; ".join(hours_lines)
-            if excluded_dates:
-                skipped = ", ".join(
-                    day.strftime("%d.%m.%Y") for day in sorted(excluded_dates)
-                )
-                hours_text = f"{hours_text}. {_EXCLUSION_LABEL} {skipped}"
             return _DetailSchedule(start_date, end_date, (), "unknown", hours_text)
 
         span = (end_date - start_date).days + 1
@@ -624,7 +625,7 @@ class HannoverFestivalCalendarSource(BaseSource):
                 Occurrence(day, *confirmed[day]) for day in sorted(confirmed)
             ),
             confidence="continuous" if len(confirmed) == span else "discrete",
-            hours_text="",
+            hours_text=hours_text,
         )
 
     @staticmethod

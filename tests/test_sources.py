@@ -141,7 +141,7 @@ def test_christmas_city_calendar_reaches_export_with_supported_schedules(
         ("Kinder (5-17 Jahre)", "€14.80", True),
     ]
     assert zoo.end_date == date(2027, 2, 2)
-    assert zoo.hours_text == ""
+    assert "24.12.2026" in zoo.hours_text and "31.12.2026" in zoo.hours_text
     export_web_json(
         [],
         [],

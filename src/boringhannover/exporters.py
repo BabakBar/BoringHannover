@@ -233,7 +233,7 @@ def _occasion_summary(
         ]
     if definition.schedule_confidence:
         summary["scheduleConfidence"] = definition.schedule_confidence
-    if definition.hours_text:
+    if definition.schedule_confidence == "unknown" and definition.hours_text:
         # Never cut off a schedule's conditions or exclusions. Oversized source
         # wording stays behind the source link instead of publishing a fragment.
         hours_text = sanitize_text(definition.hours_text, len(definition.hours_text))
