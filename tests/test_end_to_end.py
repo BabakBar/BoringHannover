@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING
 
 import httpx
 import pytest
+from bs4 import BeautifulSoup
 
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
@@ -30,7 +31,7 @@ from boringhannover.sources.concerts.kulturpalast_linden import (
 from boringhannover.sources.festivals.hannover_calendar import (
     HannoverFestivalCalendarSource,
 )
-from conftest import serve_github_publication
+from conftest import serve_christmas_calendar, serve_github_publication
 
 
 if TYPE_CHECKING:
@@ -45,6 +46,85 @@ pytestmark = pytest.mark.skipif(
     BUN is None or not ASTRO.exists(),
     reason="needs bun and web/node_modules (run `bun install` in web/)",
 )
+
+
+def test_christmas_facts_survive_carry_forward_and_reach_the_detail_sheet(
+    local_site: LocalSite, tmp_path: Path
+) -> None:
+    now = datetime(2026, 11, 6, 12, tzinfo=BERLIN_TZ)
+    events = fetch_all_events(
+        sources={"christmas": serve_christmas_calendar(local_site)}, now=now
+    )
+    root = tmp_path / "output"
+    root.mkdir()
+    export_web_json(
+        [],
+        [],
+        root,
+        45,
+        2026,
+        generated_at=now,
+        occasion_definitions=events["city_occasions"],
+    )
+    original = json.loads((root / "web_events.json").read_text())
+    serve_github_publication(
+        local_site,
+        {
+            f"web/output/{path.relative_to(root).as_posix()}": path.read_bytes()
+            for path in [
+                root / "web_events.json",
+                *sorted((root / "occasions").glob("*.json")),
+            ]
+        },
+    )
+    export_web_json([], [], root, 45, 2026, generated_at=now)
+    with httpx.Client(base_url=local_site.url) as client:
+        carry_forward_occasions(
+            root, definitions=[], now=now, client=client, repo="test/events"
+        )
+    assert {
+        item["slug"]: item
+        for item in json.loads((root / "web_events.json").read_text())["occasions"]
+    } == {item["slug"]: item for item in original["occasions"]}
+    dist = tmp_path / "dist"
+    env = {
+        key: value
+        for key, value in os.environ.items()
+        if not key.startswith(("WEB_DATA_", "PUBLIC_UMAMI_"))
+    }
+    build = subprocess.run(
+        [BUN, str(ASTRO), "build", "--root", str(WEB), "--outDir", str(dist)],
+        cwd=tmp_path,
+        # Captured source dates deliberately stay fixed, even after this season.
+        env={
+            **env,
+            "WEB_DATA_ROOT": str(root),
+            "WEB_DATA_MODE": "fixture",
+            "PUBLIC_UMAMI_WEBSITE_ID": "00000000-0000-4000-8000-000000000077",
+        },
+        capture_output=True,
+        text=True,
+        timeout=180,
+        check=False,
+    )
+    assert build.returncode == 0, build.stdout + build.stderr
+    zoo_html = (dist / "special/magische-lichterwelten-im-zoo/index.html").read_text()
+    zoo = BeautifulSoup(zoo_html, "html.parser")
+    text = zoo.get_text(" ", strip=True)
+    assert "Adults:" in text and "from €23.80" in text
+    assert "Children aged 5\u201317:" in text and "from €14.80" in text
+    assert "Free entry" not in text
+    # Sparse opening dates must not become a single continuous schema.org Event.
+    assert '"@type":"Event"' not in zoo_html
+    assert len(zoo.select("[data-occurrence-date]")) == 18
+    assert zoo.select_one("details[data-schedule-more] > summary") is not None
+    dates = {
+        item["data-occurrence-date"] for item in zoo.select("[data-occurrence-date]")
+    }
+    assert "2026-11-23" not in dates and "2026-12-06" in dates
+    index = (dist / "special/index.html").read_text()
+    for record in original["occasions"]:
+        assert f"/special/{record['slug']}/" in index
 
 
 def test_month_ahead_occasions_reach_export_carry_forward_and_built_site(

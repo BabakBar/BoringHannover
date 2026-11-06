@@ -769,6 +769,8 @@ def test_recovery_preserves_programme_only_updates_without_rewinding_new_manifes
         "duplicate-identity",
         "unsafe-path",
         "invalid-schedule",
+        "invalid-minimum-price",
+        "minimum-free-entry",
         "symlink",
         "truncated-tree",
         "wrong-blob",
@@ -811,6 +813,14 @@ def test_run_never_backs_up_or_publishes_unvalidated_prior_state(
     elif fault == "invalid-schedule":
         manifest["occasions"][0]["occurrences"] = [
             {"date": event.date.date().isoformat(), "startTime": "25:70"}
+        ]
+        files[manifest_path] = json.dumps(manifest).encode()
+    elif fault in ("invalid-minimum-price", "minimum-free-entry"):
+        manifest["occasions"][0]["admission"] = [
+            {
+                "price": "free" if fault == "minimum-free-entry" else "€23.80",
+                "isFrom": True if fault == "minimum-free-entry" else "true",
+            }
         ]
         files[manifest_path] = json.dumps(manifest).encode()
     elif fault == "oversized-file":
@@ -869,6 +879,141 @@ def test_run_never_backs_up_or_publishes_unvalidated_prior_state(
     assert (tmp_path / "output/web_events.json").exists()
     if fault in ("partial-discovery", "local-run"):
         assert local_site.requests == []
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        "same-evidence",
+        "single-appointment",
+        "same-exclusion-evidence",
+        "changed-weekdays",
+        "changed-hours",
+        "changed-exclusions",
+        "missing-evidence",
+        "expanded-envelope",
+        "already-confirmed",
+    ],
+)
+def test_weekday_schedule_upgrade_requires_unchanged_prior_source_evidence(
+    change: str, local_site: LocalSite, tmp_path: Path
+) -> None:
+    from boringhannover.github_sync import carry_forward_occasions
+
+    now = datetime(2026, 11, 2, 12, tzinfo=BERLIN_TZ)
+    end = "12.11.2026" if change == "single-appointment" else "30.11.2026"
+    if change == "expanded-envelope":
+        end = "07.12.2026"
+    raw = f"01.11.2026 bis {end} ab 18:00 bis 22:00 Uhr freitags"
+    current_raw = raw
+    if change == "changed-weekdays":
+        current_raw = raw.replace("freitags", "samstags")
+    elif change == "changed-hours":
+        current_raw = raw.replace("18:00", "19:00")
+    exclusions = ""
+    if change in ("same-exclusion-evidence", "changed-exclusions"):
+        excluded = "27.11.2026" if change == "same-exclusion-evidence" else "06.11.2026"
+        exclusions = f"<strong>Die Veranstaltung findet nicht statt am:</strong><p>{excluded}</p>"
+        if change == "same-exclusion-evidence":
+            raw += f". Die Veranstaltung findet nicht statt am: {excluded}"
+    detail_path = f"{LISTING_PATH}/Weekday-Fest"
+    local_site.pages[LISTING_PATH] = (
+        200,
+        '<article class="interesting-single line-view-content">'
+        '<h3 class="interesting-single__title">Weekday Fest</h3>'
+        f'<span class="date__duration">01.11.2026 bis {end}</span>'
+        '<span class="date__category">Parkbühne Hannover</span>'
+        f'<a class="content__read-more" href="{detail_path}">mehr</a></article>',
+    )
+    local_site.pages[detail_path] = (
+        200,
+        '<div class="details"><div class="detail-row">'
+        '<div class="detail-cell"><p>Termine</p></div>'
+        f'<div class="detail-cell"><p>{current_raw}</p>{exclusions}</div></div></div>',
+    )
+
+    class LocalCalendar(HannoverFestivalCalendarSource):
+        CALENDAR_URL = f"{local_site.url}{LISTING_PATH}"
+
+    (current,) = LocalCalendar().discover_occasions()
+    # The previous parser kept this same source window and wording unparsed.
+    prior = replace(
+        current,
+        start_date=now.replace(day=1).date(),
+        end_date=now.replace(day=12 if change == "single-appointment" else 30).date(),
+        schedule_confidence="continuous"
+        if change == "already-confirmed"
+        else "unknown",
+        occurrences=(),
+        hours_text="" if change == "missing-evidence" else raw,
+    )
+    data = {"movies_this_week": [], "big_events_radar": [], "city_occasions": [prior]}
+    root = tmp_path / "output"
+    export_run(data, root, now=now - timedelta(days=1))
+    files = {
+        f"web/output/{path.relative_to(root).as_posix()}": path.read_bytes()
+        for path in [root / "web_events.json", root / f"occasions/{prior.slug}.json"]
+    }
+    if change == "already-confirmed":
+        # Legacy records can carry source hours even with a parsed confidence.
+        for path, body in files.items():
+            record = json.loads(body)
+            summary = (
+                record["occasions"][0] if "occasions" in record else record["occasion"]
+            )
+            summary["hoursText"] = raw
+            files[path] = json.dumps(record).encode()
+    serve_github_publication(local_site, files)
+    export_run({**data, "city_occasions": [current]}, root, now=now)
+    candidate = {
+        path.name: path.read_bytes()
+        for path in [root / "web_events.json", root / f"occasions/{prior.slug}.json"]
+    }
+    with httpx.Client(base_url=local_site.url) as client:
+        if change not in (
+            "same-evidence",
+            "single-appointment",
+            "same-exclusion-evidence",
+        ):
+            with pytest.raises(ValueError, match="Conflicting occasion start dates"):
+                carry_forward_occasions(
+                    root,
+                    definitions=[current],
+                    now=now,
+                    client=client,
+                    repo="test/events",
+                )
+            assert {
+                path.name: path.read_bytes()
+                for path in [
+                    root / "web_events.json",
+                    root / f"occasions/{prior.slug}.json",
+                ]
+            } == candidate
+            return
+        carry_forward_occasions(
+            root, definitions=[current], now=now, client=client, repo="test/events"
+        )
+    summary = json.loads((root / "web_events.json").read_text())["occasions"][0]
+    programme = json.loads((root / f"occasions/{prior.slug}.json").read_text())
+    expected_dates = {
+        "same-evidence": ["2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27"],
+        "single-appointment": ["2026-11-06"],
+        "same-exclusion-evidence": ["2026-11-06", "2026-11-13", "2026-11-20"],
+    }[change]
+    assert summary["startDate"] == expected_dates[0]
+    assert summary["endDate"] == expected_dates[-1]
+    assert summary["occurrences"] == [
+        {"date": day, "startTime": "18:00", "endTime": "22:00"}
+        for day in expected_dates
+    ]
+    assert summary["scheduleConfidence"] == (
+        "continuous" if change == "single-appointment" else "discrete"
+    )
+    assert "sourceStatus" not in summary and "previousStartDate" not in summary
+    assert "hoursText" not in summary
+    assert programme["occasion"] == summary
+    assert programme["meta"] == {"updatedAt": now.strftime("%a %d %b %H:%M")}
 
 
 @pytest.mark.parametrize(

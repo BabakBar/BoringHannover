@@ -23,7 +23,7 @@ from boringhannover.backup import (
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.event_time import CONFIRMED_TIME
 from boringhannover.models import Event
-from boringhannover.occasions import OccasionDefinition, Occurrence
+from boringhannover.occasions import Admission, OccasionDefinition, Occurrence
 from boringhannover.output import export_run
 from boringhannover.sources.festivals.maschseefest import MaschseefestSource
 
@@ -101,6 +101,7 @@ def exported(tmp_path: Path) -> Path:
         description=LONG_DESCRIPTION,
         occurrences=(Occurrence(date(2026, 10, 1), start_time="18:00"),),
         schedule_confidence="discrete",
+        admission=(Admission(price="€23.80", label="Erwachsene", is_from=True),),
     )
     export_run(
         {
@@ -190,6 +191,13 @@ def test_restored_snapshot_keeps_every_event_and_occasion_fact(
     ]
     assert lakeside["schedule_confidence"] == "discrete"
     assert lakeside["source_url"].endswith("/lakeside")
+    assert lakeside["admission"] == [
+        {"price": "€23.80", "label": "Erwachsene", "is_from": True}
+    ]
+    web = json.loads(restored["occasions/lakeside.json"])
+    assert web["occasion"]["admission"] == [
+        {"price": "€23.80", "label": "Erwachsene", "isFrom": True}
+    ]
 
 
 def test_manifest_hashes_match_archive(exported: Path) -> None:

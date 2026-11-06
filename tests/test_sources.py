@@ -5,15 +5,19 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
 from bs4 import BeautifulSoup
 
+from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
+from boringhannover.exporters import export_web_json
+from boringhannover.occasions import Admission, Occurrence
+from boringhannover.source_outcomes import publication_refusal
 from boringhannover.sources.base import create_http_client
 from boringhannover.sources.cinema.apollokino import ApollokinoSource
 from boringhannover.sources.cinema.astor import AstorSource
@@ -31,6 +35,7 @@ from boringhannover.sources.concerts.punkrock_konzerte import (
 )
 from boringhannover.sources.concerts.weltspiele import WeltspieleSource
 from boringhannover.sources.sports.hannover_96 import Hannover96Source
+from conftest import serve_christmas_calendar
 
 
 if TYPE_CHECKING:
@@ -41,6 +46,169 @@ if TYPE_CHECKING:
 FIXTURES = Path(__file__).parent / "fixtures"
 SOURCES_DIR = Path(__file__).parents[1] / "src" / "boringhannover" / "sources"
 NOW = datetime(2026, 7, 26, 12, 0, tzinfo=BERLIN_TZ)
+
+
+def test_christmas_city_calendar_reaches_export_with_supported_schedules(
+    local_site: LocalSite, tmp_path: Path
+) -> None:
+    source = serve_christmas_calendar(local_site)
+    status, listing = local_site.pages["/christmas"]
+    card = BeautifulSoup(listing, "html.parser").select_one("article")
+    original = str(card)
+    link = str(card.select_one("a.content__read-more")["href"])
+    local_site.pages["/christmas"] = (
+        status,
+        listing
+        + original
+        + original.replace(link, "https://unrelated.test/foreign-event")
+        + original.replace(
+            link, "/Veranstaltungskalender/Weihnachten/unselected-activity"
+        ),
+    )
+    now = datetime(2026, 11, 6, 12, tzinfo=BERLIN_TZ)
+    result = fetch_all_events(sources={"christmas": source}, now=now)
+    assert result["movies_this_week"] == result["big_events_radar"] == []
+    assert result["source_outcomes"][-1].completion == "complete"
+    occasions = {item.slug: item for item in result["city_occasions"]}
+    assert set(occasions) == {
+        "magische-lichterwelten-im-zoo",
+        "weihnachtsdorf-auf-dem-lindener-berg",
+        "weihnachtsdorf-am-hauptbahnhof",
+        "weihnachtsmarkt-hannover",
+        "weihnachtsmarkt-lister-meile",
+        "weihnachtsmarkt-in-kirchrode",
+        "designachten",
+        "weihnachtsmarkt-in-gro-buchholz",
+        "weihnachtsmarkt-in-vinnhorst",
+        "adventsmarkt-in-dohren",
+        "weihnachtsmarkt-rund-um-die-bethlehemkirche",
+        "weihnachtsmarkt-der-sportfreunde-anderten",
+    }
+    assert local_site.requests[0] == "/christmas"
+    assert local_site.requests[1].startswith("/api/v1/view/560429/10/10/line?")
+    market = occasions["weihnachtsmarkt-hannover"]
+    assert (market.id, market.name, market.start_date, market.end_date) == (
+        "hannover-festivals:weihnachtsmarkt-hannover",
+        "Weihnachtsmarkt Hannover",
+        date(2026, 11, 23),
+        date(2026, 12, 22),
+    )
+    # The source gives no house number; keep the listing venue without inventing an address.
+    assert market.place is None
+    assert market.admission == (Admission(price="free"),)
+    assert market.occurrences == tuple(
+        Occurrence(date(2026, 11, 23) + timedelta(days=n), "11:00", "21:00")
+        for n in range(30)
+    )
+    lindener = occasions["weihnachtsdorf-auf-dem-lindener-berg"]
+    assert lindener.schedule_confidence == "discrete"
+    assert lindener.occurrences == tuple(
+        Occurrence(
+            date(2026, 11, 20) + timedelta(days=week * 7 + day),
+            "16:00" if day == 0 else "14:00",
+            "20:00",
+        )
+        for week in range(5)
+        for day in range(3)
+    )
+    station = occasions["weihnachtsdorf-am-hauptbahnhof"]
+    assert station.end_date == date(2026, 12, 30)
+    assert station.occurrences == tuple(
+        Occurrence(
+            date(2026, 11, 23) + timedelta(days=n),
+            "11:00",
+            "14:00" if n == 31 else "21:00",
+        )
+        for n in range(38)
+        if n != 32
+    )
+    zoo = occasions["magische-lichterwelten-im-zoo"]
+    assert zoo.schedule_confidence == "discrete"
+    expected = []
+    for first, last, weekdays in [
+        (date(2026, 11, 17), date(2026, 12, 23), {1, 2, 3, 4, 5, 6}),
+        (date(2026, 12, 25), date(2027, 1, 10), set(range(7))),
+        (date(2027, 1, 15), date(2027, 1, 31), {4, 5, 6}),
+        (date(2027, 2, 1), date(2027, 2, 2), set(range(7))),
+    ]:
+        for offset in range((last - first).days + 1):
+            day = first + timedelta(days=offset)
+            if day.weekday() in weekdays and day != date(2026, 12, 31):
+                expected.append(Occurrence(day, "17:00", "22:00"))
+    assert zoo.occurrences == tuple(expected)
+    assert [(item.label, item.price, item.is_from) for item in zoo.admission] == [
+        ("Erwachsene", "€23.80", True),
+        ("Kinder (5-17 Jahre)", "€14.80", True),
+    ]
+    assert zoo.end_date == date(2027, 2, 2)
+    assert "24.12.2026" in zoo.hours_text and "31.12.2026" in zoo.hours_text
+    export_web_json(
+        [],
+        [],
+        tmp_path,
+        45,
+        2026,
+        occasion_definitions=[*occasions.values(), market],
+        generated_at=now,
+    )
+    manifest = json.loads((tmp_path / "web_events.json").read_text())
+    exported = {item["slug"]: item for item in manifest["occasions"]}
+    assert set(exported) == set(occasions) - {
+        "weihnachtsmarkt-der-sportfreunde-anderten"
+    }
+    assert len(manifest["occasions"]) == 11
+    assert len(list((tmp_path / "occasions").glob("*.json"))) == 11
+    assert exported[market.slug]["endDate"] == "2026-12-22"
+    assert exported[market.slug]["occurrences"][-1] == {
+        "date": "2026-12-06",
+        "startTime": "11:00",
+        "endTime": "21:00",
+    }
+    assert exported[lindener.slug]["occurrences"] == [
+        {"date": str(item.date), "startTime": item.start_time, "endTime": item.end_time}
+        for item in lindener.occurrences
+        if item.date <= date(2026, 12, 6)
+    ]
+    assert exported[zoo.slug]["occurrences"] == [
+        {"date": str(item.date), "startTime": "17:00", "endTime": "22:00"}
+        for item in expected
+        if item.date <= date(2026, 12, 6)
+    ]
+    assert exported[zoo.slug]["admission"] == [
+        {"label": "Erwachsene", "price": "€23.80", "isFrom": True},
+        {"label": "Kinder (5-17 Jahre)", "price": "€14.80", "isFrom": True},
+    ]
+    assert all(
+        item["sourceUrl"].startswith("https://www.hannover.de/")
+        and item["description"].endswith("See the source for details.")
+        for item in exported.values()
+    )
+
+
+@pytest.mark.parametrize("failure", ["listing", "pagination", "unreadable-card"])
+def test_christmas_discovery_gaps_refuse_publication(
+    local_site: LocalSite, failure: str
+) -> None:
+    source = serve_christmas_calendar(local_site)
+    if failure == "listing":
+        local_site.pages["/christmas"] = (503, "maintenance")
+    elif failure == "pagination":
+        local_site.pages["/api/v1/view/560429/10/10/line"] = (503, "maintenance")
+    else:
+        status, listing = local_site.pages["/christmas"]
+        local_site.pages["/christmas"] = (
+            status,
+            listing.replace("23.11.2026 bis 22.12.2026", "Termin folgt", 1),
+        )
+    result = fetch_all_events(sources={"christmas": source})
+    outcome = result["source_outcomes"][-1]
+    assert (outcome.state, outcome.completion, outcome.count) == (
+        "failed" if failure == "listing" else "partial",
+        "incomplete",
+        {"listing": 0, "pagination": 10, "unreadable-card": 11}[failure],
+    )
+    assert publication_refusal(result).startswith("incomplete occasion discovery:")
+
 
 # Real LUX description that used to publish as "...das ebenfalls de".
 LONG_DESCRIPTION = (

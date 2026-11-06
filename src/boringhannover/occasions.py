@@ -100,10 +100,11 @@ class Place:
 
 @dataclass(frozen=True, slots=True)
 class Admission:
-    """One official entry condition; ``price`` is "free" or e.g. "€3.50"."""
+    """One official entry condition, keeping a stated minimum price qualified."""
 
     price: str
     label: str = ""
+    is_from: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -113,6 +114,8 @@ class OccasionDefinition:
     ``description`` is own English copy; empty means the exporter publishes a
     factual fallback. ``source_summary`` is the source's teaser (usually
     German, third-party prose): evidence for parsing, never published.
+    ``hours_text`` retains normalized schedule evidence after parsing as well;
+    only unknown schedules expose that wording in the web snapshot.
     """
 
     id: str

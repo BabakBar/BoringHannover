@@ -25,6 +25,8 @@ const ADMISSION_LABELS: Array<
 > = [
   [/^Erwachsene$/i, () => 'Adults', false],
   [/^Kinder$/i, () => 'Children', false],
+  [/^Kinder \((\d{1,2})[-–](\d{1,2}) Jahre\)$/i,
+    match => `Children aged ${match[1]}–${match[2]}`, false],
   [
     /^Kinder \(?bis (\d{1,2}) Jahren?\)?$/i,
     (match) => `Children up to age ${match[1]}`,

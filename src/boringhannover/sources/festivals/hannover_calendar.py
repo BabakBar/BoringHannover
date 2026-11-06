@@ -48,8 +48,7 @@ _OUTSIDE_CITY_MARKERS = (
     "wennigsen",
 )
 
-# One Termine line: "DD.MM.YYYY [bis DD.MM.YYYY] [ab HH:MM [bis HH:MM] Uhr]".
-# Anything after it, such as a weekday ("sonntags"), is not parsed further.
+# One Termine line, optionally followed by explicit weekdays.
 _APPOINTMENT_PATTERN = re.compile(
     r"(?P<start>\d{1,2}\.\d{1,2}\.\d{4})(?:\s+bis\s+(?P<end>\d{1,2}\.\d{1,2}\.\d{4}))?"
     r"(?:\s+ab\s+(?P<from>\d{1,2}:\d{2})(?:\s+bis\s+(?P<to>\d{1,2}:\d{2}))?\s+Uhr)?"
@@ -58,6 +57,21 @@ _TIME_PATTERN = re.compile(r"(\d{1,2}):(\d{2})")
 _CARD = "article.interesting-single.line-view-content"
 _EXCLUSION_LABEL = "Die Veranstaltung findet nicht statt am:"
 _MAX_SCHEDULE_DAYS = 366
+_WEEKDAYS = (
+    "montags",
+    "dienstags",
+    "mittwochs",
+    "donnerstags",
+    "freitags",
+    "samstags",
+    "sonntags",
+)
+_WEEKDAY = "(?:" + "|".join(_WEEKDAYS) + ")"
+_WEEKDAY_TERM = re.compile(rf"({_WEEKDAY})(?:\s+bis\s+({_WEEKDAY}))?")
+_WEEKDAY_LIST = re.compile(
+    rf"{_WEEKDAY_TERM.pattern}(?:(?:\s*,\s*|\s+(?:und\s+)?){_WEEKDAY_TERM.pattern})*",
+    re.I,
+)
 # hannover.de prefixes a changed entry's title with its status.
 _STATUS_PREFIX = re.compile(
     r"(?P<marker>abgesagt|verschoben)\s*:\s*(?P<name>\S.*)", re.I
@@ -89,7 +103,8 @@ class _DetailSchedule:
     """Dates read from an official Termine row.
 
     A discrete schedule without occurrences means the source excludes every
-    listed date; it is never discoverable.
+    listed date; it is never discoverable. Source hours remain evidence even
+    after parsing, so publication can recognize an unchanged schedule.
     """
 
     start_date: date
@@ -501,9 +516,9 @@ class HannoverFestivalCalendarSource(BaseSource):
 
         An exact line (a date or range with optional hours) confirms every
         listed day; excluded days are removed first, so they never become an
-        end. A line with trailing wording such as "sonntags" only bounds a
-        source window: none of its days is confirmed, its stated ends are kept
-        rather than guessed, and the source wording becomes hours text. A row
+        end. Explicit weekday lists and ranges restrict the confirmed days.
+        Unrecognized qualifications only bound a source window: none of its
+        days is confirmed, and the source wording becomes hours text. A row
         whose dates are all excluded is a known schedule without appointments.
         Invalid, reversed or contradictory dates reject the whole row.
         """
@@ -563,10 +578,19 @@ class HannoverFestivalCalendarSource(BaseSource):
 
             listed += [start, end]
             days = [start + timedelta(days=n) for n in range((end - start).days + 1)]
-            remaining = [day for day in days if day not in excluded_dates]
+            qualification = line[match.end() :].strip()
+            weekdays = (
+                cls._parse_weekdays(qualification) if qualification else set(range(7))
+            )
+            remaining = [
+                day
+                for day in days
+                if day not in excluded_dates
+                and (weekdays is None or day.weekday() in weekdays)
+            ]
             if not remaining:
                 continue
-            if match.end() != len(line):
+            if weekdays is None:
                 exact = False
                 bounds += [start, end]
                 continue
@@ -580,17 +604,17 @@ class HannoverFestivalCalendarSource(BaseSource):
 
         if not listed:
             return None
+        hours_text = "; ".join(hours_lines)
+        if excluded_dates:
+            skipped = ", ".join(
+                day.strftime("%d.%m.%Y") for day in sorted(excluded_dates)
+            )
+            hours_text = f"{hours_text}. {_EXCLUSION_LABEL} {skipped}"
         if not bounds:
-            return _DetailSchedule(min(listed), max(listed), (), "discrete", "")
+            return _DetailSchedule(min(listed), max(listed), (), "discrete", hours_text)
         start_date, end_date = min(bounds), max(bounds)
 
         if not exact:
-            hours_text = "; ".join(hours_lines)
-            if excluded_dates:
-                skipped = ", ".join(
-                    day.strftime("%d.%m.%Y") for day in sorted(excluded_dates)
-                )
-                hours_text = f"{hours_text}. {_EXCLUSION_LABEL} {skipped}"
             return _DetailSchedule(start_date, end_date, (), "unknown", hours_text)
 
         span = (end_date - start_date).days + 1
@@ -601,8 +625,21 @@ class HannoverFestivalCalendarSource(BaseSource):
                 Occurrence(day, *confirmed[day]) for day in sorted(confirmed)
             ),
             confidence="continuous" if len(confirmed) == span else "discrete",
-            hours_text="",
+            hours_text=hours_text,
         )
+
+    @staticmethod
+    def _parse_weekdays(value: str) -> set[int] | None:
+        """Only explicit German weekday lists/ranges confirm recurrence."""
+        value = value.casefold()
+        if _WEEKDAY_LIST.fullmatch(value) is None:
+            return None
+        days: set[int] = set()
+        for match in _WEEKDAY_TERM.finditer(value):
+            start = _WEEKDAYS.index(match[1])
+            end = _WEEKDAYS.index(match[2]) if match[2] else start
+            days.update((start + n) % 7 for n in range((end - start) % 7 + 1))
+        return days
 
     @staticmethod
     def _cell_lines(cell: Tag) -> list[str]:
@@ -748,10 +785,14 @@ class HannoverFestivalCalendarSource(BaseSource):
         for row in soup.select(".details-table .table.details-table .detail-row"):
             cells = row.select(".detail-cell")
             label = cls._text(cells[0]) if len(cells) == 2 else ""
-            price = cls._price(cls._text(cells[1])) if label else None
-            if price is None:
+            raw_price = cls._text(cells[1]) if label else ""
+            is_from = raw_price.casefold().startswith("ab ")
+            price = (
+                cls._price(raw_price[3:] if is_from else raw_price) if label else None
+            )
+            if price is None or (is_from and price == "free"):
                 return ()
-            admission.append(Admission(price=price, label=label))
+            admission.append(Admission(price=price, label=label, is_from=is_from))
         if admission:
             return tuple(admission)
         if any(

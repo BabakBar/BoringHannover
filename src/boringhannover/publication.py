@@ -28,6 +28,7 @@ from boringhannover.occasions import (
     collect_occasion_definitions,
     occasion_status_on,
 )
+from boringhannover.sanitize import sanitize_text
 
 
 if TYPE_CHECKING:
@@ -201,6 +202,11 @@ def _summary(value: object) -> Record:
             price = _text(condition, "price")
             if price != "free" and not re.fullmatch(r"€\d+(?:\.\d{2})?", price):
                 raise ValueError("Invalid occasion admission")
+            if "isFrom" in condition and (
+                type(condition["isFrom"]) is not bool
+                or (condition["isFrom"] and price == "free")
+            ):
+                raise ValueError("Invalid occasion minimum price")
             if "label" in condition:
                 _text(condition, "label")
     return row
@@ -397,6 +403,22 @@ def _refresh(programme: Record, today: date, now: datetime) -> None:
         item.pop("imageUrl", None)
 
 
+def _refines_unknown_schedule(previous: Record, definition: OccasionDefinition) -> bool:
+    """An unchanged source schedule may acquire narrower confirmed dates."""
+    if (
+        previous.get("scheduleConfidence") != "unknown"
+        or definition.schedule_confidence not in ("continuous", "discrete")
+        or not definition.hours_text
+    ):
+        return False
+    return (
+        previous.get("hoursText")
+        == sanitize_text(definition.hours_text, len(definition.hours_text))
+        and _date(previous["startDate"]) <= definition.start_date
+        and definition.end_date <= _date(previous["endDate"])
+    )
+
+
 def _retains_sparse_appointments(previous: Record, fresh: Record, today: date) -> bool:
     if (
         previous.get("scheduleConfidence") != "discrete"
@@ -537,7 +559,11 @@ def reconcile_occasions(
                 _date(previous["startDate"]),
                 _date(fresh["startDate"]),
             )
-            if new_start > old_start and fresh.get("sourceStatus") != "rescheduled":
+            if (
+                new_start > old_start
+                and fresh.get("sourceStatus") != "rescheduled"
+                and not _refines_unknown_schedule(previous, definition)
+            ):
                 if (
                     new_start == today and fresh["endDate"] == previous["endDate"]
                 ) or _retains_sparse_appointments(previous, fresh, today):

@@ -6,10 +6,17 @@ import json
 import threading
 from dataclasses import dataclass, field
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from typing import TYPE_CHECKING
 from urllib.parse import urlsplit
 
+import httpx
 import pytest
+from bs4 import BeautifulSoup
+
+from boringhannover.sources.festivals.hannover_christmas import (
+    HannoverChristmasCalendarSource,
+)
 
 
 if TYPE_CHECKING:
@@ -114,3 +121,31 @@ def serve_github_publication(
         200,
         json.dumps({"sha": tree_sha, "truncated": False, "tree": entries}),
     )
+
+
+def serve_christmas_calendar(
+    local_site: LocalSite,
+) -> type[HannoverChristmasCalendarSource]:
+    source = HannoverChristmasCalendarSource
+    fixtures = Path(__file__).parent / "fixtures" / "hannover_christmas"
+    listing = fixtures.joinpath("listing.html").read_text()
+    local_site.pages["/christmas"] = (200, listing)
+    local_site.pages["/api/v1/view/560429/10/10/line"] = (
+        200,
+        fixtures.joinpath("page2.json").read_text(),
+    )
+    cards = listing + "".join(
+        json.loads(fixtures.joinpath("page2.json").read_text())["items"]
+    )
+    for link in BeautifulSoup(cards, "html.parser").select("a.content__read-more"):
+        path = str(link["href"])
+        # httpx sends Unicode paths percent-encoded, just as a real browser does.
+        local_site.pages[httpx.URL(path).raw_path.decode()] = (
+            200,
+            fixtures.joinpath(f"{source._slug_from_url(path)}.html").read_text(),
+        )
+
+    class LocalChristmas(source):
+        CALENDAR_URL = f"{local_site.url}/christmas"
+
+    return LocalChristmas

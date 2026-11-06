@@ -87,7 +87,7 @@ describe('detail-sheet facts (#54)', () => {
     admission: [
       { label: 'Mit Baumscheibe', price: 'free' },
       { label: 'Erwachsene', price: '€3' },
-      { price: '€3.50' },
+      { price: '€3.50', isFrom: true },
     ],
   };
 
@@ -102,6 +102,7 @@ describe('detail-sheet facts (#54)', () => {
       '€3.50',
     ]);
     expect(occasionSummarySchema.parse(legacyOccasion).place).toBeUndefined();
+    expect(parsed.admission?.[2].isFrom).toBe(true);
   });
 
   test('malformed facts are rejected', () => {
@@ -111,6 +112,8 @@ describe('detail-sheet facts (#54)', () => {
       { area: 'beyond' },
       { admission: [{ price: '3 €' }] },
       { admission: [{ price: 'frei' }] },
+      { admission: [{ price: '€23.80', isFrom: 'true' }] },
+      { admission: [{ price: 'free', isFrom: true }] },
     ]) {
       expect(
         occasionSummarySchema.safeParse({ ...legacyOccasion, ...invalid }).success,

@@ -47,6 +47,7 @@ export function occasionJsonLd(
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     ...(occasion.admission?.length === 1 &&
     occasion.admission[0].price === 'free' &&
+    !occasion.admission[0].isFrom &&
     !occasion.admission[0].label
       ? { isAccessibleForFree: true }
       : {}),

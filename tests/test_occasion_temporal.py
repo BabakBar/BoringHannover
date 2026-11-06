@@ -81,15 +81,29 @@ EXCLUDED = "<strong>Die Veranstaltung findet nicht statt am:</strong>"
                 EXCLUDED,
                 "<p>18.10.2026</p><p>25.10.2026</p>",
             ),
-            (date(2026, 10, 4), date(2026, 10, 18), "unknown", ()),
-            id="weekday-series-keeps-source-window-without-guessed-ends",
+            (
+                date(2026, 10, 4),
+                date(2026, 10, 11),
+                "discrete",
+                (_occ(10, 4, "08:00", "17:00"), _occ(10, 11, "08:00", "17:00")),
+            ),
+            id="weekday-series-removes-excluded-final-date",
         ),
         pytest.param(
             (
                 "<p>10.10.2026 bis 12.12.2026 ab 08:00 bis 15:00 Uhr samstags</p>",
                 "<p>Die Veranstaltung findet nicht statt am: 31.10.2026</p>",
             ),
-            (date(2026, 10, 10), date(2026, 12, 12), "unknown", ()),
+            (
+                date(2026, 10, 10),
+                date(2026, 12, 12),
+                "discrete",
+                (
+                    *(_occ(10, day, "08:00", "15:00") for day in (10, 17, 24)),
+                    *(_occ(11, day, "08:00", "15:00") for day in (7, 14, 21, 28)),
+                    *(_occ(12, day, "08:00", "15:00") for day in (5, 12)),
+                ),
+            ),
             id="exclusion-inside-long-series-keeps-true-end",
         ),
         pytest.param(
@@ -98,8 +112,17 @@ EXCLUDED = "<strong>Die Veranstaltung findet nicht statt am:</strong>"
                 EXCLUDED,
                 "<p>31.10.2026</p>",
             ),
-            (date(2026, 10, 1), date(2026, 10, 31), "unknown", ()),
-            id="excluded-end-of-qualified-range-is-not-guessed",
+            (
+                date(2026, 10, 1),
+                date(2026, 10, 30),
+                "discrete",
+                tuple(
+                    _occ(10, day, "11:00", "18:00")
+                    for day in range(1, 31)
+                    if day not in (5, 12, 19, 26)
+                ),
+            ),
+            id="weekday-range-removes-mondays-and-excluded-end",
         ),
         pytest.param(
             (
@@ -108,7 +131,14 @@ EXCLUDED = "<strong>Die Veranstaltung findet nicht statt am:</strong>"
                 EXCLUDED,
                 "<p>05.11.2026</p>",
             ),
-            (date(2026, 10, 1), date(2026, 10, 31), "unknown", ()),
+            (
+                date(2026, 10, 1),
+                date(2026, 10, 31),
+                "discrete",
+                tuple(
+                    _occ(10, day) for day in range(1, 32) if day not in (5, 12, 19, 26)
+                ),
+            ),
             id="excluded-exact-date-cannot-extend-window",
         ),
         pytest.param(
@@ -133,6 +163,40 @@ EXCLUDED = "<strong>Die Veranstaltung findet nicht statt am:</strong>"
                 (_occ(10, 10, "13:00", "18:30"),),
             ),
             id="single-appointment-keeps-hours",
+        ),
+        pytest.param(
+            ("<p>30.10.2026 bis 03.11.2026 ab 18:00 Uhr freitags bis montags</p>",),
+            (
+                date(2026, 10, 30),
+                date(2026, 11, 2),
+                "continuous",
+                (
+                    _occ(10, 30, "18:00"),
+                    _occ(10, 31, "18:00"),
+                    _occ(11, 1, "18:00"),
+                    _occ(11, 2, "18:00"),
+                ),
+            ),
+            id="weekday-range-crosses-week-and-month-boundary",
+        ),
+        pytest.param(
+            (
+                "<p>09.10.2026 bis 18.10.2026 ab 18:00 Uhr freitags, samstags und sonntags</p>",
+            ),
+            (
+                date(2026, 10, 9),
+                date(2026, 10, 18),
+                "discrete",
+                tuple(_occ(10, day, "18:00") for day in (9, 10, 11, 16, 17, 18)),
+            ),
+            id="explicit-weekday-list-with-punctuation",
+        ),
+        pytest.param(
+            (
+                "<p>09.10.2026 bis 18.10.2026 ab 18:00 Uhr sonntags nach Vereinbarung</p>",
+            ),
+            (date(2026, 10, 9), date(2026, 10, 18), "unknown", ()),
+            id="unrecognized-weekday-condition-remains-unknown",
         ),
         pytest.param(
             (
@@ -212,7 +276,7 @@ def test_termine_schedule(cells: tuple[str, ...], expected: tuple | None) -> Non
 def test_source_hours_text_keeps_series_and_exclusions_verbatim() -> None:
     schedule = SOURCE._parse_detail_schedule(
         _detail(
-            "<p>04.10.2026 bis 18.10.2026 ab 08:00 bis 17:00 Uhr<br/>sonntags</p>",
+            "<p>04.10.2026 bis 18.10.2026 ab 08:00 bis 17:00 Uhr<br/>jeweils sonntags</p>",
             EXCLUDED,
             "<p>18.10.2026</p><p>25.10.2026</p>",
         )
@@ -220,7 +284,7 @@ def test_source_hours_text_keeps_series_and_exclusions_verbatim() -> None:
 
     assert schedule is not None
     assert schedule.hours_text == (
-        "04.10.2026 bis 18.10.2026 ab 08:00 bis 17:00 Uhr sonntags. "
+        "04.10.2026 bis 18.10.2026 ab 08:00 bis 17:00 Uhr jeweils sonntags. "
         "Die Veranstaltung findet nicht statt am: 18.10.2026, 25.10.2026"
     )
 
@@ -234,15 +298,64 @@ def test_reversed_listing_range_is_rejected() -> None:
 
 
 @pytest.mark.parametrize(
+    "repeats", [12, 180], ids=["complete-conditions", "oversized-omitted"]
+)
+def test_unparsed_schedule_export_never_truncates_conditions(
+    tmp_path: Path, repeats: int
+) -> None:
+    condition = "nur nach vorheriger Anmeldung " * repeats
+    definition = SOURCE._apply_detail(
+        _occasion(),
+        _detail(
+            f"<p>10.10.2026 bis 31.10.2026 ab 18:00 Uhr {condition}</p>",
+            EXCLUDED,
+            "<p>25.10.2026</p>",
+        ),
+    )
+    assert definition.schedule_confidence == "unknown"
+    export_web_json(
+        [],
+        [],
+        tmp_path,
+        41,
+        2026,
+        occasion_definitions=[definition],
+        generated_at=datetime(2026, 10, 9, 12, tzinfo=BERLIN_TZ),
+    )
+    summary = json.loads((tmp_path / "web_events.json").read_text())["occasions"][0]
+    if repeats == 12:
+        assert summary["hoursText"] == definition.hours_text
+        assert summary["hoursText"].endswith(
+            "Die Veranstaltung findet nicht statt am: 25.10.2026"
+        )
+    else:
+        assert "hoursText" not in summary
+
+
+@pytest.mark.parametrize(
     ("fixture", "expected"),
     [
         (
             "hannover_market_detail_faust_flohmarkt.html",
-            (date(2026, 10, 11), date(2026, 10, 18), "unknown", ()),
+            (
+                date(2026, 10, 11),
+                date(2026, 10, 11),
+                "continuous",
+                (_occ(10, 11, "08:00", "17:00"),),
+            ),
         ),
         (
             "hannover_market_detail_neue_bult.html",
-            (date(2026, 10, 10), date(2026, 12, 12), "unknown", ()),
+            (
+                date(2026, 10, 10),
+                date(2026, 12, 12),
+                "discrete",
+                (
+                    *(_occ(10, day, "08:00", "15:00") for day in (10, 17, 24)),
+                    *(_occ(11, day, "08:00", "15:00") for day in (7, 14, 21, 28)),
+                    *(_occ(12, day, "08:00", "15:00") for day in (5, 12)),
+                ),
+            ),
         ),
         (
             "hannover_festival_detail_wiesn.html",
