@@ -19,10 +19,6 @@
     "preview": [],
     "occurrences": [
       {
-        "date": "2026-11-01",
-        "startTime": "11:30"
-      },
-      {
         "date": "2026-11-06",
         "startTime": "18:00"
       },
@@ -31,7 +27,7 @@
         "startTime": "18:00"
       }
     ],
-    "scheduleConfidence": "discrete",
+    "scheduleConfidence": "continuous",
     "place": {
       "venue": "Parkbühne",
       "street": "Ferdinand-Wilhelm-Fricke-Weg 8",
