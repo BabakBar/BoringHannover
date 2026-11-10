@@ -142,6 +142,49 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
     }
   }, 60000);
 
+  for (const refresh of ['timer', 'visibilitychange'] as const) {
+    test(`More button keeps a meaningful focus target across ${refresh} refresh`, async () => {
+      const context = await browser!.newContext();
+      try {
+        await context.route('**/*', route => route.request().url().startsWith(`${origin}/`) ? route.continue() : route.abort());
+        const page = await context.newPage();
+        await page.clock.install({ time: new Date('2026-08-01T12:00:00Z') });
+        await page.goto(`${origin}/special/programme-fixture/`);
+        const more = page.locator('#programme-more');
+        const count = page.locator('#programme-result-count');
+        const refreshPage = async () => {
+          if (refresh === 'timer') await page.clock.fastForward(60000);
+          else await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+        };
+
+        await more.focus();
+        await refreshPage();
+        expect(await more.isVisible()).toBe(true);
+        expect(await more.evaluate(element => document.activeElement === element)).toBe(true);
+
+        // Berlin midnight reduces today's results from 26 to one. The focused
+        // pagination button disappears even though it is not a programme item.
+        await page.clock.setSystemTime(new Date('2026-08-01T22:05:00Z'));
+        await refreshPage();
+        expect(await count.innerText()).toBe('1 event');
+        expect(await more.isVisible()).toBe(false);
+        expect(await count.evaluate(element => document.activeElement === element)).toBe(true);
+
+        // A refresh with focus elsewhere must not move it into the programme.
+        await page.clock.setSystemTime(new Date('2026-08-01T12:00:00Z'));
+        await page.reload();
+        const today = page.locator('[data-mode-filter="today"]');
+        await today.focus();
+        await page.clock.setSystemTime(new Date('2026-08-01T22:05:00Z'));
+        await refreshPage();
+        expect(await more.isVisible()).toBe(false);
+        expect(await today.evaluate(element => document.activeElement === element)).toBe(true);
+      } finally {
+        await context.close();
+      }
+    }, 60000);
+  }
+
   test('controls need JS and pagination keeps keyboard focus in newly revealed content (#37)', async () => {
     for (const javaScriptEnabled of [false, true]) {
       const context = await browser!.newContext({ javaScriptEnabled });

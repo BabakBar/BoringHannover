@@ -724,6 +724,7 @@ const eventJsonLd = occasionJsonLd(occasion, {
 
   function applyFilters() {
     const focusedItem = programmeItems.find(item => item.contains(document.activeElement));
+    const moreHadFocus = document.activeElement === moreButton;
     const now = new Date();
     const matches = programmeItems.filter(item => (
       matchesOccasionFilters(eventFromElement(item), filters, now)
@@ -756,9 +757,11 @@ const eventJsonLd = occasionJsonLd(occasion, {
       const remaining = matches.length - shown;
       if (text) text.textContent = `Show ${Math.min(PAGE_SIZE, remaining)} more`;
     }
-    // A clock refresh can remove the date containing keyboard focus. Keep a
-    // meaningful focus target available instead of letting it fall to body.
-    if (focusedItem?.hidden) resultCount?.focus();
+    // A clock refresh can hide a focused result or the pagination button.
+    // Keep a meaningful focus target available instead of falling to body.
+    if (focusedItem?.hidden || (moreHadFocus && moreButton?.hidden)) {
+      resultCount?.focus();
+    }
   }
 
   function resetLimit() {
