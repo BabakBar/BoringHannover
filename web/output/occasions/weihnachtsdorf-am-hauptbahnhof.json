@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 06 Nov 21:22"
+    "updatedAt": "Tue 10 Nov 10:00"
   },
   "occasion": {
     "id": "hannover-festivals:weihnachtsdorf-am-hauptbahnhof",
@@ -87,9 +87,37 @@
         "date": "2026-12-06",
         "startTime": "11:00",
         "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-07",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-08",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-09",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-10",
+        "startTime": "11:00",
+        "endTime": "21:00"
       }
     ],
-    "scheduleConfidence": "discrete"
+    "scheduleConfidence": "discrete",
+    "place": {
+      "venue": "Ernst-August-Platz",
+      "street": "Ernst-August-Platz",
+      "postalCode": "30159",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
   },
   "programme": []
 }

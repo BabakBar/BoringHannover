@@ -755,15 +755,19 @@ class HannoverFestivalCalendarSource(BaseSource):
     def _parse_detail_place(cls, html: str) -> Place | None:
         """Return the Ort row as a postal address, or None if it is not one.
 
-        The row reads [venue,] street with a house number, "PLZ locality".
-        A venue name alone is not an address, so it gets no directions.
+        The row reads [venue,] street, "PLZ locality". Public squares and
+        pedestrian streets need no house number when the source supplies a
+        separate venue line. With only two lines, require a number to avoid
+        treating a venue plus postcode/locality as a street address.
         """
         lines = cls._ort_lines(html)
         if len(lines) < 2:
             return None
         postal = _POSTAL_LINE.fullmatch(lines[-1])
         street = lines[-2]
-        if postal is None or not any(character.isdigit() for character in street):
+        if postal is None or (
+            len(lines) == 2 and not any(character.isdigit() for character in street)
+        ):
             return None
         return Place(
             street=street,

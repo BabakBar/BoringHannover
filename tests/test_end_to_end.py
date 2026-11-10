@@ -126,6 +126,36 @@ def test_christmas_facts_survive_carry_forward_and_reach_the_detail_sheet(
     for record in original["occasions"]:
         assert f"/special/{record['slug']}/" in index
 
+    # Numberless official streets/squares must reach both the visible facts
+    # and Event JSON-LD after export and pinned-publication carry-forward.
+    for slug, street, postal in [
+        ("weihnachtsmarkt-hannover", "Am Markte", "30159"),
+        ("weihnachtsmarkt-lister-meile", "Lister Meile", "30161"),
+        ("adventsmarkt-in-dohren", "Fiedelerplatz", "30519"),
+        ("weihnachtsdorf-am-hauptbahnhof", "Ernst-August-Platz", "30159"),
+    ]:
+        page = BeautifulSoup(
+            (dist / "special" / slug / "index.html").read_text(), "html.parser"
+        )
+        assert f"{street} {postal} Hannover" in page.get_text(" ", strip=True)
+        nodes = [
+            json.loads(script.string)
+            for script in page.select('script[type="application/ld+json"]')
+        ]
+        events = [node for node in nodes if node.get("@type") == "Event"]
+        if slug == "weihnachtsdorf-am-hauptbahnhof":
+            # Its excluded dates still prohibit a continuous-season Event.
+            assert not events
+        else:
+            assert len(events) == 1
+            assert events[0]["location"]["address"] == {
+                "@type": "PostalAddress",
+                "streetAddress": street,
+                "postalCode": postal,
+                "addressLocality": "Hannover",
+                "addressCountry": "DE",
+            }
+
 
 def test_month_ahead_occasions_reach_export_carry_forward_and_built_site(
     local_site: LocalSite, tmp_path: Path

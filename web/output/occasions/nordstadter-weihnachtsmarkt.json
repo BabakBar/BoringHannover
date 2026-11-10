@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Tue 10 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:nordstadter-weihnachtsmarkt",
+    "slug": "nordstadter-weihnachtsmarkt",
+    "name": "Nordstädter Weihnachtsmarkt",
+    "kind": "festival",
+    "startDate": "2026-12-05",
+    "endDate": "2026-12-06",
+    "location": "Lutherkirche",
+    "description": "Nordstädter Weihnachtsmarkt at Lutherkirche. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Nordstädter-Weihnachtsmarkt",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/nordstadter-weihnachtsmarkt.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-12-05",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-06",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Lutherkirche",
+      "street": "An der Lutherkirche 20",
+      "postalCode": "30167",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}

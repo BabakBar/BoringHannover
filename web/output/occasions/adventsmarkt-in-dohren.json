@@ -34,7 +34,15 @@
       {
         "price": "free"
       }
-    ]
+    ],
+    "place": {
+      "venue": "Fiedelerplatz",
+      "street": "Fiedelerplatz",
+      "postalCode": "30519",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
   },
   "programme": []
 }

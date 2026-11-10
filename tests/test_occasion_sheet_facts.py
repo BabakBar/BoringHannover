@@ -125,6 +125,51 @@ def _summary(tmp_path: Path, definition: OccasionDefinition) -> dict[str, Any]:
                 locality="Springe",
             ),
         ),
+        (
+            "hannover_christmas/weihnachtsmarkt-hannover.html",
+            Place(
+                venue="Weihnachtsmarkt an der Marktkirche",
+                street="Am Markte",
+                postal_code="30159",
+                locality="Hannover",
+            ),
+        ),
+        (
+            "hannover_christmas/weihnachtsmarkt-lister-meile.html",
+            Place(
+                venue="Weihnachtsmarkt Lister Meile",
+                street="Lister Meile",
+                postal_code="30161",
+                locality="Hannover",
+            ),
+        ),
+        (
+            "hannover_christmas/adventsmarkt-in-dohren.html",
+            Place(
+                venue="Fiedelerplatz",
+                street="Fiedelerplatz",
+                postal_code="30519",
+                locality="Hannover",
+            ),
+        ),
+        (
+            "hannover_christmas/weihnachtsdorf-am-hauptbahnhof.html",
+            Place(
+                venue="Ernst-August-Platz",
+                street="Ernst-August-Platz",
+                postal_code="30159",
+                locality="Hannover",
+            ),
+        ),
+        (
+            "hannover_festival_detail_fairground.html",
+            Place(
+                venue="Messegelände / Halle 2",
+                street="Messegelände",
+                postal_code="30521",
+                locality="Hannover",
+            ),
+        ),
     ],
 )
 def test_official_ort_row_becomes_a_postal_address(
@@ -141,6 +186,8 @@ def test_official_ort_row_becomes_a_postal_address(
         ("Schützenplatz Hannover", "30169 Hannover"),
         ("Tiergartenstraße 117", "Hannover"),
         ("Tiergartenstraße 117", "3055 Hannover"),
+        ("Market venue", "Am Markte", "Hannover"),
+        ("Market venue", "Am Markte", "3015 Hannover"),
     ],
 )
 def test_incomplete_address_stays_unknown(lines: tuple[str, ...]) -> None:

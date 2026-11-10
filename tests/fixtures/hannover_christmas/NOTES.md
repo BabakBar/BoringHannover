@@ -24,5 +24,11 @@ https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnach
 - Keep the shared `hannover-festivals:<slug>` identity so overlapping city
   calendar listings deduplicate without changing existing occasion routes.
 
+Address correction checked 10 November 2026: the captured Ort rows for Hannover,
+Lister Meile, Döhren and Hauptbahnhof already supply a separate venue, street or
+square, and postcode/locality. Current official pages confirm the same values.
+The parser must retain those numberless streets without inventing house numbers.
+Venue plus postcode/locality alone remains insufficient street evidence.
+
 Fixtures describe captured facts, not future-year recurrence. Live publication,
 deployment and production-host access require separate verification.

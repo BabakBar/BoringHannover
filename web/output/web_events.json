@@ -1,167 +1,11 @@
 {
   "meta": {
-    "week": 45,
+    "week": 46,
     "year": 2026,
-    "updatedAt": "Fri 06 Nov 21:22",
-    "updatedAtISO": "2026-11-06T21:22:51.412679+01:00"
+    "updatedAt": "Tue 10 Nov 10:00",
+    "updatedAtISO": "2026-11-10T10:00:12.981537+01:00"
   },
   "movies": [
-    {
-      "day": "FRI",
-      "date": "06.11",
-      "movies": [
-        {
-          "title": "TEENAGE SEX AND DEATH AT CAMP MIASMA - engl. OmU",
-          "year": 2026,
-          "time": "22:30",
-          "venue": "Apollokino Hannover",
-          "duration": "1h52m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK16",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00005479&anmerk=OmU-Nachtstudio%20%96"
-        },
-        {
-          "title": "Godzilla Minus Zero",
-          "year": 2026,
-          "time": "23:00",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h15m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/godzilla-minus-zero"
-        }
-      ]
-    },
-    {
-      "day": "SAT",
-      "date": "07.11",
-      "movies": [
-        {
-          "title": "Der Herr der Ringe - Die zwei Türme",
-          "year": 2002,
-          "time": "12:15",
-          "venue": "Astor Grand Cinema",
-          "duration": "3h43m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/der-herr-der-ringe-die-zwei-tuerme"
-        },
-        {
-          "title": "Stray Kids - World Tour <Run It> Live Viewing",
-          "year": 2026,
-          "time": "13:00",
-          "venue": "Astor Grand Cinema",
-          "duration": "3h15m",
-          "language": "KR",
-          "subtitles": "DE",
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/stray-kids-world-tour-undltrun-itundgt-live-viewing"
-        },
-        {
-          "title": "Godzilla Minus Zero",
-          "year": 2026,
-          "time": "17:10",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h15m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/godzilla-minus-zero"
-        },
-        {
-          "title": "Stray Kids - World Tour <Run It> Live Viewing",
-          "year": 2026,
-          "time": "17:15",
-          "venue": "Astor Grand Cinema",
-          "duration": "3h15m",
-          "language": "KR",
-          "subtitles": "DE",
-          "rating": null,
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/stray-kids-world-tour-undltrun-itundgt-live-viewing"
-        },
-        {
-          "title": "PRIMETIME",
-          "year": 2026,
-          "time": "22:30",
-          "venue": "Apollokino Hannover",
-          "duration": "1h51m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00005523&anmerk=OmU-Nachtstudio-"
-        },
-        {
-          "title": "Godzilla Minus Zero",
-          "year": 2026,
-          "time": "23:00",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h15m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/godzilla-minus-zero"
-        }
-      ]
-    },
-    {
-      "day": "SUN",
-      "date": "08.11",
-      "movies": [
-        {
-          "title": "Godzilla Minus Zero",
-          "year": 2026,
-          "time": "20:30",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h15m",
-          "language": "JP",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/godzilla-minus-zero"
-        }
-      ]
-    },
-    {
-      "day": "MON",
-      "date": "09.11",
-      "movies": [
-        {
-          "title": "Die Odyssee",
-          "year": 2026,
-          "time": "19:30",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h52m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-odyssee"
-        },
-        {
-          "title": "Sneak Preview (OV)",
-          "year": 0,
-          "time": "20:15",
-          "venue": "Astor Grand Cinema",
-          "duration": "",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK18",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/sneak-preview-ov"
-        }
-      ]
-    },
     {
       "day": "TUE",
       "date": "10.11",
@@ -203,6 +47,30 @@
       "date": "12.11",
       "movies": [
         {
+          "title": "Wildwood",
+          "year": 2026,
+          "time": "16:40",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h11m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wildwood"
+        },
+        {
+          "title": "Wildwood",
+          "year": 2026,
+          "time": "19:40",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h11m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wildwood"
+        },
+        {
           "title": "George Michael - The Faith Tour",
           "year": 2026,
           "time": "19:45",
@@ -213,6 +81,18 @@
           "rating": null,
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/george-michael-the-faith-tour"
+        },
+        {
+          "title": "Ebenezer - Eine Weihnachtsgeschichte",
+          "year": 2026,
+          "time": "20:15",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h56m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/ebenezer-eine-weihnachtsgeschichte"
         },
         {
           "title": "PRINCESS MONONOKE-japan. OmU",
@@ -232,6 +112,30 @@
       "day": "FRI",
       "date": "13.11",
       "movies": [
+        {
+          "title": "Wildwood",
+          "year": 2026,
+          "time": "16:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h11m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wildwood"
+        },
+        {
+          "title": "Wild Horse Nine",
+          "year": 2026,
+          "time": "17:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h57m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wild-horse-nine"
+        },
         {
           "title": "DIGGER",
           "year": 2026,
@@ -263,6 +167,18 @@
           "url": "https://hannover.premiumkino.de/film/der-herr-der-ringe-die-rueckkehr-des-koenigs"
         },
         {
+          "title": "Wildwood",
+          "year": 2026,
+          "time": "12:20",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h11m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wildwood"
+        },
+        {
           "title": "ERASERHEAD - engl. OmU",
           "year": 1977,
           "time": "22:45",
@@ -281,6 +197,18 @@
       "date": "15.11",
       "movies": [
         {
+          "title": "Wildwood",
+          "year": 2026,
+          "time": "19:40",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h11m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wildwood"
+        },
+        {
           "title": "George Michael - The Faith Tour",
           "year": 2026,
           "time": "19:45",
@@ -291,6 +219,66 @@
           "rating": null,
           "genre": null,
           "url": "https://hannover.premiumkino.de/film/george-michael-the-faith-tour"
+        },
+        {
+          "title": "Wild Horse Nine",
+          "year": 2026,
+          "time": "20:15",
+          "venue": "Astor Grand Cinema",
+          "duration": "1h57m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wild-horse-nine"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "16.11",
+      "movies": [
+        {
+          "title": "Wildwood",
+          "year": 2026,
+          "time": "16:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h11m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wildwood"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "17.11",
+      "movies": [
+        {
+          "title": "Wildwood",
+          "year": 2026,
+          "time": "16:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h11m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wildwood"
+        },
+        {
+          "title": "Godzilla Minus Zero",
+          "year": 2026,
+          "time": "20:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h15m",
+          "language": "JP",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/godzilla-minus-zero"
         }
       ]
     },
@@ -298,6 +286,30 @@
       "day": "WED",
       "date": "18.11",
       "movies": [
+        {
+          "title": "Wildwood",
+          "year": 2026,
+          "time": "16:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h11m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/wildwood"
+        },
+        {
+          "title": "Die Tribute von Panem - Sunrise on the Reaping",
+          "year": 2026,
+          "time": "19:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h38m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-tribute-von-panem-sunrise-on-the-reaping"
+        },
         {
           "title": "Die Tribute von Panem - Sunrise on the Reaping",
           "year": 2026,
@@ -395,586 +407,117 @@
           "url": "https://www.apollokino.de/?v=&film=filme/01001191&anmerk=OmU-Nachtstudio%20%96%20dtOmeU"
         }
       ]
+    },
+    {
+      "day": "SAT",
+      "date": "21.11",
+      "movies": [
+        {
+          "title": "Die Tribute von Panem - Sunrise on the Reaping",
+          "year": 2026,
+          "time": "19:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h38m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-tribute-von-panem-sunrise-on-the-reaping"
+        },
+        {
+          "title": "HASS - LA HAINE",
+          "year": 1995,
+          "time": "22:30",
+          "venue": "Apollokino Hannover",
+          "duration": "1h36m",
+          "language": "FR",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://www.apollokino.de/?v=&film=filme/00005043&anmerk=OmU-Nachtstudio%20%96%20franz.%20OmU"
+        }
+      ]
+    },
+    {
+      "day": "SUN",
+      "date": "22.11",
+      "movies": [
+        {
+          "title": "Giant - The Play",
+          "year": 2025,
+          "time": "12:00",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h16m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/giant-the-play"
+        },
+        {
+          "title": "Die Tribute von Panem - Sunrise on the Reaping",
+          "year": 2026,
+          "time": "19:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h38m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-tribute-von-panem-sunrise-on-the-reaping"
+        }
+      ]
+    },
+    {
+      "day": "MON",
+      "date": "23.11",
+      "movies": [
+        {
+          "title": "Die Tribute von Panem - Sunrise on the Reaping",
+          "year": 2026,
+          "time": "19:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h38m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-tribute-von-panem-sunrise-on-the-reaping"
+        }
+      ]
+    },
+    {
+      "day": "TUE",
+      "date": "24.11",
+      "movies": [
+        {
+          "title": "Die Tribute von Panem - Sunrise on the Reaping",
+          "year": 2026,
+          "time": "16:20",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h38m",
+          "language": "EN",
+          "subtitles": null,
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/die-tribute-von-panem-sunrise-on-the-reaping"
+        },
+        {
+          "title": "Puella Magi Madoka Magica der Film - Walpurgisnacht: Rising",
+          "year": 2026,
+          "time": "19:45",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h",
+          "language": "JP",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/puella-magi-madoka-magica-der-film-walpurgisnacht-rising"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Gloryhammer",
-      "date": "6 Nov",
-      "dateISO": "2026-11-06",
-      "day": "Fr",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/gloryhammer-capitol-hannover-9268fcc86d7d/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.capitol-hannover.de/wp-content/uploads/2025/12/Group-1_Andere.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Mr. Irish Bastard",
-      "date": "6 Nov",
-      "dateISO": "2026-11-06",
-      "day": "Fr",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/mr-irish-bastard/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Hamato Yoshi + Fyrn",
-      "date": "6 Nov",
-      "dateISO": "2026-11-06",
-      "day": "Fr",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Kopernikus",
-      "url": "https://www.facebook.com/hamatoyoshi.official/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Laudare + Kosmoberkh + Auszerwelt",
-      "date": "6 Nov",
-      "dateISO": "2026-11-06",
-      "day": "Fr",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Stumpf",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Detlef + Die Tics",
-      "date": "6 Nov",
-      "dateISO": "2026-11-06",
-      "day": "Fr",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "UJZ Peine",
-      "url": "https://www.punkrock-konzerte.de/gigs-termine-osnabrueck/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Beast In Black, Sonata Arctica und Frozen Crown",
-      "date": "6 Nov",
-      "dateISO": "2026-11-06",
-      "day": "Fr",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/beast-in-black-sonata-arctica-und-frozen-crown-swiss-life-hall-3272c17eab23/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.swisslife-hall.de/wp-content/uploads/2025/10/20261106_Beast_In_Black_1_c_JarmoKatila_ToniKilpinen.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "NSB Techno Code",
-      "date": "6 Nov",
-      "dateISO": "2026-11-06",
-      "day": "Fr",
-      "time": "24:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/061126-nsb-techno-code.html",
-      "eventType": "party",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=nsb_code_tb.jpg",
-      "status": "available",
-      "radarCategory": "Party"
-    },
-    {
-      "title": "MelodieNest",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": "10:45",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/071126-melodienest.html",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=melodienest.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "MelodieNest",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": "11:45",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/071126-melodienest-2.html",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=melodienest.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "ELEINE",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": "13:56",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Glocksee",
-      "url": "https://cafe-glocksee.de#/event/eleine",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://images.prismic.io/cafe-glocksee/aZxPCMFoBIGEgqb4_ELEINE-Bandphoto-2025-Wide.jpg?auto=format%2Ccompress&rect=110%2C0%2C1700%2C1080&w=1700&h=1080",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "local heroes Landesfinale",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": "17:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/local-heroes-landesfinale/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/10/Ankor-Self-Deception-1.png",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "OKTAGON 97",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": "18:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/oktagon-97/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Enkay",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/071126-enkay.html",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=enkay1.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Vandermeer & Tento",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": "19:30",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/071126-vandermeer-tento.html",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=vandermeer.jpeg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "VERSCHOBEN AUF 2027",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-11-07/6850",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Edition: Electronic & House",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/edition-electronic-house-capitol-hannover-75d97d42a7f8/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.capitol-hannover.de/wp-content/uploads/2026/10/capitol_test.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "FAHNENFLUCHT – SUPPORT: DANKESCHATZ",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/konzerte/fahnenflucht-2/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "FAHNENFLUCHT „Beissreflex“ – 25 Jahre später. Leider immer noch aktuell. Der Dauerzustand hat uns eingeholt. 25 Jahre ist es her, dass FAHNENFLUCHT mit „Beissreflex“ eine Platte veröﬀentlicht haben…",
-      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/04/FF_beissreflex_tour_hannover_facebook-360x188.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Tim Fischer",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/101509/tim-fischer",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Milano",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/milano-swiss-life-hall-599bc7472e69/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.swisslife-hall.de/wp-content/uploads/2025/02/7_Milano_Website-scaled.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Wyld",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": "24:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/071126-wyld.html",
-      "eventType": "party",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=wyld_2026.jpg",
-      "status": "available",
-      "radarCategory": "Party"
-    },
-    {
-      "title": "Lost in Bass",
-      "date": "7 Nov",
-      "dateISO": "2026-11-07",
-      "day": "Sa",
-      "time": "24:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/071126-lost-in-bass.html",
-      "eventType": "party",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=lost_in_bass_tb_1.jpg",
-      "status": "available",
-      "radarCategory": "Party"
-    },
-    {
-      "title": "NASTY (Beatdown-Hardcore / Belgien)",
-      "date": "8 Nov",
-      "dateISO": "2026-11-08",
-      "day": "So",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-11-08/6725",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "FERVENTS (Punk / Belgien) + PRETTY AVERAGE (Shoegaze Postpunk / Berlin)",
-      "date": "8 Nov",
-      "dateISO": "2026-11-08",
-      "day": "So",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-11-08/6800",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Liedfett",
-      "date": "8 Nov",
-      "dateISO": "2026-11-08",
-      "day": "So",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/liedfett-capitol-hannover-5bb576950a29/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.capitol-hannover.de/wp-content/uploads/2026/01/DSCF9147_Beitragsbild.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "MORPHEUZ – AUSVERKAUFT",
-      "date": "8 Nov",
-      "dateISO": "2026-11-08",
-      "day": "So",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/morpheuz/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/03/MORPHEUZ.png",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Nasty + Crawlspace + Pintglass + Eternal Enemy + Once And For All",
-      "date": "8 Nov",
-      "dateISO": "2026-11-08",
-      "day": "So",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Bei Chez Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-11-08/6725",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Die Vier Jahreszeiten",
-      "date": "8 Nov",
-      "dateISO": "2026-11-08",
-      "day": "So",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Swiss Life Hall",
-      "url": "https://www.swisslife-hall.de/events/die-vier-jahreszeiten-swiss-life-hall-fcb3753012ad/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.swisslife-hall.de/wp-content/uploads/2026/02/AFFICHE-4-SAISONS-TCH_Beitragsbild-scaled.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Offener Treff der Blauen Zone",
-      "date": "9 Nov",
-      "dateISO": "2026-11-09",
-      "day": "Mo",
-      "time": "16:00",
-      "timeConfidence": "confirmed",
-      "endTime": "18:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-11-09/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm…",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "Godzilla in the Kitchen (Alternative-Metal / Leipzig)",
-      "date": "9 Nov",
-      "dateISO": "2026-11-09",
-      "day": "Mo",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-11-09/7137",
-      "eventType": "concert",
-      "genre": "Metal",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "MARGARITA & THE BOYS MIT ALEXANDER BAUM",
-      "date": "9 Nov",
-      "dateISO": "2026-11-09",
-      "day": "Mo",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Kulturpalast Linden",
-      "url": "https://kulturpalast-hannover.de/event/margerita-the-boys-mit-alexander-baum/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community"
-    },
-    {
-      "title": "YARIS",
-      "date": "9 Nov",
-      "dateISO": "2026-11-09",
-      "day": "Mo",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/konzerte/yaris-2/",
-      "eventType": "concert",
-      "genre": "Rock",
-      "programmeCategory": null,
-      "description": "Mit gerade einmal 22 Jahren bringt Yaris eine Reife auf die Bühne, die man im modernen Deutschrock selten findet. Aufgewachsen auf Mallorca und heute in Tutzing zu Hause, hat er sich längst aus dem…",
-      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/05/1111quer-Yaris-12-C-Krisztian-Miklos.jpg-2048x1365-1-360x240.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Nils Petter Molvaer",
-      "date": "9 Nov",
-      "dateISO": "2026-11-09",
-      "day": "Mo",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/101539/nils-petter-molvaer",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
     {
       "title": "Fatoni",
       "date": "10 Nov",
@@ -1138,6 +681,24 @@
       "status": "available",
       "radarCategory": "Market",
       "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "Hannover 96 vs. TSV Havelse",
+      "date": "12 Nov",
+      "dateISO": "2026-11-12",
+      "day": "Do",
+      "time": "12:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Eilenriedestadion",
+      "url": "https://www.hannover96.de/matchcenter/profis/profis-spielplan",
+      "eventType": "sport",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Sport"
     },
     {
       "title": "Stecklingsverkauf Hemp Heaven Hannover",
@@ -1757,24 +1318,6 @@
       "radarCategory": "Live Music"
     },
     {
-      "title": "Amen 81 und Clayface",
-      "date": "14 Nov",
-      "dateISO": "2026-11-14",
-      "day": "Sa",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Stumpf",
-      "url": "https://rauszeit-termine.org/events/hc-punk-konzert-mit-amen-81-clayface/",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
       "title": "Tigerbeat + Payola",
       "date": "14 Nov",
       "dateISO": "2026-11-14",
@@ -1900,6 +1443,42 @@
       "imageUrl": null,
       "status": "available",
       "radarCategory": "Culture & Community"
+    },
+    {
+      "title": "RANDALE (Rockmusik für Kinder und Erwachsene / Bielefeld)",
+      "date": "15 Nov",
+      "dateISO": "2026-11-15",
+      "day": "So",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-11-15/6516",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "SHAKI TAVI (Shoegaze / USA)",
+      "date": "15 Nov",
+      "dateISO": "2026-11-15",
+      "day": "So",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-11-15/6799",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
     },
     {
       "title": "Offener Treff der Blauen Zone",
@@ -2412,6 +1991,24 @@
       "radarCategory": "Culture & Community"
     },
     {
+      "title": "Dominik Hartz",
+      "date": "20 Nov",
+      "dateISO": "2026-11-20",
+      "day": "Fr",
+      "time": "19:30",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/201126-dominik-hartz.html",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=dominik_hartz_tb.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
       "title": "DARTAGNAN, STORM SEEKER und DOPPELBOCK",
       "date": "20 Nov",
       "dateISO": "2026-11-20",
@@ -2426,6 +2023,24 @@
       "programmeCategory": null,
       "description": null,
       "imageUrl": "https://www.capitol-hannover.de/wp-content/uploads/2025/11/20261120_dArtagnan_c_360GradDesign_HolgerFichtner.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Treets",
+      "date": "20 Nov",
+      "dateISO": "2026-11-20",
+      "day": "Fr",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/201126-treets.html",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_v&rex_media_file=treets1.jpg",
       "status": "available",
       "radarCategory": "Live Music"
     },
@@ -2536,44 +2151,443 @@
       "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=just_taylor_1.jpg",
       "status": "available",
       "radarCategory": "Party"
+    },
+    {
+      "title": "Hannover 96 vs. SpVgg Greuther Fürth",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": "13:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Heinz von Heiden Arena",
+      "url": "https://www.hannover96.de/matchcenter/profis/profis-spielplan",
+      "eventType": "sport",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Sport"
+    },
+    {
+      "title": "Nivo",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/211126-nivo.html",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=nivo_tb.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Wir Wasserbären - Till Wiebel",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": "19:30",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/wir-wasserbaren-till-wiebel-2026-11-21-19-30",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community"
+    },
+    {
+      "title": "Strangelove – The Depeche Mode Experience",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/strangelove-the-depeche-mode-experience-capitol-hannover-ff3e983b6b9c/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.capitol-hannover.de/wp-content/uploads/2026/05/DSF5684_Beitragsbild.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Edition: Depeche Mode",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Capitol Hannover",
+      "url": "https://www.capitol-hannover.de/events/edition-depeche-mode-capitol-hannover-a7c2b147a265/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.capitol-hannover.de/wp-content/uploads/2026/10/capitol_test.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Karina Rose",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/211126-karina-rose.html",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=karina_rose.jpeg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "FLUPPE UND THE HAND CUTS",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/konzerte/fluppe-und-the-hand-cuts/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Ein cooles Doppelpack…!!!Flup·pe /Flúppe/ Substan/v, feminin [die]steht umgangssprachlich für Zigare3e. Sie ist mithin ein fast niedlich klingendes Wort für eine nicht ganz ungefährliche Sache. Hier…",
+      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/03/fluppe_01_c_Caren_Detje-360x240.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "MORPHEUZ – AUSVERKAUFT",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/morpheuz-ausverkauft/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/03/MORPHEUZ.png",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Combust + Sidestep + Spy + Moral Law + Restraining Order + Tuun Crew + Skirt + True Gloom",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Bei Chez Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-11-21/6637",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Sport"
+    },
+    {
+      "title": "CHRIS TALL",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/chris-tall/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "TWIN SET!",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": "23:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "LUX",
+      "url": "https://www.lux-linden.de/clubnight/twin-set-12/",
+      "eventType": "party",
+      "genre": "Rock",
+      "programmeCategory": null,
+      "description": "Hurra, nach langer Zeit kehrt das TWIN SET Nicki Noise & Maupka wieder an die Decks zurück und bringt uns alle mit Indie, ElectroPop, 80s, Alternative usw zum tanzen und schwelgen!Im Anschluss an das…",
+      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/03/644847994_1519466086848302_3037854413925996406_n-360x240.jpg",
+      "status": "available",
+      "radarCategory": "Party"
+    },
+    {
+      "title": "Haus-Party",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": "24:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/211126-haus-party.html",
+      "eventType": "party",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=haus_party_tb.jpg",
+      "status": "available",
+      "radarCategory": "Party"
+    },
+    {
+      "title": "Heartbreak Party",
+      "date": "21 Nov",
+      "dateISO": "2026-11-21",
+      "day": "Sa",
+      "time": "24:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/211126-heartbreak-party.html",
+      "eventType": "party",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=heartbreak_party_2.jpg",
+      "status": "available",
+      "radarCategory": "Party"
+    },
+    {
+      "title": "Wir Wasserbären - Till Wiebel",
+      "date": "22 Nov",
+      "dateISO": "2026-11-22",
+      "day": "So",
+      "time": "17:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Erhardt Café",
+      "url": "https://www.erhardt.cafe/event-details/wir-wasserbaren-till-wiebel-2026-11-22-17-00",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community"
+    },
+    {
+      "title": "THE IRISH FOLK FESTIVAL 2026",
+      "date": "22 Nov",
+      "dateISO": "2026-11-22",
+      "day": "So",
+      "time": "19:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/101734/the-irish-folk-festival-2026",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Offener Treff der Blauen Zone",
+      "date": "23 Nov",
+      "dateISO": "2026-11-23",
+      "day": "Mo",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "endTime": "18:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/offener-treff-der-blauen-zone/2026-11-23/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Kontakt aufnehmen, in Kontakt bleiben, sich über die Aktivitäten der Blauen Zone informieren, mitdenken, mitreden, Ideen schmieden und umsetzen, Blumenzwiebeln setzen und aussäen, gestalten. Komm…",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "LIAR THIEF BANDIT & KILLDRIVE",
+      "date": "23 Nov",
+      "dateISO": "2026-11-23",
+      "day": "Mo",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/liar-thief-bandit-tba/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Culture & Community"
+    },
+    {
+      "title": "Musste Battlen! – ABGESAGT",
+      "date": "23 Nov",
+      "dateISO": "2026-11-23",
+      "day": "Mo",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "MusikZentrum",
+      "url": "https://musikzentrum-hannover.de/veranstaltung/musste-battlen/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/10/muze-baner.png",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Frida Gold",
+      "date": "23 Nov",
+      "dateISO": "2026-11-23",
+      "day": "Mo",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/101749/frida-gold",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Ikkimel",
+      "date": "23 Nov",
+      "dateISO": "2026-11-23",
+      "day": "Mo",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Swiss Life Hall",
+      "url": "https://www.swisslife-hall.de/events/ikkimel-swiss-life-hall-4172647a8489/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.swisslife-hall.de/wp-content/uploads/2026/03/Ikkimel_c_Jonas-Unden_Beitragsbild.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Atzur",
+      "date": "24 Nov",
+      "dateISO": "2026-11-24",
+      "day": "Di",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/241126-atzur.html",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=atzur1.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "PLATZkino",
+      "date": "24 Nov",
+      "dateISO": "2026-11-24",
+      "day": "Di",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": "23:00",
+      "venue": "PLATZprojekt",
+      "url": "https://platzprojekt.de/programm/platzkino-3-2/2026-11-24/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": "Jeden vierten Dienstag im Monat findet das PLATZkino statt. Wir zeigen wechselnde Filme in der PLATZbar bei kalten Getränken und Snacks. Einlass ist ab 20 Uhr, Filmstart um 20:15 Uhr",
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Film",
+      "sourceName": "PLATZprojekt"
+    },
+    {
+      "title": "KONSTANTINOS ARGIROS",
+      "date": "24 Nov",
+      "dateISO": "2026-11-24",
+      "day": "Di",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/konstantinos-argiros/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "DONNA SAVAGE & Brenk Sinatra",
+      "date": "24 Nov",
+      "dateISO": "2026-11-24",
+      "day": "Di",
+      "time": "20:30",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/125271/donna-savage-brenk-sinatra",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
     }
   ],
   "occasions": [
-    {
-      "id": "hannover-festivals:hannover-wies-27n",
-      "slug": "hannover-wies-27n",
-      "name": "Hannover Wies'n",
-      "kind": "festival",
-      "startDate": "2026-11-01",
-      "endDate": "2026-11-07",
-      "location": "Parkbühne",
-      "description": "Hannover Wies'n at Parkbühne. See the source for details.",
-      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Hannover-Wies%27n",
-      "status": "happening_now",
-      "programmeCount": 0,
-      "locationCount": 0,
-      "programmePath": "occasions/hannover-wies-27n.json",
-      "preview": [],
-      "occurrences": [
-        {
-          "date": "2026-11-06",
-          "startTime": "18:00"
-        },
-        {
-          "date": "2026-11-07",
-          "startTime": "18:00"
-        }
-      ],
-      "scheduleConfidence": "continuous",
-      "place": {
-        "venue": "Parkbühne",
-        "street": "Ferdinand-Wilhelm-Fricke-Weg 8",
-        "postalCode": "30169",
-        "locality": "Hannover",
-        "municipality": "Hannover"
-      },
-      "area": "city"
-    },
     {
       "id": "hannover-festivals:tanzparty-in-misburg",
       "slug": "tanzparty-in-misburg",
@@ -2751,6 +2765,21 @@
         },
         {
           "date": "2026-12-06",
+          "startTime": "17:00",
+          "endTime": "22:00"
+        },
+        {
+          "date": "2026-12-08",
+          "startTime": "17:00",
+          "endTime": "22:00"
+        },
+        {
+          "date": "2026-12-09",
+          "startTime": "17:00",
+          "endTime": "22:00"
+        },
+        {
+          "date": "2026-12-10",
           "startTime": "17:00",
           "endTime": "22:00"
         }
@@ -2976,9 +3005,37 @@
           "date": "2026-12-06",
           "startTime": "11:00",
           "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-07",
+          "startTime": "11:00",
+          "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-08",
+          "startTime": "11:00",
+          "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-09",
+          "startTime": "11:00",
+          "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-10",
+          "startTime": "11:00",
+          "endTime": "21:00"
         }
       ],
-      "scheduleConfidence": "discrete"
+      "scheduleConfidence": "discrete",
+      "place": {
+        "venue": "Ernst-August-Platz",
+        "street": "Ernst-August-Platz",
+        "postalCode": "30159",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
     },
     {
       "id": "hannover-festivals:weihnachtsmarkt-hannover",
@@ -3065,6 +3122,26 @@
           "date": "2026-12-06",
           "startTime": "11:00",
           "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-07",
+          "startTime": "11:00",
+          "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-08",
+          "startTime": "11:00",
+          "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-09",
+          "startTime": "11:00",
+          "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-10",
+          "startTime": "11:00",
+          "endTime": "21:00"
         }
       ],
       "scheduleConfidence": "continuous",
@@ -3072,7 +3149,15 @@
         {
           "price": "free"
         }
-      ]
+      ],
+      "place": {
+        "venue": "Weihnachtsmarkt an der Marktkirche",
+        "street": "Am Markte",
+        "postalCode": "30159",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
     },
     {
       "id": "hannover-festivals:weihnachtsmarkt-lister-meile",
@@ -3159,6 +3244,26 @@
           "date": "2026-12-06",
           "startTime": "11:00",
           "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-07",
+          "startTime": "11:00",
+          "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-08",
+          "startTime": "11:00",
+          "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-09",
+          "startTime": "11:00",
+          "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-10",
+          "startTime": "11:00",
+          "endTime": "21:00"
         }
       ],
       "scheduleConfidence": "continuous",
@@ -3166,7 +3271,15 @@
         {
           "price": "free"
         }
-      ]
+      ],
+      "place": {
+        "venue": "Weihnachtsmarkt Lister Meile",
+        "street": "Lister Meile",
+        "postalCode": "30161",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
     },
     {
       "id": "hannover-festivals:designachten",
@@ -3303,7 +3416,15 @@
         {
           "price": "free"
         }
-      ]
+      ],
+      "place": {
+        "venue": "Fiedelerplatz",
+        "street": "Fiedelerplatz",
+        "postalCode": "30519",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
     },
     {
       "id": "hannover-festivals:fairground-festival-2026",
@@ -3326,7 +3447,15 @@
           "startTime": "17:00"
         }
       ],
-      "scheduleConfidence": "continuous"
+      "scheduleConfidence": "continuous",
+      "place": {
+        "venue": "Messegelände / Halle 2",
+        "street": "Messegelände",
+        "postalCode": "30521",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
     },
     {
       "id": "hannover-festivals:weihnachtsmarkt-in-gro-buchholz",
@@ -3459,6 +3588,80 @@
         "municipality": "Gehrden"
       },
       "area": "region",
+      "admission": [
+        {
+          "price": "free"
+        }
+      ]
+    },
+    {
+      "id": "hannover-festivals:nordstadter-weihnachtsmarkt",
+      "slug": "nordstadter-weihnachtsmarkt",
+      "name": "Nordstädter Weihnachtsmarkt",
+      "kind": "festival",
+      "startDate": "2026-12-05",
+      "endDate": "2026-12-06",
+      "location": "Lutherkirche",
+      "description": "Nordstädter Weihnachtsmarkt at Lutherkirche. See the source for details.",
+      "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Nordstädter-Weihnachtsmarkt",
+      "status": "upcoming",
+      "programmeCount": 0,
+      "locationCount": 0,
+      "programmePath": "occasions/nordstadter-weihnachtsmarkt.json",
+      "preview": [],
+      "occurrences": [
+        {
+          "date": "2026-12-05",
+          "startTime": "14:00",
+          "endTime": "22:00"
+        },
+        {
+          "date": "2026-12-06",
+          "startTime": "14:00",
+          "endTime": "20:00"
+        }
+      ],
+      "scheduleConfidence": "continuous",
+      "place": {
+        "venue": "Lutherkirche",
+        "street": "An der Lutherkirche 20",
+        "postalCode": "30167",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
+    },
+    {
+      "id": "hannover-festivals:inklusiver-weihnachtsmarkt-im-deutschen-taubblindenwerk",
+      "slug": "inklusiver-weihnachtsmarkt-im-deutschen-taubblindenwerk",
+      "name": "Inklusiver Weihnachtsmarkt im Deutschen Taubblindenwerk",
+      "kind": "festival",
+      "startDate": "2026-12-06",
+      "endDate": "2026-12-06",
+      "location": "Deutsches Taubblindenwerk",
+      "description": "Inklusiver Weihnachtsmarkt im Deutschen Taubblindenwerk at Deutsches Taubblindenwerk. See the source for details.",
+      "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Inklusiver-Weihnachtsmarkt-im-Deutschen-Taubblindenwerk",
+      "status": "upcoming",
+      "programmeCount": 0,
+      "locationCount": 0,
+      "programmePath": "occasions/inklusiver-weihnachtsmarkt-im-deutschen-taubblindenwerk.json",
+      "preview": [],
+      "occurrences": [
+        {
+          "date": "2026-12-06",
+          "startTime": "11:00",
+          "endTime": "17:00"
+        }
+      ],
+      "scheduleConfidence": "continuous",
+      "place": {
+        "venue": "Deutsches Taubblindenwerk",
+        "street": "Albert-Schweitzer-Hof 27",
+        "postalCode": "30559",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city",
       "admission": [
         {
           "price": "free"
