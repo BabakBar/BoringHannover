@@ -432,8 +432,8 @@ def export_web_json(
             "week": week_num,
             "year": year,
             "updatedAt": generated_at.strftime("%a %d %b %H:%M"),
-            # Machine-readable twin of updatedAt; the frontend needs a parseable
-            # timestamp for <lastmod> in the sitemap.
+            # Export time for the frontend's freshness checks, not evidence of
+            # a significant content change to every page in the snapshot.
             "updatedAtISO": generated_at.isoformat(),
         },
         "movies": movies_list,

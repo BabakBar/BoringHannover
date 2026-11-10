@@ -108,8 +108,7 @@ def test_movies_keep_canonical_venue_names(tmp_path: Path) -> None:
 def test_meta_has_a_machine_readable_timestamp_for_the_same_instant(
     tmp_path: Path,
 ) -> None:
-    """The sitemap's <lastmod> comes from updatedAtISO: the display string
-    parses to the year 2001."""
+    """Freshness checks need an unambiguous export time, including year/offset."""
     meta = _export(tmp_path, [], [])["meta"]
 
     parsed = datetime.fromisoformat(meta["updatedAtISO"])

@@ -327,7 +327,7 @@ def test_sync_writes_occasion_programmes_before_the_manifest(tmp_path) -> None:
 
 
 def test_sync_change_detection_ignores_only_the_timestamps() -> None:
-    """Otherwise every scrape commits, redeploys, and moves lastmod for nothing."""
+    """Avoid committing and redeploying timestamp-only changes."""
 
     def normalized(meta: dict, **content: object) -> bytes:
         return _normalize_events_json(json.dumps({"meta": meta, **content}).encode())
