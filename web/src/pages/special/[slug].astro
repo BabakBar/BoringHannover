@@ -343,12 +343,14 @@ const eventJsonLd = occasionJsonLd(occasion, {
           <p class="programme__kicker">Find your moment</p>
           <h2 id="programme-title">Programme</h2>
         </div>
-        <p id="programme-result-count" class="programme__result-count" aria-live="polite">
+        <p id="programme-result-count" class="programme__result-count" aria-live="polite" tabindex="-1">
           {programme.length} events
         </p>
       </div>
 
-      <div class="programme__quick-filters" aria-label="Quick time filters">
+      <p class="programme__timezone">Programme dates and times use Berlin time.</p>
+
+      <div class="programme__quick-filters" role="group" aria-label="Quick time filters" data-programme-controls hidden>
         {[
           ['all', 'All'],
           ['today', 'Today'],
@@ -365,7 +367,7 @@ const eventJsonLd = occasionJsonLd(occasion, {
         ))}
       </div>
 
-      <div class="programme__date-filter scrollbar-hide" aria-label="Choose a date">
+      <div class="programme__date-filter scrollbar-hide" role="group" aria-label="Choose a date" data-programme-controls hidden>
         <button type="button" data-date-filter="all" aria-pressed="true">
           <span>Any</span>
           <strong>Date</strong>
@@ -378,9 +380,9 @@ const eventJsonLd = occasionJsonLd(occasion, {
         ))}
       </div>
 
-      <div class="programme__refine">
+      <div class="programme__refine" data-programme-controls hidden>
         {categories.length > 0 && (
-          <div class="programme__categories" aria-label="Programme categories">
+          <div class="programme__categories" role="group" aria-label="Programme categories">
             <button
               type="button"
               data-category-filter="all"
@@ -435,6 +437,7 @@ const eventJsonLd = occasionJsonLd(occasion, {
                     data-programme-item
                     data-date={event.dateISO}
                     data-time={event.time ?? ''}
+                    data-time-confidence={event.timeConfidence ?? ''}
                     data-category={event.programmeCategory ?? ''}
                     data-venue={event.venue}
                   >
@@ -456,7 +459,7 @@ const eventJsonLd = occasionJsonLd(occasion, {
                         )}
                         <span>{event.venue}</span>
                       </div>
-                      <h4>{event.title}</h4>
+                      <h4 tabindex="-1">{event.title}</h4>
                       {event.description && <p>{event.description}</p>}
                     </div>
 
@@ -485,7 +488,7 @@ const eventJsonLd = occasionJsonLd(occasion, {
         Nothing matches this combination yet. Try another day or location.
       </p>
 
-      <button id="programme-more" type="button" class="radar-toggle">
+      <button id="programme-more" type="button" class="radar-toggle" aria-controls="programme-list" hidden>
         <span class="toggle-dots" aria-hidden="true">
           <span class="dot">■</span><span class="dot">■</span><span class="dot">■</span>
         </span>
@@ -653,6 +656,7 @@ const eventJsonLd = occasionJsonLd(occasion, {
 
 <script>
   import type { Concert } from '../../data/types';
+  import { berlinClock } from '../../utils/occasionStatus';
   import {
     matchesOccasionFilters,
     type OccasionFilters,
@@ -699,6 +703,7 @@ const eventJsonLd = occasionJsonLd(occasion, {
       dateISO: item.dataset.date ?? '',
       day: '',
       time: item.dataset.time || null,
+      timeConfidence: item.dataset.timeConfidence === 'fallback' ? 'fallback' : undefined,
       venue: item.dataset.venue ?? '',
       programmeCategory: item.dataset.category || null,
     };
@@ -718,6 +723,8 @@ const eventJsonLd = occasionJsonLd(occasion, {
   }
 
   function applyFilters() {
+    const focusedItem = programmeItems.find(item => item.contains(document.activeElement));
+    const moreHadFocus = document.activeElement === moreButton;
     const now = new Date();
     const matches = programmeItems.filter(item => (
       matchesOccasionFilters(eventFromElement(item), filters, now)
@@ -736,9 +743,11 @@ const eventJsonLd = occasionJsonLd(occasion, {
     }
 
     if (resultCount) {
-      resultCount.textContent = matches.length === shown
+      const text = matches.length === shown
         ? `${matches.length} event${matches.length === 1 ? '' : 's'}`
         : `${shown} of ${matches.length} events`;
+      // Reassigning unchanged live-region text can announce it every minute.
+      if (resultCount.textContent !== text) resultCount.textContent = text;
     }
     emptyState?.toggleAttribute('hidden', matches.length > 0);
 
@@ -747,6 +756,11 @@ const eventJsonLd = occasionJsonLd(occasion, {
       const text = moreButton.querySelector<HTMLElement>('.toggle-text');
       const remaining = matches.length - shown;
       if (text) text.textContent = `Show ${Math.min(PAGE_SIZE, remaining)} more`;
+    }
+    // A clock refresh can hide a focused result or the pagination button.
+    // Keep a meaningful focus target available instead of falling to body.
+    if (focusedItem?.hidden || (moreHadFocus && moreButton?.hidden)) {
+      resultCount?.focus();
     }
   }
 
@@ -792,22 +806,30 @@ const eventJsonLd = occasionJsonLd(occasion, {
   });
 
   moreButton?.addEventListener('click', () => {
+    const previouslyShown = new Set(programmeItems.filter(item => !item.hidden));
     visibleLimit += PAGE_SIZE;
     applyFilters();
+    // Results precede the button in DOM order. Continue reading at the first
+    // newly revealed heading, including when the final page hides the button.
+    programmeItems.find(item => !item.hidden && !previouslyShown.has(item))
+      ?.querySelector<HTMLElement>('h4')?.focus();
   });
 
-  const today = new Date();
-  const todayISO = [
-    today.getFullYear(),
-    String(today.getMonth() + 1).padStart(2, '0'),
-    String(today.getDate()).padStart(2, '0'),
-  ].join('-');
+  const todayISO = berlinClock(new Date()).date;
   if (programmeItems.some(item => item.dataset.date === todayISO)) {
     filters.mode = 'today';
     updatePressedState(modeButtons, 'modeFilter', filters.mode);
   }
 
-  applyFilters();
+  if (programmeItems.length > 0) {
+    applyFilters();
+    document.querySelectorAll<HTMLElement>('[data-programme-controls]')
+      .forEach(control => { control.hidden = false; });
+    window.setInterval(applyFilters, 60_000);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') applyFilters();
+    });
+  }
 </script>
 
 <style>
@@ -1113,6 +1135,12 @@ const eventJsonLd = occasionJsonLd(occasion, {
     white-space: nowrap;
   }
 
+  .programme__timezone {
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+  }
+
   .programme__quick-filters,
   .programme__categories {
     display: flex;
@@ -1123,7 +1151,7 @@ const eventJsonLd = occasionJsonLd(occasion, {
 
   .programme__quick-filters button,
   .programme__categories button {
-    min-height: 38px;
+    min-height: 44px;
     padding: 0.5rem 0.7rem;
     flex: 0 0 auto;
     color: var(--text-secondary);
