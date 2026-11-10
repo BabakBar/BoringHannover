@@ -114,7 +114,15 @@
       {
         "price": "free"
       }
-    ]
+    ],
+    "place": {
+      "venue": "Weihnachtsmarkt an der Marktkirche",
+      "street": "Am Markte",
+      "postalCode": "30159",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
   },
   "programme": []
 }

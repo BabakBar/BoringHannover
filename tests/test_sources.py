@@ -16,7 +16,7 @@ from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.exporters import export_web_json
-from boringhannover.occasions import Admission, Occurrence
+from boringhannover.occasions import Admission, Occurrence, Place
 from boringhannover.source_outcomes import publication_refusal
 from boringhannover.sources.base import create_http_client
 from boringhannover.sources.cinema.apollokino import ApollokinoSource
@@ -93,8 +93,13 @@ def test_christmas_city_calendar_reaches_export_with_supported_schedules(
         date(2026, 11, 23),
         date(2026, 12, 22),
     )
-    # The source gives no house number; keep the listing venue without inventing an address.
-    assert market.place is None
+    # A separately listed street/square is an address even without a house number.
+    assert market.place == Place(
+        venue="Weihnachtsmarkt an der Marktkirche",
+        street="Am Markte",
+        postal_code="30159",
+        locality="Hannover",
+    )
     assert market.admission == (Admission(price="free"),)
     assert market.occurrences == tuple(
         Occurrence(date(2026, 11, 23) + timedelta(days=n), "11:00", "21:00")

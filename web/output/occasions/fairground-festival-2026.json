@@ -23,7 +23,15 @@
         "startTime": "17:00"
       }
     ],
-    "scheduleConfidence": "continuous"
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Messegelände / Halle 2",
+      "street": "Messegelände",
+      "postalCode": "30521",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
   },
   "programme": []
 }

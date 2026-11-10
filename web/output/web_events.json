@@ -3027,7 +3027,15 @@
           "endTime": "21:00"
         }
       ],
-      "scheduleConfidence": "discrete"
+      "scheduleConfidence": "discrete",
+      "place": {
+        "venue": "Ernst-August-Platz",
+        "street": "Ernst-August-Platz",
+        "postalCode": "30159",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
     },
     {
       "id": "hannover-festivals:weihnachtsmarkt-hannover",
@@ -3141,7 +3149,15 @@
         {
           "price": "free"
         }
-      ]
+      ],
+      "place": {
+        "venue": "Weihnachtsmarkt an der Marktkirche",
+        "street": "Am Markte",
+        "postalCode": "30159",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
     },
     {
       "id": "hannover-festivals:weihnachtsmarkt-lister-meile",
@@ -3255,7 +3271,15 @@
         {
           "price": "free"
         }
-      ]
+      ],
+      "place": {
+        "venue": "Weihnachtsmarkt Lister Meile",
+        "street": "Lister Meile",
+        "postalCode": "30161",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
     },
     {
       "id": "hannover-festivals:designachten",
@@ -3392,7 +3416,15 @@
         {
           "price": "free"
         }
-      ]
+      ],
+      "place": {
+        "venue": "Fiedelerplatz",
+        "street": "Fiedelerplatz",
+        "postalCode": "30519",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
     },
     {
       "id": "hannover-festivals:fairground-festival-2026",
@@ -3415,7 +3447,15 @@
           "startTime": "17:00"
         }
       ],
-      "scheduleConfidence": "continuous"
+      "scheduleConfidence": "continuous",
+      "place": {
+        "venue": "Messegelände / Halle 2",
+        "street": "Messegelände",
+        "postalCode": "30521",
+        "locality": "Hannover",
+        "municipality": "Hannover"
+      },
+      "area": "city"
     },
     {
       "id": "hannover-festivals:weihnachtsmarkt-in-gro-buchholz",
