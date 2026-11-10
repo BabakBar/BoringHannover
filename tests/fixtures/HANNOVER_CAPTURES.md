@@ -14,6 +14,7 @@ tracking markup are removed. Times are UTC.
 | `hannover_concert_detail_cancelled.html` | `/Veranstaltungskalender/Konzerte/Abgesagt-Zum-ersten-Mal-in-Hannover-K-Pop-Forever` | 2026-10-08T22:06:15Z | `h1.content-detail__title`, `.content-detail__summary`, `.details` |
 | `hannover_festival_detail_tiergartenfest.html` (recaptured) | `/Veranstaltungskalender/Feste-Festivals/Tiergartenfest-Hannover` | 2026-10-09T23:41:02Z | `.details-table.max-w-90` (Termine, Ort, nested price `.table.details-table`) |
 | `hannover_festival_detail_kunst_kurbis.html` | `/Veranstaltungskalender/Feste-Festivals/Kunst-K%C3%BCrbis-in-Eldagsen` | 2026-10-09T23:41:02Z | `.details-table.max-w-90` (Termine, Ort, free-entry sentence) |
+| `hannover_festival_detail_fairground.html` | `/Veranstaltungskalender/Feste-Festivals/Fairground-Festival-2026` | 2026-11-10T00:16Z | `h1.content-detail__title`, `.content-detail__summary`, `#tickets-section` |
 
 The fixtures from #58 (`hannover_festivals_listing.html`, `hannover_festivals_page2.json`,
 `hannover_festival_detail_kiezkultur.html`, `hannover_festival_detail_tiergartenfest.html`)

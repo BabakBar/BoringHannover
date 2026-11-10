@@ -89,7 +89,15 @@
         "endTime": "21:00"
       }
     ],
-    "scheduleConfidence": "discrete"
+    "scheduleConfidence": "discrete",
+    "place": {
+      "venue": "Ernst-August-Platz",
+      "street": "Ernst-August-Platz",
+      "postalCode": "30159",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
   },
   "programme": []
 }

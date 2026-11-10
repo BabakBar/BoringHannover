@@ -94,7 +94,15 @@
       {
         "price": "free"
       }
-    ]
+    ],
+    "place": {
+      "venue": "Weihnachtsmarkt Lister Meile",
+      "street": "Lister Meile",
+      "postalCode": "30161",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
   },
   "programme": []
 }
