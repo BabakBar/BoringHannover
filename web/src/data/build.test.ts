@@ -14,6 +14,86 @@ import { sheetDateLine } from '../utils/occasionSheet';
 import { addDays, berlinClock } from '../utils/occasionStatus';
 
 const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
+
+test('sitemap omits unsupported modification dates across unrelated Radar updates (#51)', () => {
+  const root = mkdtempSync(join(tmpdir(), 'sitemap-build-'));
+  const data = join(root, 'data');
+  const outDir = join(root, 'dist');
+  const site = 'https://boringhannover.de';
+  const env = { ...process.env };
+  for (const name of Object.keys(env)) {
+    if (name.startsWith('WEB_DATA_')) delete env[name];
+  }
+  const now = new Date();
+  const today = berlinClock(now).date;
+  const occasion = {
+    id: 'sitemap:unchanged',
+    slug: 'unchanged-festival',
+    name: 'Unchanged festival',
+    kind: 'festival',
+    startDate: today,
+    endDate: addDays(today, 7),
+    location: 'Hannover',
+    description: 'A city festival.',
+    sourceUrl: 'https://example.com/festival',
+    status: 'happening_now',
+    programmeCount: 0,
+    locationCount: 0,
+    programmePath: 'occasions/unchanged-festival.json',
+    preview: [],
+  };
+  try {
+    mkdirSync(join(data, 'occasions'), { recursive: true });
+    // The occasion and its checked time stay unchanged when Radar changes.
+    writeFileSync(join(data, occasion.programmePath), JSON.stringify({
+      meta: { updatedAt: 'Original occasion check' }, occasion, programme: [],
+    }));
+    let originalSitemap: string | undefined;
+    for (const update of [0, 1]) {
+      const updatedAt = `Scrape ${update}`;
+      writeFileSync(join(data, 'web_events.json'), JSON.stringify({
+        meta: {
+          week: 45, year: 2026, updatedAt,
+          updatedAtISO: new Date(now.getTime() - (1 - update) * 3600000).toISOString(),
+        },
+        movies: [],
+        concerts: update ? [{
+          title: 'New Radar concert', date: '10 Nov', dateISO: today,
+          day: 'Tue', time: '20:00', venue: 'Example venue',
+        }] : [],
+        occasions: [occasion],
+      }));
+      const result = spawnSync(process.execPath, [
+        join(projectRoot, 'node_modules/astro/bin/astro.mjs'),
+        'build', '--root', projectRoot, '--outDir', outDir,
+      ], {
+        cwd: root,
+        env: { ...env, SITE: site, WEB_DATA_ROOT: data, WEB_DATA_MODE: 'production' },
+        encoding: 'utf8',
+        timeout: 30000,
+      });
+      if (result.error) throw result.error;
+      expect(result.status, result.stdout + result.stderr).toBe(0);
+      const html = readFileSync(join(outDir, 'index.html'), 'utf8');
+      expect(html).toContain(updatedAt);
+      expect(html.includes('New Radar concert')).toBe(Boolean(update));
+      const detail = readFileSync(join(outDir, 'special', occasion.slug, 'index.html'), 'utf8');
+      expect(detail).toContain(`rel="canonical" href="${site}/special/${occasion.slug}/"`);
+      expect(detail).toContain('checked Original occasion check');
+      const sitemap = readFileSync(join(outDir, 'sitemap.xml'), 'utf8');
+      expect([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(([, loc]) => loc)).toEqual([
+        `${site}/`, `${site}/special/`, `${site}/special/${occasion.slug}/`,
+        `${site}/how-it-works/`, `${site}/impressum/`, `${site}/datenschutz/`,
+      ]);
+      expect(sitemap).not.toContain('<lastmod>');
+      if (originalSitemap !== undefined) expect(sitemap).toBe(originalSitemap);
+      originalSitemap = sitemap;
+    }
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+}, 120000);
+
 test('homepage always links to the occasion index, including small and empty inventories', () => {
   const root = mkdtempSync(join(tmpdir(), 'occasion-navigation-'));
   const data = join(root, 'data');

@@ -32,6 +32,10 @@ Selection runs at build time for no-JS readers and refreshes in the browser each
 minute and when the page becomes visible. A fresh backend scrape and frontend
 publication are needed to add newly discovered occasions to the public site.
 
+The sitemap lists canonical URLs without `lastmod`: export/check timestamps do
+not establish significant content changes to individual pages. The export
+timestamp still powers freshness validation and the visible update information.
+
 Occasion details keep confirmed weekday openings and excluded dates, qualify
 minimum entry prices as “from”, and offer longer schedules through native
 disclosures that work without JavaScript. Unknown conditions stay source-labelled.
