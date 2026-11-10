@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Tue 10 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:inklusiver-weihnachtsmarkt-im-deutschen-taubblindenwerk",
+    "slug": "inklusiver-weihnachtsmarkt-im-deutschen-taubblindenwerk",
+    "name": "Inklusiver Weihnachtsmarkt im Deutschen Taubblindenwerk",
+    "kind": "festival",
+    "startDate": "2026-12-06",
+    "endDate": "2026-12-06",
+    "location": "Deutsches Taubblindenwerk",
+    "description": "Inklusiver Weihnachtsmarkt im Deutschen Taubblindenwerk at Deutsches Taubblindenwerk. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Inklusiver-Weihnachtsmarkt-im-Deutschen-Taubblindenwerk",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/inklusiver-weihnachtsmarkt-im-deutschen-taubblindenwerk.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-12-06",
+        "startTime": "11:00",
+        "endTime": "17:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Deutsches Taubblindenwerk",
+      "street": "Albert-Schweitzer-Hof 27",
+      "postalCode": "30559",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}

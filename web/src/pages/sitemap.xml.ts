@@ -1,21 +1,19 @@
 import type { APIRoute } from 'astro';
 import { loadEventData } from '../data/loader';
-import { buildSitemap, toLastmod, type SitemapRoute } from '../utils/sitemap';
+import { buildSitemap, type SitemapRoute } from '../utils/sitemap';
 
 export const prerender = true;
 
 const eventData = loadEventData();
 
-// Only the pages that genuinely change per scrape carry a lastmod, and it comes
-// from the backend's real timestamp. The legal pages never get one.
-const dataUpdatedAt = toLastmod(eventData.meta.updatedAtISO);
-
+// meta.updatedAtISO records the export time, not a significant change to each
+// page. Even an unrelated Radar update advances it. Omit lastmod until we have
+// reliable per-page content-change evidence (#51).
 const routes: SitemapRoute[] = [
-  { path: '/', lastmod: dataUpdatedAt },
-  { path: '/special/', lastmod: dataUpdatedAt },
+  { path: '/' },
+  { path: '/special/' },
   ...eventData.occasions.map(occasion => ({
     path: `/special/${occasion.slug}/`,
-    lastmod: dataUpdatedAt,
   })),
   { path: '/how-it-works/' },
   { path: '/impressum/' },
