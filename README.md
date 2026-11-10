@@ -2,17 +2,17 @@
 
 > Long-term historical archive preserving full repository traffic beyond GitHub's default 14-day retention window.
 
-**Last Synced:** `2026-11-09T15:06:25.903692+00:00`  
+**Last Synced:** `2026-11-10T03:07:25.056774+00:00`  
 **Archive Range:** `2026-08-21` to `2026-11-08` (`80` days recorded)
 
 ## 🚀 High-Level KPI Summary
 
 | Metric | All-Time Total | Last 14 Days | Last 7 Days |
 | :--- | :---: | :---: | :---: |
-| **Page Views** | **112** | 56 | 38 |
-| **Unique Visitors (summed daily)** | **50** | 8 | 2 |
-| **Git Clones** | **3,752** | 733 | 413 |
-| **Unique Cloners (summed daily)** | **1,414** | 267 | 152 |
+| **Page Views** | **112** | 51 | 36 |
+| **Unique Visitors (summed daily)** | **50** | 5 | 1 |
+| **Git Clones** | **3,752** | 699 | 345 |
+| **Unique Cloners (summed daily)** | **1,414** | 250 | 128 |
 | **Stargazers** | **5** | — | — |
 | **Forks** | **1** | — | — |
 
@@ -37,7 +37,6 @@
 | 2026-10-30 | 0 | 0 |
 | 2026-10-29 | 0 | 0 |
 | 2026-10-28 | 0 | 0 |
-| 2026-10-27 | 5 | 3 |
 
 ## 📦 Recent Git Clones Breakdown (Last 14 Days)
 
@@ -55,13 +54,12 @@
 | 2026-10-30 | 29 | 7 |
 | 2026-10-29 | 7 | 3 |
 | 2026-10-28 | 35 | 16 |
-| 2026-10-27 | 34 | 17 |
 
 ## 🌐 Top Referring Sites (All-Time Tracked)
 
 | Referrer Domain | Last Recorded | Last Uniques | Peak Count | First Seen | Last Seen |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| `github.com` | 5 | 3 | 5 | 2026-09-04 | 2026-11-09 |
+| `github.com` | 5 | 3 | 5 | 2026-09-04 | 2026-11-10 |
 
 ## 📄 Top Content Paths (All-Time Tracked)
 
