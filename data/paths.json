@@ -3698,7 +3698,7 @@
         {
           "path": "/BabakBar/BoringHannover",
           "title": "Overview",
-          "count": 9,
+          "count": 10,
           "uniques": 1
         },
         {
@@ -3766,7 +3766,7 @@
     {
       "path": "/BabakBar/BoringHannover",
       "title": "Overview",
-      "latest_count": 9,
+      "latest_count": 10,
       "latest_uniques": 1,
       "max_count": 10,
       "max_uniques": 2,
