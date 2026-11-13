@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "updatedAt": "Fri 13 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:weihnachtsmarkt-der-sportfreunde-anderten",
+    "slug": "weihnachtsmarkt-der-sportfreunde-anderten",
+    "name": "Weihnachtsmarkt der Sportfreunde Anderten",
+    "kind": "festival",
+    "startDate": "2026-12-12",
+    "endDate": "2026-12-12",
+    "location": "SV Sportfreunde Anderten e.V.",
+    "description": "Weihnachtsmarkt der Sportfreunde Anderten at SV Sportfreunde Anderten e.V. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weihnachtsmarkt-der-Sportfreunde-Anderten",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/weihnachtsmarkt-der-sportfreunde-anderten.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-12-12",
+        "startTime": "15:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "SV Sportfreunde Anderten e.V.",
+      "street": "Eisteichweg 13",
+      "postalCode": "30559",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
