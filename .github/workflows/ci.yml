@@ -23,7 +23,7 @@ concurrency:
 env:
   SITE: https://boringhannover.de
   # Toolchain pins; the `pins` job below asserts the container images agree.
-  UV_VERSION: "0.13.7"
+  UV_VERSION: "0.13.8"
   PYTHON_PRODUCTION: "3.14"
   ZIZMOR_VERSION: "1.32.0"
 
