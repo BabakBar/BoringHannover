@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "updatedAt": "Fri 13 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:bothfelder-weihnachtsmarkt",
+    "slug": "bothfelder-weihnachtsmarkt",
+    "name": "Bothfelder Weihnachtsmarkt",
+    "kind": "festival",
+    "startDate": "2026-12-05",
+    "endDate": "2026-12-05",
+    "location": "St. Nicolai Kirche",
+    "description": "Bothfelder Weihnachtsmarkt at St. Nicolai Kirche. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Bothfelder-Weihnachtsmarkt",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/bothfelder-weihnachtsmarkt.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-12-05",
+        "startTime": "14:00",
+        "endTime": "19:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "St. Nicolai Kirche",
+      "street": "Sutelstraße 20",
+      "postalCode": "30659",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
