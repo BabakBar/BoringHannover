@@ -1,0 +1,188 @@
+{
+  "meta": {
+    "updatedAt": "Fri 13 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:winterwald-am-weiekreuzplatz",
+    "slug": "winterwald-am-weiekreuzplatz",
+    "name": "Winterwald am Weißekreuzplatz",
+    "kind": "festival",
+    "startDate": "2026-11-12",
+    "endDate": "2026-12-22",
+    "location": "Wintergarten am Reimanns Eck",
+    "description": "Winterwald am Weißekreuzplatz at Wintergarten am Reimanns Eck. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Winterwald-am-Weißekreuzplatz",
+    "status": "happening_now",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/winterwald-am-weiekreuzplatz.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-13",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-14",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-15",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-16",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-17",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-18",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-19",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-20",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-21",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-22",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-23",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-24",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-25",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-26",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-27",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-28",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-29",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-11-30",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-01",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-02",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-03",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-04",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-05",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-06",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-07",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-08",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-09",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-10",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-11",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-12",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-13",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Wintergarten am Reimanns Eck",
+      "street": "Lister Meile 29A",
+      "postalCode": "30161",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
