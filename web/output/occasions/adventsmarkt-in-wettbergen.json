@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "updatedAt": "Fri 13 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:adventsmarkt-in-wettbergen",
+    "slug": "adventsmarkt-in-wettbergen",
+    "name": "Adventsmarkt in Wettbergen",
+    "kind": "festival",
+    "startDate": "2026-11-29",
+    "endDate": "2026-11-29",
+    "location": "Johannes-der-Täufer Kirche",
+    "description": "Adventsmarkt in Wettbergen at Johannes-der-Täufer Kirche. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Adventsmarkt-in-Wettbergen",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/adventsmarkt-in-wettbergen.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-29",
+        "startTime": "11:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Johannes-der-Täufer Kirche",
+      "street": "An der Kirche 25",
+      "postalCode": "30457",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
