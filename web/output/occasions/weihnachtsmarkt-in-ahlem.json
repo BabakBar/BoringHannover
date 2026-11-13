@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "updatedAt": "Fri 13 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:weihnachtsmarkt-in-ahlem",
+    "slug": "weihnachtsmarkt-in-ahlem",
+    "name": "Weihnachtsmarkt in Ahlem",
+    "kind": "festival",
+    "startDate": "2026-11-28",
+    "endDate": "2026-11-28",
+    "location": "Bürgergemeinschaftshaus Ahlem",
+    "description": "Weihnachtsmarkt in Ahlem at Bürgergemeinschaftshaus Ahlem. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weihnachtsmarkt-in-Ahlem",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/weihnachtsmarkt-in-ahlem.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-28",
+        "startTime": "14:00",
+        "endTime": "18:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Bürgergemeinschaftshaus Ahlem",
+      "street": "Wunstorfer Landstraße 59",
+      "postalCode": "30453",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
