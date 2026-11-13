@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "updatedAt": "Fri 13 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:seelzer-lichtermeer",
+    "slug": "seelzer-lichtermeer",
+    "name": "Seelzer Lichtermeer",
+    "kind": "festival",
+    "startDate": "2026-11-20",
+    "endDate": "2026-11-20",
+    "location": "Rathausplatz Seelze",
+    "description": "Seelzer Lichtermeer at Rathausplatz Seelze. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Seelzer-Lichtermeer",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/seelzer-lichtermeer.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-20",
+        "startTime": "17:00",
+        "endTime": "21:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Rathausplatz Seelze",
+      "street": "Rathausplatz 1",
+      "postalCode": "30926",
+      "locality": "Seelze",
+      "municipality": "Seelze"
+    },
+    "area": "region"
+  },
+  "programme": []
+}
