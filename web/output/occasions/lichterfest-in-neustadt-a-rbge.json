@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "updatedAt": "Fri 13 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:lichterfest-in-neustadt-a-rbge",
+    "slug": "lichterfest-in-neustadt-a-rbge",
+    "name": "Lichterfest in Neustadt a. Rbge.",
+    "kind": "festival",
+    "startDate": "2026-12-05",
+    "endDate": "2026-12-05",
+    "location": "Liebfrauenkirche",
+    "description": "Lichterfest in Neustadt a. Rbge. at Liebfrauenkirche. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Lichterfest-in-Neustadt-a.-Rbge",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/lichterfest-in-neustadt-a-rbge.json",
+    "preview": [],
+    "scheduleConfidence": "unknown",
+    "hoursText": "05.12.2026 ab 15:00 bis 17:00 Uhr; 05.12.2026 ab 17:00 bis 22:00 Uhr",
+    "place": {
+      "venue": "Liebfrauenkirche",
+      "street": "An der Liebfrauenkirche 1",
+      "postalCode": "31535",
+      "locality": "Neustadt am Rübenberge",
+      "municipality": "Neustadt am Rübenberge"
+    },
+    "area": "region"
+  },
+  "programme": []
+}
