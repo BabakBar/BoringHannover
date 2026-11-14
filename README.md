@@ -87,6 +87,13 @@ That's it. No central registry, no config changes. See existing sources in `src/
 
 ## Publication
 
+Scraper runs take a nonblocking OS lock at `output/.run.lock` before fetching.
+A competing local or production run using the same output directory exits with
+failure without scraping or changing the exported data. The lock spans export,
+carry-forward, backup and GitHub sync; process exit releases it, including after
+a crash. Keep the lock file in place. This coordinates one shared filesystem,
+not separate deployment containers or different publication writers.
+
 Each scrape records source outcomes separately from event counts. Production preserves the
 current publication when occasion discovery is incomplete or both the movie and Radar
 inventories would be empty. A refused run writes local diagnostic output and fails before
@@ -99,9 +106,11 @@ events join their carried occasion rather than appearing twice in Radar and the 
 Carried facts retain their original checked timestamp. Occasion programmes upload before
 the manifest.
 
-Remaining occasion lifecycle work, including ended-page retention, is tracked in
-[#26](https://github.com/BabakBar/BoringHannover/issues/26); exact HTTP expiry belongs to
-[#31](https://github.com/BabakBar/BoringHannover/issues/31). Deployments require successful
+Ended occasion details remain available for seven following Berlin dates, noindex
+and outside active discovery/sitemap. The nginx server clock enforces HTTP 404
+from end+8 midnight even if a rebuild is missed. Remaining production lifecycle
+acceptance is tracked in [#26](https://github.com/BabakBar/BoringHannover/issues/26)
+and [#31](https://github.com/BabakBar/BoringHannover/issues/31). Deployments require successful
 same-revision CI, including data-only changes and manual runs. Scanned images are promoted
 only after a second CI/current-master check. Exact digest pinning through the Coolify
 rollout remains [#45](https://github.com/BabakBar/BoringHannover/issues/45).
