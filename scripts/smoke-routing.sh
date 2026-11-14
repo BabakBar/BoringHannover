@@ -34,8 +34,9 @@ fi
 echo "==> Starting $IMAGE on :$PORT"
 docker run -d --name "$CONTAINER" -p "$PORT:8080" \
   -v "$REPO_ROOT/nginx.conf:/etc/nginx/conf.d/default.conf:ro" \
+  -v "$REPO_ROOT/nginx/occasion-lifecycle.js:/etc/nginx/occasion-lifecycle.js:ro" \
   -v "$REPO_ROOT/web/dist:/usr/share/nginx/html:ro" \
-  "$IMAGE" >/dev/null
+  "$IMAGE" nginx -g 'load_module modules/ngx_http_js_module.so; daemon off;' >/dev/null
 
 ready=0
 for _ in $(seq 1 30); do
