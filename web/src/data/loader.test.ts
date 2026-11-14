@@ -202,18 +202,18 @@ test('orphan files are counted without deletion; public provenance excludes path
   );
 });
 
-test('programme identity and duplicate route checks fail closed', () => {
+test('programme identity, date and duplicate route checks fail closed', () => {
   const { config, write } = setup();
   write({ ...feed(), occasions: [occasion] });
-  writeFileSync(
-    join(config.dataRoot, occasion.programmePath),
-    JSON.stringify({
-      meta: { updatedAt: 'today' },
-      occasion: { ...occasion, id: 'wrong' },
-      programme: [],
-    }),
-  );
-  expect(() => readSnapshot(config, now)).toThrow('identity');
+  for (const change of [
+    { id: 'wrong' }, { startDate: '2026-09-05' }, { endDate: '2026-09-07' },
+  ]) {
+    writeFileSync(
+      join(config.dataRoot, occasion.programmePath),
+      JSON.stringify({ meta: { updatedAt: 'today' }, occasion: { ...occasion, ...change }, programme: [] }),
+    );
+    expect(() => readSnapshot(config, now)).toThrow('does not match manifest');
+  }
   writeFileSync(
     join(config.dataRoot, occasion.programmePath),
     JSON.stringify({ meta: { updatedAt: 'today' }, occasion, programme: [] }),

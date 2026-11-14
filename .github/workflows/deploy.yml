@@ -108,7 +108,7 @@ jobs:
             esac
 
             case "${file}" in
-              web/*|Dockerfile.web|nginx.conf|.dockerignore)
+              web/*|Dockerfile.web|nginx.conf|nginx/*|.dockerignore)
                 frontend=true
                 ;;
             esac

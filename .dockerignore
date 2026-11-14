@@ -1,5 +1,5 @@
 # Build context: the backend copies pyproject.toml, uv.lock, README.md and src/;
-# the frontend copies web/ and nginx.conf. Everything else stays out.
+# the frontend copies web/, nginx.conf and nginx/. Everything else stays out.
 .git
 .github
 .claude/

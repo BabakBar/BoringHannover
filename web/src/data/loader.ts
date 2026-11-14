@@ -101,11 +101,13 @@ export function readSnapshot(config: DataConfig, now = Date.now()): Snapshot {
       if (
         programme.occasion.id !== occasion.id ||
         programme.occasion.slug !== occasion.slug ||
-        programme.occasion.programmePath !== occasion.programmePath
+        programme.occasion.programmePath !== occasion.programmePath ||
+        programme.occasion.startDate !== occasion.startDate ||
+        programme.occasion.endDate !== occasion.endDate
       ) {
         throw error(
           path,
-          'programme occasion identity does not match manifest',
+          'programme occasion identity or date range does not match manifest',
         );
       }
       programmes.set(occasion.programmePath, programme);
