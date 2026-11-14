@@ -27,7 +27,7 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
     const today = berlinClock(new Date()).date;
     const meta = { week: 45, year: 2026, updatedAt: 'Expiry fixture', updatedAtISO: new Date().toISOString() };
     const occasions = [
-      ['transition', today], ['expired', addDays(today, -8)],
+      ['active', today], ['ending', today], ['transition', today], ['expired', addDays(today, -8)],
       ['spring-dst', '2026-03-21'], ['spring-dst-week', '2026-03-22'],
       ['autumn-dst', '2026-10-17'], ['autumn-dst-week', '2026-10-18'], ['new-year', '2026-12-24'],
     ].map(([slug, endDate]) => ({
@@ -68,9 +68,10 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
     copyFileSync(html, join(dist, 'special/transition.html'));
     writeFileSync(join(dist, 'special/transition/calendar.ics'), 'BEGIN:VCALENDAR\r\nEND:VCALENDAR');
     // Only the test artifact's deadlines are shortened. The server clock stays real.
-    const endedAt = Date.now() + 4000;
-    const expiresAt = endedAt + 2500;
-    metadata.transition = { endedAt, expiresAt };
+    const boundary = Date.now() + 12000;
+    metadata.active = { endedAt: boundary + 3600000, expiresAt: boundary + 86400000 };
+    metadata.ending = { endedAt: boundary, expiresAt: boundary + 86400000 };
+    metadata.transition = { endedAt: boundary - 24000, expiresAt: boundary };
     metadata.invalid = { endedAt: 0, expiresAt: '99999999999999' };
     writeFileSync(metadataPath, `export default ${JSON.stringify(metadata)};`);
     const mounts = [
@@ -91,13 +92,26 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
     }
     expect(ready, command(['logs', container]).stderr).toBe(true);
     const request = (path: string, method = 'GET', headers = {}) => fetch(origin + path, { method, headers, redirect: 'manual' });
-    const aliases = ['/special/transition/', '/special/transition', '/special/transition/index.html', '/special/transition.html', '/special/%74ransition/', '/special//transition/'];
+    const aliases = (slug: string) => [
+      `/special/${slug}/`, `/special/${slug}`, `/special/${slug}/index.html`, `/special/${slug}.html`,
+      `/special/%${slug.charCodeAt(0).toString(16)}${slug.slice(1)}/`, `/special//${slug}/`,
+    ];
+    // Probe both sides of the future boundary immediately after readiness;
+    // steady aliases must not depend on how quickly the runner sends them.
+    const ending = await request('/special/ending/');
+    expect(ending.status).toBe(200);
+    expect(ending.headers.get('x-robots-tag')).toBeNull();
+    const retained = await request('/special/transition/');
+    expect(retained.status).toBe(200);
+    expect(retained.headers.get('x-robots-tag')).toBe('noindex, follow');
+    const expiredEtag = retained.headers.get('etag')!;
     for (const method of ['GET', 'HEAD']) {
       for (const path of ['/special/expired/', '/special/expired', '/special/expired/index.html', '/special/orphan/', '/special/invalid/', '/special/constructor/', '/SPECIAL/transition/', '/special/TRANSITION/', '/occasion-lifecycle.js', '/OCCASION-LIFECYCLE.JS', '/special/transition/calendar.ics', '/special/transition.ics']) {
         const reply = await request(path, method);
         expect(reply.status, `${method} ${path}`).toBe(404);
+        await reply.arrayBuffer();
       }
-      for (const path of aliases) {
+      for (const path of aliases('active')) {
         const reply = await request(path + '?cache=probe', method);
         expect([200, 301], `${method} ${path}`).toContain(reply.status);
         expect(reply.headers.get('cache-control')).toBe('no-store');
@@ -105,24 +119,24 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
         expect(reply.headers.get('cloudflare-cdn-cache-control')).toBe('no-store');
         expect(reply.headers.get('x-robots-tag')).toBeNull();
         expect(reply.headers.get('x-content-type-options')).toBe('nosniff');
-        if (reply.status === 301) expect(reply.headers.get('location')).toBe('/special/transition/?cache=probe');
+        if (reply.status === 301) expect(reply.headers.get('location')).toBe('/special/active/?cache=probe');
         if (method === 'HEAD') expect(await reply.text()).toBe('');
+        else await reply.arrayBuffer();
       }
     }
-    const active = await request('/special/transition/');
+    const active = await request('/special/active/');
     expect(active.headers.get('content-type')).toContain('text/html');
     const etag = active.headers.get('etag')!;
-    const conditional = await request('/special/transition/', 'GET', { 'If-None-Match': etag });
+    const conditional = await request('/special/active/', 'GET', { 'If-None-Match': etag });
     expect(conditional.status).toBe(304);
     expect(conditional.headers.get('cache-control')).toBe('no-store');
-    await Bun.sleep(Math.max(0, endedAt - Date.now()) + 10);
-    const retained = await request('/special/transition/');
-    expect(retained.status).toBe(200);
-    expect(retained.headers.get('x-robots-tag')).toBe('noindex, follow');
-    await Bun.sleep(Math.max(0, expiresAt - Date.now()) + 10);
+    await Bun.sleep(Math.max(0, boundary - Date.now()) + 10);
+    const nowRetained = await request('/special/ending/');
+    expect(nowRetained.status).toBe(200);
+    expect(nowRetained.headers.get('x-robots-tag')).toBe('noindex, follow');
     for (const method of ['GET', 'HEAD']) {
-      for (const path of aliases) {
-        const reply = await request(path + '?now=0&expires=9999999999999', method, { 'If-None-Match': etag, Range: 'bytes=0-100', 'X-Current-Time': '0' });
+      for (const path of aliases('transition')) {
+        const reply = await request(path + '?now=0&expires=9999999999999', method, { 'If-None-Match': expiredEtag, Range: 'bytes=0-100', 'X-Current-Time': '0' });
         expect(reply.status, `${method} ${path}`).toBe(404);
         expect(reply.headers.get('cache-control')).toBe('no-store');
         expect(reply.headers.get('x-robots-tag')).toBe('noindex, follow');
