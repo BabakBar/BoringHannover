@@ -9,9 +9,12 @@ Entry point for the weekly event aggregation workflow:
 from __future__ import annotations
 
 import argparse
+import errno
+import fcntl
 import logging
 import sys
 from datetime import datetime
+from pathlib import Path
 from typing import NoReturn
 
 from boringhannover.aggregator import fetch_all_events
@@ -71,8 +74,28 @@ def run(*, local: bool = False) -> bool:
         run whose sources make publishing unsafe also returns False, before
         backing up or publishing, so the site keeps its current data. Unreadable
         or inconsistent prior publication also fails before backup or sync.
-        A failed backup returns False after attempting publication.
+        A failed backup returns False after attempting publication. Another run
+        using the same output directory is refused before fetching any sources.
     """
+    try:
+        Path("output").mkdir(exist_ok=True)
+        # Keep this file: unlinking it lets new callers lock a different inode
+        # while an existing process still holds the original lock.
+        with Path("output/.run.lock").open("a", encoding="utf-8") as lock:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except OSError as exc:
+                if exc.errno not in {errno.EACCES, errno.EAGAIN}:
+                    raise
+                logger.error("Another run is using output; refusing overlapping scrape")
+                return False
+            return _run(local=local)
+    except OSError:
+        logger.exception("Cannot acquire scraper run lock")
+        return False
+
+
+def _run(*, local: bool) -> bool:
     try:
         logger.info("Starting BoringHannover scraper")
         if local:
