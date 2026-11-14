@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="Datenschutzerklärung - boringhannover" description="Datenschutzerklärung, Informationspflichten nach DSGVO und Datenschutzgrundsätze für Hannover" lang="de">
+<Base title="Datenschutzerklärung - boringhannover" description="Datenschutzerklärung, Informationspflichten nach DSGVO und Datenschutzgrundsätze für Hannover" lang="de" analytics={false}>
   <article class="max-w-2xl">
     <a href="/" class="inline-block mb-6 text-text-muted hover:text-accent text-sm font-display">
       &larr; Back
@@ -64,7 +64,7 @@ import Base from '../layouts/Base.astro';
 
       <!-- 5. Umami Analytics -->
       <div>
-        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">5. Anonyme Reichweitenmessung ohne Cookies (Selbst gehostetes Umami)</h2>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">5. Datensparsame Reichweitenmessung ohne Cookies (Selbst gehostetes Umami)</h2>
         <p>
           Zur bedarfsgerechten Weiterentwicklung unseres Kulturkalenders für Hannover möchten wir aggregiert verstehen, welche Programmübersichten (z.&thinsp;B. Kinofilme im Originalton, Musikfestivals oder Stadtteilveranstaltungen) von Interesse sind.
         </p>
@@ -73,17 +73,25 @@ import Base from '../layouts/Base.astro';
         </p>
         <ul class="list-disc list-inside mt-2 space-y-1.5 text-xs text-text-secondary pl-2">
           <li><strong>Keine Cookies:</strong> Umami setzt zu keinem Zeitpunkt HTTP-Cookies oder persistente Identifikatoren im Speicher Ihres Endgeräts.</li>
-          <li><strong>Anonymisierte Sitzungszählung:</strong> Aus der IP-Adresse des Nutzers und dem User-Agent wird serverseitig unter Verwendung eines täglich wechselnden kryptografischen Zufallswerts (Salt) ein flüchtiger Hash generiert. Dieser Hash erlaubt ausschließlich die Zählung von Tagesbesuchern und wird nach 24 Stunden unwiederbringlich unbrauchbar. Eine Rückführung auf individuelle Personen oder IP-Adressen ist technisch ausgeschlossen.</li>
+          <li><strong>Pseudonyme Nutzungszählung:</strong> Umami bildet serverseitig aus IP-Adresse und User-Agent mit einem monatlich wechselnden Salt pseudonyme Kennungen. Diese werden nicht als Gerätekennung im Browser gespeichert. Die Kennungen sind keine verlässliche Zählung einzelner Personen; wir verknüpfen sie nicht mit Konten oder anderen personenbezogenen Profilen.</li>
           <li><strong>First-Party-Proxying:</strong> Das Analyseskript wird direkt über dieselbe Domain ausgeliefert (<code class="bg-bg-secondary px-1 py-0.5 rounded-sm text-[11px]">/s/t.js</code> bzw. <code class="bg-bg-secondary px-1 py-0.5 rounded-sm text-[11px]">/s/api/send</code>), sodass keine Daten an externe Drittanbieter-Server abfließen.</li>
           <li><strong>Keine Weitergabe:</strong> Es erfolgt keinerlei Weitergabe, kein Verkauf und kein Abgleich der anonymen Messdaten mit Werbetreibenden.</li>
         </ul>
+        <div id="analytics-preference" lang="en" class="mt-4 p-4 border border-border rounded-sm scroll-mt-4">
+          <h3 class="font-semibold text-text-primary">Analytics preference for this browser</h3>
+          <p class="mt-2">This privacy page does not collect analytics. Exclude this browser to stop analytics on the rest of the site too.</p>
+          <p class="mt-2 text-xs text-text-muted">Repeat this on each browser and device. Clearing site data or ending a private browsing session may reset the choice.</p>
+          <button id="analytics-toggle" type="button" hidden class="mt-3 min-h-11 px-3 py-2 border border-border rounded-sm text-text-primary hover:border-accent aria-pressed:border-accent aria-pressed:bg-bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" aria-pressed="false">Exclude this browser</button>
+          <p id="analytics-status" role="status" class="mt-2 text-xs"></p>
+          <noscript><p class="mt-2 text-xs">JavaScript is off, so analytics are already inactive. Turn JavaScript on to save a browser preference.</p></noscript>
+        </div>
       </div>
 
       <!-- 6. Local Storage -->
       <div>
-        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">6. Lokale Speicherung im Browser (Local Storage / Farbschema)</h2>
+        <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">6. Lokale Speicherung im Browser (Farbschema und Analytics-Einstellung)</h2>
         <p>
-          Diese Website verwendet den lokalen Speicher Ihres Browsers (<em>Local Storage</em>) ausschließlich für eine rein funktionale Einstellung: Die Speicherung Ihrer bevorzugten Farbschema-Ansicht (Dark Mode bzw. Light Mode, Schlüssel: <code class="bg-bg-secondary px-1 py-0.5 rounded-sm text-[11px]">theme</code>).
+          Diese Website verwendet den lokalen Speicher Ihres Browsers (<em>Local Storage</em>) für Ihre bevorzugte Farbschema-Ansicht (Dark Mode bzw. Light Mode, Schlüssel: <code class="bg-bg-secondary px-1 py-0.5 rounded-sm text-[11px]">theme</code>) und auf Wunsch für Ihren Widerspruch gegen die Reichweitenmessung (Schlüssel: <code class="bg-bg-secondary px-1 py-0.5 rounded-sm text-[11px]">umami.disabled</code>). Die Einstellung zur Reichweitenmessung gilt nur für diesen Browser und dieses Gerät.
         </p>
         <p class="mt-2 text-xs text-text-muted">
           Hierbei werden keine personenbezogenen Daten, Gerätekennungen oder Bewegungsprofile gespeichert. Rechtsgrundlage für diese rein funktionale Zustandsspeicherung ist § 25 Abs. 2 Nr. 2 TDDDG in Verbindung mit Art. 6 Abs. 1 lit. f DSGVO.
@@ -145,9 +153,39 @@ import Base from '../layouts/Base.astro';
       <div>
         <h2 class="text-lg font-semibold text-text-primary mb-2 font-display">11. Gültigkeit und Aktualität dieser Datenschutzerklärung</h2>
         <p class="text-xs text-text-muted">
-          Diese Datenschutzerklärung ist aktuell gültig und datiert auf August 2026. Durch die stetige technische Weiterentwicklung unseres unentgeltlichen Kultur- und Informationsangebots für Hannover sowie geänderte gesetzliche oder behördliche Vorgaben kann eine Anpassung dieser Erklärung erforderlich werden.
+          Diese Datenschutzerklärung ist aktuell gültig und datiert auf November 2026. Durch die stetige technische Weiterentwicklung unseres unentgeltlichen Kultur- und Informationsangebots für Hannover sowie geänderte gesetzliche oder behördliche Vorgaben kann eine Anpassung dieser Erklärung erforderlich werden.
         </p>
       </div>
     </section>
   </article>
 </Base>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('#analytics-toggle')!;
+  const status = document.querySelector<HTMLElement>('#analytics-status')!;
+
+  function renderPreference() {
+    const excluded = Boolean(localStorage.getItem('umami.disabled'));
+    toggle.setAttribute('aria-pressed', String(excluded));
+    status.textContent = excluded
+      ? 'This browser is excluded from analytics. Select the button again to allow analytics.'
+      : 'This browser is not excluded from analytics on other pages.';
+  }
+
+  try {
+    renderPreference();
+    toggle.hidden = false;
+  } catch {
+    status.textContent = 'Browser storage is unavailable. This preference cannot be saved.';
+  }
+
+  toggle.addEventListener('click', () => {
+    try {
+      if (localStorage.getItem('umami.disabled')) localStorage.removeItem('umami.disabled');
+      else localStorage.setItem('umami.disabled', '1');
+      renderPreference();
+    } catch {
+      status.textContent = 'Could not save this preference. Analytics settings have not changed.';
+    }
+  });
+</script>
