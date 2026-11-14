@@ -266,13 +266,15 @@ test('occasion pages render source status, sparse dates and source hours without
     delete env[name];
   const data = join(root, 'data');
   const outDir = join(root, 'dist');
+  const start = addDays(berlinClock(new Date()).date, 1);
+  const later = addDays(start, 7);
   const occasion = (slug: string, extra: Record<string, unknown>) => ({
     id: `hannover-festivals:${slug}`,
     slug,
     name: slug,
     kind: 'festival',
-    startDate: '2026-10-09',
-    endDate: '2026-10-17',
+    startDate: start,
+    endDate: addDays(start, 8),
     location: 'Parkbühne',
     description: 'Ein Fest.',
     imageUrl: null,
@@ -289,8 +291,8 @@ test('occasion pages render source status, sparse dates and source hours without
     occasion('wiesn', {
       scheduleConfidence: 'discrete',
       occurrences: [
-        { date: '2026-10-09', startTime: '18:00' },
-        { date: '2026-10-16', startTime: '18:00' },
+        { date: start, startTime: '18:00' },
+        { date: later, startTime: '18:00' },
       ],
     }),
     occasion('flohmarkt', {
@@ -358,9 +360,9 @@ test('occasion pages render source status, sparse dates and source hours without
     expect(wiesn).toContain('data-occasion-schedule=');
     // Scoped styles add data-astro-cid-* attributes to these elements.
     expect(wiesn).toMatch(
-      /<time datetime="2026-10-09T18:00"[^>]*>\s*Fri 9 Oct · from 18:00\s*<\/time>/,
+      new RegExp(`<time datetime="${start}T18:00"[^>]*>[^<]*· from 18:00\\s*</time>`),
     );
-    expect(wiesn).toMatch(/<time datetime="2026-10-16T18:00"[^>]*>/);
+    expect(wiesn).toMatch(new RegExp(`<time datetime="${later}T18:00"[^>]*>`));
 
     expect(page('flohmarkt')).toMatch(
       /<p[^>]*lang="de"[^>]*>04\.10\.2026 bis 18\.10\.2026 ab 08:00 bis 17:00 Uhr sonntags<\/p>/,
@@ -381,13 +383,14 @@ test('occasion pages share owned imagery, truthful source labels and English cop
     delete env[name];
   const data = join(root, 'data');
   const outDir = join(root, 'dist');
+  const today = berlinClock(new Date()).date;
   const occasion = (slug: string, extra: Record<string, unknown>) => ({
     id: `hannover-festivals:${slug}`,
     slug,
     name: slug,
     kind: 'festival',
-    startDate: '2026-10-10',
-    endDate: '2026-10-10',
+    startDate: today,
+    endDate: today,
     location: 'Tiergarten',
     description: `${slug} at Tiergarten. See the source for details.`,
     sourceUrl: `https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/${slug}`,

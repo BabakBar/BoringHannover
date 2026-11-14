@@ -17,6 +17,7 @@ interface Props {
   jsonLd?: unknown;
   /** Wider column for pages with a diagram; the digest stays phone-width. */
   wide?: boolean;
+  noindex?: boolean;
 }
 
 const {
@@ -28,7 +29,8 @@ const {
   imageHeight = 630,
   imageAlt = 'Boring Hannover weekly events illustration',
   jsonLd,
-  wide = false
+  wide = false,
+  noindex = false,
 } = Astro.props;
 
 const DEFAULT_UMAMI_WEBSITE_ID = '23cf1ce2-3635-4e97-aab9-6ccd0467f839';
@@ -118,6 +120,7 @@ const structuredData = siteUrl ? toJsonLd({
     <meta name="data-provenance" content={JSON.stringify(provenance)} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
 
     <!-- Favicons (Google Search + browsers) -->
     <link rel="icon" href="/favicon.ico" sizes="any" />

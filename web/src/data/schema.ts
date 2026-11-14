@@ -47,6 +47,7 @@ export const occasionStatusSchema = z.enum([
   'upcoming',
   'happening_now',
   'final_weekend',
+  'ended',
 ]);
 // #59 schedule evidence. All optional: snapshots exported before it still
 // parse, and this consumer must ship before a scrape publishes these values.

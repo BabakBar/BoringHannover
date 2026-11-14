@@ -27,7 +27,12 @@ import {
   sheetDateLine,
   whenFacts,
 } from '../../utils/occasionSheet';
-import { occasionHasEnded } from '../../utils/occasionStatus';
+import {
+  addDays,
+  berlinClock,
+  occasionHasEnded,
+  OCCASION_RETENTION_DAYS,
+} from '../../utils/occasionStatus';
 
 interface Props {
   programmeData: OccasionProgramme;
@@ -38,8 +43,11 @@ interface Props {
 
 export function getStaticPaths() {
   const eventData = loadEventData();
+  const today = berlinClock(new Date()).date;
 
-  return eventData.occasions.map((occasion) => {
+  return eventData.occasions.filter(occasion =>
+    today <= addDays(occasion.endDate, OCCASION_RETENTION_DAYS),
+  ).map((occasion) => {
     const programmeData = loadOccasionProgramme(occasion.programmePath) ?? {
       meta: { updatedAt: eventData.meta.updatedAt },
       occasion,
@@ -161,6 +169,7 @@ const eventJsonLd = occasionJsonLd(occasion, {
   title={`${occasion.name} · City Occasion · boringhannover`}
   description={description}
   jsonLd={eventJsonLd}
+  noindex={berlinClock(builtAt).date > occasion.endDate}
 >
   <Header week={week} year={year} brandAsHeading={false} />
 
@@ -563,11 +572,13 @@ const eventJsonLd = occasionJsonLd(occasion, {
     const today = berlinClock(now).date;
     const own = schedule(document.querySelector('.sheet__head'));
     const next = own ? nextAppointment(own, now) : null;
+    const retained = own && today > own.endDate;
     const rows = Array.from(document.querySelectorAll<HTMLElement>('[data-occurrence-date]'))
       .sort((left, right) => (left.dataset.occurrenceDate ?? '').localeCompare(right.dataset.occurrenceDate ?? ''));
     for (const item of rows) {
-      item.hidden = own ? !next || (item.dataset.occurrenceDate ?? '') < next.date
-        : (item.dataset.occurrenceDate ?? '') < today;
+      item.hidden = !retained && (own
+        ? !next || (item.dataset.occurrenceDate ?? '') < next.date
+        : (item.dataset.occurrenceDate ?? '') < today);
     }
     const available = rows.filter(item => !item.hidden);
     const preview = document.querySelector('[data-schedule-preview]');

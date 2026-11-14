@@ -29,6 +29,7 @@ export interface OccasionLabel {
 
 /** Inclusive today..today+30 Berlin horizon, matching OCCASION_LOOKAHEAD_DAYS. */
 export const OCCASION_HORIZON_DAYS = 30;
+export const OCCASION_RETENTION_DAYS = 7;
 
 const LABEL_TEXT: Record<Exclude<OccasionLabelKey, 'in_days'>, string> = {
   cancelled: 'Cancelled',

@@ -96,8 +96,12 @@ test.skipIf(!executablePath && !process.env.CI)(
         const page = await plain.newPage();
         page.setDefaultTimeout(5000);
         await page.goto(origin);
-        for (const [index, item] of pair.entries()) {
-          const card = page.locator('.occasion-spotlight').nth(index);
+        for (const item of pair) {
+          const card = page.locator(`.occasion-spotlight:has(a[href="/special/${item.occasion.slug}/"])`);
+          if (item.occasion.endDate < today) {
+            expect(await card.count()).toBe(0);
+            continue;
+          }
           expect(await card.isVisible()).toBe(item.visible !== false);
           expect((await card.locator('.occasion-spotlight__date').textContent())?.trim()).toBe(item.when);
           const span = card.locator('[data-spotlight-span]');

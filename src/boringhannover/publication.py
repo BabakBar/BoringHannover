@@ -16,7 +16,11 @@ from urllib.parse import quote, urlsplit
 
 import httpx
 
-from boringhannover.constants import BERLIN_TZ, OCCASION_LOOKAHEAD_DAYS
+from boringhannover.constants import (
+    BERLIN_TZ,
+    OCCASION_LOOKAHEAD_DAYS,
+    OCCASION_RETENTION_DAYS,
+)
 from boringhannover.exporters import (
     _format_web_event,
     _occasion_programme_item,
@@ -147,7 +151,7 @@ def _summary(value: object) -> Record:
         or source.password
     ):
         raise ValueError("Invalid occasion source URL")
-    if row.get("status") not in ("upcoming", "happening_now", "final_weekend"):
+    if row.get("status") not in ("upcoming", "happening_now", "final_weekend", "ended"):
         raise ValueError("Invalid occasion lifecycle")
     for key in ("programmeCount", "locationCount"):
         count = row.get(key)
@@ -370,7 +374,7 @@ def _refresh(programme: Record, today: date, now: datetime) -> None:
     summary = _object(programme["occasion"])
     start, end = _date(summary["startDate"]), _date(summary["endDate"])
     summary["status"] = occasion_status_on(start, end, today)
-    if "occurrences" in summary:
+    if "occurrences" in summary and today <= end:
         summary["occurrences"] = [
             item
             for item in _rows(summary["occurrences"])
@@ -586,18 +590,34 @@ def reconcile_occasions(
                 retained_evidence = True
             if retained_evidence:
                 current[identity]["meta"] = deepcopy(old["meta"])
+            if today > _date(fresh["endDate"]) and not current[identity]["programme"]:
+                # An empty fresh fetch does not erase the retained programme.
+                current[identity]["programme"] = [
+                    deepcopy(item)
+                    for item in _events(old["programme"])
+                    if item.get("dateISO") is not None
+                    and _date(fresh["startDate"])
+                    <= _date(item["dateISO"])
+                    <= _date(fresh["endDate"])
+                ]
             _refresh(current[identity], today, now.astimezone(BERLIN_TZ))
             continue
         if identity in current:
             raise ValueError("Current occasion has no matching source definition")
         start, end = _date(previous["startDate"]), _date(previous["endDate"])
-        if end < today or start > today + timedelta(days=OCCASION_LOOKAHEAD_DAYS):
+        if today > end + timedelta(
+            days=OCCASION_RETENTION_DAYS
+        ) or start > today + timedelta(days=OCCASION_LOOKAHEAD_DAYS):
             continue
-        if previous.get("scheduleConfidence") == "discrete" and not any(
-            today
-            <= _date(item["date"])
-            <= today + timedelta(days=OCCASION_LOOKAHEAD_DAYS)
-            for item in _rows(previous.get("occurrences", []))
+        if (
+            today <= end
+            and previous.get("scheduleConfidence") == "discrete"
+            and not any(
+                today
+                <= _date(item["date"])
+                <= today + timedelta(days=OCCASION_LOOKAHEAD_DAYS)
+                for item in _rows(previous.get("occurrences", []))
+            )
         ):
             continue
         current[identity] = deepcopy(old)

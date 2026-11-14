@@ -11,7 +11,7 @@ from __future__ import annotations
 import base64
 import json
 from dataclasses import replace
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -1151,13 +1151,16 @@ def test_current_source_evidence_wins_without_reinventing_old_facts(
             root, definitions=definitions, now=now, client=client, repo="test/events"
         )
     data = json.loads((root / "web_events.json").read_text())
-    if change in ("source-ended", "rescheduled-outside-window"):
+    if change == "rescheduled-outside-window":
         assert data["occasions"] == []
         return
     (summary,) = data["occasions"]
     assert summary["id"] == prior.id
     assert summary["slug"] == prior.slug
     assert summary["sourceUrl"] == prior.source_url
+    if change == "source-ended":
+        assert summary["endDate"] == current.end_date.isoformat()
+        assert summary["status"] == "ended"
     assert (
         summary["startDate"]
         == (
@@ -1193,11 +1196,17 @@ def test_current_source_evidence_wins_without_reinventing_old_facts(
     ("clock", "end", "appointments", "expected"),
     [
         ("2026-10-25T00:30:00+00:00", "2026-10-25", None, True),
-        ("2026-10-25T23:30:00+00:00", "2026-10-25", None, False),
+        ("2026-10-25T23:30:00+00:00", "2026-10-25", None, True),
         ("2026-12-31T22:30:00+00:00", "2026-12-31", None, True),
-        ("2026-12-31T23:30:00+00:00", "2026-12-31", None, False),
+        ("2026-12-31T23:30:00+00:00", "2026-12-31", None, True),
         ("2026-11-02T12:00:00+01:00", "2026-11-07", (-1,), False),
         ("2026-11-02T12:00:00+01:00", "2026-11-07", (-1, 1), True),
+        ("2026-03-29T21:59:00+00:00", "2026-03-22", None, True),
+        ("2026-03-29T22:00:00+00:00", "2026-03-22", None, False),
+        ("2026-10-25T22:59:00+00:00", "2026-10-18", (-7,), True),
+        ("2026-10-25T23:00:00+00:00", "2026-10-18", (-8,), False),
+        ("2027-01-01T22:59:00+00:00", "2026-12-25", None, True),
+        ("2027-01-01T23:00:00+00:00", "2026-12-25", None, False),
     ],
     ids=[
         "dst-final-day",
@@ -1206,6 +1215,12 @@ def test_current_source_evidence_wins_without_reinventing_old_facts(
         "year-next-berlin-day",
         "sparse-appointments-exhausted",
         "sparse-only-confirmed-date-survives",
+        "spring-dst-retained-seventh-date",
+        "spring-dst-expired-eighth-date",
+        "autumn-dst-sparse-retained-seventh-date",
+        "autumn-dst-sparse-expired-eighth-date",
+        "new-year-retained-seventh-date",
+        "new-year-expired-eighth-date",
     ],
 )
 def test_carry_forward_obeys_berlin_dates_and_confirmed_sparse_appointments(
@@ -1220,14 +1235,18 @@ def test_carry_forward_obeys_berlin_dates_and_confirmed_sparse_appointments(
 
     now = datetime.fromisoformat(clock)
     today = now.astimezone(BERLIN_TZ).date()
-    prior_time = (now.astimezone(BERLIN_TZ) - timedelta(days=2)).replace(hour=12)
+    end_date = date.fromisoformat(end)
+    prior_time = min(
+        (now.astimezone(BERLIN_TZ) - timedelta(days=2)).replace(hour=12),
+        datetime.combine(end_date, datetime.min.time(), tzinfo=BERLIN_TZ),
+    )
     occasion = OccasionDefinition(
         id="test:clock",
         slug="clock",
         name="Clock festival",
         kind="festival",
-        start_date=today - timedelta(days=3),
-        end_date=datetime.fromisoformat(end).date(),
+        start_date=min(today - timedelta(days=3), end_date - timedelta(days=1)),
+        end_date=end_date,
         location="Hannover",
         source_url="https://example.com/clock",
         description="Clock fixture.",
@@ -1278,9 +1297,14 @@ def test_carry_forward_obeys_berlin_dates_and_confirmed_sparse_appointments(
         assert summary["startDate"] == occasion.start_date.isoformat()
         assert summary["endDate"] == end
         assert "imageUrl" not in summary
+        assert summary["status"] == (
+            "ended" if today > end_date else occasion.status_on(today)
+        )
         if appointments is not None:
             assert summary["occurrences"] == [
-                {"date": (today + timedelta(days=1)).isoformat()}
+                {"date": occurrence.date.isoformat()}
+                for occurrence in occasion.occurrences
+                if today > end_date or occurrence.date >= today
             ]
         retained = json.loads((root / "occasions/clock.json").read_text())
         assert (

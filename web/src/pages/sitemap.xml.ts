@@ -1,10 +1,12 @@
 import type { APIRoute } from 'astro';
 import { loadEventData } from '../data/loader';
 import { buildSitemap, type SitemapRoute } from '../utils/sitemap';
+import { berlinClock } from '../utils/occasionStatus';
 
 export const prerender = true;
 
 const eventData = loadEventData();
+const today = berlinClock(new Date()).date;
 
 // meta.updatedAtISO records the export time, not a significant change to each
 // page. Even an unrelated Radar update advances it. Omit lastmod until we have
@@ -12,7 +14,7 @@ const eventData = loadEventData();
 const routes: SitemapRoute[] = [
   { path: '/' },
   { path: '/special/' },
-  ...eventData.occasions.map(occasion => ({
+  ...eventData.occasions.filter(occasion => occasion.endDate >= today).map(occasion => ({
     path: `/special/${occasion.slug}/`,
   })),
   { path: '/how-it-works/' },

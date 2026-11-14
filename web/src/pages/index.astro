@@ -16,10 +16,13 @@ import {
   getRadarCategoryOptions,
 } from '../utils/radarCategoryFilter';
 import { selectLandingOccasions } from '../utils/occasionSelection';
+import { berlinClock } from '../utils/occasionStatus';
 
 const eventData = loadEventData();
 const { meta, movies, concerts, occasions } = eventData;
-const visibleOccasions = selectLandingOccasions(occasions, new Date());
+const builtAt = new Date();
+const activeOccasions = occasions.filter(occasion => occasion.endDate >= berlinClock(builtAt).date);
+const visibleOccasions = selectLandingOccasions(activeOccasions, builtAt);
 
 // Movies progressive disclosure: show first N days, hide the rest
 const MOVIE_VISIBLE_DAYS = 3;
@@ -53,7 +56,7 @@ const hasPlatzprojektContext = (
 >
   <Header week={meta.week} year={meta.year} />
 
-  {occasions.map((occasion) => (
+  {activeOccasions.map((occasion) => (
     <OccasionSpotlight
       occasion={occasion}
       compact={visibleOccasions.indexOf(occasion) !== 0}
