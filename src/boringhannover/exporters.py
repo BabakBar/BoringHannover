@@ -213,10 +213,12 @@ def _occasion_summary(
         "preview": preview,
     }
     # Optional schedule evidence (#59). Keys are omitted when unknown so older
-    # snapshots keep their shape; occurrences stop at the discovery horizon
-    # while endDate keeps the occasion's true end.
-    occurrences = definition.occurrences_within(
-        generated_at.astimezone(BERLIN_TZ).date()
+    # snapshots keep their shape. Active occurrences stop at the discovery
+    # horizon; retained pages keep historical dates and the true overall end.
+    occurrences = (
+        definition.occurrences
+        if bundle.status == "ended"
+        else definition.occurrences_within(generated_at.astimezone(BERLIN_TZ).date())
     )
     if occurrences:
         summary["occurrences"] = [

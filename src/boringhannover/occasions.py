@@ -12,7 +12,11 @@ from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING, Literal
 
-from boringhannover.constants import BERLIN_TZ, OCCASION_LOOKAHEAD_DAYS
+from boringhannover.constants import (
+    BERLIN_TZ,
+    OCCASION_LOOKAHEAD_DAYS,
+    OCCASION_RETENTION_DAYS,
+)
 
 
 if TYPE_CHECKING:
@@ -41,7 +45,7 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
-OccasionStatus = Literal["upcoming", "happening_now", "final_weekend"]
+OccasionStatus = Literal["upcoming", "happening_now", "final_weekend", "ended"]
 # continuous: every date of the envelope is a confirmed date; discrete: only
 # the listed dates are; unknown: the source schedule could not be parsed safely.
 ScheduleConfidence = Literal["continuous", "discrete", "unknown"]
@@ -181,7 +185,7 @@ class OccasionDefinition:
         )
 
     def status_on(self, today: date) -> OccasionStatus:
-        """Return deterministic lifecycle copy for a discoverable occasion.
+        """Return deterministic lifecycle copy for a published occasion.
 
         A final weekend is a Saturday or Sunday of a multi-day occasion that
         started before that weekend and ends within it.
@@ -191,6 +195,8 @@ class OccasionDefinition:
 
 def occasion_status_on(start: date, end: date, today: date) -> OccasionStatus:
     """Share date-derived lifecycle between source definitions and carried web records."""
+    if today > end:
+        return "ended"
     if today < start:
         return "upcoming"
     if today.weekday() >= 5:
@@ -216,8 +222,14 @@ def occasion_lifecycle(
     definition: OccasionDefinition,
     now: datetime,
 ) -> OccasionStatus | None:
-    """Return the lifecycle at the Berlin date of ``now``; None if undiscoverable."""
+    """Return the publishable lifecycle, including seven post-end Berlin dates."""
     today = now.astimezone(BERLIN_TZ).date()
+    if (
+        definition.end_date
+        < today
+        <= definition.end_date + timedelta(days=OCCASION_RETENTION_DAYS)
+    ):
+        return "ended"
     if not definition.is_discoverable(today):
         return None
     return definition.status_on(today)
@@ -382,7 +394,7 @@ def build_occasion_bundles(
     occasion_definitions: Sequence[OccasionDefinition] = (),
     now: datetime | None = None,
 ) -> tuple[list[Event], list[OccasionBundle]]:
-    """Partition regular events and assemble all discoverable City Occasions.
+    """Partition regular events and assemble active and retained City Occasions.
 
     Definitions come from source plugins, so the exporter and frontend never
     need an event-name allowlist. A discoverable definition is emitted even

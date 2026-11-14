@@ -9,3 +9,6 @@ EVENT_LOOKAHEAD_DAYS = 14
 
 # City Occasions need more lead time for planning festivals and seasonal visits.
 OCCASION_LOOKAHEAD_DAYS = 30
+
+# End is inclusive; retain useful detail pages for the next seven Berlin dates.
+OCCASION_RETENTION_DAYS = 7
