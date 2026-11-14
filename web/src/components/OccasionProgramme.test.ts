@@ -5,9 +5,20 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium, type Browser } from 'playwright-core';
+import { addDays, berlinClock } from '../utils/occasionStatus';
 
 const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
 const executablePath = process.env.CHROME_BIN;
+const today = berlinClock(new Date()).date;
+const weekday = new Date(`${today}T12:00:00Z`).getUTCDay();
+const saturday = addDays(today, (6 - weekday + 7) % 7);
+const friday = addDays(saturday, -1);
+const sunday = addDays(saturday, 1);
+const monday = addDays(saturday, 2);
+function midnightAfter(date: string, minutes: number): Date {
+  const utc = new Date(`${date}T00:00:00Z`);
+  return new Date(utc.getTime() + (minutes - berlinClock(utc).minutes) * 60000);
+}
 
 describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => {
   let root: string;
@@ -26,18 +37,18 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
       url: `https://venue.test/${key}`, ...extra,
     });
     const programme = [
-      event('friday-one', '2026-07-31', { programmeCategory: 'Talk', venue: 'Second stage' }),
-      event('friday-two', '2026-07-31', { programmeCategory: 'Talk', venue: 'Second stage' }),
+      event('friday-one', friday, { programmeCategory: 'Talk', venue: 'Second stage' }),
+      event('friday-two', friday, { programmeCategory: 'Talk', venue: 'Second stage' }),
       ...Array.from({ length: 25 }, (_, index) => event(
-        `saturday-${index + 1}`, '2026-08-01',
+        `saturday-${index + 1}`, saturday,
         { venue: index % 2 ? 'Second stage' : 'Main stage' },
       )),
-      event('fallback-time', '2026-08-01', { timeConfidence: 'fallback' }),
-      event('sunday-one', '2026-08-02', { programmeCategory: 'Talk' }),
+      event('fallback-time', saturday, { timeConfidence: 'fallback' }),
+      event('sunday-one', sunday, { programmeCategory: 'Talk' }),
     ];
     const occasion = {
       id: 'programme:fixture', slug: 'programme-fixture', name: 'Programme fixture',
-      kind: 'festival', startDate: '2026-07-31', endDate: '2026-08-02',
+      kind: 'festival', startDate: friday, endDate: sunday,
       location: 'Hannover', description: 'See the source for details.',
       sourceUrl: 'https://venue.test/festival', status: 'happening_now',
       programmeCount: programme.length, locationCount: 2,
@@ -83,7 +94,7 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
         const errors: string[] = [];
         page.on('pageerror', error => errors.push(error.message));
         // Saturday in Berlin, still Friday in California.
-        await page.clock.install({ time: new Date('2026-07-31T22:30:00Z') });
+        await page.clock.install({ time: midnightAfter(saturday, 30) });
         await page.goto(`${origin}/special/programme-fixture/`);
         const visible = page.locator('[data-programme-item]:visible');
         const count = page.locator('#programme-result-count');
@@ -97,7 +108,7 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
           document.dispatchEvent(new Event('visibilitychange'));
           queueMicrotask(() => { observer.disconnect(); resolve(changes); });
         }))).toBe(0);
-        expect(await visible.evaluateAll(items => items.every(item => item.getAttribute('data-date') === '2026-08-01'))).toBe(true);
+        expect(await visible.evaluateAll((items, date) => items.every(item => item.getAttribute('data-date') === date), saturday)).toBe(true);
         await page.locator('[data-mode-filter="tonight"]').click();
         expect(await count.innerText()).toBe('12 of 25 events');
         await page.locator('#programme-more').click();
@@ -105,7 +116,7 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
         expect(await visible.count()).toBe(25);
         expect(await page.getByRole('heading', { name: 'fallback-time', exact: true }).isVisible()).toBe(false);
 
-        await page.locator('[data-date-filter="2026-07-31"]').click();
+        await page.locator(`[data-date-filter="${friday}"]`).click();
         expect(await visible.count()).toBe(2);
         expect(await page.locator('[data-mode-filter="all"]').getAttribute('aria-pressed')).toBe('true');
         await page.locator('[data-mode-filter="all"]').click();
@@ -113,7 +124,7 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
         await page.locator('#programme-venue-filter').selectOption('Main stage');
         expect(await visible.count()).toBe(1);
         expect(await visible.innerText()).toContain('sunday-one');
-        await page.locator('[data-date-filter="2026-07-31"]').click();
+        await page.locator(`[data-date-filter="${friday}"]`).click();
         expect(await visible.count()).toBe(0);
         expect(await page.locator('#programme-empty').isVisible()).toBe(true);
 
@@ -122,7 +133,7 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
         await today.click();
         await today.focus();
         // The open tab refreshes on its minute timer and keeps control focus.
-        await page.clock.setSystemTime(new Date('2026-08-01T22:05:00Z'));
+        await page.clock.setSystemTime(midnightAfter(sunday, 5));
         await page.clock.fastForward(60000);
         expect(await count.innerText()).toBe('1 event');
         expect(await visible.innerText()).toContain('sunday-one');
@@ -131,7 +142,7 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
         await weekend.click();
         expect(await visible.count()).toBe(1);
         // On Monday in Berlin, Weekend advances to the next Saturday/Sunday.
-        await page.clock.setSystemTime(new Date('2026-08-02T22:30:00Z'));
+        await page.clock.setSystemTime(midnightAfter(monday, 30));
         await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
         expect(await visible.count()).toBe(0);
         expect(await weekend.evaluate(element => document.activeElement === element)).toBe(true);
@@ -148,7 +159,7 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
       try {
         await context.route('**/*', route => route.request().url().startsWith(`${origin}/`) ? route.continue() : route.abort());
         const page = await context.newPage();
-        await page.clock.install({ time: new Date('2026-08-01T12:00:00Z') });
+        await page.clock.install({ time: new Date(`${saturday}T12:00:00Z`) });
         await page.goto(`${origin}/special/programme-fixture/`);
         const more = page.locator('#programme-more');
         const count = page.locator('#programme-result-count');
@@ -164,18 +175,18 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
 
         // Berlin midnight reduces today's results from 26 to one. The focused
         // pagination button disappears even though it is not a programme item.
-        await page.clock.setSystemTime(new Date('2026-08-01T22:05:00Z'));
+        await page.clock.setSystemTime(midnightAfter(sunday, 5));
         await refreshPage();
         expect(await count.innerText()).toBe('1 event');
         expect(await more.isVisible()).toBe(false);
         expect(await count.evaluate(element => document.activeElement === element)).toBe(true);
 
         // A refresh with focus elsewhere must not move it into the programme.
-        await page.clock.setSystemTime(new Date('2026-08-01T12:00:00Z'));
+        await page.clock.setSystemTime(new Date(`${saturday}T12:00:00Z`));
         await page.reload();
         const today = page.locator('[data-mode-filter="today"]');
         await today.focus();
-        await page.clock.setSystemTime(new Date('2026-08-01T22:05:00Z'));
+        await page.clock.setSystemTime(midnightAfter(sunday, 5));
         await refreshPage();
         expect(await more.isVisible()).toBe(false);
         expect(await today.evaluate(element => document.activeElement === element)).toBe(true);
@@ -191,7 +202,7 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
       try {
         await context.route('**/*', route => route.request().url().startsWith(`${origin}/`) ? route.continue() : route.abort());
         const page = await context.newPage();
-        if (javaScriptEnabled) await page.clock.install({ time: new Date('2026-08-01T12:00:00Z') });
+        if (javaScriptEnabled) await page.clock.install({ time: new Date(`${saturday}T12:00:00Z`) });
         await page.goto(`${origin}/special/programme-fixture/`);
         const visible = page.locator('[data-programme-item]:visible');
         const more = page.locator('#programme-more');
@@ -225,7 +236,7 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
         expect(await page.getByRole('heading', { name: 'saturday-25', exact: true }).evaluate(element => document.activeElement === element)).toBe(true);
 
         // A passive midnight refresh must also avoid dropping focus to body.
-        await page.clock.setSystemTime(new Date('2026-08-01T22:05:00Z'));
+        await page.clock.setSystemTime(midnightAfter(sunday, 5));
         await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
         expect(await visible.count()).toBe(1);
         expect(await page.locator('#programme-result-count').evaluate(element => document.activeElement === element)).toBe(true);

@@ -23,7 +23,8 @@ from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.exporters import export_web_json
 from boringhannover.github_sync import carry_forward_occasions
-from boringhannover.occasions import OccasionDefinition
+from boringhannover.models import Event
+from boringhannover.occasions import OccasionDefinition, Occurrence, Place
 from boringhannover.sources.cinema.astor import AstorSource
 from boringhannover.sources.concerts.kulturpalast_linden import (
     KulturpalastLindenSource,
@@ -46,6 +47,166 @@ pytestmark = pytest.mark.skipif(
     BUN is None or not ASTRO.exists(),
     reason="needs bun and web/node_modules (run `bun install` in web/)",
 )
+
+
+@pytest.mark.parametrize("rediscovered", [False, True], ids=["omitted", "rediscovered"])
+def test_known_ended_occasions_reach_retained_pages_without_active_discovery(
+    rediscovered: bool, local_site: LocalSite, tmp_path: Path
+) -> None:
+    now = datetime.now(BERLIN_TZ)
+    root = tmp_path / "output"
+    root.mkdir()
+    definitions = [
+        OccasionDefinition(
+            id=f"retained:{offset}",
+            slug=f"retained-{offset}",
+            name=f"Retained festival {offset}",
+            kind="festival",
+            start_date=now.date() - timedelta(days=10),
+            end_date=now.date() - timedelta(days=offset),
+            location="Hannover",
+            source_url=f"https://example.com/retained-{offset}",
+            description="Source-supported festival details.",
+            schedule_confidence="discrete" if offset == 7 else "continuous",
+            occurrences=(Occurrence(now.date() - timedelta(days=offset)),),
+            place=Place("Am Markte", "30159", "Hannover"),
+        )
+        for offset in (0, 1, 7, 8)
+    ]
+    prior_time = now - timedelta(days=9)
+    programme = [
+        Event(
+            title=f"Programme for {definition.slug}",
+            date=datetime.combine(
+                definition.end_date, datetime.min.time(), tzinfo=BERLIN_TZ
+            ),
+            venue="Marktplatz",
+            url=definition.source_url,
+            category="radar",
+            metadata={"occasion_id": definition.id},
+        )
+        for definition in definitions
+    ]
+    export_web_json(
+        [],
+        programme,
+        root,
+        45,
+        now.year,
+        generated_at=prior_time,
+        occasion_definitions=definitions,
+    )
+    files = {
+        f"web/output/{path.relative_to(root).as_posix()}": path.read_bytes()
+        for path in [
+            root / "web_events.json",
+            *sorted((root / "occasions").glob("*.json")),
+        ]
+    }
+    serve_github_publication(local_site, files)
+    current_definitions = definitions if rediscovered else []
+    export_web_json(
+        [],
+        [],
+        root,
+        45,
+        now.year,
+        generated_at=now,
+        occasion_definitions=current_definitions,
+    )
+    with httpx.Client(base_url=local_site.url) as client:
+        carry_forward_occasions(
+            root,
+            definitions=current_definitions,
+            now=now,
+            client=client,
+            repo="test/events",
+        )
+    manifest = json.loads((root / "web_events.json").read_text())
+    assert {item["slug"] for item in manifest["occasions"]} == {
+        "retained-0",
+        "retained-1",
+        "retained-7",
+    }
+    for offset in (1, 7):
+        programme = json.loads((root / f"occasions/retained-{offset}.json").read_text())
+        original = json.loads(files[f"web/output/occasions/retained-{offset}.json"])
+        assert programme["meta"] == (
+            {"updatedAt": now.strftime("%a %d %b %H:%M")}
+            if rediscovered
+            else original["meta"]
+        )
+        assert programme["occasion"] == {**original["occasion"], "status": "ended"}
+        assert programme["programme"] == original["programme"]
+
+    # A retained publication is itself valid input to the next production run.
+    serve_github_publication(
+        local_site,
+        {
+            f"web/output/{path.relative_to(root).as_posix()}": path.read_bytes()
+            for path in [
+                root / "web_events.json",
+                *sorted((root / "occasions").glob("*.json")),
+            ]
+        },
+    )
+    export_web_json([], [], root, 45, now.year, generated_at=now)
+    with httpx.Client(base_url=local_site.url) as client:
+        carry_forward_occasions(
+            root, definitions=[], now=now, client=client, repo="test/events"
+        )
+    assert json.loads((root / "web_events.json").read_text()) == manifest
+
+    # Even a stale publication must not rebuild a page beyond the seven dates.
+    expired = json.loads(files["web/output/occasions/retained-8.json"])
+    (root / "occasions/retained-8.json").write_text(json.dumps(expired))
+    manifest["occasions"].append(expired["occasion"])
+    (root / "web_events.json").write_text(json.dumps(manifest))
+    dist = tmp_path / "dist"
+    env = {
+        key: value
+        for key, value in os.environ.items()
+        if not key.startswith("WEB_DATA_")
+    }
+    build = subprocess.run(
+        [BUN, str(ASTRO), "build", "--root", str(WEB), "--outDir", str(dist)],
+        cwd=tmp_path,
+        env={
+            **env,
+            "SITE": "https://boringhannover.de",
+            "WEB_DATA_ROOT": str(root),
+            "WEB_DATA_MODE": "production",
+        },
+        capture_output=True,
+        text=True,
+        timeout=180,
+        check=False,
+    )
+    assert build.returncode == 0, build.stdout + build.stderr
+    sitemap = (dist / "sitemap.xml").read_text()
+    home = (dist / "index.html").read_text()
+    index = (dist / "special/index.html").read_text()
+    assert "/special/retained-0/" in sitemap
+    active = BeautifulSoup(
+        (dist / "special/retained-0/index.html").read_text(), "html.parser"
+    )
+    assert active.select_one('meta[name="robots"]') is None
+    for offset in (1, 7, 8):
+        url = f"/special/retained-{offset}/"
+        assert url not in sitemap and url not in home and url not in index
+    assert not (dist / "special/retained-8/index.html").exists()
+    for offset in (1, 7):
+        page = BeautifulSoup(
+            (dist / f"special/retained-{offset}/index.html").read_text(), "html.parser"
+        )
+        assert page.select_one('meta[name="robots"]')["content"] == "noindex, follow"
+        assert "Ended" in page.get_text()
+        assert "Am Markte" in page.get_text()
+        assert f"Programme for retained-{offset}" in page.get_text()
+        assert page.select_one("[data-occasion-actions]") is None
+        assert page.select_one('a[href="/special/"]') is not None
+        assert page.select_one('[data-umami-event="occasion-source-open"]') is not None
+        assert page.select_one(f'a[href="/special/retained-{8 - offset}/"]') is None
 
 
 def test_christmas_facts_survive_carry_forward_and_reach_the_detail_sheet(

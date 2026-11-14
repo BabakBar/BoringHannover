@@ -1,5 +1,5 @@
 {
-  "description": "Shared clock expectations for #59. `lifecycle` is the Python OccasionDefinition lifecycle at the Berlin date of `now` (null: not discoverable). `label` is the browser label at `now`; `staticLabel` is the conservative build-time label. Occurrence dates in these schedules come from the regression strings and captures in HANNOVER_CAPTURES.md.",
+  "description": "Shared clock expectations for #59/#26. `lifecycle` is the publishable Python OccasionDefinition lifecycle at the Berlin date of `now` (null: outside discovery and ended retention). `label` is the browser label at `now`; `staticLabel` is the conservative build-time label. Occurrence dates in these schedules come from the regression strings and captures in HANNOVER_CAPTURES.md.",
   "cases": [
     {
       "name": "one-day event later today says Today, not On now or Final weekend",
@@ -275,7 +275,7 @@
         "occurrences": [{ "date": "2026-10-25", "startTime": "10:00", "endTime": "12:00" }],
         "scheduleConfidence": "continuous"
       },
-      "expected": { "lifecycle": null, "label": "Ended", "staticLabel": "Ended" }
+      "expected": { "lifecycle": "ended", "label": "Ended", "staticLabel": "Ended" }
     },
     {
       "name": "year rollover final day",

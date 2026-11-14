@@ -34,6 +34,9 @@ test.skipIf(!executablePath && !process.env.CI)(
       { ...base, slug: 'unknown-hours', scheduleConfidence: 'unknown', hoursText },
       { ...base, slug: 'partial-hours', scheduleConfidence: 'continuous',
         occurrences: [1, 2, 3].map(offset => ({ date: day(offset), startTime: '11:00', endTime: '21:00' })) },
+      { ...base, slug: 'ended-dates', startDate: day(-8), endDate: day(-1),
+        status: 'ended', scheduleConfidence: 'discrete',
+        occurrences: Array.from({ length: 8 }, (_, index) => ({ date: day(index - 8), startTime: '17:00' })) },
     ].map(item => ({ ...item, id: `sheet:${item.slug}`, programmePath: `occasions/${item.slug}.json` }));
     for (const occasion of occasions) {
       writeFileSync(join(data, occasion.programmePath), JSON.stringify({ meta, occasion, programme: [] }));
@@ -97,6 +100,13 @@ test.skipIf(!executablePath && !process.env.CI)(
         expect(await page.locator('[data-source-schedule]').innerText()).toContain(hoursText);
         await page.goto(`${origin}/special/partial-hours/`);
         expect(await page.locator('.sheet__facts').innerText()).not.toContain('daily');
+        await page.goto(`${origin}/special/ended-dates/`);
+        expect(await page.locator('meta[name="robots"]').getAttribute('content')).toBe('noindex, follow');
+        expect(await page.locator('[data-occasion-actions]').count()).toBe(0);
+        expect(await page.locator('[data-schedule-preview] > li:visible').count()).toBe(3);
+        await page.locator('[data-schedule-more] > summary').focus();
+        await page.keyboard.press('Enter');
+        expect(await page.locator('[data-schedule-more] li:visible').count()).toBe(5);
         await context.close();
       }
     } finally {
