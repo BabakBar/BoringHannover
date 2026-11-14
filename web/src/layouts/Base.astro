@@ -18,6 +18,7 @@ interface Props {
   /** Wider column for pages with a diagram; the digest stays phone-width. */
   wide?: boolean;
   noindex?: boolean;
+  analytics?: boolean;
 }
 
 const {
@@ -31,6 +32,7 @@ const {
   jsonLd,
   wide = false,
   noindex = false,
+  analytics = true,
 } = Astro.props;
 
 const DEFAULT_UMAMI_WEBSITE_ID = '23cf1ce2-3635-4e97-aab9-6ccd0467f839';
@@ -237,7 +239,7 @@ const structuredData = siteUrl ? toJsonLd({
     </script>
 
     <!-- Umami Analytics, proxied first-party (optional; configured via PUBLIC_UMAMI_* env vars) -->
-    {umamiWebsiteId && (
+    {analytics && umamiWebsiteId && (
       <script
         defer
         src={umamiSrc}

@@ -125,7 +125,9 @@ test.skipIf(!executablePath && !process.env.CI)(
         }
         const path = join(dist, url.pathname.endsWith('/') ? `${url.pathname}index.html` : url.pathname);
         const file = Bun.file(path);
-        return (await file.exists()) ? new Response(file) : new Response('', { status: 404 });
+        return (await file.exists())
+          ? new Response(file, { headers: { 'Access-Control-Allow-Origin': '*' } })
+          : new Response('', { status: 404 });
       },
     });
     const origin = `http://${SITE_HOST}:${server.port}`;
@@ -216,16 +218,41 @@ test.skipIf(!executablePath && !process.env.CI)(
       sends.length = 0;
       requests.length = 0;
       const optedOut = await browser.newContext();
-      await optedOut.addInitScript(() => localStorage.setItem('umami.disabled', '1'));
-      const quiet = await open(optedOut);
+      const quiet = await optedOut.newPage();
+      await quiet.goto(`${origin}/datenschutz/#analytics-preference`);
+      expect(await quiet.locator('script[data-website-id]').count()).toBe(0);
+      const preference = quiet.getByRole('button', { name: 'Exclude this browser' });
+      await preference.focus();
+      await quiet.keyboard.press('Enter');
+      expect(await quiet.evaluate(() => localStorage.getItem('umami.disabled'))).toBe('1');
+      await quiet.reload();
+      expect(await quiet.getByRole('button', { name: 'Exclude this browser' }).getAttribute('aria-pressed')).toBe('true');
+      await quiet.goto(`${origin}/`);
       await until(() => requests.includes(`GET ${SITE_HOST}/s/t.js`), 'the tracker');
       expect(await quiet.evaluate(() => typeof (window as { umami?: unknown }).umami)).toBe('object');
       await activate(quiet, 'Fräulein', 'mouse');
       await activate(quiet, 'Fräulein', 'enter');
-      await optedOut.close();
       await Bun.sleep(1000);
       expect(sends).toEqual([]);
       expect(requests.filter(request => request.includes('/s/api/send'))).toEqual([]);
+
+      await quiet.goto(`${origin}/datenschutz/`);
+      await quiet.getByRole('button', { name: 'Exclude this browser' }).click();
+      expect(await quiet.evaluate(() => localStorage.getItem('umami.disabled'))).toBeNull();
+      await quiet.goto(`${origin}/`);
+      await until(() => pageviews().length === 1, 'the resumed pageview');
+      await activate(quiet, 'Fräulein', 'mouse');
+      await until(() => clicks().length === 1, 'the resumed event-click');
+      await optedOut.close();
+
+      const unavailable = await browser.newContext();
+      const blocked = await unavailable.newPage();
+      // An opaque sandbox origin denies storage in the real browser.
+      await blocked.setContent(`<iframe sandbox="allow-scripts" src="${origin}/datenschutz/"></iframe>`);
+      const frame = blocked.frameLocator('iframe');
+      await frame.getByText('Browser storage is unavailable. This preference cannot be saved.').waitFor();
+      expect(await frame.getByRole('button', { name: 'Exclude this browser' }).isVisible()).toBe(false);
+      await unavailable.close();
     } finally {
       await browser?.close();
       server.stop(true);
