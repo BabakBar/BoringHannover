@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
-import { loadEventData } from '../data/loader';
+import { loadEventData, loadOccasionProgramme } from '../data/loader';
+import { calendarAppointments } from '../utils/occasionCalendar';
 import { addDays, berlinClock } from '../utils/occasionStatus';
 
 export const prerender = true;
@@ -15,5 +16,8 @@ export const GET: APIRoute = () => new Response(`export default ${JSON.stringify
   loadEventData().occasions.map(occasion => [occasion.slug, {
     endedAt: berlinMidnight(addDays(occasion.endDate, 1)),
     expiresAt: berlinMidnight(addDays(occasion.endDate, 8)),
+    calendar: Object.fromEntries(calendarAppointments(
+      loadOccasionProgramme(occasion.programmePath)!.occasion, new Date(),
+    ).map(appointment => [appointment.occurrence.date, appointment.expiresAt])),
   }]),
 ))};`, { headers: { 'Content-Type': 'application/javascript' } });

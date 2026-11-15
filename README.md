@@ -39,6 +39,10 @@ timestamp still powers freshness validation and the visible update information.
 Occasion details keep confirmed weekday openings and excluded dates, qualify
 minimum entry prices as “from”, and offer longer schedules through native
 disclosures that work without JavaScript. Unknown conditions stay source-labelled.
+Details lead with the next supported date and offer one-date calendar downloads.
+Dates without confirmed hours are labelled as date reminders; saved calendars do
+not update automatically. Downloads expire when the listed hours end, or at the
+next Berlin midnight when no end time is known.
 
 ## Development
 
