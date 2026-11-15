@@ -19,7 +19,9 @@ import {
 } from '../../utils/displayLabels';
 import { occasionJsonLd } from '../../utils/occasionJsonLd';
 import { occasionSourceLink } from '../../utils/occasionSource';
+import { calendarAppointments } from '../../utils/occasionCalendar';
 import {
+  appointmentText,
   entryPrice,
   mapUrl,
   onwardOccasions,
@@ -31,6 +33,7 @@ import {
 import {
   addDays,
   berlinClock,
+  nextAppointment,
   occasionHasEnded,
   OCCASION_RETENTION_DAYS,
 } from '../../utils/occasionStatus';
@@ -109,6 +112,14 @@ const source = occasionSourceLink(occasion.sourceUrl);
 // One build clock for actions and onward links, so both honour closing times.
 const builtAt = new Date();
 const nextDate = sheetNextDate(occasion, builtAt);
+const downloads = calendarAppointments(occasion, builtAt);
+const calendarBase = `/special/${occasion.slug}/calendar/`;
+const nextDownload = downloads.find(item => item.occurrence.date === nextAppointment(occasion, builtAt)?.date);
+const listedDates = when.appointments.length > 0 ? when.appointments : downloads.map(({ occurrence }) => ({
+  date: occurrence.date,
+  datetime: occurrence.startTime ? `${occurrence.date}T${occurrence.startTime}` : occurrence.date,
+  text: appointmentText(occurrence),
+}));
 // Cancelled, undated postponed and ended occasions keep their facts, not
 // actions. Expiry comes from the dates, never the status label, so an ended
 // Rescheduled occasion loses them too; the browser rechecks on its clock.
@@ -199,7 +210,24 @@ const eventJsonLd = occasionJsonLd(occasion, {
       <div class="fact">
         <dt>When</dt>
         <dd>
-          <p class="fact__next" data-sheet-when>{nextDate}</p>
+          <p class="fact__next" data-sheet-when tabindex="-1">{nextDate}</p>
+          {downloads.length > 0 && <>
+            <a
+              class="sheet__action fact__calendar"
+              href={`${calendarBase}${(nextDownload ?? downloads[0]).occurrence.date}.ics`}
+              download={`${occasion.slug}-${(nextDownload ?? downloads[0]).occurrence.date}.ics`}
+              aria-label={`Download ${nextDate} as a calendar file`}
+              data-calendar-primary
+              data-calendar-base={calendarBase}
+              data-calendar-options={JSON.stringify(downloads.map(item => ({
+                date: item.occurrence.date, expiresAt: item.expiresAt, timed: item.startsAt !== null,
+              })))}
+              hidden={!nextDownload}
+            >{nextDownload?.startsAt === null ? 'Download date reminder (.ics)' : 'Download this date (.ics)'}</a>
+            <p class="fact__note" data-calendar-note hidden={!nextDownload}>
+              One listed date. Saved calendars do not update automatically.
+            </p>
+          </>}
           {when.selectedDatesOnly && (
             <p class="fact__note">Selected dates only.</p>
           )}
@@ -210,12 +238,21 @@ const eventJsonLd = occasionJsonLd(occasion, {
               <summary>Listed dates and hours</summary>
               {when.range && <p>{when.range}</p>}
               {when.selectedDatesOnly && <p class="fact__note">Selected dates only:</p>}
-              {when.appointments.length > 0 && <ul class="fact__list">
-                {when.appointments.map(appointment => (
-                  <li data-occurrence-date={appointment.date}>
-                    <time datetime={appointment.datetime}>{appointment.text}</time>
-                  </li>
-                ))}
+              {listedDates.length > 0 && <ul class="fact__list">
+                {listedDates.map(appointment => {
+                  const download = downloads.find(item => item.occurrence.date === appointment.date);
+                  return <li class="fact__appointment" data-occurrence-date={appointment.date}>
+                      <time datetime={appointment.datetime}>{appointment.text}</time>
+                      {download && <a
+                        href={`${calendarBase}${appointment.date}.ics`}
+                        download={`${occasion.slug}-${appointment.date}.ics`}
+                        class="fact__link fact__calendar-date"
+                        aria-label={`Download ${appointment.text} as a calendar file`}
+                        data-calendar-date={appointment.date}
+                        data-calendar-until={download.expiresAt}
+                      >{download.startsAt === null ? 'Date reminder (.ics)' : 'Download (.ics)'}</a>}
+                    </li>;
+                })}
               </ul>}
               {occasion.occurrences?.some(occurrence => occurrence.startTime) && (
                 <p class="fact__note">Times shown are Berlin time.</p>
@@ -548,6 +585,7 @@ const eventJsonLd = occasionJsonLd(occasion, {
 <script>
   import { sheetNextDate } from '../../utils/occasionSheet';
   import {
+    nextAppointment,
     occasionHasEnded,
     occasionIsCurrent,
     type OccasionSchedule,
@@ -567,11 +605,30 @@ const eventJsonLd = occasionJsonLd(occasion, {
 
   function refreshSheet() {
     const now = new Date();
+    const focusedCalendar = document.activeElement?.closest<HTMLElement>('[data-calendar-primary], [data-calendar-until]');
     const own = schedule(document.querySelector('.sheet__head'));
     const when = document.querySelector<HTMLElement>('[data-sheet-when]');
     if (own && when) {
       when.textContent = sheetNextDate(own, now);
     }
+    const calendar = document.querySelector<HTMLAnchorElement>('[data-calendar-primary]');
+    if (own && calendar) {
+      const options: Array<{ date: string; expiresAt: number; timed: boolean }> = JSON.parse(calendar.dataset.calendarOptions!);
+      const next = nextAppointment(own, now);
+      const selected = options.find(item => item.date === next?.date && now.getTime() < item.expiresAt);
+      calendar.hidden = !selected;
+      if (selected) {
+        calendar.href = `${calendar.dataset.calendarBase}${selected.date}.ics`;
+        calendar.download = `${calendar.dataset.calendarBase!.split('/')[2]}-${selected.date}.ics`;
+        calendar.textContent = selected.timed ? 'Download this date (.ics)' : 'Download date reminder (.ics)';
+        calendar.setAttribute('aria-label', `Download ${sheetNextDate(own, now)} as a calendar file`);
+      }
+      document.querySelector('[data-calendar-note]')?.toggleAttribute('hidden', !selected);
+    }
+    for (const link of document.querySelectorAll<HTMLElement>('[data-calendar-until]')) {
+      link.hidden = now.getTime() >= Number(link.dataset.calendarUntil);
+    }
+    if (focusedCalendar?.hidden) when?.focus({ preventScroll: true });
     const actions = document.querySelector<HTMLElement>('[data-occasion-actions]');
     // Dates decide expiry; a Rescheduled label must not keep actions alive.
     if (own && actions) {
@@ -933,6 +990,27 @@ const eventJsonLd = occasionJsonLd(occasion, {
   .fact__next {
     color: var(--text-data);
     font-weight: 700;
+  }
+
+  .fact__calendar {
+    margin-top: 0.5rem;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .fact__appointment {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.15rem 0.75rem;
+  }
+
+  .fact__appointment .fact__calendar-date {
+    margin: 0;
+  }
+
+  .fact__calendar-date[hidden] {
+    display: none;
   }
 
   .fact__original {

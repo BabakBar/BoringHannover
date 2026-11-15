@@ -86,6 +86,17 @@ test.skipIf(!executablePath && !process.env.CI)(
         expect(await page.locator('.sheet__facts > .fact').first().innerText()).not.toContain(`${dateText(-2)} · 17:00`);
         expect(await page.locator('[data-sheet-when]').count()).toBe(1);
         expect(await page.locator('[data-sheet-when]').innerText()).toBe(`${dateText(1)} · 17:00–22:00`);
+        const calendar = page.locator('[data-calendar-primary]');
+        expect(await calendar.count()).toBe(1);
+        expect(await calendar.getAttribute('href')).toBe(`/special/many-dates/calendar/${day(1)}.ics`);
+        const downloaded = page.waitForEvent('download');
+        await calendar.focus();
+        await page.keyboard.press('Enter');
+        const download = await downloaded;
+        expect(download.suggestedFilename()).toBe(`many-dates-${day(1)}.ics`);
+        const content = readFileSync((await download.path())!, 'utf8');
+        expect(content.match(/BEGIN:VEVENT/g)?.length).toBe(1);
+        expect(content).not.toContain('RRULE');
         expect(await page.locator('[data-schedule-more] li:visible').count()).toBe(0);
         expect(await page.locator('.sheet__facts').innerText()).toContain('from €23.80');
         const summary = page.locator('[data-schedule-more] > summary');
@@ -103,10 +114,15 @@ test.skipIf(!executablePath && !process.env.CI)(
           await page.clock.setSystemTime(new Date(`${day(4)}T21:00:00Z`));
           await page.clock.fastForward(60_000);
           expect(await page.locator('[data-sheet-when]').innerText()).toBe(`${dateText(5)} · 17:00–22:00`);
+          expect(await calendar.getAttribute('href')).toBe(`/special/many-dates/calendar/${day(5)}.ics`);
+          expect(await summary.evaluate(element => document.activeElement === element)).toBe(true);
+          await calendar.focus();
           await page.clock.setSystemTime(new Date(`${day(8)}T23:30:00Z`));
           await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
-          expect(await summary.evaluate(element => document.activeElement === element)).toBe(true);
+          expect(await page.locator('[data-sheet-when]').evaluate(element => document.activeElement === element)).toBe(true);
           expect(await page.locator('[data-sheet-when]').innerText()).toBe('Ended');
+          expect(await calendar.isVisible()).toBe(false);
+          expect(await page.locator('[data-calendar-date]:visible').count()).toBe(0);
           expect(await page.locator('[data-schedule-more] li:visible').count()).toBe(10);
           await page.clock.setSystemTime(new Date());
         }
@@ -120,6 +136,7 @@ test.skipIf(!executablePath && !process.env.CI)(
         })).toBe(true);
         await page.goto(`${origin}/special/unknown-hours/`);
         expect(await page.locator('[data-sheet-when]').innerText()).toBe('Check source for dates');
+        expect(await page.locator('[data-calendar-primary]').count()).toBe(0);
         const sourceSchedule = page.locator('[data-source-schedule] > summary');
         await sourceSchedule.focus();
         await page.keyboard.press('Enter');
@@ -145,6 +162,12 @@ test.skipIf(!executablePath && !process.env.CI)(
         ]) {
           await page.goto(`${origin}/special/${slug}/`);
           expect(await page.locator('[data-sheet-when]').innerText()).toBe(expected);
+          if (['cancelled', 'postponed', 'exhausted-dates', 'day-31'].includes(slug)) {
+            expect(await page.locator('[data-calendar-primary]').count()).toBe(0);
+          }
+          if (slug === 'date-only') {
+            expect(await page.locator('[data-calendar-primary]').textContent()).toBe('Download date reminder (.ics)');
+          }
           if (slug === 'daily-hours') {
             await page.locator('[data-schedule-more] > summary').focus();
             await page.keyboard.press('Enter');

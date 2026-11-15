@@ -49,6 +49,9 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
     expect(build.status, build.stdout + build.stderr).toBe(0);
     const metadataPath = join(dist, 'occasion-lifecycle.js');
     const metadata = (await import(metadataPath)).default;
+    expect(metadata.active.calendar[today]).toBeGreaterThan(Date.now());
+    const calendarPath = `/special/ending/calendar/${today}.ics`;
+    expect(readFileSync(join(dist, calendarPath), 'utf8')).toContain('DTSTART;VALUE=DATE:');
     for (const [slug, expected] of [
       ['spring-dst', '2026-03-28T23:00:00Z'],
       ['spring-dst-week', '2026-03-29T22:00:00Z'],
@@ -69,8 +72,8 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
     writeFileSync(join(dist, 'special/transition/calendar.ics'), 'BEGIN:VCALENDAR\r\nEND:VCALENDAR');
     // Only the test artifact's deadlines are shortened. The server clock stays real.
     const boundary = Date.now() + 12000;
-    metadata.active = { endedAt: boundary + 3600000, expiresAt: boundary + 86400000 };
-    metadata.ending = { endedAt: boundary, expiresAt: boundary + 86400000 };
+    metadata.active = { ...metadata.active, endedAt: boundary + 3600000, expiresAt: boundary + 86400000 };
+    metadata.ending = { ...metadata.ending, endedAt: boundary, expiresAt: boundary + 86400000, calendar: { [today]: boundary } };
     metadata.transition = { endedAt: boundary - 24000, expiresAt: boundary };
     metadata.invalid = { endedAt: 0, expiresAt: '99999999999999' };
     writeFileSync(metadataPath, `export default ${JSON.stringify(metadata)};`);
@@ -101,12 +104,25 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
     const ending = await request('/special/ending/');
     expect(ending.status).toBe(200);
     expect(ending.headers.get('x-robots-tag')).toBeNull();
+    const calendar = await request(calendarPath);
+    expect(calendar.status).toBe(200);
+    expect(calendar.headers.get('content-type')).toBe('text/calendar; charset=utf-8');
+    expect(calendar.headers.get('content-disposition')).toBe(`attachment; filename="ending-${today}.ics"`);
+    expect(calendar.headers.get('cache-control')).toBe('no-store');
+    expect(calendar.headers.get('x-content-type-options')).toBe('nosniff');
+    const calendarHead = await request(calendarPath, 'HEAD');
+    expect(calendarHead.status).toBe(200);
+    expect(calendarHead.headers.get('content-type')).toBe('text/calendar; charset=utf-8');
+    expect(await calendarHead.text()).toBe('');
+    const calendarEtag = calendar.headers.get('etag')!;
+    expect((await calendar.text()).match(/BEGIN:VEVENT/g)?.length).toBe(1);
+    expect((await request(calendarPath, 'GET', { 'If-None-Match': calendarEtag })).status).toBe(304);
     const retained = await request('/special/transition/');
     expect(retained.status).toBe(200);
     expect(retained.headers.get('x-robots-tag')).toBe('noindex, follow');
     const expiredEtag = retained.headers.get('etag')!;
     for (const method of ['GET', 'HEAD']) {
-      for (const path of ['/special/expired/', '/special/expired', '/special/expired/index.html', '/special/orphan/', '/special/invalid/', '/special/constructor/', '/SPECIAL/transition/', '/special/TRANSITION/', '/occasion-lifecycle.js', '/OCCASION-LIFECYCLE.JS', '/special/transition/calendar.ics', '/special/transition.ics']) {
+      for (const path of ['/special/expired/', '/special/expired', '/special/expired/index.html', '/special/orphan/', '/special/invalid/', '/special/constructor/', '/SPECIAL/transition/', '/special/TRANSITION/', '/occasion-lifecycle.js', '/OCCASION-LIFECYCLE.JS', '/special/transition/calendar.ics', '/special/transition.ics', `${calendarPath}/`, calendarPath.toUpperCase(), '/special/ending/calendar/2099-01-01.ics']) {
         const reply = await request(path, method);
         expect(reply.status, `${method} ${path}`).toBe(404);
         await reply.arrayBuffer();
@@ -134,6 +150,12 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
     const nowRetained = await request('/special/ending/');
     expect(nowRetained.status).toBe(200);
     expect(nowRetained.headers.get('x-robots-tag')).toBe('noindex, follow');
+    for (const method of ['GET', 'HEAD']) {
+      const reply = await request(calendarPath + '?now=0', method, { 'If-None-Match': calendarEtag, Range: 'bytes=0-100' });
+      expect(reply.status).toBe(404);
+      expect(reply.headers.get('cache-control')).toBe('no-store');
+      expect(reply.headers.get('x-robots-tag')).toBe('noindex, follow');
+    }
     for (const method of ['GET', 'HEAD']) {
       for (const path of aliases('transition')) {
         const reply = await request(path + '?now=0&expires=9999999999999', method, { 'If-None-Match': expiredEtag, Range: 'bytes=0-100', 'X-Current-Time': '0' });

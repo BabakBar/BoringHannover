@@ -18,6 +18,7 @@ from typing import TYPE_CHECKING
 import httpx
 import pytest
 from bs4 import BeautifulSoup
+from ics import Calendar
 
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
@@ -47,6 +48,145 @@ pytestmark = pytest.mark.skipif(
     BUN is None or not ASTRO.exists(),
     reason="needs bun and web/node_modules (run `bun install` in web/)",
 )
+
+
+def test_calendar_downloads_import_across_dst_and_preserve_unknown_hours() -> None:
+    """The real calendar writer round-trips through an independent ICS reader."""
+    name = "Ö" * 80 + " \\,;\nBEGIN:VEVENT"
+    cases = [
+        (
+            "2026-03-29",
+            "01:30",
+            "03:30",
+            "2026-03-21T12:00:00Z",
+            "2026-03-29T00:30:00+00:00",
+            "2026-03-29T01:30:00+00:00",
+        ),
+        (
+            "2026-10-25",
+            "01:30",
+            "03:30",
+            "2026-10-20T12:00:00Z",
+            "2026-10-24T23:30:00+00:00",
+            "2026-10-25T02:30:00+00:00",
+        ),
+        (
+            "2026-03-30",
+            "17:00",
+            None,
+            "2026-03-21T12:00:00Z",
+            "2026-03-30T15:00:00+00:00",
+            "2026-03-30T15:00:00+00:00",
+        ),
+        (
+            "2026-03-28",
+            "20:00",
+            "24:00",
+            "2026-03-21T12:00:00Z",
+            "2026-03-28T19:00:00+00:00",
+            "2026-03-28T23:00:00+00:00",
+        ),
+        (
+            "2026-03-29",
+            None,
+            None,
+            "2026-03-21T12:00:00Z",
+            "2026-03-29T00:00:00+00:00",
+            "2026-03-30T00:00:00+00:00",
+        ),
+        (
+            "2026-12-31",
+            None,
+            None,
+            "2026-12-20T12:00:00Z",
+            "2026-12-31T00:00:00+00:00",
+            "2027-01-01T00:00:00+00:00",
+        ),
+        ("2026-03-29", "02:30", "04:00", "2026-03-21T12:00:00Z", None, None),
+        ("2026-10-25", "02:30", "04:00", "2026-10-20T12:00:00Z", None, None),
+        ("2026-03-29", "18:00", "17:00", "2026-03-21T12:00:00Z", None, None),
+    ]
+    payload = []
+    for day, start, end, now, _, _ in cases:
+        payload.append(
+            {
+                "now": now,
+                "occasion": {
+                    "id": "calendar:example",
+                    "slug": "example",
+                    "name": name,
+                    "kind": "festival",
+                    "startDate": day,
+                    "endDate": day,
+                    "location": "Square, Hannover; West",
+                    "description": "One supported date.",
+                    "sourceUrl": "https://example.com/event",
+                    "status": "upcoming",
+                    "programmeCount": 0,
+                    "locationCount": 0,
+                    "preview": [],
+                    "programmePath": "occasions/example.json",
+                    "scheduleConfidence": "continuous",
+                    "occurrences": [
+                        {
+                            "date": day,
+                            **({"startTime": start} if start else {}),
+                            **({"endTime": end} if end else {}),
+                        }
+                    ],
+                },
+            }
+        )
+    result = subprocess.run(
+        [
+            BUN,
+            "--eval",
+            """
+import { calendarAppointments, occasionCalendar } from './src/utils/occasionCalendar.ts';
+const input = await Bun.stdin.json();
+console.log(JSON.stringify(input.map(({ occasion, now }) => {
+  const appointments = calendarAppointments(occasion, new Date(now));
+  if (!appointments.length) return null;
+  if (appointments.length !== 1) throw new Error('Expected one date');
+  const stamp = now.replace('Z', '.123Z');
+  return {
+    content: occasionCalendar(occasion, appointments[0], stamp),
+    changed: occasionCalendar({ ...occasion, name: 'Updated copy' }, appointments[0], stamp),
+  };
+})));
+""",
+        ],
+        cwd=WEB,
+        input=json.dumps(payload),
+        capture_output=True,
+        text=True,
+        timeout=30,
+        check=False,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    for case, document in zip(cases, json.loads(result.stdout), strict=True):
+        _, start, end, _, expected_begin, expected_end = case
+        if expected_begin is None:
+            assert document is None
+            continue
+        content = document["content"]
+        assert content.count("\r\nBEGIN:VEVENT\r\n") == 1
+        assert "\n" not in content.replace("\r\n", "")
+        assert all(len(line.encode()) <= 75 for line in content.split("\r\n"))
+        assert "RRULE" not in content
+        calendar = Calendar(content)
+        assert len(calendar.events) == 1
+        event = next(iter(calendar.events))
+        assert event.name == name + ("" if start else " (date reminder)")
+        assert event.begin.isoformat() == expected_begin
+        assert event.end.isoformat() == expected_end
+        assert event.all_day == (start is None)
+        assert event.location == "Square, Hannover; West"
+        assert event.uid == next(iter(Calendar(document["changed"]).events)).uid
+        if start and not end:
+            assert "DTEND" not in content
+        if not start:
+            assert "Opening hours are not confirmed" in event.description
 
 
 @pytest.mark.parametrize("rediscovered", [False, True], ids=["omitted", "rediscovered"])
