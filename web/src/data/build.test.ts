@@ -521,7 +521,7 @@ test('occasion pages share owned imagery, truthful source labels and English cop
   }
 }, 120000);
 
-test('the occasion sheet puts decision facts before prose and works without JS (#54)', () => {
+test('the occasion sheet puts About before practical facts and works without JS (#54)', () => {
   const root = mkdtempSync(join(tmpdir(), 'occasion-sheet-'));
   const env = { ...process.env };
   for (const name of ['WEB_DATA_ROOT', 'WEB_DATA_MODE', 'WEB_DATA_MAX_AGE_DAYS'])
@@ -708,18 +708,18 @@ test('the occasion sheet puts decision facts before prose and works without JS (
 
     const tiergarten = page('tiergartenfest-hannover');
     const tiergartenText = text(tiergarten);
-    // Name and status, then When / Where / Entry / Source, then actions,
-    // then the English explanation, provenance and onward links.
+    // Name and status, then About, practical facts, actions and onward links.
     before(
       tiergartenText,
       'Tiergartenfest Hannover',
+      ' About ',
+      'Tiergartenfest Hannover at Tiergarten. See the source for details.',
+      'Facts from the listing on hannover.de',
       ' When ',
       ' Where ',
       ' Entry ',
       ' Source ',
       'Map',
-      'Tiergartenfest Hannover at Tiergarten. See the source for details.',
-      'Facts from the listing on hannover.de',
       'More occasions',
     );
     expect(tiergarten).toMatch(/data-occasion-status[^>]*>\s*Coming soon\s*</);
