@@ -3890,25 +3890,25 @@
         {
           "path": "/BabakBar/BoringHannover/pulls",
           "title": "/pulls",
-          "count": 17,
+          "count": 18,
           "uniques": 1
         },
         {
           "path": "/BabakBar/BoringHannover",
           "title": "Overview",
-          "count": 10,
+          "count": 15,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/issues",
+          "title": "/issues",
+          "count": 11,
           "uniques": 1
         },
         {
           "path": "/BabakBar/BoringHannover/pull/92",
           "title": "/pull/92",
           "count": 6,
-          "uniques": 1
-        },
-        {
-          "path": "/BabakBar/BoringHannover/issues",
-          "title": "/issues",
-          "count": 3,
           "uniques": 1
         },
         {
@@ -3954,9 +3954,9 @@
     {
       "path": "/BabakBar/BoringHannover/pulls",
       "title": "/pulls",
-      "latest_count": 17,
+      "latest_count": 18,
       "latest_uniques": 1,
-      "max_count": 17,
+      "max_count": 18,
       "max_uniques": 1,
       "first_seen": "2026-09-18",
       "last_seen": "2026-11-15"
@@ -3964,11 +3964,21 @@
     {
       "path": "/BabakBar/BoringHannover",
       "title": "Overview",
-      "latest_count": 10,
+      "latest_count": 15,
       "latest_uniques": 1,
-      "max_count": 10,
+      "max_count": 15,
       "max_uniques": 2,
       "first_seen": "2026-09-04",
+      "last_seen": "2026-11-15"
+    },
+    {
+      "path": "/BabakBar/BoringHannover/issues",
+      "title": "/issues",
+      "latest_count": 11,
+      "latest_uniques": 1,
+      "max_count": 11,
+      "max_uniques": 1,
+      "first_seen": "2026-10-16",
       "last_seen": "2026-11-15"
     },
     {
@@ -3979,16 +3989,6 @@
       "max_count": 6,
       "max_uniques": 1,
       "first_seen": "2026-11-07",
-      "last_seen": "2026-11-15"
-    },
-    {
-      "path": "/BabakBar/BoringHannover/issues",
-      "title": "/issues",
-      "latest_count": 3,
-      "latest_uniques": 1,
-      "max_count": 4,
-      "max_uniques": 1,
-      "first_seen": "2026-10-16",
       "last_seen": "2026-11-15"
     },
     {
