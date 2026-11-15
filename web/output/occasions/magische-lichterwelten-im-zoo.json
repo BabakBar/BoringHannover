@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 13 Nov 10:00"
+    "updatedAt": "Sun 15 Nov 19:00"
   },
   "occasion": {
     "id": "hannover-festivals:magische-lichterwelten-im-zoo",
@@ -135,6 +135,11 @@
       },
       {
         "date": "2026-12-13",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-15",
         "startTime": "17:00",
         "endTime": "22:00"
       }
