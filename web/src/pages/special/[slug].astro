@@ -25,6 +25,7 @@ import {
   onwardOccasions,
   placeAddress,
   sheetDateLine,
+  sheetNextDate,
   whenFacts,
 } from '../../utils/occasionSheet';
 import {
@@ -107,6 +108,7 @@ const germanConditions = admission.some((item) => item.label && !item.explained)
 const source = occasionSourceLink(occasion.sourceUrl);
 // One build clock for actions and onward links, so both honour closing times.
 const builtAt = new Date();
+const nextDate = sheetNextDate(occasion, builtAt);
 // Cancelled, undated postponed and ended occasions keep their facts, not
 // actions. Expiry comes from the dates, never the status label, so an ended
 // Rescheduled occasion loses them too; the browser rechecks on its clock.
@@ -197,30 +199,27 @@ const eventJsonLd = occasionJsonLd(occasion, {
       <div class="fact">
         <dt>When</dt>
         <dd>
-          {when.range && <p>{when.range}</p>}
+          <p class="fact__next" data-sheet-when>{nextDate}</p>
           {when.selectedDatesOnly && (
-            <p class="fact__note">Selected dates only:</p>
+            <p class="fact__note">Selected dates only.</p>
           )}
-          {when.appointments.length > 0 && (
-            <ul class="fact__list" data-schedule-preview>
-              {when.appointments.slice(0, 3).map((appointment) => (
-                <li data-occurrence-date={appointment.date}>
-                  <time datetime={appointment.datetime}>{appointment.text}</time>
-                </li>
-              ))}
-            </ul>
-          )}
-          {when.appointments.length > 3 && (
+          {(when.appointments.length > 0 || (
+            when.range && occasion.scheduleConfidence === 'continuous'
+          )) && (
             <details class="fact__schedule" data-schedule-more>
-              <summary>More confirmed dates</summary>
-              <ul class="fact__list" data-schedule-rest>
-                {when.appointments.slice(3).map(appointment => (
+              <summary>Listed dates and hours</summary>
+              {when.range && <p>{when.range}</p>}
+              {when.selectedDatesOnly && <p class="fact__note">Selected dates only:</p>}
+              {when.appointments.length > 0 && <ul class="fact__list">
+                {when.appointments.map(appointment => (
                   <li data-occurrence-date={appointment.date}>
                     <time datetime={appointment.datetime}>{appointment.text}</time>
                   </li>
                 ))}
-              </ul>
-              <p class="fact__note" data-schedule-empty hidden>No additional confirmed dates.</p>
+              </ul>}
+              {occasion.occurrences?.some(occurrence => occurrence.startTime) && (
+                <p class="fact__note">Times shown are Berlin time.</p>
+              )}
             </details>
           )}
           {when.sourceHours && (
@@ -547,9 +546,8 @@ const eventJsonLd = occasionJsonLd(occasion, {
 </Base>
 
 <script>
+  import { sheetNextDate } from '../../utils/occasionSheet';
   import {
-    berlinClock,
-    nextAppointment,
     occasionHasEnded,
     occasionIsCurrent,
     type OccasionSchedule,
@@ -569,29 +567,10 @@ const eventJsonLd = occasionJsonLd(occasion, {
 
   function refreshSheet() {
     const now = new Date();
-    const today = berlinClock(now).date;
     const own = schedule(document.querySelector('.sheet__head'));
-    const next = own ? nextAppointment(own, now) : null;
-    const retained = own && today > own.endDate;
-    const rows = Array.from(document.querySelectorAll<HTMLElement>('[data-occurrence-date]'))
-      .sort((left, right) => (left.dataset.occurrenceDate ?? '').localeCompare(right.dataset.occurrenceDate ?? ''));
-    for (const item of rows) {
-      item.hidden = !retained && (own
-        ? !next || (item.dataset.occurrenceDate ?? '') < next.date
-        : (item.dataset.occurrenceDate ?? '') < today);
-    }
-    const available = rows.filter(item => !item.hidden);
-    const preview = document.querySelector('[data-schedule-preview]');
-    const rest = document.querySelector('[data-schedule-rest]');
-    const more = document.querySelector<HTMLElement>('[data-schedule-more]');
-    if (preview && rest && more) {
-      available.forEach((item, index) => {
-        const target = index < 3 ? preview : rest;
-        if (item.parentElement !== target) target.appendChild(item);
-      });
-      // Keep a focused disclosure available when its final extra date expires.
-      more.hidden = available.length <= 3 && !more.contains(document.activeElement);
-      document.querySelector('[data-schedule-empty]')?.toggleAttribute('hidden', available.length > 3);
+    const when = document.querySelector<HTMLElement>('[data-sheet-when]');
+    if (own && when) {
+      when.textContent = sheetNextDate(own, now);
     }
     const actions = document.querySelector<HTMLElement>('[data-occasion-actions]');
     // Dates decide expiry; a Rescheduled label must not keep actions alive.
@@ -951,8 +930,9 @@ const eventJsonLd = occasionJsonLd(occasion, {
     gap: 0.15rem;
   }
 
-  .fact__list li[hidden] {
-    display: none;
+  .fact__next {
+    color: var(--text-data);
+    font-weight: 700;
   }
 
   .fact__original {

@@ -90,6 +90,17 @@ export function spotlightDates(
   };
 }
 
+/** The detail's date emphasis; an unparsed multi-day envelope is not an appointment. */
+export function sheetNextDate(occasion: OccasionSchedule, now: Date): string {
+  const parsed =
+    occasion.scheduleConfidence === 'continuous' ||
+    occasion.scheduleConfidence === 'discrete';
+  if (!parsed && occasion.startDate !== occasion.endDate && !occasionHasEnded(occasion, now)) {
+    return 'Check source for dates';
+  }
+  return spotlightDates(occasion, now).when;
+}
+
 interface Appointment {
   date: string;
   datetime: string;
