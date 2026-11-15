@@ -83,11 +83,19 @@ test.skipIf(!executablePath && !process.env.CI)(
         const page = await context.newPage();
         if (javaScriptEnabled) await page.clock.install({ time: new Date() });
         await page.goto(`${origin}/special/many-dates/`);
+        expect(await page.locator('.sheet > *').evaluateAll(elements =>
+          elements.slice(0, 3).map(element => element.className),
+        )).toEqual(['sheet__head', 'sheet__about', 'sheet__facts']);
+        const about = (await page.locator('.sheet__about').boundingBox())!;
+        const facts = (await page.locator('.sheet__facts').boundingBox())!;
+        expect(about.y + about.height).toBeLessThanOrEqual(facts.y);
         expect(await page.locator('.sheet__facts > .fact').first().innerText()).not.toContain(`${dateText(-2)} · 17:00`);
         expect(await page.locator('[data-sheet-when]').count()).toBe(1);
         expect(await page.locator('[data-sheet-when]').innerText()).toBe(`${dateText(1)} · 17:00–22:00`);
         const calendar = page.locator('[data-calendar-primary]');
         expect(await calendar.count()).toBe(1);
+        expect((await calendar.boundingBox())!.height).toBe(32);
+        expect(await calendar.evaluate(element => getComputedStyle(element).textTransform)).toBe('none');
         expect(await calendar.getAttribute('href')).toBe(`/special/many-dates/calendar/${day(1)}.ics`);
         const downloaded = page.waitForEvent('download');
         await calendar.focus();
