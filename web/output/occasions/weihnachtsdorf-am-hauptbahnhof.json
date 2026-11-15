@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 13 Nov 10:00"
+    "updatedAt": "Sun 15 Nov 19:00"
   },
   "occasion": {
     "id": "hannover-festivals:weihnachtsdorf-am-hauptbahnhof",
@@ -120,6 +120,16 @@
       },
       {
         "date": "2026-12-13",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-14",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-15",
         "startTime": "11:00",
         "endTime": "21:00"
       }
