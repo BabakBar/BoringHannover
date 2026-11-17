@@ -514,5 +514,17 @@
     "timestamp": "2026-11-14T00:00:00Z",
     "count": 19,
     "uniques": 1
+  },
+  {
+    "date": "2026-11-15",
+    "timestamp": "2026-11-15T00:00:00Z",
+    "count": 10,
+    "uniques": 1
+  },
+  {
+    "date": "2026-11-16",
+    "timestamp": "2026-11-16T00:00:00Z",
+    "count": 0,
+    "uniques": 0
   }
 ]
