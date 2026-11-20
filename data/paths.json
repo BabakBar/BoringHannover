@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-19",
+  "last_updated": "2026-11-20",
   "snapshots": [
     {
       "date": "2026-09-04",
@@ -4212,6 +4212,72 @@
           "uniques": 1
         }
       ]
+    },
+    {
+      "date": "2026-11-20",
+      "timestamp": "2026-11-20T00:00:00Z",
+      "paths": [
+        {
+          "path": "/BabakBar/BoringHannover/pulls",
+          "title": "/pulls",
+          "count": 20,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/issues",
+          "title": "/issues",
+          "count": 12,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover",
+          "title": "Overview",
+          "count": 10,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/pull/92",
+          "title": "/pull/92",
+          "count": 6,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/pull/104",
+          "title": "/pull/104",
+          "count": 3,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/pull/93",
+          "title": "/pull/93",
+          "count": 3,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/actions/runs/42840838313",
+          "title": "/actions/runs/42840838313",
+          "count": 2,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/pull/105",
+          "title": "/pull/105",
+          "count": 2,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/actions",
+          "title": "/actions",
+          "count": 1,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/actions/runs/42207566699/job/127857922055",
+          "title": "/actions/runs/42207566699/job/127857922055",
+          "count": 1,
+          "uniques": 1
+        }
+      ]
     }
   ],
   "all_time": [
@@ -4223,7 +4289,7 @@
       "max_count": 20,
       "max_uniques": 1,
       "first_seen": "2026-09-18",
-      "last_seen": "2026-11-19"
+      "last_seen": "2026-11-20"
     },
     {
       "path": "/BabakBar/BoringHannover",
@@ -4233,7 +4299,7 @@
       "max_count": 15,
       "max_uniques": 2,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-11-19"
+      "last_seen": "2026-11-20"
     },
     {
       "path": "/BabakBar/BoringHannover/issues",
@@ -4243,7 +4309,7 @@
       "max_count": 12,
       "max_uniques": 1,
       "first_seen": "2026-10-16",
-      "last_seen": "2026-11-19"
+      "last_seen": "2026-11-20"
     },
     {
       "path": "/BabakBar/BoringHannover/pull/92",
@@ -4253,7 +4319,7 @@
       "max_count": 6,
       "max_uniques": 1,
       "first_seen": "2026-11-07",
-      "last_seen": "2026-11-19"
+      "last_seen": "2026-11-20"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/README.md",
@@ -4273,7 +4339,7 @@
       "max_count": 3,
       "max_uniques": 1,
       "first_seen": "2026-11-07",
-      "last_seen": "2026-11-19"
+      "last_seen": "2026-11-20"
     },
     {
       "path": "/BabakBar/BoringHannover/pull/104",
@@ -4283,7 +4349,7 @@
       "max_count": 3,
       "max_uniques": 1,
       "first_seen": "2026-11-17",
-      "last_seen": "2026-11-19"
+      "last_seen": "2026-11-20"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/.gitignore",
@@ -4333,7 +4399,7 @@
       "max_count": 2,
       "max_uniques": 1,
       "first_seen": "2026-11-11",
-      "last_seen": "2026-11-19"
+      "last_seen": "2026-11-20"
     },
     {
       "path": "/BabakBar/BoringHannover/pull/105",
@@ -4343,7 +4409,7 @@
       "max_count": 2,
       "max_uniques": 1,
       "first_seen": "2026-11-17",
-      "last_seen": "2026-11-19"
+      "last_seen": "2026-11-20"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/.dockerignore",
@@ -4463,7 +4529,7 @@
       "max_count": 1,
       "max_uniques": 1,
       "first_seen": "2026-11-07",
-      "last_seen": "2026-11-19"
+      "last_seen": "2026-11-20"
     },
     {
       "path": "/BabakBar/BoringHannover/actions/runs/42290902171/job/128144612067",
@@ -4503,7 +4569,7 @@
       "max_count": 1,
       "max_uniques": 1,
       "first_seen": "2026-11-11",
-      "last_seen": "2026-11-19"
+      "last_seen": "2026-11-20"
     }
   ]
 }
