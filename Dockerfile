@@ -2,7 +2,7 @@
 # Multi-stage build for Python 3.14 with uv package manager
 
 # Stage 1: Build environment
-FROM python:3.14-slim-trixie AS builder
+FROM python:3.15-slim-trixie AS builder
 
 # Install uv - pinned version for reproducibility
 COPY --from=ghcr.io/astral-sh/uv:0.13.9 /uv /uvx /bin/
@@ -23,7 +23,7 @@ COPY src/ ./src/
 RUN uv sync --frozen --no-dev
 
 # Stage 2: Runtime environment
-FROM python:3.14-slim-trixie AS runtime
+FROM python:3.15-slim-trixie AS runtime
 
 # Security: Create non-root user
 RUN groupadd --gid 1000 boringhannover && \
