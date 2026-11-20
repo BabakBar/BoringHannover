@@ -10,14 +10,14 @@
     "astro": "bun ./node_modules/astro/bin/astro.mjs"
   },
   "dependencies": {
-    "astro": "^7.4.11",
+    "astro": "^7.4.13",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.3.5",
-    "@types/bun": "^1.4.4",
-    "playwright-core": "^1.65.0",
+    "@types/bun": "^1.4.5",
+    "playwright-core": "^1.65.1",
     "png-to-ico": "^3.0.2",
     "tailwindcss": "^4.3.5"
   }
