@@ -17,7 +17,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import NoReturn
 
-from boringhannover import heartbeat
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.backup import backup_run
 from boringhannover.constants import BERLIN_TZ
@@ -217,12 +216,7 @@ def main() -> NoReturn:
     args = _parse_args()
     _load_environment()
 
-    local = bool(getattr(args, "local", False))
-    if not local:
-        heartbeat.ping("start")
-    success = run(local=local)
-    if not local:
-        heartbeat.ping("success" if success else "fail")
+    success = run(local=bool(getattr(args, "local", False)))
     sys.exit(0 if success else 1)
 
 
