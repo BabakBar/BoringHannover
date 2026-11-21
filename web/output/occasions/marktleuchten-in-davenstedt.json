@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "updatedAt": "Sat 21 Nov 17:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:marktleuchten-in-davenstedt",
+    "slug": "marktleuchten-in-davenstedt",
+    "name": "Marktleuchten in Davenstedt",
+    "kind": "festival",
+    "startDate": "2026-11-25",
+    "endDate": "2026-11-25",
+    "location": "Davenstedter Markt",
+    "description": "Marktleuchten in Davenstedt at Davenstedter Markt. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Marktleuchten-in-Davenstedt",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/marktleuchten-in-davenstedt.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-25",
+        "startTime": "17:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Davenstedter Markt",
+      "street": "Davenstedter Markt 12",
+      "postalCode": "30455",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
