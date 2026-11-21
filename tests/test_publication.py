@@ -419,8 +419,8 @@ def test_run_carries_known_publication_through_complete_discovery_omission(
     serve_github_publication(local_site, {})
     with httpx.Client(base_url=local_site.url) as client:
 
-        def reconcile(output_dir: str, **kwargs: object) -> None:
-            github_sync.carry_forward_occasions(
+        def reconcile(output_dir: str, **kwargs: object) -> list[str]:
+            return github_sync.carry_forward_occasions(
                 output_dir, client=client, repo="test/events", **kwargs
             )
 
@@ -637,8 +637,8 @@ def test_run_recovers_and_retries_after_a_programme_upload_outlives_its_manifest
     local_site.put_statuses[manifest_path] = 503
     with httpx.Client(base_url=local_site.url) as client:
 
-        def reconcile(output_dir: str, **kwargs: object) -> None:
-            github_sync.carry_forward_occasions(
+        def reconcile(output_dir: str, **kwargs: object) -> list[str]:
+            return github_sync.carry_forward_occasions(
                 output_dir, client=client, repo="test/events", **kwargs
             )
 
@@ -672,6 +672,53 @@ def test_run_recovers_and_retries_after_a_programme_upload_outlives_its_manifest
     published = json.loads(base64.b64decode(str(local_site.puts[-1][1]["content"])))
     assert published["occasions"][0]["description"] == definition.description
     assert any(path.endswith(f"?ref={'c' * 40}") for path in local_site.requests)
+
+
+def test_run_publishes_everything_else_when_one_occasion_changes_identity(
+    known_publication: tuple[OccasionDefinition, Event, dict[str, bytes]],
+    monkeypatch: pytest.MonkeyPatch,
+    local_site: LocalSite,
+    tmp_path: Path,
+) -> None:
+    from boringhannover import github_sync
+
+    prior, event, files = known_publication
+    serve_github_publication(local_site, files)
+    fresh_event = replace(event, title="Fresh concert after the incident")
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(
+        main,
+        "fetch_all_events",
+        lambda **_: {
+            "movies_this_week": [],
+            "big_events_radar": [fresh_event],
+            "city_occasions": [replace(prior, slug="renamed")],
+            "source_outcomes": [FETCHED],
+        },
+    )
+    monkeypatch.setattr(main, "should_sync", lambda: True)
+    monkeypatch.setattr(main, "backup_run", lambda _: True)
+    with httpx.Client(base_url=local_site.url) as client:
+
+        def reconcile(output_dir: str, **kwargs: object) -> list[str]:
+            return github_sync.carry_forward_occasions(
+                output_dir, client=client, repo="test/events", **kwargs
+            )
+
+        def publish(output_dir: str) -> bool:
+            return all(
+                _sync_file(client, "test/events", path, remote)
+                for path, remote in _collect_web_sync_paths(output_dir)
+            )
+
+        monkeypatch.setattr(main, "carry_forward_occasions", reconcile)
+        monkeypatch.setattr(main, "sync_web_data_to_github", publish)
+        assert main.run() is False
+    manifest_path = "/repos/test/events/contents/web/output/web_events.json"
+    published = json.loads(base64.b64decode(str(local_site.puts[-1][1]["content"])))
+    assert local_site.puts[-1][0] == manifest_path
+    assert [row["slug"] for row in published["occasions"]] == ["known"]
+    assert [row["title"] for row in published["concerts"]] == [fresh_event.title]
 
 
 @pytest.mark.parametrize(
@@ -867,8 +914,8 @@ def test_run_never_backs_up_or_publishes_unvalidated_prior_state(
     )
     with httpx.Client(base_url=local_site.url) as client:
 
-        def reconcile(output_dir: str, **kwargs: object) -> None:
-            github_sync.carry_forward_occasions(
+        def reconcile(output_dir: str, **kwargs: object) -> list[str]:
+            return github_sync.carry_forward_occasions(
                 output_dir, client=client, repo="test/events", **kwargs
             )
 
@@ -975,14 +1022,14 @@ def test_weekday_schedule_upgrade_requires_unchanged_prior_source_evidence(
             "single-appointment",
             "same-exclusion-evidence",
         ):
-            with pytest.raises(ValueError, match="Conflicting occasion start dates"):
-                carry_forward_occasions(
-                    root,
-                    definitions=[current],
-                    now=now,
-                    client=client,
-                    repo="test/events",
-                )
+            # Without matching prior evidence the fresh source facts stand as exported.
+            carry_forward_occasions(
+                root,
+                definitions=[current],
+                now=now,
+                client=client,
+                repo="test/events",
+            )
             assert {
                 path.name: path.read_bytes()
                 for path in [
@@ -1135,9 +1182,9 @@ def test_current_source_evidence_wins_without_reinventing_old_facts(
         now=now,
     )
     with httpx.Client(base_url=local_site.url) as client:
-        if change in ("unexplained-shift", "identity-collision", "inventory-overflow"):
+        if change in ("identity-collision", "inventory-overflow"):
             before = (root / "web_events.json").read_bytes()
-            with pytest.raises(ValueError, match=r"Conflicting|conflict|exceeds"):
+            with pytest.raises(ValueError, match=r"conflict|exceeds"):
                 carry_forward_occasions(
                     root,
                     definitions=definitions,
@@ -1165,7 +1212,7 @@ def test_current_source_evidence_wins_without_reinventing_old_facts(
         summary["startDate"]
         == (
             current.start_date
-            if change in ("rescheduled", "cancelled-with-new-date")
+            if change in ("rescheduled", "cancelled-with-new-date", "unexplained-shift")
             else prior.start_date
         ).isoformat()
     )
