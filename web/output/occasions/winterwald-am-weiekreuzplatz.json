@@ -1,13 +1,13 @@
 {
   "meta": {
-    "updatedAt": "Sun 15 Nov 19:00"
+    "updatedAt": "Sat 21 Nov 17:00"
   },
   "occasion": {
     "id": "hannover-festivals:winterwald-am-weiekreuzplatz",
     "slug": "winterwald-am-weiekreuzplatz",
     "name": "Winterwald am Weißekreuzplatz",
     "kind": "festival",
-    "startDate": "2026-11-12",
+    "startDate": "2026-11-20",
     "endDate": "2026-12-22",
     "location": "Wintergarten am Reimanns Eck",
     "description": "Winterwald am Weißekreuzplatz at Wintergarten am Reimanns Eck. See the source for details.",
@@ -18,36 +18,6 @@
     "programmePath": "occasions/winterwald-am-weiekreuzplatz.json",
     "preview": [],
     "occurrences": [
-      {
-        "date": "2026-11-15",
-        "startTime": "14:00",
-        "endTime": "22:00"
-      },
-      {
-        "date": "2026-11-16",
-        "startTime": "16:00",
-        "endTime": "22:00"
-      },
-      {
-        "date": "2026-11-17",
-        "startTime": "16:00",
-        "endTime": "22:00"
-      },
-      {
-        "date": "2026-11-18",
-        "startTime": "16:00",
-        "endTime": "22:00"
-      },
-      {
-        "date": "2026-11-19",
-        "startTime": "16:00",
-        "endTime": "22:00"
-      },
-      {
-        "date": "2026-11-20",
-        "startTime": "16:00",
-        "endTime": "22:00"
-      },
       {
         "date": "2026-11-21",
         "startTime": "14:00",
@@ -170,6 +140,36 @@
       },
       {
         "date": "2026-12-15",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-16",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-17",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-18",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-19",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-20",
+        "startTime": "14:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-21",
         "startTime": "16:00",
         "endTime": "22:00"
       }
