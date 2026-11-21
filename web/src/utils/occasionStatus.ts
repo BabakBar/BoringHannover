@@ -201,6 +201,29 @@ export function nextAppointment(
   return remaining.find((occurrence) => occurrence.date === date) ?? { date };
 }
 
+/** An actual opening on a chosen date, even if it is not the next one. */
+export function appointmentOn(
+  schedule: OccasionSchedule,
+  date: string,
+  now: Date,
+): OccasionOccurrence | null {
+  const { date: today, minutes } = berlinClock(now);
+  if (
+    date < today || date < schedule.startDate || date > schedule.endDate ||
+    schedule.sourceStatus === 'cancelled' || schedule.sourceStatus === 'postponed'
+  ) return null;
+
+  const occurrence = confirmedOccurrences(schedule).find(item => item.date === date);
+  if (occurrence) {
+    return date === today && occurrence.endTime && minutes >= minutesOf(occurrence.endTime)
+      ? null
+      : occurrence;
+  }
+  const knownDate = schedule.scheduleConfidence === 'continuous' ||
+    (schedule.scheduleConfidence !== 'discrete' && schedule.startDate === schedule.endDate);
+  return knownDate ? { date } : null;
+}
+
 /**
  * Build-time label for no-JS HTML. A static page can be served for days, so
  * it never uses the hour or relative days: only source status and whether the
