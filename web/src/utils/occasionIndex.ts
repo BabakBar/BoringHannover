@@ -1,8 +1,9 @@
 import type { OccasionOccurrence, OccasionSummary } from '../data/types';
-import { appointmentText, sheetDateLine } from './occasionSheet';
+import { appointmentHours, appointmentText, entryPrice, sheetDateLine } from './occasionSheet';
 import {
   OCCASION_HORIZON_DAYS,
   addDays,
+  appointmentOn,
   berlinClock,
   nextAppointment,
   occasionHasEnded,
@@ -22,7 +23,7 @@ export interface IndexEntry<T extends IndexOccasion> {
 }
 
 export interface IndexGroup<T extends IndexOccasion> {
-  key: 'today' | 'next' | 'following' | 'later' | 'check' | 'off';
+  key: 'date' | 'today' | 'next' | 'following' | 'later' | 'check' | 'off';
   name: string;
   /** The Berlin dates a dated group covers. */
   dates: string | null;
@@ -38,6 +39,29 @@ const DATED_GROUPS = [
 
 function byName<T extends IndexOccasion>(left: IndexEntry<T>, right: IndexEntry<T>) {
   return left.occasion.name.localeCompare(right.occasion.name, 'de');
+}
+
+function byAppointment<T extends IndexOccasion>(left: IndexEntry<T>, right: IndexEntry<T>) {
+  return left.appointment!.date.localeCompare(right.appointment!.date) ||
+    (left.appointment!.startTime ?? '24:00').localeCompare(right.appointment!.startTime ?? '24:00') ||
+    byName(left, right);
+}
+
+export function occasionIndexOn<T extends IndexOccasion>(
+  occasions: readonly T[],
+  now: Date,
+  date: string,
+): IndexGroup<T> {
+  const entries = occasions.flatMap((occasion) => {
+    const appointment = appointmentOn(occasion, date, now);
+    return appointment ? [{ occasion, appointment }] : [];
+  });
+  return {
+    key: 'date',
+    name: '',
+    dates: sheetDateLine({ startDate: date, endDate: date }),
+    entries: entries.sort(byAppointment),
+  };
 }
 
 /**
@@ -83,14 +107,7 @@ export function occasionIndex<T extends IndexOccasion>(
   }
 
   for (const group of dated) {
-    group.entries.sort(
-      (left, right) =>
-        left.appointment!.date.localeCompare(right.appointment!.date) ||
-        (left.appointment!.startTime ?? '24:00').localeCompare(
-          right.appointment!.startTime ?? '24:00',
-        ) ||
-        byName(left, right),
-    );
+    group.entries.sort(byAppointment);
   }
   for (const group of [check, off]) {
     group.entries.sort(
@@ -102,17 +119,27 @@ export function occasionIndex<T extends IndexOccasion>(
   return [...dated.map(({ last: _last, ...group }) => group), check, off];
 }
 
+export function indexAdmission(occasion: OccasionSummary): string | null {
+  const { admission, sourceStatus } = occasion;
+  if (!admission?.length || sourceStatus === 'cancelled' || sourceStatus === 'postponed') {
+    return null;
+  }
+  const [first] = admission;
+  if (admission.length !== 1 || first.label) return 'Check entry details';
+  return first.price === 'free' ? 'Free entry' : `Entry ${entryPrice(first.price, first.isFrom)}`;
+}
+
 /** A row's dates: the appointment that placed it, then the whole run. */
-export function indexDates({
-  occasion,
-  appointment,
-}: IndexEntry<IndexOccasion>): { when: string; span: string | null } {
+export function indexDates(
+  { occasion, appointment }: IndexEntry<IndexOccasion>,
+  includeDate = true,
+): { when: string; span: string | null } {
   const run = sheetDateLine(occasion);
   const season =
     occasion.scheduleConfidence === 'discrete' ? `Selected dates · ${run}` : run;
   if (!appointment) return { when: season, span: null };
   return {
-    when: appointmentText(appointment),
+    when: includeDate ? appointmentText(appointment) : appointmentHours(appointment) ?? 'Hours unlisted',
     span: occasion.startDate === occasion.endDate ? null : season,
   };
 }

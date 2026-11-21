@@ -10,6 +10,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { chromium } from 'playwright-core';
 import { sheetDateLine } from '../utils/occasionSheet';
 import { addDays, berlinClock } from '../utils/occasionStatus';
 
@@ -794,7 +795,7 @@ test('the occasion sheet puts About before practical facts and works without JS 
   }
 }, 120000);
 
-test('the occasion index groups by next confirmed date and works without JS (#54)', () => {
+test('the occasion index supports date browsing, truthful admission and no-JS navigation', async () => {
   const root = mkdtempSync(join(tmpdir(), 'occasion-index-'));
   const env = { ...process.env };
   for (const name of ['WEB_DATA_ROOT', 'WEB_DATA_MODE', 'WEB_DATA_MAX_AGE_DAYS'])
@@ -832,7 +833,7 @@ test('the occasion index groups by next confirmed date and works without JS (#54
     occasion('day-fourteen', 14, { name: longName }),
     occasion('day-thirty', 30),
     occasion('day-thirty-one', 31),
-    occasion('abgesagt', 2, { sourceStatus: 'cancelled' }),
+    occasion('abgesagt', 7, { sourceStatus: 'cancelled', admission: [{ price: 'free' }] }),
     occasion('day-eight', 8),
     occasion('kunst-kurbis-in-eldagsen', 7, {
       name: 'Kunst & Kürbis in Eldagsen',
@@ -846,6 +847,7 @@ test('the occasion index groups by next confirmed date and works without JS (#54
         municipality: 'Springe',
       },
       area: 'region',
+      admission: [{ price: '€12', isFrom: true }],
     }),
     // Sparse: the envelope covers today, its next listed date is day 3.
     occasion('wiesn', -2, {
@@ -855,7 +857,15 @@ test('the occasion index groups by next confirmed date and works without JS (#54
       occurrences: [
         { date: day(-2), startTime: '18:00' },
         { date: day(3), startTime: '18:00' },
+        { date: day(7), startTime: '18:00', endTime: '20:00' },
       ],
+      admission: [{ price: '€7' }, { label: 'Kinder bis 14 Jahre', price: 'free' }],
+    }),
+    occasion('daily-market', 4, {
+      endDate: day(8),
+      location: 'Bürgergemeinschaftshaus Ahlem',
+      scheduleConfidence: 'continuous',
+      occurrences: [{ date: day(4), startTime: '14:00' }],
     }),
     occasion('flohmarkt', -7, { endDate: day(7), scheduleConfidence: 'unknown' }),
     occasion('gestern-vorbei', -1),
@@ -868,6 +878,7 @@ test('the occasion index groups by next confirmed date and works without JS (#54
         municipality: 'Hannover',
       },
       area: 'city',
+      admission: [{ price: 'free' }],
     }),
   ];
   try {
@@ -934,8 +945,9 @@ test('the occasion index groups by next confirmed date and works without JS (#54
 
     // Ordered by next confirmed date; each occasion once; ended ones gone.
     expect(sections.map(({ key, hidden, slugs }) => [key, hidden, slugs])).toEqual([
+      ['date', true, []],
       ['today', false, ['heute']],
-      ['next', false, ['wiesn', 'kunst-kurbis-in-eldagsen']],
+      ['next', false, ['wiesn', 'daily-market', 'kunst-kurbis-in-eldagsen']],
       ['following', false, ['day-eight', 'day-fourteen']],
       ['later', false, ['day-thirty']],
       ['check', false, ['flohmarkt']],
@@ -948,6 +960,7 @@ test('the occasion index groups by next confirmed date and works without JS (#54
     const dates = (from: number, to: number) =>
       sheetDateLine({ startDate: day(from), endDate: day(to) });
     expect(sections.map(({ heading }) => heading)).toEqual([
+      '',
       dates(0, 0),
       dates(1, 7),
       dates(8, 14),
@@ -969,10 +982,90 @@ test('the occasion index groups by next confirmed date and works without JS (#54
     expect(row('kunst-kurbis-in-eldagsen')).toContain('11:00–17:00');
     expect(row('heute')).toContain('Tiergarten');
     expect(row('heute')).not.toContain('Day trip');
+    expect(row('heute')).toContain('Free entry');
+    expect(row('kunst-kurbis-in-eldagsen')).toContain('Entry from €12');
+    expect(row('wiesn')).toContain('Check entry details');
+    expect(row('wiesn')).not.toContain('Free entry');
+    expect(row('daily-market')).not.toMatch(/\bentry\b/i);
     expect(row('flohmarkt')).not.toMatch(/\d\d:\d\d/);
     expect(row('abgesagt')).toMatch(/Cancelled/);
+    expect(row('abgesagt')).not.toContain('Free entry');
     expect(html).toMatch(new RegExp(`lang="de"[^>]*>\\s*${longName}`));
     expect(html).toContain('data-index-empty');
+
+    const executablePath = process.env.CHROME_BIN;
+    if (!executablePath && !process.env.CI) return;
+    const server = Bun.serve({
+      hostname: '127.0.0.1', port: 0,
+      async fetch(request) {
+        const path = new URL(request.url).pathname;
+        const file = Bun.file(join(outDir, path.endsWith('/') ? `${path}index.html` : path));
+        return await file.exists() ? new Response(file) : new Response('', { status: 404 });
+      },
+    });
+    const origin = `http://127.0.0.1:${server.port}`;
+    try {
+      const browser = await chromium.launch(executablePath ? { executablePath } : { channel: 'chrome' });
+      try {
+        const noJs = await browser.newPage({ javaScriptEnabled: false });
+        await noJs.goto(`${origin}/special/`);
+        expect(await noJs.getByLabel('Date', { exact: true }).isVisible()).toBe(false);
+        expect(await noJs.getByRole('link', { name: /Kunst & Kürbis.*Entry from €12/ }).isVisible()).toBe(true);
+        await noJs.close();
+
+        const page = await browser.newPage({ viewport: { width: 320, height: 800 } });
+        await page.clock.install({ time: new Date(`${day(0)}T12:00:00Z`) });
+        await page.goto(`${origin}/special/`);
+        const picker = page.getByRole('combobox', { name: 'Date', exact: true });
+        const visibleRows = () => page.locator('[data-index-group]:not([hidden]) [data-index-row]:not([hidden]) a');
+        const visibleSlugs = () => visibleRows().evaluateAll(links => links.map(link => link.getAttribute('href')));
+        await picker.focus();
+        await page.keyboard.press('Shift+Tab');
+        await page.keyboard.press('Tab');
+        expect(await picker.evaluate(el => el === document.activeElement)).toBe(true);
+        expect(await picker.evaluate(el => getComputedStyle(el).outlineWidth)).toBe('2px');
+        expect(await picker.locator('option').last().getAttribute('value')).toBe(day(30));
+        await picker.selectOption(day(6));
+        expect(await visibleSlugs()).toEqual(['/special/daily-market/']);
+        await picker.selectOption(day(7));
+        expect(await visibleSlugs()).toEqual([
+          '/special/kunst-kurbis-in-eldagsen/',
+          '/special/wiesn/',
+          '/special/daily-market/',
+        ]);
+        expect(await visibleRows().nth(1).locator('[data-index-when]').textContent()).toBe('18:00–20:00');
+        expect(await visibleRows().nth(1).innerText()).not.toContain('In 3 days');
+        expect(await visibleRows().nth(2).locator('[data-index-when]').textContent()).toBe('Hours unlisted');
+        expect(await page.getByRole('status').textContent()).toContain('3 occasions');
+        await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
+        await page.keyboard.press('Tab');
+        expect(await visibleRows().first().evaluate(el => el === document.activeElement)).toBe(true);
+
+        await page.clock.setSystemTime(new Date(`${day(7)}T21:00:00Z`));
+        await page.clock.runFor(60_000);
+        expect(await visibleSlugs()).toEqual(['/special/daily-market/']);
+        expect(await picker.evaluate(el => el === document.activeElement)).toBe(true);
+        await picker.selectOption('');
+        expect(await page.locator('a[href="/special/wiesn/"] [data-occasion-status]').innerText()).toBe('Check dates');
+        await picker.selectOption(day(7));
+
+        await page.clock.setSystemTime(new Date(`${day(8)}T12:00:00Z`));
+        await page.clock.runFor(60_000);
+        expect(await picker.inputValue()).toBe('');
+        await picker.selectOption(day(29));
+        expect(await visibleRows().count()).toBe(0);
+        expect(await page.getByText(`No confirmed occasions on ${dates(29, 29)}.`).isVisible()).toBe(true);
+        await picker.selectOption(day(30));
+        expect(await visibleSlugs()).toEqual(['/special/day-thirty/']);
+        await picker.selectOption('');
+        expect(await visibleSlugs()).toContain('/special/day-thirty/');
+      } finally {
+        await browser.close();
+      }
+    } finally {
+      server.stop(true);
+    }
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
