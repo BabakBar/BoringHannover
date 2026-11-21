@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sun 15 Nov 19:00"
+    "updatedAt": "Sat 21 Nov 17:00"
   },
   "occasion": {
     "id": "hannover-festivals:weihnachtspyramide-am-kropcke",
@@ -130,6 +130,36 @@
       },
       {
         "date": "2026-12-15",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-16",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-17",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-18",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-19",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-20",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-21",
         "startTime": "11:00",
         "endTime": "21:00"
       }
