@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Sat 21 Nov 17:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:faust-wintermarkt",
+    "slug": "faust-wintermarkt",
+    "name": "Faust-Wintermarkt",
+    "kind": "festival",
+    "startDate": "2026-12-05",
+    "endDate": "2026-12-06",
+    "location": "Kulturzentrum Faust e.V.",
+    "description": "Faust-Wintermarkt at Kulturzentrum Faust e.V. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Faust-Wintermarkt",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/faust-wintermarkt.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-12-05",
+        "startTime": "13:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-12-06",
+        "startTime": "11:00",
+        "endTime": "18:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Kulturzentrum Faust e.V.",
+      "street": "Zur Bettfedernfabrik 3",
+      "postalCode": "30451",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
