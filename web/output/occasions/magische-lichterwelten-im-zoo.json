@@ -12,32 +12,12 @@
     "location": "Erlebnis-Zoo Hannover",
     "description": "Magische Lichterwelten im Zoo at Erlebnis-Zoo Hannover. See the source for details.",
     "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Magische-Lichterwelten-im-Zoo",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/magische-lichterwelten-im-zoo.json",
     "preview": [],
     "occurrences": [
-      {
-        "date": "2026-11-17",
-        "startTime": "17:00",
-        "endTime": "22:00"
-      },
-      {
-        "date": "2026-11-18",
-        "startTime": "17:00",
-        "endTime": "22:00"
-      },
-      {
-        "date": "2026-11-19",
-        "startTime": "17:00",
-        "endTime": "22:00"
-      },
-      {
-        "date": "2026-11-20",
-        "startTime": "17:00",
-        "endTime": "22:00"
-      },
       {
         "date": "2026-11-21",
         "startTime": "17:00",
@@ -140,6 +120,31 @@
       },
       {
         "date": "2026-12-15",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-16",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-17",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-18",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-19",
+        "startTime": "17:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-20",
         "startTime": "17:00",
         "endTime": "22:00"
       }
