@@ -1,0 +1,13 @@
+---
+import { activeOccasionEnd, activeOccasionStart } from '../utils/activeOccasionInclude';
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<Fragment set:html={activeOccasionStart(slug)} />
+<slot />
+<Fragment set:html={activeOccasionEnd} />

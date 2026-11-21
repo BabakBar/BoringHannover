@@ -20,6 +20,7 @@ import {
 import { occasionJsonLd } from '../../utils/occasionJsonLd';
 import { occasionSourceLink } from '../../utils/occasionSource';
 import { calendarAppointments } from '../../utils/occasionCalendar';
+import { occasionAbout } from '../../data/occasionAbout';
 import {
   appointmentText,
   entryPrice,
@@ -72,6 +73,8 @@ export function getStaticPaths() {
 
 const { programmeData, occasions, week, year } = Astro.props;
 const { occasion, programme } = programmeData;
+const about = occasionAbout(occasion);
+const aboutText = about?.description ?? occasion.description;
 
 function dateValue(isoDate: string): Date {
   return new Date(`${isoDate}T12:00:00`);
@@ -159,9 +162,9 @@ const venues = countedOptions(programme.map(event => event.venue));
 
 // English metadata that names the authoritative event; the fallback
 // description already starts with the name.
-const summary = occasion.description.includes(occasion.name)
-  ? occasion.description
-  : `${occasion.name}: ${occasion.description}`;
+const summary = aboutText.includes(occasion.name)
+  ? aboutText
+  : `${occasion.name}: ${aboutText}`;
 const description = occasion.programmeCount > 0
   ? `${summary} Explore the official programme by day, category, and location.`
   : summary;
@@ -172,7 +175,7 @@ const canonicalUrl = Astro.site
 
 // Google only supports Event markup on single-event pages, which is exactly
 // what these are. The listing pages deliberately get none.
-const eventJsonLd = occasionJsonLd(occasion, {
+const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
   canonicalUrl,
   officialUrl: source?.url ?? null,
 });
@@ -206,9 +209,14 @@ const eventJsonLd = occasionJsonLd(occasion, {
       </p>
     </header>
 
-    <section class="sheet__about" aria-labelledby="about-title">
-      <h2 id="about-title">About</h2>
-      <p>{occasion.description}</p>
+    <section class="sheet__about" aria-labelledby="occasion-about-title">
+      <h2 id="occasion-about-title">About</h2>
+      <p>{aboutText}</p>
+      {about && (
+        <p class="sheet__provenance">
+          About source · <a href={about.url} class="underline underline-offset-2">{about.source}</a>
+        </p>
+      )}
       {source && (
         <p class="sheet__provenance">
           Facts from the {source.label.charAt(0).toLowerCase() + source.label.slice(1)},

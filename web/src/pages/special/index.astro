@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import OccasionStatus from '../../components/OccasionStatus.astro';
+import ActiveOccasion from '../../components/ActiveOccasion.astro';
 import Footer from '../../components/Footer.astro';
 import { loadEventData } from '../../data/loader';
 import { indexDates, occasionIndex } from '../../utils/occasionIndex';
@@ -13,7 +14,6 @@ const { meta, occasions } = eventData;
 // they stay true however long the page is served; the script below regroups
 // on the reader's clock and names them Today / Next 7 days.
 const groups = occasionIndex(occasions, new Date());
-const listed = groups.some((group) => group.entries.length > 0);
 ---
 
 <Base
@@ -31,7 +31,7 @@ const listed = groups.some((group) => group.entries.length > 0);
     </a>
   </nav>
 
-  <section aria-labelledby="city-occasions">
+  <section class="occasion-index" aria-labelledby="city-occasions">
     <SectionHeader id="city-occasions" title="City Occasions" as="h1" />
     <p class="mb-6 text-sm text-text-muted">Festivals and city occasions for the next 30 days.</p>
 
@@ -55,37 +55,39 @@ const listed = groups.some((group) => group.entries.length > 0);
                 ? `Day trip · ${occasion.place.municipality}`
                 : null;
             return (
-              <li class="index-item" data-index-row>
-                <a
-                  href={`/special/${occasion.slug}/`}
-                  class="index-item__link"
-                  data-umami-event="occasion-open"
-                  data-umami-event-occasion={occasion.slug}
-                >
-                  <span class="index-item__when">
-                    <OccasionStatus occasion={occasion} />
-                    <span aria-hidden="true">·</span>
-                    <span data-index-when>{when}</span>
-                  </span>
-                  {/* Occasion names are the source's German proper names. */}
-                  <span class="index-item__name" lang="de" data-index-row-name>{occasion.name}</span>
-                  <span class="index-item__facts">
-                    <span lang="de">{occasion.place?.venue ?? occasion.location}</span>
-                    {dayTrip && <span class="index-item__tag">{dayTrip}</span>}
-                    {occasion.programmeCount > 0 && (
-                      <span>{occasion.programmeCount} programme items</span>
-                    )}
-                  </span>
-                  <span class="index-item__span" data-index-span hidden={!span}>{span}</span>
-                </a>
-              </li>
+              <ActiveOccasion slug={occasion.slug}>
+                <li class="index-item" data-index-row>
+                  <a
+                    href={`/special/${occasion.slug}/`}
+                    class="index-item__link"
+                    data-umami-event="occasion-open"
+                    data-umami-event-occasion={occasion.slug}
+                  >
+                    <span class="index-item__when">
+                      <OccasionStatus occasion={occasion} />
+                      <span aria-hidden="true">·</span>
+                      <span data-index-when>{when}</span>
+                    </span>
+                    {/* Occasion names are the source's German proper names. */}
+                    <span class="index-item__name" lang="de" data-index-row-name>{occasion.name}</span>
+                    <span class="index-item__facts">
+                      <span lang="de">{occasion.place?.venue ?? occasion.location}</span>
+                      {dayTrip && <span class="index-item__tag">{dayTrip}</span>}
+                      {occasion.programmeCount > 0 && (
+                        <span>{occasion.programmeCount} programme items</span>
+                      )}
+                    </span>
+                    <span class="index-item__span" data-index-span hidden={!span}>{span}</span>
+                  </a>
+                </li>
+              </ActiveOccasion>
             );
           })}
         </ol>
       </section>
     ))}
 
-    <div class="index-empty" data-index-empty hidden={listed}>
+    <div class="index-empty" data-index-empty>
       <p>No City Occasions are listed for the next 30 days.</p>
       <div class="index-empty__actions">
         <a href="/" class="index-empty__action">Weekly digest</a>
@@ -162,9 +164,6 @@ const listed = groups.some((group) => group.entries.length > 0);
     ) {
       focused.focus({ preventScroll: true });
     }
-    document
-      .querySelector<HTMLElement>('[data-index-empty]')!
-      .toggleAttribute('hidden', placed.size > 0);
   }
 
   refreshIndex();
@@ -176,6 +175,11 @@ const listed = groups.some((group) => group.entries.length > 0);
 <style>
   .index-group {
     margin-bottom: 2rem;
+  }
+
+  .index-group:not(:has(.index-item:not([hidden]))),
+  .occasion-index:has(.index-item:not([hidden])) .index-empty {
+    display: none;
   }
 
   .index-group__heading {

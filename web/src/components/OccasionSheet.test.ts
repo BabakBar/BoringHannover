@@ -83,6 +83,7 @@ test.skipIf(!executablePath && !process.env.CI)(
         const page = await context.newPage();
         if (javaScriptEnabled) await page.clock.install({ time: new Date() });
         await page.goto(`${origin}/special/many-dates/`);
+        expect(await page.getByRole('region', { name: 'About', exact: true }).isVisible()).toBe(true);
         expect(await page.locator('.sheet > *').evaluateAll(elements =>
           elements.slice(0, 3).map(element => element.className),
         )).toEqual(['sheet__head', 'sheet__about', 'sheet__facts']);

@@ -3,29 +3,148 @@ import Base from '../layouts/Base.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<Base title="Page not found · boringhannover" description="The page you’re looking for doesn’t exist.">
-  <section class="min-h-[70vh] flex flex-col items-center justify-center text-center gap-6 section-fade">
-    <img
-      src="/brand/404-illustration-1200.png"
-      alt="Boring Hannover weekly events illustration"
-      class="w-full max-w-2xl rounded-xl border border-border shadow-lg"
-      loading="eager"
-    />
-    <div>
-      <h1 class="font-display text-lg md:text-xl font-bold tracking-wide text-text-primary uppercase">
-        404 — Page not found
-      </h1>
-      <p class="mt-2 text-sm md:text-base text-text-secondary">
-        The link is broken or the page has moved.
+<Base
+  title="Page not found · boringhannover"
+  description="This page may have moved or the occasion may have ended. Find what’s on next in Hannover."
+  wide
+  noindex
+>
+  <section class="missing" aria-labelledby="missing-title">
+    <div class="missing__copy">
+      <p class="missing__status"><span aria-hidden="true"></span>404 · Page not found</p>
+      <h1 id="missing-title">Wrong stop.</h1>
+      <p class="missing__description">
+        This page may have moved or the occasion may have ended. There’s still plenty on in Hannover.
       </p>
+      <nav class="missing__actions" aria-label="Find what’s on">
+        <a class="missing__primary" href="/special/">Browse City Occasions <span aria-hidden="true">↗</span></a>
+        <a class="missing__secondary" href="/">Back to the weekly digest <span aria-hidden="true">→</span></a>
+      </nav>
     </div>
-    <a
-      href="/"
-      class="inline-flex items-center gap-2 px-4 py-2 text-xs font-display tracking-wide uppercase rounded-full border border-border text-text-primary hover:bg-bg-secondary transition-colors"
-    >
-      Back to homepage
-    </a>
+    <div class="missing__art">
+      <img src="/brand/404-illustration.webp" alt="" width="960" height="717" />
+    </div>
   </section>
 
   <Footer />
 </Base>
+
+<style>
+  .missing {
+    display: grid;
+    max-width: 60rem;
+    margin: clamp(1rem, 8vh, 5rem) auto 0;
+    overflow: hidden;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+  }
+
+  .missing__copy {
+    align-self: center;
+    min-width: 0;
+    padding: clamp(1rem, 5vw, 3rem);
+  }
+
+  .missing__status {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    color: var(--text-secondary);
+    font-family: var(--font-display);
+    font-size: .75rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .missing__status span {
+    flex: 0 0 .5rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  h1 {
+    margin-block: 1rem .75rem;
+    color: var(--text-primary);
+    font-size: clamp(2rem, 10vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -.07em;
+    line-height: 1;
+    overflow-wrap: anywhere;
+  }
+
+  .missing__description {
+    max-width: 35ch;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .missing__actions {
+    display: grid;
+    justify-items: start;
+    gap: .5rem;
+    margin-top: 1.5rem;
+  }
+
+  .missing__actions a {
+    align-content: center;
+    max-width: 100%;
+    min-height: 2.75rem;
+    border-radius: .625rem;
+    font-size: .875rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+  }
+
+  .missing__actions a span {
+    margin-inline-start: .35em;
+  }
+
+  .missing__actions a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .missing__primary {
+    padding: .5rem clamp(.4em, 3vw, .875rem);
+    background: var(--text-primary);
+    color: var(--bg-primary);
+  }
+
+  .missing__primary:hover {
+    opacity: .85;
+  }
+
+  .missing__secondary {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-underline-offset: .2em;
+  }
+
+  .missing__art {
+    display: grid;
+    align-items: center;
+    min-width: 0;
+    background: #f0e6d7;
+    border-top: 1px solid var(--border);
+  }
+
+  .missing__art img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (min-width: 48rem) {
+    .missing {
+      grid-template-columns: 1fr 1fr;
+      min-height: 27rem;
+    }
+
+    .missing__art {
+      border-top: 0;
+      border-left: 1px solid var(--border);
+    }
+  }
+</style>
