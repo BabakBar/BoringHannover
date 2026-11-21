@@ -12,17 +12,12 @@
     "location": "Lindener Turm",
     "description": "Weihnachtsdorf auf dem Lindener Berg at Lindener Turm. See the source for details.",
     "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weihnachtsdorf-auf-dem-Lindener-Berg",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/weihnachtsdorf-auf-dem-lindener-berg.json",
     "preview": [],
     "occurrences": [
-      {
-        "date": "2026-11-20",
-        "startTime": "16:00",
-        "endTime": "20:00"
-      },
       {
         "date": "2026-11-21",
         "startTime": "14:00",
@@ -75,6 +70,21 @@
       },
       {
         "date": "2026-12-13",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-12-18",
+        "startTime": "16:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-12-19",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-12-20",
         "startTime": "14:00",
         "endTime": "20:00"
       }
