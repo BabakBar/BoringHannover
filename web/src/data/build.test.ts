@@ -863,6 +863,7 @@ test('the occasion index supports date browsing, truthful admission and no-JS na
     }),
     occasion('daily-market', 4, {
       endDate: day(8),
+      location: 'Bürgergemeinschaftshaus Ahlem',
       scheduleConfidence: 'continuous',
       occurrences: [{ date: day(4), startTime: '14:00' }],
     }),
@@ -1032,9 +1033,9 @@ test('the occasion index supports date browsing, truthful admission and no-JS na
           '/special/wiesn/',
           '/special/daily-market/',
         ]);
-        expect(await visibleRows().nth(1).innerText()).toContain(`${dates(7, 7)} · 18:00–20:00`);
+        expect(await visibleRows().nth(1).locator('[data-index-when]').textContent()).toBe('18:00–20:00');
         expect(await visibleRows().nth(1).innerText()).not.toContain('In 3 days');
-        expect(await visibleRows().nth(2).innerText()).not.toContain('14:00');
+        expect(await visibleRows().nth(2).locator('[data-index-when]').textContent()).toBe('Hours unlisted');
         expect(await page.getByRole('status').textContent()).toContain('3 occasions');
         await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
