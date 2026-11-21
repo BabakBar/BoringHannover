@@ -16,6 +16,7 @@ const routes: SitemapRoute[] = [
   { path: '/special/' },
   ...eventData.occasions.filter(occasion => occasion.endDate >= today).map(occasion => ({
     path: `/special/${occasion.slug}/`,
+    occasionSlug: occasion.slug,
   })),
   { path: '/how-it-works/' },
   { path: '/impressum/' },

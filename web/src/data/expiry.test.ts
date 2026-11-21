@@ -95,6 +95,20 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
     }
     expect(ready, command(['logs', container]).stderr).toBe(true);
     const request = (path: string, method = 'GET', headers = {}) => fetch(origin + path, { method, headers, redirect: 'manual' });
+    const discoveryPaths = ['/', '/index.html', '/special/', '/sitemap.xml'];
+    const checkDiscovery = async (ending: boolean) => {
+      for (const path of discoveryPaths) {
+        const reply = await request(path);
+        expect(reply.status, path).toBe(200);
+        expect(reply.headers.get('cache-control'), path).toBe('no-store');
+        const body = await reply.text();
+        expect(body, path).toContain('/special/active/');
+        expect(body.includes('/special/ending/'), path).toBe(ending);
+        expect(body, path).not.toContain('/special/transition/');
+        expect(body, path).not.toContain('<!--#');
+        if (path === '/sitemap.xml') expect(body).toContain('</urlset>');
+      }
+    };
     const aliases = (slug: string) => [
       `/special/${slug}/`, `/special/${slug}`, `/special/${slug}/index.html`, `/special/${slug}.html`,
       `/special/%${slug.charCodeAt(0).toString(16)}${slug.slice(1)}/`, `/special//${slug}/`,
@@ -104,6 +118,7 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
     const ending = await request('/special/ending/');
     expect(ending.status).toBe(200);
     expect(ending.headers.get('x-robots-tag')).toBeNull();
+    await checkDiscovery(true);
     const calendar = await request(calendarPath);
     expect(calendar.status).toBe(200);
     expect(calendar.headers.get('content-type')).toBe('text/calendar; charset=utf-8');
@@ -150,11 +165,13 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
     const nowRetained = await request('/special/ending/');
     expect(nowRetained.status).toBe(200);
     expect(nowRetained.headers.get('x-robots-tag')).toBe('noindex, follow');
+    await checkDiscovery(false);
     for (const method of ['GET', 'HEAD']) {
       const reply = await request(calendarPath + '?now=0', method, { 'If-None-Match': calendarEtag, Range: 'bytes=0-100' });
       expect(reply.status).toBe(404);
       expect(reply.headers.get('cache-control')).toBe('no-store');
       expect(reply.headers.get('x-robots-tag')).toBe('noindex, follow');
+      expect(reply.headers.get('content-type')).toContain('text/plain');
     }
     for (const method of ['GET', 'HEAD']) {
       for (const path of aliases('transition')) {
@@ -162,11 +179,20 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
         expect(reply.status, `${method} ${path}`).toBe(404);
         expect(reply.headers.get('cache-control')).toBe('no-store');
         expect(reply.headers.get('x-robots-tag')).toBe('noindex, follow');
+        expect(reply.headers.get('content-type')).toContain('text/html');
         if (method === 'HEAD') expect(await reply.text()).toBe('');
+        else expect(await reply.text()).toContain('Wrong stop.');
       }
     }
     expect((await request('/')).status).toBe(200);
     expect((await request('/special/')).status).toBe(200);
+    for (const path of ['/unknown-page/', '/special/unknown-page/', '/404.html']) {
+      const reply = await request(path);
+      expect(reply.status, path).toBe(404);
+      expect(reply.headers.get('cache-control')).toBe('no-store');
+      expect(reply.headers.get('x-robots-tag')).toBe('noindex, follow');
+      expect(await reply.text()).toContain('href="/special/"');
+    }
     const css = readFileSync(join(dist, 'index.html'), 'utf8').match(/\/assets\/[^" ]+\.css/)![0];
     const asset = await request(css);
     expect(asset.status).toBe(200);

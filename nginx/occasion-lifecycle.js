@@ -6,11 +6,28 @@ function noStore(r) {
     r.headersOut['Cloudflare-CDN-Cache-Control'] = 'no-store';
 }
 
-function notFound(r) {
+function markMissing(r) {
     noStore(r);
     r.headersOut['X-Robots-Tag'] = 'noindex, follow';
+}
+
+function notFound(r) {
+    markMissing(r);
     r.headersOut['Content-Type'] = 'text/plain; charset=utf-8';
     r.return(404, 'Not found\n');
+}
+
+function validDeadline(deadline) {
+    return deadline && Number.isFinite(deadline.endedAt) &&
+        Number.isFinite(deadline.expiresAt) && deadline.endedAt < deadline.expiresAt;
+}
+
+function activeSlugs() {
+    const now = Date.now();
+    const slugs = Object.keys(deadlines).filter(slug =>
+        validDeadline(deadlines[slug]) && now < deadlines[slug].endedAt,
+    );
+    return ':' + slugs.join(':') + ':';
 }
 
 function guard(r) {
@@ -22,13 +39,13 @@ function guard(r) {
         return;
     }
     const calendar = /^\/special\/([a-z0-9-]+)\/calendar\/(\d{4}-\d{2}-\d{2})\.ics$/.exec(r.uri);
-    const match = calendar || /^\/special\/([a-z0-9-]+)(?:\/|\/index\.html|\.html)?$/.exec(r.uri);
+    const detail = /^\/special\/([a-z0-9-]+)(?:\/|\/index\.html|\.html)?$/i.exec(r.uri);
+    const match = calendar || detail;
     const deadline = match && deadlines[match[1]];
     const now = Date.now();
-    if (!deadline || !Number.isFinite(deadline.endedAt) ||
-        !Number.isFinite(deadline.expiresAt) || deadline.endedAt >= deadline.expiresAt ||
-        now >= deadline.expiresAt) {
-        notFound(r);
+    if (!validDeadline(deadline) || now >= deadline.expiresAt || (detail && r.uri !== r.uri.toLowerCase())) {
+        if (detail) r.internalRedirect('@missing_occasion');
+        else notFound(r);
         return;
     }
     if (calendar) {
@@ -47,4 +64,4 @@ function guard(r) {
     if (r.uri !== canonical) r.return(301, canonical + query);
 }
 
-export default { guard, notFound };
+export default { activeSlugs, guard, markMissing, noStore, notFound };

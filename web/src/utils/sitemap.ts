@@ -1,6 +1,9 @@
+import { activeOccasionEnd, activeOccasionStart } from './activeOccasionInclude';
+
 export interface SitemapRoute {
   path: string;
   lastmod?: string;
+  occasionSlug?: string;
 }
 
 function escapeXml(value: string): string {
@@ -17,12 +20,13 @@ export function buildSitemap(routes: SitemapRoute[], site?: string): string {
   const base = (site ?? 'http://localhost:4321').replace(/\/$/, '');
 
   const urlset = routes
-    .map(({ path, lastmod }) => {
+    .map(({ path, lastmod, occasionSlug }) => {
       const loc = new URL(path, base).toString();
       const lastmodTag = lastmod
         ? `<lastmod>${escapeXml(lastmod)}</lastmod>`
         : '';
-      return `  <url><loc>${escapeXml(loc)}</loc>${lastmodTag}</url>`;
+      const entry = `  <url><loc>${escapeXml(loc)}</loc>${lastmodTag}</url>`;
+      return occasionSlug ? `${activeOccasionStart(occasionSlug)}${entry}${activeOccasionEnd}` : entry;
     })
     .join('\n');
 
