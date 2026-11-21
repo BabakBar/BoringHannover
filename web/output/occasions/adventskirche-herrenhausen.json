@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "updatedAt": "Sat 21 Nov 17:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:adventskirche-herrenhausen",
+    "slug": "adventskirche-herrenhausen",
+    "name": "Adventskirche Herrenhausen",
+    "kind": "festival",
+    "startDate": "2026-11-28",
+    "endDate": "2026-11-28",
+    "location": "Herrenhäuser Kirche",
+    "description": "Adventskirche Herrenhausen at Herrenhäuser Kirche. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Adventskirche-Herrenhausen",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/adventskirche-herrenhausen.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-28",
+        "startTime": "13:00",
+        "endTime": "18:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Herrenhäuser Kirche",
+      "street": "Hegebläch 18",
+      "postalCode": "30419",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
