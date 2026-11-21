@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Sat 21 Nov 17:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:nikolausmarkt",
+    "slug": "nikolausmarkt",
+    "name": "Nikolausmarkt",
+    "kind": "festival",
+    "startDate": "2026-12-05",
+    "endDate": "2026-12-05",
+    "location": "Stadtteilzentrum Stöcken",
+    "description": "Nikolausmarkt at Stadtteilzentrum Stöcken. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Nikolausmarkt",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/nikolausmarkt.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-12-05",
+        "startTime": "16:00",
+        "endTime": "19:30"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Stadtteilzentrum Stöcken",
+      "street": "Eichsfelderstr. 101",
+      "postalCode": "30419",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
