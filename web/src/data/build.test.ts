@@ -1018,7 +1018,7 @@ test('the occasion index supports date browsing, truthful admission and no-JS na
         await page.goto(`${origin}/special/`);
         const picker = page.getByRole('combobox', { name: 'Date', exact: true });
         const visibleRows = () => page.locator('[data-index-group]:not([hidden]) [data-index-row]:not([hidden]) a');
-        const visibleSlugs = () => visibleRows().evaluateAll(links => links.map(link => link.getAttribute('href')));
+        const visibleSlugs = () => visibleRows().evaluateAll(links => links.map(link => new URL((link as HTMLAnchorElement).href).pathname));
         await picker.focus();
         await page.keyboard.press('Shift+Tab');
         await page.keyboard.press('Tab');
@@ -1060,6 +1060,40 @@ test('the occasion index supports date browsing, truthful admission and no-JS na
         expect(await visibleSlugs()).toEqual(['/special/day-thirty/']);
         await picker.selectOption('');
         expect(await visibleSlugs()).toContain('/special/day-thirty/');
+
+        // The recurring result is a later appointment than the detail's default.
+        await page.clock.setSystemTime(new Date(`${day(0)}T12:00:00Z`));
+        await page.clock.runFor(60_000);
+        await picker.selectOption(day(7));
+        await visibleRows().nth(1).click();
+        expect(new URL(page.url()).searchParams.get('date')).toBe(day(7));
+        const when = page.locator('[data-sheet-when]');
+        const calendar = page.locator('[data-calendar-primary]');
+        await when.filter({ hasText: `${dates(7, 7)} · 18:00–20:00` }).waitFor();
+        expect(await when.innerText()).toBe(`${dates(7, 7)} · 18:00–20:00`);
+        const calendarPath = `/special/wiesn/calendar/${day(7)}.ics`;
+        expect(await calendar.getAttribute('href')).toBe(calendarPath);
+        const download = await page.request.get(origin + calendarPath);
+        expect(download.ok()).toBe(true);
+        expect(await download.text()).toMatch(new RegExp(`^DTSTART:${day(7).replaceAll('-', '')}T`, 'm'));
+
+        await calendar.focus();
+        await page.clock.setSystemTime(new Date(`${day(7)}T21:00:00Z`));
+        await page.clock.runFor(60_000);
+        expect(await when.innerText()).toBe('Selected date is unavailable. Check the listed dates.');
+        expect(await calendar.isVisible()).toBe(false);
+        expect(await when.evaluate(el => el === document.activeElement)).toBe(true);
+
+        await page.clock.setSystemTime(new Date(`${day(0)}T12:00:00Z`));
+        await page.goto(`${origin}/special/wiesn/?date=${day(6)}`);
+        expect(await when.innerText()).toBe('Selected date is unavailable. Check the listed dates.');
+        expect(await calendar.isVisible()).toBe(false);
+        await page.goto(`${origin}/special/daily-market/?date=${day(6)}`);
+        await when.filter({ hasText: dates(6, 6) }).waitFor();
+        expect(await when.innerText()).toBe(dates(6, 6));
+        expect(await calendar.isVisible()).toBe(false);
+        await page.goto(`${origin}/special/wiesn/`);
+        expect(await calendar.getAttribute('href')).toBe(`/special/wiesn/calendar/${day(3)}.ics`);
       } finally {
         await browser.close();
       }

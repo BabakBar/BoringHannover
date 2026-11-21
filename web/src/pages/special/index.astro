@@ -138,13 +138,14 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
   const announcement = document.querySelector('[data-index-results]')!;
   const emptyText = document.querySelector('[data-index-empty-text]')!;
   const allDatesEmptyText = emptyText.textContent;
-  const rows: Array<IndexOccasion & { element: HTMLElement; status: HTMLElement }> = Array.from(
+  const rows: Array<IndexOccasion & { element: HTMLElement; status: HTMLElement; link: HTMLAnchorElement }> = Array.from(
     document.querySelectorAll<HTMLElement>('[data-index-row]'),
     (element) => {
       const status = element.querySelector<HTMLElement>('[data-occasion-schedule]')!;
       return {
         ...JSON.parse(status.dataset.occasionSchedule!) as OccasionSchedule,
         name: element.querySelector('[data-index-row-name]')!.textContent!,
+        link: element.querySelector<HTMLAnchorElement>('.index-item__link')!,
         element,
         status,
       };
@@ -178,7 +179,9 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
       section.querySelector('[data-index-dates]')!.textContent = group.dates ?? '';
       const list = section.querySelector('[data-index-list]')!;
       group.entries.forEach((entry, position) => {
-        const { element, status } = entry.occasion;
+        const { element, link, status } = entry.occasion;
+        const href = group.key === 'date' ? `${link.pathname}?date=${date}` : link.pathname;
+        if (link.getAttribute('href') !== href) link.setAttribute('href', href);
         const label = occasionLabel(entry.occasion, now);
         if (status.textContent !== label.text) {
           status.textContent = label.text;
