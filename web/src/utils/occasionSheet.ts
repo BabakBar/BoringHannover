@@ -48,7 +48,7 @@ export function sheetDateLine({
   return `${format(startDate, full)} – ${format(endDate, full)}`;
 }
 
-function hours({ startTime, endTime }: OccasionOccurrence): string | null {
+export function appointmentHours({ startTime, endTime }: OccasionOccurrence): string | null {
   if (!startTime) return null;
   return endTime
     ? `${formatEventTime(startTime)}–${formatEventTime(endTime)}`
@@ -62,7 +62,7 @@ export function appointmentText(occurrence: OccasionOccurrence): string {
     day: 'numeric',
     month: 'short',
   });
-  const time = hours(occurrence);
+  const time = appointmentHours(occurrence);
   return time ? `${day} · ${time}` : day;
 }
 
@@ -139,7 +139,7 @@ export function whenFacts(occasion: OccasionSummary): WhenFacts {
     return { range, appointments: [], selectedDatesOnly, sourceHours };
   }
 
-  const daily = new Set(occurrences.map(hours));
+  const daily = new Set(occurrences.map(appointmentHours));
   if (
     !selectedDatesOnly && occurrences.length > 1 && daily.size === 1 &&
     occurrences[0].date === occasion.startDate &&
@@ -147,7 +147,7 @@ export function whenFacts(occasion: OccasionSummary): WhenFacts {
     addDays(occasion.startDate, occurrences.length - 1) === occasion.endDate
   ) {
     return {
-      range: `${range} · daily ${hours(occurrences[0])}`,
+      range: `${range} · daily ${appointmentHours(occurrences[0])}`,
       appointments: [],
       selectedDatesOnly,
       sourceHours,

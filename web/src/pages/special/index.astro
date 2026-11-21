@@ -26,7 +26,7 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
   <nav class="mb-6" aria-label="Breadcrumb">
     <a
       href="/"
-      class="inline-flex min-h-11 items-center font-display text-[11px] uppercase tracking-wide text-text-muted hover:text-accent"
+      class="inline-flex min-h-11 items-center font-display text-[11px] uppercase tracking-wide text-text-secondary hover:text-accent"
     >
       ← Back to the weekly digest
     </a>
@@ -34,7 +34,7 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
 
   <section class="occasion-index" aria-labelledby="city-occasions">
     <SectionHeader id="city-occasions" title="City Occasions" as="h1" />
-    <p class="mb-6 text-sm text-text-muted">Festivals and city occasions for the next 30 days.</p>
+    <p class="mb-6 text-sm text-text-secondary">Festivals and city occasions for the next 30 days.</p>
 
     <div class="index-date-filter" hidden>
       <label for="occasion-index-date">Date</label>
@@ -184,7 +184,7 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
           status.textContent = label.text;
           status.dataset.state = label.key;
         }
-        const { when, span } = indexDates(entry);
+        const { when, span } = indexDates(entry, group.key !== 'date');
         const spanElement = element.querySelector<HTMLElement>('[data-index-span]')!;
         element.querySelector('[data-index-when]')!.textContent = when;
         spanElement.textContent = span ?? '';
@@ -327,6 +327,7 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
 
   .index-item__link {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.2rem;
     min-height: 44px;
     padding: 0.75rem 0;
@@ -341,7 +342,7 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
     display: flex;
     flex-wrap: wrap;
     gap: 0.1rem 0.4rem;
-    color: var(--text-data);
+    color: var(--text-secondary);
     font-family: 'Space Mono', monospace;
     font-size: 0.75rem;
   }
@@ -381,6 +382,7 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
     gap: 0.1rem 0.5rem;
     color: var(--text-secondary);
     font-size: 0.8125rem;
+    overflow-wrap: anywhere;
   }
 
   .index-item__tag {
@@ -396,7 +398,7 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
   }
 
   .index-item__span {
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-family: 'Space Mono', monospace;
     font-size: 0.6875rem;
   }

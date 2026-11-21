@@ -1,5 +1,5 @@
 import type { OccasionOccurrence, OccasionSummary } from '../data/types';
-import { appointmentText, entryPrice, sheetDateLine } from './occasionSheet';
+import { appointmentHours, appointmentText, entryPrice, sheetDateLine } from './occasionSheet';
 import {
   OCCASION_HORIZON_DAYS,
   addDays,
@@ -130,16 +130,16 @@ export function indexAdmission(occasion: OccasionSummary): string | null {
 }
 
 /** A row's dates: the appointment that placed it, then the whole run. */
-export function indexDates({
-  occasion,
-  appointment,
-}: IndexEntry<IndexOccasion>): { when: string; span: string | null } {
+export function indexDates(
+  { occasion, appointment }: IndexEntry<IndexOccasion>,
+  includeDate = true,
+): { when: string; span: string | null } {
   const run = sheetDateLine(occasion);
   const season =
     occasion.scheduleConfidence === 'discrete' ? `Selected dates · ${run}` : run;
   if (!appointment) return { when: season, span: null };
   return {
-    when: appointmentText(appointment),
+    when: includeDate ? appointmentText(appointment) : appointmentHours(appointment) ?? 'Hours unlisted',
     span: occasion.startDate === occasion.endDate ? null : season,
   };
 }
