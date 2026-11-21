@@ -591,8 +591,12 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
 </Base>
 
 <script>
-  import { sheetNextDate } from '../../utils/occasionSheet';
+  import { appointmentText, sheetNextDate } from '../../utils/occasionSheet';
   import {
+    OCCASION_HORIZON_DAYS,
+    addDays,
+    appointmentOn,
+    berlinClock,
     nextAppointment,
     occasionHasEnded,
     occasionIsCurrent,
@@ -611,25 +615,35 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
     }
   }
 
+  const requestedDate = new URLSearchParams(window.location.search).get('date');
+
   function refreshSheet() {
     const now = new Date();
     const focusedCalendar = document.activeElement?.closest<HTMLElement>('[data-calendar-primary], [data-calendar-until]');
     const own = schedule(document.querySelector('.sheet__head'));
     const when = document.querySelector<HTMLElement>('[data-sheet-when]');
-    if (own && when) {
-      when.textContent = sheetNextDate(own, now);
-    }
+    const today = berlinClock(now).date;
+    const chosen = own && requestedDate &&
+      /^\d{4}-\d{2}-\d{2}$/.test(requestedDate) &&
+      requestedDate >= today && requestedDate <= addDays(today, OCCASION_HORIZON_DAYS) &&
+      addDays(requestedDate, 0) === requestedDate
+      ? appointmentOn(own, requestedDate, now)
+      : null;
+    const whenText = requestedDate
+      ? chosen ? appointmentText(chosen) : 'Selected date is unavailable. Check the listed dates.'
+      : own ? sheetNextDate(own, now) : null;
+    if (when && whenText) when.textContent = whenText;
     const calendar = document.querySelector<HTMLAnchorElement>('[data-calendar-primary]');
     if (own && calendar) {
       const options: Array<{ date: string; expiresAt: number; timed: boolean }> = JSON.parse(calendar.dataset.calendarOptions!);
-      const next = nextAppointment(own, now);
-      const selected = options.find(item => item.date === next?.date && now.getTime() < item.expiresAt);
+      const appointment = requestedDate ? chosen : nextAppointment(own, now);
+      const selected = options.find(item => item.date === appointment?.date && now.getTime() < item.expiresAt);
       calendar.hidden = !selected;
       if (selected) {
         calendar.href = `${calendar.dataset.calendarBase}${selected.date}.ics`;
         calendar.download = `${calendar.dataset.calendarBase!.split('/')[2]}-${selected.date}.ics`;
         calendar.textContent = selected.timed ? 'Download this date (.ics)' : 'Download date reminder (.ics)';
-        calendar.setAttribute('aria-label', `Download ${sheetNextDate(own, now)} as a calendar file`);
+        calendar.setAttribute('aria-label', `Download ${whenText} as a calendar file`);
       }
       document.querySelector('[data-calendar-note]')?.toggleAttribute('hidden', !selected);
     }

@@ -6,7 +6,7 @@ import OccasionStatus from '../../components/OccasionStatus.astro';
 import ActiveOccasion from '../../components/ActiveOccasion.astro';
 import Footer from '../../components/Footer.astro';
 import { loadEventData } from '../../data/loader';
-import { indexDates, occasionIndex } from '../../utils/occasionIndex';
+import { indexAdmission, indexDates, occasionIndex } from '../../utils/occasionIndex';
 
 const eventData = loadEventData();
 const { meta, occasions } = eventData;
@@ -14,6 +14,7 @@ const { meta, occasions } = eventData;
 // they stay true however long the page is served; the script below regroups
 // on the reader's clock and names them Today / Next 7 days.
 const groups = occasionIndex(occasions, new Date());
+groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
 ---
 
 <Base
@@ -25,7 +26,7 @@ const groups = occasionIndex(occasions, new Date());
   <nav class="mb-6" aria-label="Breadcrumb">
     <a
       href="/"
-      class="inline-flex min-h-11 items-center font-display text-[11px] uppercase tracking-wide text-text-muted hover:text-accent"
+      class="inline-flex min-h-11 items-center font-display text-[11px] uppercase tracking-wide text-text-secondary hover:text-accent"
     >
       ← Back to the weekly digest
     </a>
@@ -33,7 +34,15 @@ const groups = occasionIndex(occasions, new Date());
 
   <section class="occasion-index" aria-labelledby="city-occasions">
     <SectionHeader id="city-occasions" title="City Occasions" as="h1" />
-    <p class="mb-6 text-sm text-text-muted">Festivals and city occasions for the next 30 days.</p>
+    <p class="mb-6 text-sm text-text-secondary">Festivals and city occasions for the next 30 days.</p>
+
+    <div class="index-date-filter" hidden>
+      <label for="occasion-index-date">Date</label>
+      <select id="occasion-index-date">
+        <option value="">All dates</option>
+      </select>
+      <p class="sr-only" data-index-results role="status"></p>
+    </div>
 
     {groups.map((group) => (
       <section
@@ -50,6 +59,7 @@ const groups = occasionIndex(occasions, new Date());
           {group.entries.map((entry) => {
             const { occasion } = entry;
             const { when, span } = indexDates(entry);
+            const admission = indexAdmission(occasion);
             const dayTrip =
               occasion.area === 'region' && occasion.place?.municipality
                 ? `Day trip · ${occasion.place.municipality}`
@@ -64,8 +74,10 @@ const groups = occasionIndex(occasions, new Date());
                     data-umami-event-occasion={occasion.slug}
                   >
                     <span class="index-item__when">
-                      <OccasionStatus occasion={occasion} />
-                      <span aria-hidden="true">·</span>
+                      <span class="index-item__status" data-index-source-status={occasion.sourceStatus}>
+                        <OccasionStatus occasion={occasion} />
+                        <span aria-hidden="true">·</span>
+                      </span>
                       <span data-index-when>{when}</span>
                     </span>
                     {/* Occasion names are the source's German proper names. */}
@@ -73,6 +85,7 @@ const groups = occasionIndex(occasions, new Date());
                     <span class="index-item__facts">
                       <span lang="de">{occasion.place?.venue ?? occasion.location}</span>
                       {dayTrip && <span class="index-item__tag">{dayTrip}</span>}
+                      {admission && <span class="index-item__admission">{admission}</span>}
                       {occasion.programmeCount > 0 && (
                         <span>{occasion.programmeCount} programme items</span>
                       )}
@@ -88,7 +101,7 @@ const groups = occasionIndex(occasions, new Date());
     ))}
 
     <div class="index-empty" data-index-empty>
-      <p>No City Occasions are listed for the next 30 days.</p>
+      <p data-index-empty-text>No City Occasions are listed for the next 30 days.</p>
       <div class="index-empty__actions">
         <a href="/" class="index-empty__action">Weekly digest</a>
         <a
@@ -108,38 +121,73 @@ const groups = occasionIndex(occasions, new Date());
   import {
     indexDates,
     occasionIndex,
+    occasionIndexOn,
     type IndexOccasion,
   } from '../../utils/occasionIndex';
-  import type { OccasionSchedule } from '../../utils/occasionStatus';
+  import { sheetDateLine } from '../../utils/occasionSheet';
+  import {
+    addDays,
+    berlinClock,
+    occasionLabel,
+    OCCASION_HORIZON_DAYS,
+    type OccasionSchedule,
+  } from '../../utils/occasionStatus';
 
-  // Same grouping as the build, on the reader's Berlin clock: rows move to
-  // their current group, ended ones disappear and headings become relative.
-  // Each row's schedule is the one its status label already carries.
-  function refreshIndex() {
-    const rows: Array<IndexOccasion & { element: HTMLElement }> = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-index-row]'),
-      (element) => ({
-        ...(JSON.parse(
-          element.querySelector<HTMLElement>('[data-occasion-schedule]')!.dataset
-            .occasionSchedule!,
-        ) as OccasionSchedule),
+  const picker = document.querySelector<HTMLSelectElement>('#occasion-index-date')!;
+  const sections = document.querySelectorAll<HTMLElement>('[data-index-group]');
+  const announcement = document.querySelector('[data-index-results]')!;
+  const emptyText = document.querySelector('[data-index-empty-text]')!;
+  const allDatesEmptyText = emptyText.textContent;
+  const rows: Array<IndexOccasion & { element: HTMLElement; status: HTMLElement; link: HTMLAnchorElement }> = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-index-row]'),
+    (element) => {
+      const status = element.querySelector<HTMLElement>('[data-occasion-schedule]')!;
+      return {
+        ...JSON.parse(status.dataset.occasionSchedule!) as OccasionSchedule,
         name: element.querySelector('[data-index-row-name]')!.textContent!,
+        link: element.querySelector<HTMLAnchorElement>('.index-item__link')!,
         element,
-      }),
-    );
+        status,
+      };
+    },
+  );
+  let optionsDate = '';
 
+  function refreshDateOptions(today: string) {
+    if (optionsDate === today) return;
+    const previous = picker.value;
+    picker.options.length = 1;
+    for (let offset = 0; offset <= OCCASION_HORIZON_DAYS; offset++) {
+      const date = addDays(today, offset);
+      picker.add(new Option(sheetDateLine({ startDate: date, endDate: date }), date, false, date === previous));
+    }
+    optionsDate = today;
+  }
+
+  function refreshIndex() {
+    const now = new Date();
+    refreshDateOptions(berlinClock(now).date);
+    const date = picker.value;
+    const groups = date ? [occasionIndexOn(rows, now, date)] : occasionIndex(rows, now);
     const focused = document.activeElement;
     const placed = new Set<HTMLElement>();
-    for (const group of occasionIndex(rows, new Date())) {
-      const section = document.querySelector<HTMLElement>(
-        `[data-index-group="${group.key}"]`,
-      )!;
+    for (const section of sections) {
+      const group = groups.find(group => group.key === section.dataset.indexGroup);
+      section.hidden = !group?.entries.length;
+      if (!group?.entries.length) continue;
       section.querySelector('[data-index-name]')!.textContent = group.name;
       section.querySelector('[data-index-dates]')!.textContent = group.dates ?? '';
       const list = section.querySelector('[data-index-list]')!;
       group.entries.forEach((entry, position) => {
-        const { element } = entry.occasion;
-        const { when, span } = indexDates(entry);
+        const { element, link, status } = entry.occasion;
+        const href = group.key === 'date' ? `${link.pathname}?date=${date}` : link.pathname;
+        if (link.getAttribute('href') !== href) link.setAttribute('href', href);
+        const label = occasionLabel(entry.occasion, now);
+        if (status.textContent !== label.text) {
+          status.textContent = label.text;
+          status.dataset.state = label.key;
+        }
+        const { when, span } = indexDates(entry, group.key !== 'date');
         const spanElement = element.querySelector<HTMLElement>('[data-index-span]')!;
         element.querySelector('[data-index-when]')!.textContent = when;
         spanElement.textContent = span ?? '';
@@ -151,28 +199,63 @@ const groups = occasionIndex(occasions, new Date());
         }
         placed.add(element);
       });
-      section.hidden = group.entries.length === 0;
     }
     for (const { element } of rows) {
       if (!placed.has(element)) element.hidden = true;
     }
-    // A row that changed group was moved; keep the reader's place in it.
-    if (
-      focused instanceof HTMLElement &&
-      focused !== document.activeElement &&
-      !focused.closest('[hidden]')
-    ) {
-      focused.focus({ preventScroll: true });
+    if (focused instanceof HTMLElement && focused.closest('[data-index-row]')) {
+      if (focused.closest('[hidden]')) picker.focus();
+      else if (focused !== document.activeElement) focused.focus({ preventScroll: true });
+    }
+    const dateText = date ? groups[0].dates : null;
+    const emptyMessage = dateText ? `No confirmed occasions on ${dateText}.` : allDatesEmptyText;
+    if (emptyText.textContent !== emptyMessage) emptyText.textContent = emptyMessage;
+    const count = placed.size;
+    const result = dateText
+      ? `${count} ${count === 1 ? 'occasion' : 'occasions'} with a confirmed date on ${dateText}.`
+      : 'Showing all dates.';
+    if ((date || announcement.textContent) && announcement.textContent !== result) {
+      announcement.textContent = result;
     }
   }
 
-  refreshIndex();
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') refreshIndex();
-  });
+  if (rows.length > 0) {
+    refreshIndex();
+    picker.parentElement!.hidden = false;
+    picker.addEventListener('change', refreshIndex);
+    setInterval(refreshIndex, 60_000);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') refreshIndex();
+    });
+  }
 </script>
 
 <style>
+  .index-date-filter {
+    margin-bottom: 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8125rem;
+  }
+
+  .index-date-filter label {
+    margin-right: 0.4rem;
+  }
+
+  .index-date-filter select {
+    max-width: 100%;
+    min-height: 44px;
+    padding: 0.25rem 0.5rem;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    border: 1px solid var(--text-muted);
+    border-radius: 4px;
+  }
+
+  .index-date-filter select:focus-visible {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+  }
+
   .index-group {
     margin-bottom: 2rem;
   }
@@ -247,6 +330,7 @@ const groups = occasionIndex(occasions, new Date());
 
   .index-item__link {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.2rem;
     min-height: 44px;
     padding: 0.75rem 0;
@@ -261,9 +345,18 @@ const groups = occasionIndex(occasions, new Date());
     display: flex;
     flex-wrap: wrap;
     gap: 0.1rem 0.4rem;
-    color: var(--text-data);
+    color: var(--text-secondary);
     font-family: 'Space Mono', monospace;
     font-size: 0.75rem;
+  }
+
+  .index-item__status {
+    display: inline-flex;
+    gap: inherit;
+  }
+
+  .index-group--date .index-item__status:not([data-index-source-status='rescheduled']) {
+    display: none;
   }
 
   .index-item__name {
@@ -292,6 +385,7 @@ const groups = occasionIndex(occasions, new Date());
     gap: 0.1rem 0.5rem;
     color: var(--text-secondary);
     font-size: 0.8125rem;
+    overflow-wrap: anywhere;
   }
 
   .index-item__tag {
@@ -302,8 +396,12 @@ const groups = occasionIndex(occasions, new Date());
     font-size: 0.6875rem;
   }
 
+  .index-item__admission {
+    color: var(--text-primary);
+  }
+
   .index-item__span {
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-family: 'Space Mono', monospace;
     font-size: 0.6875rem;
   }

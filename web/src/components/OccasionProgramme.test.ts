@@ -77,7 +77,7 @@ describe.skipIf(!executablePath && !process.env.CI)('occasion programme', () => 
     } });
     origin = `http://127.0.0.1:${server.port}`;
     browser = await chromium.launch(executablePath ? { executablePath } : { channel: 'chrome' });
-  });
+  }, 60_000);
 
   afterAll(async () => {
     await browser?.close();
