@@ -1,5 +1,5 @@
 # BoringHannover Backend Dockerfile
-# Multi-stage build for Python 3.14 with uv package manager
+# Multi-stage build for Python 3.15 with uv package manager
 
 # Stage 1: Build environment
 FROM python:3.15-slim-trixie AS builder
@@ -31,7 +31,7 @@ RUN groupadd --gid 1000 boringhannover && \
 
 # Install runtime dependencies (ca-certificates for HTTPS) and apply any
 # security updates the base image has not been rebuilt with yet. Without the
-# upgrade, the image ships whatever was current when python:3.14-slim-trixie
+# upgrade, the image ships whatever was current when python:3.15-slim-trixie
 # was last published, which is what the CI vulnerability gate flags.
 RUN apt-get update && \
     apt-get upgrade -y --no-install-recommends && \

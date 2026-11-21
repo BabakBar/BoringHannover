@@ -46,7 +46,7 @@ next Berlin midnight when no end time is known.
 
 ## Development
 
-**Backend (Python 3.14+, CI on 3.14 and 3.15, 3.14 in production):**
+**Backend (Python 3.14+, CI on 3.14 and 3.15, 3.15 in production):**
 ```bash
 uv sync
 uv run boringhannover --local
