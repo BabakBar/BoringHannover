@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import type { OccasionSummary } from '../data/types';
-import { indexDates, occasionIndex } from './occasionIndex';
+import { indexDates, occasionIndex, occasionIndexForWeek, occasionWeeks } from './occasionIndex';
+import { berlinClock } from './occasionStatus';
 
 const occasion = (
   slug: string,
@@ -43,6 +44,45 @@ const groupOf = (
       ]),
     ),
   );
+
+test('week cards roll over on Monday in Berlin, including the DST weekend', () => {
+  const sunday = new Date('2026-10-25T22:59:00Z');
+  const monday = new Date('2026-10-25T23:00:00Z');
+  const weeks = (now: Date) => occasionWeeks(berlinClock(now).date);
+  expect(weeks(sunday).map(({ startDate, endDate }) => [startDate, endDate])).toEqual([
+    ['2026-10-19', '2026-10-25'],
+    ['2026-10-26', '2026-11-01'],
+    ['2026-11-02', '2026-11-08'],
+  ]);
+  expect(weeks(monday)[0]).toEqual({ ...weeks(sunday)[1], name: 'This week' });
+});
+
+test('a week shows each occasion once at its earliest available opening in that week', () => {
+  const now = new Date('2026-10-25T12:00:00+01:00');
+  const [thisWeek, nextWeek] = occasionWeeks(berlinClock(now).date);
+  const items = [
+    occasion('after-next-week', on('2026-11-02')),
+    occasion('untimed', on('2026-10-26')),
+    occasion('sparse', {
+      startDate: '2026-10-24', endDate: '2026-11-02', scheduleConfidence: 'discrete',
+      occurrences: [{ date: '2026-10-24' }, { date: '2026-10-28', startTime: '14:00' }, { date: '2026-11-01' }],
+    }),
+    occasion('unknown', { startDate: '2026-10-25', endDate: '2026-11-01', scheduleConfidence: 'unknown' }),
+    occasion('cancelled', on('2026-10-26', { sourceStatus: 'cancelled' })),
+    occasion('market', {
+      startDate: '2026-10-25', endDate: '2026-11-04', scheduleConfidence: 'continuous',
+      occurrences: [{ date: '2026-10-25', endTime: '11:00' }, { date: '2026-10-26', startTime: '14:00' }],
+    }),
+    occasion('sunday', on('2026-11-01')),
+  ];
+  expect(occasionIndexForWeek(items, now, thisWeek).entries).toEqual([]);
+  expect(occasionIndexForWeek(items, now, nextWeek).entries.map(({ occasion, appointment }) => [occasion.slug, appointment])).toEqual([
+    ['market', { date: '2026-10-26', startTime: '14:00' }],
+    ['untimed', { date: '2026-10-26' }],
+    ['sparse', { date: '2026-10-28', startTime: '14:00' }],
+    ['sunday', { date: '2026-11-01' }],
+  ]);
+});
 
 describe('occasionIndex', () => {
   test('each occasion lands once, by its next confirmed appointment', () => {

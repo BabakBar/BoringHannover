@@ -795,7 +795,7 @@ test('the occasion sheet puts About before practical facts and works without JS 
   }
 }, 120000);
 
-test('the occasion index supports date browsing, truthful admission and no-JS navigation', async () => {
+test('the occasion index supports weekly browsing, truthful admission and no-JS navigation', async () => {
   const root = mkdtempSync(join(tmpdir(), 'occasion-index-'));
   const env = { ...process.env };
   for (const name of ['WEB_DATA_ROOT', 'WEB_DATA_MODE', 'WEB_DATA_MAX_AGE_DAYS'])
@@ -828,6 +828,8 @@ test('the occasion index supports date browsing, truthful admission and no-JS na
   });
   const longName =
     'Internationaler Feuerwerkswettbewerb Herrenhausen: Finale mit Musikbegleitung und Illumination';
+  const weekday = new Date(`${berlinToday}T00:00:00Z`).getUTCDay();
+  const followingSunday = 20 - (weekday + 6) % 7;
   // Manifest order is deliberately not the index order.
   const occasions = [
     occasion('day-fourteen', 14, { name: longName }),
@@ -858,6 +860,7 @@ test('the occasion index supports date browsing, truthful admission and no-JS na
         { date: day(-2), startTime: '18:00' },
         { date: day(3), startTime: '18:00' },
         { date: day(7), startTime: '18:00', endTime: '20:00' },
+        { date: day(followingSunday), startTime: '18:00', endTime: '20:00' },
       ],
       admission: [{ price: '€7' }, { label: 'Kinder bis 14 Jahre', price: 'free' }],
     }),
@@ -945,7 +948,7 @@ test('the occasion index supports date browsing, truthful admission and no-JS na
 
     // Ordered by next confirmed date; each occasion once; ended ones gone.
     expect(sections.map(({ key, hidden, slugs }) => [key, hidden, slugs])).toEqual([
-      ['date', true, []],
+      ['week', true, []],
       ['today', false, ['heute']],
       ['next', false, ['wiesn', 'daily-market', 'kunst-kurbis-in-eldagsen']],
       ['following', false, ['day-eight', 'day-fourteen']],
@@ -1009,76 +1012,88 @@ test('the occasion index supports date browsing, truthful admission and no-JS na
       try {
         const noJs = await browser.newPage({ javaScriptEnabled: false });
         await noJs.goto(`${origin}/special/`);
-        expect(await noJs.getByLabel('Date', { exact: true }).isVisible()).toBe(false);
+        expect(await noJs.getByRole('group', { name: 'Browse by week' }).isVisible()).toBe(false);
         expect(await noJs.getByRole('link', { name: /Kunst & Kürbis.*Entry from €12/ }).isVisible()).toBe(true);
         await noJs.close();
 
-        const page = await browser.newPage({ viewport: { width: 320, height: 800 } });
+        const page = await browser.newPage({ viewport: { width: 1080, height: 800 } });
         await page.clock.install({ time: new Date(`${day(0)}T12:00:00Z`) });
         await page.goto(`${origin}/special/`);
-        const picker = page.getByRole('combobox', { name: 'Date', exact: true });
+        const cardLayout = () => page.locator('[data-index-week]').evaluateAll(cards => ({
+          rows: new Set(cards.map(card => card.getBoundingClientRect().top)).size,
+          datesBelow: cards.every(card => {
+            const [name, dates] = Array.from(card.children, child => child.getBoundingClientRect());
+            return dates.top >= name.bottom && card.getBoundingClientRect().height >= 44;
+          }),
+        }));
+        await page.getByRole('group', { name: 'Browse by week' }).waitFor();
+        expect(await cardLayout()).toEqual({ rows: 1, datesBelow: true });
+        await page.setViewportSize({ width: 320, height: 800 });
+        expect(await cardLayout()).toEqual({ rows: 1, datesBelow: true });
+        const allDates = page.getByRole('button', { name: 'All dates', exact: true });
+        const thisWeek = page.getByRole('button', { name: /^This week/ });
+        const nextWeek = page.getByRole('button', { name: /^Next week/ });
+        const followingWeek = page.getByRole('button', { name: /^Following week/ });
         const visibleRows = () => page.locator('[data-index-group]:not([hidden]) [data-index-row]:not([hidden]) a');
-        const visibleSlugs = () => visibleRows().evaluateAll(links => links.map(link => new URL((link as HTMLAnchorElement).href).pathname));
-        await picker.focus();
-        await page.keyboard.press('Shift+Tab');
+        const wiesn = visibleRows().filter({ hasText: "Hannover Wies'n" });
+        const visibleHrefs = () => visibleRows().evaluateAll(links => links.map(link => link.getAttribute('href')));
+        expect(await allDates.getAttribute('aria-pressed')).toBe('true');
+        expect(await visibleHrefs()).toContain('/special/day-thirty/');
+        await thisWeek.click();
+        expect(await visibleHrefs()).toContain(`/special/heute/?date=${day(0)}`);
+        expect(await visibleHrefs()).not.toContain('/special/day-thirty/');
+        await nextWeek.click();
+        expect(await visibleHrefs()).toContain(`/special/kunst-kurbis-in-eldagsen/?date=${day(7)}`);
+        expect(await visibleHrefs()).not.toContain(`/special/heute/?date=${day(0)}`);
         await page.keyboard.press('Tab');
-        expect(await picker.evaluate(el => el === document.activeElement)).toBe(true);
-        expect(await picker.evaluate(el => getComputedStyle(el).outlineWidth)).toBe('2px');
-        expect(await picker.locator('option').last().getAttribute('value')).toBe(day(30));
-        await picker.selectOption(day(6));
-        expect(await visibleSlugs()).toEqual(['/special/daily-market/']);
-        await picker.selectOption(day(7));
-        expect(await visibleSlugs()).toEqual([
-          '/special/kunst-kurbis-in-eldagsen/',
-          '/special/wiesn/',
-          '/special/daily-market/',
-        ]);
-        expect(await visibleRows().nth(1).locator('[data-index-when]').textContent()).toBe('18:00–20:00');
-        expect(await visibleRows().nth(1).innerText()).not.toContain('In 3 days');
-        expect(await visibleRows().nth(2).locator('[data-index-when]').textContent()).toBe('Hours unlisted');
-        expect(await page.getByRole('status').textContent()).toContain('3 occasions');
+        expect(await followingWeek.evaluate(el => el === document.activeElement)).toBe(true);
+        expect(await followingWeek.evaluate(el => getComputedStyle(el).outlineWidth)).toBe('2px');
+        await page.keyboard.press('Space');
+        expect(await followingWeek.getAttribute('aria-pressed')).toBe('true');
+        expect(await nextWeek.getAttribute('aria-pressed')).toBe('false');
+        expect(await wiesn.count()).toBe(1);
+        expect(await wiesn.locator('[data-index-when]').textContent()).toBe(`${dates(followingSunday, followingSunday)} · 18:00–20:00`);
+        expect(await page.getByRole('status').textContent()).toMatch(/^2 occasions · Following week, \d/);
         await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
+        expect(await cardLayout()).toEqual({ rows: 3, datesBelow: true });
         await page.keyboard.press('Tab');
         expect(await visibleRows().first().evaluate(el => el === document.activeElement)).toBe(true);
 
-        await page.clock.setSystemTime(new Date(`${day(7)}T21:00:00Z`));
+        const previousRange = await followingWeek.innerText();
+        await wiesn.focus();
+        await page.clock.setSystemTime(new Date(`${day(followingSunday)}T21:00:00Z`));
         await page.clock.runFor(60_000);
-        expect(await visibleSlugs()).toEqual(['/special/daily-market/']);
-        expect(await picker.evaluate(el => el === document.activeElement)).toBe(true);
-        await picker.selectOption('');
-        expect(await page.locator('a[href="/special/wiesn/"] [data-occasion-status]').innerText()).toBe('Check dates');
-        await picker.selectOption(day(7));
-
-        await page.clock.setSystemTime(new Date(`${day(8)}T12:00:00Z`));
+        expect(await wiesn.count()).toBe(0);
+        expect(await followingWeek.evaluate(el => el === document.activeElement)).toBe(true);
+        expect(await followingWeek.innerText()).not.toBe(previousRange);
+        await page.clock.setSystemTime(new Date(`${day(21)}T12:00:00Z`));
         await page.clock.runFor(60_000);
-        expect(await picker.inputValue()).toBe('');
-        await picker.selectOption(day(29));
+        await thisWeek.click();
         expect(await visibleRows().count()).toBe(0);
-        expect(await page.getByText(`No confirmed occasions on ${dates(29, 29)}.`).isVisible()).toBe(true);
-        await picker.selectOption(day(30));
-        expect(await visibleSlugs()).toEqual(['/special/day-thirty/']);
-        await picker.selectOption('');
-        expect(await visibleSlugs()).toContain('/special/day-thirty/');
+        expect(await page.getByText(/^No upcoming confirmed occasions for /).isVisible()).toBe(true);
+        await allDates.click();
+        expect(await visibleHrefs()).toContain('/special/day-thirty/');
 
-        // The recurring result is a later appointment than the detail's default.
+        // The selected week links to a later opening than the detail's default.
         await page.clock.setSystemTime(new Date(`${day(0)}T12:00:00Z`));
         await page.clock.runFor(60_000);
-        await picker.selectOption(day(7));
-        await visibleRows().nth(1).click();
-        expect(new URL(page.url()).searchParams.get('date')).toBe(day(7));
+        await followingWeek.click();
+        await wiesn.click();
+        expect(new URL(page.url()).searchParams.get('date')).toBe(day(followingSunday));
         const when = page.locator('[data-sheet-when]');
         const calendar = page.locator('[data-calendar-primary]');
-        await when.filter({ hasText: `${dates(7, 7)} · 18:00–20:00` }).waitFor();
-        expect(await when.innerText()).toBe(`${dates(7, 7)} · 18:00–20:00`);
-        const calendarPath = `/special/wiesn/calendar/${day(7)}.ics`;
+        const appointment = `${dates(followingSunday, followingSunday)} · 18:00–20:00`;
+        await when.filter({ hasText: appointment }).waitFor();
+        expect(await when.innerText()).toBe(appointment);
+        const calendarPath = `/special/wiesn/calendar/${day(followingSunday)}.ics`;
         expect(await calendar.getAttribute('href')).toBe(calendarPath);
         const download = await page.request.get(origin + calendarPath);
         expect(download.ok()).toBe(true);
-        expect(await download.text()).toMatch(new RegExp(`^DTSTART:${day(7).replaceAll('-', '')}T`, 'm'));
+        expect(await download.text()).toMatch(new RegExp(`^DTSTART:${day(followingSunday).replaceAll('-', '')}T`, 'm'));
 
         await calendar.focus();
-        await page.clock.setSystemTime(new Date(`${day(7)}T21:00:00Z`));
+        await page.clock.setSystemTime(new Date(`${day(followingSunday)}T21:00:00Z`));
         await page.clock.runFor(60_000);
         expect(await when.innerText()).toBe('Selected date is unavailable. Check the listed dates.');
         expect(await calendar.isVisible()).toBe(false);
