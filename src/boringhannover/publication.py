@@ -527,8 +527,11 @@ def reconcile_occasions(
     definitions: Sequence[OccasionDefinition],
     now: datetime,
     events: Sequence[Event] = (),
-) -> int:
-    """Merge validated prior web records without reconstructing lost source metadata."""
+) -> list[str]:
+    """Merge validated prior web records without reconstructing lost source metadata.
+
+    Returns the identities kept at their published record after a per-occasion conflict.
+    """
     root = Path(output_dir)
     manifest = _object(json.loads((root / "web_events.json").read_bytes()))
     current = _programmes(
@@ -537,6 +540,7 @@ def reconcile_occasions(
     current_definitions = collect_occasion_definitions(definitions)
     today = now.astimezone(BERLIN_TZ).date()
     carried: set[str] = set()
+    quarantined: list[str] = []
     for identity, old in prior.items():
         previous = _object(old["occasion"])
         for other_id, other in current.items():
@@ -546,15 +550,22 @@ def reconcile_occasions(
                 or candidate["sourceUrl"] == previous["sourceUrl"]
             ):
                 raise ValueError("Current and prior occasion identities conflict")
-        if identity in current_definitions:
-            definition = current_definitions[identity]
-            if (
-                definition.slug != previous["slug"]
-                or definition.source_url != previous["sourceUrl"]
-            ):
-                raise ValueError(
-                    "An existing occasion changed its slug or source identity"
-                )
+        definition = current_definitions.get(identity)
+        if definition is not None and (
+            definition.slug != previous["slug"]
+            or definition.source_url != previous["sourceUrl"]
+        ):
+            # One occasion's identity change must not hold back the whole site:
+            # it keeps its published record and the run still fails after sync.
+            logger.error(
+                "Quarantined occasion %s: slug or source identity changed; "
+                "keeping its published record",
+                identity,
+            )
+            quarantined.append(identity)
+            current.pop(identity, None)
+            definition = None
+        if definition is not None:
             if identity not in current:
                 continue
             fresh = _object(current[identity]["occasion"])
@@ -563,20 +574,19 @@ def reconcile_occasions(
                 _date(previous["startDate"]),
                 _date(fresh["startDate"]),
             )
+            # A later start the source states itself is current evidence: keep the
+            # published start only where the listing merely drops past dates.
             if (
                 new_start > old_start
                 and fresh.get("sourceStatus") != "rescheduled"
                 and not _refines_unknown_schedule(previous, definition)
+                and (
+                    (new_start == today and fresh["endDate"] == previous["endDate"])
+                    or _retains_sparse_appointments(previous, fresh, today)
+                )
             ):
-                if (
-                    new_start == today and fresh["endDate"] == previous["endDate"]
-                ) or _retains_sparse_appointments(previous, fresh, today):
-                    fresh["startDate"] = previous["startDate"]
-                    retained_evidence = True
-                elif fresh.get("sourceStatus") not in ("cancelled", "postponed"):
-                    raise ValueError(
-                        "Conflicting occasion start dates need explicit rescheduling evidence"
-                    )
+                fresh["startDate"] = previous["startDate"]
+                retained_evidence = True
             if "sourceStatus" not in fresh and "sourceStatus" in previous:
                 fresh["sourceStatus"] = previous["sourceStatus"]
                 retained_evidence = True
@@ -650,4 +660,4 @@ def reconcile_occasions(
         "Carried forward %d known occasions; original fact timestamps retained",
         len(carried),
     )
-    return len(carried)
+    return quarantined

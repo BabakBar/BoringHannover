@@ -145,7 +145,7 @@ def _run(*, local: bool) -> bool:
                 )
                 return False
 
-            carry_forward_occasions(
+            quarantined = carry_forward_occasions(
                 "output",
                 definitions=events_data.get("city_occasions", []),
                 now=now,
@@ -161,6 +161,14 @@ def _run(*, local: bool) -> bool:
 
             if not backed_up:
                 logger.error("Backup failed - this run's output is not preserved")
+                return False
+
+            if quarantined:
+                logger.error(
+                    "Published with %d occasion(s) held at their previous record: %s",
+                    len(quarantined),
+                    ", ".join(quarantined),
+                )
                 return False
 
         logger.info("Workflow completed successfully")

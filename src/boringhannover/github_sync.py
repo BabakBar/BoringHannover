@@ -51,7 +51,7 @@ def carry_forward_occasions(
     events: Sequence[Event] = (),
     client: httpx.Client | None = None,
     repo: str | None = None,
-) -> None:
+) -> list[str]:
     """Validate prior publication before any backup or upload of this candidate."""
     repository = repo or os.environ["GITHUB_REPO"]
     with (
@@ -68,7 +68,7 @@ def carry_forward_occasions(
         ) as github
     ):
         prior = read_published_occasions(github, repository)
-    reconcile_occasions(
+    return reconcile_occasions(
         output_dir, prior, definitions=definitions, now=now, events=events
     )
 
