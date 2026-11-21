@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
+  devToolbar: { enabled: false },
   // Canonical URLs + sitemap; set by the deploy environment.
   site: process.env.SITE || process.env.PUBLIC_SITE_URL,
   // Astro 7 changed the default to 'jsx', which strips the whitespace between

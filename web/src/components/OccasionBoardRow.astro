@@ -1,0 +1,36 @@
+---
+import type { OccasionSummary } from '../data/types';
+import type { BoardRow } from '../utils/occasionV2';
+import ActiveOccasion from './ActiveOccasion.astro';
+
+interface Props {
+  occasion: OccasionSummary;
+  row?: BoardRow<OccasionSummary>;
+  coming?: boolean;
+}
+
+const { occasion, row, coming = false } = Astro.props;
+const venue = occasion.area === 'region' && occasion.place?.municipality
+  ? `Day trip · ${occasion.place.municipality}`
+  : occasion.place?.venue ?? occasion.location;
+---
+
+<ActiveOccasion slug={occasion.slug}>
+  <li class="brow-item">
+    <a
+      class:list={['brow', { 'is-now': row?.now }]}
+      href={row && coming ? `/special/${occasion.slug}/?date=${row.appointment.date}` : `/special/${occasion.slug}/`}
+      data-board-row={occasion.slug}
+      data-schedule={JSON.stringify({
+        name: occasion.name, slug: occasion.slug, startDate: occasion.startDate, endDate: occasion.endDate,
+        occurrences: occasion.occurrences, scheduleConfidence: occasion.scheduleConfidence, sourceStatus: occasion.sourceStatus,
+      })}
+      data-umami-event="occasion-open"
+      data-umami-event-occasion={occasion.slug}
+    >
+      <span class="brow__when" data-board-when>{row?.when}</span>
+      <span class="brow__name" lang="de">{occasion.name}<span class="brow__opens" data-board-opens hidden={!row?.opens}>Opens</span><span class="brow__venue" lang="de">{venue}</span></span>
+      <span class="brow__end" data-board-end>{row?.end}</span>
+    </a>
+  </li>
+</ActiveOccasion>

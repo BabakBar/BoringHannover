@@ -1,0 +1,261 @@
+---
+import type { OccasionSummary } from '../data/types';
+import OccasionBoardRow from './OccasionBoardRow.astro';
+import { boardSelection } from '../utils/occasionV2';
+
+// Concept A, v2: the homepage's one occasion surface. Today first (one-off
+// occasions before season-long ones), then what opens or happens this week.
+interface Props {
+  occasions: OccasionSummary[];
+  now: Date;
+}
+
+const { occasions, now } = Astro.props;
+const board = boardSelection(occasions, now);
+const placed = new Set([...board.today, ...board.coming].map(row => row.occasion.slug));
+const dateLabel = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Europe/Berlin', weekday: 'short', day: 'numeric', month: 'short',
+}).format(now).toUpperCase();
+---
+
+<section class="board" aria-labelledby="board-title" data-board hidden={board.total === 0}>
+  <h2 class="board__head" id="board-title">
+    <span class="board__title"><span aria-hidden="true">▪ </span>City Occasions</span>
+    <span class="board__date" data-board-date>{dateLabel}</span>
+  </h2>
+  <p class="board__label" data-board-today-label hidden={board.today.length === 0}>Today</p>
+  <ol class="board__list" data-board-today>
+    {board.today.map(row => <OccasionBoardRow occasion={row.occasion} row={row} />)}
+  </ol>
+  <a class="board__more" href="/special/" data-board-today-more hidden={board.todayMore === 0}>+{board.todayMore} more today</a>
+  <p class="board__label" data-board-coming-label hidden={board.coming.length === 0}>Coming up</p>
+  <ol class="board__list" data-board-coming>
+    {board.coming.map(row => <OccasionBoardRow occasion={row.occasion} row={row} coming />)}
+  </ol>
+  <div class="board__foot">
+    <a href="/special/" data-umami-event="occasion-index-open" data-board-all>All {board.total} City Occasions →</a>
+  </div>
+</section>
+
+<ol class="board-pool" hidden data-board-pool>
+  {occasions.filter(occasion => !placed.has(occasion.slug)).map(occasion => <OccasionBoardRow occasion={occasion} />)}
+</ol>
+
+<script>
+  import { boardSelection, type BoardRow } from '../utils/occasionV2';
+  import type { OccasionSchedule } from '../utils/occasionStatus';
+
+  type Item = OccasionSchedule & { name: string; slug: string };
+  const board = document.querySelector<HTMLElement>('[data-board]');
+  const pool = document.querySelector<HTMLElement>('[data-board-pool]')!;
+  const rows = new Map<string, HTMLAnchorElement>();
+  const items: Item[] = [];
+  for (const row of document.querySelectorAll<HTMLAnchorElement>('[data-board-row]')) {
+    const item: Item = JSON.parse(row.dataset.schedule!);
+    rows.set(item.slug, row);
+    items.push(item);
+  }
+
+  function fill(list: HTMLElement, entries: BoardRow<Item>[], coming: boolean) {
+    list.replaceChildren(...entries.map(({ occasion, appointment, when, end, now, opens }) => {
+      const row = rows.get(occasion.slug)!;
+      row.querySelector('[data-board-when]')!.textContent = when;
+      row.querySelector('[data-board-end]')!.textContent = end ?? '';
+      row.querySelector<HTMLElement>('[data-board-opens]')!.hidden = !opens;
+      row.classList.toggle('is-now', now);
+      row.href = coming ? `/special/${occasion.slug}/?date=${appointment.date}` : `/special/${occasion.slug}/`;
+      return row.closest('li')!;
+    }));
+  }
+
+  function refresh() {
+    if (!board) return;
+    const now = new Date();
+    const selected = boardSelection(items, now);
+    pool.append(...[...rows.values()].map(row => row.closest('li')!));
+    fill(board.querySelector('[data-board-today]')!, selected.today, false);
+    fill(board.querySelector('[data-board-coming]')!, selected.coming, true);
+    board.querySelector<HTMLElement>('[data-board-today-label]')!.hidden = selected.today.length === 0;
+    board.querySelector<HTMLElement>('[data-board-coming-label]')!.hidden = selected.coming.length === 0;
+    const more = board.querySelector<HTMLElement>('[data-board-today-more]')!;
+    more.hidden = selected.todayMore === 0;
+    more.textContent = `+${selected.todayMore} more today`;
+    board.querySelector('[data-board-all]')!.textContent = `All ${selected.total} City Occasions →`;
+    board.querySelector('[data-board-date]')!.textContent = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Berlin', weekday: 'short', day: 'numeric', month: 'short',
+    }).format(now).toUpperCase();
+    board.hidden = selected.total === 0;
+  }
+
+  refresh();
+  setInterval(refresh, 60_000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') refresh();
+  });
+</script>
+
+<style>
+  .board {
+    position: relative;
+    margin-bottom: 2.25rem;
+    padding: 0.8rem 0.85rem 0.7rem;
+    overflow: hidden;
+    color: var(--board-text);
+    background: var(--board-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .board[hidden] {
+    display: none;
+  }
+
+  /* Faint LED raster, like the Üstra platform displays. */
+  .board::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, transparent 0.9px, var(--board-bg) 1.3px);
+    background-size: 3px 3px;
+    opacity: 0.28;
+    pointer-events: none;
+  }
+
+  .board__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--board-rule);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .board__title {
+    color: var(--board-red);
+  }
+
+  .board__label {
+    padding: 0.6rem 0 0.1rem;
+    color: var(--board-dim);
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .board__label[hidden],
+  .board__more[hidden] {
+    display: none;
+  }
+
+  .board :global(.brow) {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 4.3rem minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.5rem 0;
+    color: var(--board-text);
+    border-bottom: 1px dashed var(--board-rule);
+  }
+
+  .board :global(.brow:hover .brow__name) {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .board :global(.brow:focus-visible) {
+    outline: 2px solid var(--board-text);
+    outline-offset: 2px;
+  }
+
+  .board :global(.brow__when) {
+    font-size: 0.6875rem;
+    letter-spacing: 0.02em;
+  }
+
+  .board :global(.brow.is-now .brow__when) {
+    color: var(--board-red);
+    font-weight: 700;
+  }
+
+  .board :global(.brow__name) {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.22;
+    text-transform: uppercase;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+
+  .board :global(.brow__opens) {
+    margin-left: 0.35rem;
+    padding: 0 0.25rem;
+    border: 1px solid var(--board-rule);
+    border-radius: 2px;
+    font-size: 0.5625rem;
+    font-weight: 400;
+    vertical-align: 1px;
+  }
+
+  .board :global(.brow__opens[hidden]) {
+    display: none;
+  }
+
+  .board :global(.brow__venue) {
+    display: block;
+    margin-top: 0.1rem;
+    color: var(--board-dim);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    text-transform: none;
+  }
+
+  .board :global(.brow__end) {
+    color: var(--board-dim);
+    font-size: 0.6875rem;
+    white-space: nowrap;
+  }
+
+  .board__more {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    color: var(--board-dim);
+    font-size: 0.625rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .board__foot {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.6rem;
+  }
+
+  .board__foot a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.7rem;
+    color: var(--board-text);
+    border: 1px solid var(--board-rule);
+    border-radius: 3px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .board__foot a:hover {
+    border-color: var(--board-text);
+  }
+</style>

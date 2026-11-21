@@ -1,0 +1,24 @@
+---
+import { occasionPictogram, pictogramSvg, type PictogramName } from '../utils/pictogram';
+
+interface Props {
+  name: string;
+  /** Dot pitch in px; 11 columns × 12 rows. */
+  step?: number;
+  icon?: PictogramName;
+  class?: string;
+}
+
+const { name, step = 2, icon, class: className } = Astro.props;
+const svg = pictogramSvg(icon ?? occasionPictogram({ name }), step);
+---
+
+<span class:list={['pictogram', className]} set:html={svg} />
+
+<style>
+  .pictogram {
+    display: inline-flex;
+    flex: none;
+    line-height: 0;
+  }
+</style>

@@ -1,0 +1,105 @@
+---
+// EXPERIMENT (occasions v2): review page for the redesign. Not for release.
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Pictogram from '../components/Pictogram.astro';
+import { loadEventData } from '../data/loader';
+import { PICTOGRAMS, PICTOGRAM_LABELS, occasionPictogram, type PictogramName } from '../utils/pictogram';
+import { posterFacts } from '../utils/poster';
+import { berlinClock } from '../utils/occasionStatus';
+import { experimentNow } from '../utils/experimentNow';
+
+const { meta, occasions } = loadEventData();
+const today = berlinClock(experimentNow(Astro.url)).date;
+const current = occasions.filter(occasion => occasion.endDate >= today);
+const icons = Object.keys(PICTOGRAMS) as PictogramName[];
+const samples = [
+  ['Thin one-day market', 'weihnachtsmarkt-in-ahlem'],
+  ['Reviewed copy, prices, selected dates', 'magische-lichterwelten-im-zoo'],
+  ['Season-long, daily hours', 'weihnachtsmarkt-hannover'],
+  ['Start-only times, cross-year', 'lister-turm-aus-biergarten-wird-winterdorf'],
+  ['Region day trip', 'solawi-winterfest'],
+  ['Unknown schedule', 'lichterfest-in-neustadt-a-rbge'],
+] as const;
+const changes = [
+  ['Homepage', '/', 'Abfahrt board replaces the two spotlight cards: Today (one-off occasions first, max 4) and Coming up (next 7 days, max 3). Movies and Radar hide days before today.'],
+  ['Index', '/special/', '"Open all season" list for occasions running 7+ days; one-off occasions in a day agenda on the red thread with #day-YYYY-MM-DD anchors. Week browser filters both. Pictogram per row.'],
+  ['Detail', '/special/weihnachtsmarkt-in-ahlem/', 'Compact header, back link to City Occasions, date tile with status, hours, venue and pictogram. Fallback "See the source for details." no longer shown as About. "Checked" moves to Source. Onward says "Also on Sat 28 Nov".'],
+  ['Search snippet', '/special/bothfelder-weihnachtsmarkt/', 'Title and meta description built from absolute facts (view source). og:image is the occasion poster.'],
+  ['Posters', '#posters', 'Generated 1200×630 PNG per occasion with date, name, pictogram and venue. Owned type and art only.'],
+  ['Colour', '/special/weihnachtsmarkt-in-ahlem/', 'Light-mode amber #a08050 → #85673a (3.53 → 5.03:1) and muted grey #767676 → #6a6a6a (4.35 → 5.18:1).'],
+] as const;
+---
+
+<Base title="Occasions v2 experiment" description="Review page for the City Occasions redesign experiment." noindex analytics={false} wide>
+  <Header week={meta.week} year={meta.year} brandAsHeading={false} compact />
+  <div class="exp">
+    <h1>City Occasions v2 · experiment</h1>
+    <p class="lead">Real data from the published {meta.updatedAt} edition. Use the blue bar on every page to move the clock: the server and the page scripts both follow it. <b>Live ↗</b> opens the same path on boringhannover.de for comparison. Everything except this page and the blue bar is the proposed design.</p>
+
+    <h2>What changed</h2>
+    <ol class="changes">
+      {changes.map(([title, href, text]) => (
+        <li><a href={href}>{title}</a><span>{text}</span></li>
+      ))}
+    </ol>
+
+    <h2>Sample detail pages</h2>
+    <ul class="samples">
+      {samples.map(([label, slug]) => {
+        const occasion = occasions.find(item => item.slug === slug);
+        return occasion && <li><a href={`/special/${slug}/`}><Pictogram name={occasion.name} step={2} /><span><b lang="de">{occasion.name}</b><small>{label}</small></span></a></li>;
+      })}
+    </ul>
+
+    <h2>Pixel pictograms</h2>
+    <p class="note">Chosen from the official name for now (the source gives no category). Unmatched names get the star. Decoration only, never a fact.</p>
+    <div class="icons">
+      {icons.map(icon => (
+        <figure><Pictogram name="" icon={icon} step={5} /><figcaption>{PICTOGRAM_LABELS[icon]}<small>{current.filter(occasion => occasionPictogram(occasion) === icon).length} current</small></figcaption></figure>
+      ))}
+    </div>
+
+    <h2 id="posters">Share posters · {current.length}</h2>
+    <p class="note">Served at <code>/special/&lt;slug&gt;/poster.png</code> and used as og:image. Absolute dates only, because platforms cache previews for weeks.</p>
+    <div class="posters">
+      {current.map(occasion => {
+        const facts = posterFacts(occasion);
+        return (
+          <figure>
+            <a href={`/special/${occasion.slug}/poster.png`}><img src={`/special/${occasion.slug}/poster.png`} alt={`Poster: ${occasion.name}, ${facts.date}, ${facts.when}`} loading="lazy" width="1200" height="630" /></a>
+            <figcaption lang="de">{occasion.name}</figcaption>
+          </figure>
+        );
+      })}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .exp { display: grid; gap: 1rem; padding-bottom: 4rem; }
+  h1 { font: 700 1.5rem/1.1 'Space Mono', monospace; text-transform: uppercase; letter-spacing: -0.03em; margin-top: 1rem; }
+  h2 { margin-top: 1.5rem; color: var(--accent); font: 700 0.8125rem 'Space Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; }
+  .lead, .note { color: var(--text-secondary); font-size: 0.9375rem; max-width: 70ch; }
+  .note { font-size: 0.8125rem; }
+  .changes { display: grid; gap: 0.6rem; }
+  .changes li { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.75rem; font-size: 0.875rem; color: var(--text-secondary); }
+  .changes a { font: 700 0.75rem 'Space Mono', monospace; text-transform: uppercase; color: var(--text-primary); text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 40rem) { .changes li { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; } }
+  .samples { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 0.5rem; }
+  .samples a { display: flex; gap: 0.75rem; align-items: center; min-height: 44px; padding: 0.6rem 0.75rem; border: 1px solid var(--border); border-radius: 4px; }
+  .samples a:hover { border-color: var(--accent); }
+  .samples span { display: grid; min-width: 0; }
+  .samples b { font-size: 0.875rem; }
+  .samples small { color: var(--text-secondary); font-size: 0.75rem; }
+  .icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr)); gap: 0.6rem; }
+  .icons figure { display: grid; justify-items: center; gap: 0.5rem; padding: 0.9rem 0.5rem 0.7rem; border: 1px solid var(--border); border-radius: 4px; color: var(--text-primary); }
+  .icons figure:nth-child(3n + 1) { color: var(--accent); }
+  .icons figcaption { display: grid; text-align: center; font: 0.6875rem 'Space Mono', monospace; text-transform: uppercase; color: var(--text-secondary); }
+  .icons small { font-size: 0.625rem; color: var(--text-muted); }
+  .posters { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); gap: 1rem; }
+  .posters figure { display: grid; gap: 0.35rem; margin: 0; }
+  .posters img { width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--border); }
+  .posters figcaption { font-size: 0.75rem; color: var(--text-secondary); }
+  code { font-family: 'Space Mono', monospace; font-size: 0.8em; color: var(--text-data); }
+</style>

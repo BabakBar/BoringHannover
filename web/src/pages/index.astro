@@ -5,8 +5,7 @@ import SectionHeader from '../components/SectionHeader.astro';
 import DateHeader from '../components/DateHeader.astro';
 import MovieCard from '../components/MovieCard.astro';
 import EventDayGroup from '../components/EventDayGroup.astro';
-import OccasionSpotlight from '../components/OccasionSpotlight.astro';
-import ActiveOccasion from '../components/ActiveOccasion.astro';
+import OccasionBoard from '../components/OccasionBoard.astro';
 import Footer from '../components/Footer.astro';
 
 // Load event data from web_events.json
@@ -16,14 +15,21 @@ import {
   ALL_RADAR_CATEGORIES,
   getRadarCategoryOptions,
 } from '../utils/radarCategoryFilter';
-import { selectLandingOccasions } from '../utils/occasionSelection';
 import { berlinClock } from '../utils/occasionStatus';
+import { experimentNow } from '../utils/experimentNow';
 
 const eventData = loadEventData();
 const { meta, movies, concerts, occasions } = eventData;
-const builtAt = new Date();
+const builtAt = experimentNow(Astro.url);
 const activeOccasions = occasions.filter(occasion => occasion.endDate >= berlinClock(builtAt).date);
-const visibleOccasions = selectLandingOccasions(activeOccasions, builtAt);
+
+// Movies carry "15.11" without a year; the edition's update time anchors it.
+const updated = meta.updatedAtISO ?? new Date().toISOString();
+function movieDate(date: string) {
+  const [day, month] = date.split('.');
+  const year = Number(updated.slice(0, 4)) + (Number(month) < Number(updated.slice(5, 7)) ? 1 : 0);
+  return `${year}-${month}-${day}`;
+}
 
 // Movies progressive disclosure: show first N days, hide the rest
 const MOVIE_VISIBLE_DAYS = 3;
@@ -57,32 +63,18 @@ const hasPlatzprojektContext = (
 >
   <Header week={meta.week} year={meta.year} />
 
-  {activeOccasions.map((occasion) => (
-    <ActiveOccasion slug={occasion.slug}>
-      <OccasionSpotlight
-        occasion={occasion}
-        compact={visibleOccasions.indexOf(occasion) !== 0}
-        hidden={!visibleOccasions.includes(occasion)}
-      />
-    </ActiveOccasion>
-  ))}
-
-  <div data-occasion-index-link class:list={['mb-10 text-center', { '-mt-6': visibleOccasions.length > 0 }]}>
-    <a
-      href="/special/"
-      class="inline-flex min-h-11 items-center font-display text-[11px] uppercase tracking-wide text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-      data-umami-event="occasion-index-open"
-    >
-      See all City Occasions
-    </a>
-  </div>
+  <OccasionBoard occasions={activeOccasions} now={builtAt} />
+  {activeOccasions.length === 0 && (
+    <p class="mb-10 text-center"><a href="/special/" class="inline-flex min-h-11 items-center font-display text-[11px] uppercase tracking-wide text-accent hover:underline">City Occasions</a></p>
+  )}
 
   <!-- Movies Section -->
   <section class="mb-10">
     <SectionHeader title="Movies" />
 
+    <div id="movies-visible">
     {visibleMovieDays.map((dayGroup) => (
-      <div>
+      <div data-day-date={movieDate(dayGroup.date)}>
         <DateHeader day={dayGroup.day} date={dayGroup.date} />
         {dayGroup.movies.map((movie) => (
           <MovieCard
@@ -100,12 +92,13 @@ const hasPlatzprojektContext = (
         ))}
       </div>
     ))}
+    </div>
 
     <!-- Movies overflow (hidden by default) -->
     {hasMovieOverflow && (
       <div id="movies-overflow" class="movies-overflow" aria-hidden="true">
         {overflowMovieDays.map((dayGroup, groupIndex) => (
-          <div class="overflow-group" style={`--group-index: ${groupIndex}`}>
+          <div class="overflow-group" style={`--group-index: ${groupIndex}`} data-day-date={movieDate(dayGroup.date)}>
             <DateHeader day={dayGroup.day} date={dayGroup.date} />
             {dayGroup.movies.map((movie) => (
               <MovieCard
@@ -152,6 +145,7 @@ const hasPlatzprojektContext = (
     {movies.length === 0 && (
       <p class="text-text-muted text-sm py-4">No OV movies found.</p>
     )}
+    <p class="text-text-muted text-sm py-4" data-movies-past hidden>No upcoming screenings in this edition.</p>
   </section>
 
   <!-- Events Section (Timeline) -->
@@ -215,13 +209,13 @@ const hasPlatzprojektContext = (
     <!-- Visible event groups -->
     <div id="events-visible" class="events-timeline">
       {visibleGroups.map((group) => (
-        <EventDayGroup
+        <div data-day-date={group.events[0].dateISO}><EventDayGroup
           day={group.day}
           dayNum={group.dayNum}
           month={group.month}
           year={group.year}
           events={group.events}
-        />
+        /></div>
       ))}
     </div>
 
@@ -229,7 +223,7 @@ const hasPlatzprojektContext = (
     {hasOverflow && (
       <div id="events-overflow" class="events-timeline events-overflow" aria-hidden="true">
         {overflowGroups.map((group, groupIndex) => (
-          <div class="overflow-group" style={`--group-index: ${groupIndex}`}>
+          <div class="overflow-group" style={`--group-index: ${groupIndex}`} data-day-date={group.events[0].dateISO}>
             <EventDayGroup
               day={group.day}
               dayNum={group.dayNum}
@@ -461,4 +455,48 @@ const hasPlatzprojektContext = (
   }
 
   setupRadarFilter();
+
+  // v2: hide days before the reader's Berlin date, then refill the visible
+  // part from the overflow so the first screen starts today.
+  import { berlinClock } from '../utils/occasionStatus';
+
+  function pruneSection(visibleId, overflowId, toggleId, unit, enough) {
+    const visible = document.getElementById(visibleId);
+    const overflow = document.getElementById(overflowId);
+    const toggle = document.getElementById(toggleId);
+    if (!visible) return 0;
+    const today = berlinClock(new Date()).date;
+    for (const group of document.querySelectorAll(`#${visibleId} [data-day-date], #${overflowId} [data-day-date]`)) {
+      group.hidden = group.dataset.dayDate < today;
+    }
+    const shown = () => [...visible.querySelectorAll('[data-day-date]:not([hidden])')];
+    const waiting = () => overflow ? [...overflow.querySelectorAll('[data-day-date]:not([hidden])')] : [];
+    while (!enough(shown()) && waiting().length > 0) {
+      const next = waiting()[0];
+      next.classList.remove('overflow-group');
+      next.style.removeProperty('--group-index');
+      visible.append(next);
+    }
+    const rest = waiting();
+    if (toggle) {
+      toggle.hidden = rest.length === 0;
+      const text = toggle.querySelector('.toggle-text');
+      if (text && toggle.getAttribute('aria-expanded') !== 'true') {
+        text.textContent = unit === 'days'
+          ? `+${rest.length} MORE DAYS`
+          : `+${rest.reduce((sum, group) => sum + group.querySelectorAll('[data-event-item]').length, 0)} MORE`;
+      }
+    }
+    return shown().length + rest.length;
+  }
+
+  function prune() {
+    const movieDays = pruneSection('movies-visible', 'movies-overflow', 'movies-toggle', 'days', groups => groups.length >= 3);
+    document.querySelector('[data-movies-past]')?.toggleAttribute('hidden', movieDays > 0 || !document.getElementById('movies-visible')?.children.length);
+    pruneSection('events-visible', 'events-overflow', 'radar-toggle', 'events',
+      groups => groups.reduce((sum, group) => sum + group.querySelectorAll('[data-event-item]').length, 0) >= 15);
+  }
+
+  prune();
+  setInterval(prune, 60_000);
 </script>

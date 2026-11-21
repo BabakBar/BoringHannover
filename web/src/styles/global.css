@@ -283,15 +283,22 @@
     --bg-tertiary: #e8e7e5;
     --text-primary: #1a1a1a;
     --text-secondary: #666666;
-    /* A-6: Improved contrast - #767676 meets WCAG AA 4.5:1 on #fafaf9 */
-    --text-muted: #767676;
+    /* 5.18:1 on #fafaf9 and 4.71:1 on #f0efed (#767676 was 4.35:1). */
+    --text-muted: #6a6a6a;
     /* Muted gold for temporal data - "time is data" */
-    --text-data: #a08050;
+    /* 5.03:1 on #fafaf9 (#a08050 was 3.53:1). */
+    --text-data: #85673a;
     --accent: #dc2626;
     --accent-hover: #ef4444;
     --accent-dim: rgba(220, 38, 38, 0.1);
     --border: #e0dfdd;
     --theme-color: #fafaf9;
+    /* Occasion board: a dark display panel in both themes. */
+    --board-bg: #141312;
+    --board-text: #f0b445;
+    --board-dim: rgba(240, 180, 69, 0.72);
+    --board-rule: rgba(240, 180, 69, 0.2);
+    --board-red: #ff5a4d;
   }
 
   :root.dark {
@@ -310,6 +317,10 @@
     --accent-dim: rgba(255, 59, 59, 0.13);
     --border: #2a2a2a;
     --theme-color: #0a0a0a;
+    --board-bg: #161616;
+    --board-text: #e5c07b;
+    --board-dim: rgba(229, 192, 123, 0.72);
+    --board-rule: rgba(229, 192, 123, 0.18);
   }
 }
 
@@ -707,3 +718,20 @@
     font-display: swap;
   }
 }
+
+/* EXPERIMENT (occasions v2) bar: not part of the design under review. */
+.exp-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  padding: 0.4rem max(1rem, env(safe-area-inset-left, 0px));
+  background: #1f3a5f;
+  color: #fff;
+  font: 11px/1.4 'Space Mono', monospace;
+}
+
+.exp-bar a { color: #cfe3ff; text-decoration: underline; text-underline-offset: 2px; }
+.exp-bar__home { font-weight: 700; color: #fff !important; }
+.exp-bar__times { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; }
+.exp-bar__times a[aria-current] { color: #fff; background: #3a6aa8; padding: 0 0.3rem; border-radius: 3px; text-decoration: none; }

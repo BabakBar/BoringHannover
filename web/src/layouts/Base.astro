@@ -224,6 +224,35 @@ const structuredData = siteUrl ? toJsonLd({
 
     <title>{title}</title>
 
+    <!-- EXPERIMENT (occasions v2): ?now=ISO shifts the browser clock so the
+         page scripts regroup as they would at that moment. -->
+    <script is:inline>
+      (function() {
+        const wanted = new URLSearchParams(location.search).get('now');
+        const target = wanted ? Date.parse(wanted) : NaN;
+        if (Number.isNaN(target)) return;
+        const Real = Date;
+        const offset = target - Real.now();
+        function Shifted(...args) {
+          if (!new.target) return new Real(Real.now() + offset).toString();
+          return args.length ? new Real(...args) : new Real(Real.now() + offset);
+        }
+        Shifted.prototype = Real.prototype;
+        Shifted.now = () => Real.now() + offset;
+        Shifted.parse = Real.parse;
+        Shifted.UTC = Real.UTC;
+        window.Date = Shifted;
+        document.addEventListener('click', (event) => {
+          const link = event.target.closest && event.target.closest('a[href]');
+          if (!link || link.origin !== location.origin || link.searchParams?.has('now')) return;
+          const url = new URL(link.href);
+          if (url.searchParams.has('now')) return;
+          url.searchParams.set('now', wanted);
+          link.href = url.toString();
+        }, true);
+      })();
+    </script>
+
     <!-- Theme initialization (prevents flash) -->
     <script is:inline>
       (function() {
@@ -250,6 +279,35 @@ const structuredData = siteUrl ? toJsonLd({
     )}
   </head>
   <body class="bg-bg-primary min-h-screen">
+    <div class="exp-bar" data-exp-bar>
+      <a href="/experiment/" class="exp-bar__home">Experiment · v2</a>
+      <span class="exp-bar__times" data-exp-times></span>
+      <a data-exp-live href="https://boringhannover.de/" target="_blank" rel="noopener">Live ↗</a>
+    </div>
+    <script is:inline>
+      (function() {
+        const presets = [
+          ['Now', null],
+          ['Sat 21 · 15:00', '2026-11-21T15:00:00+01:00'],
+          ['Mon 23 · 10:00', '2026-11-23T10:00:00+01:00'],
+          ['Tue 24 · 18:00', '2026-11-24T18:00:00+01:00'],
+          ['Sat 28 · 12:00', '2026-11-28T12:00:00+01:00'],
+          ['Sat 5 Dec · 16:00', '2026-12-05T16:00:00+01:00'],
+        ];
+        const current = new URLSearchParams(location.search).get('now');
+        const box = document.querySelector('[data-exp-times]');
+        for (const [label, value] of presets) {
+          const url = new URL(location.href);
+          if (value) url.searchParams.set('now', value); else url.searchParams.delete('now');
+          const link = document.createElement('a');
+          link.href = url.pathname + url.search;
+          link.textContent = label;
+          if (value === current) link.setAttribute('aria-current', 'true');
+          box.append(link);
+        }
+        document.querySelector('[data-exp-live]').href = 'https://boringhannover.de' + location.pathname;
+      })();
+    </script>
     <!-- Skip navigation link for keyboard users (A-2) -->
     <a
       href="#main-content"
