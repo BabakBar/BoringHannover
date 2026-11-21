@@ -1,5 +1,5 @@
 import type { OccasionOccurrence, OccasionSummary } from '../data/types';
-import { appointmentHours, appointmentText, entryPrice, sheetDateLine } from './occasionSheet';
+import { appointmentText, entryPrice, sheetDateLine } from './occasionSheet';
 import {
   OCCASION_HORIZON_DAYS,
   addDays,
@@ -23,7 +23,7 @@ export interface IndexEntry<T extends IndexOccasion> {
 }
 
 export interface IndexGroup<T extends IndexOccasion> {
-  key: 'date' | 'today' | 'next' | 'following' | 'later' | 'check' | 'off';
+  key: 'week' | 'today' | 'next' | 'following' | 'later' | 'check' | 'off';
   name: string;
   /** The Berlin dates a dated group covers. */
   dates: string | null;
@@ -47,21 +47,46 @@ function byAppointment<T extends IndexOccasion>(left: IndexEntry<T>, right: Inde
     byName(left, right);
 }
 
-export function occasionIndexOn<T extends IndexOccasion>(
+export const WEEK_NAMES = ['This week', 'Next week', 'Following week'] as const;
+
+const weekDateFormat = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric', month: 'short', timeZone: 'UTC',
+});
+
+export function occasionWeeks(today: string) {
+  const weekday = new Date(`${today}T00:00:00Z`).getUTCDay();
+  const monday = addDays(today, -((weekday + 6) % 7));
+  return WEEK_NAMES.map((name, offset) => {
+    const startDate = addDays(monday, offset * 7);
+    const endDate = addDays(startDate, 6);
+    const dates = weekDateFormat.formatRange(
+      new Date(`${startDate}T00:00:00Z`), new Date(`${endDate}T00:00:00Z`),
+    ).replace(/\s*–\s*/u, '–');
+    return { name, startDate, endDate, dates };
+  });
+}
+
+/** Each occasion appears once, at its first still-available opening that week. */
+export function occasionIndexForWeek<T extends IndexOccasion>(
   occasions: readonly T[],
   now: Date,
-  date: string,
+  week: ReturnType<typeof occasionWeeks>[number],
 ): IndexGroup<T> {
-  const entries = occasions.flatMap((occasion) => {
-    const appointment = appointmentOn(occasion, date, now);
-    return appointment ? [{ occasion, appointment }] : [];
-  });
-  return {
-    key: 'date',
-    name: '',
-    dates: sheetDateLine({ startDate: date, endDate: date }),
-    entries: entries.sort(byAppointment),
-  };
+  const today = berlinClock(now).date;
+  const dates: string[] = [];
+  for (let date = week.startDate < today ? today : week.startDate; date <= week.endDate; date = addDays(date, 1)) {
+    dates.push(date);
+  }
+  const entries: IndexEntry<T>[] = [];
+  for (const occasion of occasions) {
+    for (const date of dates) {
+      const appointment = appointmentOn(occasion, date, now);
+      if (!appointment) continue;
+      entries.push({ occasion, appointment });
+      break;
+    }
+  }
+  return { key: 'week', name: week.name, dates: week.dates, entries: entries.sort(byAppointment) };
 }
 
 /**
@@ -132,14 +157,13 @@ export function indexAdmission(occasion: OccasionSummary): string | null {
 /** A row's dates: the appointment that placed it, then the whole run. */
 export function indexDates(
   { occasion, appointment }: IndexEntry<IndexOccasion>,
-  includeDate = true,
 ): { when: string; span: string | null } {
   const run = sheetDateLine(occasion);
   const season =
     occasion.scheduleConfidence === 'discrete' ? `Selected dates · ${run}` : run;
   if (!appointment) return { when: season, span: null };
   return {
-    when: includeDate ? appointmentText(appointment) : appointmentHours(appointment) ?? 'Hours unlisted',
+    when: appointmentText(appointment),
     span: occasion.startDate === occasion.endDate ? null : season,
   };
 }

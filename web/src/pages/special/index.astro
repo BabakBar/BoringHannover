@@ -6,7 +6,7 @@ import OccasionStatus from '../../components/OccasionStatus.astro';
 import ActiveOccasion from '../../components/ActiveOccasion.astro';
 import Footer from '../../components/Footer.astro';
 import { loadEventData } from '../../data/loader';
-import { indexAdmission, indexDates, occasionIndex } from '../../utils/occasionIndex';
+import { WEEK_NAMES, indexAdmission, indexDates, occasionIndex } from '../../utils/occasionIndex';
 
 const eventData = loadEventData();
 const { meta, occasions } = eventData;
@@ -14,7 +14,7 @@ const { meta, occasions } = eventData;
 // they stay true however long the page is served; the script below regroups
 // on the reader's clock and names them Today / Next 7 days.
 const groups = occasionIndex(occasions, new Date());
-groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
+groups.unshift({ key: 'week', name: '', dates: null, entries: [] });
 ---
 
 <Base
@@ -36,11 +36,19 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
     <SectionHeader id="city-occasions" title="City Occasions" as="h1" />
     <p class="mb-6 text-sm text-text-secondary">Festivals and city occasions for the next 30 days.</p>
 
-    <div class="index-date-filter" hidden>
-      <label for="occasion-index-date">Date</label>
-      <select id="occasion-index-date">
-        <option value="">All dates</option>
-      </select>
+    <div class="week-browser" role="group" aria-labelledby="week-browser-label" hidden>
+      <div class="week-browser__header">
+        <span id="week-browser-label">Browse by week</span>
+        <button class="week-browser__all" type="button" data-index-all aria-pressed="true">All dates</button>
+      </div>
+      <div class="week-browser__weeks">
+        {WEEK_NAMES.map((name) => (
+          <button class="week-card" type="button" data-index-week aria-pressed="false">
+            <span class="week-card__name">{name}</span>
+            <span class="week-card__dates" data-week-dates></span>
+          </button>
+        ))}
+      </div>
       <p class="sr-only" data-index-results role="status"></p>
     </div>
 
@@ -121,19 +129,16 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
   import {
     indexDates,
     occasionIndex,
-    occasionIndexOn,
+    occasionIndexForWeek,
+    occasionWeeks,
     type IndexOccasion,
   } from '../../utils/occasionIndex';
-  import { sheetDateLine } from '../../utils/occasionSheet';
-  import {
-    addDays,
-    berlinClock,
-    occasionLabel,
-    OCCASION_HORIZON_DAYS,
-    type OccasionSchedule,
-  } from '../../utils/occasionStatus';
+  import { berlinClock, occasionLabel, type OccasionSchedule } from '../../utils/occasionStatus';
 
-  const picker = document.querySelector<HTMLSelectElement>('#occasion-index-date')!;
+  const browser = document.querySelector<HTMLElement>('.week-browser')!;
+  const allDates = browser.querySelector<HTMLButtonElement>('[data-index-all]')!;
+  const weekButtons = Array.from(browser.querySelectorAll<HTMLButtonElement>('[data-index-week]'));
+  const weekLabels = weekButtons.map(button => button.querySelector('[data-week-dates]')!);
   const sections = document.querySelectorAll<HTMLElement>('[data-index-group]');
   const announcement = document.querySelector('[data-index-results]')!;
   const emptyText = document.querySelector('[data-index-empty-text]')!;
@@ -151,24 +156,16 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
       };
     },
   );
-  let optionsDate = '';
-
-  function refreshDateOptions(today: string) {
-    if (optionsDate === today) return;
-    const previous = picker.value;
-    picker.options.length = 1;
-    for (let offset = 0; offset <= OCCASION_HORIZON_DAYS; offset++) {
-      const date = addDays(today, offset);
-      picker.add(new Option(sheetDateLine({ startDate: date, endDate: date }), date, false, date === previous));
-    }
-    optionsDate = today;
-  }
+  let selectedWeek: number | null = null;
 
   function refreshIndex() {
     const now = new Date();
-    refreshDateOptions(berlinClock(now).date);
-    const date = picker.value;
-    const groups = date ? [occasionIndexOn(rows, now, date)] : occasionIndex(rows, now);
+    const weeks = occasionWeeks(berlinClock(now).date);
+    const week = selectedWeek === null ? null : weeks[selectedWeek];
+    const groups = week ? [occasionIndexForWeek(rows, now, week)] : occasionIndex(rows, now);
+    weekLabels.forEach((label, i) => {
+      if (label.textContent !== weeks[i].dates) label.textContent = weeks[i].dates;
+    });
     const focused = document.activeElement;
     const placed = new Set<HTMLElement>();
     for (const section of sections) {
@@ -180,14 +177,16 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
       const list = section.querySelector('[data-index-list]')!;
       group.entries.forEach((entry, position) => {
         const { element, link, status } = entry.occasion;
-        const href = group.key === 'date' ? `${link.pathname}?date=${date}` : link.pathname;
+        const href = week && entry.appointment
+          ? `${link.pathname}?date=${entry.appointment.date}`
+          : link.pathname;
         if (link.getAttribute('href') !== href) link.setAttribute('href', href);
         const label = occasionLabel(entry.occasion, now);
         if (status.textContent !== label.text) {
           status.textContent = label.text;
           status.dataset.state = label.key;
         }
-        const { when, span } = indexDates(entry, group.key !== 'date');
+        const { when, span } = indexDates(entry);
         const spanElement = element.querySelector<HTMLElement>('[data-index-span]')!;
         element.querySelector('[data-index-when]')!.textContent = when;
         spanElement.textContent = span ?? '';
@@ -204,25 +203,37 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
       if (!placed.has(element)) element.hidden = true;
     }
     if (focused instanceof HTMLElement && focused.closest('[data-index-row]')) {
-      if (focused.closest('[hidden]')) picker.focus();
+      if (focused.closest('[hidden]')) buttonFor(selectedWeek).focus();
       else if (focused !== document.activeElement) focused.focus({ preventScroll: true });
     }
-    const dateText = date ? groups[0].dates : null;
-    const emptyMessage = dateText ? `No confirmed occasions on ${dateText}.` : allDatesEmptyText;
+    const emptyMessage = week ? `No upcoming confirmed occasions for ${week.dates}.` : allDatesEmptyText;
     if (emptyText.textContent !== emptyMessage) emptyText.textContent = emptyMessage;
     const count = placed.size;
-    const result = dateText
-      ? `${count} ${count === 1 ? 'occasion' : 'occasions'} with a confirmed date on ${dateText}.`
+    const result = week
+      ? `${count} ${count === 1 ? 'occasion' : 'occasions'} · ${week.name}, ${week.dates}.`
       : 'Showing all dates.';
-    if ((date || announcement.textContent) && announcement.textContent !== result) {
+    if ((week || announcement.textContent) && announcement.textContent !== result) {
       announcement.textContent = result;
     }
   }
 
+  function buttonFor(index: number | null) {
+    return index === null ? allDates : weekButtons[index];
+  }
+
+  function selectWeek(week: number | null) {
+    if (selectedWeek === week) return;
+    buttonFor(selectedWeek).setAttribute('aria-pressed', 'false');
+    selectedWeek = week;
+    buttonFor(selectedWeek).setAttribute('aria-pressed', 'true');
+    refreshIndex();
+  }
+
   if (rows.length > 0) {
     refreshIndex();
-    picker.parentElement!.hidden = false;
-    picker.addEventListener('change', refreshIndex);
+    browser.hidden = false;
+    allDates.addEventListener('click', () => selectWeek(null));
+    weekButtons.forEach((button, i) => button.addEventListener('click', () => selectWeek(i)));
     setInterval(refreshIndex, 60_000);
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') refreshIndex();
@@ -231,27 +242,89 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
 </script>
 
 <style>
-  .index-date-filter {
+  .week-browser {
+    container-type: inline-size;
     margin-bottom: 1.5rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8125rem;
   }
 
-  .index-date-filter label {
-    margin-right: 0.4rem;
+  .week-browser__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0 0.75rem;
+    color: var(--text-secondary);
+    font: 0.75rem 'Space Mono', monospace;
   }
 
-  .index-date-filter select {
-    max-width: 100%;
+  #week-browser-label {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .week-browser__all {
     min-height: 44px;
-    padding: 0.25rem 0.5rem;
-    color: var(--text-primary);
-    background: var(--bg-primary);
-    border: 1px solid var(--text-muted);
+    padding-inline: 0.4rem;
+    text-underline-offset: 0.3em;
     border-radius: 4px;
+    cursor: pointer;
   }
 
-  .index-date-filter select:focus-visible {
+  .week-browser__all:is(:hover, [aria-pressed='true']) {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+  }
+
+  .week-browser__weeks {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.375rem;
+  }
+
+  @container (min-width: 17rem) {
+    .week-browser__weeks {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .week-card {
+    display: grid;
+    align-content: start;
+    justify-items: center;
+    gap: 0.15rem;
+    min-height: 44px;
+    padding: 0.4rem 0.2rem 0.45rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-primary);
+    text-align: center;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+  }
+
+  .week-card:hover {
+    border-color: var(--text-secondary);
+  }
+
+  .week-card[aria-pressed='true'] {
+    border-color: var(--accent);
+    box-shadow: inset 0 -2px var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .week-card__name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .week-card__dates {
+    color: var(--text-secondary);
+    font: 0.6875rem/1.4 'Space Mono', monospace;
+  }
+
+  .week-browser button:focus-visible {
     outline: 2px solid var(--text-primary);
     outline-offset: 2px;
   }
@@ -355,7 +428,7 @@ groups.unshift({ key: 'date', name: '', dates: null, entries: [] });
     gap: inherit;
   }
 
-  .index-group--date .index-item__status:not([data-index-source-status='rescheduled']) {
+  .index-group--week .index-item__status:not([data-index-source-status='rescheduled']) {
     display: none;
   }
 
