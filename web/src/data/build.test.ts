@@ -1014,6 +1014,27 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
         await noJs.goto(`${origin}/special/`);
         expect(await noJs.getByRole('group', { name: 'Browse by week' }).isVisible()).toBe(false);
         expect(await noJs.getByRole('link', { name: /Kunst & Kürbis.*Entry from €12/ }).isVisible()).toBe(true);
+        for (const path of ['/', '/special/', '/special/wiesn/', '/how-it-works/', '/impressum/', '/datenschutz/', '/404.html']) {
+          await noJs.goto(`${origin}${path}`);
+          const header = noJs.locator('header').first();
+          const wordmark = header.getByRole('link', { name: /^boring hannover$/i });
+          expect(await wordmark.getAttribute('href'), path).toBe('/');
+          if (path === '/how-it-works/') {
+            const footerBrand = noJs.locator('footer').getByRole('link', { name: 'Boring Hannover', exact: true });
+            expect(await footerBrand.getAttribute('href')).toBe('/');
+          }
+          await wordmark.click();
+          expect(new URL(noJs.url()).pathname).toBe('/');
+        }
+        await noJs.goto(`${origin}/special/`);
+        await noJs.keyboard.press('Tab'); // Skip link
+        await noJs.keyboard.press('Tab'); // About
+        await noJs.keyboard.press('Tab'); // Theme
+        await noJs.keyboard.press('Tab');
+        const wordmark = noJs.getByRole('link', { name: /^boring hannover$/i });
+        expect(await wordmark.evaluate(el => el === document.activeElement && getComputedStyle(el).outlineWidth === '2px')).toBe(true);
+        await noJs.keyboard.press('Enter');
+        await noJs.waitForURL(`${origin}/`);
         await noJs.close();
 
         const page = await browser.newPage({ viewport: { width: 1080, height: 800 } });

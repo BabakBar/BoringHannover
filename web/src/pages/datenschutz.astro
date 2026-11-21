@@ -1,13 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
+import HomeWordmark from '../components/HomeWordmark.astro';
 ---
 
 <Base title="Datenschutzerklärung - boringhannover" description="Datenschutzerklärung, Informationspflichten nach DSGVO und Datenschutzgrundsätze für Hannover" lang="de" analytics={false}>
+  <header class="mb-6">
+    <HomeWordmark />
+  </header>
   <article class="max-w-2xl">
-    <a href="/" class="inline-block mb-6 text-text-muted hover:text-accent text-sm font-display">
-      &larr; Back
-    </a>
-
     <h1 class="text-2xl font-bold text-text-primary mb-8 font-display">Datenschutzerklärung</h1>
 
     <section class="space-y-8 text-text-secondary leading-relaxed text-sm">

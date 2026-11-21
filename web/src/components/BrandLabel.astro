@@ -1,0 +1,87 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<span class:list={['brand-label', className]} {...rest}><span class="word">Boring</span><span class="gap">{' '}<span class="mark" aria-hidden="true"></span></span><span class="word">Hannover</span></span>
+
+<style>
+  .word,
+  .gap { position: relative; }
+
+  .gap { white-space: pre; }
+
+  .word::after,
+  .mark,
+  .mark::before,
+  .mark::after {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .word::after,
+  .mark::before,
+  .mark::after { content: ''; }
+
+  .word::after,
+  .mark {
+    inset-inline: 0;
+    inset-block-end: -.12em;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .word::after,
+  .mark::before { background: var(--accent); }
+
+  .mark::before { inset: 0; }
+
+  .mark::after {
+    inset-inline: 0;
+    inset-block-start: 50%;
+    height: max(8px, .48em);
+    border-inline: 1px solid var(--accent);
+    transform: translateY(-50%);
+  }
+
+  :global(.brand-home):focus-visible .brand-label {
+    text-decoration: underline 1px var(--accent);
+    text-underline-offset: .22em;
+  }
+
+  @media (hover: hover) {
+    :global(.brand-home):hover .mark {
+      opacity: 1;
+      transform: translateY(-.12em);
+    }
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .word:first-child::after { transform-origin: right; }
+    .word:last-child::after { transform-origin: left; }
+
+    :global(.brand-home):hover .word::after { animation: retract 720ms cubic-bezier(.4, 0, .2, 1) both; }
+    :global(.brand-home):hover .mark { animation: lift 1200ms ease-out both; }
+    :global(.brand-home):hover .mark::after { animation: rise 480ms 720ms cubic-bezier(.2, .7, .3, 1) both; }
+
+    @keyframes retract {
+      0% { opacity: 0; transform: scaleX(1); }
+      22% { opacity: 1; transform: scaleX(1); }
+      100% { opacity: 1; transform: scaleX(0); }
+    }
+
+    @keyframes lift {
+      0% { opacity: 0; transform: none; }
+      13.2%, 60% { opacity: 1; transform: none; }
+      100% { opacity: 1; transform: translateY(-.12em); }
+    }
+
+    @keyframes rise {
+      from { transform: translateY(-50%) scaleY(0); }
+      to { transform: translateY(-50%) scaleY(1); }
+    }
+  }
+</style>

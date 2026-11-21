@@ -1,4 +1,6 @@
 ---
+import BrandLabel from './BrandLabel.astro';
+
 interface Props {
   week: number;
   year: number;
@@ -48,21 +50,21 @@ const Brand = brandAsHeading ? 'h1' : 'p';
   </div>
 
   <!-- Logo with dot-matrix style -->
-  <div class="flex flex-wrap items-center justify-center gap-2 mb-2">
-    <span class="dots text-accent text-lg" aria-hidden="true">
-      <span class="dot">&#9642;</span>
-      <span class="dot">&#9642;</span>
-      <span class="dot">&#9642;</span>
-    </span>
-    <Brand class="min-w-0 max-w-full [overflow-wrap:anywhere] font-display text-xl font-bold tracking-dot uppercase text-text-primary">
-      boring hannover
-    </Brand>
-    <span class="dots text-accent text-lg" aria-hidden="true">
-      <span class="dot">&#9642;</span>
-      <span class="dot">&#9642;</span>
-      <span class="dot">&#9642;</span>
-    </span>
-  </div>
+  <Brand class="mb-2">
+    <a href="/" class="brand-home mx-auto flex w-fit max-w-full flex-wrap items-center justify-center gap-2 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+      <span class="dots text-accent text-lg" aria-hidden="true">
+        <span class="dot">&#9642;</span>
+        <span class="dot">&#9642;</span>
+        <span class="dot">&#9642;</span>
+      </span>
+      <BrandLabel class="min-w-0 max-w-full [overflow-wrap:anywhere] font-display text-xl font-bold tracking-dot uppercase text-text-primary" />
+      <span class="dots text-accent text-lg" aria-hidden="true">
+        <span class="dot">&#9642;</span>
+        <span class="dot">&#9642;</span>
+        <span class="dot">&#9642;</span>
+      </span>
+    </a>
+  </Brand>
 
   <!-- Microcopy (minimal explanation) -->
   <div class="mx-auto max-w-md font-display text-[11px] text-text-muted tracking-wide leading-tight">

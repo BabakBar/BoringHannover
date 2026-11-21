@@ -138,7 +138,8 @@ test.skipIf(!executablePath && !process.env.CI)(
         await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
         await page.evaluate(() => document.fonts.ready);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-        expect(await page.locator('header').first().getByText('boring hannover', { exact: true }).evaluate(element => {
+        const wordmark = page.locator('header').first().getByRole('link', { name: /^boring hannover$/i });
+        expect(await wordmark.getByText('Boring Hannover', { exact: true }).evaluate(element => {
           const text = element.getBoundingClientRect();
           const container = element.parentElement!.getBoundingClientRect();
           return text.left >= container.left - 1 && text.right <= container.right + 1;

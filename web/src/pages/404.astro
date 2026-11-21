@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Footer from '../components/Footer.astro';
+import HomeWordmark from '../components/HomeWordmark.astro';
 ---
 
 <Base
@@ -9,6 +10,9 @@ import Footer from '../components/Footer.astro';
   wide
   noindex
 >
+  <header class="mx-auto max-w-[60rem]">
+    <HomeWordmark />
+  </header>
   <section class="missing" aria-labelledby="missing-title">
     <div class="missing__copy">
       <p class="missing__status"><span aria-hidden="true"></span>404 · Page not found</p>
@@ -33,7 +37,7 @@ import Footer from '../components/Footer.astro';
   .missing {
     display: grid;
     max-width: 60rem;
-    margin: clamp(1rem, 8vh, 5rem) auto 0;
+    margin: clamp(1rem, 4vh, 2.5rem) auto 0;
     overflow: hidden;
     background: var(--bg-secondary);
     border: 1px solid var(--border);

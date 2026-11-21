@@ -66,11 +66,11 @@
     thread.style.display = 'none';
   }
 
-  // Triple-click the wordmark.
-  const wordmark = document.querySelector<HTMLElement>('[data-egg="wordmark"]');
+  // Triple-click the week readout.
+  const weekReadout = document.querySelector<HTMLElement>('[data-egg="week"]');
   let clicks = 0;
   let clickTimer: number | undefined;
-  wordmark?.addEventListener('click', () => {
+  weekReadout?.addEventListener('click', () => {
     clicks += 1;
     window.clearTimeout(clickTimer);
     clickTimer = window.setTimeout(() => { clicks = 0; }, 600);
