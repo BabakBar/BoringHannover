@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import base64
 import json
+import sys
 from dataclasses import replace
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -1358,3 +1359,45 @@ def test_carry_forward_obeys_berlin_dates_and_confirmed_sparse_appointments(
             retained["meta"]
             == json.loads(files["web/output/occasions/clock.json"])["meta"]
         )
+
+
+@pytest.mark.parametrize(
+    ("case", "succeeds", "argv", "expected_pings", "expected_exit"),
+    [
+        ("success", True, [], ["/hc/start", "/hc"], 0),
+        ("failure", False, [], ["/hc/start", "/hc/fail"], 1),
+        ("local-run", False, ["--local"], [], 1),
+        ("monitor-rejects", False, [], ["/hc/start", "/hc/fail"], 1),
+        ("monitor-unreachable", True, [], [], 0),
+        ("no-url-configured", True, [], [], 0),
+    ],
+)
+def test_production_runs_report_to_the_external_monitor(
+    case: str,
+    succeeds: bool,
+    argv: list[str],
+    expected_pings: list[str],
+    expected_exit: int,
+    monkeypatch: pytest.MonkeyPatch,
+    caplog: pytest.LogCaptureFixture,
+    local_site: LocalSite,
+) -> None:
+    # Unregistered paths answer 404, which is how "monitor-rejects" fails.
+    if case in ("success", "failure", "local-run"):
+        local_site.pages.update(
+            {"/hc": (200, ""), "/hc/start": (200, ""), "/hc/fail": (200, "")}
+        )
+    url = {
+        "monitor-unreachable": "http://127.0.0.1:9/hc",
+        "no-url-configured": "",
+    }.get(case, f"{local_site.url}/hc")
+    monkeypatch.setenv("PYTHON_DOTENV_DISABLED", "1")
+    monkeypatch.setenv("HEALTHCHECK_PING_URL", url)
+    monkeypatch.setattr(sys, "argv", ["boringhannover", *argv])
+    monkeypatch.setattr(main, "run", lambda **_: succeeds)
+    with pytest.raises(SystemExit) as exit_info:
+        main.main()
+    assert exit_info.value.code == expected_exit
+    assert local_site.requests == expected_pings
+    # The ping URL is a secret: delivery failures must not log it.
+    assert url not in caplog.text or not url
