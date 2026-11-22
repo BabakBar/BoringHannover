@@ -2,92 +2,14 @@
   "meta": {
     "week": 47,
     "year": 2026,
-    "updatedAt": "Sat 21 Nov 17:00",
-    "updatedAtISO": "2026-11-21T17:00:29.615049+01:00"
+    "updatedAt": "Sun 22 Nov 19:00",
+    "updatedAtISO": "2026-11-22T19:00:10.902405+01:00"
   },
   "movies": [
-    {
-      "day": "SAT",
-      "date": "21.11",
-      "movies": [
-        {
-          "title": "Die Tribute von Panem - Sunrise on the Reaping",
-          "year": 2026,
-          "time": "19:45",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h39m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-tribute-von-panem-sunrise-on-the-reaping"
-        },
-        {
-          "title": "Die Tribute von Panem - Sunrise on the Reaping",
-          "year": 2026,
-          "time": "22:00",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h39m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-tribute-von-panem-sunrise-on-the-reaping"
-        },
-        {
-          "title": "HASS - LA HAINE",
-          "year": 1995,
-          "time": "22:30",
-          "venue": "Apollokino Hannover",
-          "duration": "1h36m",
-          "language": "FR",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://www.apollokino.de/?v=&film=filme/00005043&anmerk=OmU-Nachtstudio%20%96%20franz.%20OmU"
-        }
-      ]
-    },
     {
       "day": "SUN",
       "date": "22.11",
       "movies": [
-        {
-          "title": "Giant - The Play",
-          "year": 2025,
-          "time": "12:00",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h16m",
-          "language": "EN",
-          "subtitles": "DE",
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/giant-the-play"
-        },
-        {
-          "title": "Die Tribute von Panem - Sunrise on the Reaping",
-          "year": 2026,
-          "time": "13:00",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h39m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/die-tribute-von-panem-sunrise-on-the-reaping"
-        },
-        {
-          "title": "Wildwood",
-          "year": 2026,
-          "time": "14:50",
-          "venue": "Astor Grand Cinema",
-          "duration": "2h11m",
-          "language": "EN",
-          "subtitles": null,
-          "rating": "FSK12",
-          "genre": null,
-          "url": "https://hannover.premiumkino.de/film/wildwood"
-        },
         {
           "title": "Wildwood",
           "year": 2026,
@@ -533,317 +455,27 @@
           "url": "https://www.apollokino.de/?v=&film=filme/00005523&anmerk=OmU-Nachtstudio-"
         }
       ]
+    },
+    {
+      "day": "SUN",
+      "date": "06.12",
+      "movies": [
+        {
+          "title": "You Can See Everything",
+          "year": 2026,
+          "time": "19:30",
+          "venue": "Astor Grand Cinema",
+          "duration": "2h54m",
+          "language": "EN",
+          "subtitles": "DE",
+          "rating": "FSK12",
+          "genre": null,
+          "url": "https://hannover.premiumkino.de/film/you-can-see-everything"
+        }
+      ]
     }
   ],
   "concerts": [
-    {
-      "title": "Wildes Tanzen",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": "18:00",
-      "timeConfidence": "confirmed",
-      "endTime": "22:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/wildes-tanzen/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Die blaue Zone lädt ein zum wilden Tanzen: Wir tanzen zu einem Potpourri eurer gesammelten Wünsche der vergangenen Jahre und dem Esprit der DJ Cajoruma. Die Sterne funkeln und die Feuerschale…",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "Nivo",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/211126-nivo.html",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=nivo_tb.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Wir Wasserbären - Till Wiebel",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": "19:30",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/wir-wasserbaren-till-wiebel-2026-11-21-19-30",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community"
-    },
-    {
-      "title": "Hannover Hardcore Fest ´26",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Béi Chéz Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-11-21/6637",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Strangelove – The Depeche Mode Experience",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/strangelove-the-depeche-mode-experience-capitol-hannover-ff3e983b6b9c/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.capitol-hannover.de/wp-content/uploads/2026/05/DSF5684_Beitragsbild.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Edition: Depeche Mode",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Capitol Hannover",
-      "url": "https://www.capitol-hannover.de/events/edition-depeche-mode-capitol-hannover-a7c2b147a265/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.capitol-hannover.de/wp-content/uploads/2026/10/capitol_test.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Karina Rose",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/211126-karina-rose.html",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=karina_rose.jpeg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "FLUPPE UND THE HAND CUTS",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/konzerte/fluppe-und-the-hand-cuts/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Ein cooles Doppelpack…!!!Flup·pe /Flúppe/ Substan/v, feminin [die]steht umgangssprachlich für Zigare3e. Sie ist mithin ein fast niedlich klingendes Wort für eine nicht ganz ungefährliche Sache. Hier…",
-      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/03/fluppe_01_c_Caren_Detje-360x240.jpg",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "MORPHEUZ – AUSVERKAUFT",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "MusikZentrum",
-      "url": "https://musikzentrum-hannover.de/veranstaltung/morpheuz-ausverkauft/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://musikzentrum-hannover.de/wp-content/uploads/2026/03/MORPHEUZ.png",
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "Combust + Sidestep + Spy + Moral Law + Restraining Order + Tuun Crew + Skirt + True Gloom",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": null,
-      "timeConfidence": "fallback",
-      "endTime": null,
-      "venue": "Bei Chez Heinz",
-      "url": "https://www.beichezheinz.de/programm/2026-11-21/6637",
-      "eventType": "concert",
-      "genre": "Punk / Hardcore",
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Sport"
-    },
-    {
-      "title": "CHRIS TALL",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": "20:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "ZAG Arena",
-      "url": "https://www.zag-arena-hannover.de/veranstaltung/chris-tall/",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
-    {
-      "title": "TWIN SET!",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": "23:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "LUX",
-      "url": "https://www.lux-linden.de/clubnight/twin-set-12/",
-      "eventType": "party",
-      "genre": "Rock",
-      "programmeCategory": null,
-      "description": "Hurra, nach langer Zeit kehrt das TWIN SET Nicki Noise & Maupka wieder an die Decks zurück und bringt uns alle mit Indie, ElectroPop, 80s, Alternative usw zum tanzen und schwelgen!Im Anschluss an das…",
-      "imageUrl": "https://www.lux-linden.de/wp-content/uploads/2026/03/644847994_1519466086848302_3037854413925996406_n-360x240.jpg",
-      "status": "available",
-      "radarCategory": "Party"
-    },
-    {
-      "title": "Haus-Party",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": "24:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/211126-haus-party.html",
-      "eventType": "party",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=haus_party_tb.jpg",
-      "status": "available",
-      "radarCategory": "Party"
-    },
-    {
-      "title": "Heartbreak Party",
-      "date": "21 Nov",
-      "dateISO": "2026-11-21",
-      "day": "Sa",
-      "time": "24:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Faust",
-      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/november/211126-heartbreak-party.html",
-      "eventType": "party",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=heartbreak_party_2.jpg",
-      "status": "available",
-      "radarCategory": "Party"
-    },
-    {
-      "title": "Wir Wasserbären - Till Wiebel",
-      "date": "22 Nov",
-      "dateISO": "2026-11-22",
-      "day": "So",
-      "time": "17:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Erhardt Café",
-      "url": "https://www.erhardt.cafe/event-details/wir-wasserbaren-till-wiebel-2026-11-22-17-00",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Culture & Community"
-    },
-    {
-      "title": "Konzerte im OSCO: BRUECKEN + LORIMER BURST",
-      "date": "22 Nov",
-      "dateISO": "2026-11-22",
-      "day": "So",
-      "time": "17:00",
-      "timeConfidence": "confirmed",
-      "endTime": "20:00",
-      "venue": "PLATZprojekt",
-      "url": "https://platzprojekt.de/programm/konzerte-im-osco-bruecken-lorimer-burst/",
-      "eventType": "event",
-      "genre": null,
-      "programmeCategory": null,
-      "description": "Openspace-Hannover präsentiert: Post-Rock-Doppel im OSCO live mit BRUECKEN und LORIMER BURST. Achtung Matineeshow – startet schon um 17 Uhr! Nur AK – Spendenempfehlung Es wird laut! Packt Euch…",
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music",
-      "sourceName": "PLATZprojekt"
-    },
-    {
-      "title": "THE IRISH FOLK FESTIVAL 2026",
-      "date": "22 Nov",
-      "dateISO": "2026-11-22",
-      "day": "So",
-      "time": "19:00",
-      "timeConfidence": "confirmed",
-      "endTime": null,
-      "venue": "Pavillon",
-      "url": "https://pavillon-hannover.de/event/details/101734/the-irish-folk-festival-2026",
-      "eventType": "concert",
-      "genre": null,
-      "programmeCategory": null,
-      "description": null,
-      "imageUrl": null,
-      "status": "available",
-      "radarCategory": "Live Music"
-    },
     {
       "title": "LEIDER ABGESAGT !!!",
       "date": "22 Nov",
@@ -1425,6 +1057,24 @@
       "programmeCategory": null,
       "description": null,
       "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=le_fly1_4.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "LINA BÓ (Folk Pop / Köln)",
+      "date": "27 Nov",
+      "dateISO": "2026-11-27",
+      "day": "Fr",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Béi Chéz Heinz",
+      "url": "https://www.beichezheinz.de/programm/2026-11-27/6540",
+      "eventType": "concert",
+      "genre": "Folk / World",
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
       "status": "available",
       "radarCategory": "Live Music"
     },
@@ -2266,6 +1916,24 @@
       "sourceName": "PLATZprojekt"
     },
     {
+      "title": "Chapo102",
+      "date": "5 Dez",
+      "dateISO": "2026-12-05",
+      "day": "Sa",
+      "time": "19:30",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/dezember/051226-chapo102.html",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=chapo102.jpg",
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
       "title": "die feisten",
       "date": "5 Dez",
       "dateISO": "2026-12-05",
@@ -2390,6 +2058,78 @@
       "imageUrl": "https://www.kulturzentrum-faust.deindex.php?rex_media_type=img_teaser_h&rex_media_file=die_80er_party_1.jpg",
       "status": "available",
       "radarCategory": "Party"
+    },
+    {
+      "title": "TSV HANNOVER-BURGDORF vs. HSG WETZLAR",
+      "date": "6 Dez",
+      "dateISO": "2026-12-06",
+      "day": "So",
+      "time": "16:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "ZAG Arena",
+      "url": "https://www.zag-arena-hannover.de/veranstaltung/tsv-hannover-burgdorf-vs-hsg-wetzlar-5/",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "KULTURPALAST ADVENTKONZERT: SOPHIE & JANINA KOEPPEN",
+      "date": "6 Dez",
+      "dateISO": "2026-12-06",
+      "day": "So",
+      "time": "17:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Kulturpalast Linden",
+      "url": "https://kulturpalast-hannover.de/event/kulturpalast-adventkonzert-sophie-koeppen-janina/",
+      "eventType": "event",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Zebrahead",
+      "date": "6 Dez",
+      "dateISO": "2026-12-06",
+      "day": "So",
+      "time": "20:00",
+      "timeConfidence": "confirmed",
+      "endTime": null,
+      "venue": "Pavillon",
+      "url": "https://pavillon-hannover.de/event/details/76368/zebrahead",
+      "eventType": "concert",
+      "genre": null,
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
+    },
+    {
+      "title": "Zebrahead + Punkrock Factory",
+      "date": "6 Dez",
+      "dateISO": "2026-12-06",
+      "day": "So",
+      "time": null,
+      "timeConfidence": "fallback",
+      "endTime": null,
+      "venue": "Faust",
+      "url": "https://www.kulturzentrum-faust.de/veranstaltungen/zukunftsmusik/061226-zebrahead.html",
+      "eventType": "concert",
+      "genre": "Punk / Hardcore",
+      "programmeCategory": null,
+      "description": null,
+      "imageUrl": null,
+      "status": "available",
+      "radarCategory": "Live Music"
     }
   ],
   "occasions": [
@@ -2409,10 +2149,6 @@
       "programmePath": "occasions/lister-turm-aus-biergarten-wird-winterdorf.json",
       "preview": [],
       "occurrences": [
-        {
-          "date": "2026-11-21",
-          "startTime": "14:00"
-        },
         {
           "date": "2026-11-22",
           "startTime": "12:00"
@@ -2531,6 +2267,10 @@
         },
         {
           "date": "2026-12-21",
+          "startTime": "16:00"
+        },
+        {
+          "date": "2026-12-22",
           "startTime": "16:00"
         }
       ],
@@ -2561,10 +2301,6 @@
       "preview": [],
       "occurrences": [
         {
-          "date": "2026-11-21",
-          "startTime": "14:00"
-        },
-        {
           "date": "2026-11-22",
           "startTime": "14:00"
         },
@@ -2683,6 +2419,10 @@
         {
           "date": "2026-12-21",
           "startTime": "17:00"
+        },
+        {
+          "date": "2026-12-22",
+          "startTime": "17:00"
         }
       ],
       "scheduleConfidence": "discrete",
@@ -2694,79 +2434,6 @@
         "municipality": "Hannover"
       },
       "area": "city"
-    },
-    {
-      "id": "hannover-festivals:lichterfest-im-kinderwald",
-      "slug": "lichterfest-im-kinderwald",
-      "name": "Lichterfest im Kinderwald",
-      "kind": "festival",
-      "startDate": "2026-11-14",
-      "endDate": "2026-11-14",
-      "location": "Kinderwald Hannover",
-      "description": "Lichterfest im Kinderwald at Kinderwald Hannover. See the source for details.",
-      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Lichterfest-im-Kinderwald",
-      "status": "ended",
-      "programmeCount": 0,
-      "locationCount": 0,
-      "programmePath": "occasions/lichterfest-im-kinderwald.json",
-      "preview": [],
-      "occurrences": [
-        {
-          "date": "2026-11-14",
-          "startTime": "16:00",
-          "endTime": "18:00"
-        }
-      ],
-      "scheduleConfidence": "continuous",
-      "place": {
-        "venue": "Kinderwald Hannover",
-        "street": "Schulenburger Landstraße 331A",
-        "postalCode": "30419",
-        "locality": "Hannover",
-        "municipality": "Hannover"
-      },
-      "area": "city",
-      "admission": [
-        {
-          "price": "free"
-        }
-      ]
-    },
-    {
-      "id": "hannover-festivals:rathausersturmung-in-hannover",
-      "slug": "rathausersturmung-in-hannover",
-      "name": "Rathauserstürmung in Hannover",
-      "kind": "festival",
-      "startDate": "2026-11-14",
-      "endDate": "2026-11-14",
-      "location": "Neues Rathaus",
-      "description": "Rathauserstürmung in Hannover at Neues Rathaus. See the source for details.",
-      "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Rathauserstürmung-in-Hannover",
-      "status": "ended",
-      "programmeCount": 0,
-      "locationCount": 0,
-      "programmePath": "occasions/rathausersturmung-in-hannover.json",
-      "preview": [],
-      "occurrences": [
-        {
-          "date": "2026-11-14",
-          "startTime": "11:11"
-        }
-      ],
-      "scheduleConfidence": "continuous",
-      "place": {
-        "venue": "Neues Rathaus",
-        "street": "Platz der Menschenrechte 1",
-        "postalCode": "30159",
-        "locality": "Hannover",
-        "municipality": "Hannover"
-      },
-      "area": "city",
-      "admission": [
-        {
-          "price": "free"
-        }
-      ]
     },
     {
       "id": "hannover-festivals:magische-lichterwelten-im-zoo",
@@ -2784,11 +2451,6 @@
       "programmePath": "occasions/magische-lichterwelten-im-zoo.json",
       "preview": [],
       "occurrences": [
-        {
-          "date": "2026-11-21",
-          "startTime": "17:00",
-          "endTime": "22:00"
-        },
         {
           "date": "2026-11-22",
           "startTime": "17:00",
@@ -2911,6 +2573,11 @@
         },
         {
           "date": "2026-12-20",
+          "startTime": "17:00",
+          "endTime": "22:00"
+        },
+        {
+          "date": "2026-12-22",
           "startTime": "17:00",
           "endTime": "22:00"
         }
@@ -2985,11 +2652,6 @@
       "programmePath": "occasions/weihnachtsdorf-auf-dem-lindener-berg.json",
       "preview": [],
       "occurrences": [
-        {
-          "date": "2026-11-21",
-          "startTime": "14:00",
-          "endTime": "20:00"
-        },
         {
           "date": "2026-11-22",
           "startTime": "14:00",
@@ -3088,11 +2750,6 @@
       "preview": [],
       "occurrences": [
         {
-          "date": "2026-11-21",
-          "startTime": "14:00",
-          "endTime": "22:00"
-        },
-        {
           "date": "2026-11-22",
           "startTime": "14:00",
           "endTime": "22:00"
@@ -3241,6 +2898,11 @@
           "date": "2026-12-21",
           "startTime": "16:00",
           "endTime": "22:00"
+        },
+        {
+          "date": "2026-12-22",
+          "startTime": "16:00",
+          "endTime": "22:00"
         }
       ],
       "scheduleConfidence": "continuous",
@@ -3263,7 +2925,7 @@
       "location": "Backwerk Bio Handwerksbäckerei",
       "description": "Winterfest der Bio-Handwerksbäckerei Backwerk at Backwerk Bio Handwerksbäckerei. See the source for details.",
       "sourceUrl": "https://www.hannover.de/Veranstaltungskalender/Feste-Festivals/Winterfest-der-Bio-Handwerksbäckerei-Backwerk",
-      "status": "upcoming",
+      "status": "happening_now",
       "programmeCount": 0,
       "locationCount": 0,
       "programmePath": "occasions/winterfest-der-bio-handwerksbackerei-backwerk.json",
@@ -3450,6 +3112,11 @@
           "date": "2026-12-21",
           "startTime": "11:00",
           "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-22",
+          "startTime": "11:00",
+          "endTime": "21:00"
         }
       ],
       "scheduleConfidence": "discrete",
@@ -3620,6 +3287,11 @@
         },
         {
           "date": "2026-12-21",
+          "startTime": "11:00",
+          "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-22",
           "startTime": "11:00",
           "endTime": "21:00"
         }
@@ -3799,6 +3471,11 @@
           "date": "2026-12-21",
           "startTime": "11:00",
           "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-22",
+          "startTime": "11:00",
+          "endTime": "21:00"
         }
       ],
       "scheduleConfidence": "continuous",
@@ -3974,6 +3651,11 @@
         },
         {
           "date": "2026-12-21",
+          "startTime": "11:00",
+          "endTime": "21:00"
+        },
+        {
+          "date": "2026-12-22",
           "startTime": "11:00",
           "endTime": "21:00"
         }
