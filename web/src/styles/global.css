@@ -293,6 +293,12 @@
     --accent-dim: rgba(220, 38, 38, 0.1);
     --border: #e0dfdd;
     --theme-color: #fafaf9;
+    /* Occasion board: a dark display panel in both themes. */
+    --board-bg: #141312;
+    --board-text: #f0b445;
+    --board-dim: rgba(240, 180, 69, 0.72);
+    --board-rule: rgba(240, 180, 69, 0.2);
+    --board-red: #ff5a4d;
   }
 
   :root.dark {
@@ -311,6 +317,10 @@
     --accent-dim: rgba(255, 59, 59, 0.13);
     --border: #2a2a2a;
     --theme-color: #0a0a0a;
+    --board-bg: #161616;
+    --board-text: #e5c07b;
+    --board-dim: rgba(229, 192, 123, 0.72);
+    --board-rule: rgba(229, 192, 123, 0.18);
   }
 }
 

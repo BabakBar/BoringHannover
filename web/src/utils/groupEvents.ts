@@ -75,3 +75,16 @@ export function sliceEventGroups(
 
   return { visible, overflow };
 }
+
+/**
+ * A movie day's "21.11" as a Berlin date. The export omits the year; the
+ * edition's update time supplies it, and a month before the edition's month
+ * belongs to the next year (the lookahead is two weeks). Null without one.
+ */
+export function movieDayISO(date: string, updatedAtISO: string | undefined): string | null {
+  const match = /^(\d{2})\.(\d{2})$/.exec(date);
+  if (!match || !updatedAtISO) return null;
+  const [, day, month] = match;
+  const year = Number(updatedAtISO.slice(0, 4)) + (month < updatedAtISO.slice(5, 7) ? 1 : 0);
+  return `${year}-${month}-${day}`;
+}

@@ -67,30 +67,6 @@ export function appointmentText(occurrence: OccasionOccurrence): string {
   return time ? `${day} · ${time}` : day;
 }
 
-/** The homepage's next supported date, with the whole run kept as context. */
-export function spotlightDates(
-  occasion: OccasionSchedule,
-  now: Date,
-): { when: string; span: string | null } {
-  const unavailable =
-    occasion.sourceStatus === 'cancelled' || occasion.sourceStatus === 'postponed';
-  const next = unavailable ? null : nextAppointment(occasion, now);
-  const appointment =
-    next && next.date <= addDays(berlinClock(now).date, OCCASION_HORIZON_DAYS)
-      ? next
-      : null;
-  return {
-    when: appointment
-      ? appointmentText(appointment)
-      : !unavailable && occasionHasEnded(occasion, now)
-        ? 'Ended'
-        : 'Check source for dates',
-    span: appointment && occasion.startDate === occasion.endDate
-      ? null
-      : `${occasion.scheduleConfidence === 'discrete' ? 'Selected dates · ' : ''}${sheetDateLine(occasion)}`,
-  };
-}
-
 /**
  * The detail's date tile: the same appointment as the When row, so none for
  * cancelled, postponed or ended occasions, an unparsed multi-day run or a
@@ -127,7 +103,13 @@ export function sheetNextDate(occasion: OccasionSchedule, now: Date): string {
   if (!parsed && occasion.startDate !== occasion.endDate && !occasionHasEnded(occasion, now)) {
     return 'Check source for dates';
   }
-  return spotlightDates(occasion, now).when;
+  const unavailable =
+    occasion.sourceStatus === 'cancelled' || occasion.sourceStatus === 'postponed';
+  const next = unavailable ? null : nextAppointment(occasion, now);
+  if (next && next.date <= addDays(berlinClock(now).date, OCCASION_HORIZON_DAYS)) {
+    return appointmentText(next);
+  }
+  return !unavailable && occasionHasEnded(occasion, now) ? 'Ended' : 'Check source for dates';
 }
 
 interface Appointment {
