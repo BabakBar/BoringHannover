@@ -62,7 +62,7 @@ function whenSentence(occasion: OccasionSummary): string {
     : range;
 }
 
-/** Meta description: when, where, free entry, then the real About text or a plain provenance line. */
+/** Meta description: when, where, free entry, then any real About text. */
 export function searchDescription(occasion: OccasionSummary, about: string | null): string {
   const status = occasion.sourceStatus === 'cancelled' ? 'Cancelled: '
     : occasion.sourceStatus === 'postponed' ? 'Postponed: '
@@ -73,10 +73,10 @@ export function searchDescription(occasion: OccasionSummary, about: string | nul
     : occasion.location;
   const admission = occasion.admission ?? [];
   const free = admission.length === 1 && admission[0].price === 'free' && !admission[0].label;
-  const tail = about ??
-    `${occasion.startDate === occasion.endDate ? 'Date' : 'Dates'}, opening times and address from the official listing.`;
-  const programme = occasion.programmeCount > 0
-    ? ' Explore the official programme by day, category, and location.'
-    : '';
-  return `${status}${whenSentence(occasion)} at ${place}.${free ? ' Free entry.' : ''} ${tail}${programme}`;
+  return [
+    `${status}${whenSentence(occasion)} at ${place}.`,
+    free ? 'Free entry.' : '',
+    about,
+    occasion.programmeCount > 0 ? 'Explore the official programme by day, category, and location.' : '',
+  ].filter(Boolean).join(' ');
 }

@@ -415,6 +415,19 @@ test('occasion pages share owned imagery, truthful source labels and English cop
       imageUrl:
         'https://www.hannover.de/var/storage/images/_aliases/full/Tiergartenfest 05.jpg.webp',
     }),
+    occasion('lichterfest-neustadt', {
+      name: 'Lichterfest in Neustadt a. Rbge.',
+      location: 'Liebfrauenkirche',
+      description: 'Lichterfest in Neustadt a. Rbge. at Liebfrauenkirche. See the source for details.',
+      scheduleConfidence: 'unknown',
+      place: {
+        venue: 'Liebfrauenkirche',
+        street: 'An der Liebfrauenkirche 1',
+        postalCode: '31535',
+        locality: 'Neustadt am Rübenberge',
+        municipality: 'Neustadt am Rübenberge',
+      },
+    }),
     occasion('maschseefest-2026', {
       name: 'Maschseefest',
       location: 'Around the Maschsee',
@@ -498,13 +511,19 @@ test('occasion pages share owned imagery, truthful source labels and English cop
     // The exporter's fallback is never shown: search text comes from facts.
     expect(tiergarten).not.toContain('See the source for details.');
     expect(tiergarten).toContain(`<title>Tiergartenfest Hannover · ${titleDates({ startDate: today, endDate: today })}</title>`);
-    expect(meta(tiergarten, 'description')).toBe(
-      `${longDate(today)} at Tiergarten. Date, opening times and address from the official listing.`,
-    );
-    expect(tiergartenEvent.description).toBe(meta(tiergarten, 'description'));
+    const tiergartenDescription = `${longDate(today)} at Tiergarten.`;
+    for (const key of ['description', 'og:description', 'twitter:description'])
+      expect(meta(tiergarten, key)).toBe(tiergartenDescription);
+    expect(tiergartenEvent.description).toBe(tiergartenDescription);
     expect(tiergarten).not.toContain('catching up');
     expect(tiergarten).toMatch(/>\s*Listing on hannover\.de\s*</);
     expect(tiergarten).not.toContain('Official Tiergartenfest Hannover website');
+
+    const lichterfest = page('lichterfest-neustadt');
+    const lichterfestDescription = `${longDate(today)} at Liebfrauenkirche, An der Liebfrauenkirche 1, 31535 Neustadt am Rübenberge.`;
+    for (const key of ['description', 'og:description', 'twitter:description'])
+      expect(meta(lichterfest, key)).toBe(lichterfestDescription);
+    expect(eventJsonLd(lichterfest)).toBeUndefined();
 
     const maschsee = page('maschseefest-2026');
     expect(maschsee).toMatch(/>\s*Official website\s*</);
