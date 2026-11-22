@@ -32,68 +32,72 @@ describe('searchTitle', () => {
 });
 
 describe('searchDescription', () => {
-  const provenance = 'Dates, opening times and address from the official listing.';
   test.each([
     {
       id: 'one timed day',
       extra: { place, scheduleConfidence: 'continuous' as const, occurrences: [{ date: '2026-12-05', startTime: '14:00', endTime: '19:00' }] },
-      expected: 'Saturday 5 December 2026, 14:00–19:00 at Marktkirche, Hanns-Lilje-Platz 2, 30159 Hannover. Date, opening times and address from the official listing.',
+      expected: 'Saturday 5 December 2026, 14:00–19:00 at Marktkirche, Hanns-Lilje-Platz 2, 30159 Hannover.',
     },
     {
       id: 'one untimed day, no venue',
       extra: { place: { ...place, venue: undefined } },
-      expected: 'Saturday 5 December 2026 at Hanns-Lilje-Platz 2, 30159 Hannover. Date, opening times and address from the official listing.',
+      expected: 'Saturday 5 December 2026 at Hanns-Lilje-Platz 2, 30159 Hannover.',
+    },
+    {
+      id: 'one day with an unknown schedule and no structured address',
+      extra: { scheduleConfidence: 'unknown' as const, occurrences: [] },
+      expected: 'Saturday 5 December 2026 at Altstadt.',
     },
     {
       id: 'continuous with identical daily hours',
       extra: { startDate: '2026-11-23', endDate: '2026-11-29', scheduleConfidence: 'continuous' as const, occurrences: daily(23, 29, () => ['11:00', '21:00']) },
-      expected: `Daily 11:00–21:00, 23 November – 29 November 2026 at Altstadt. ${provenance}`,
+      expected: 'Daily 11:00–21:00, 23 November – 29 November 2026 at Altstadt.',
     },
     {
       id: 'continuous with varying hours keeps the range',
       extra: { startDate: '2026-11-23', endDate: '2026-11-29', scheduleConfidence: 'continuous' as const, occurrences: daily(23, 29, day => [day > 27 ? '10:00' : '11:00', '21:00']) },
-      expected: `23 November – 29 November 2026 at Altstadt. ${provenance}`,
+      expected: '23 November – 29 November 2026 at Altstadt.',
     },
     {
       id: 'continuous with confirmed hours on only some days keeps the range',
       extra: { startDate: '2026-11-23', endDate: '2026-11-29', scheduleConfidence: 'continuous' as const, occurrences: daily(23, 25, () => ['11:00', '21:00']) },
-      expected: `23 November – 29 November 2026 at Altstadt. ${provenance}`,
+      expected: '23 November – 29 November 2026 at Altstadt.',
     },
     {
       id: 'discrete dates',
       extra: { startDate: '2026-11-12', endDate: '2027-01-31', scheduleConfidence: 'discrete' as const, occurrences: [{ date: '2026-11-12', startTime: '17:00' }] },
-      expected: `Selected dates from 12 November 2026 to 31 January 2027 at Altstadt. ${provenance}`,
+      expected: 'Selected dates from 12 November 2026 to 31 January 2027 at Altstadt.',
     },
     {
       id: 'unknown schedule across years',
       extra: { startDate: '2026-12-20', endDate: '2027-01-06', scheduleConfidence: 'unknown' as const },
-      expected: `20 December 2026 – 6 January 2027 at Altstadt. ${provenance}`,
+      expected: '20 December 2026 – 6 January 2027 at Altstadt.',
     },
     {
       id: 'one unconditional free row',
       extra: { admission: [{ price: 'free' as const }] },
-      expected: 'Saturday 5 December 2026 at Altstadt. Free entry. Date, opening times and address from the official listing.',
+      expected: 'Saturday 5 December 2026 at Altstadt. Free entry.',
     },
     {
       id: 'conditional prices are not summarised',
       extra: { admission: [{ label: 'Kinder', price: 'free' as const }, { label: 'Erwachsene', price: '€5.00' }] },
-      expected: 'Saturday 5 December 2026 at Altstadt. Date, opening times and address from the official listing.',
+      expected: 'Saturday 5 December 2026 at Altstadt.',
     },
     {
       id: 'cancelled is said first',
       extra: { sourceStatus: 'cancelled' as const },
-      expected: 'Cancelled: Saturday 5 December 2026 at Altstadt. Date, opening times and address from the official listing.',
+      expected: 'Cancelled: Saturday 5 December 2026 at Altstadt.',
     },
     {
       id: 'a programme keeps its sentence',
       extra: { programmeCount: 12 },
-      expected: 'Saturday 5 December 2026 at Altstadt. Date, opening times and address from the official listing. Explore the official programme by day, category, and location.',
+      expected: 'Saturday 5 December 2026 at Altstadt. Explore the official programme by day, category, and location.',
     },
   ])('$id', ({ extra, expected }) => {
     expect(searchDescription(occasion(extra), null)).toBe(expected);
   });
 
-  test('a real About text replaces the provenance line', () => {
+  test('includes real About text', () => {
     expect(searchDescription(occasion({}), 'Stalls around the Marktkirche.')).toBe(
       'Saturday 5 December 2026 at Altstadt. Stalls around the Marktkirche.',
     );
