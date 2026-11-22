@@ -43,6 +43,7 @@ import {
   occasionHasEnded,
   OCCASION_RETENTION_DAYS,
 } from '../../utils/occasionStatus';
+import { posterPath } from '../../utils/poster';
 
 interface Props {
   programmeData: OccasionProgramme;
@@ -190,6 +191,8 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText ?? desc
   description={description}
   jsonLd={eventJsonLd}
   noindex={berlinClock(builtAt).date > occasion.endDate}
+  image={posterPath(occasion)}
+  imageAlt={`${occasion.name}: share poster with date and venue`}
 >
   <Header week={week} year={year} brandAsHeading={false} compact />
 

@@ -60,18 +60,26 @@ export function occasionPictogram(occasion: Pick<OccasionSummary, 'name'>): Pict
     ADVENT_SET[seed(occasion.name) % ADVENT_SET.length];
 }
 
+/** The dots alone, placed at x/y, for embedding in a larger SVG (share posters). */
+export function pictogramDots(
+  name: PictogramName,
+  step: number,
+  { fill = 'currentColor', x = 0, y = 0 }: { fill?: string; x?: number; y?: number } = {},
+): string {
+  // Below a 4 px pitch the unlit dots turn into grey noise, so small icons drop them.
+  const showUnlit = step >= 4;
+  return PICTOGRAMS[name].flatMap((row, r) => [...row].map((cell, c) => {
+    const lit = cell === 'X';
+    if (!lit && !showUnlit) return '';
+    const radius = step * (lit && !showUnlit ? 0.46 : 0.38);
+    return `<circle cx="${x + c * step + step / 2}" cy="${y + r * step + step / 2}" r="${radius}" fill="${fill}"${lit ? '' : ' opacity="0.13"'}/>`;
+  })).join('');
+}
+
 /** Inline SVG; lit dots use currentColor. */
 export function pictogramSvg(name: PictogramName, step: number): string {
   const rows = PICTOGRAMS[name];
   const width = rows[0].length * step;
   const height = rows.length * step;
-  // Below a 4 px pitch the unlit dots turn into grey noise, so small icons drop them.
-  const showUnlit = step >= 4;
-  const dots = rows.flatMap((row, r) => [...row].map((cell, c) => {
-    const lit = cell === 'X';
-    if (!lit && !showUnlit) return '';
-    const radius = step * (lit && !showUnlit ? 0.46 : 0.38);
-    return `<circle cx="${c * step + step / 2}" cy="${r * step + step / 2}" r="${radius}" fill="currentColor"${lit ? '' : ' opacity="0.13"'}/>`;
-  })).join('');
-  return `<svg class="px" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" aria-hidden="true" focusable="false">${dots}</svg>`;
+  return `<svg class="px" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" aria-hidden="true" focusable="false">${pictogramDots(name, step)}</svg>`;
 }

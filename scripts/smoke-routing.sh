@@ -119,6 +119,24 @@ echo "==> Assets are untouched by the redirect rule"
 css="$(grep -o '/assets/[A-Za-z0-9._-]*\.css' "$REPO_ROOT/web/dist/index.html" | head -1)"
 [[ -n "$css" ]] && expect "$css" 200 "hashed asset"
 
+# Share posters live outside /special/, where the lifecycle guard 404s every
+# path that is not a detail page or a dated calendar file.
+echo "==> Share posters are served as cacheable PNGs"
+poster="$(cd "$REPO_ROOT/web/dist" && find occasion-posters -name '*.png' 2>/dev/null | head -1)"
+if [[ -z "$poster" ]]; then
+  echo "  skip  no occasion in the data, so no poster was built"
+else
+  poster_headers="$("${CURL[@]}" -o /dev/null -D - "$BASE/$poster" 2>/dev/null || true)"
+  if grep -qE '^HTTP/[0-9.]+ 200' <<<"$poster_headers" \
+    && grep -qi '^content-type: image/png' <<<"$poster_headers" \
+    && grep -qi '^cache-control: public' <<<"$poster_headers"; then
+    printf '  ok    %-34s 200 image/png, public\n' "/$poster"
+  else
+    printf '  FAIL  %-34s not a cacheable 200 image/png\n' "/$poster"
+    FAILED=1
+  fi
+fi
+
 # The about dialog is a native <dialog>, centred by the UA stylesheet's
 # `margin: auto`. Tailwind v4's Preflight resets `margin: 0` on every element,
 # which pinned it to the top-left corner until Header.astro put the centring

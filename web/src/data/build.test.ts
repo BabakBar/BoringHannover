@@ -1,7 +1,9 @@
 import { expect, test } from 'bun:test';
 import {
+  existsSync,
   mkdtempSync,
   mkdirSync,
+  readdirSync,
   readFileSync,
   rmSync,
   writeFileSync,
@@ -447,6 +449,8 @@ test('occasion pages share owned imagery, truthful source labels and English cop
       name: `Böses ${hostile} Fest`,
       sourceUrl: 'javascript:alert(1)',
     }),
+    // Past retention: neither a detail page nor a poster.
+    occasion('vorbei', { startDate: addDays(today, -8), endDate: addDays(today, -8) }),
   ];
   try {
     mkdirSync(join(data, 'occasions'), { recursive: true });
@@ -510,9 +514,22 @@ test('occasion pages share owned imagery, truthful source labels and English cop
     };
 
     const tiergarten = page('tiergartenfest-hannover');
-    const ownedImage = 'https://boringhannover.de/brand/og-image-1200x630.png';
-    expect(meta(tiergarten, 'og:image')).toBe(ownedImage);
-    expect(meta(tiergarten, 'twitter:image')).toBe(ownedImage);
+    // One owned 1200 × 630 poster per published occasion, shared by its detail page.
+    const posters = readdirSync(join(outDir, 'occasion-posters')).sort();
+    expect(posters.map(file => file.replace(/-[0-9a-f]{8}\.png$/, ''))).toEqual(
+      ['boeses-fest', 'lichterfest-neustadt', 'maschseefest-2026', 'tiergartenfest-hannover'],
+    );
+    for (const file of posters) {
+      const html = page(file.replace(/-[0-9a-f]{8}\.png$/, ''));
+      const url = `https://boringhannover.de/occasion-posters/${file}`;
+      expect(meta(html, 'og:image'), file).toBe(url);
+      expect(meta(html, 'twitter:image'), file).toBe(url);
+      expect([meta(html, 'og:image:width'), meta(html, 'og:image:height')], file).toEqual(['1200', '630']);
+      const png = readFileSync(join(outDir, 'occasion-posters', file));
+      expect([png.readUInt32BE(16), png.readUInt32BE(20)], file).toEqual([1200, 630]);
+    }
+    expect(meta(tiergarten, 'og:image:alt')).toBe('Tiergartenfest Hannover: share poster with date and venue');
+    expect(existsSync(join(outDir, 'special', 'vorbei'))).toBe(false);
     expect(tiergarten).not.toContain('var/storage/images');
     const tiergartenEvent = eventJsonLd(tiergarten);
     expect(tiergartenEvent).not.toHaveProperty('image');
