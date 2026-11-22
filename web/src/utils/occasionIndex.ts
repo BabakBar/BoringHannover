@@ -1,5 +1,5 @@
 import type { OccasionOccurrence, OccasionSummary } from '../data/types';
-import { appointmentText, entryPrice, sheetDateLine } from './occasionSheet';
+import { appointmentHours, entryPrice, isSeasonLong, sheetDateLine } from './occasionSheet';
 import {
   OCCASION_HORIZON_DAYS,
   addDays,
@@ -10,32 +10,57 @@ import {
   type OccasionSchedule,
 } from './occasionStatus';
 
-// The /special/ index (#54): each occasion at most once, grouped by its next
-// confirmed appointment at `now`. The build groups once; the page script
-// regroups on the reader's clock because a static page is served for days.
+// The /special/ index (#54, #114 §4): season-long occasions in one list, the
+// rest under the day of their first confirmed appointment, each occasion once.
+// The build lays it out once; the page script redoes it on the reader's clock
+// because a static page is served for days.
 
 export type IndexOccasion = OccasionSchedule & Pick<OccasionSummary, 'name'>;
 
 export interface IndexEntry<T extends IndexOccasion> {
   occasion: T;
-  /** What places it in a dated group; null under Check dates and Cancelled. */
+  /** What places it; null under Check dates and Cancelled or postponed. */
   appointment: OccasionOccurrence | null;
+  /** The row's first line: status, hours or dates. */
+  when: string;
+  /** Open today: the season row's status is emphasised. */
+  open: boolean;
 }
 
-export interface IndexGroup<T extends IndexOccasion> {
-  key: 'week' | 'today' | 'next' | 'following' | 'later' | 'check' | 'off';
-  name: string;
-  /** The Berlin dates a dated group covers. */
-  dates: string | null;
-  entries: IndexEntry<T>[];
+export interface IndexLayout<T extends IndexOccasion> {
+  season: IndexEntry<T>[];
+  days: Array<{ date: string; entries: IndexEntry<T>[] }>;
+  check: IndexEntry<T>[];
+  off: IndexEntry<T>[];
 }
 
-const DATED_GROUPS = [
-  { key: 'today', name: 'Today', from: 0, to: 0 },
-  { key: 'next', name: 'Next 7 days', from: 1, to: 7 },
-  { key: 'following', name: 'Following 7 days', from: 8, to: 14 },
-  { key: 'later', name: 'In 15–30 days', from: 15, to: OCCASION_HORIZON_DAYS },
-] as const;
+export interface IndexWindow {
+  startDate: string;
+  endDate: string;
+}
+
+const dayFormat = new Intl.DateTimeFormat('en-GB', {
+  weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC',
+});
+
+/** "Sat 28 Nov": absolute, so build-time HTML stays true. */
+export function dayHeading(date: string): string {
+  return dayFormat.format(new Date(`${date}T00:00:00Z`));
+}
+
+/** The script's tag beside a day heading, on the reader's clock. */
+export function relativeDay(date: string, now: Date): string {
+  const days = Math.round(
+    (Date.parse(`${date}T00:00:00Z`) - Date.parse(`${berlinClock(now).date}T00:00:00Z`)) / 86_400_000,
+  );
+  return days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : `in ${days} days`;
+}
+
+function startMinutes({ startTime }: OccasionOccurrence): number {
+  if (!startTime) return 24 * 60;
+  const [hour, minute] = startTime.split(':').map(Number);
+  return hour * 60 + minute;
+}
 
 function byName<T extends IndexOccasion>(left: IndexEntry<T>, right: IndexEntry<T>) {
   return left.occasion.name.localeCompare(right.occasion.name, 'de');
@@ -43,8 +68,81 @@ function byName<T extends IndexOccasion>(left: IndexEntry<T>, right: IndexEntry<
 
 function byAppointment<T extends IndexOccasion>(left: IndexEntry<T>, right: IndexEntry<T>) {
   return left.appointment!.date.localeCompare(right.appointment!.date) ||
-    (left.appointment!.startTime ?? '24:00').localeCompare(right.appointment!.startTime ?? '24:00') ||
+    startMinutes(left.appointment!) - startMinutes(right.appointment!) ||
     byName(left, right);
+}
+
+/** Where the source's dates are all a row can say. */
+function runText(occasion: IndexOccasion): string {
+  const run = sheetDateLine(occasion);
+  return occasion.scheduleConfidence === 'discrete' ? `Selected dates · ${run}` : run;
+}
+
+/**
+ * The first confirmed appointment in the window. A continuous or sparse
+ * schedule is read day by day; an unparsed one confirms only its start date,
+ * which `nextAppointment` knows and `appointmentOn` does not.
+ */
+function firstAppointment(occasion: IndexOccasion, now: Date, from: string, to: string) {
+  for (let date = from; date <= to; date = addDays(date, 1)) {
+    const appointment = appointmentOn(occasion, date, now);
+    if (appointment) return appointment;
+  }
+  const next = nextAppointment(occasion, now);
+  return next && next.date >= from && next.date <= to ? next : null;
+}
+
+/**
+ * All dates (no window) runs through the inclusive 30-day horizon and adds
+ * Check dates (no confirmed date ahead) and Cancelled or postponed. A week
+ * window shows only what opens in it. Ended occasions are left out.
+ */
+export function occasionIndex<T extends IndexOccasion>(
+  occasions: readonly T[],
+  now: Date,
+  window?: IndexWindow,
+): IndexLayout<T> {
+  const today = berlinClock(now).date;
+  const from = window && window.startDate > today ? window.startDate : today;
+  const to = window?.endDate ?? addDays(today, OCCASION_HORIZON_DAYS);
+  const layout: IndexLayout<T> = { season: [], days: [], check: [], off: [] };
+  const days = new Map<string, IndexEntry<T>[]>();
+
+  for (const occasion of occasions) {
+    if (occasionHasEnded(occasion, now)) continue;
+    if (occasion.sourceStatus === 'cancelled' || occasion.sourceStatus === 'postponed') {
+      const status = occasion.sourceStatus === 'cancelled' ? 'Cancelled' : 'Postponed';
+      if (!window) layout.off.push({ occasion, appointment: null, when: `${status} · ${runText(occasion)}`, open: false });
+      continue;
+    }
+    const appointment = firstAppointment(occasion, now, from, to);
+    if (!appointment) {
+      if (!window && !nextAppointment(occasion, now)) {
+        layout.check.push({ occasion, appointment, when: runText(occasion), open: false });
+      }
+      continue;
+    }
+    const hours = appointmentHours(appointment);
+    if (isSeasonLong(occasion)) {
+      const open = appointment.date === today;
+      const day = dayHeading(appointment.date);
+      const when = open ? (hours ? `Open today ${hours}` : 'Open today')
+        : window ? (hours ? `${day} · ${hours}` : day)
+        : `${occasion.startDate > today ? 'Opens' : 'Next open'} ${day}`;
+      layout.season.push({ occasion, appointment, when, open });
+    } else {
+      const entries = days.get(appointment.date) ?? [];
+      entries.push({ occasion, appointment, when: hours ?? '', open: false });
+      days.set(appointment.date, entries);
+    }
+  }
+
+  layout.season.sort(byAppointment);
+  layout.days = [...days.keys()].sort().map(date => ({ date, entries: days.get(date)!.sort(byAppointment) }));
+  for (const list of [layout.check, layout.off]) {
+    list.sort((left, right) => left.occasion.startDate.localeCompare(right.occasion.startDate) || byName(left, right));
+  }
+  return layout;
 }
 
 export const WEEK_NAMES = ['This week', 'Next week', 'Following week'] as const;
@@ -66,84 +164,6 @@ export function occasionWeeks(today: string) {
   });
 }
 
-/** Each occasion appears once, at its first still-available opening that week. */
-export function occasionIndexForWeek<T extends IndexOccasion>(
-  occasions: readonly T[],
-  now: Date,
-  week: ReturnType<typeof occasionWeeks>[number],
-): IndexGroup<T> {
-  const today = berlinClock(now).date;
-  const dates: string[] = [];
-  for (let date = week.startDate < today ? today : week.startDate; date <= week.endDate; date = addDays(date, 1)) {
-    dates.push(date);
-  }
-  const entries: IndexEntry<T>[] = [];
-  for (const occasion of occasions) {
-    for (const date of dates) {
-      const appointment = appointmentOn(occasion, date, now);
-      if (!appointment) continue;
-      entries.push({ occasion, appointment });
-      break;
-    }
-  }
-  return { key: 'week', name: week.name, dates: week.dates, entries: entries.sort(byAppointment) };
-}
-
-/**
- * Disjoint dated groups through the inclusive 30-day horizon,
- * then Check dates (no confirmed date ahead) and
- * Cancelled or postponed. Ended occasions and those beyond the horizon are
- * left out. Dated groups sort by appointment, untimed after timed.
- */
-export function occasionIndex<T extends IndexOccasion>(
-  occasions: readonly T[],
-  now: Date,
-): IndexGroup<T>[] {
-  const today = berlinClock(now).date;
-  const dated = DATED_GROUPS.map(({ key, name, from, to }) => ({
-    key,
-    name,
-    dates: sheetDateLine({ startDate: addDays(today, from), endDate: addDays(today, to) }),
-    entries: [] as IndexEntry<T>[],
-    last: addDays(today, to),
-  }));
-  const check: IndexGroup<T> = { key: 'check', name: 'Check dates', dates: null, entries: [] };
-  const off: IndexGroup<T> = {
-    key: 'off',
-    name: 'Cancelled or postponed',
-    dates: null,
-    entries: [],
-  };
-
-  for (const occasion of occasions) {
-    if (occasionHasEnded(occasion, now)) continue;
-    if (occasion.sourceStatus === 'cancelled' || occasion.sourceStatus === 'postponed') {
-      off.entries.push({ occasion, appointment: null });
-      continue;
-    }
-    const appointment = nextAppointment(occasion, now);
-    if (!appointment) {
-      check.entries.push({ occasion, appointment });
-      continue;
-    }
-    dated
-      .find((group) => appointment.date <= group.last)
-      ?.entries.push({ occasion, appointment });
-  }
-
-  for (const group of dated) {
-    group.entries.sort(byAppointment);
-  }
-  for (const group of [check, off]) {
-    group.entries.sort(
-      (left, right) =>
-        left.occasion.startDate.localeCompare(right.occasion.startDate) ||
-        byName(left, right),
-    );
-  }
-  return [...dated.map(({ last: _last, ...group }) => group), check, off];
-}
-
 export function indexAdmission(occasion: OccasionSummary): string | null {
   const { admission, sourceStatus } = occasion;
   if (!admission?.length || sourceStatus === 'cancelled' || sourceStatus === 'postponed') {
@@ -152,18 +172,4 @@ export function indexAdmission(occasion: OccasionSummary): string | null {
   const [first] = admission;
   if (admission.length !== 1 || first.label) return 'Check entry details';
   return first.price === 'free' ? 'Free entry' : `Entry ${entryPrice(first.price, first.isFrom)}`;
-}
-
-/** A row's dates: the appointment that placed it, then the whole run. */
-export function indexDates(
-  { occasion, appointment }: IndexEntry<IndexOccasion>,
-): { when: string; span: string | null } {
-  const run = sheetDateLine(occasion);
-  const season =
-    occasion.scheduleConfidence === 'discrete' ? `Selected dates · ${run}` : run;
-  if (!appointment) return { when: season, span: null };
-  return {
-    when: appointmentText(appointment),
-    span: occasion.startDate === occasion.endDate ? null : season,
-  };
 }
