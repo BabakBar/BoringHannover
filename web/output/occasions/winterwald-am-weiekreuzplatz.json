@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sat 21 Nov 17:00"
+    "updatedAt": "Sun 22 Nov 19:00"
   },
   "occasion": {
     "id": "hannover-festivals:winterwald-am-weiekreuzplatz",
@@ -18,11 +18,6 @@
     "programmePath": "occasions/winterwald-am-weiekreuzplatz.json",
     "preview": [],
     "occurrences": [
-      {
-        "date": "2026-11-21",
-        "startTime": "14:00",
-        "endTime": "22:00"
-      },
       {
         "date": "2026-11-22",
         "startTime": "14:00",
@@ -170,6 +165,11 @@
       },
       {
         "date": "2026-12-21",
+        "startTime": "16:00",
+        "endTime": "22:00"
+      },
+      {
+        "date": "2026-12-22",
         "startTime": "16:00",
         "endTime": "22:00"
       }
