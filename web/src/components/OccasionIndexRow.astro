@@ -1,0 +1,50 @@
+---
+import ActiveOccasion from './ActiveOccasion.astro';
+import Pictogram from './Pictogram.astro';
+import type { OccasionSummary } from '../data/types';
+import { indexAdmission } from '../utils/occasionIndex';
+import { isSeasonLong, sheetDateLine } from '../utils/occasionSheet';
+
+interface Props {
+  occasion: OccasionSummary;
+  /** First line at build time; the script rewrites it on the reader's clock. */
+  when: string;
+}
+
+const { occasion, when } = Astro.props;
+const { slug, name, startDate, endDate, occurrences, scheduleConfidence, sourceStatus } = occasion;
+const until = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+const span = isSeasonLong(occasion)
+  ? `until ${until.format(new Date(`${endDate}T00:00:00Z`))}`
+  : startDate === endDate ? null : sheetDateLine(occasion);
+const admission = indexAdmission(occasion);
+const dayTrip = occasion.area === 'region' && occasion.place?.municipality
+  ? `Day trip · ${occasion.place.municipality}`
+  : null;
+const schedule = { name, startDate, endDate, occurrences, scheduleConfidence, sourceStatus };
+---
+
+<ActiveOccasion slug={slug}>
+  <li class="index-row" data-index-row={slug} data-schedule={JSON.stringify(schedule)}>
+    <a
+      href={`/special/${slug}/`}
+      class="index-row__link"
+      data-umami-event="occasion-open"
+      data-umami-event-occasion={slug}
+    >
+      <Pictogram name={name} step={3} class="index-row__picto" />
+      <span class="index-row__when" data-index-when>{when}</span>
+      <span class="index-row__body">
+        {/* Occasion names are the source's German proper names. */}
+        <span class="index-row__name" lang="de">{name}</span>
+        <span class="index-row__sub">
+          <span class="index-row__fact" lang="de">{occasion.place?.venue ?? occasion.location}</span>
+          {dayTrip && <span class="index-row__tag">{dayTrip}</span>}
+          {sourceStatus === 'rescheduled' && <span class="index-row__fact">Rescheduled</span>}
+          {admission && <span class="index-row__fact">{admission}</span>}
+          {span && <span class="index-row__fact index-row__span">{span}</span>}
+        </span>
+      </span>
+    </a>
+  </li>
+</ActiveOccasion>

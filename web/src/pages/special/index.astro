@@ -2,39 +2,49 @@
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
-import OccasionStatus from '../../components/OccasionStatus.astro';
-import ActiveOccasion from '../../components/ActiveOccasion.astro';
+import OccasionIndexRow from '../../components/OccasionIndexRow.astro';
 import Footer from '../../components/Footer.astro';
 import { loadEventData } from '../../data/loader';
-import { WEEK_NAMES, indexAdmission, indexDates, occasionIndex } from '../../utils/occasionIndex';
+import { WEEK_NAMES, dayHeading, occasionIndex, type IndexEntry } from '../../utils/occasionIndex';
+import { appointmentText, sheetDateLine } from '../../utils/occasionSheet';
+import { OCCASION_HORIZON_DAYS, addDays, berlinClock } from '../../utils/occasionStatus';
+import type { OccasionSummary } from '../../data/types';
 
 const eventData = loadEventData();
 const { meta, occasions } = eventData;
-// Grouped on the build clock. Dated headings show only their dates here, so
-// they stay true however long the page is served; the script below regroups
-// on the reader's clock and names them Today / Next 7 days.
-const groups = occasionIndex(occasions, new Date());
-groups.unshift({ key: 'week', name: '', dates: null, entries: [] });
+// Laid out on the build clock with absolute dates only, so the HTML stays true
+// however long it is served; the script below redoes it on the reader's clock
+// and adds Today, Open today and the 30-day wording.
+const now = new Date();
+const today = berlinClock(now).date;
+const layout = occasionIndex(occasions, now);
+const dated = layout.days.reduce((sum, day) => sum + day.entries.length, 0);
+const listed = layout.season.length + dated;
+const staticWhen = ({ appointment, open, when }: IndexEntry<OccasionSummary>) =>
+  open ? appointmentText(appointment!) : when;
 ---
 
 <Base
   title="City Occasions · boringhannover"
-  description="Festivals, neighbourhood gatherings and one-off city moments in Hannover, kept separate from the weekly event digest."
+  description="Festivals, Christmas markets and one-off city moments in Hannover for the next 30 days: what is open all season, and what happens on which day."
 >
-  <Header week={meta.week} year={meta.year} brandAsHeading={false} />
+  <Header week={meta.week} year={meta.year} brandAsHeading={false} compact />
 
-  <nav class="mb-6" aria-label="Breadcrumb">
+  <nav class="mb-2" aria-label="Breadcrumb">
     <a
       href="/"
       class="inline-flex min-h-11 items-center font-display text-[11px] uppercase tracking-wide text-text-secondary hover:text-accent"
     >
-      ← Back to the weekly digest
+      ← Weekly digest
     </a>
   </nav>
 
   <section class="occasion-index" aria-labelledby="city-occasions">
     <SectionHeader id="city-occasions" title="City Occasions" as="h1" />
-    <p class="mb-6 text-sm text-text-secondary">Festivals and city occasions for the next 30 days.</p>
+    <p class="index-summary" data-index-summary>
+      {listed} {listed === 1 ? 'occasion' : 'occasions'},
+      {sheetDateLine({ startDate: today, endDate: addDays(today, OCCASION_HORIZON_DAYS) })}.
+    </p>
 
     <div class="week-browser" role="group" aria-labelledby="week-browser-label" hidden>
       <div class="week-browser__header">
@@ -52,63 +62,50 @@ groups.unshift({ key: 'week', name: '', dates: null, entries: [] });
       <p class="sr-only" data-index-results role="status"></p>
     </div>
 
-    {groups.map((group) => (
-      <section
-        class:list={['index-group', `index-group--${group.key}`]}
-        data-index-group={group.key}
-        aria-labelledby={`index-${group.key}`}
-        hidden={group.entries.length === 0}
-      >
-        <h2 id={`index-${group.key}`} class="index-group__heading">
-          <span class="index-group__name" data-index-name>{group.dates ? null : group.name}</span>
-          <span class="index-group__dates" data-index-dates>{group.dates}</span>
-        </h2>
-        <ol class="index-list" data-index-list>
-          {group.entries.map((entry) => {
-            const { occasion } = entry;
-            const { when, span } = indexDates(entry);
-            const admission = indexAdmission(occasion);
-            const dayTrip =
-              occasion.area === 'region' && occasion.place?.municipality
-                ? `Day trip · ${occasion.place.municipality}`
-                : null;
-            return (
-              <ActiveOccasion slug={occasion.slug}>
-                <li class="index-item" data-index-row>
-                  <a
-                    href={`/special/${occasion.slug}/`}
-                    class="index-item__link"
-                    data-umami-event="occasion-open"
-                    data-umami-event-occasion={occasion.slug}
-                  >
-                    <span class="index-item__when">
-                      <span class="index-item__status" data-index-source-status={occasion.sourceStatus}>
-                        <OccasionStatus occasion={occasion} />
-                        <span aria-hidden="true">·</span>
-                      </span>
-                      <span data-index-when>{when}</span>
-                    </span>
-                    {/* Occasion names are the source's German proper names. */}
-                    <span class="index-item__name" lang="de" data-index-row-name>{occasion.name}</span>
-                    <span class="index-item__facts">
-                      <span lang="de">{occasion.place?.venue ?? occasion.location}</span>
-                      {dayTrip && <span class="index-item__tag">{dayTrip}</span>}
-                      {admission && <span class="index-item__admission">{admission}</span>}
-                      {occasion.programmeCount > 0 && (
-                        <span>{occasion.programmeCount} programme items</span>
-                      )}
-                    </span>
-                    <span class="index-item__span" data-index-span hidden={!span}>{span}</span>
-                  </a>
-                </li>
-              </ActiveOccasion>
-            );
-          })}
-        </ol>
-      </section>
-    ))}
+    <section class="index-part" aria-labelledby="index-season" data-index-part="season" hidden={!layout.season.length}>
+      <h2 id="index-season" class="index-part__head">
+        Open all season <span class="index-part__count" data-index-count>{layout.season.length}</span>
+      </h2>
+      <ol class="index-season" data-index-list>
+        {layout.season.map(entry => <OccasionIndexRow occasion={entry.occasion} when={staticWhen(entry)} />)}
+      </ol>
+    </section>
 
-    <div class="index-empty" data-index-empty>
+    <section class="index-part" aria-labelledby="index-days" data-index-part="days" hidden={!dated}>
+      <h2 id="index-days" class="index-part__head">
+        By date <span class="index-part__count" data-index-count>{dated}</span>
+      </h2>
+      <div data-index-list>
+        {layout.days.map(({ date, entries }) => (
+          <section class="index-day" id={`day-${date}`} aria-labelledby={`day-${date}-title`} data-index-day={date}>
+            <h3 class="index-day__head" id={`day-${date}-title`}>
+              <span>{dayHeading(date)}</span><span class="index-day__rel" data-index-rel></span>
+            </h3>
+            <ol class="index-day__list">
+              {entries.map(entry => <OccasionIndexRow occasion={entry.occasion} when={entry.when} />)}
+            </ol>
+          </section>
+        ))}
+      </div>
+    </section>
+
+    <section class="index-part index-part--muted" aria-labelledby="index-check" data-index-part="check" hidden={!layout.check.length}>
+      <h2 id="index-check" class="index-part__head">Check dates</h2>
+      <ol class="index-season" data-index-list>
+        {layout.check.map(entry => <OccasionIndexRow occasion={entry.occasion} when={entry.when} />)}
+      </ol>
+    </section>
+
+    <section class="index-part index-part--muted" aria-labelledby="index-off" data-index-part="off" hidden={!layout.off.length}>
+      <h2 id="index-off" class="index-part__head">Cancelled or postponed</h2>
+      <ol class="index-season" data-index-list>
+        {layout.off.map(entry => <OccasionIndexRow occasion={entry.occasion} when={entry.when} />)}
+      </ol>
+    </section>
+
+    <ol hidden data-index-pool></ol>
+
+    <div class="index-empty" data-index-empty hidden={listed + layout.check.length + layout.off.length > 0}>
       <p data-index-empty-text>No City Occasions are listed for the next 30 days.</p>
       <div class="index-empty__actions">
         <a href="/" class="index-empty__action">Weekly digest</a>
@@ -126,117 +123,191 @@ groups.unshift({ key: 'week', name: '', dates: null, entries: [] });
 </Base>
 
 <script>
-  import {
-    indexDates,
-    occasionIndex,
-    occasionIndexForWeek,
-    occasionWeeks,
-    type IndexOccasion,
-  } from '../../utils/occasionIndex';
-  import { berlinClock, occasionLabel, type OccasionSchedule } from '../../utils/occasionStatus';
+  import { dayHeading, occasionIndex, occasionWeeks, relativeDay, type IndexOccasion } from '../../utils/occasionIndex';
+  import { OCCASION_HORIZON_DAYS, addDays, berlinClock } from '../../utils/occasionStatus';
 
   const browser = document.querySelector<HTMLElement>('.week-browser')!;
   const allDates = browser.querySelector<HTMLButtonElement>('[data-index-all]')!;
   const weekButtons = Array.from(browser.querySelectorAll<HTMLButtonElement>('[data-index-week]'));
   const weekLabels = weekButtons.map(button => button.querySelector('[data-week-dates]')!);
-  const sections = document.querySelectorAll<HTMLElement>('[data-index-group]');
   const announcement = document.querySelector('[data-index-results]')!;
+  const summary = document.querySelector('[data-index-summary]')!;
+  const empty = document.querySelector<HTMLElement>('[data-index-empty]')!;
   const emptyText = document.querySelector('[data-index-empty-text]')!;
   const allDatesEmptyText = emptyText.textContent;
-  const rows: Array<IndexOccasion & { element: HTMLElement; status: HTMLElement; link: HTMLAnchorElement }> = Array.from(
-    document.querySelectorAll<HTMLElement>('[data-index-row]'),
-    (element) => {
-      const status = element.querySelector<HTMLElement>('[data-occasion-schedule]')!;
-      return {
-        ...JSON.parse(status.dataset.occasionSchedule!) as OccasionSchedule,
-        name: element.querySelector('[data-index-row-name]')!.textContent!,
-        link: element.querySelector<HTMLAnchorElement>('.index-item__link')!,
-        element,
-        status,
-      };
-    },
-  );
-  let selectedWeek: number | null = null;
+  const pool = document.querySelector<HTMLElement>('[data-index-pool]')!;
+  const part = (key: string) => {
+    const section = document.querySelector<HTMLElement>(`[data-index-part="${key}"]`)!;
+    return {
+      section,
+      list: section.querySelector<HTMLElement>('[data-index-list]')!,
+      count: section.querySelector('[data-index-count]'),
+    };
+  };
+  const parts = { season: part('season'), days: part('days'), check: part('check'), off: part('off') };
 
-  function refreshIndex() {
+  type Row = IndexOccasion & { slug: string; element: HTMLElement; link: HTMLAnchorElement; when: HTMLElement };
+  const rows: Row[] = Array.from(document.querySelectorAll<HTMLElement>('[data-index-row]'), element => ({
+    ...JSON.parse(element.dataset.schedule!),
+    slug: element.dataset.indexRow!,
+    element,
+    link: element.querySelector<HTMLAnchorElement>('a')!,
+    when: element.querySelector<HTMLElement>('[data-index-when]')!,
+  }));
+  const daySections = new Map(Array.from(
+    document.querySelectorAll<HTMLElement>('[data-index-day]'),
+    section => [section.dataset.indexDay!, section],
+  ));
+
+  // A detail page's "All N on <day>" link lands here: everything open that day.
+  const hashDay = () => location.hash.match(/^#day-(\d{4}-\d{2}-\d{2})$/)?.[1] ?? null;
+  let selectedWeek: number | null = null;
+  let selectedDay = hashDay();
+  let signature = '';
+
+  function daySection(date: string, now: Date) {
+    let section = daySections.get(date);
+    if (!section) {
+      section = document.createElement('section');
+      section.className = 'index-day';
+      section.id = `day-${date}`;
+      section.dataset.indexDay = date;
+      section.setAttribute('aria-labelledby', `day-${date}-title`);
+      const head = document.createElement('h3');
+      head.className = 'index-day__head';
+      head.id = `day-${date}-title`;
+      const absolute = document.createElement('span');
+      absolute.textContent = dayHeading(date);
+      const relative = document.createElement('span');
+      relative.className = 'index-day__rel';
+      relative.dataset.indexRel = '';
+      head.append(absolute, relative);
+      const list = document.createElement('ol');
+      list.className = 'index-day__list';
+      section.append(head, list);
+      daySections.set(date, section);
+    }
+    section.querySelector('[data-index-rel]')!.textContent = relativeDay(date, now);
+    return section;
+  }
+
+  /** Moves nodes only where the order differs: moving a node drops its focus. */
+  function fill(list: Element, elements: Element[]) {
+    elements.forEach((element, position) => {
+      if (list.children[position] !== element) list.insertBefore(element, list.children[position] ?? null);
+    });
+  }
+
+  function refresh() {
     const now = new Date();
     const weeks = occasionWeeks(berlinClock(now).date);
-    const week = selectedWeek === null ? null : weeks[selectedWeek];
-    const groups = week ? [occasionIndexForWeek(rows, now, week)] : occasionIndex(rows, now);
     weekLabels.forEach((label, i) => {
       if (label.textContent !== weeks[i].dates) label.textContent = weeks[i].dates;
     });
-    const focused = document.activeElement;
+    const week = selectedWeek === null ? null : weeks[selectedWeek];
+    const today = berlinClock(now).date;
+    if (selectedDay && (selectedDay < today || selectedDay > addDays(today, OCCASION_HORIZON_DAYS))) {
+      selectedDay = null;
+      allDates.setAttribute('aria-pressed', 'true');
+    }
+    const view = week
+      ? { startDate: week.startDate, endDate: week.endDate, summary: `${week.name.toLowerCase()}, ${week.dates}`, status: `${week.name}, ${week.dates}`, dates: week.dates }
+      : selectedDay
+        ? { startDate: selectedDay, endDate: selectedDay, summary: `on ${dayHeading(selectedDay)}`, status: dayHeading(selectedDay), dates: dayHeading(selectedDay) }
+        : null;
+    const layout = occasionIndex(rows, now, view ?? undefined);
+    const next = JSON.stringify([
+      selectedWeek,
+      selectedDay,
+      weeks[0].startDate,
+      ...[layout.season, layout.check, layout.off].map(entries =>
+        entries.map(({ occasion, appointment, when, open }) => [occasion.slug, appointment?.date, when, open])),
+      layout.days.map(({ date, entries }) => [date, relativeDay(date, now),
+        entries.map(({ occasion, appointment, when }) => [occasion.slug, appointment?.date, when])]),
+    ]);
+    if (next === signature) return;
+    signature = next;
+
+    const focused = document.activeElement?.closest<HTMLElement>('[data-index-row]');
     const placed = new Set<HTMLElement>();
-    for (const section of sections) {
-      const group = groups.find(group => group.key === section.dataset.indexGroup);
-      section.hidden = !group?.entries.length;
-      if (!group?.entries.length) continue;
-      section.querySelector('[data-index-name]')!.textContent = group.name;
-      section.querySelector('[data-index-dates]')!.textContent = group.dates ?? '';
-      const list = section.querySelector('[data-index-list]')!;
-      group.entries.forEach((entry, position) => {
-        const { element, link, status } = entry.occasion;
-        const href = week && entry.appointment
-          ? `${link.pathname}?date=${entry.appointment.date}`
-          : link.pathname;
-        if (link.getAttribute('href') !== href) link.setAttribute('href', href);
-        const label = occasionLabel(entry.occasion, now);
-        if (status.textContent !== label.text) {
-          status.textContent = label.text;
-          status.dataset.state = label.key;
-        }
-        const { when, span } = indexDates(entry);
-        const spanElement = element.querySelector<HTMLElement>('[data-index-span]')!;
-        element.querySelector('[data-index-when]')!.textContent = when;
-        spanElement.textContent = span ?? '';
-        spanElement.hidden = !span;
-        element.hidden = false;
-        // Only move rows that are out of place: moving a node drops focus.
-        if (list.children[position] !== element) {
-          list.insertBefore(element, list.children[position] ?? null);
-        }
-        placed.add(element);
-      });
-    }
+    const place = ({ occasion, appointment, when, open }: (typeof layout.season)[number]) => {
+      placed.add(occasion.element);
+      const href = view && appointment ? `/special/${occasion.slug}/?date=${appointment.date}` : `/special/${occasion.slug}/`;
+      if (occasion.link.getAttribute('href') !== href) occasion.link.setAttribute('href', href);
+      if (occasion.when.textContent !== when) occasion.when.textContent = when;
+      occasion.element.classList.toggle('index-row--open', open);
+      return occasion.element;
+    };
+    for (const key of ['season', 'check', 'off'] as const) fill(parts[key].list, layout[key].map(place));
+    const sections = layout.days.map(({ date, entries }) => {
+      const section = daySection(date, now);
+      fill(section.querySelector('ol')!, entries.map(place));
+      return section;
+    });
+    fill(parts.days.list, sections);
     for (const { element } of rows) {
-      if (!placed.has(element)) element.hidden = true;
+      if (!placed.has(element) && element.parentElement !== pool) pool.append(element);
     }
-    if (focused instanceof HTMLElement && focused.closest('[data-index-row]')) {
-      if (focused.closest('[hidden]')) buttonFor(selectedWeek).focus();
-      else if (focused !== document.activeElement) focused.focus({ preventScroll: true });
+    for (const [date, section] of daySections) {
+      if (sections.includes(section)) continue;
+      section.remove();
+      daySections.delete(date);
     }
-    const emptyMessage = week ? `No upcoming confirmed occasions for ${week.dates}.` : allDatesEmptyText;
-    if (emptyText.textContent !== emptyMessage) emptyText.textContent = emptyMessage;
-    const count = placed.size;
-    const result = week
-      ? `${count} ${count === 1 ? 'occasion' : 'occasions'} · ${week.name}, ${week.dates}.`
-      : 'Showing all dates.';
-    if ((week || announcement.textContent) && announcement.textContent !== result) {
-      announcement.textContent = result;
+
+    const dated = layout.days.reduce((sum, day) => sum + day.entries.length, 0);
+    const total = layout.season.length + dated;
+    for (const [key, count] of [['season', layout.season.length], ['days', dated], ['check', layout.check.length], ['off', layout.off.length]] as const) {
+      parts[key].section.hidden = count === 0;
+      if (parts[key].count) parts[key].count.textContent = String(count);
     }
+    const occasionsText = `${total} ${total === 1 ? 'occasion' : 'occasions'}`;
+    summary.textContent = `${occasionsText} ${view ? view.summary : 'in the next 30 days'}.`;
+    empty.hidden = total + layout.check.length + layout.off.length > 0;
+    emptyText.textContent = view ? `No upcoming confirmed occasions for ${view.dates}.` : allDatesEmptyText;
+    const result = view ? `${occasionsText} · ${view.status}.` : 'Showing all dates.';
+    if ((view || announcement.textContent) && announcement.textContent !== result) announcement.textContent = result;
+
+    if (focused && focused.closest('[data-index-pool]')) buttonFor(selectedWeek).focus();
+    else if (focused) focused.querySelector('a')!.focus({ preventScroll: true });
   }
 
   function buttonFor(index: number | null) {
     return index === null ? allDates : weekButtons[index];
   }
 
-  function selectWeek(week: number | null) {
-    if (selectedWeek === week) return;
+  function selectWeek(index: number | null) {
+    if (selectedWeek === index && !selectedDay) return;
     buttonFor(selectedWeek).setAttribute('aria-pressed', 'false');
-    selectedWeek = week;
+    if (selectedDay) history.replaceState(null, '', location.pathname);
+    selectedDay = null;
+    selectedWeek = index;
     buttonFor(selectedWeek).setAttribute('aria-pressed', 'true');
-    refreshIndex();
+    refresh();
+  }
+
+  function selectDay(date: string) {
+    buttonFor(selectedWeek).setAttribute('aria-pressed', 'false');
+    selectedWeek = null;
+    allDates.setAttribute('aria-pressed', 'false');
+    selectedDay = date;
+    refresh();
+    // The day view starts with that day's season rows, above its day section.
+    if (selectedDay) summary.scrollIntoView();
   }
 
   if (rows.length > 0) {
-    refreshIndex();
     browser.hidden = false;
+    if (selectedDay) selectDay(selectedDay);
+    else refresh();
+    addEventListener('hashchange', () => {
+      const date = hashDay();
+      if (date) selectDay(date);
+    });
     allDates.addEventListener('click', () => selectWeek(null));
     weekButtons.forEach((button, i) => button.addEventListener('click', () => selectWeek(i)));
-    setInterval(refreshIndex, 60_000);
+    setInterval(refresh, 60_000);
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') refreshIndex();
+      if (document.visibilityState === 'visible') refresh();
     });
   }
 </script>
@@ -244,7 +315,7 @@ groups.unshift({ key: 'week', name: '', dates: null, entries: [] });
 <style>
   .week-browser {
     container-type: inline-size;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
   }
 
   .week-browser__header {
@@ -329,154 +400,10 @@ groups.unshift({ key: 'week', name: '', dates: null, entries: [] });
     outline-offset: 2px;
   }
 
-  .index-group {
-    margin-bottom: 2rem;
-  }
-
-  .index-group:not(:has(.index-item:not([hidden]))),
-  .occasion-index:has(.index-item:not([hidden])) .index-empty {
-    display: none;
-  }
-
-  .index-group__heading {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.15rem 0.6rem;
-    margin-bottom: 0.4rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .index-group__name {
-    color: var(--accent);
-    font-weight: 700;
-  }
-
-  .index-group__name:empty {
-    display: none;
-  }
-
-  .index-group--check .index-group__name,
-  .index-group--off .index-group__name {
+  .index-summary {
+    margin: -0.5rem 0 1.25rem;
     color: var(--text-secondary);
-  }
-
-  .index-group__dates {
-    color: var(--text-secondary);
-  }
-
-  /* The red thread: one line per group, a stop per occasion. */
-  .index-list {
-    margin-left: 0.35rem;
-    padding-left: 1.1rem;
-    border-left: 2px solid var(--accent);
-  }
-
-  .index-group--check .index-list,
-  .index-group--off .index-list {
-    border-left-color: var(--border);
-  }
-
-  .index-item {
-    position: relative;
-  }
-
-  .index-item::before {
-    content: '';
-    position: absolute;
-    top: 1.05rem;
-    left: calc(-1.1rem - 6px);
-    width: 10px;
-    height: 10px;
-    background: var(--bg-primary);
-    border: 2px solid var(--accent);
-    border-radius: 50%;
-  }
-
-  .index-group--check .index-item::before,
-  .index-group--off .index-item::before {
-    border-color: var(--text-muted);
-  }
-
-  .index-item__link {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.2rem;
-    min-height: 44px;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .index-item:last-child .index-item__link {
-    border-bottom: 0;
-  }
-
-  .index-item__when {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.1rem 0.4rem;
-    color: var(--text-secondary);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-  }
-
-  .index-item__status {
-    display: inline-flex;
-    gap: inherit;
-  }
-
-  .index-group--week .index-item__status:not([data-index-source-status='rescheduled']) {
-    display: none;
-  }
-
-  .index-item__name {
-    color: var(--text-primary);
-    font-family: 'Space Mono', monospace;
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    text-transform: uppercase;
-    hyphens: auto;
-    overflow-wrap: anywhere;
-  }
-
-  .index-item__link:hover .index-item__name {
-    color: var(--accent);
-  }
-
-  .index-group--off .index-item__name {
-    color: var(--text-secondary);
-  }
-
-  .index-item__facts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.1rem 0.5rem;
-    color: var(--text-secondary);
-    font-size: 0.8125rem;
-    overflow-wrap: anywhere;
-  }
-
-  .index-item__tag {
-    padding: 0 0.4rem;
-    border: 1px solid var(--accent);
-    border-radius: 3px;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6875rem;
-  }
-
-  .index-item__admission {
-    color: var(--text-primary);
-  }
-
-  .index-item__span {
-    color: var(--text-secondary);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6875rem;
+    font-size: 0.875rem;
   }
 
   .index-empty {
@@ -507,5 +434,209 @@ groups.unshift({ key: 'week', name: '', dates: null, entries: [] });
 
   .index-empty__action:hover {
     border-color: var(--accent);
+  }
+</style>
+
+<style is:global>
+  /* Global: rows are a component and the script builds day sections, so
+     neither carries this page's scoped-style attribute. */
+  .index-part {
+    margin-bottom: 2rem;
+    container-type: inline-size;
+  }
+
+  .index-part__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.6rem;
+    margin-bottom: 0.25rem;
+    color: var(--accent);
+    font: 700 0.75rem 'Space Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .index-part--muted .index-part__head {
+    color: var(--text-secondary);
+  }
+
+  .index-part__count {
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  .index-row__link {
+    display: grid;
+    column-gap: 0.75rem;
+    row-gap: 0.15rem;
+    min-height: 44px;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .index-row__link:focus-visible {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+  }
+
+  /* Season, Check dates and Cancelled: pictogram beside status, name, facts. */
+  .index-season .index-row__link {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: 'picto when' 'picto body';
+  }
+
+  .index-row__picto {
+    grid-area: picto;
+    color: var(--text-secondary);
+  }
+
+  .index-season .index-row__picto {
+    align-self: start;
+    padding-top: 0.15rem;
+  }
+
+  .index-row--open .index-row__picto {
+    color: var(--text-primary);
+  }
+
+  .index-row__when {
+    grid-area: when;
+    min-width: 0;
+    color: var(--text-secondary);
+    font: 0.75rem 'Space Mono', monospace;
+    overflow-wrap: anywhere;
+  }
+
+  .index-row--open .index-row__when {
+    color: var(--text-data);
+    font-weight: 700;
+  }
+
+  .index-row__body {
+    grid-area: body;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .index-row__name {
+    color: var(--text-primary);
+    font: 700 0.9375rem/1.2 'Space Mono', monospace;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+
+  .index-row__link:hover .index-row__name {
+    color: var(--accent);
+  }
+
+  .index-part--muted .index-row__name {
+    color: var(--text-secondary);
+  }
+
+  .index-row__sub {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.1rem 0.35rem;
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    overflow-wrap: anywhere;
+  }
+
+  .index-row__sub > * {
+    min-width: 0;
+  }
+
+  .index-row__fact + .index-row__fact::before {
+    content: '·';
+    margin-right: 0.35rem;
+  }
+
+  .index-row__tag {
+    padding: 0 0.4rem;
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    font: 0.6875rem 'Space Mono', monospace;
+  }
+
+  /* Check dates and Cancelled already show the run as their first line. */
+  .index-part--muted .index-row__span {
+    display: none;
+  }
+
+  /* By date: a heading per day, then the red thread with a stop per occasion. */
+  .index-day {
+    margin-top: 1rem;
+    scroll-margin-top: 1rem;
+  }
+
+  .index-day__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.6rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+    font: 700 0.8125rem 'Space Mono', monospace;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .index-day__rel {
+    color: var(--accent);
+    font-size: 0.6875rem;
+    font-weight: 400;
+  }
+
+  .index-day__list {
+    margin-left: 0.35rem;
+    padding-left: 1.1rem;
+    border-left: 2px solid var(--accent);
+  }
+
+  .index-day__list .index-row {
+    position: relative;
+  }
+
+  .index-day__list .index-row::before {
+    content: '';
+    position: absolute;
+    top: 1.05rem;
+    left: calc(-1.1rem - 6px);
+    width: 10px;
+    height: 10px;
+    background: var(--bg-primary);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+  }
+
+  .index-day__list .index-row:last-child .index-row__link {
+    border-bottom: 0;
+  }
+
+  .index-day__list .index-row__link {
+    grid-template-columns: 5.4rem minmax(0, 1fr) auto;
+    grid-template-areas: 'when body picto';
+  }
+
+  .index-day__list .index-row__when {
+    padding-top: 0.1rem;
+    color: var(--text-data);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  @container (max-width: 20rem) {
+    .index-day__list .index-row__link {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: 'when picto' 'body body';
+    }
   }
 </style>

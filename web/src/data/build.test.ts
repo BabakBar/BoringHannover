@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { chromium } from 'playwright-core';
 import { titleDates } from '../utils/occasionSearch';
+import { dayHeading } from '../utils/occasionIndex';
 import { sheetDateLine } from '../utils/occasionSheet';
 import { addDays, berlinClock } from '../utils/occasionStatus';
 
@@ -255,7 +256,11 @@ test('Astro build selects the anchored root and rejects missing production data'
     expect(empty).toContain(
       'href="https://www.hannover.de/Veranstaltungskalender/Feste-Festivals"',
     );
-    expect(emptyIndex).not.toMatch(/data-index-group="\w+"(?![^>]*hidden)/);
+    expect(
+      [...emptyIndex.matchAll(/data-index-part="(\w+)"([^>]*)>/g)]
+        .map(([, key, attributes]) => [key, / hidden(?=[ >])/.test(attributes)]),
+    ).toEqual([['season', true], ['days', true], ['check', true], ['off', true]]);
+    expect(emptyIndex).not.toMatch(/<div class="index-empty"[^>]*\shidden/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -887,7 +892,16 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
   const longName =
     'Internationaler Feuerwerkswettbewerb Herrenhausen: Finale mit Musikbegleitung und Illumination';
   const weekday = new Date(`${berlinToday}T00:00:00Z`).getUTCDay();
-  const followingSunday = 20 - (weekday + 6) % 7;
+  const followingMonday = 14 - (weekday + 6) % 7;
+  const followingSunday = followingMonday + 6;
+  // On a Sunday the following week starts on day 8, where two rows still open.
+  const followingSlugs = [
+    ['daily-market', 8],
+    ['day-eight', 8],
+    ['day-fourteen', 14],
+    ['wiesn', followingSunday],
+    ['winterwald', 20],
+  ].filter(([, lastDay]) => Number(lastDay) >= followingMonday).map(([slug]) => slug);
   // Manifest order is deliberately not the index order.
   const occasions = [
     occasion('day-fourteen', 14, { name: longName }),
@@ -930,6 +944,14 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
     }),
     occasion('flohmarkt', -7, { endDate: day(7), scheduleConfidence: 'unknown' }),
     occasion('gestern-vorbei', -1),
+    // Season-long and open today, hours listed only from tomorrow.
+    occasion('winterwald', -3, {
+      name: 'Winterwald',
+      endDate: day(20),
+      location: 'Weißekreuzplatz',
+      scheduleConfidence: 'continuous',
+      occurrences: [{ date: day(1), startTime: '11:00', endTime: '21:00' }],
+    }),
     occasion('heute', 0, {
       place: {
         venue: 'Tiergarten',
@@ -990,69 +1012,61 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
     const text = (markup: string) =>
       markup
         .replace(/<script[\s\S]*?<\/script>/g, ' ')
+        .replace(/<svg[\s\S]*?<\/svg>/g, ' ')
         .replace(/<[^>]+>/g, ' ')
+        .replace(/&#39;/g, "'")
+        .replace(/&amp;/g, '&')
         .replace(/\s+/g, ' ')
         .trim();
-    const sections = [
-      ...html.matchAll(/<section[^>]*data-index-group="(\w+)"([^>]*)>([\s\S]*?)<\/section>/g),
-    ].map(([, key, attributes, body]) => ({
-      key,
-      hidden: /\shidden\b/.test(attributes),
-      heading: text(body.match(/<h2[\s\S]*?<\/h2>/)?.[0] ?? ''),
-      slugs: [...body.matchAll(/href="\/special\/([a-z0-9-]+)\/"/g)].map(
-        ([, slug]) => slug,
-      ),
-    }));
+    const slugsIn = (markup: string) =>
+      [...markup.matchAll(/data-index-row="([a-z0-9-]+)"/g)].map(([, slug]) => slug);
+    const parts = Object.fromEntries(
+      [...html.matchAll(/<section class="index-part[^"]*"[^>]*data-index-part="(\w+)"([^>]*)>([\s\S]*?)(?=<section class="index-part|<ol hidden data-index-pool)/g)]
+        .map(([, key, attributes, body]) => [key, { hidden: / hidden(?=[ >])/.test(attributes), slugs: slugsIn(body), body }]),
+    );
+    const days = [...parts.days.body.matchAll(/<section class="index-day" id="day-([\d-]+)"[\s\S]*?<\/section>/g)]
+      .map(([section, date]) => [date, text(section.match(/<h3[\s\S]*?<\/h3>/)![0]), slugsIn(section)]);
 
-    // Ordered by next confirmed date; each occasion once; ended ones gone.
-    expect(sections.map(({ key, hidden, slugs }) => [key, hidden, slugs])).toEqual([
-      ['week', true, []],
-      ['today', false, ['heute']],
-      ['next', false, ['wiesn', 'daily-market', 'kunst-kurbis-in-eldagsen']],
-      ['following', false, ['day-eight', 'day-fourteen']],
-      ['later', false, ['day-thirty']],
+    // Season-long first, the rest under the day of their next confirmed date,
+    // each occasion once; ended and beyond-horizon ones are gone.
+    expect(Object.entries(parts).map(([key, { hidden, slugs }]) => [key, hidden, slugs])).toEqual([
+      ['season', false, ['winterwald', 'wiesn']],
+      ['days', false, ['heute', 'daily-market', 'kunst-kurbis-in-eldagsen', 'day-eight', 'day-fourteen', 'day-thirty']],
       ['check', false, ['flohmarkt']],
       ['off', false, ['abgesagt']],
     ]);
+    // Without JS every date is absolute, true however long the page is served;
+    // the browser adds Today, Open today and the 30-day wording.
+    expect(days).toEqual([
+      [day(0), dayHeading(day(0)), ['heute']],
+      [day(4), dayHeading(day(4)), ['daily-market']],
+      [day(7), dayHeading(day(7)), ['kunst-kurbis-in-eldagsen']],
+      [day(8), dayHeading(day(8)), ['day-eight']],
+      [day(14), dayHeading(day(14)), ['day-fourteen']],
+      [day(30), dayHeading(day(30)), ['day-thirty']],
+    ]);
+    expect(text(html)).toContain(`8 occasions, ${sheetDateLine({ startDate: day(0), endDate: day(30) })}.`);
     expect(html).not.toContain('href="/special/gestern-vorbei/"');
     expect(html).not.toContain('href="/special/day-thirty-one/"');
-    // Without JS a heading is a date range, true however long the page is
-    // served; the browser adds Today / Next 7 days from the reader's clock.
-    const dates = (from: number, to: number) =>
-      sheetDateLine({ startDate: day(from), endDate: day(to) });
-    expect(sections.map(({ heading }) => heading)).toEqual([
-      '',
-      dates(0, 0),
-      dates(1, 7),
-      dates(8, 14),
-      dates(15, 30),
-      'Check dates',
-      'Cancelled or postponed',
-    ]);
+    expect(text(html)).not.toMatch(/Open today|in the next 30 days/);
 
     const row = (slug: string) => {
-      const start = html.indexOf(`href="/special/${slug}/"`);
+      const start = html.lastIndexOf('<li', html.indexOf(`data-index-row="${slug}"`));
       return text(html.slice(start, html.indexOf('</li>', start)));
     };
-    // The sparse row shows the appointment that placed it, then its season.
-    expect(row('wiesn')).toContain(
-      `${sheetDateLine({ startDate: day(3), endDate: day(3) })} · from 18:00`,
-    );
-    expect(row('wiesn')).toContain('Selected dates ·');
-    expect(row('kunst-kurbis-in-eldagsen')).toContain('Day trip · Springe');
-    expect(row('kunst-kurbis-in-eldagsen')).toContain('11:00–17:00');
-    expect(row('heute')).toContain('Tiergarten');
-    expect(row('heute')).not.toContain('Day trip');
-    expect(row('heute')).toContain('Free entry');
-    expect(row('kunst-kurbis-in-eldagsen')).toContain('Entry from €12');
-    expect(row('wiesn')).toContain('Check entry details');
-    expect(row('wiesn')).not.toContain('Free entry');
-    expect(row('daily-market')).not.toMatch(/\bentry\b/i);
-    expect(row('flohmarkt')).not.toMatch(/\d\d:\d\d/);
-    expect(row('abgesagt')).toMatch(/Cancelled/);
-    expect(row('abgesagt')).not.toContain('Free entry');
+    const dates = (from: number, to: number) =>
+      sheetDateLine({ startDate: day(from), endDate: day(to) });
+    const until = (offset: number) => `until ${dayHeading(day(offset)).replace(/^\w+ /, '')}`;
+    // Separators between facts are drawn by CSS.
+    expect(row('winterwald')).toBe(`${dayHeading(day(0))} Winterwald Weißekreuzplatz ${until(20)}`);
+    expect(row('wiesn')).toBe(`Next open ${dayHeading(day(3))} Hannover Wies'n Parkbühne Check entry details ${until(27)}`);
+    expect(row('heute')).toBe('heute Tiergarten Free entry');
+    expect(row('kunst-kurbis-in-eldagsen')).toBe('11:00–17:00 Kunst & Kürbis in Eldagsen Eldagser Hoflieferant Day trip · Springe Entry from €12');
+    expect(row('daily-market')).toBe(`from 14:00 daily-market Bürgergemeinschaftshaus Ahlem ${dates(4, 8)}`);
+    expect(row('flohmarkt')).toBe(`${dates(-7, 7)} flohmarkt Parkbühne ${until(7)}`);
+    expect(row('abgesagt')).toBe(`Cancelled · ${dates(7, 7)} abgesagt Parkbühne`);
     expect(html).toMatch(new RegExp(`lang="de"[^>]*>\\s*${longName}`));
-    expect(html).toContain('data-index-empty');
+    expect(html).toMatch(/<div class="index-empty"[^>]*\shidden/);
 
     const executablePath = process.env.CHROME_BIN;
     if (!executablePath && !process.env.CI) return;
@@ -1072,6 +1086,9 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
         await noJs.goto(`${origin}/special/`);
         expect(await noJs.getByRole('group', { name: 'Browse by week' }).isVisible()).toBe(false);
         expect(await noJs.getByRole('link', { name: /Kunst & Kürbis.*Entry from €12/ }).isVisible()).toBe(true);
+        expect(await noJs.getByRole('heading', { name: 'Check dates' }).isVisible()).toBe(true);
+        expect(await noJs.getByRole('heading', { name: 'Cancelled or postponed' }).isVisible()).toBe(true);
+        expect(await noJs.locator('[data-index-empty]').isVisible()).toBe(false);
         for (const path of ['/', '/special/', '/special/wiesn/', '/how-it-works/', '/impressum/', '/datenschutz/', '/404.html']) {
           await noJs.goto(`${origin}${path}`);
           const header = noJs.locator('header').first();
@@ -1086,9 +1103,7 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
         }
         await noJs.goto(`${origin}/special/`);
         await noJs.keyboard.press('Tab'); // Skip link
-        await noJs.keyboard.press('Tab'); // About
-        await noJs.keyboard.press('Tab'); // Theme
-        await noJs.keyboard.press('Tab');
+        await noJs.keyboard.press('Tab'); // The compact bar starts with the wordmark.
         const wordmark = noJs.getByRole('link', { name: /^boring hannover$/i });
         expect(await wordmark.evaluate(el => el === document.activeElement && getComputedStyle(el).outlineWidth === '2px')).toBe(true);
         await noJs.keyboard.press('Enter');
@@ -1113,14 +1128,25 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
         const thisWeek = page.getByRole('button', { name: /^This week/ });
         const nextWeek = page.getByRole('button', { name: /^Next week/ });
         const followingWeek = page.getByRole('button', { name: /^Following week/ });
-        const visibleRows = () => page.locator('[data-index-group]:not([hidden]) [data-index-row]:not([hidden]) a');
+        const summary = page.locator('[data-index-summary]');
+        const visibleRows = () => page.locator('[data-index-part]:not([hidden]) [data-index-row] a');
         const wiesn = visibleRows().filter({ hasText: "Hannover Wies'n" });
         const visibleHrefs = () => visibleRows().evaluateAll(links => links.map(link => link.getAttribute('href')));
+        const visibleSlugs = async () => (await visibleHrefs()).map(href => href!.split('/')[2]).sort();
+        const rowWhen = (slug: string) => page.locator(`[data-index-row="${slug}"] [data-index-when]`).textContent();
         expect(await allDates.getAttribute('aria-pressed')).toBe('true');
+        expect(await summary.textContent()).toBe('8 occasions in the next 30 days.');
+        expect(await rowWhen('winterwald')).toBe('Open today');
+        expect(await page.locator('[data-index-row="winterwald"]').getAttribute('class')).toContain('index-row--open');
+        expect(await rowWhen('wiesn')).toBe(`Next open ${dayHeading(day(3))}`);
+        expect(await page.locator(`#day-${day(0)} [data-index-rel]`).textContent()).toBe('Today');
+        expect(await page.locator(`#day-${day(7)} [data-index-rel]`).textContent()).toBe('in 7 days');
         expect(await visibleHrefs()).toContain('/special/day-thirty/');
         await thisWeek.click();
         expect(await visibleHrefs()).toContain(`/special/heute/?date=${day(0)}`);
+        expect(await visibleHrefs()).toContain(`/special/winterwald/?date=${day(0)}`);
         expect(await visibleHrefs()).not.toContain('/special/day-thirty/');
+        expect(await page.getByRole('heading', { name: 'Check dates' }).isVisible()).toBe(false);
         await nextWeek.click();
         expect(await visibleHrefs()).toContain(`/special/kunst-kurbis-in-eldagsen/?date=${day(7)}`);
         expect(await visibleHrefs()).not.toContain(`/special/heute/?date=${day(0)}`);
@@ -1130,13 +1156,12 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
         await page.keyboard.press('Space');
         expect(await followingWeek.getAttribute('aria-pressed')).toBe('true');
         expect(await nextWeek.getAttribute('aria-pressed')).toBe('false');
-        expect(await wiesn.count()).toBe(1);
-        expect(await wiesn.locator('[data-index-when]').textContent()).toBe(`${dates(followingSunday, followingSunday)} · 18:00–20:00`);
-        // Only on a Sunday does the following calendar week start at day 8, where
-        // day-eight and the market's last day also fall.
-        const followingCount = followingSunday - 6 <= 8 ? 4 : 2;
+        expect(await visibleSlugs()).toEqual(followingSlugs);
+        expect(await rowWhen('wiesn')).toBe(`${dayHeading(day(followingSunday))} · 18:00–20:00`);
+        expect(await rowWhen('winterwald')).toBe(dayHeading(day(followingMonday)));
+        expect(await summary.textContent()).toMatch(new RegExp(`^${followingSlugs.length} occasions following week, \\d`));
         expect(await page.getByRole('status').textContent()).toMatch(
-          new RegExp(`^${followingCount} occasions · Following week, \\d`),
+          new RegExp(`^${followingSlugs.length} occasions · Following week, \\d`),
         );
         await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
@@ -1144,6 +1169,9 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
         await page.keyboard.press('Tab');
         expect(await visibleRows().first().evaluate(el => el === document.activeElement)).toBe(true);
 
+        // A minute later nothing changed: the focused row is not moved.
+        await page.clock.runFor(60_000);
+        expect(await visibleRows().first().evaluate(el => el === document.activeElement)).toBe(true);
         const previousRange = await followingWeek.innerText();
         await wiesn.focus();
         await page.clock.setSystemTime(new Date(`${day(followingSunday)}T21:00:00Z`));
@@ -1158,6 +1186,39 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
         expect(await page.getByText(/^No upcoming confirmed occasions for /).isVisible()).toBe(true);
         await allDates.click();
         expect(await visibleHrefs()).toContain('/special/day-thirty/');
+        expect(await page.locator('[data-index-row="winterwald"]').isVisible()).toBe(false);
+
+        // A detail page's "All N on <day>" lands on everything open that day.
+        await page.clock.setSystemTime(new Date(`${day(0)}T12:00:00Z`));
+        await page.goto(`${origin}/special/wiesn/`);
+        await page.goto(`${origin}/special/#day-${day(7)}`);
+        await summary.filter({ hasText: ` on ${dayHeading(day(7))}.` }).waitFor();
+        expect(await summary.textContent()).toBe(`4 occasions on ${dayHeading(day(7))}.`);
+        expect(await allDates.getAttribute('aria-pressed')).toBe('false');
+        expect(await visibleHrefs()).toEqual([
+          `/special/wiesn/?date=${day(7)}`,
+          `/special/winterwald/?date=${day(7)}`,
+          `/special/kunst-kurbis-in-eldagsen/?date=${day(7)}`,
+          `/special/daily-market/?date=${day(7)}`,
+        ]);
+        expect(await rowWhen('wiesn')).toBe(`${dayHeading(day(7))} · 18:00–20:00`);
+        await allDates.click();
+        expect(await summary.textContent()).toBe('8 occasions in the next 30 days.');
+        expect(new URL(page.url()).hash).toBe('');
+        // Also when the hash changes in place, e.g. on Back.
+        await page.evaluate(date => { location.hash = `day-${date}`; }, day(4));
+        await summary.filter({ hasText: ` on ${dayHeading(day(4))}.` }).waitFor();
+        expect(await visibleSlugs()).toEqual(['daily-market', 'winterwald']);
+        await allDates.click();
+
+        // A new day removes today's section and moves the later ones up; the
+        // focused row keeps focus.
+        const kunst = visibleRows().filter({ hasText: 'Kunst & Kürbis' });
+        await kunst.focus();
+        await page.clock.setSystemTime(new Date(`${day(1)}T12:00:00Z`));
+        await page.clock.runFor(60_000);
+        expect(await page.locator(`#day-${day(0)}`).count()).toBe(0);
+        expect(await kunst.evaluate(el => el === document.activeElement)).toBe(true);
 
         // The selected week links to a later opening than the detail's default.
         await page.clock.setSystemTime(new Date(`${day(0)}T12:00:00Z`));

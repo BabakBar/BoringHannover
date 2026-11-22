@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
-import type { OccasionSummary } from '../data/types';
-import { indexDates, occasionIndex, occasionIndexForWeek, occasionWeeks } from './occasionIndex';
+import type { OccasionOccurrence, OccasionSummary } from '../data/types';
+import { occasionIndex, occasionWeeks, relativeDay, type IndexWindow } from './occasionIndex';
 import { berlinClock } from './occasionStatus';
 
 const occasion = (
@@ -32,18 +32,18 @@ const on = (date: string, extra: Partial<OccasionSummary> = {}) => ({
 // Sun 11 Oct 2026, 12:00 in Berlin. Day 14 is Sun 25 Oct, when clocks go back.
 const noon = new Date('2026-10-11T12:00:00+02:00');
 
-const groupOf = (
-  items: OccasionSummary[],
-  now: Date,
-): Record<string, [string, string | null] | undefined> =>
-  Object.fromEntries(
-    occasionIndex(items, now).flatMap((group) =>
-      group.entries.map((entry) => [
-        entry.occasion.slug,
-        [group.key, entry.appointment?.date ?? null],
-      ]),
-    ),
-  );
+/** slug → [part, appointment date, first line]. */
+const placements = (items: OccasionSummary[], now: Date, window?: IndexWindow) => {
+  const { season, days, check, off } = occasionIndex(items, now, window);
+  const row = (part: string) => ({ occasion, appointment, when }: (typeof season)[number]) =>
+    [occasion.slug, [part, appointment?.date ?? null, when]] as const;
+  return Object.fromEntries([
+    ...season.map(row('season')),
+    ...days.flatMap(({ date, entries }) => entries.map(row(`day:${date}`))),
+    ...check.map(row('check')),
+    ...off.map(row('off')),
+  ]);
+};
 
 test('week cards roll over on Monday in Berlin, including the DST weekend', () => {
   const sunday = new Date('2026-10-25T22:59:00Z');
@@ -57,7 +57,122 @@ test('week cards roll over on Monday in Berlin, including the DST weekend', () =
   expect(weeks(monday)[0]).toEqual({ ...weeks(sunday)[1], name: 'This week' });
 });
 
-test('a week shows each occasion once at its earliest available opening in that week', () => {
+describe('occasionIndex, all dates', () => {
+  const continuous = (startDate: string, endDate: string, occurrences: OccasionOccurrence[] = [{ date: startDate }]) =>
+    ({ startDate, endDate, scheduleConfidence: 'continuous' as const, occurrences });
+  test.each([
+    { id: 'one-off today, untimed', item: on('2026-10-11'), expected: ['day:2026-10-11', '2026-10-11', ''] },
+    { id: 'day 7', item: on('2026-10-18'), expected: ['day:2026-10-18', '2026-10-18', ''] },
+    {
+      id: 'late on day 14, the DST night',
+      item: { ...on('2026-10-25'), scheduleConfidence: 'continuous' as const, occurrences: [{ date: '2026-10-25', startTime: '23:30' }] },
+      expected: ['day:2026-10-25', '2026-10-25', 'from 23:30'],
+    },
+    { id: 'day 30 is inside the horizon', item: on('2026-11-10'), expected: ['day:2026-11-10', '2026-11-10', ''] },
+    { id: 'day 31 is beyond it', item: on('2026-11-11'), expected: undefined },
+    { id: 'ended yesterday', item: on('2026-10-10'), expected: undefined },
+    {
+      id: 'six days is dated, under way: today with hours',
+      item: continuous('2026-10-08', '2026-10-13', [{ date: '2026-10-11', startTime: '14:00', endTime: '19:00' }]),
+      expected: ['day:2026-10-11', '2026-10-11', '14:00–19:00'],
+    },
+    {
+      id: 'dated, closed for today: tomorrow',
+      item: continuous('2026-10-10', '2026-10-13', [{ date: '2026-10-11', startTime: '09:00', endTime: '11:00' }]),
+      expected: ['day:2026-10-12', '2026-10-12', ''],
+    },
+    {
+      id: 'closed for good',
+      item: { ...on('2026-10-11'), scheduleConfidence: 'continuous' as const, occurrences: [{ date: '2026-10-11', startTime: '09:00', endTime: '11:00' }] },
+      expected: undefined,
+    },
+    {
+      id: 'seven days is season-long: open today with hours',
+      item: continuous('2026-10-05', '2026-10-11', [{ date: '2026-10-11', startTime: '11:00', endTime: '21:00' }]),
+      expected: ['season', '2026-10-11', 'Open today 11:00–21:00'],
+    },
+    {
+      id: 'season-long, open today from a start time',
+      item: continuous('2026-10-01', '2026-11-01', [{ date: '2026-10-11', startTime: '14:00' }]),
+      expected: ['season', '2026-10-11', 'Open today from 14:00'],
+    },
+    { id: 'season-long, open today without hours', item: continuous('2026-10-01', '2026-11-01'), expected: ['season', '2026-10-11', 'Open today'] },
+    {
+      id: 'season-long, closed for today',
+      item: continuous('2026-10-01', '2026-11-01', [{ date: '2026-10-11', startTime: '09:00', endTime: '11:00' }]),
+      expected: ['season', '2026-10-12', 'Next open Mon 12 Oct'],
+    },
+    { id: 'season-long, starts later', item: continuous('2026-10-23', '2026-12-23'), expected: ['season', '2026-10-23', 'Opens Fri 23 Oct'] },
+    {
+      id: 'sparse season: its next listed date',
+      item: {
+        startDate: '2026-10-09', endDate: '2026-11-07', scheduleConfidence: 'discrete' as const,
+        occurrences: [{ date: '2026-10-09', startTime: '18:00' }, { date: '2026-10-16', startTime: '18:00' }],
+      },
+      expected: ['season', '2026-10-16', 'Next open Fri 16 Oct'],
+    },
+    {
+      id: 'sparse, listed dates exhausted',
+      item: { startDate: '2026-10-01', endDate: '2026-11-07', scheduleConfidence: 'discrete' as const, occurrences: [{ date: '2026-10-02', startTime: '18:00' }] },
+      expected: ['check', null, 'Selected dates · Thu 1 Oct – Sat 7 Nov'],
+    },
+    // An unparsed schedule confirms only that it starts on its start date.
+    { id: 'unknown, ahead', item: { startDate: '2026-10-20', endDate: '2026-10-22', scheduleConfidence: 'unknown' as const }, expected: ['day:2026-10-20', '2026-10-20', ''] },
+    { id: 'unknown season, ahead', item: { startDate: '2026-10-20', endDate: '2026-12-22', scheduleConfidence: 'unknown' as const }, expected: ['season', '2026-10-20', 'Opens Tue 20 Oct'] },
+    { id: 'unknown, under way', item: { startDate: '2026-10-04', endDate: '2026-10-18', scheduleConfidence: 'unknown' as const }, expected: ['check', null, 'Sun 4 – Sun 18 Oct'] },
+    { id: 'legacy, under way', item: { startDate: '2026-10-09', endDate: '2026-10-12' }, expected: ['check', null, 'Fri 9 – Mon 12 Oct'] },
+    { id: 'cancelled', item: on('2026-10-14', { sourceStatus: 'cancelled' }), expected: ['off', null, 'Cancelled · Wed 14 Oct'] },
+    { id: 'postponed', item: on('2026-10-14', { sourceStatus: 'postponed' }), expected: ['off', null, 'Postponed · Wed 14 Oct'] },
+    { id: 'cancelled and over', item: on('2026-10-10', { sourceStatus: 'cancelled' }), expected: undefined },
+    {
+      id: 'rescheduled carries its new date',
+      item: on('2026-10-21', { sourceStatus: 'rescheduled', previousStartDate: '2026-10-13' }),
+      expected: ['day:2026-10-21', '2026-10-21', ''],
+    },
+  ])('$id', ({ item, expected }) => {
+    expect(placements([occasion('x', item as Partial<OccasionSummary>)], noon).x).toEqual(expected as never);
+  });
+
+  test('Berlin midnight decides the day, also when clocks change', () => {
+    const sunday = [occasion('sunday', on('2026-10-25'))];
+    expect(placements(sunday, new Date('2026-10-24T23:59:00+02:00')).sunday[0]).toBe('day:2026-10-25');
+    expect(placements(sunday, new Date('2026-10-24T22:00:00Z')).sunday[0]).toBe('day:2026-10-25');
+    expect(relativeDay('2026-10-25', new Date('2026-10-24T23:59:00+02:00'))).toBe('Tomorrow');
+    expect(relativeDay('2026-10-25', new Date('2026-10-24T22:00:00Z'))).toBe('Today');
+    // Spring forward: Sun 29 Mar 2026 is a 23-hour day.
+    expect(relativeDay('2026-04-12', new Date('2026-03-29T23:30:00+02:00'))).toBe('in 14 days');
+  });
+
+  test('each part sorts by date, then start time with untimed last, then name', () => {
+    const timed = (slug: string, date: string, startTime?: string, endDate = date) =>
+      occasion(slug, { startDate: date, endDate, scheduleConfidence: 'continuous', occurrences: startTime ? [{ date, startTime }] : [] });
+    const { season, days, check } = occasionIndex([
+      occasion('b-untimed'),
+      timed('evening', '2026-10-11', '19:00'),
+      occasion('Ä-untimed'),
+      timed('afternoon', '2026-10-11', '13:00'),
+      occasion('later-this-week', on('2026-10-13')),
+      occasion('tomorrow', on('2026-10-12')),
+      timed('market-evening', '2026-10-11', '18:00', '2026-12-23'),
+      timed('market-untimed', '2026-10-11', undefined, '2026-12-23'),
+      timed('market-noon', '2026-10-11', '12:00', '2026-12-23'),
+      timed('market-later', '2026-10-15', '10:00', '2026-12-23'),
+      occasion('check-b', { startDate: '2026-10-05', endDate: '2026-10-20' }),
+      occasion('check-a', { startDate: '2026-10-05', endDate: '2026-10-20' }),
+      occasion('check-earlier', { startDate: '2026-10-01', endDate: '2026-10-20' }),
+    ], noon);
+    const slugs = (entries: Array<{ occasion: OccasionSummary }>) => entries.map(entry => entry.occasion.slug);
+    expect(slugs(season)).toEqual(['market-noon', 'market-evening', 'market-untimed', 'market-later']);
+    expect(days.map(({ date, entries }) => [date, slugs(entries)])).toEqual([
+      ['2026-10-11', ['afternoon', 'evening', 'Ä-untimed', 'b-untimed']],
+      ['2026-10-12', ['tomorrow']],
+      ['2026-10-13', ['later-this-week']],
+    ]);
+    expect(slugs(check)).toEqual(['check-earlier', 'check-a', 'check-b']);
+  });
+});
+
+test('a week shows each occasion once, at its first opening in that week', () => {
   const now = new Date('2026-10-25T12:00:00+01:00');
   const [thisWeek, nextWeek] = occasionWeeks(berlinClock(now).date);
   const items = [
@@ -67,266 +182,28 @@ test('a week shows each occasion once at its earliest available opening in that 
       startDate: '2026-10-24', endDate: '2026-11-02', scheduleConfidence: 'discrete',
       occurrences: [{ date: '2026-10-24' }, { date: '2026-10-28', startTime: '14:00' }, { date: '2026-11-01' }],
     }),
-    occasion('unknown', { startDate: '2026-10-25', endDate: '2026-11-01', scheduleConfidence: 'unknown' }),
+    occasion('unknown-starts-today', { startDate: '2026-10-25', endDate: '2026-11-01', scheduleConfidence: 'unknown' }),
+    occasion('unknown-ahead', { startDate: '2026-10-27', endDate: '2026-10-29', scheduleConfidence: 'unknown' }),
     occasion('cancelled', on('2026-10-26', { sourceStatus: 'cancelled' })),
     occasion('market', {
       startDate: '2026-10-25', endDate: '2026-11-04', scheduleConfidence: 'continuous',
-      occurrences: [{ date: '2026-10-25', endTime: '11:00' }, { date: '2026-10-26', startTime: '14:00' }],
+      occurrences: [{ date: '2026-10-25', endTime: '11:00' }, { date: '2026-10-26', startTime: '14:00', endTime: '20:00' }],
     }),
     occasion('sunday', on('2026-11-01')),
   ];
-  expect(occasionIndexForWeek(items, now, thisWeek).entries).toEqual([]);
-  expect(occasionIndexForWeek(items, now, nextWeek).entries.map(({ occasion, appointment }) => [occasion.slug, appointment])).toEqual([
-    ['market', { date: '2026-10-26', startTime: '14:00' }],
-    ['untimed', { date: '2026-10-26' }],
-    ['sparse', { date: '2026-10-28', startTime: '14:00' }],
-    ['sunday', { date: '2026-11-01' }],
-  ]);
-});
-
-describe('occasionIndex', () => {
-  test('each occasion lands once, by its next confirmed appointment', () => {
-    const cases: Array<[OccasionSummary, [string, string | null] | undefined]> = [
-      [occasion('today-untimed', on('2026-10-11')), ['today', '2026-10-11']],
-      [occasion('day-7', on('2026-10-18')), ['next', '2026-10-18']],
-      [occasion('day-8', on('2026-10-19')), ['following', '2026-10-19']],
-      [
-        occasion('late-on-day-14', {
-          ...on('2026-10-25'),
-          scheduleConfidence: 'continuous',
-          occurrences: [{ date: '2026-10-25', startTime: '23:30' }],
-        }),
-        ['following', '2026-10-25'],
-      ],
-      [occasion('day-15', on('2026-10-26')), ['later', '2026-10-26']],
-      [occasion('day-30', on('2026-11-10')), ['later', '2026-11-10']],
-      [occasion('day-31', on('2026-11-11')), undefined],
-      [occasion('ended-yesterday', on('2026-10-10')), undefined],
-      [
-        occasion('running-with-hours-today', {
-          startDate: '2026-10-08',
-          endDate: '2026-10-11',
-          scheduleConfidence: 'continuous',
-          occurrences: [{ date: '2026-10-11', startTime: '14:00' }],
-        }),
-        ['today', '2026-10-11'],
-      ],
-      // Today's listed hours are over; every envelope date is confirmed.
-      [
-        occasion('closed-for-today', {
-          startDate: '2026-10-10',
-          endDate: '2026-10-13',
-          scheduleConfidence: 'continuous',
-          occurrences: [{ date: '2026-10-11', startTime: '09:00', endTime: '11:00' }],
-        }),
-        ['next', '2026-10-12'],
-      ],
-      [
-        occasion('closed-for-good', {
-          ...on('2026-10-11'),
-          scheduleConfidence: 'continuous',
-          occurrences: [{ date: '2026-10-11', startTime: '09:00', endTime: '11:00' }],
-        }),
-        undefined,
-      ],
-      // The envelope covers today, but only the listed dates are confirmed.
-      [
-        occasion('sparse', {
-          startDate: '2026-10-09',
-          endDate: '2026-11-07',
-          scheduleConfidence: 'discrete',
-          occurrences: [
-            { date: '2026-10-09', startTime: '18:00' },
-            { date: '2026-10-16', startTime: '18:00' },
-            { date: '2026-10-23', startTime: '18:00' },
-          ],
-        }),
-        ['next', '2026-10-16'],
-      ],
-      // Listed dates are past and later ones were cut at the export horizon.
-      [
-        occasion('sparse-exhausted', {
-          startDate: '2026-10-01',
-          endDate: '2026-11-07',
-          scheduleConfidence: 'discrete',
-          occurrences: [{ date: '2026-10-02', startTime: '18:00' }],
-        }),
-        ['check', null],
-      ],
-      // An unparsed or legacy schedule confirms only that it starts on its start date.
-      [
-        occasion('unknown-ahead', {
-          ...on('2026-10-20'),
-          endDate: '2026-10-22',
-          scheduleConfidence: 'unknown',
-        }),
-        ['following', '2026-10-20'],
-      ],
-      [
-        occasion('unknown-under-way', {
-          startDate: '2026-10-04',
-          endDate: '2026-10-18',
-          scheduleConfidence: 'unknown',
-        }),
-        ['check', null],
-      ],
-      [occasion('legacy-ahead', on('2026-10-14')), ['next', '2026-10-14']],
-      [
-        occasion('legacy-under-way', { startDate: '2026-10-09', endDate: '2026-10-12' }),
-        ['check', null],
-      ],
-      [occasion('cancelled', on('2026-10-14', { sourceStatus: 'cancelled' })), ['off', null]],
-      [occasion('postponed', on('2026-10-14', { sourceStatus: 'postponed' })), ['off', null]],
-      [occasion('cancelled-and-over', on('2026-10-10', { sourceStatus: 'cancelled' })), undefined],
-      // Rescheduled occasions carry their confirmed new dates.
-      [
-        occasion('rescheduled', on('2026-10-21', {
-          sourceStatus: 'rescheduled',
-          previousStartDate: '2026-10-13',
-        })),
-        ['following', '2026-10-21'],
-      ],
-    ];
-
-    const result = groupOf(cases.map(([item]) => item), noon);
-    for (const [item, expected] of cases) {
-      expect(result[item.slug], item.slug).toEqual(expected);
-    }
-    expect(Object.keys(result)).toHaveLength(
-      cases.filter(([, expected]) => expected).length,
-    );
+  // The market's hours are over for today; an unparsed run is confirmed on its start date.
+  expect(placements(items, now, thisWeek)).toEqual({
+    'unknown-starts-today': ['season', '2026-10-25', 'Open today'],
   });
-
-  test('groups are fixed, disjoint and dated from the Berlin day', () => {
-    const groups = occasionIndex([], noon);
-    expect(groups.map(({ key, name, dates }) => [key, name, dates])).toEqual([
-      ['today', 'Today', 'Sun 11 Oct'],
-      ['next', 'Next 7 days', 'Mon 12 – Sun 18 Oct'],
-      ['following', 'Following 7 days', 'Mon 19 – Sun 25 Oct'],
-      ['later', 'In 15–30 days', 'Mon 26 Oct – Tue 10 Nov'],
-      ['check', 'Check dates', null],
-      ['off', 'Cancelled or postponed', null],
-    ]);
-    expect(groups.every((group) => group.entries.length === 0)).toBe(true);
-
-    // Year rollover: Mon 28 Dec.
-    const december = occasionIndex(
-      [
-        occasion('new-year-day-7', on('2027-01-04')),
-        occasion('new-year-day-8', on('2027-01-05')),
-      ],
-      new Date('2026-12-28T10:00:00+01:00'),
-    );
-    expect(december.map((group) => group.dates).slice(0, 3)).toEqual([
-      'Mon 28 Dec',
-      'Tue 29 Dec 2026 – Mon 4 Jan 2027',
-      'Tue 5 – Mon 11 Jan',
-    ]);
-    expect(december[1].entries.map((entry) => entry.occasion.slug)).toEqual([
-      'new-year-day-7',
-    ]);
-    expect(december[2].entries.map((entry) => entry.occasion.slug)).toEqual([
-      'new-year-day-8',
-    ]);
-
-    // Berlin midnight decides the day, also on the night clocks go back.
-    const items = [occasion('sunday', on('2026-10-25'))];
-    expect(groupOf(items, new Date('2026-10-24T23:59:00+02:00'))).toEqual({
-      sunday: ['next', '2026-10-25'],
-    });
-    expect(groupOf(items, new Date('2026-10-24T22:00:00Z'))).toEqual({
-      sunday: ['today', '2026-10-25'],
-    });
-    // Spring forward: Sun 29 Mar 2026 is a 23-hour day.
-    expect(
-      groupOf(
-        [occasion('easter-fire', on('2026-04-12'))],
-        new Date('2026-03-29T23:30:00+02:00'),
-      ),
-    ).toEqual({ 'easter-fire': ['following', '2026-04-12'] });
+  expect(placements(items, now, nextWeek)).toEqual({
+    market: ['season', '2026-10-26', 'Mon 26 Oct · 14:00–20:00'],
+    untimed: ['day:2026-10-26', '2026-10-26', ''],
+    'unknown-ahead': ['day:2026-10-27', '2026-10-27', ''],
+    sparse: ['season', '2026-10-28', 'Wed 28 Oct · from 14:00'],
+    sunday: ['day:2026-11-01', '2026-11-01', ''],
   });
-
-  test('within a group: date, then start time (untimed last), then name', () => {
-    const timed = (slug: string, startTime: string) =>
-      occasion(slug, {
-        ...on('2026-10-11'),
-        scheduleConfidence: 'continuous',
-        occurrences: [{ date: '2026-10-11', startTime }],
-      });
-    const groups = occasionIndex(
-      [
-        occasion('b-untimed'),
-        timed('evening', '19:00'),
-        occasion('a-untimed'),
-        timed('afternoon', '13:00'),
-        occasion('later-this-week', on('2026-10-13')),
-        occasion('tomorrow', on('2026-10-12')),
-        occasion('check-b', { startDate: '2026-10-05', endDate: '2026-10-20' }),
-        occasion('check-a', { startDate: '2026-10-05', endDate: '2026-10-20' }),
-        occasion('check-earlier', { startDate: '2026-10-01', endDate: '2026-10-20' }),
-      ],
-      noon,
-    );
-    const slugs = Object.fromEntries(
-      groups.map((group) => [
-        group.key,
-        group.entries.map((entry) => entry.occasion.slug),
-      ]),
-    );
-    expect(slugs).toEqual({
-      today: ['afternoon', 'evening', 'a-untimed', 'b-untimed'],
-      next: ['tomorrow', 'later-this-week'],
-      following: [],
-      later: [],
-      check: ['check-earlier', 'check-a', 'check-b'],
-      off: [],
-    });
-  });
-});
-
-describe('indexDates', () => {
-  test('the grouping appointment first, then the whole run', () => {
-    const [sparse, single, running] = [
-      occasion('sparse', {
-        startDate: '2026-10-09',
-        endDate: '2026-11-07',
-        scheduleConfidence: 'discrete',
-        occurrences: [{ date: '2026-10-16', startTime: '18:00' }],
-      }),
-      occasion('single', {
-        ...on('2026-10-18'),
-        scheduleConfidence: 'continuous',
-        occurrences: [{ date: '2026-10-18', startTime: '11:00', endTime: '17:00' }],
-      }),
-      occasion('running', { startDate: '2026-10-08', endDate: '2026-10-12', scheduleConfidence: 'continuous' }),
-    ];
-    const entries = new Map(
-      occasionIndex([sparse, single, running], noon).flatMap((group) =>
-        group.entries.map((entry) => [entry.occasion.slug, entry]),
-      ),
-    );
-
-    expect(indexDates(entries.get('sparse')!)).toEqual({
-      when: 'Fri 16 Oct · from 18:00',
-      span: 'Selected dates · Fri 9 Oct – Sat 7 Nov',
-    });
-    expect(indexDates(entries.get('single')!)).toEqual({
-      when: 'Sun 18 Oct · 11:00–17:00',
-      span: null,
-    });
-    expect(indexDates(entries.get('running')!)).toEqual({
-      when: 'Sun 11 Oct',
-      span: 'Thu 8 – Mon 12 Oct',
-    });
-    // Without a confirmed appointment only the source's dates are shown.
-    expect(
-      indexDates({
-        occasion: { ...sparse, occurrences: [] },
-        appointment: null,
-      }),
-    ).toEqual({
-      when: 'Selected dates · Fri 9 Oct – Sat 7 Nov',
-      span: null,
-    });
-  });
+  // Season rows open today keep "Open today" inside a week too.
+  const monday = new Date('2026-10-26T12:00:00+01:00');
+  expect(placements(items, monday, occasionWeeks(berlinClock(monday).date)[0]).market)
+    .toEqual(['season', '2026-10-26', 'Open today 14:00–20:00']);
 });
