@@ -1113,7 +1113,12 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
         expect(await nextWeek.getAttribute('aria-pressed')).toBe('false');
         expect(await wiesn.count()).toBe(1);
         expect(await wiesn.locator('[data-index-when]').textContent()).toBe(`${dates(followingSunday, followingSunday)} · 18:00–20:00`);
-        expect(await page.getByRole('status').textContent()).toMatch(/^2 occasions · Following week, \d/);
+        // Only on a Sunday does the following calendar week start at day 8, where
+        // day-eight and the market's last day also fall.
+        const followingCount = followingSunday - 6 <= 8 ? 4 : 2;
+        expect(await page.getByRole('status').textContent()).toMatch(
+          new RegExp(`^${followingCount} occasions · Following week, \\d`),
+        );
         await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
         expect(await cardLayout()).toEqual({ rows: 3, datesBelow: true });
