@@ -6,6 +6,8 @@ import {
   onwardOccasions,
   placeAddress,
   sheetDateLine,
+  tileAppointment,
+  tileFace,
   whenFacts,
 } from './occasionSheet';
 
@@ -186,6 +188,8 @@ describe('place and entry', () => {
 describe('onwardOccasions', () => {
   // An explicit Berlin clock: build-time selection must respect hours too.
   const today = new Date('2026-10-10T12:00:00+02:00');
+  const slugs = (result: ReturnType<typeof onwardOccasions>) =>
+    result.entries.map((entry) => entry.occasion.slug);
 
   test('excludes itself, cancelled, undated postponed and ended occasions', () => {
     const current = occasion('current');
@@ -206,7 +210,7 @@ describe('onwardOccasions', () => {
       today,
     );
 
-    expect(result.map((item) => item.slug)).toEqual(['rescheduled']);
+    expect(slugs(result)).toEqual(['rescheduled']);
   });
 
   test('a sparse schedule without remaining dates is not current', () => {
@@ -223,39 +227,53 @@ describe('onwardOccasions', () => {
       today,
     );
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({ entries: [], day: null, sameDayCount: 0 });
   });
 
-  test('same dates or same weekend first, then the next date, at most three', () => {
-    const current = occasion('current', {
-      startDate: '2026-10-17',
-      endDate: '2026-10-17',
-    });
-    const result = onwardOccasions(
-      current,
-      [
-        occasion('soon-weekday', { startDate: '2026-10-13', endDate: '2026-10-13' }),
-        occasion('same-sunday', { startDate: '2026-10-18', endDate: '2026-10-18' }),
-        occasion('sparse-same-day', {
-          startDate: '2026-10-09',
-          endDate: '2026-11-07',
-          scheduleConfidence: 'discrete',
-          occurrences: [
-            { date: '2026-10-16', startTime: '18:00' },
-            { date: '2026-10-17', startTime: '18:00' },
-          ],
-        }),
-        occasion('running-now', { startDate: '2026-10-08', endDate: '2026-10-11' }),
-        occasion('later', { startDate: '2026-10-22', endDate: '2026-10-22' }),
+  const saturday = occasion('current', { startDate: '2026-10-17', endDate: '2026-10-17' });
+  const seasonHours = { date: '2026-10-17', startTime: '11:00', endTime: '21:00' };
+  const candidates = [
+    occasion('soon-weekday', { startDate: '2026-10-13', endDate: '2026-10-13' }),
+    occasion('same-sunday', { startDate: '2026-10-18', endDate: '2026-10-18' }),
+    occasion('sparse-season-same-day', {
+      startDate: '2026-10-09',
+      endDate: '2026-11-07',
+      scheduleConfidence: 'discrete',
+      occurrences: [
+        { date: '2026-10-16', startTime: '18:00' },
+        { date: '2026-10-17', startTime: '18:00' },
       ],
-      today,
-    );
+    }),
+    occasion('season-same-day', {
+      startDate: '2026-10-01',
+      endDate: '2026-10-31',
+      scheduleConfidence: 'continuous',
+      occurrences: [seasonHours],
+    }),
+    occasion('one-off-same-day', { startDate: '2026-10-17', endDate: '2026-10-17' }),
+  ];
 
-    expect(result.map((item) => item.slug)).toEqual([
-      'sparse-same-day',
-      'same-sunday',
-      'running-now',
-    ]);
+  test.each([
+    {
+      id: 'open on the same date first, one-offs before season-long, then by time',
+      limit: 3,
+      expected: ['one-off-same-day', 'season-same-day', 'sparse-season-same-day'],
+      day: '2026-10-17',
+    },
+    {
+      id: 'a row not open that day drops the shared-day heading',
+      limit: 4,
+      expected: ['one-off-same-day', 'season-same-day', 'sparse-season-same-day', 'soon-weekday'],
+      day: null,
+    },
+  ])('$id', ({ limit, expected, day }) => {
+    const result = onwardOccasions(saturday, candidates, today, limit);
+
+    expect(slugs(result)).toEqual(expected);
+    expect(result.day).toBe(day);
+    expect(result.sameDayCount).toBe(3);
+    // Each row carries that day's hours, not the season's next opening.
+    expect(result.entries[1].appointment).toEqual(seasonHours);
   });
 
   test('an occasion that closed earlier today is no longer onward', () => {
@@ -268,9 +286,23 @@ describe('onwardOccasions', () => {
     });
     const at = (time: string) => new Date(`2026-10-10T${time}:00+02:00`);
 
-    expect(
-      onwardOccasions(current, [closesAt1830], at('14:00')).map((item) => item.slug),
-    ).toEqual(['closes-at-1830']);
-    expect(onwardOccasions(current, [closesAt1830], at('19:00'))).toEqual([]);
+    expect(slugs(onwardOccasions(current, [closesAt1830], at('14:00')))).toEqual(['closes-at-1830']);
+    expect(slugs(onwardOccasions(current, [closesAt1830], at('19:00')))).toEqual([]);
+  });
+});
+
+describe('tileAppointment', () => {
+  const now = new Date('2026-10-10T12:00:00+02:00');
+
+  test.each([
+    { id: 'timed next date', extra: { startDate: '2026-10-12', endDate: '2026-10-20', scheduleConfidence: 'continuous' as const, occurrences: [{ date: '2026-10-12', startTime: '11:00', endTime: '21:00' }] }, face: { weekday: 'Mon', day: '12', month: 'Oct', hours: '11:00–21:00' } },
+    { id: 'single day without hours', extra: { startDate: '2026-10-11', endDate: '2026-10-11' }, face: { weekday: 'Sun', day: '11', month: 'Oct', hours: 'Sun 11 Oct' } },
+    { id: 'unknown multi-day run', extra: { startDate: '2026-10-11', endDate: '2026-10-13' }, face: null },
+    { id: 'cancelled', extra: { sourceStatus: 'cancelled' as const }, face: null },
+    { id: 'ended', extra: { startDate: '2026-10-01', endDate: '2026-10-09' }, face: null },
+    { id: 'next date beyond the horizon', extra: { startDate: '2026-11-10', endDate: '2026-11-10' }, face: null },
+  ])('$id', ({ extra, face }) => {
+    const appointment = tileAppointment(occasion('tile', extra), now);
+    expect(appointment ? tileFace(appointment) : null).toEqual(face);
   });
 });

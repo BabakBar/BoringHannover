@@ -1,0 +1,24 @@
+---
+import { occasionPictogram, pictogramSvg } from '../utils/pictogram';
+
+interface Props {
+  /** The official occasion name; it picks the icon. */
+  name: string;
+  /** Dot pitch in px on the 11 × 12 grid. */
+  step: number;
+  class?: string;
+}
+
+const { name, step, class: className } = Astro.props;
+const svg = pictogramSvg(occasionPictogram({ name }), step);
+---
+
+<span class:list={['pictogram', className]} set:html={svg} />
+
+<style>
+  .pictogram {
+    display: inline-flex;
+    flex: none;
+    line-height: 0;
+  }
+</style>

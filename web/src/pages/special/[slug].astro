@@ -21,7 +21,10 @@ import { occasionJsonLd } from '../../utils/occasionJsonLd';
 import { occasionSourceLink } from '../../utils/occasionSource';
 import { calendarAppointments } from '../../utils/occasionCalendar';
 import { occasionAbout } from '../../data/occasionAbout';
+import Pictogram from '../../components/Pictogram.astro';
+import { isFallbackDescription, searchDescription, searchTitle } from '../../utils/occasionSearch';
 import {
+  appointmentHours,
   appointmentText,
   entryPrice,
   mapUrl,
@@ -29,6 +32,8 @@ import {
   placeAddress,
   sheetDateLine,
   sheetNextDate,
+  tileAppointment,
+  tileFace,
   whenFacts,
 } from '../../utils/occasionSheet';
 import {
@@ -74,7 +79,9 @@ export function getStaticPaths() {
 const { programmeData, occasions, week, year } = Astro.props;
 const { occasion, programme } = programmeData;
 const about = occasionAbout(occasion);
-const aboutText = about?.description ?? occasion.description;
+// The exporter's fallback sentence is not an About text.
+const aboutText = about?.description ??
+  (isFallbackDescription(occasion.description) ? null : occasion.description);
 
 function dateValue(isoDate: string): Date {
   return new Date(`${isoDate}T12:00:00`);
@@ -132,6 +139,10 @@ const actionable =
   !occasionHasEnded(occasion, builtAt);
 const address = place ? placeAddress(place) : null;
 const onward = onwardOccasions(occasion, occasions, builtAt);
+const onwardDay = onward.day ? sheetDateLine({ startDate: onward.day, endDate: onward.day }) : null;
+// The script follows ?date= and the reader's clock.
+const tileShown = tileAppointment(occasion, builtAt);
+const tile = tileShown ? tileFace(tileShown) : null;
 
 const groups = new Map<string, Concert[]>();
 for (const event of programme) {
@@ -160,14 +171,7 @@ const categories = countedOptions(
 );
 const venues = countedOptions(programme.map(event => event.venue));
 
-// English metadata that names the authoritative event; the fallback
-// description already starts with the name.
-const summary = aboutText.includes(occasion.name)
-  ? aboutText
-  : `${occasion.name}: ${aboutText}`;
-const description = occasion.programmeCount > 0
-  ? `${summary} Explore the official programme by day, category, and location.`
-  : summary;
+const description = searchDescription(occasion, aboutText);
 
 const canonicalUrl = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).toString()
@@ -175,23 +179,23 @@ const canonicalUrl = Astro.site
 
 // Google only supports Event markup on single-event pages, which is exactly
 // what these are. The listing pages deliberately get none.
-const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
+const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText ?? description }, {
   canonicalUrl,
   officialUrl: source?.url ?? null,
 });
 ---
 
 <Base
-  title={`${occasion.name} · City Occasion · boringhannover`}
+  title={searchTitle(occasion)}
   description={description}
   jsonLd={eventJsonLd}
   noindex={berlinClock(builtAt).date > occasion.endDate}
 >
-  <Header week={week} year={year} brandAsHeading={false} />
+  <Header week={week} year={year} brandAsHeading={false} compact />
 
-  <a href="/" class="occasion-back">
+  <a href="/special/" class="occasion-back">
     <span aria-hidden="true">←</span>
-    <span>Weekly digest</span>
+    <span>City Occasions</span>
   </a>
 
   <article class="sheet" aria-labelledby="occasion-title">
@@ -199,31 +203,35 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
       <p class="sheet__kicker">City Occasion</p>
       <!-- Occasion names are the source's German proper names. -->
       <h1 id="occasion-title" lang="de">{occasion.name}</h1>
-      <p class="sheet__status">
-        <span class="sheet__status-label">
-          <span class="sheet__status-dot" aria-hidden="true"></span>
-          <OccasionStatus occasion={occasion} />
-        </span>
-        <span aria-hidden="true">·</span>
-        <span>{sheetDateLine(occasion)}</span>
-      </p>
+      <div class="sheet__tilerow">
+        <p class="sheet__tile" data-sheet-tile hidden={!tile} aria-hidden="true">
+          <span data-tile-weekday>{tile?.weekday}</span>
+          <b data-tile-day>{tile?.day}</b>
+          <span data-tile-month>{tile?.month}</span>
+        </p>
+        <div class="sheet__tilemeta">
+          <p class="sheet__status-label">
+            <span class="sheet__status-dot" aria-hidden="true"></span>
+            <OccasionStatus occasion={occasion} />
+          </p>
+          <p class="sheet__tilehours" data-tile-hours>{tile?.hours ?? sheetDateLine(occasion)}</p>
+          <p class="sheet__tilevenue" lang="de">{place?.venue ?? occasion.location}</p>
+        </div>
+        <Pictogram name={occasion.name} step={5} class="sheet__picto" />
+      </div>
     </header>
 
-    <section class="sheet__about" aria-labelledby="occasion-about-title">
-      <h2 id="occasion-about-title">About</h2>
-      <p>{aboutText}</p>
-      {about && (
-        <p class="sheet__provenance">
-          About source · <a href={about.url} class="underline underline-offset-2">{about.source}</a>
-        </p>
-      )}
-      {source && (
-        <p class="sheet__provenance">
-          Facts from the {source.label.charAt(0).toLowerCase() + source.label.slice(1)},
-          checked {programmeData.meta.updatedAt}.
-        </p>
-      )}
-    </section>
+    {aboutText && (
+      <section class="sheet__about" aria-labelledby="occasion-about-title">
+        <h2 id="occasion-about-title">About</h2>
+        <p>{aboutText}</p>
+        {about && (
+          <p class="sheet__provenance">
+            About source · <a href={about.url} class="underline underline-offset-2">{about.source}</a>
+          </p>
+        )}
+      </section>
+    )}
 
     <dl class="sheet__facts">
       <div class="fact">
@@ -349,6 +357,7 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
               data-umami-event="occasion-source-open"
               data-umami-event-occasion={occasion.slug}
             >{source.label}<span aria-hidden="true">&nbsp;↗</span></a>
+            <p class="fact__note">Checked {programmeData.meta.updatedAt}</p>
           </dd>
         </div>
       )}
@@ -553,11 +562,13 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
     </section>
   )}
 
-  <nav class="onward" aria-labelledby="onward-title">
-    <h2 id="onward-title">More occasions</h2>
-    {onward.length > 0 && (
+  <nav class="onward" aria-labelledby="onward-title" data-onward-day={onward.day}>
+    <!-- "Also on <day>" only while every row is open that day; the script
+         falls back to the general rows once that day has passed. -->
+    <h2 id="onward-title" data-onward-title>{onwardDay ? `Also on ${onwardDay}` : 'More occasions'}</h2>
+    {onward.entries.length > 0 && (
       <ul class="onward__list">
-        {onward.map((item) => (
+        {onward.entries.map(({ occasion: item, appointment }) => (
           <li data-onward-item>
             <a
               href={`/special/${item.slug}/`}
@@ -565,23 +576,39 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
               data-umami-event="occasion-onward-open"
               data-umami-event-occasion={item.slug}
             >
-              <span class="onward__name" lang="de">{item.name}</span>
-              <span class="onward__meta">
-                <OccasionStatus occasion={item} />
-                <span aria-hidden="true">·</span>
-                <span>{sheetDateLine(item)}</span>
-                {item.area === 'region' && item.place?.municipality && (
-                  <span>· Day trip · {item.place.municipality}</span>
-                )}
+              <Pictogram name={item.name} step={3} class="onward__picto" />
+              <span class="onward__text">
+                <span class="onward__name" lang="de">{item.name}</span>
+                <span class="onward__meta">
+                  {onwardDay && (
+                    <span class="onward__hours" data-onward-hours>
+                      {(appointment && appointmentHours(appointment)) ?? 'Hours not listed'}
+                    </span>
+                  )}
+                  <span class="onward__general" data-onward-general hidden={Boolean(onwardDay)}>
+                    <OccasionStatus occasion={item} />
+                    <span aria-hidden="true">·</span>
+                    <span>{sheetDateLine(item)}</span>
+                  </span>
+                  <span>· <span lang="de">{item.place?.venue ?? item.location}</span></span>
+                  {item.area === 'region' && item.place?.municipality && (
+                    <span>· Day trip · {item.place.municipality}</span>
+                  )}
+                </span>
               </span>
             </a>
           </li>
         ))}
       </ul>
     )}
-    <p class="onward__empty" data-onward-empty hidden={onward.length > 0}>
+    <p class="onward__empty" data-onward-empty hidden={onward.entries.length > 0}>
       No other City Occasions are listed right now.
     </p>
+    {onwardDay && onward.sameDayCount > onward.entries.length && (
+      <a href={`/special/#day-${onward.day}`} class="onward__day" data-onward-all>
+        All {onward.sameDayCount} on {onwardDay} →
+      </a>
+    )}
     <a href="/special/" class="sheet__action onward__index" data-umami-event="occasion-index-open">
       All City Occasions
     </a>
@@ -591,7 +618,7 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
 </Base>
 
 <script>
-  import { appointmentText, sheetNextDate } from '../../utils/occasionSheet';
+  import { appointmentText, sheetDateLine, sheetNextDate, tileAppointment, tileFace } from '../../utils/occasionSheet';
   import {
     OCCASION_HORIZON_DAYS,
     addDays,
@@ -633,6 +660,18 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
       ? chosen ? appointmentText(chosen) : 'Selected date is unavailable. Check the listed dates.'
       : own ? sheetNextDate(own, now) : null;
     if (when && whenText) when.textContent = whenText;
+    const tile = document.querySelector<HTMLElement>('[data-sheet-tile]');
+    if (own && tile) {
+      const shown = requestedDate ? chosen : tileAppointment(own, now);
+      tile.hidden = !shown;
+      const face = shown ? tileFace(shown) : null;
+      if (face) {
+        tile.querySelector('[data-tile-weekday]')!.textContent = face.weekday;
+        tile.querySelector('[data-tile-day]')!.textContent = face.day;
+        tile.querySelector('[data-tile-month]')!.textContent = face.month;
+      }
+      document.querySelector('[data-tile-hours]')!.textContent = face?.hours ?? sheetDateLine(own);
+    }
     const calendar = document.querySelector<HTMLAnchorElement>('[data-calendar-primary]');
     if (own && calendar) {
       const options: Array<{ date: string; expiresAt: number; timed: boolean }> = JSON.parse(calendar.dataset.calendarOptions!);
@@ -655,6 +694,13 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
     // Dates decide expiry; a Rescheduled label must not keep actions alive.
     if (own && actions) {
       actions.hidden = occasionHasEnded(own, now);
+    }
+
+    const onwardNav = document.querySelector<HTMLElement>('[data-onward-day]');
+    if (onwardNav && berlinClock(now).date > onwardNav.dataset.onwardDay!) {
+      onwardNav.querySelector('[data-onward-title]')!.textContent = 'More occasions';
+      for (const node of onwardNav.querySelectorAll<HTMLElement>('[data-onward-hours], [data-onward-all]')) node.hidden = true;
+      for (const node of onwardNav.querySelectorAll<HTMLElement>('[data-onward-general]')) node.hidden = false;
     }
 
     let current = 0;
@@ -963,6 +1009,105 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
     font-weight: 700;
   }
 
+  /* v2 date tile: the glanceable answer; the When row keeps the record. */
+  /* Wraps instead of a grid so the decorative pictogram, not the facts,
+     gives way at 320 px with large text. */
+  .sheet__tilerow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.85rem;
+    margin-top: 0.9rem;
+  }
+
+  .sheet__tile {
+    display: grid;
+    justify-items: center;
+    width: 3.6rem;
+    padding: 0.35rem 0 0.4rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+  }
+
+  .sheet__tile[hidden] {
+    display: none;
+  }
+
+  .sheet__tile span {
+    color: var(--text-secondary);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+  }
+
+  .sheet__tile b {
+    color: var(--text-data);
+    font-size: 1.6rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sheet__tilemeta {
+    display: grid;
+    flex: 1 1 9rem;
+    gap: 0.1rem;
+    min-width: 0;
+    font-size: 0.875rem;
+  }
+
+  .sheet__tilemeta .sheet__status-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8125rem;
+  }
+
+  .sheet__tilehours {
+    color: var(--text-data);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .sheet__tilevenue {
+    color: var(--text-secondary);
+    overflow-wrap: anywhere;
+  }
+
+  .sheet__tilerow :global(.sheet__picto) {
+    color: var(--text-primary);
+    align-self: start;
+  }
+
+  .onward__link :global(.onward__picto) {
+    color: var(--text-secondary);
+  }
+
+  .onward__text {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .onward__hours {
+    color: var(--text-data);
+    font-weight: 700;
+  }
+
+  .onward__day[hidden] {
+    display: none;
+  }
+
+  .onward__day {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+
   .sheet__status-dot {
     width: 0.4rem;
     height: 0.4rem;
@@ -1159,7 +1304,9 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
 
   .onward__link {
     display: grid;
-    gap: 0.2rem;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.2rem 0.75rem;
     min-height: 44px;
     padding: 0.7rem 0;
     border-bottom: 1px solid var(--border);
@@ -1183,6 +1330,7 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText }, {
     color: var(--text-secondary);
     font-family: 'Space Mono', monospace;
     font-size: 0.75rem;
+    overflow-wrap: anywhere;
   }
 
   .onward__empty {

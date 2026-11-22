@@ -4,7 +4,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { chromium, type Browser } from 'playwright-core';
+import { chromium, type Browser, type Page } from 'playwright-core';
 import { addDays, berlinClock } from '../utils/occasionStatus';
 
 const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
@@ -74,22 +74,30 @@ test.skipIf(!executablePath && !process.env.CI)(
     const dateText = (offset: number) => new Intl.DateTimeFormat('en-GB', {
       timeZone: 'UTC', weekday: 'short', day: 'numeric', month: 'short',
     }).format(new Date(`${day(offset)}T12:00:00Z`));
+    const dayNumber = (offset: number) => String(Number(day(offset).slice(8)));
+    let page: Page;
+    // The date tile repeats the When row's appointment at a glance.
+    const tile = async () => ({
+      visible: await page.locator('[data-sheet-tile]').isVisible(),
+      day: await page.locator('[data-tile-day]').textContent(),
+      hours: await page.locator('[data-tile-hours]').innerText(),
+    });
     let browser: Browser | undefined;
     try {
       browser = await chromium.launch(executablePath ? { executablePath } : { channel: 'chrome' });
       for (const javaScriptEnabled of [false, true]) {
         const context = await browser.newContext({ javaScriptEnabled, viewport: { width: 320, height: 800 } });
         await context.route('**/*', route => route.request().url().startsWith(origin) ? route.continue() : route.abort());
-        const page = await context.newPage();
+        page = await context.newPage();
         if (javaScriptEnabled) await page.clock.install({ time: new Date() });
         await page.goto(`${origin}/special/many-dates/`);
-        expect(await page.getByRole('region', { name: 'About', exact: true }).isVisible()).toBe(true);
+        // The exporter's fallback sentence is not an About text: no section at all.
+        expect(await page.getByRole('region', { name: 'About', exact: true }).count()).toBe(0);
         expect(await page.locator('.sheet > *').evaluateAll(elements =>
-          elements.slice(0, 3).map(element => element.className),
-        )).toEqual(['sheet__head', 'sheet__about', 'sheet__facts']);
-        const about = (await page.locator('.sheet__about').boundingBox())!;
-        const facts = (await page.locator('.sheet__facts').boundingBox())!;
-        expect(about.y + about.height).toBeLessThanOrEqual(facts.y);
+          elements.slice(0, 2).map(element => element.className),
+        )).toEqual(['sheet__head', 'sheet__facts']);
+        expect(await page.locator('.sheet__facts').innerText()).toContain('Checked Sheet fixture');
+        expect(await tile()).toEqual({ visible: true, day: dayNumber(1), hours: '17:00–22:00' });
         expect(await page.locator('.sheet__facts > .fact').first().innerText()).not.toContain(`${dateText(-2)} · 17:00`);
         expect(await page.locator('[data-sheet-when]').count()).toBe(1);
         expect(await page.locator('[data-sheet-when]').innerText()).toBe(`${dateText(1)} · 17:00–22:00`);
@@ -120,9 +128,11 @@ test.skipIf(!executablePath && !process.env.CI)(
           await page.clock.setSystemTime(new Date(`${day(4)}T12:00:00Z`));
           await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
           expect(await page.locator('[data-sheet-when]').innerText()).toBe(`${dateText(4)} · 17:00–22:00`);
+          expect(await tile()).toEqual({ visible: true, day: dayNumber(4), hours: '17:00–22:00' });
           await page.clock.setSystemTime(new Date(`${day(4)}T21:00:00Z`));
           await page.clock.fastForward(60_000);
           expect(await page.locator('[data-sheet-when]').innerText()).toBe(`${dateText(5)} · 17:00–22:00`);
+          expect(await tile()).toEqual({ visible: true, day: dayNumber(5), hours: '17:00–22:00' });
           expect(await calendar.getAttribute('href')).toBe(`/special/many-dates/calendar/${day(5)}.ics`);
           expect(await summary.evaluate(element => document.activeElement === element)).toBe(true);
           await calendar.focus();
@@ -130,6 +140,7 @@ test.skipIf(!executablePath && !process.env.CI)(
           await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
           expect(await page.locator('[data-sheet-when]').evaluate(element => document.activeElement === element)).toBe(true);
           expect(await page.locator('[data-sheet-when]').innerText()).toBe('Ended');
+          expect(await page.locator('[data-sheet-tile]').isVisible()).toBe(false);
           expect(await calendar.isVisible()).toBe(false);
           expect(await page.locator('[data-calendar-date]:visible').count()).toBe(0);
           expect(await page.locator('[data-schedule-more] li:visible').count()).toBe(10);
@@ -146,6 +157,7 @@ test.skipIf(!executablePath && !process.env.CI)(
         })).toBe(true);
         await page.goto(`${origin}/special/unknown-hours/`);
         expect(await page.locator('[data-sheet-when]').innerText()).toBe('Check source for dates');
+        expect(await page.locator('[data-sheet-tile]').isVisible()).toBe(false);
         expect(await page.locator('[data-calendar-primary]').count()).toBe(0);
         const sourceSchedule = page.locator('[data-source-schedule] > summary');
         await sourceSchedule.focus();
@@ -174,7 +186,9 @@ test.skipIf(!executablePath && !process.env.CI)(
           expect(await page.locator('[data-sheet-when]').innerText()).toBe(expected);
           if (['cancelled', 'postponed', 'exhausted-dates', 'day-31'].includes(slug)) {
             expect(await page.locator('[data-calendar-primary]').count()).toBe(0);
+            expect(await page.locator('[data-sheet-tile]').isVisible()).toBe(false);
           }
+          if (slug === 'date-only') expect(await tile()).toEqual({ visible: true, day: dayNumber(1), hours: dateText(1) });
           if (slug === 'date-only') {
             expect(await page.locator('[data-calendar-primary]').textContent()).toBe('Download date reminder (.ics)');
           }
