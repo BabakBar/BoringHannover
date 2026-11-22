@@ -161,7 +161,9 @@ test.skipIf(docker.status !== 0 && !process.env.CI)('nginx expires stale occasio
     const conditional = await request('/special/active/', 'GET', { 'If-None-Match': etag });
     expect(conditional.status).toBe(304);
     expect(conditional.headers.get('cache-control')).toBe('no-store');
-    await Bun.sleep(Math.max(0, boundary - Date.now()) + 10);
+    // The boundary is on this host's clock, nginx reads its container's: a VM
+    // clock (OrbStack, Docker Desktop) can trail the host by tens of ms.
+    await Bun.sleep(Math.max(0, boundary - Date.now()) + 1000);
     const nowRetained = await request('/special/ending/');
     expect(nowRetained.status).toBe(200);
     expect(nowRetained.headers.get('x-robots-tag')).toBe('noindex, follow');
