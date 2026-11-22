@@ -1,0 +1,336 @@
+---
+import OccasionBoardRow from './OccasionBoardRow.astro';
+import type { OccasionSummary } from '../data/types';
+import { dayHeading } from '../utils/occasionIndex';
+import { boardSelection } from '../utils/occasionSelection';
+import { berlinClock, occasionHasEnded } from '../utils/occasionStatus';
+
+// The homepage's one occasion surface (#114 §5). The build selects on its own
+// clock without time-of-day labels; the script reselects on the reader's
+// clock, moving rows rendered once between Today, Coming up and the pool.
+interface Props {
+  occasions: OccasionSummary[];
+  now: Date;
+}
+
+const { occasions, now } = Astro.props;
+const board = boardSelection(occasions, now, { live: false });
+const date = dayHeading(berlinClock(now).date);
+const placed = new Set([...board.today, ...board.coming].map(row => row.occasion));
+// Rows the reader's clock may still select: not cancelled, postponed or ended.
+const pooled = occasions.filter(occasion => !placed.has(occasion) &&
+  occasion.sourceStatus !== 'cancelled' && occasion.sourceStatus !== 'postponed' &&
+  !occasionHasEnded(occasion, now));
+---
+
+<section class="board" aria-labelledby="board-title" data-board hidden={board.total === 0}>
+  <h2 class="board__head" id="board-title">
+    <span class="board__title"><span aria-hidden="true">▪ </span>City Occasions</span>
+    <span class="board__date" data-board-date>{date}</span>
+  </h2>
+  <p class="board__label" data-board-today-label hidden={!board.today.length}>{date}</p>
+  <ol class="board__list" data-board-today>
+    {board.today.map(row => <OccasionBoardRow occasion={row.occasion} row={row} />)}
+  </ol>
+  <a class="board__more" href="/special/" data-board-more hidden={!board.todayMore}>+{board.todayMore} more</a>
+  <p class="board__label" data-board-coming-label hidden={!board.coming.length}>Coming up</p>
+  <ol class="board__list" data-board-coming>
+    {board.coming.map(row => <OccasionBoardRow occasion={row.occasion} row={row} coming />)}
+  </ol>
+  <div class="board__foot">
+    <a href="/special/" data-umami-event="occasion-index-open" data-board-all>All {board.total} City Occasions →</a>
+  </div>
+  <ol hidden data-board-pool>
+    {pooled.map(occasion => <OccasionBoardRow occasion={occasion} />)}
+  </ol>
+</section>
+
+<p class="board-fallback" data-board-fallback hidden={board.total > 0}>
+  <a href="/special/" data-umami-event="occasion-index-open">City Occasions</a>
+</p>
+
+<script>
+  import type { OccasionSchedule } from '../utils/occasionStatus';
+  import { dayHeading } from '../utils/occasionIndex';
+  import { boardSelection, type BoardRow } from '../utils/occasionSelection';
+  import { berlinClock } from '../utils/occasionStatus';
+
+  const board = document.querySelector<HTMLElement>('[data-board]');
+  if (board) {
+    type Item = OccasionSchedule & { name: string; slug: string; element: HTMLElement; link: HTMLAnchorElement };
+    const items: Item[] = Array.from(board.querySelectorAll<HTMLElement>('[data-board-row]'), element => ({
+      ...JSON.parse(element.dataset.schedule!),
+      slug: element.dataset.boardRow!,
+      element,
+      link: element.querySelector('a')!,
+    }));
+    const pool = board.querySelector<HTMLElement>('[data-board-pool]')!;
+    const todayList = board.querySelector<HTMLElement>('[data-board-today]')!;
+    const comingList = board.querySelector<HTMLElement>('[data-board-coming]')!;
+    const todayLabel = board.querySelector<HTMLElement>('[data-board-today-label]')!;
+    const comingLabel = board.querySelector<HTMLElement>('[data-board-coming-label]')!;
+    const more = board.querySelector<HTMLElement>('[data-board-more]')!;
+    const all = board.querySelector<HTMLElement>('[data-board-all]')!;
+    const date = board.querySelector<HTMLElement>('[data-board-date]')!;
+    const fallback = document.querySelector<HTMLElement>('[data-board-fallback]')!;
+    let signature = '';
+
+    const set = (element: Element, text: string) => {
+      if (element.textContent !== text) element.textContent = text;
+    };
+
+    /** Moves rows only where the order differs: moving a node drops its focus. */
+    function fill(list: HTMLElement, rows: BoardRow<Item>[], coming: boolean) {
+      rows.forEach(({ occasion, appointment, when, end, now, opens }, position) => {
+        const href = coming ? `/special/${occasion.slug}/?date=${appointment.date}` : `/special/${occasion.slug}/`;
+        if (occasion.link.getAttribute('href') !== href) occasion.link.setAttribute('href', href);
+        set(occasion.element.querySelector('[data-board-when]')!, when);
+        set(occasion.element.querySelector('[data-board-end]')!, end ?? '');
+        occasion.element.querySelector<HTMLElement>('[data-board-opens]')!.hidden = !opens;
+        occasion.link.classList.toggle('board-row--now', now);
+        if (list.children[position] !== occasion.element) {
+          list.insertBefore(occasion.element, list.children[position] ?? null);
+        }
+      });
+    }
+
+    function refresh() {
+      const now = new Date();
+      const selected = boardSelection(items, now);
+      const today = dayHeading(berlinClock(now).date);
+      const next = JSON.stringify([today, selected.todayMore, selected.total,
+        ...[selected.today, selected.coming].map(rows =>
+          rows.map(({ occasion, appointment, when, end, now, opens }) => [occasion.slug, appointment.date, when, end, now, opens]))]);
+      if (next === signature) return;
+      signature = next;
+
+      const focused = document.activeElement?.closest<HTMLElement>('[data-board-row]');
+      fill(todayList, selected.today, false);
+      fill(comingList, selected.coming, true);
+      const placed = new Set([...selected.today, ...selected.coming].map(row => row.occasion.element));
+      for (const { element } of items) {
+        if (!placed.has(element) && element.parentElement !== pool) pool.append(element);
+      }
+      set(date, today);
+      set(todayLabel, 'Today');
+      todayLabel.hidden = !selected.today.length;
+      comingLabel.hidden = !selected.coming.length;
+      set(more, `+${selected.todayMore} more today`);
+      more.hidden = !selected.todayMore;
+      set(all, `All ${selected.total} City Occasions →`);
+      board!.hidden = selected.total === 0;
+      fallback.hidden = !board!.hidden;
+
+      if (focused?.parentElement === pool) (board!.hidden ? fallback.querySelector('a')! : all).focus();
+      else focused?.querySelector('a')!.focus({ preventScroll: true });
+    }
+
+    refresh();
+    setInterval(refresh, 60_000);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') refresh();
+    });
+  }
+</script>
+
+<style is:global>
+  /* Global: rows are their own component and the script moves them. */
+  .board {
+    position: relative;
+    margin-bottom: 2.25rem;
+    padding: 0.8rem 0.85rem 0.7rem;
+    overflow: hidden;
+    color: var(--board-text);
+    background: var(--board-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Space Mono', monospace;
+    container-type: inline-size;
+  }
+
+  /* A faint LED raster, like a platform display. */
+  .board::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, transparent 0.9px, var(--board-bg) 1.3px);
+    background-size: 3px 3px;
+    opacity: 0.28;
+    pointer-events: none;
+  }
+
+  .board[hidden],
+  .board-fallback[hidden],
+  .board__label[hidden],
+  .board__more[hidden],
+  .board-row__opens[hidden] {
+    display: none;
+  }
+
+  .board__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--board-rule);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .board__title {
+    color: var(--board-red);
+  }
+
+  .board__label {
+    padding: 0.6rem 0 0.1rem;
+    color: var(--board-dim);
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .board-row__link {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 4.3rem minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.5rem 0;
+    color: var(--board-text);
+    border-bottom: 1px dashed var(--board-rule);
+  }
+
+  /* Narrow or large text: the time above the name, the end beside it. */
+  @container (max-width: 20rem) {
+    .board-row__link {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: 'when end' 'body body';
+      row-gap: 0.15rem;
+    }
+
+    .board-row__when { grid-area: when; }
+    .board-row__body { grid-area: body; }
+    .board-row__end { grid-area: end; }
+  }
+
+  .board-row__link:hover .board-row__name {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .board-row__link:focus-visible,
+  .board a:focus-visible,
+  .board-fallback a:focus-visible {
+    outline: 2px solid var(--board-text);
+    outline-offset: 2px;
+  }
+
+  .board-row__when {
+    min-width: 0;
+    font-size: 0.6875rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .board-row--now .board-row__when {
+    color: var(--board-red);
+    font-weight: 700;
+  }
+
+  .board-row__body {
+    min-width: 0;
+    line-height: 1.22;
+  }
+
+  .board-row__name {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+
+  .board-row__opens {
+    display: inline-block;
+    margin-left: 0.35rem;
+    padding: 0 0.25rem;
+    border: 1px solid var(--board-rule);
+    border-radius: 2px;
+    font-size: 0.5625rem;
+    text-transform: uppercase;
+    vertical-align: 1px;
+  }
+
+  .board-row__venue {
+    display: block;
+    margin-top: 0.1rem;
+    color: var(--board-dim);
+    font-size: 0.6875rem;
+    overflow-wrap: anywhere;
+  }
+
+  .board-row__end {
+    color: var(--board-dim);
+    font-size: 0.6875rem;
+    white-space: nowrap;
+  }
+
+  .board__more {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--board-dim);
+    font-size: 0.625rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .board__foot {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.6rem;
+  }
+
+  .board__foot a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.7rem;
+    color: var(--board-text);
+    border: 1px solid var(--board-rule);
+    border-radius: 3px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  .board__foot a:hover {
+    border-color: var(--board-text);
+  }
+
+  .board-fallback {
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+
+  .board-fallback a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--accent);
+    font: 0.6875rem 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+</style>

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import type { Concert } from '../data/types';
-import { groupEventsByDate, sliceEventGroups } from './groupEvents';
+import { groupEventsByDate, movieDayISO, sliceEventGroups } from './groupEvents';
 
 function event(title: string, date = '26 Jul'): Concert {
   return {
@@ -41,5 +41,17 @@ describe('sliceEventGroups', () => {
       'Two',
     ]);
     expect(result.overflow[0]?.events[0]?.title).toBe('Three');
+  });
+});
+
+describe('movieDayISO', () => {
+  test.each([
+    { id: 'same month', date: '22.11', edition: '2026-11-21T17:00:29+01:00', expected: '2026-11-22' },
+    { id: 'next month', date: '02.12', edition: '2026-11-21T17:00:29+01:00', expected: '2026-12-02' },
+    { id: 'into the new year', date: '03.01', edition: '2026-12-26T09:00:00+01:00', expected: '2027-01-03' },
+    { id: 'no edition time: unknown', date: '22.11', edition: undefined, expected: null },
+    { id: 'not a day.month date', date: '22.11.', edition: '2026-11-21T17:00:29+01:00', expected: null },
+  ])('$id', ({ date, edition, expected }) => {
+    expect(movieDayISO(date, edition)).toBe(expected);
   });
 });

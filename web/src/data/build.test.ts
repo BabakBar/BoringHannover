@@ -145,14 +145,18 @@ test('homepage always links to the occasion index, including small and empty inv
       if (result.error) throw result.error;
       expect(result.status, result.stdout + result.stderr).toBe(0);
       const html = readFileSync(join(outDir, 'index.html'), 'utf8');
-      const links = html.match(/<a\b[^>]*href="\/special\/"[^>]*>[\s\S]*?<\/a>/g) ?? [];
-      expect(links.length, `${count} occasions`).toBe(1);
-      expect(links[0]).toContain('See all City Occasions');
+      // The board's footer, or a plain link when nothing is current; never both.
+      const hidden = (attribute: string) =>
+        new RegExp(`<[^>]*${attribute}(?=[\\s>])[^>]*\\shidden(?=[\\s>])`).test(html);
+      expect(hidden('data-board'), `${count} occasions`).toBe(count === 0);
+      expect(hidden('data-board-fallback'), `${count} occasions`).toBe(count > 0);
+      const indexLinks = [...html.matchAll(/<a\b[^>]*href="\/special\/"[^>]*data-umami-event="occasion-index-open"[^>]*>([\s\S]*?)<\/a>/g)]
+        .map(([, text]) => text.trim());
+      expect(indexLinks).toEqual([`All ${count} City Occasions →`, 'City Occasions']);
       expect(readFileSync(join(outDir, 'special/index.html'), 'utf8')).toContain('City Occasions');
-      const visible = [...html.matchAll(/<article\b([^>]*)>([\s\S]*?)<\/article>/g)]
-        .filter(([, attrs]) => attrs.includes('data-occasion-spotlight') && !/\shidden\b/.test(attrs));
-      expect(visible.length).toBe(Math.min(count, 2));
-      expect(visible.map(([, , body]) => body).join('')).not.toContain('Expired festival');
+      const rows = [...html.matchAll(/data-board-row="([^"]+)"/g)].map(([, slug]) => slug);
+      expect(rows).toEqual(occasions.slice(0, count).map(occasion => occasion.slug));
+      expect(html).not.toContain('Expired festival');
     }
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -375,9 +379,9 @@ test('occasion pages render source status, sparse dates and source hours without
       /<p[^>]*lang="de"[^>]*>04\.10\.2026 bis 18\.10\.2026 ab 08:00 bis 17:00 Uhr sonntags<\/p>/,
     );
     expect(page('flohmarkt')).toContain('Read source schedule (German)');
-    expect(readFileSync(join(outDir, 'index.html'), 'utf8')).toContain(
-      'data-occasion-status',
-    );
+    // The homepage board lists the openings; the cancelled one is left out.
+    const home = readFileSync(join(outDir, 'index.html'), 'utf8');
+    expect([...home.matchAll(/data-board-row="([^"]+)"/g)].map(([, slug]) => slug)).toEqual(['wiesn', 'flohmarkt']);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

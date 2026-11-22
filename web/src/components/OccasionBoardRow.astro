@@ -1,0 +1,41 @@
+---
+import ActiveOccasion from './ActiveOccasion.astro';
+import type { OccasionSummary } from '../data/types';
+import type { BoardRow } from '../utils/occasionSelection';
+
+interface Props {
+  occasion: OccasionSummary;
+  /** Where the build placed it; unplaced rows wait in the board's pool. */
+  row?: BoardRow<OccasionSummary>;
+  coming?: boolean;
+}
+
+const { occasion, row, coming = false } = Astro.props;
+const { slug, name, startDate, endDate, occurrences, scheduleConfidence, sourceStatus } = occasion;
+const dayTrip = occasion.area === 'region' && occasion.place?.municipality
+  ? `Day trip · ${occasion.place.municipality}`
+  : null;
+const schedule = { name, startDate, endDate, occurrences, scheduleConfidence, sourceStatus };
+---
+
+<ActiveOccasion slug={slug}>
+  <li class="board-row" data-board-row={slug} data-schedule={JSON.stringify(schedule)}>
+    <a
+      class:list={['board-row__link', { 'board-row--now': row?.now }]}
+      href={row && coming ? `/special/${slug}/?date=${row.appointment.date}` : `/special/${slug}/`}
+      data-umami-event="occasion-open"
+      data-umami-event-occasion={slug}
+    >
+      <span class="board-row__when" data-board-when>{row?.when}</span>
+      <span class="board-row__body">
+        {/* Occasion names are the source's German proper names. */}
+        <span class="board-row__name" lang="de">{name}</span>
+        <span class="board-row__opens" data-board-opens hidden={!row?.opens}>Opens</span>
+        {dayTrip
+          ? <span class="board-row__venue">{dayTrip}</span>
+          : <span class="board-row__venue" lang="de">{occasion.place?.venue ?? occasion.location}</span>}
+      </span>
+      <span class="board-row__end" data-board-end>{row?.end}</span>
+    </a>
+  </li>
+</ActiveOccasion>
