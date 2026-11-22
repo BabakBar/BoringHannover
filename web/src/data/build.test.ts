@@ -11,6 +11,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { chromium } from 'playwright-core';
+import { titleDates } from '../utils/occasionSearch';
 import { sheetDateLine } from '../utils/occasionSheet';
 import { addDays, berlinClock } from '../utils/occasionStatus';
 
@@ -80,7 +81,7 @@ test('sitemap omits unsupported modification dates across unrelated Radar update
       expect(html.includes('New Radar concert')).toBe(Boolean(update));
       const detail = readFileSync(join(outDir, 'special', occasion.slug, 'index.html'), 'utf8');
       expect(detail).toContain(`rel="canonical" href="${site}/special/${occasion.slug}/"`);
-      expect(detail).toContain('checked Original occasion check');
+      expect(detail).toContain('Checked Original occasion check');
       const sitemap = readFileSync(join(outDir, 'sitemap.xml'), 'utf8');
       expect([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(([, loc]) => loc)).toEqual([
         `${site}/`, `${site}/special/`, `${site}/special/${occasion.slug}/`,
@@ -402,6 +403,9 @@ test('occasion pages share owned imagery, truthful source labels and English cop
     preview: [],
     ...extra,
   });
+  const longDate = (date: string) => new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+  }).format(new Date(`${date}T00:00:00Z`)).replace(',', '');
   const hostile = '</script><!--<script>alert(1)</script>';
   const occasions = [
     // Old snapshots still carry a third-party photo.
@@ -491,9 +495,13 @@ test('occasion pages share owned imagery, truthful source labels and English cop
     const tiergartenEvent = eventJsonLd(tiergarten);
     expect(tiergartenEvent).not.toHaveProperty('image');
     expect(tiergartenEvent.location).toEqual({ '@type': 'Place', name: 'Tiergarten' });
+    // The exporter's fallback is never shown: search text comes from facts.
+    expect(tiergarten).not.toContain('See the source for details.');
+    expect(tiergarten).toContain(`<title>Tiergartenfest Hannover · ${titleDates({ startDate: today, endDate: today })}</title>`);
     expect(meta(tiergarten, 'description')).toBe(
-      'Tiergartenfest Hannover at Tiergarten. See the source for details.',
+      `${longDate(today)} at Tiergarten. Date, opening times and address from the official listing.`,
     );
+    expect(tiergartenEvent.description).toBe(meta(tiergarten, 'description'));
     expect(tiergarten).not.toContain('catching up');
     expect(tiergarten).toMatch(/>\s*Listing on hannover\.de\s*</);
     expect(tiergarten).not.toContain('Official Tiergartenfest Hannover website');
@@ -501,9 +509,11 @@ test('occasion pages share owned imagery, truthful source labels and English cop
     const maschsee = page('maschseefest-2026');
     expect(maschsee).toMatch(/>\s*Official website\s*</);
     expect(maschsee).not.toContain('Listing on hannover.de');
-    // English wrapper that names the authoritative event.
     expect(meta(maschsee, 'description')).toBe(
-      "Maschseefest: Music, food, family moments and late nights around Hannover's lake.",
+      `${longDate(today)} at Around the Maschsee. Music, food, family moments and late nights around Hannover's lake.`,
+    );
+    expect(eventJsonLd(maschsee).description).toBe(
+      "Music, food, family moments and late nights around Hannover's lake.",
     );
 
     const hostilePage = page('boeses-fest');
@@ -613,6 +623,18 @@ test('the occasion sheet puts About before practical facts and works without JS 
       },
       area: 'city',
     }),
+    // Four one-offs open on Tiergartenfest's day: three fill "Also on".
+    occasion('fruehmarkt', {
+      name: 'Frühmarkt',
+      scheduleConfidence: 'continuous',
+      occurrences: [{ date: day(1), startTime: '10:00', endTime: '16:00' }],
+    }),
+    occasion('adventsbasar', {
+      name: 'Adventsbasar',
+      scheduleConfidence: 'continuous',
+      occurrences: [{ date: day(1), startTime: '14:00', endTime: '20:00' }],
+    }),
+    occasion('lichterabend', { name: 'Lichterabend' }),
     // Pages can outlive their dates (stale data, ended retention): neither
     // may offer actions, and neither is onward discovery.
     occasion('gestern-vorbei', {
@@ -709,20 +731,28 @@ test('the occasion sheet puts About before practical facts and works without JS 
 
     const tiergarten = page('tiergartenfest-hannover');
     const tiergartenText = text(tiergarten);
-    // Name and status, then About, practical facts, actions and onward links.
+    // Name and the date tile, then practical facts, actions and onward links.
+    // The exporter's fallback sentence is no About text.
+    expect(tiergartenText).not.toContain(' About ');
+    expect(tiergartenText).not.toContain('See the source for details.');
+    const [weekday, dayNumber, month] = sheetDateLine({ startDate: day(1), endDate: day(1) }).split(' ');
     before(
-      tiergartenText,
+      text(tiergarten.slice(tiergarten.indexOf('<article'))),
       'Tiergartenfest Hannover',
-      ' About ',
-      'Tiergartenfest Hannover at Tiergarten. See the source for details.',
-      'Facts from the listing on hannover.de',
+      `${weekday} ${dayNumber} ${month}`,
+      'Coming soon',
+      '13:00–18:30',
       ' When ',
       ' Where ',
       ' Entry ',
       ' Source ',
+      'Listing on hannover.de',
+      'Checked Fri 09 Oct 11:00',
       'Map',
-      'More occasions',
+      `Also on ${weekday} ${dayNumber} ${month}`,
     );
+    // Shown without JS: no hidden attribute before the decorative aria-hidden.
+    expect(tiergarten).toContain('<p class="sheet__tile" data-sheet-tile aria-hidden="true"');
     expect(tiergarten).toMatch(/data-occasion-status[^>]*>\s*Coming soon\s*</);
     expect(tiergarten).toMatch(
       new RegExp(`<time datetime="${day(1)}T13:00"[^>]*>[^<]*· 13:00–18:30</time>`),
@@ -748,10 +778,19 @@ test('the occasion sheet puts About before practical facts and works without JS 
     // Copy and share need JavaScript, so they start hidden.
     expect(tiergarten).toMatch(/<button[^>]*data-copy-address[^>]*hidden/);
     expect(tiergarten).toMatch(/<button[^>]*data-share[^>]*hidden/);
-    // Onward: current occasions only; the cancelled one is left out.
+    // Onward: open on the same day first, one-offs before the season-long
+    // Wies'n, by time; that day's hours on each row.
     const onward = tiergarten.slice(tiergarten.indexOf('id="onward-title"'));
-    expect(onward).toContain('href="/special/kunst-kurbis-in-eldagsen/"');
-    expect(onward).toContain('href="/special/hannover-wies-27n/"');
+    const onwardText = text(onward);
+    before(onwardText, 'Frühmarkt', '10:00–16:00', 'Adventsbasar', '14:00–20:00', 'Lichterabend', 'Hours not listed');
+    expect(onward).not.toContain('href="/special/kunst-kurbis-in-eldagsen/"');
+    expect(onward).not.toContain('href="/special/hannover-wies-27n/"');
+    expect(onward).toContain(`href="/special/#day-${day(1)}"`);
+    expect(onwardText).toContain(`All 4 on ${weekday} ${dayNumber} ${month} →`);
+    // Kunst & Kürbis shares no day: the general rows with status and dates.
+    const kunstOnward = text(page('kunst-kurbis-in-eldagsen').split('id="onward-title"')[1]);
+    expect(kunstOnward).toMatch(/^[^<]*More occasions/);
+    expect(kunstOnward).not.toContain(' on ');
     expect(onward).not.toContain('href="/special/abgesagtes-fest/"');
     expect(onward).not.toContain('href="/special/gestern-vorbei/"');
     expect(onward).not.toContain('href="/special/verlegt-und-vorbei/"');
@@ -1074,7 +1113,12 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
         expect(await nextWeek.getAttribute('aria-pressed')).toBe('false');
         expect(await wiesn.count()).toBe(1);
         expect(await wiesn.locator('[data-index-when]').textContent()).toBe(`${dates(followingSunday, followingSunday)} · 18:00–20:00`);
-        expect(await page.getByRole('status').textContent()).toMatch(/^2 occasions · Following week, \d/);
+        // Only on a Sunday does the following calendar week start at day 8, where
+        // day-eight and the market's last day also fall.
+        const followingCount = followingSunday - 6 <= 8 ? 4 : 2;
+        expect(await page.getByRole('status').textContent()).toMatch(
+          new RegExp(`^${followingCount} occasions · Following week, \\d`),
+        );
         await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
         expect(await cardLayout()).toEqual({ rows: 3, datesBelow: true });

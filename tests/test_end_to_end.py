@@ -683,4 +683,4 @@ def test_scraped_events_reach_the_built_site(
     occasion_page = dist / "special" / "pipeline-fest" / "index.html"
     html = occasion_page.read_text(encoding="utf-8")
     assert "Pipeline Fest" in html
-    assert f"checked {prior['meta']['updatedAt']}" in html
+    assert f"Checked {prior['meta']['updatedAt']}" in html

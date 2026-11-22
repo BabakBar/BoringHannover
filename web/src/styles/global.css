@@ -283,10 +283,11 @@
     --bg-tertiary: #e8e7e5;
     --text-primary: #1a1a1a;
     --text-secondary: #666666;
-    /* A-6: Improved contrast - #767676 meets WCAG AA 4.5:1 on #fafaf9 */
-    --text-muted: #767676;
+    /* A-6: 5.18:1 on #fafaf9 and 4.71:1 on #f0efed (WCAG AA 4.5:1). */
+    --text-muted: #6a6a6a;
     /* Muted gold for temporal data - "time is data" */
-    --text-data: #a08050;
+    /* 5.03:1 on #fafaf9 and 4.57:1 on #f0efed. */
+    --text-data: #85673a;
     --accent: #dc2626;
     --accent-hover: #ef4444;
     --accent-dim: rgba(220, 38, 38, 0.1);
