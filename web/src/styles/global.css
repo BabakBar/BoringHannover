@@ -293,12 +293,27 @@
     --accent-dim: rgba(220, 38, 38, 0.1);
     --border: #e0dfdd;
     --theme-color: #fafaf9;
-    /* Occasion board: a dark display panel in both themes. */
-    --board-bg: #141312;
-    --board-text: #f0b445;
-    --board-dim: rgba(240, 180, 69, 0.72);
-    --board-rule: rgba(240, 180, 69, 0.2);
-    --board-red: #ff5a4d;
+    /* Occasion board. Light: a printed station timetable on warm paper,
+       ink names and the page's gold for times. Dark: an amber LED display.
+       Contrast on #f4f1ea: text 15.4:1, time 5.6:1, dim 5.8:1, red 5.0:1. */
+    --board-bg: #f4f1ea;
+    --board-edge: #e2ddd2;
+    --board-text: #1a1a1a;
+    --board-time: #7a5a2c;
+    --board-dim: #615d55;
+    --board-rule: rgba(26, 26, 26, 0.16);
+    --board-red: #c42b1c;
+    /* Outlined controls on the board: visible on paper, quiet on the display. */
+    --board-control: rgba(26, 26, 26, 0.42);
+    --board-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 1px 2px rgba(26, 26, 26, 0.04);
+    /* The LED raster belongs to the lit display only. */
+    --board-raster: 0;
+    /* A printed timetable's ruled header; the display keeps its dashed one. */
+    --board-head-rule: 2px solid var(--board-text);
+    /* A lit amber display in both themes (the contact form's Send button). */
+    --led-bg: #141312;
+    --led-text: #f0b445;
+    --led-red: #ff5a4d;
   }
 
   :root.dark {
@@ -318,9 +333,18 @@
     --border: #2a2a2a;
     --theme-color: #0a0a0a;
     --board-bg: #161616;
+    --board-edge: #2a2a2a;
     --board-text: #e5c07b;
+    --board-time: #e5c07b;
     --board-dim: rgba(229, 192, 123, 0.72);
     --board-rule: rgba(229, 192, 123, 0.18);
+    --board-red: #ff5a4d;
+    --board-control: rgba(229, 192, 123, 0.18);
+    --board-shadow: none;
+    --board-raster: 0.28;
+    --board-head-rule: 1px dashed var(--board-rule);
+    --led-bg: #161616;
+    --led-text: #e5c07b;
   }
 }
 
