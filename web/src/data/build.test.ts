@@ -577,7 +577,7 @@ test('occasion pages share owned imagery, truthful source labels and English cop
   }
 }, 120000);
 
-test('the occasion sheet puts About before practical facts and works without JS (#54)', () => {
+test('the occasion sheet puts About before practical facts and works without JS (#54)', async () => {
   const root = mkdtempSync(join(tmpdir(), 'occasion-sheet-'));
   const env = { ...process.env };
   for (const name of ['WEB_DATA_ROOT', 'WEB_DATA_MODE', 'WEB_DATA_MAX_AGE_DAYS'])
@@ -831,7 +831,8 @@ test('the occasion sheet puts About before practical facts and works without JS 
     expect(onward).not.toContain('href="/special/kunst-kurbis-in-eldagsen/"');
     expect(onward).not.toContain('href="/special/hannover-wies-27n/"');
     expect(onward).toContain(`href="/special/#day-${day(1)}"`);
-    expect(onwardText).toContain(`All 4 on ${weekday} ${dayNumber} ${month} →`);
+    // The count is what the day view lists, Tiergartenfest itself included.
+    expect(onwardText).toContain(`All 5 on ${weekday} ${dayNumber} ${month} →`);
     // Kunst & Kürbis shares no day: the general rows with status and dates.
     const kunstOnward = text(page('kunst-kurbis-in-eldagsen').split('id="onward-title"')[1]);
     expect(kunstOnward).toMatch(/^[^<]*More occasions/);
@@ -874,6 +875,35 @@ test('the occasion sheet puts About before practical facts and works without JS 
     expect(page('verlegt-und-vorbei')).toMatch(
       /data-occasion-status[^>]*>\s*Rescheduled\s*</,
     );
+
+    // Following "All N on <day>" opens a day view that states the same N.
+    const executablePath = process.env.CHROME_BIN;
+    if (!executablePath && !process.env.CI) return;
+    const server = Bun.serve({
+      hostname: '127.0.0.1', port: 0,
+      async fetch(request) {
+        const path = new URL(request.url).pathname;
+        const file = Bun.file(join(outDir, path.endsWith('/') ? `${path}index.html` : path));
+        return await file.exists() ? new Response(file) : new Response('', { status: 404 });
+      },
+    });
+    try {
+      const browser = await chromium.launch(executablePath ? { executablePath } : { channel: 'chrome' });
+      try {
+        const reader = await browser.newPage();
+        await reader.goto(`http://127.0.0.1:${server.port}/special/tiergartenfest-hannover/`);
+        const all = reader.locator('[data-onward-all]');
+        const count = (await all.textContent())!.match(/All (\d+) on/)![1];
+        await all.click();
+        const summary = reader.locator('[data-index-summary]');
+        await summary.filter({ hasText: ` on ${dayHeading(day(1))}.` }).waitFor();
+        expect(await summary.textContent()).toBe(`${count} occasions on ${dayHeading(day(1))}.`);
+      } finally {
+        await browser.close();
+      }
+    } finally {
+      server.stop();
+    }
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

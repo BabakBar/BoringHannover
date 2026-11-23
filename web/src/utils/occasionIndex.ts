@@ -145,6 +145,12 @@ export function occasionIndex<T extends IndexOccasion>(
   return layout;
 }
 
+/** What the index's day view at `/special/#day-<date>` lists, so links to it can state it. */
+export function dayViewCount(occasions: readonly IndexOccasion[], now: Date, date: string): number {
+  const layout = occasionIndex(occasions, now, { startDate: date, endDate: date });
+  return layout.season.length + layout.days.reduce((sum, day) => sum + day.entries.length, 0);
+}
+
 export const WEEK_NAMES = ['This week', 'Next week', 'Following week'] as const;
 
 const weekDateFormat = new Intl.DateTimeFormat('en-GB', {

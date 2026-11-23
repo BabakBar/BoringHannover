@@ -23,6 +23,7 @@ import { correctionHref } from '../../utils/kontakt';
 import { calendarAppointments } from '../../utils/occasionCalendar';
 import { occasionAbout } from '../../data/occasionAbout';
 import Pictogram from '../../components/Pictogram.astro';
+import { dayViewCount } from '../../utils/occasionIndex';
 import { isFallbackDescription, searchDescription, searchTitle } from '../../utils/occasionSearch';
 import {
   appointmentHours,
@@ -142,6 +143,7 @@ const actionable =
 const address = place ? placeAddress(place) : null;
 const onward = onwardOccasions(occasion, occasions, builtAt);
 const onwardDay = onward.day ? sheetDateLine({ startDate: onward.day, endDate: onward.day }) : null;
+const onwardDayCount = onward.day ? dayViewCount(occasions, builtAt, onward.day) : 0;
 // The script follows ?date= and the reader's clock.
 const tileShown = tileAppointment(occasion, builtAt);
 const tile = tileShown ? tileFace(tileShown) : null;
@@ -614,7 +616,7 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText ?? desc
     </p>
     {onwardDay && onward.sameDayCount > onward.entries.length && (
       <a href={`/special/#day-${onward.day}`} class="onward__day" data-onward-all>
-        All {onward.sameDayCount} on {onwardDay} →
+        All {onwardDayCount} on {onwardDay} →
       </a>
     )}
     <a href="/special/" class="sheet__action onward__index" data-umami-event="occasion-index-open">
