@@ -230,7 +230,7 @@ const mailto = `mailto:${CONTACT_EMAIL}`;
     color: var(--accent);
   }
 
-  /* A one-line departure board: the homepage board's amber, raster and red mark. */
+  /* A one-line lit departure display: amber, LED raster and a red mark in both themes. */
   .send {
     position: relative;
     display: inline-flex;
@@ -239,8 +239,8 @@ const mailto = `mailto:${CONTACT_EMAIL}`;
     min-height: 48px;
     padding: 0 1.1rem;
     overflow: hidden;
-    color: var(--board-text);
-    background: var(--board-bg);
+    color: var(--led-text);
+    background: var(--led-bg);
     border: 1px solid var(--border);
     border-radius: 4px;
     font-family: 'Space Mono', monospace;
@@ -255,14 +255,14 @@ const mailto = `mailto:${CONTACT_EMAIL}`;
     content: '';
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(circle, transparent 0.9px, var(--board-bg) 1.3px);
+    background-image: radial-gradient(circle, transparent 0.9px, var(--led-bg) 1.3px);
     background-size: 3px 3px;
     opacity: 0.28;
     pointer-events: none;
   }
 
   .send__led {
-    color: var(--board-red);
+    color: var(--led-red);
   }
 
   .send__arrow {
@@ -342,8 +342,9 @@ const mailto = `mailto:${CONTACT_EMAIL}`;
     overflow: hidden;
     color: var(--board-text);
     background: var(--board-bg);
-    border: 1px solid var(--border);
+    border: 1px solid var(--board-edge);
     border-radius: 6px;
+    box-shadow: var(--board-shadow);
     font-family: 'Space Mono', monospace;
   }
 
@@ -357,7 +358,7 @@ const mailto = `mailto:${CONTACT_EMAIL}`;
     inset: 0;
     background-image: radial-gradient(circle, transparent 0.9px, var(--board-bg) 1.3px);
     background-size: 3px 3px;
-    opacity: 0.28;
+    opacity: var(--board-raster);
     pointer-events: none;
   }
 
@@ -367,7 +368,7 @@ const mailto = `mailto:${CONTACT_EMAIL}`;
     justify-content: space-between;
     gap: 0 0.5rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px dashed var(--board-rule);
+    border-bottom: var(--board-head-rule);
     font-size: 0.6875rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -405,7 +406,7 @@ const mailto = `mailto:${CONTACT_EMAIL}`;
     min-height: 44px;
     padding: 0 0.75rem;
     color: var(--board-text);
-    border: 1px solid var(--board-rule);
+    border: 1px solid var(--board-control);
     font-size: 0.6875rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;

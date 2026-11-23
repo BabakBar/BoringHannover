@@ -142,8 +142,9 @@ const pooled = occasions.filter(occasion => !placed.has(occasion) &&
     overflow: hidden;
     color: var(--board-text);
     background: var(--board-bg);
-    border: 1px solid var(--border);
+    border: 1px solid var(--board-edge);
     border-radius: 6px;
+    box-shadow: var(--board-shadow);
     font-family: 'Space Mono', monospace;
     container-type: inline-size;
   }
@@ -155,7 +156,7 @@ const pooled = occasions.filter(occasion => !placed.has(occasion) &&
     inset: 0;
     background-image: radial-gradient(circle, transparent 0.9px, var(--board-bg) 1.3px);
     background-size: 3px 3px;
-    opacity: 0.28;
+    opacity: var(--board-raster);
     pointer-events: none;
   }
 
@@ -173,7 +174,7 @@ const pooled = occasions.filter(occasion => !placed.has(occasion) &&
     justify-content: space-between;
     gap: 0 0.5rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px dashed var(--board-rule);
+    border-bottom: var(--board-head-rule);
     font-size: 0.6875rem;
     font-weight: 400;
     letter-spacing: 0.12em;
@@ -232,6 +233,7 @@ const pooled = occasions.filter(occasion => !placed.has(occasion) &&
 
   .board-row__when {
     min-width: 0;
+    color: var(--board-time);
     font-size: 0.6875rem;
     letter-spacing: 0.02em;
     text-transform: uppercase;
@@ -307,7 +309,7 @@ const pooled = occasions.filter(occasion => !placed.has(occasion) &&
     min-height: 44px;
     padding: 0 0.7rem;
     color: var(--board-text);
-    border: 1px solid var(--board-rule);
+    border: 1px solid var(--board-control);
     border-radius: 3px;
     font-size: 0.6875rem;
     letter-spacing: 0.08em;
