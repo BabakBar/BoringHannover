@@ -647,6 +647,16 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText ?? desc
 
   const requestedDate = new URLSearchParams(window.location.search).get('date');
 
+  // Umami's automatic anchor handler can replace a native download with navigation.
+  // Count the activation without touching the browser's download.
+  document.addEventListener('click', (event) => {
+    if (event.defaultPrevented || !(event.target instanceof Element)) return;
+    const link = event.target.closest<HTMLAnchorElement>('a[data-calendar-primary], a[data-calendar-date]');
+    if (!link || link.hidden) return;
+    const { umami } = window as Window & { umami?: { track: (name: string) => void } };
+    umami?.track('occasion-calendar-open');
+  });
+
   function refreshSheet() {
     const now = new Date();
     const focusedCalendar = document.activeElement?.closest<HTMLElement>('[data-calendar-primary], [data-calendar-until]');
