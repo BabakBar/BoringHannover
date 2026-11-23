@@ -18,6 +18,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium, type Browser, type BrowserContext, type Page } from 'playwright-core';
+import { addDays, berlinClock } from '../utils/occasionStatus';
 
 const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
 const trackerPath = fileURLToPath(new URL('./fixtures/umami-tracker.js', import.meta.url));
@@ -30,7 +31,7 @@ const executablePath = process.env.CHROME_BIN;
 
 interface Send {
   type: string;
-  payload: { website?: string; hostname?: string; name?: string; data?: Record<string, string> };
+  payload: { website?: string; hostname?: string; name?: string; url?: string; referrer?: string; data?: Record<string, string> };
 }
 
 async function until(check: () => boolean, what: string, ms = 5000): Promise<void> {
@@ -55,11 +56,24 @@ function buildSite(root: string, destination: string): string {
     ...(eventType ? { eventType } : {}),
   });
   const data = join(root, 'data');
-  mkdirSync(data);
+  mkdirSync(join(data, 'occasions'), { recursive: true });
+  const berlinTomorrow = addDays(berlinClock(today).date, 1);
+  const occasion = {
+    id: 'fixture:calendar', slug: 'calendar-fixture', name: 'Calendar fixture',
+    kind: 'festival', startDate: berlinTomorrow, endDate: berlinTomorrow,
+    location: 'Hannover', description: 'Calendar fixture.', status: 'upcoming',
+    sourceUrl: `${destination}/calendar`,
+    scheduleConfidence: 'continuous',
+    occurrences: [{ date: berlinTomorrow, startTime: '13:00', endTime: '16:00' }],
+    programmeCount: 0, locationCount: 0, preview: [],
+    programmePath: 'occasions/calendar-fixture.json',
+  };
+  const meta = { week: 42, year: 2026, updatedAt: 'Analytics fixture', updatedAtISO: today.toISOString() };
+  writeFileSync(join(data, occasion.programmePath), JSON.stringify({ meta, occasion, programme: [] }));
   writeFileSync(
     join(data, 'web_events.json'),
     JSON.stringify({
-      meta: { week: 42, year: 2026, updatedAt: 'Analytics fixture', updatedAtISO: today.toISOString() },
+      meta,
       movies: [],
       concerts: [
         // Source titles are untrusted text and keep their German names.
@@ -68,7 +82,7 @@ function buildSite(root: string, destination: string): string {
         concert('Missing Link Night', null, 'concert'),
         concert('Rejected Link Night', 'javascript:alert(1)', 'concert'),
       ],
-      occasions: [],
+      occasions: [occasion],
     }),
   );
   const env = { ...process.env };
@@ -97,7 +111,7 @@ function buildSite(root: string, destination: string): string {
 }
 
 test.skipIf(!executablePath && !process.env.CI)(
-  'Radar links record one event-click per activation, never for a missing destination or an opted-out browser',
+  'Radar and calendar activations count once without changing navigation or collecting from opted-out browsers',
   async () => {
     const tracker = readFileSync(trackerPath);
     expect(createHash('sha256').update(tracker).digest('hex')).toBe(TRACKER_SHA256);
@@ -149,6 +163,7 @@ test.skipIf(!executablePath && !process.env.CI)(
       });
 
       const clicks = () => sends.filter(send => send.payload.name === 'event-click');
+      const calendarClicks = () => sends.filter(send => send.payload.name === 'occasion-calendar-open');
       const pageviews = () => sends.filter(send => send.type === 'event' && !send.payload.name);
       const open = async (context: BrowserContext): Promise<Page> => {
         const page = await context.newPage();
@@ -167,6 +182,19 @@ test.skipIf(!executablePath && !process.env.CI)(
         await opened.waitForLoadState();
         return opened;
       };
+      const activateCalendar = async (page: Page, how: 'mouse' | 'enter') => {
+        const link = page.locator(how === 'mouse' ? '[data-calendar-primary]' : '[data-calendar-date]').first();
+        if (how === 'enter') await page.locator('[data-schedule-more] summary').click();
+        const pending = page.waitForEvent('download');
+        if (how === 'mouse') await link.click();
+        else await link.press('Enter');
+        const download = await pending;
+        expect(download.suggestedFilename()).toMatch(/^calendar-fixture-\d{4}-\d{2}-\d{2}\.ics$/);
+        expect(await download.failure()).toBeNull();
+        if (how === 'enter') await page.locator('[data-schedule-more] summary').click();
+      };
+      const detail = `${origin}/special/calendar-fixture/`;
+      const testMarker = 'private-test%40example.com';
 
       // Mouse and Enter each record one event and still open the destination
       // natively in a new tab, leaving the list and its focus in place.
@@ -205,6 +233,19 @@ test.skipIf(!executablePath && !process.env.CI)(
         expect(send.payload.website).toBe(TEST_WEBSITE_ID);
         expect(send.payload.hostname).toBe(SITE_HOST);
       }
+      await page.goto(`${detail}?probe=${testMarker}#private-test`);
+      await activateCalendar(page, 'mouse');
+      await until(() => calendarClicks().length === 1, 'the mouse calendar event');
+      await activateCalendar(page, 'enter');
+      await until(() => calendarClicks().length === 2, 'the Enter calendar event');
+      expect(page.url()).toBe(`${detail}?probe=${testMarker}#private-test`);
+      await Bun.sleep(300);
+      expect(calendarClicks()).toHaveLength(2);
+      for (const { payload } of calendarClicks()) {
+        expect(payload.url).toBe(detail);
+        expect(payload.data).toBeUndefined();
+      }
+      expect(JSON.stringify(sends)).not.toContain('private-test');
       await context.close();
 
       // Without JavaScript the link is still an ordinary new-tab link.
@@ -232,6 +273,9 @@ test.skipIf(!executablePath && !process.env.CI)(
       expect(await quiet.evaluate(() => typeof (window as { umami?: unknown }).umami)).toBe('object');
       await activate(quiet, 'Fräulein', 'mouse');
       await activate(quiet, 'Fräulein', 'enter');
+      await quiet.goto(detail);
+      await activateCalendar(quiet, 'mouse');
+      await activateCalendar(quiet, 'enter');
       await Bun.sleep(1000);
       expect(sends).toEqual([]);
       expect(requests.filter(request => request.includes('/s/api/send'))).toEqual([]);
