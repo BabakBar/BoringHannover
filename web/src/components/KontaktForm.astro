@@ -1,0 +1,616 @@
+---
+import { CONTACT_EMAIL, ENDPOINT, LIMITS } from '../utils/kontakt';
+
+// Cloudflare's published always-passes key keeps local development usable.
+const siteKey = import.meta.env.DEV ? '1x00000000000000000000AA' : '0x4AAAAAAGN4irG9Qq_Hc_7U';
+const mailto = `mailto:${CONTACT_EMAIL}`;
+---
+
+<noscript>
+  <div class="notice">
+    <p class="notice__kicker">The form needs JavaScript.</p>
+    <p>Email us instead: <a href={mailto}>{CONTACT_EMAIL}</a></p>
+  </div>
+</noscript>
+
+<form id="kontakt-form" class="form" method="post" action={ENDPOINT} novalidate hidden data-site-key={siteKey}>
+  <input type="hidden" name="kind" value="kontakt" />
+  <input type="hidden" name="context" />
+  <input type="hidden" name="page" />
+
+  <div class="rows">
+    <div class="row" id="kontakt-about-row" hidden>
+      <span class="row__label">About</span>
+      <div class="row__value row__value--text"><a id="kontakt-about" lang="de"></a></div>
+    </div>
+
+    <div class="row">
+      <label class="row__label" for="f-message">Message</label>
+      <div class="row__value">
+        <textarea id="f-message" name="message" rows="6" maxlength={LIMITS.message} required class="field field--area" aria-describedby="message-error"></textarea>
+        <p id="message-error" class="row__error" hidden></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <label class="row__label" for="f-email">Email</label>
+      <div class="row__value">
+        <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength={LIMITS.email} required class="field" aria-describedby="email-error" />
+        <p id="email-error" class="row__error" hidden></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <label class="row__label" for="f-name">Name <span class="row__optional">optional</span></label>
+      <div class="row__value">
+        <input id="f-name" name="name" type="text" autocomplete="name" maxlength={LIMITS.name} class="field" aria-describedby="name-error" />
+        <p id="name-error" class="row__error" hidden></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="trap" inert aria-hidden="true">
+    <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <div id="kontakt-turnstile" class="challenge"></div>
+
+  <div id="kontakt-fallback" class="notice" hidden>
+    <p class="notice__kicker">Can't send right now</p>
+    <p>Email us instead; anything you've typed here comes along: <a id="kontakt-fallback-link" href={mailto}>{CONTACT_EMAIL}</a></p>
+  </div>
+
+  <div class="actions">
+    <button id="kontakt-submit" type="submit" class="send">
+      <span class="send__led" aria-hidden="true">▪</span>
+      <span class="send__label">Send message</span>
+      <span class="send__arrow" aria-hidden="true">→</span>
+    </button>
+    <p class="actions__alt">or email <a href={mailto}>{CONTACT_EMAIL}</a></p>
+  </div>
+
+  <p id="kontakt-status" class="status" role="status"></p>
+</form>
+
+<section id="kontakt-sent" class="received" hidden aria-labelledby="kontakt-sent-title">
+  <div class="received__head">
+    <h2 id="kontakt-sent-title" tabindex="-1"><span aria-hidden="true">▪ </span>Message received</h2>
+    <span data-sent-time></span>
+  </div>
+  <p class="received__body">Thanks! If we have a question, we'll write back to the address you gave.</p>
+  <div class="received__foot"><a href="/">Back to the weekly digest →</a></div>
+</section>
+
+<style>
+  .form {
+    margin-top: 1.5rem;
+  }
+
+  /* The detail sheet's fact rows: label beside the field, wrapping below when text grows. */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.75rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .rows {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .row[hidden] {
+    display: none;
+  }
+
+  .row__label {
+    display: grid;
+    flex: 0 0 4.25rem;
+    align-content: start;
+    padding-top: 0.8rem;
+    color: var(--text-secondary);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .row__optional {
+    color: var(--text-muted);
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+  }
+
+  .row__value {
+    flex: 1 1 13rem;
+    min-width: 0;
+  }
+
+  .row__value--text {
+    padding-top: 0.55rem;
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .row__value--text a[href] {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .row__value--text a[href]:hover {
+    color: var(--accent);
+  }
+
+  .field {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 0.55rem 0.7rem;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font: inherit;
+    font-size: 1rem;
+    transition: border-color 0.15s ease-out;
+  }
+
+  .field--area {
+    min-height: 9rem;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .field:hover {
+    border-color: var(--text-muted);
+  }
+
+  .field:focus-visible {
+    border-color: var(--text-primary);
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .field[aria-invalid='true'] {
+    border-color: var(--accent);
+  }
+
+  .field::placeholder {
+    color: var(--text-muted);
+  }
+
+  .row__error {
+    margin-top: 0.35rem;
+    color: var(--accent);
+    font-size: 0.8125rem;
+  }
+
+  .row__error[hidden] {
+    display: none;
+  }
+
+  /* Interaction-only Turnstile: empty unless Cloudflare needs a click. */
+  .challenge:not(:empty) {
+    margin-top: 1rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    margin-top: 1.25rem;
+  }
+
+  .actions__alt {
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6875rem;
+    overflow-wrap: anywhere;
+  }
+
+  /* The fallback box already offers the address. */
+  .notice:not([hidden]) ~ .actions .actions__alt {
+    display: none;
+  }
+
+  .actions__alt a,
+  .notice a {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+  }
+
+  .actions__alt a:hover,
+  .notice a:hover {
+    color: var(--accent);
+  }
+
+  /* A one-line departure board: the homepage board's amber, raster and red mark. */
+  .send {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 48px;
+    padding: 0 1.1rem;
+    overflow: hidden;
+    color: var(--board-text);
+    background: var(--board-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .send::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, transparent 0.9px, var(--board-bg) 1.3px);
+    background-size: 3px 3px;
+    opacity: 0.28;
+    pointer-events: none;
+  }
+
+  .send__led {
+    color: var(--board-red);
+  }
+
+  .send__arrow {
+    transition: transform 0.15s ease-out;
+  }
+
+  .send:hover .send__arrow {
+    transform: translateX(3px);
+  }
+
+  .send:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .send[aria-disabled='true'] {
+    cursor: progress;
+  }
+
+  .send[aria-disabled='true'] .send__led {
+    animation: send-blink 0.8s steps(2, jump-none) infinite;
+  }
+
+  @keyframes send-blink {
+    to { opacity: 0.2; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .send__arrow { transition: none; }
+    .send[aria-disabled='true'] .send__led { animation: none; }
+  }
+
+  .status {
+    min-height: 1.25rem;
+    margin-top: 0.75rem;
+    color: var(--text-primary);
+    font-size: 0.8125rem;
+  }
+
+  .notice {
+    margin-top: 1rem;
+    padding: 0.75rem 0.9rem;
+    color: var(--text-secondary);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .notice[hidden] {
+    display: none;
+  }
+
+  .notice__kicker {
+    margin-bottom: 0.2rem;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Off-screen rather than display:none, so bots that fill every input still take the bait. */
+  .trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* The confirmation is a small board, like the homepage's City Occasions. */
+  .received {
+    position: relative;
+    margin-top: 1.5rem;
+    padding: 0.8rem 0.85rem 0.7rem;
+    overflow: hidden;
+    color: var(--board-text);
+    background: var(--board-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .received[hidden] {
+    display: none;
+  }
+
+  .received::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, transparent 0.9px, var(--board-bg) 1.3px);
+    background-size: 3px 3px;
+    opacity: 0.28;
+    pointer-events: none;
+  }
+
+  .received__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--board-rule);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .received__head h2 {
+    color: var(--board-red);
+    font-size: inherit;
+    font-weight: 400;
+  }
+
+  .received__head h2:focus {
+    outline: none;
+  }
+
+  .received__body {
+    padding: 0.75rem 0;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.45;
+    border-bottom: 1px dashed var(--board-rule);
+  }
+
+  .received__foot {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 0.5rem;
+  }
+
+  .received__foot a {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.75rem;
+    color: var(--board-text);
+    border: 1px solid var(--board-rule);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .received__foot a:hover {
+    border-color: var(--board-text);
+  }
+
+  .received__foot a:focus-visible {
+    outline: 2px solid var(--board-text);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  import {
+    ENDPOINT,
+    fallbackMailto,
+    interpretResponse,
+    prefillFromQuery,
+    sentEvent,
+    validateLocally,
+    type FieldName,
+  } from '../utils/kontakt';
+
+  declare const umami: { track(name: string, data?: Record<string, string>): void };
+
+  interface TurnstileApi {
+    render(container: HTMLElement, options: Record<string, unknown>): string;
+    reset(widgetId?: string): void;
+  }
+
+  const TURNSTILE_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+  const FIELDS: FieldName[] = ['message', 'email', 'name'];
+
+  const form = document.querySelector<HTMLFormElement>('#kontakt-form')!;
+  const status = document.querySelector<HTMLElement>('#kontakt-status')!;
+  const fallback = document.querySelector<HTMLElement>('#kontakt-fallback')!;
+  const fallbackLink = document.querySelector<HTMLAnchorElement>('#kontakt-fallback-link')!;
+  const sent = document.querySelector<HTMLElement>('#kontakt-sent')!;
+  const submit = document.querySelector<HTMLButtonElement>('#kontakt-submit')!;
+  const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+
+  let token = '';
+  let widgetId: string | undefined;
+  let challengeFailed = false;
+  let submitWhenReady = false;
+  let sending = false;
+
+  const prefill = prefillFromQuery(location.search);
+  field('kind').value = prefill.kind;
+  field('context').value = prefill.context;
+  field('page').value = prefill.page;
+  if (prefill.context) {
+    const about = document.querySelector<HTMLAnchorElement>('#kontakt-about')!;
+    about.textContent = prefill.context;
+    if (prefill.page) about.href = prefill.page;
+    document.querySelector<HTMLElement>('#kontakt-about-row')!.hidden = false;
+  }
+  if (prefill.kind === 'korrektur') {
+    field('message').setAttribute('placeholder', "What's wrong, and what's right? A link to the source helps.");
+  }
+
+  // Set at click time, so the mail carries what is in the form right now.
+  fallbackLink.addEventListener('click', () => {
+    fallbackLink.href = fallbackMailto(field('message').value, prefill.context);
+  });
+
+  function clearErrors() {
+    for (const name of FIELDS) {
+      const slot = document.querySelector<HTMLElement>(`#${name}-error`)!;
+      slot.hidden = true;
+      slot.textContent = '';
+      field(name).removeAttribute('aria-invalid');
+    }
+  }
+
+  function showErrors(errors: Partial<Record<FieldName, string>>) {
+    const names = FIELDS.filter(name => errors[name]);
+    if (!names.length) return showFallback("That didn't go through.");
+    for (const name of names) {
+      const slot = document.querySelector<HTMLElement>(`#${name}-error`)!;
+      slot.textContent = `Error: ${errors[name]}`;
+      slot.hidden = false;
+      field(name).setAttribute('aria-invalid', 'true');
+    }
+    status.textContent = names.length === 1 ? 'Please check 1 field.' : `Please check ${names.length} fields.`;
+    field(names[0]!).focus();
+  }
+
+  function showFallback(message: string) {
+    status.textContent = message;
+    fallback.hidden = false;
+  }
+
+  function failChallenge() {
+    token = '';
+    challengeFailed = true;
+    submitWhenReady = false;
+    showFallback("The security check couldn't load.");
+  }
+
+  function resetChallenge() {
+    token = '';
+    if (widgetId !== undefined) (window as unknown as { turnstile: TurnstileApi }).turnstile.reset(widgetId);
+  }
+
+  function renderChallenge() {
+    const { turnstile } = window as unknown as { turnstile: TurnstileApi };
+    widgetId = turnstile.render(document.querySelector<HTMLElement>('#kontakt-turnstile')!, {
+      sitekey: form.dataset.siteKey,
+      appearance: 'interaction-only',
+      theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light',
+      callback: (value: string) => {
+        token = value;
+        challengeFailed = false;
+        if (submitWhenReady) {
+          submitWhenReady = false;
+          form.requestSubmit();
+        }
+      },
+      'expired-callback': () => {
+        token = '';
+      },
+      'error-callback': failChallenge,
+    });
+  }
+
+  function loadChallenge() {
+    const script = document.createElement('script');
+    script.src = TURNSTILE_SRC;
+    script.async = true;
+    script.onload = renderChallenge;
+    script.onerror = failChallenge;
+    document.head.append(script);
+  }
+
+  function setSending(value: boolean) {
+    sending = value;
+    submit.setAttribute('aria-disabled', String(value));
+    submit.querySelector('.send__label')!.textContent = value ? 'Sending…' : 'Send message';
+  }
+
+  function showSent(kind: typeof prefill.kind) {
+    form.hidden = true;
+    sent.querySelector('[data-sent-time]')!.textContent = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Berlin', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
+    }).format(new Date()).replace(',', '');
+    sent.hidden = false;
+    sent.querySelector<HTMLElement>('#kontakt-sent-title')!.focus();
+    const event = sentEvent(kind);
+    if (typeof umami !== 'undefined') umami.track(event.name, event.data);
+  }
+
+  async function send(): Promise<void> {
+    const body = {
+      kind: prefill.kind,
+      email: field('email').value.trim(),
+      name: field('name').value.trim(),
+      message: field('message').value.trim(),
+      context: field('context').value,
+      page: field('page').value,
+      website: field('website').value,
+      'cf-turnstile-response': token,
+    };
+    setSending(true);
+    status.textContent = 'Sending your message.';
+    try {
+      const response = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const outcome = interpretResponse(response.status, await response.json().catch(() => null));
+      if (outcome.type === 'sent') return showSent(prefill.kind);
+      resetChallenge();
+      if (outcome.type === 'invalid') showErrors(outcome.fields);
+      else if (outcome.type === 'challenge') status.textContent = 'The security check failed. Please try again.';
+      else showFallback("That didn't send.");
+    } catch {
+      resetChallenge();
+      showFallback("That didn't send.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    if (sending) return;
+    clearErrors();
+    const errors = validateLocally(field('email').value, field('message').value, field('name').value);
+    if (Object.keys(errors).length) return showErrors(errors);
+    // A dead challenge never yields a token; queueing would wait forever.
+    if (challengeFailed) return showFallback("The security check couldn't load.");
+    fallback.hidden = true;
+    if (!token) {
+      submitWhenReady = true;
+      status.textContent = "Just a moment: the security check is still running. We'll send as soon as it's done.";
+      return;
+    }
+    void send();
+  });
+
+  form.hidden = false;
+  loadChallenge();
+</script>

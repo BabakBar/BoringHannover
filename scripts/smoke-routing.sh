@@ -93,6 +93,7 @@ expect /404.html 404 "the 404 page itself must not be indexable as 200"
 echo "==> Real pages still resolve"
 expect / 200
 expect /impressum/ 200
+expect /kontakt/ 200
 expect /special/ 200
 expect /sitemap.xml 200
 expect /robots.txt 200
@@ -135,6 +136,19 @@ else
     printf '  FAIL  %-34s not a cacheable 200 image/png\n' "/$poster"
     FAILED=1
   fi
+fi
+
+# The contact form loads Turnstile's script and challenge frame from Cloudflare;
+# a CSP without both leaves the form unable to send.
+echo "==> The CSP lets the contact form load Turnstile"
+csp="$("${CURL[@]}" -o /dev/null -D - "$BASE/kontakt/" 2>/dev/null | grep -i '^content-security-policy:' || true)"
+if grep -q "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com;" <<<"$csp" \
+  && grep -q "script-src-elem 'self' 'unsafe-inline' https://challenges.cloudflare.com;" <<<"$csp" \
+  && grep -q "frame-src 'self' https://challenges.cloudflare.com;" <<<"$csp"; then
+  echo "  ok    Turnstile allowed in script-src, script-src-elem and frame-src"
+else
+  echo "  FAIL  /kontakt/ CSP does not allow Turnstile: ${csp:-<no CSP header>}"
+  FAILED=1
 fi
 
 # The about dialog is a native <dialog>, centred by the UA stylesheet's

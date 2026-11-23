@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import KontaktForm from '../components/KontaktForm.astro';
+import { loadEventData } from '../data/loader';
+import { pictogramSvg } from '../utils/pictogram';
+
+const { meta } = loadEventData();
+---
+
+<Base title="Contact - boringhannover" description="Report a wrong time, suggest an event or just say hi to BoringHannover.">
+  <Header week={meta.week} year={meta.year} brandAsHeading={false} compact />
+
+  <article class="contact" aria-labelledby="contact-title">
+    <header class="contact__head">
+      <div>
+        <p class="contact__kicker">Contact</p>
+        <h1 id="contact-title">Write to us.</h1>
+      </div>
+      <span class="contact__picto" set:html={pictogramSvg('brief', 5)} />
+    </header>
+    <p class="contact__lede">
+      A wrong time, a missing event, a tip or just hello. Any language is fine,
+      and a link or a title is plenty.
+    </p>
+
+    <KontaktForm />
+  </article>
+
+  <Footer updatedAt={meta.updatedAt} />
+</Base>
+
+<style>
+  /* Same sheet as an occasion detail page: mono kicker and title under the header rule. */
+  .contact {
+    padding-top: 0.5rem;
+  }
+
+  .contact__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .contact__kicker {
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .contact h1 {
+    margin-top: 0.5rem;
+    color: var(--text-primary);
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+  }
+
+  .contact__picto {
+    flex: none;
+    margin-top: 0.25rem;
+    color: var(--text-primary);
+    line-height: 0;
+  }
+
+  .contact__lede {
+    max-width: 34rem;
+    margin-top: 0.9rem;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+</style>

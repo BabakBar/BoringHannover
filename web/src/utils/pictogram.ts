@@ -23,6 +23,8 @@ const PICTOGRAMS = {
   kirche: ['.....X.....', '....XXX....', '.....X.....', '....XXX....', '....X.X....', '...XXXXX...', '..XXXXXXX..', '.XXXXXXXXX.', '.X.X...X.X.', '.X.X.X.X.X.', '.X...X...X.', 'XXXXXXXXXXX'],
   turm: ['..X.X.X.X..', '..XXXXXXX..', '...X...X...', '...X.X.X...', '...X...X...', '...XXXXX...', '...X...X...', '...X.X.X...', '...X...X...', '..XXXXXXX..', '..X..X..X..', 'XXXXXXXXXXX'],
   rathaus: ['.....X.....', '....XXX....', '....X.X....', '...XXXXX...', 'XXXXXXXXXXX', 'X.X.X.X.X.X', 'XXXXXXXXXXX', 'X.X.X.X.X.X', 'XXXXXXXXXXX', 'X.X.XXX.X.X', 'XXXXX.XXXXX', '...........'],
+  // The contact page's mark; no occasion rule picks it.
+  brief: ['...........', '...........', 'XXXXXXXXXXX', 'XX.......XX', 'X.X.....X.X', 'X..X...X..X', 'X...X.X...X', 'X....X....X', 'X.........X', 'X.........X', 'XXXXXXXXXXX', '...........'],
 } as const;
 
 export type PictogramName = keyof typeof PICTOGRAMS;

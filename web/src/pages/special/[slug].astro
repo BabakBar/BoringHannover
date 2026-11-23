@@ -19,6 +19,7 @@ import {
 } from '../../utils/displayLabels';
 import { occasionJsonLd } from '../../utils/occasionJsonLd';
 import { occasionSourceLink } from '../../utils/occasionSource';
+import { correctionHref } from '../../utils/kontakt';
 import { calendarAppointments } from '../../utils/occasionCalendar';
 import { occasionAbout } from '../../data/occasionAbout';
 import Pictogram from '../../components/Pictogram.astro';
@@ -399,6 +400,10 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText ?? desc
         <p class="sr-only" role="status" data-action-status></p>
       </div>
     )}
+
+    <p class="sheet__report">
+      <a href={correctionHref(occasion.name, `/special/${occasion.slug}/`)}>Report a mistake</a>
+    </p>
   </article>
 
   {programme.length > 0 && (
@@ -1277,6 +1282,24 @@ const eventJsonLd = occasionJsonLd({ ...occasion, description: aboutText ?? desc
 
   .sheet__action[hidden] {
     display: none;
+  }
+
+  .sheet__report {
+    margin-top: 0.5rem;
+  }
+
+  .sheet__report a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .sheet__report a:hover {
+    color: var(--accent);
   }
 
   .sheet__action:hover {
