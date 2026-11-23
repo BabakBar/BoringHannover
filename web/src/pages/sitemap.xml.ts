@@ -19,6 +19,7 @@ const routes: SitemapRoute[] = [
     occasionSlug: occasion.slug,
   })),
   { path: '/how-it-works/' },
+  { path: '/kontakt/' },
   { path: '/impressum/' },
   { path: '/datenschutz/' },
 ];

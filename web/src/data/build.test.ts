@@ -88,7 +88,7 @@ test('sitemap omits unsupported modification dates across unrelated Radar update
       const sitemap = readFileSync(join(outDir, 'sitemap.xml'), 'utf8');
       expect([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(([, loc]) => loc)).toEqual([
         `${site}/`, `${site}/special/`, `${site}/special/${occasion.slug}/`,
-        `${site}/how-it-works/`, `${site}/impressum/`, `${site}/datenschutz/`,
+        `${site}/how-it-works/`, `${site}/kontakt/`, `${site}/impressum/`, `${site}/datenschutz/`,
       ]);
       expect(sitemap).not.toContain('<lastmod>');
       if (originalSitemap !== undefined) expect(sitemap).toBe(originalSitemap);
@@ -1110,7 +1110,7 @@ test('the occasion index supports weekly browsing, truthful admission and no-JS 
         expect(await noJs.getByRole('heading', { name: 'Check dates' }).isVisible()).toBe(true);
         expect(await noJs.getByRole('heading', { name: 'Cancelled or postponed' }).isVisible()).toBe(true);
         expect(await noJs.locator('[data-index-empty]').isVisible()).toBe(false);
-        for (const path of ['/', '/special/', '/special/wiesn/', '/how-it-works/', '/impressum/', '/datenschutz/', '/404.html']) {
+        for (const path of ['/', '/special/', '/special/wiesn/', '/how-it-works/', '/kontakt/', '/impressum/', '/datenschutz/', '/404.html']) {
           await noJs.goto(`${origin}${path}`);
           const header = noJs.locator('header').first();
           const wordmark = header.getByRole('link', { name: /^boring hannover$/i });
