@@ -4484,13 +4484,13 @@
         {
           "path": "/BabakBar/BoringHannover/pulls",
           "title": "/pulls",
-          "count": 24,
+          "count": 27,
           "uniques": 1
         },
         {
           "path": "/BabakBar/BoringHannover",
           "title": "Overview",
-          "count": 17,
+          "count": 23,
           "uniques": 1
         },
         {
@@ -4548,9 +4548,9 @@
     {
       "path": "/BabakBar/BoringHannover/pulls",
       "title": "/pulls",
-      "latest_count": 24,
+      "latest_count": 27,
       "latest_uniques": 1,
-      "max_count": 24,
+      "max_count": 27,
       "max_uniques": 1,
       "first_seen": "2026-09-18",
       "last_seen": "2026-11-24"
@@ -4558,9 +4558,9 @@
     {
       "path": "/BabakBar/BoringHannover",
       "title": "Overview",
-      "latest_count": 17,
+      "latest_count": 23,
       "latest_uniques": 1,
-      "max_count": 17,
+      "max_count": 23,
       "max_uniques": 2,
       "first_seen": "2026-09-04",
       "last_seen": "2026-11-24"
