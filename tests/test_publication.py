@@ -19,7 +19,7 @@ import httpx
 import pytest
 from bs4 import BeautifulSoup
 
-from boringhannover import main
+from boringhannover import github_sync, main
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.github_sync import (
@@ -28,6 +28,7 @@ from boringhannover.github_sync import (
     _collect_web_sync_paths,
     _normalize_events_json,
     _sync_file,
+    sync_web_data_to_github,
 )
 from boringhannover.models import Event
 from boringhannover.occasions import OccasionDefinition, Occurrence
@@ -544,6 +545,85 @@ def known_publication(
             for path in [root / "web_events.json", root / "occasions/known.json"]
         },
     )
+
+
+@pytest.mark.parametrize(
+    "case", ["orphaned", "clean", "another-manifest", "branch-moved"]
+)
+def test_sync_removes_programmes_its_published_manifest_no_longer_references(
+    case: str,
+    known_publication: tuple[OccasionDefinition, Event, dict[str, bytes]],
+    monkeypatch: pytest.MonkeyPatch,
+    local_site: LocalSite,
+    tmp_path: Path,
+) -> None:
+    """Upload-only sync left expired programmes in the repository (#26). One
+    fast-forward commit removes them once this run's manifest is published."""
+    _, _, files = known_publication
+    output = tmp_path / "output"
+    for path, raw in files.items():
+        (output / path.removeprefix("web/output/")).parent.mkdir(
+            parents=True, exist_ok=True
+        )
+        (output / path.removeprefix("web/output/")).write_bytes(raw)
+    published = {**files, "README.md": b"# repo\n"}
+    if case != "clean":
+        published[f"{WEB_OCCASIONS_REPO_DIR}/expired.json"] = b"{}"
+    if case == "another-manifest":
+        manifest = json.loads(files[WEB_EVENTS_REPO_PATH])
+        manifest["occasions"][0]["description"] = "Another writer's facts."
+        published[WEB_EVENTS_REPO_PATH] = json.dumps(manifest).encode()
+    serve_github_publication(local_site, published)
+    local_site.replies = {
+        "/repos/test/events/git/trees": (201, json.dumps({"sha": "e" * 40})),
+        "/repos/test/events/git/commits": (201, json.dumps({"sha": "f" * 40})),
+        "/repos/test/events/git/refs/heads/master": (
+            (422, "Update is not a fast forward")
+            if case == "branch-moved"
+            else (200, "{}")
+        ),
+    }
+    monkeypatch.setattr(github_sync, "GITHUB_API_BASE", local_site.url)
+    monkeypatch.setenv("GITHUB_TOKEN", "test-token")
+    monkeypatch.setenv("GITHUB_REPO", "test/events")
+
+    # Publication already succeeded, so a refused cleanup never fails the run.
+    assert sync_web_data_to_github(output) is True
+
+    if case in ("clean", "another-manifest"):
+        assert local_site.writes == []
+        return
+    assert local_site.writes == [
+        (
+            "POST",
+            "/repos/test/events/git/trees",
+            {
+                "base_tree": "b" * 40,
+                "tree": [
+                    {
+                        "path": f"{WEB_OCCASIONS_REPO_DIR}/expired.json",
+                        "mode": "100644",
+                        "type": "blob",
+                        "sha": None,
+                    }
+                ],
+            },
+        ),
+        (
+            "POST",
+            "/repos/test/events/git/commits",
+            {
+                "message": github_sync.CLEANUP_MESSAGE,
+                "tree": "e" * 40,
+                "parents": ["a" * 40],
+            },
+        ),
+        (
+            "PATCH",
+            "/repos/test/events/git/refs/heads/master",
+            {"sha": "f" * 40, "force": False},
+        ),
+    ]
 
 
 def test_carried_programmes_use_the_export_year_at_an_iso_year_boundary(
