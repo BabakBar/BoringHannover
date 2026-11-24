@@ -1,13 +1,13 @@
 {
   "meta": {
-    "updatedAt": "Sun 22 Nov 19:00"
+    "updatedAt": "Tue 24 Nov 10:00"
   },
   "occasion": {
     "id": "hannover-festivals:winterwald-am-weiekreuzplatz",
     "slug": "winterwald-am-weiekreuzplatz",
     "name": "Winterwald am Weißekreuzplatz",
     "kind": "festival",
-    "startDate": "2026-11-20",
+    "startDate": "2026-11-23",
     "endDate": "2026-12-22",
     "location": "Wintergarten am Reimanns Eck",
     "description": "Winterwald am Weißekreuzplatz at Wintergarten am Reimanns Eck. See the source for details.",
@@ -18,16 +18,6 @@
     "programmePath": "occasions/winterwald-am-weiekreuzplatz.json",
     "preview": [],
     "occurrences": [
-      {
-        "date": "2026-11-22",
-        "startTime": "14:00",
-        "endTime": "22:00"
-      },
-      {
-        "date": "2026-11-23",
-        "startTime": "16:00",
-        "endTime": "22:00"
-      },
       {
         "date": "2026-11-24",
         "startTime": "16:00",
