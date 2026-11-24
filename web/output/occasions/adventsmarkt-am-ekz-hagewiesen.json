@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Tue 24 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:adventsmarkt-am-ekz-hagewiesen",
+    "slug": "adventsmarkt-am-ekz-hagewiesen",
+    "name": "Adventsmarkt am EKZ Hägewiesen",
+    "kind": "festival",
+    "startDate": "2026-12-11",
+    "endDate": "2026-12-11",
+    "location": "Hägewiesen, Elmstraße, Schwarzwaldstraße",
+    "description": "Adventsmarkt am EKZ Hägewiesen at Hägewiesen, Elmstraße, Schwarzwaldstraße. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Adventsmarkt-am-EKZ-Hägewiesen",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/adventsmarkt-am-ekz-hagewiesen.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-12-11",
+        "startTime": "15:00",
+        "endTime": "19:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Hägewiesen, Elmstraße, Schwarzwaldstraße",
+      "street": "Elmstraße",
+      "postalCode": "30657",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}

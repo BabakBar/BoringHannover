@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Tue 24 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:weihnachtsmarkt-auf-der-bult",
+    "slug": "weihnachtsmarkt-auf-der-bult",
+    "name": "Weihnachtsmarkt auf der Bult",
+    "kind": "festival",
+    "startDate": "2026-12-05",
+    "endDate": "2026-12-06",
+    "location": "Melanchthonkirche Bult",
+    "description": "Weihnachtsmarkt auf der Bult at Melanchthonkirche Bult. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weihnachtsmarkt-auf-der-Bult",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/weihnachtsmarkt-auf-der-bult.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-12-05",
+        "startTime": "14:00",
+        "endTime": "18:00"
+      },
+      {
+        "date": "2026-12-06",
+        "startTime": "12:00",
+        "endTime": "18:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Melanchthonkirche Bult",
+      "street": "Menschingstraße 12",
+      "postalCode": "30173",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}

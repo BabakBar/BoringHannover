@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "updatedAt": "Tue 24 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:soli-wintermarkt-beim-platzprojekt",
+    "slug": "soli-wintermarkt-beim-platzprojekt",
+    "name": "Soli Wintermarkt beim PlatzProjekt",
+    "kind": "festival",
+    "startDate": "2026-12-12",
+    "endDate": "2026-12-12",
+    "location": "PlatzProjekt",
+    "description": "Soli Wintermarkt beim PlatzProjekt at PlatzProjekt. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Soli-Wintermarkt-beim-PlatzProjekt",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/soli-wintermarkt-beim-platzprojekt.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-12-12",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "PlatzProjekt",
+      "street": "Fössestraße 103",
+      "postalCode": "30453",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}

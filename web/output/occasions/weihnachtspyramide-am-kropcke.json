@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sun 22 Nov 19:00"
+    "updatedAt": "Tue 24 Nov 10:00"
   },
   "occasion": {
     "id": "hannover-festivals:weihnachtspyramide-am-kropcke",
@@ -12,17 +12,12 @@
     "location": "Kröpcke",
     "description": "Weihnachtspyramide am Kröpcke at Kröpcke. See the source for details.",
     "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weihnachtspyramide-am-Kröpcke",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/weihnachtspyramide-am-kropcke.json",
     "preview": [],
     "occurrences": [
-      {
-        "date": "2026-11-23",
-        "startTime": "11:00",
-        "endTime": "21:00"
-      },
       {
         "date": "2026-11-24",
         "startTime": "11:00",
@@ -165,6 +160,11 @@
       },
       {
         "date": "2026-12-22",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-23",
         "startTime": "11:00",
         "endTime": "21:00"
       }

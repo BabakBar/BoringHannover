@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "updatedAt": "Tue 24 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:markt-der-schonen-dinge",
+    "slug": "markt-der-schonen-dinge",
+    "name": "Markt der schönen Dinge",
+    "kind": "festival",
+    "startDate": "2026-11-29",
+    "endDate": "2026-11-29",
+    "location": "Stadtteilzentrum Ricklingen",
+    "description": "Markt der schönen Dinge at Stadtteilzentrum Ricklingen. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Markt-der-schönen-Dinge",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/markt-der-schonen-dinge.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-29",
+        "startTime": "11:00",
+        "endTime": "16:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Stadtteilzentrum Ricklingen",
+      "street": "Anne-Stache-Allee 7",
+      "postalCode": "30459",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city",
+    "admission": [
+      {
+        "price": "free"
+      }
+    ]
+  },
+  "programme": []
+}
