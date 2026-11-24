@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sun 22 Nov 19:00"
+    "updatedAt": "Tue 24 Nov 10:00"
   },
   "occasion": {
     "id": "hannover-festivals:weihnachtsdorf-am-hauptbahnhof",
@@ -12,17 +12,12 @@
     "location": "Ernst-August-Platz",
     "description": "Weihnachtsdorf am Hauptbahnhof at Ernst-August-Platz. See the source for details.",
     "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Weih­nachts­dorf-am-Haupt­bahnhof",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/weihnachtsdorf-am-hauptbahnhof.json",
     "preview": [],
     "occurrences": [
-      {
-        "date": "2026-11-23",
-        "startTime": "11:00",
-        "endTime": "21:00"
-      },
       {
         "date": "2026-11-24",
         "startTime": "11:00",
@@ -167,6 +162,16 @@
         "date": "2026-12-22",
         "startTime": "11:00",
         "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-23",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-24",
+        "startTime": "11:00",
+        "endTime": "14:00"
       }
     ],
     "scheduleConfidence": "discrete",
