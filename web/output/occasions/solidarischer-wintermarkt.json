@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "updatedAt": "Tue 24 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:solidarischer-wintermarkt",
+    "slug": "solidarischer-wintermarkt",
+    "name": "Solidarischer Wintermarkt",
+    "kind": "festival",
+    "startDate": "2026-12-19",
+    "endDate": "2026-12-19",
+    "location": "Weißekreuzplatz",
+    "description": "Solidarischer Wintermarkt at Weißekreuzplatz. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Solidarischer-Wintermarkt",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/solidarischer-wintermarkt.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-12-19",
+        "startTime": "14:00",
+        "endTime": "20:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Weißekreuzplatz",
+      "street": "Weißekreuzstraße",
+      "postalCode": "30161",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
