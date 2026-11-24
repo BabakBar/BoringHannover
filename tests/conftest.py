@@ -38,6 +38,9 @@ class LocalSite:
     user_agents: list[str] = field(default_factory=list)
     puts: list[tuple[str, dict[str, object]]] = field(default_factory=list)
     put_statuses: dict[str, int] = field(default_factory=dict)
+    # POST and PATCH answer from `replies` (default 404) and are recorded in order.
+    writes: list[tuple[str, str, dict[str, object]]] = field(default_factory=list)
+    replies: dict[str, tuple[int, str]] = field(default_factory=dict)
 
 
 @pytest.fixture
@@ -53,6 +56,18 @@ def local_site() -> Iterator[LocalSite]:
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
+
+        def _write(self) -> None:
+            payload = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+            site.writes.append((self.command, self.path, payload))
+            status, body = site.replies.get(self.path, (404, ""))
+            self.send_response(status)
+            self.send_header("Content-Length", str(len(body.encode())))
+            self.end_headers()
+            self.wfile.write(body.encode())
+
+        do_POST = _write
+        do_PATCH = _write
 
         def do_GET(self) -> None:
             site.requests.append(self.path)
