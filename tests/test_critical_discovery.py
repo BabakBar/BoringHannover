@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING
 import pytest
 
 from boringhannover import aggregator, sources
+from boringhannover.sources import base
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
@@ -68,8 +69,11 @@ class SwitchedOff(Calendar):
 
 
 @pytest.fixture(autouse=True)
-def _no_delay(monkeypatch: pytest.MonkeyPatch) -> None:
+def _isolated(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(aggregator, "SCRAPE_DELAY_SECONDS", 0)
+    # Discovery mutates the process-wide registry; give each test a copy.
+    monkeypatch.setattr(base, "_REGISTRY", dict(base._REGISTRY))
+    monkeypatch.setattr(sources, "IMPORT_FAILURES", {})
 
 
 def test_production_expects_both_hannover_calendars() -> None:
@@ -130,10 +134,8 @@ def test_a_failed_import_is_reported_and_named_in_the_refusal(
         "get_all_sources",
         lambda: {"venue": Venue, "hannover_festival_calendar": Calendar},
     )
-    monkeypatch.setattr(
-        aggregator,
-        "IMPORT_FAILURES",
-        {"festivals.hannover_christmas": SyntaxError("invalid syntax")},
+    sources.IMPORT_FAILURES["festivals.hannover_christmas"] = SyntaxError(
+        "invalid syntax"
     )
     result = fetch_all_events(now=NOW)
     assert str(result["source_outcomes"][0]) == (
@@ -160,7 +162,6 @@ def test_a_broken_ordinary_module_stays_isolated(
         return real_import(name)
 
     monkeypatch.setattr(sources.importlib, "import_module", import_module)
-    monkeypatch.setattr(sources, "IMPORT_FAILURES", {})
     discovered = sources.discover_sources()
     # Every other module still imports; only the broken one is recorded.
     modules = sum(
@@ -181,3 +182,45 @@ def test_a_broken_ordinary_module_stays_isolated(
     ]
     events = {"movies_this_week": [], "big_events_radar": [object()]}
     assert publication_refusal({**events, "source_outcomes": outcomes}) is None
+
+
+def test_a_module_that_fails_after_registering_is_refused(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The decorator registers while the module is still executing (#165 review).
+
+    A module that raises after its class is registered must not leave that
+    class behind, or the run would execute it and the gate would see a
+    complete discovery from a module that failed to import.
+    """
+    failing = "boringhannover.sources.festivals.hannover_christmas"
+    real_import = sources.importlib.import_module
+
+    def import_module(name: str) -> object:
+        module = real_import(name)  # registers HannoverChristmasCalendarSource
+        if name == failing:
+            raise RuntimeError("raised after registration")
+        return module
+
+    monkeypatch.setattr(sources.importlib, "import_module", import_module)
+    sources.discover_sources()
+    registry = sources.get_all_sources()
+    assert "hannover_christmas_calendar" not in registry
+    assert "hannover_festival_calendar" in registry
+    assert list(sources.IMPORT_FAILURES) == ["festivals.hannover_christmas"]
+
+    # Run what discovery left registered, with network-free stand-ins.
+    monkeypatch.setattr(
+        aggregator,
+        "get_all_sources",
+        lambda: (
+            {"venue": Venue}
+            | {name: Calendar for name in registry if name in CRITICAL_DISCOVERY}
+        ),
+    )
+    result = fetch_all_events(now=NOW)
+    assert publication_refusal(result) == (
+        "missing critical occasion discovery: hannover_christmas_calendar "
+        "(festivals.hannover_christmas import: failed, 0 usable, completion "
+        "incomplete (RuntimeError: raised after registration))"
+    )

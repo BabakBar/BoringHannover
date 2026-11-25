@@ -21,7 +21,7 @@ from typing import TYPE_CHECKING
 from boringhannover.config import SCRAPE_DELAY_SECONDS
 from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
 from boringhannover.source_outcomes import IncompleteDiscoveryError, SourceOutcome
-from boringhannover.sources import IMPORT_FAILURES, get_all_sources
+from boringhannover.sources import get_all_sources, get_import_failures
 from boringhannover.sources.base import BaseSource
 
 
@@ -83,7 +83,7 @@ def fetch_all_events(
         sources = get_all_sources()
         outcomes.extend(
             SourceOutcome.failed(module, "import", exc)
-            for module, exc in sorted(IMPORT_FAILURES.items())
+            for module, exc in sorted(get_import_failures().items())
         )
     logger.info("Found %d registered sources", len(sources))
 
