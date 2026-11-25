@@ -15,6 +15,7 @@ from boringhannover.sources.base import (
 
 
 __all__ = [
+    "IMPORT_FAILURES",
     "BaseSource",
     "discover_sources",
     "get_all_sources",
@@ -22,6 +23,11 @@ __all__ = [
 ]
 
 logger = logging.getLogger(__name__)
+
+# Source modules that failed to import, by module name relative to this
+# package. A failed import means the source never registered, so it cannot
+# report an outcome of its own; aggregation reports these instead.
+IMPORT_FAILURES: dict[str, Exception] = {}
 
 
 def discover_sources() -> int:
@@ -59,8 +65,11 @@ def discover_sources() -> int:
                 importlib.import_module(module_name)
                 discovered += 1
                 logger.debug("Discovered source module: %s", module_name)
-            except ImportError as exc:
+            except Exception as exc:
+                # One broken module must not take every other source down with
+                # it; a missing critical source is refused at publication.
                 logger.warning("Failed to import source %s: %s", module_name, exc)
+                IMPORT_FAILURES[f"{subdir}.{module_info.name}"] = exc
 
     logger.debug("Discovered %d source modules", discovered)
     return discovered

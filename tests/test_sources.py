@@ -212,7 +212,8 @@ def test_christmas_discovery_gaps_refuse_publication(
         "incomplete",
         {"listing": 0, "pagination": 10, "unreadable-card": 11}[failure],
     )
-    assert publication_refusal(result).startswith("incomplete occasion discovery:")
+    refusal = publication_refusal(result, expected_discovery={"christmas"})
+    assert refusal.startswith("incomplete occasion discovery:")
 
 
 # Real LUX description that used to publish as "...das ebenfalls de".

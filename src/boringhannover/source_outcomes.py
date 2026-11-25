@@ -7,26 +7,44 @@ discovery. The outcomes decide whether the run may replace the public site.
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Final, Literal
 
 
 if TYPE_CHECKING:
+    from collections.abc import Collection
+
     from boringhannover.occasions import OccasionDefinition
     from boringhannover.output import EventsData
 
 __all__ = [
+    "CRITICAL_DISCOVERY",
     "IncompleteDiscoveryError",
     "SourceOutcome",
     "describe_error",
     "publication_refusal",
 ]
 
-Operation = Literal["fetch", "discover_occasions"]
-State = Literal["success", "empty", "partial", "failed"]
+Operation = Literal["import", "fetch", "discover_occasions"]
+State = Literal["success", "empty", "partial", "failed", "disabled"]
 Completion = Literal["complete", "incomplete", "unknown"]
 
 _MAX_REASON_LENGTH = 200
+
+logger = logging.getLogger(__name__)
+
+# Occasion discovery every production publication must observe. It is declared
+# here, apart from the source modules, so a module that fails to import or
+# register cannot take its own expectation with it. To stop running one of
+# these on purpose, set ``enabled = False`` on the source: the run then records
+# a "disabled" outcome instead of silently missing it.
+CRITICAL_DISCOVERY: Final[frozenset[str]] = frozenset(
+    {
+        "hannover_festival_calendar",
+        "hannover_christmas_calendar",
+    }
+)
 
 
 class IncompleteDiscoveryError(Exception):
@@ -97,6 +115,11 @@ class SourceOutcome:
         """Record an operation that produced nothing usable."""
         return cls(source, operation, "failed", 0, "incomplete", describe_error(exc))
 
+    @classmethod
+    def disabled(cls, source: str, operation: Operation) -> SourceOutcome:
+        """Record an operation intentionally switched off in code."""
+        return cls(source, operation, "disabled", 0, "unknown", "enabled = False")
+
     def __str__(self) -> str:
         text = (
             f"{self.source} {self.operation}: {self.state}, "
@@ -105,7 +128,11 @@ class SourceOutcome:
         return f"{text} ({self.reason})" if self.reason else text
 
 
-def publication_refusal(events_data: EventsData) -> str | None:
+def publication_refusal(
+    events_data: EventsData,
+    *,
+    expected_discovery: Collection[str] | None = None,
+) -> str | None:
     """Return why this run must not replace the public site, or None if it may.
 
     Every publication replaces the whole public inventory. Carry-forward
@@ -116,6 +143,10 @@ def publication_refusal(events_data: EventsData) -> str | None:
       partial discovery leaves an unverified inventory gap. Only a complete
       discovery may be published, including a complete empty one reconciled
       against validated prior publication.
+    - Critical discovery must be observed. An expected discovery with no
+      outcome at all (its module failed to import, or it never registered)
+      is refused like a failed one. One switched off with ``enabled = False``
+      records a "disabled" outcome and is allowed, with a warning.
     - Fetches stay isolated: a failed venue costs only its own events. But a
       replacement without any movie or Radar event would empty the site on no
       evidence, since no fetch can confirm it read a complete source. What
@@ -123,10 +154,27 @@ def publication_refusal(events_data: EventsData) -> str | None:
       outside the window, so fetch counts serve only as diagnosis.
     """
     outcomes = events_data["source_outcomes"]
+    expected = CRITICAL_DISCOVERY if expected_discovery is None else expected_discovery
+    discovery = {o.source: o for o in outcomes if o.operation == "discover_occasions"}
+    missing = sorted(set(expected) - discovery.keys())
+    if missing:
+        imports = [str(o) for o in outcomes if o.operation == "import"]
+        return (
+            "missing critical occasion discovery: "
+            + ", ".join(missing)
+            + (" (" + "; ".join(imports) + ")" if imports else "")
+        )
+    for outcome in discovery.values():
+        if outcome.state == "disabled" and outcome.source in expected:
+            logger.warning(
+                "Critical occasion discovery %s is disabled; publishing without it",
+                outcome.source,
+            )
     unsafe = [
         outcome
         for outcome in outcomes
         if outcome.operation == "discover_occasions"
+        and outcome.state != "disabled"
         and outcome.completion != "complete"
     ]
     if unsafe:

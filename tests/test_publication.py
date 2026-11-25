@@ -19,7 +19,7 @@ import httpx
 import pytest
 from bs4 import BeautifulSoup
 
-from boringhannover import github_sync, main
+from boringhannover import github_sync, main, source_outcomes
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.github_sync import (
@@ -51,6 +51,10 @@ FIXTURES = Path(__file__).parent / "fixtures"
 LISTING_PATH = "/Veranstaltungskalender/Feste-Festivals"
 LOAD_MORE_PATH = "/api/v1/view/533295/10/10/line"
 FETCHED = SourceOutcome("venue", "fetch", "success", 1, "unknown")
+DISCOVERED = SourceOutcome("festivals", "discover_occasions", "empty", 0, "complete")
+DISCOVERED_ONE = SourceOutcome(
+    "festivals", "discover_occasions", "success", 1, "complete"
+)
 PARTIAL = SourceOutcome(
     "festivals", "discover_occasions", "partial", 2, "incomplete", "page 2 failed"
 )
@@ -64,9 +68,16 @@ CONCERT = Event(
 SAFE = {
     "movies_this_week": [],
     "big_events_radar": [CONCERT],
-    "source_outcomes": [FETCHED],
+    "source_outcomes": [FETCHED, DISCOVERED],
 }
 UNSAFE = {**SAFE, "source_outcomes": [FETCHED, PARTIAL]}
+
+
+@pytest.fixture(autouse=True)
+def _local_calendar_is_the_critical_discovery(monkeypatch: pytest.MonkeyPatch) -> None:
+    """These runs use one local calendar, "festivals", in place of the
+    production discovery adapters, so it is the discovery a run must observe."""
+    monkeypatch.setattr(source_outcomes, "CRITICAL_DISCOVERY", frozenset({"festivals"}))
 
 
 @pytest.mark.parametrize(
@@ -708,7 +719,7 @@ def test_run_recovers_and_retries_after_a_programme_upload_outlives_its_manifest
             "movies_this_week": [],
             "big_events_radar": [event],
             "city_occasions": [definition],
-            "source_outcomes": [FETCHED],
+            "source_outcomes": [FETCHED, DISCOVERED_ONE],
         },
     )
     monkeypatch.setattr(main, "should_sync", lambda: True)
@@ -773,7 +784,7 @@ def test_run_publishes_everything_else_when_one_occasion_changes_identity(
             "movies_this_week": [],
             "big_events_radar": [fresh_event],
             "city_occasions": [replace(prior, slug="renamed")],
-            "source_outcomes": [FETCHED],
+            "source_outcomes": [FETCHED, DISCOVERED_ONE],
         },
     )
     monkeypatch.setattr(main, "should_sync", lambda: True)
