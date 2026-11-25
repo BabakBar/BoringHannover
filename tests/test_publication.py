@@ -1452,52 +1452,80 @@ def test_carry_forward_obeys_berlin_dates_and_confirmed_sparse_appointments(
         )
 
 
+# Rows are titles, or (title, metadata overrides); "time" also sets the hour.
+GALA = "Known festival gala"
+CANCELLED_GALA = "Known festival gala \u2013 ABGESAGT"
+POSTPONED_GALA = "Known festival gala \u2013 VERSCHOBEN"
+
+
 @pytest.mark.parametrize(
     ("first", "second", "expected"),
     [
-        # ZAG renamed the row in place when it cancelled (#134 review).
+        # ZAG renamed the row in place when it cancelled (#165 review).
         pytest.param(
-            ["Known festival gala"],
-            ["Known festival gala \u2013 ABGESAGT"],
-            [("Known festival gala \u2013 ABGESAGT", "cancelled")],
+            [GALA],
+            [CANCELLED_GALA],
+            [(CANCELLED_GALA, "cancelled")],
             id="cancellation-in-title-replaces-the-performance",
         ),
         # A marker that disappears again is not proof of reinstatement (#26).
         pytest.param(
-            ["Known festival gala \u2013 ABGESAGT"],
-            ["Known festival gala"],
-            [("Known festival gala", "cancelled")],
+            [CANCELLED_GALA],
+            [GALA],
+            [(GALA, "cancelled")],
             id="vanished-marker-keeps-the-cancellation",
         ),
-        # Two prior rows share URL, date, time and venue: nothing identifies
-        # which one was renamed, so the new title is kept beside both.
+        # A newer cancellation replaces an older postponement (#165 review).
         pytest.param(
-            ["Known festival gala", "Known festival matinee"],
-            ["Known festival gala \u2013 ABGESAGT"],
-            [
-                ("Known festival gala", "unknown"),
-                ("Known festival gala \u2013 ABGESAGT", "cancelled"),
-                ("Known festival matinee", "unknown"),
-            ],
-            id="ambiguous-rename-is-not-merged",
+            [POSTPONED_GALA],
+            [CANCELLED_GALA],
+            [(CANCELLED_GALA, "cancelled")],
+            id="cancellation-replaces-an-earlier-postponement",
         ),
         # LUX states the cancellation outside the title and drops the start
-        # time; URL, date and venue still identify the performance.
+        # time; URL, date, venue and act still identify the performance.
         pytest.param(
-            ["Known festival gala"],
-            [
-                (
-                    "Known festival gala",
-                    {"status": "cancelled", "time_confidence": FALLBACK_TIME},
-                )
-            ],
-            [("Known festival gala", "cancelled")],
+            [GALA],
+            [(GALA, {"status": "cancelled", "time_confidence": FALLBACK_TIME})],
+            [(GALA, "cancelled")],
             id="notice-without-start-time-replaces-the-performance",
+        ),
+        # Weltspiele falls back to one programme URL for every act. A
+        # different act on the same date is not an edit of the cancelled one
+        # (#165 review).
+        pytest.param(
+            [("DJ A", {"status": "cancelled"})],
+            ["DJ B"],
+            [("DJ A", "cancelled"), ("DJ B", "unknown")],
+            id="different-act-on-a-shared-url-is-not-merged",
+        ),
+        # Two known showtimes share URL and title; only the evening one is
+        # cancelled. The matinee is settled exactly first (#165 review).
+        pytest.param(
+            [(GALA, {"time": "14:00"}), GALA],
+            [(GALA, {"time": "14:00"}), CANCELLED_GALA],
+            [(GALA, "unknown"), (CANCELLED_GALA, "cancelled")],
+            id="cancelled-showtime-replaces-only-its-performance",
+        ),
+        # Two prior rows of the same act, one without a time: either could
+        # be the one renamed, so the new row is kept beside both.
+        pytest.param(
+            [GALA, (GALA, {"time_confidence": FALLBACK_TIME})],
+            [CANCELLED_GALA],
+            [(GALA, "unknown"), (GALA, "unknown"), (CANCELLED_GALA, "cancelled")],
+            id="ambiguous-edit-is-not-merged",
+        ),
+        # Different acts sharing URL, date and time: the title decides.
+        pytest.param(
+            [GALA, "Known festival matinee"],
+            [CANCELLED_GALA],
+            [(CANCELLED_GALA, "cancelled"), ("Known festival matinee", "unknown")],
+            id="edit-follows-the-matching-act",
         ),
     ],
 )
 def test_carried_programme_follows_a_renamed_performance(
-    first: list[str],
+    first: list[str | tuple[str, dict[str, str]]],
     second: list[str | tuple[str, dict[str, str]]],
     expected: list[tuple[str, str]],
     monkeypatch: pytest.MonkeyPatch,
@@ -1530,10 +1558,11 @@ def test_carried_programme_follows_a_renamed_performance(
                 "time_confidence": CONFIRMED_TIME,
                 **extra,
             }
+            hour, minute = (int(part) for part in str(metadata["time"]).split(":"))
             events.append(
                 Event(
                     title=title,
-                    date=show,
+                    date=show.replace(hour=hour, minute=minute),
                     venue="ZAG Arena",
                     url="https://example.com/gala",
                     category="radar",

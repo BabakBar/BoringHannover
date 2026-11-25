@@ -27,14 +27,20 @@ import re
 from typing import Final
 
 
-__all__ = ["CANCELLED", "POSTPONED", "listing_status"]
+__all__ = [
+    "CANCELLED",
+    "CHANGE_STATUSES",
+    "POSTPONED",
+    "act_title",
+    "listing_status",
+]
 
 CANCELLED: Final = "cancelled"
 POSTPONED: Final = "postponed"
 _UNKNOWN: Final = "unknown"
 
 # Statuses that already say the listed date will not happen as announced.
-_EXPLICIT_CHANGE: Final = frozenset(
+CHANGE_STATUSES: Final = frozenset(
     {"cancelled", "canceled", "postponed", "rescheduled"}
 )
 _EXPLICIT_OTHER: Final = frozenset({"sold_out", "available"})
@@ -46,12 +52,18 @@ _TITLE_CANCELLED: Final = re.compile(
     re.IGNORECASE,
 )
 _TITLE_POSTPONED: Final = re.compile(r"\b(?:verschoben|postponed)\b", re.IGNORECASE)
+# Every status notice a venue writes into a title, for comparing acts only.
+_TITLE_NOTICE: Final = re.compile(
+    rf"{_TITLE_CANCELLED.pattern}|{_TITLE_POSTPONED.pattern}|"
+    r"\b(?:ausverkauft|sold\s+out)\b",
+    re.IGNORECASE,
+)
 
 
 def listing_status(title: str, status: object) -> str:
     """Return the status to publish for a listing with this title and status."""
     explicit = str(status).strip().casefold() if status else ""
-    if explicit in _EXPLICIT_CHANGE:
+    if explicit in CHANGE_STATUSES:
         return explicit
     if _TITLE_CANCELLED.search(title):
         return CANCELLED
@@ -60,3 +72,15 @@ def listing_status(title: str, status: object) -> str:
     if explicit in _EXPLICIT_OTHER:
         return explicit
     return _UNKNOWN
+
+
+def act_title(title: str) -> str:
+    """Return the title with status notices removed, for telling acts apart.
+
+    "KONSTANTINOS ARGIROS - ABGESAGT", "FÄLLT AUS! Kickboxen" and the plain
+    titles compare equal to their unannotated forms; two different acts that
+    share a listing URL do not.
+    """
+    without = _TITLE_NOTICE.sub(" ", title)
+    words = re.findall(r"\w+", without.casefold())
+    return " ".join(words)

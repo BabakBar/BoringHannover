@@ -7,7 +7,6 @@ import hashlib
 import json
 import logging
 import re
-from collections import Counter
 from collections.abc import Callable, Sequence
 from copy import deepcopy
 from datetime import date, datetime, timedelta
@@ -17,6 +16,7 @@ from urllib.parse import quote, urlsplit
 
 import httpx
 
+from boringhannover.availability import CHANGE_STATUSES, act_title
 from boringhannover.constants import (
     BERLIN_TZ,
     OCCASION_LOOKAHEAD_DAYS,
@@ -448,41 +448,58 @@ def _event_key(item: Record) -> tuple[str, ...]:
     )
 
 
-def _performance_key(item: Record) -> tuple[str, ...] | None:
-    """Identify a performance by URL, date and venue, or None without a URL.
+def _same_act(prior: Record, fresh: Record) -> bool:
+    """Whether two rows describe the same performance, allowing a status edit.
 
     Venues announce a change by editing the row in place: ZAG Arena renamed
-    "KONSTANTINOS ARGIROS" to "KONSTANTINOS ARGIROS - ABGESAGT" with the same
-    URL, date, time and venue, and a cancelled LUX card drops its start time.
+    "KONSTANTINOS ARGIROS" to "KONSTANTINOS ARGIROS - ABGESAGT", and a
+    cancelled LUX card drops its start time. A shared listing URL alone is no
+    evidence (Weltspiele falls back to its programme URL for every act), so
+    the titles must also agree once status notices are removed. Times must
+    agree when both rows state one.
     """
-    if not item.get("url"):
-        return None
-    return tuple(
-        _text(item, key) if item.get(key) is not None else ""
-        for key in ("url", "dateISO", "venue")
-    )
+    if not prior.get("url") or any(
+        prior.get(key) != fresh.get(key) for key in ("url", "dateISO", "venue")
+    ):
+        return False
+    act = act_title(_text(prior, "title"))
+    if not act or act != act_title(_text(fresh, "title")):
+        return False
+    time, other = fresh.get("time"), prior.get("time")
+    return not time or not other or time == other
 
 
-def _renamed_performance(
-    items: list[Record], fresh: Record, fresh_counts: Counter[tuple[str, ...]]
+def _edited_performance(
+    items: list[Record],
+    fresh: Record,
+    fresh_rows: Sequence[Record],
+    fresh_keys: set[tuple[str, ...]],
 ) -> Record | None:
-    """Return the one prior item this fresh row edits, if nothing is ambiguous.
+    """Return the one prior item this fresh row edits, or None.
 
-    Times must agree when both rows state one; a missing time on either side
-    matches, because a cancellation notice often omits it. Two known, different
-    times on the same URL and date are two performances.
+    Exact matches are settled first: a prior item some fresh row matches
+    exactly, or a fresh row added earlier in this run, is never a candidate.
+    The match must then be unique on both sides, so two performances of the
+    same act with unknown times are left side by side.
     """
-    key = _performance_key(fresh)
-    if key is None or fresh_counts[key] != 1:
-        return None
-    time = fresh.get("time")
     candidates = [
         item
         for item in items
-        if _performance_key(item) == key
-        and (not time or not item.get("time") or item.get("time") == time)
+        if _event_key(item) not in fresh_keys and _same_act(item, fresh)
     ]
-    return candidates[0] if len(candidates) == 1 else None
+    if len(candidates) != 1:
+        return None
+    (prior,) = candidates
+    prior_keys = {_event_key(item) for item in items}
+    key = _event_key(fresh)
+    rivals = [
+        row
+        for row in fresh_rows
+        if (row_key := _event_key(row)) != key
+        and row_key not in prior_keys
+        and _same_act(prior, row)
+    ]
+    return None if rivals else prior
 
 
 def _partition_carried_programmes(
@@ -496,11 +513,8 @@ def _partition_carried_programmes(
     year = _object(manifest["meta"]).get("year")
     if type(year) is not int:
         raise ValueError("Invalid export year for programme classification")
-    fresh_counts = Counter(
-        key
-        for event in events
-        if (key := _performance_key(_occasion_programme_item(event, year)))
-    )
+    fresh_rows = [_occasion_programme_item(event, year) for event in events]
+    fresh_keys = {_event_key(row) for row in fresh_rows}
     for event in events:
         row = _format_web_event(event, year)
         if row not in radar:
@@ -531,17 +545,15 @@ def _partition_carried_programmes(
         key = _event_key(fresh)
         prior = next((item for item in items if _event_key(item) == key), None)
         if prior is None:
-            prior = _renamed_performance(items, fresh, fresh_counts)
+            prior = _edited_performance(items, fresh, fresh_rows, fresh_keys)
+        # A change once observed stays until the venue states another one: a
+        # vanished marker is no proof of reinstatement (#26), but a newer
+        # cancellation replaces an older postponement.
         if (
             prior is not None
             and "status" not in event.metadata
-            and prior.get("status")
-            in (
-                "cancelled",
-                "canceled",
-                "postponed",
-                "rescheduled",
-            )
+            and fresh.get("status") not in CHANGE_STATUSES
+            and prior.get("status") in CHANGE_STATUSES
         ):
             fresh["status"] = prior["status"]
         programme["programme"] = [
