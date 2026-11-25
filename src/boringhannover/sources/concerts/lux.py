@@ -125,8 +125,10 @@ class LuxSource(BaseSource):
             "time_confidence": CONFIRMED_TIME,
             "event_type": event_type,
             "address": self.ADDRESS,
-            "status": "sold_out" if "ausverkauft" in notice_text else "available",
         }
+        # Only a sold-out notice is evidence; its absence leaves status unknown.
+        if "ausverkauft" in notice_text:
+            metadata["status"] = "sold_out"
 
         if description:
             metadata["subtitle"] = truncate_text(description, 200)

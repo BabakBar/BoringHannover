@@ -803,7 +803,8 @@ def test_lux_captured_programme() -> None:
     assert concert.venue == "LUX"
     assert concert.metadata["time_confidence"] == CONFIRMED_TIME
     assert concert.metadata["event_type"] == "concert"
-    assert concert.metadata["status"] == "available"
+    # No sold-out notice is not evidence of availability (#134).
+    assert "status" not in concert.metadata
     assert concert.metadata["genre"] == "Punk / Hardcore"
     assert concert.metadata["genre_source"] == "programme_description"
     assert concert.metadata["price"] == "16 € zzgl. Geb."

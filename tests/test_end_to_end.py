@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import subprocess
 from datetime import date, datetime, timedelta
@@ -30,6 +31,7 @@ from boringhannover.sources.cinema.astor import AstorSource
 from boringhannover.sources.concerts.kulturpalast_linden import (
     KulturpalastLindenSource,
 )
+from boringhannover.sources.concerts.zag_arena import ZAGArenaSource
 from boringhannover.sources.festivals.hannover_calendar import (
     HannoverFestivalCalendarSource,
 )
@@ -684,3 +686,67 @@ def test_scraped_events_reach_the_built_site(
     html = occasion_page.read_text(encoding="utf-8")
     assert "Pipeline Fest" in html
     assert f"Checked {prior['meta']['updatedAt']}" in html
+
+
+def test_cancelled_postponed_and_sold_out_rows_render_as_such(tmp_path: Path) -> None:
+    """Adapter to built Radar: the four availability cases (#134)."""
+    now = datetime.now(BERLIN_TZ)
+    html = (Path(__file__).parent / "fixtures" / "zag_arena_listing.html").read_text(
+        encoding="utf-8"
+    )
+    # The homepage Radar starts today, so move the captured dates into view.
+    days = iter(range(1, 5))
+    html = re.sub(
+        r"\d{2}\.\d{2}\.\d{4}(\s+// \d{2}:\d{2})",
+        lambda match: f"{now + timedelta(days=next(days)):%d.%m.%Y}{match.group(1)}",
+        html,
+    )
+    zag = ZAGArenaSource()._parse_events(BeautifulSoup(html, "html.parser"))
+    sold_out = Event(
+        title="Sold Out Pipeline Show",
+        date=now + timedelta(days=2),
+        venue="LUX",
+        url="https://www.lux-linden.de/konzerte/sold-out-pipeline-show/",
+        category="radar",
+        metadata={"status": "sold_out"},
+    )
+    data_root = tmp_path / "output"
+    data_root.mkdir()
+    iso_year, iso_week, _ = now.isocalendar()
+    export_web_json([], [*zag, sold_out], data_root, iso_week, iso_year)
+
+    dist = tmp_path / "dist"
+    env = {k: v for k, v in os.environ.items() if not k.startswith("WEB_DATA_")}
+    build = subprocess.run(
+        [BUN, str(ASTRO), "build", "--root", str(WEB), "--outDir", str(dist)],
+        cwd=tmp_path,
+        env={**env, "WEB_DATA_ROOT": str(data_root), "WEB_DATA_MODE": "production"},
+        capture_output=True,
+        text=True,
+        timeout=180,
+        check=False,
+    )
+    assert build.returncode == 0, build.stdout + build.stderr
+
+    soup = BeautifulSoup(
+        (dist / "index.html").read_text(encoding="utf-8"), "html.parser"
+    )
+    rows = {
+        row.select_one("h3").get_text(strip=True): row
+        for row in soup.select("[data-event-item]")
+    }
+    labels = {
+        title: [
+            badge.get_text(strip=True) for badge in row.select("[data-event-status]")
+        ]
+        for title, row in rows.items()
+    }
+    assert labels == {
+        "NIGHT OF THE PROMS": [],
+        "KONSTANTINOS ARGIROS \u2013 ABGESAGT": ["Cancelled"],
+        "PUR": [],
+        "TESTKONZERT \u2013 VERSCHOBEN": ["Postponed"],
+        "Sold Out Pipeline Show": ["Sold Out"],
+    }
+    cancelled = rows["KONSTANTINOS ARGIROS \u2013 ABGESAGT"].select_one("h3")
+    assert "line-through" in (cancelled.get("class") or [])

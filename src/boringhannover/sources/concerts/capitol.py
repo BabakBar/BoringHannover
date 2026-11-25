@@ -150,7 +150,8 @@ class CapitolSource(BaseSource):
                     "time_confidence": FALLBACK_TIME,
                     "subtitle": subtitle,
                     "image_url": image_url,
-                    "status": status,
+                    # Only a sold-out notice is evidence; omitted means unknown.
+                    **({"status": status} if status else {}),
                     "event_type": "concert",
                     "address": self.ADDRESS,
                 },
@@ -195,14 +196,15 @@ class CapitolSource(BaseSource):
             image_url = f"{self.BASE_URL}{image_url}"
         return image_url
 
-    def _check_sold_out_status(self, item: Tag) -> str:
+    def _check_sold_out_status(self, item: Tag) -> str | None:
         """Check if event is sold out.
 
         Args:
             item: BeautifulSoup Tag element.
 
         Returns:
-            "sold_out" or "available".
+            "sold_out", or None: no sold-out notice is not proof of
+            availability, so the exporter publishes it as unknown.
         """
         status_elem = item.select_one(".sold-out, .ausverkauft, [class*='sold']")
         if status_elem:
@@ -212,4 +214,4 @@ class CapitolSource(BaseSource):
         if "ausverkauft" in item_text or "sold out" in item_text:
             return "sold_out"
 
-        return "available"
+        return None

@@ -11,6 +11,7 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from boringhannover.availability import listing_status
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.event_time import (
     get_display_time,
@@ -115,7 +116,7 @@ def _format_web_event(
     raw_genre = event.metadata.get("genre")
     genre = normalize_genre(str(raw_genre)) if raw_genre else None
     subtitle = event.metadata.get("subtitle")
-    status = event.metadata.get("status", "available")
+    status = listing_status(event.title, event.metadata.get("status"))
     programme_category = event.metadata.get("programme_category")
     end_time = event.metadata.get("end_time")
     image_url = event.metadata.get("image_url")
@@ -140,7 +141,7 @@ def _format_web_event(
             sanitize_text(str(subtitle), MAX_DESCRIPTION_LENGTH) if subtitle else None
         ),
         "imageUrl": sanitize_url(str(image_url)) if image_url else None,
-        "status": sanitize_text(str(status), 50),
+        "status": status,
     }
     if include_radar_facets:
         formatted_event["radarCategory"] = classify_radar_category(
