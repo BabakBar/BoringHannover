@@ -1,7 +1,10 @@
 import { afterEach, expect, test } from 'bun:test';
+import { createHash } from 'node:crypto';
 import {
+  cpSync,
   mkdtempSync,
   mkdirSync,
+  readFileSync,
   writeFileSync,
   rmSync,
   symlinkSync,
@@ -9,7 +12,7 @@ import {
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { resolveDataConfig } from './resolve';
-import { readSnapshot } from './loader';
+import { readSnapshot, sameJson } from './loader';
 import { publicProvenance } from './provenance';
 import type { EventData } from './types';
 
@@ -234,4 +237,100 @@ test('fixture mode builds from stale files', () => {
     meta: { ...feed().meta, updatedAtISO: '2020-01-01T00:00:00Z' },
   });
   expect(readSnapshot(config, now).data.meta.week).toBe(36);
+});
+
+// Minimal single-occasion snapshots taken verbatim from the 24 Nov 2026 scrape
+// replay (#136). See fixtures/publication/README.md for their provenance.
+const historical = join(import.meta.dir, 'fixtures/publication');
+// Inside the 10-day freshness window of every fixture, so a failure below can
+// only come from the consistency rule under test, never from staleness.
+const replayClock = Date.parse('2026-11-24T12:00:00Z');
+function historicalSnapshot(name: string, mode = 'production') {
+  const root = mkdtempSync(join(tmpdir(), 'replay-'));
+  roots.push(root);
+  cpSync(join(historical, name), join(root, 'output'), { recursive: true });
+  return {
+    config: resolveDataConfig({ WEB_DATA_MODE: mode }, root),
+    dataRoot: join(root, 'output'),
+  };
+}
+const readJson = (path: string) => JSON.parse(readFileSync(path, 'utf8'));
+
+test('coherent historical snapshot loads with an unchanged fingerprint', () => {
+  const { config, dataRoot } = historicalSnapshot('coherent-0ca2e2a');
+  const snapshot = readSnapshot(config, replayClock);
+  expect(snapshot.data.occasions.map((o) => o.slug)).toEqual([
+    'weihnachtsmarkt-hannover',
+  ]);
+  expect(snapshot.programmes.size).toBe(1);
+  // The fingerprint covers the raw manifest bytes and each accepted programme.
+  const path = 'occasions/weihnachtsmarkt-hannover.json';
+  const expected = createHash('sha256')
+    .update(
+      JSON.stringify([
+        'web_events.json',
+        readFileSync(join(dataRoot, 'web_events.json'), 'utf8'),
+      ]),
+    )
+    .update(JSON.stringify([path, readFileSync(join(dataRoot, path), 'utf8')]))
+    .digest('hex');
+  expect(snapshot.provenance.revision).toBe(expected);
+});
+test('intermediate 13e414a snapshot with conflicting facts is rejected', () => {
+  const { config } = historicalSnapshot('conflicting-13e414a');
+  // Identity and dates agree; status and occurrences do not.
+  expect(() => readSnapshot(config, replayClock)).toThrow(
+    'programme occasion summary does not match manifest',
+  );
+  const fixture = historicalSnapshot('conflicting-13e414a', 'fixture');
+  expect(readSnapshot(fixture.config, replayClock).data.occasions).toEqual([]);
+});
+test('intermediate b96f37e snapshot with a moved start date is rejected', () => {
+  const { config } = historicalSnapshot('date-mismatch-b96f37e');
+  expect(() => readSnapshot(config, replayClock)).toThrow(
+    'programme occasion identity or date range does not match manifest',
+  );
+});
+test('matching summaries with a wrong programme item count are rejected', () => {
+  const { config, dataRoot } = historicalSnapshot('coherent-0ca2e2a');
+  const manifestPath = join(dataRoot, 'web_events.json');
+  const programmePath = join(dataRoot, 'occasions/weihnachtsmarkt-hannover.json');
+  const manifest = readJson(manifestPath);
+  const programme = readJson(programmePath);
+  expect(programme.programme).toEqual([]);
+  manifest.occasions[0].programmeCount = 1;
+  programme.occasion.programmeCount = 1;
+  writeFileSync(manifestPath, JSON.stringify(manifest));
+  writeFileSync(programmePath, JSON.stringify(programme));
+  expect(() => readSnapshot(config, replayClock)).toThrow(
+    'programme has 0 items but manifest programmeCount is 1',
+  );
+});
+test('fields the schema strips still take part in the summary comparison', () => {
+  const { config, write } = setup();
+  const programmeFile = join(config.dataRoot, occasion.programmePath);
+  const legacy = { ...occasion, imageUrl: 'https://example.com/a.jpg' };
+  write({ ...feed(), occasions: [legacy] });
+  writeFileSync(
+    programmeFile,
+    JSON.stringify({ meta: { updatedAt: 'today' }, occasion, programme: [] }),
+  );
+  expect(() => readSnapshot(config, now)).toThrow('summary does not match');
+  writeFileSync(
+    programmeFile,
+    JSON.stringify({
+      meta: { updatedAt: 'today' },
+      occasion: legacy,
+      programme: [],
+    }),
+  );
+  expect(readSnapshot(config, now).programmes.size).toBe(1);
+});
+test('sameJson compares structure, not key order', () => {
+  expect(sameJson({ a: 1, b: [1, { c: null }] }, { b: [1, { c: null }], a: 1 })).toBe(true);
+  expect(sameJson({ a: 1 }, { a: 1, b: undefined })).toBe(false);
+  expect(sameJson({ a: null }, {})).toBe(false);
+  expect(sameJson([1, 2], [2, 1])).toBe(false);
+  expect(sameJson({ 0: 1 }, [1])).toBe(false);
+  expect(sameJson(1, '1')).toBe(false);
 });
