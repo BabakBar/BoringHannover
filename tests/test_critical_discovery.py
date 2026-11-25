@@ -14,7 +14,6 @@ from typing import TYPE_CHECKING
 import pytest
 
 from boringhannover import aggregator, sources
-from boringhannover.sources import base
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
 from boringhannover.models import Event
@@ -23,6 +22,7 @@ from boringhannover.source_outcomes import (
     SourceOutcome,
     publication_refusal,
 )
+from boringhannover.sources import base
 from boringhannover.sources.base import BaseSource
 
 
