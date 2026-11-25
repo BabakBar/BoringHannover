@@ -29,6 +29,7 @@ from boringhannover.sources.concerts.kulturpalast_linden import (
     KulturpalastLindenSource,
 )
 from boringhannover.sources.concerts.lux import LuxSource
+from boringhannover.sources.concerts.pavillon import PavillonSource
 from boringhannover.sources.concerts.platzprojekt import PlatzprojektSource
 from boringhannover.sources.concerts.punkrock_konzerte import (
     PunkrockKonzerteSource,
@@ -789,14 +790,23 @@ class TestPunkrockKonzerte:
 def test_lux_captured_programme() -> None:
     events = LuxSource()._parse_events(_soup("lux_programme.html"), now=NOW)
 
-    # Cancelled, unresolved, past and malformed entries are dropped.
+    # Unresolved, past and malformed entries are dropped. A cancelled card
+    # stays, labelled, so a programme that lists it learns of it (#134).
     assert [event.title for event in events] == [
         "DRIVEN BY CLOCKWORK /W SUMMER GLOOM",
         "PON DE BEATS X RAMUNE RAVE",
+        "TRAUMATIN",
         "MC BOMBER",
         "JANUARY FUTURE",
     ]
-    concert, club_night, sold_out, future = events
+    concert, club_night, cancelled, sold_out, future = events
+
+    # The notice is outside the title ("++ ABGESAGT ++") and the card has no
+    # start time; its date and URL still identify the performance.
+    assert cancelled.metadata["status"] == "cancelled"
+    assert cancelled.url.endswith("/konzerte/traumatin/")
+    assert cancelled.date.date() == datetime(2026, 9, 4, tzinfo=BERLIN_TZ).date()
+    assert cancelled.metadata["time_confidence"] == FALLBACK_TIME
 
     assert concert.date == datetime(2026, 8, 14, 20, 0, tzinfo=BERLIN_TZ)
     assert concert.url.endswith("/konzerte/driven-by-clockwork-w-summer-gloom/")
@@ -836,8 +846,12 @@ class TestPlatzprojekt:
             "PLATZkino – heute mit „Parasite“",  # noqa: RUF001
             "Blaue Zone Sommercamp",
             "Offenes Krökeln",
+            "FÄLLT AUS! Kickboxen",
         ]
-        timed, all_day, default_venue = events
+        timed, all_day, default_venue, cancelled = events
+        # Kept and labelled rather than dropped (#134).
+        assert cancelled.metadata["status"] == "cancelled"
+        assert "status" not in timed.metadata
 
         assert timed.date == datetime(2026, 7, 28, 20, 0, tzinfo=BERLIN_TZ)
         assert timed.venue == "OSCO – OpenSpace"  # noqa: RUF001
@@ -867,6 +881,28 @@ class TestPlatzprojekt:
     @pytest.mark.parametrize("payload", [[], {"events": "invalid"}])
     def test_malformed_payload_yields_nothing(self, payload: object) -> None:
         assert PlatzprojektSource()._parse_payload(payload, now=NOW) == []
+
+
+def test_pavillon_labels_cancelled_and_postponed_cards() -> None:
+    """Synthetic cards in Pavillon's text layout; the notice is outside the title."""
+    html = "".join(
+        f'<div class="event"><span>{day}</span><span>{date}</span>'
+        f'<span>{time} Uhr</span><a href="/event/details/{number}">{title}</a>'
+        f"<span>Konzert</span><span>{notice}</span></div>"
+        for number, (day, date, time, title, notice) in enumerate(
+            [
+                ("Sa", "12.12.2026", "20:00", "Erste Band", "Tickets"),
+                ("So", "13.12.2026", "19:00", "Zweite Band", "Entfällt"),
+                ("Mo", "14.12.2026", "20:00", "Dritte Band", "Wird verschoben"),
+            ]
+        )
+    )
+    events = PavillonSource()._parse_events(BeautifulSoup(html, "html.parser"))
+    assert [(e.title, e.metadata.get("status")) for e in events] == [
+        ("Erste Band", None),
+        ("Zweite Band", "cancelled"),
+        ("Dritte Band", "postponed"),
+    ]
 
 
 def test_hannover_96_captured_calendar() -> None:

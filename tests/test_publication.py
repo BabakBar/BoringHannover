@@ -22,7 +22,7 @@ from bs4 import BeautifulSoup
 from boringhannover import github_sync, main, source_outcomes
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
-from boringhannover.event_time import CONFIRMED_TIME
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.github_sync import (
     WEB_EVENTS_REPO_PATH,
     WEB_OCCASIONS_REPO_DIR,
@@ -1481,11 +1481,24 @@ def test_carry_forward_obeys_berlin_dates_and_confirmed_sparse_appointments(
             ],
             id="ambiguous-rename-is-not-merged",
         ),
+        # LUX states the cancellation outside the title and drops the start
+        # time; URL, date and venue still identify the performance.
+        pytest.param(
+            ["Known festival gala"],
+            [
+                (
+                    "Known festival gala",
+                    {"status": "cancelled", "time_confidence": FALLBACK_TIME},
+                )
+            ],
+            [("Known festival gala", "cancelled")],
+            id="notice-without-start-time-replaces-the-performance",
+        ),
     ],
 )
 def test_carried_programme_follows_a_renamed_performance(
     first: list[str],
-    second: list[str],
+    second: list[str | tuple[str, dict[str, str]]],
     expected: list[tuple[str, str]],
     monkeypatch: pytest.MonkeyPatch,
     local_site: LocalSite,
@@ -1507,22 +1520,27 @@ def test_carried_programme_follows_a_renamed_performance(
         schedule_confidence="continuous",
     )
 
-    def performances(titles: list[str]) -> list[Event]:
-        return [
-            Event(
-                title=title,
-                date=show,
-                venue="ZAG Arena",
-                url="https://example.com/gala",
-                category="radar",
-                metadata={
-                    "occasion_id": occasion.id,
-                    "time": "20:00",
-                    "time_confidence": CONFIRMED_TIME,
-                },
+    def performances(rows: list[str | tuple[str, dict[str, str]]]) -> list[Event]:
+        events = []
+        for row in rows:
+            title, extra = row if isinstance(row, tuple) else (row, {})
+            metadata: dict[str, str | int | list[str]] = {
+                "occasion_id": occasion.id,
+                "time": "20:00",
+                "time_confidence": CONFIRMED_TIME,
+                **extra,
+            }
+            events.append(
+                Event(
+                    title=title,
+                    date=show,
+                    venue="ZAG Arena",
+                    url="https://example.com/gala",
+                    category="radar",
+                    metadata=metadata,
+                )
             )
-            for title in titles
-        ]
+        return events
 
     other = Event(
         title="Unrelated concert",

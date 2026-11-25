@@ -449,28 +449,39 @@ def _event_key(item: Record) -> tuple[str, ...]:
 
 
 def _performance_key(item: Record) -> tuple[str, ...] | None:
-    """Identify a performance without its title, or None if it has no URL.
+    """Identify a performance by URL, date and venue, or None without a URL.
 
-    Venues announce a change by renaming the row in place: ZAG Arena turned
-    "KONSTANTINOS ARGIROS" into "KONSTANTINOS ARGIROS - ABGESAGT" with the
-    same URL, date, time and venue.
+    Venues announce a change by editing the row in place: ZAG Arena renamed
+    "KONSTANTINOS ARGIROS" to "KONSTANTINOS ARGIROS - ABGESAGT" with the same
+    URL, date, time and venue, and a cancelled LUX card drops its start time.
     """
     if not item.get("url"):
         return None
     return tuple(
         _text(item, key) if item.get(key) is not None else ""
-        for key in ("url", "dateISO", "time", "venue")
+        for key in ("url", "dateISO", "venue")
     )
 
 
 def _renamed_performance(
     items: list[Record], fresh: Record, fresh_counts: Counter[tuple[str, ...]]
 ) -> Record | None:
-    """Return the one prior item this fresh row renames, if nothing is ambiguous."""
+    """Return the one prior item this fresh row edits, if nothing is ambiguous.
+
+    Times must agree when both rows state one; a missing time on either side
+    matches, because a cancellation notice often omits it. Two known, different
+    times on the same URL and date are two performances.
+    """
     key = _performance_key(fresh)
     if key is None or fresh_counts[key] != 1:
         return None
-    candidates = [item for item in items if _performance_key(item) == key]
+    time = fresh.get("time")
+    candidates = [
+        item
+        for item in items
+        if _performance_key(item) == key
+        and (not time or not item.get("time") or item.get("time") == time)
+    ]
     return candidates[0] if len(candidates) == 1 else None
 
 

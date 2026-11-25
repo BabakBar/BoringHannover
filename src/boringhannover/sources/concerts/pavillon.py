@@ -109,12 +109,13 @@ class PavillonSource(BaseSource):
             if not self._is_concert(event_text):
                 continue
 
-            # Skip cancelled/postponed events
-            if self._is_cancelled(event_text):
-                continue
-
             event = self._parse_event(href, event_text)
             if event:
+                # Keep a cancelled or postponed date, labelled: dropping it
+                # would hide the change from a programme that already lists it.
+                change = self._change_status(event_text)
+                if change:
+                    event.metadata["status"] = change
                 events.append(event)
                 if self.max_events and len(events) >= self.max_events:
                     break
@@ -153,22 +154,21 @@ class PavillonSource(BaseSource):
         """
         return any(cat in text for cat in self.CONCERT_CATEGORIES)
 
-    def _is_cancelled(self, text: str) -> bool:
-        """Check if event is cancelled or postponed.
+    def _change_status(self, text: str) -> str | None:
+        """Return "postponed" or "cancelled" if the card announces either.
 
         Args:
             text: Event text content.
 
         Returns:
-            True if event should be skipped.
+            The status to publish, or None for an unchanged event.
         """
-        skip_patterns = [
-            "Entfällt",
-            "Wird Verschoben",
-            "Abgesagt",
-            "Cancelled",
-        ]
-        return any(pattern.lower() in text.lower() for pattern in skip_patterns)
+        lowered = text.lower()
+        if "wird verschoben" in lowered:
+            return "postponed"
+        if any(marker in lowered for marker in ("entfällt", "abgesagt", "cancelled")):
+            return "cancelled"
+        return None
 
     def _parse_event(self, href: str, text: str) -> Event | None:
         """Parse event details from URL and text content.

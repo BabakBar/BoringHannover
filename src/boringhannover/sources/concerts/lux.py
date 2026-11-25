@@ -11,7 +11,7 @@ from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 
 from boringhannover.constants import BERLIN_TZ
-from boringhannover.event_time import CONFIRMED_TIME
+from boringhannover.event_time import CONFIRMED_TIME, FALLBACK_TIME
 from boringhannover.genre import normalize_genre
 from boringhannover.models import Event
 from boringhannover.sanitize import (
@@ -96,8 +96,7 @@ class LuxSource(BaseSource):
         """Parse one programme card, failing closed on incomplete timing."""
         fields = self._extract_info_fields(card)
         notice_text = self._extract_notice_text(card, fields).casefold()
-        if any(marker in notice_text for marker in self._CANCELLED_MARKERS):
-            return None
+        cancelled = any(marker in notice_text for marker in self._CANCELLED_MARKERS)
 
         title_element = card.select_one("h3.headline")
         if not title_element:
@@ -115,6 +114,12 @@ class LuxSource(BaseSource):
         event_date = self._parse_start(
             fields.get("am", ""), fields.get("beginn", ""), now
         )
+        time_confidence = CONFIRMED_TIME
+        if not event_date and cancelled:
+            # A cancelled card often drops its start time. Its date and URL
+            # still identify the performance, so publish it date-only.
+            event_date = self._parse_start(fields.get("am", ""), "20:00", now)
+            time_confidence = FALLBACK_TIME
         if not event_date:
             return None
 
@@ -122,12 +127,15 @@ class LuxSource(BaseSource):
         event_type = "party" if "clubnight" in (card.get("class") or []) else "concert"
         metadata: dict[str, str | int | list[str]] = {
             "time": event_date.strftime("%H:%M"),
-            "time_confidence": CONFIRMED_TIME,
+            "time_confidence": time_confidence,
             "event_type": event_type,
             "address": self.ADDRESS,
         }
-        # Only a sold-out notice is evidence; its absence leaves status unknown.
-        if "ausverkauft" in notice_text:
+        # A cancellation stays published, labelled. Only a sold-out notice is
+        # evidence of ticket state; its absence leaves status unknown.
+        if cancelled:
+            metadata["status"] = "cancelled"
+        elif "ausverkauft" in notice_text:
             metadata["status"] = "sold_out"
 
         if description:
