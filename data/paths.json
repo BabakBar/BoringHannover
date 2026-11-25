@@ -4550,13 +4550,13 @@
         {
           "path": "/BabakBar/BoringHannover/pulls",
           "title": "/pulls",
-          "count": 27,
+          "count": 22,
           "uniques": 1
         },
         {
           "path": "/BabakBar/BoringHannover",
           "title": "Overview",
-          "count": 23,
+          "count": 21,
           "uniques": 1
         },
         {
@@ -4578,12 +4578,6 @@
           "uniques": 1
         },
         {
-          "path": "/BabakBar/BoringHannover/actions/runs/42840838313",
-          "title": "/actions/runs/42840838313",
-          "count": 2,
-          "uniques": 1
-        },
-        {
           "path": "/BabakBar/BoringHannover/pull/105",
           "title": "/pull/105",
           "count": 2,
@@ -4596,14 +4590,20 @@
           "uniques": 1
         },
         {
-          "path": "/BabakBar/BoringHannover/actions",
-          "title": "/actions",
+          "path": "/BabakBar/BoringHannover/blob/master/LICENSE",
+          "title": "/blob/master/LICENSE",
           "count": 1,
           "uniques": 1
         },
         {
-          "path": "/BabakBar/BoringHannover/actions/runs/42840838313/job/129915491668",
-          "title": "/actions/runs/42840838313/job/129915491668",
+          "path": "/BabakBar/BoringHannover/commit/1427f568c2232871e7ac347ca217bffed8b1869a",
+          "title": "/commit/1427f568c2232871e7ac347ca217bffed8b1869a",
+          "count": 1,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/commits/master",
+          "title": "/commits/master",
           "count": 1,
           "uniques": 1
         }
@@ -4614,7 +4614,7 @@
     {
       "path": "/BabakBar/BoringHannover/pulls",
       "title": "/pulls",
-      "latest_count": 27,
+      "latest_count": 22,
       "latest_uniques": 1,
       "max_count": 27,
       "max_uniques": 1,
@@ -4624,7 +4624,7 @@
     {
       "path": "/BabakBar/BoringHannover",
       "title": "Overview",
-      "latest_count": 23,
+      "latest_count": 21,
       "latest_uniques": 1,
       "max_count": 23,
       "max_uniques": 2,
@@ -4799,7 +4799,7 @@
       "max_count": 1,
       "max_uniques": 1,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-11-07"
+      "last_seen": "2026-11-25"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/docker-compose.yml",
@@ -4950,6 +4950,26 @@
       "max_uniques": 1,
       "first_seen": "2026-11-21",
       "last_seen": "2026-11-22"
+    },
+    {
+      "path": "/BabakBar/BoringHannover/commit/1427f568c2232871e7ac347ca217bffed8b1869a",
+      "title": "/commit/1427f568c2232871e7ac347ca217bffed8b1869a",
+      "latest_count": 1,
+      "latest_uniques": 1,
+      "max_count": 1,
+      "max_uniques": 1,
+      "first_seen": "2026-11-25",
+      "last_seen": "2026-11-25"
+    },
+    {
+      "path": "/BabakBar/BoringHannover/commits/master",
+      "title": "/commits/master",
+      "latest_count": 1,
+      "latest_uniques": 1,
+      "max_count": 1,
+      "max_uniques": 1,
+      "first_seen": "2026-11-25",
+      "last_seen": "2026-11-25"
     }
   ]
 }
