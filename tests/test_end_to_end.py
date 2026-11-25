@@ -12,6 +12,7 @@ import os
 import re
 import shutil
 import subprocess
+from dataclasses import replace
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -31,6 +32,7 @@ from boringhannover.sources.cinema.astor import AstorSource
 from boringhannover.sources.concerts.kulturpalast_linden import (
     KulturpalastLindenSource,
 )
+from boringhannover.sources.concerts.lux import LuxSource
 from boringhannover.sources.concerts.zag_arena import ZAGArenaSource
 from boringhannover.sources.festivals.hannover_calendar import (
     HannoverFestivalCalendarSource,
@@ -750,3 +752,93 @@ def test_cancelled_postponed_and_sold_out_rows_render_as_such(tmp_path: Path) ->
     }
     cancelled = rows["KONSTANTINOS ARGIROS \u2013 ABGESAGT"].select_one("h3")
     assert "line-through" in (cancelled.get("class") or [])
+
+
+def test_occasion_programme_shows_cancelled_and_postponed_rows(tmp_path: Path) -> None:
+    """A LUX notice outside the title still reaches the occasion page (#165 review)."""
+    now = datetime.now(BERLIN_TZ)
+    show = now.replace(hour=20, minute=0, second=0, microsecond=0) + timedelta(days=2)
+    occasion = OccasionDefinition(
+        id="e2e:status-fest",
+        slug="status-fest",
+        name="Status Fest",
+        kind="festival",
+        start_date=now.date(),
+        end_date=(now + timedelta(days=5)).date(),
+        location="Hannover",
+        source_url="https://www.hannover.de/Veranstaltungskalender/Status-Fest",
+        description="Ein Fest, das nur in diesem Test stattfindet.",
+        schedule_confidence="continuous",
+    )
+    captured = BeautifulSoup(
+        (Path(__file__).parent / "fixtures" / "lux_programme.html").read_text(
+            encoding="utf-8"
+        ),
+        "html.parser",
+    )
+    lux = {
+        event.title: event
+        for event in LuxSource()._parse_events(
+            captured, now=datetime(2026, 7, 26, 12, 0, tzinfo=BERLIN_TZ)
+        )
+    }
+    # The captured cards, moved onto the occasion's dates.
+    programme = [
+        replace(
+            lux[title],
+            date=show + timedelta(hours=offset),
+            metadata={**lux[title].metadata, "occasion_id": occasion.id},
+        )
+        for title, offset in (
+            ("TRAUMATIN", 0),  # "++ ABGESAGT ++", no start time
+            ("MICHÈL VON WUSSOW", 24),  # "++ VERLEGT AUF 13.04.2027 ++"
+            ("DRIVEN BY CLOCKWORK /W SUMMER GLOOM", 48),
+        )
+    ]
+    data_root = tmp_path / "output"
+    data_root.mkdir()
+    iso_year, iso_week, _ = now.isocalendar()
+    export_web_json(
+        [], programme, data_root, iso_week, iso_year, occasion_definitions=[occasion]
+    )
+    published = json.loads((data_root / "occasions/status-fest.json").read_text())
+    assert {row["title"]: row["status"] for row in published["programme"]} == {
+        "TRAUMATIN": "cancelled",
+        "MICHÈL VON WUSSOW": "postponed",
+        "DRIVEN BY CLOCKWORK /W SUMMER GLOOM": "unknown",
+    }
+
+    dist = tmp_path / "dist"
+    env = {k: v for k, v in os.environ.items() if not k.startswith("WEB_DATA_")}
+    build = subprocess.run(
+        [BUN, str(ASTRO), "build", "--root", str(WEB), "--outDir", str(dist)],
+        cwd=tmp_path,
+        env={**env, "WEB_DATA_ROOT": str(data_root), "WEB_DATA_MODE": "production"},
+        capture_output=True,
+        text=True,
+        timeout=180,
+        check=False,
+    )
+    assert build.returncode == 0, build.stdout + build.stderr
+
+    page = BeautifulSoup(
+        (dist / "special" / "status-fest" / "index.html").read_text(encoding="utf-8"),
+        "html.parser",
+    )
+    rows = {
+        row.select_one("h4").get_text(strip=True): row
+        for row in page.select("[data-programme-item]")
+    }
+    assert {
+        title: [
+            label.get_text(strip=True) for label in row.select("[data-event-status]")
+        ]
+        for title, row in rows.items()
+    } == {
+        "TRAUMATIN": ["Cancelled"],
+        "MICHÈL VON WUSSOW": ["Postponed"],
+        "DRIVEN BY CLOCKWORK /W SUMMER GLOOM": [],
+    }
+    assert "programme-item__title--cancelled" in rows["TRAUMATIN"].h4["class"]
+    link = rows["TRAUMATIN"].select_one("a.programme-item__link")
+    assert link["aria-label"] == "Open official details for TRAUMATIN (cancelled)"

@@ -2,6 +2,7 @@
 import { sanitizeUrl } from '../utils/sanitize';
 import { formatEventTime } from '../utils/displayLabels';
 import { getCanonicalGenre } from '../utils/genreFilter';
+import { eventStatusLabel, isCancelledStatus } from '../utils/eventStatus';
 
 interface Props {
   title: string;
@@ -41,17 +42,8 @@ const canonicalGenre = getCanonicalGenre(genre);
 const infoTag = canonicalGenre || radarCategory || (
   eventType && eventType !== 'concert' ? eventType : null
 );
-// One label per published availability (#134). Unknown and available carry
-// none: absent ticket information is not a claim either way.
-const STATUS_LABELS: Record<string, string> = {
-  sold_out: 'Sold Out',
-  cancelled: 'Cancelled',
-  canceled: 'Cancelled',
-  postponed: 'Postponed',
-  rescheduled: 'Rescheduled',
-};
-const statusLabel = status ? STATUS_LABELS[status] : undefined;
-const isCancelled = status === 'cancelled' || status === 'canceled';
+const statusLabel = eventStatusLabel(status);
+const isCancelled = isCancelledStatus(status);
 ---
 
 <a
