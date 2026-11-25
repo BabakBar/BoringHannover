@@ -22,6 +22,7 @@ from bs4 import BeautifulSoup
 from boringhannover import github_sync, main, source_outcomes
 from boringhannover.aggregator import fetch_all_events
 from boringhannover.constants import BERLIN_TZ
+from boringhannover.event_time import CONFIRMED_TIME
 from boringhannover.github_sync import (
     WEB_EVENTS_REPO_PATH,
     WEB_OCCASIONS_REPO_DIR,
@@ -1449,3 +1450,133 @@ def test_carry_forward_obeys_berlin_dates_and_confirmed_sparse_appointments(
             retained["meta"]
             == json.loads(files["web/output/occasions/clock.json"])["meta"]
         )
+
+
+@pytest.mark.parametrize(
+    ("first", "second", "expected"),
+    [
+        # ZAG renamed the row in place when it cancelled (#134 review).
+        pytest.param(
+            ["Known festival gala"],
+            ["Known festival gala \u2013 ABGESAGT"],
+            [("Known festival gala \u2013 ABGESAGT", "cancelled")],
+            id="cancellation-in-title-replaces-the-performance",
+        ),
+        # A marker that disappears again is not proof of reinstatement (#26).
+        pytest.param(
+            ["Known festival gala \u2013 ABGESAGT"],
+            ["Known festival gala"],
+            [("Known festival gala", "cancelled")],
+            id="vanished-marker-keeps-the-cancellation",
+        ),
+        # Two prior rows share URL, date, time and venue: nothing identifies
+        # which one was renamed, so the new title is kept beside both.
+        pytest.param(
+            ["Known festival gala", "Known festival matinee"],
+            ["Known festival gala \u2013 ABGESAGT"],
+            [
+                ("Known festival gala", "unknown"),
+                ("Known festival gala \u2013 ABGESAGT", "cancelled"),
+                ("Known festival matinee", "unknown"),
+            ],
+            id="ambiguous-rename-is-not-merged",
+        ),
+    ],
+)
+def test_carried_programme_follows_a_renamed_performance(
+    first: list[str],
+    second: list[str],
+    expected: list[tuple[str, str]],
+    monkeypatch: pytest.MonkeyPatch,
+    local_site: LocalSite,
+    tmp_path: Path,
+) -> None:
+    """Two real runs: the occasion is carried forward while its row changes title."""
+    now = datetime.now(BERLIN_TZ)
+    show = now.replace(hour=20, minute=0, second=0, microsecond=0) + timedelta(days=1)
+    occasion = OccasionDefinition(
+        id="test:known",
+        slug="known",
+        name="Known festival",
+        kind="festival",
+        start_date=now.date(),
+        end_date=(now + timedelta(days=5)).date(),
+        location="Hannover",
+        source_url="https://example.com/known",
+        description="A known festival.",
+        schedule_confidence="continuous",
+    )
+
+    def performances(titles: list[str]) -> list[Event]:
+        return [
+            Event(
+                title=title,
+                date=show,
+                venue="ZAG Arena",
+                url="https://example.com/gala",
+                category="radar",
+                metadata={
+                    "occasion_id": occasion.id,
+                    "time": "20:00",
+                    "time_confidence": CONFIRMED_TIME,
+                },
+            )
+            for title in titles
+        ]
+
+    other = Event(
+        title="Unrelated concert",
+        date=show,
+        venue="Venue",
+        url="https://example.com/unrelated",
+        category="radar",
+    )
+    run: dict[str, object] = {
+        "movies_this_week": [],
+        "big_events_radar": [other, *performances(first)],
+        "city_occasions": [occasion],
+        "source_outcomes": [FETCHED, DISCOVERED_ONE],
+    }
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(main, "fetch_all_events", lambda **_: run)
+    monkeypatch.setattr(main, "should_sync", lambda: True)
+    monkeypatch.setattr(main, "backup_run", lambda _: True)
+    serve_github_publication(local_site, {})
+    with httpx.Client(base_url=local_site.url) as client:
+        monkeypatch.setattr(
+            main,
+            "carry_forward_occasions",
+            lambda output_dir, **kwargs: github_sync.carry_forward_occasions(
+                output_dir, client=client, repo="test/events", **kwargs
+            ),
+            raising=False,
+        )
+        monkeypatch.setattr(
+            main,
+            "sync_web_data_to_github",
+            lambda output_dir: all(
+                _sync_file(client, "test/events", path, remote)
+                for path, remote in _collect_web_sync_paths(output_dir)
+            ),
+        )
+        assert main.run()
+        published = {
+            path.removeprefix("/repos/test/events/contents/"): base64.b64decode(
+                str(payload["content"])
+            )
+            for path, payload in local_site.puts
+        }
+        serve_github_publication(local_site, published)
+        # Second scrape: the calendar no longer lists the occasion, so it is
+        # carried forward, and the venue has renamed its row.
+        run["city_occasions"] = []
+        run["source_outcomes"] = [FETCHED, DISCOVERED]
+        run["big_events_radar"] = [other, *performances(second)]
+        local_site.puts.clear()
+        assert main.run()
+
+    retained = json.loads((tmp_path / "output/occasions/known.json").read_text())
+    assert [(row["title"], row["status"]) for row in retained["programme"]] == expected
+    assert retained["occasion"]["programmeCount"] == len(expected)
+    manifest = json.loads((tmp_path / "output/web_events.json").read_text())
+    assert [row["title"] for row in manifest["concerts"]] == ["Unrelated concert"]

@@ -7,6 +7,7 @@ import hashlib
 import json
 import logging
 import re
+from collections import Counter
 from collections.abc import Callable, Sequence
 from copy import deepcopy
 from datetime import date, datetime, timedelta
@@ -447,6 +448,32 @@ def _event_key(item: Record) -> tuple[str, ...]:
     )
 
 
+def _performance_key(item: Record) -> tuple[str, ...] | None:
+    """Identify a performance without its title, or None if it has no URL.
+
+    Venues announce a change by renaming the row in place: ZAG Arena turned
+    "KONSTANTINOS ARGIROS" into "KONSTANTINOS ARGIROS - ABGESAGT" with the
+    same URL, date, time and venue.
+    """
+    if not item.get("url"):
+        return None
+    return tuple(
+        _text(item, key) if item.get(key) is not None else ""
+        for key in ("url", "dateISO", "time", "venue")
+    )
+
+
+def _renamed_performance(
+    items: list[Record], fresh: Record, fresh_counts: Counter[tuple[str, ...]]
+) -> Record | None:
+    """Return the one prior item this fresh row renames, if nothing is ambiguous."""
+    key = _performance_key(fresh)
+    if key is None or fresh_counts[key] != 1:
+        return None
+    candidates = [item for item in items if _performance_key(item) == key]
+    return candidates[0] if len(candidates) == 1 else None
+
+
 def _partition_carried_programmes(
     manifest: Record,
     programmes: dict[str, Record],
@@ -458,6 +485,11 @@ def _partition_carried_programmes(
     year = _object(manifest["meta"]).get("year")
     if type(year) is not int:
         raise ValueError("Invalid export year for programme classification")
+    fresh_counts = Counter(
+        key
+        for event in events
+        if (key := _performance_key(_occasion_programme_item(event, year)))
+    )
     for event in events:
         row = _format_web_event(event, year)
         if row not in radar:
@@ -487,6 +519,8 @@ def _partition_carried_programmes(
         fresh = _occasion_programme_item(event, year)
         key = _event_key(fresh)
         prior = next((item for item in items if _event_key(item) == key), None)
+        if prior is None:
+            prior = _renamed_performance(items, fresh, fresh_counts)
         if (
             prior is not None
             and "status" not in event.metadata
@@ -499,9 +533,9 @@ def _partition_carried_programmes(
             )
         ):
             fresh["status"] = prior["status"]
-        programme["programme"] = [item for item in items if _event_key(item) != key] + [
-            fresh
-        ]
+        programme["programme"] = [
+            item for item in items if item is not prior and _event_key(item) != key
+        ] + [fresh]
         radar.remove(row)
     manifest["concerts"] = radar
     for identity in carried:
