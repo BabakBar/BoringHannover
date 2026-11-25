@@ -796,10 +796,16 @@ def test_lux_captured_programme() -> None:
         "DRIVEN BY CLOCKWORK /W SUMMER GLOOM",
         "PON DE BEATS X RAMUNE RAVE",
         "TRAUMATIN",
+        "MICHÈL VON WUSSOW",
         "MC BOMBER",
         "JANUARY FUTURE",
     ]
-    concert, club_night, cancelled, sold_out, future = events
+    concert, club_night, cancelled, postponed, sold_out, future = events
+
+    # "++ VERLEGT AUF 13.04.2027 ++": the original date stays, labelled.
+    assert postponed.metadata["status"] == "postponed"
+    assert postponed.date.date() == datetime(2026, 10, 13, tzinfo=BERLIN_TZ).date()
+    assert postponed.metadata["time_confidence"] == FALLBACK_TIME
 
     # The notice is outside the title ("++ ABGESAGT ++") and the card has no
     # start time; its date and URL still identify the performance.
@@ -831,6 +837,27 @@ def test_lux_captured_programme() -> None:
     # January is next year's January.
     assert future.date == datetime(2027, 1, 21, 20, 30, tzinfo=BERLIN_TZ)
     assert future.metadata["genre"] == "Rock"
+
+
+@pytest.mark.parametrize(
+    ("now", "listed"),
+    [
+        (datetime(2026, 9, 4, 0, 0, tzinfo=BERLIN_TZ), True),
+        (datetime(2026, 9, 4, 19, 59, tzinfo=BERLIN_TZ), True),
+        # 20:00 is only a sorting placeholder for a card without a start time.
+        (datetime(2026, 9, 4, 20, 1, tzinfo=BERLIN_TZ), True),
+        (datetime(2026, 9, 4, 23, 59, tzinfo=BERLIN_TZ), True),
+        (datetime(2026, 9, 5, 0, 0, tzinfo=BERLIN_TZ), False),
+    ],
+)
+def test_lux_date_only_card_lasts_its_whole_day(now: datetime, listed: bool) -> None:
+    """The cancelled TRAUMATIN card (Fr. 04.09.) has no start time (#165 review)."""
+    events = LuxSource()._parse_events(_soup("lux_programme.html"), now=now)
+    card = [event for event in events if event.title == "TRAUMATIN"]
+    in_window = [event for event in card if event.is_within_next_days(14, now=now)]
+    assert bool(in_window) is listed
+    if listed:
+        assert card[0].date.date() == now.date()
 
 
 class TestPlatzprojekt:

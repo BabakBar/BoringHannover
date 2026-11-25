@@ -49,6 +49,7 @@ class LuxSource(BaseSource):
         "entfällt",
         "ersatzlos gestrichen",
     )
+    _POSTPONED_MARKERS: ClassVar[tuple[str, ...]] = ("verlegt", "verschoben")
     _DATE_PATTERN: ClassVar[re.Pattern[str]] = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.")
     _TIME_PATTERN: ClassVar[re.Pattern[str]] = re.compile(r"\b(\d{1,2})[:.](\d{2})\b")
 
@@ -96,7 +97,13 @@ class LuxSource(BaseSource):
         """Parse one programme card, failing closed on incomplete timing."""
         fields = self._extract_info_fields(card)
         notice_text = self._extract_notice_text(card, fields).casefold()
-        cancelled = any(marker in notice_text for marker in self._CANCELLED_MARKERS)
+        # A changed card stays published, labelled with the change, so a
+        # programme that already lists the performance learns of it.
+        change: str | None = None
+        if any(marker in notice_text for marker in self._CANCELLED_MARKERS):
+            change = "cancelled"
+        elif any(marker in notice_text for marker in self._POSTPONED_MARKERS):
+            change = "postponed"
 
         title_element = card.select_one("h3.headline")
         if not title_element:
@@ -115,10 +122,11 @@ class LuxSource(BaseSource):
             fields.get("am", ""), fields.get("beginn", ""), now
         )
         time_confidence = CONFIRMED_TIME
-        if not event_date and cancelled:
-            # A cancelled card often drops its start time. Its date and URL
-            # still identify the performance, so publish it date-only.
-            event_date = self._parse_start(fields.get("am", ""), "20:00", now)
+        if not event_date and change:
+            # A cancelled or postponed card often drops its start time. Its
+            # date and URL still identify the performance: publish it for the
+            # whole listed day, with no time.
+            event_date = self._parse_day(fields.get("am", ""), now)
             time_confidence = FALLBACK_TIME
         if not event_date:
             return None
@@ -133,8 +141,8 @@ class LuxSource(BaseSource):
         }
         # A cancellation stays published, labelled. Only a sold-out notice is
         # evidence of ticket state; its absence leaves status unknown.
-        if cancelled:
-            metadata["status"] = "cancelled"
+        if change:
+            metadata["status"] = change
         elif "ausverkauft" in notice_text:
             metadata["status"] = "sold_out"
 
@@ -220,6 +228,27 @@ class LuxSource(BaseSource):
             return None
 
         if candidate > now + timedelta(days=self.MAX_FUTURE_DAYS):
+            return None
+        return candidate
+
+    def _parse_day(self, date_text: str, now: datetime) -> datetime | None:
+        """Resolve a date-only card to its listed Berlin day.
+
+        The year rolls over by calendar day, not by an invented start time, so
+        the card stays listed for the whole of its day. The returned 20:00 is
+        a sorting placeholder, published with fallback confidence.
+        """
+        date_match = self._DATE_PATTERN.search(date_text)
+        if not date_match:
+            return None
+        day, month = (int(value) for value in date_match.groups())
+        try:
+            candidate = datetime(now.year, month, day, 20, 0, tzinfo=BERLIN_TZ)
+            if candidate.date() < now.date():
+                candidate = candidate.replace(year=now.year + 1)
+        except ValueError:
+            return None
+        if candidate.date() > (now + timedelta(days=self.MAX_FUTURE_DAYS)).date():
             return None
         return candidate
 
