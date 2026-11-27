@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "updatedAt": "Fri 27 Nov 10:00"
+  },
+  "occasion": {
+    "id": "hannover-festivals:solidarischer-adventsbasar-vor-der-basilika-st-clemens",
+    "slug": "solidarischer-adventsbasar-vor-der-basilika-st-clemens",
+    "name": "Solidarischer Adventsbasar vor der Basilika St. Clemens",
+    "kind": "festival",
+    "startDate": "2026-11-28",
+    "endDate": "2026-11-28",
+    "location": "Hannover, Platz an der Basilika",
+    "description": "Solidarischer Adventsbasar vor der Basilika St. Clemens at Hannover, Platz an der Basilika. See the source for details.",
+    "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Solidarischer-Adventsbasar-vor-der-Basilika-St.-Clemens",
+    "status": "upcoming",
+    "programmeCount": 0,
+    "locationCount": 0,
+    "programmePath": "occasions/solidarischer-adventsbasar-vor-der-basilika-st-clemens.json",
+    "preview": [],
+    "occurrences": [
+      {
+        "date": "2026-11-28",
+        "startTime": "14:00",
+        "endTime": "18:00"
+      }
+    ],
+    "scheduleConfidence": "continuous",
+    "place": {
+      "venue": "Hannover, Platz an der Basilika",
+      "street": "Platz an der Basilika 1",
+      "postalCode": "30169",
+      "locality": "Hannover",
+      "municipality": "Hannover"
+    },
+    "area": "city"
+  },
+  "programme": []
+}
