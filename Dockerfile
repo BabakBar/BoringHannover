@@ -5,7 +5,7 @@
 FROM python:3.15-slim-trixie AS builder
 
 # Install uv - pinned version for reproducibility
-COPY --from=ghcr.io/astral-sh/uv:0.13.9 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.13.10 /uv /uvx /bin/
 
 # Set working directory
 WORKDIR /app
