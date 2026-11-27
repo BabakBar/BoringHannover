@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Sun 15 Nov 19:00"
+    "updatedAt": "Fri 27 Nov 10:00"
   },
   "occasion": {
     "id": "hannover-festivals:waldheimer-wichtelmarkt-und-laternenumzug",
@@ -12,7 +12,7 @@
     "location": "Wichtelmarkt Brandesteinstraße",
     "description": "Waldheimer Wichtelmarkt und Laternenumzug at Wichtelmarkt Brandesteinstraße. See the source for details.",
     "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Waldheimer-Wichtelmarkt-und-Laternenumzug",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/waldheimer-wichtelmarkt-und-laternenumzug.json",
