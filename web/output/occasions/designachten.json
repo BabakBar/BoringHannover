@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Fri 06 Nov 21:22"
+    "updatedAt": "Fri 27 Nov 10:00"
   },
   "occasion": {
     "id": "hannover-festivals:designachten",
@@ -12,7 +12,7 @@
     "location": "Kulturzentrum Pavillon",
     "description": "Designachten at Kulturzentrum Pavillon. See the source for details.",
     "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Designachten",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/designachten.json",
