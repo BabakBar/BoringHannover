@@ -14,6 +14,34 @@ export interface Snapshot {
   provenance: Provenance;
 }
 
+/** Structural equality of parsed JSON values; object key order is irrelevant. */
+export function sameJson(left: unknown, right: unknown): boolean {
+  if (left === right) return true;
+  if (
+    typeof left !== 'object' ||
+    typeof right !== 'object' ||
+    left === null ||
+    right === null ||
+    Array.isArray(left) !== Array.isArray(right)
+  ) {
+    return false;
+  }
+  if (Array.isArray(left)) {
+    const other = right as unknown[];
+    return (
+      left.length === other.length &&
+      left.every((item, index) => sameJson(item, other[index]))
+    );
+  }
+  const a = left as Record<string, unknown>;
+  const b = right as Record<string, unknown>;
+  const keys = Object.keys(a);
+  return (
+    keys.length === Object.keys(b).length &&
+    keys.every((key) => Object.hasOwn(b, key) && sameJson(a[key], b[key]))
+  );
+}
+
 export function readSnapshot(config: DataConfig, now = Date.now()): Snapshot {
   const { mode, dataRoot, maxAgeDays } = config;
   const manifestPath = join(dataRoot, 'web_events.json');
@@ -37,7 +65,13 @@ export function readSnapshot(config: DataConfig, now = Date.now()): Snapshot {
     }
     return readFileSync(path, 'utf8');
   }
-  function parse<T>(content: string, schema: z.ZodType<T>, path: string): T {
+  // Returns the raw JSON too: the schema strips unknown keys, but the summary
+  // comparison must see every published field, as the Python writer does.
+  function parse<T>(
+    content: string,
+    schema: z.ZodType<T>,
+    path: string,
+  ): { raw: unknown; data: T } {
     let value: unknown;
     try {
       value = JSON.parse(content);
@@ -51,7 +85,7 @@ export function readSnapshot(config: DataConfig, now = Date.now()): Snapshot {
         .map((issue) => `${issue.path.join('.') || '<root>'} (${issue.code})`);
       throw error(path, `schema validation failed: ${issues.join(', ')}`);
     }
-    return result.data;
+    return { raw: value, data: result.data };
   }
   let content: string;
   try {
@@ -63,7 +97,12 @@ export function readSnapshot(config: DataConfig, now = Date.now()): Snapshot {
     }
     throw error(manifestPath, `cannot read manifest (${code})`);
   }
-  const data = parse(content, eventDataSchema, manifestPath);
+  const { raw: rawManifest, data } = parse(
+    content,
+    eventDataSchema,
+    manifestPath,
+  );
+  const rawSummaries = (rawManifest as { occasions: unknown[] }).occasions;
   const timestamp = data.meta.updatedAtISO
     ? Date.parse(data.meta.updatedAtISO)
     : NaN;
@@ -82,7 +121,7 @@ export function readSnapshot(config: DataConfig, now = Date.now()): Snapshot {
   const digest = createHash('sha256').update(
     JSON.stringify(['web_events.json', content]),
   );
-  const occasions = data.occasions.filter((occasion) => {
+  const occasions = data.occasions.filter((occasion, index) => {
     const path = join(dataRoot, occasion.programmePath);
     if (
       referenced.has(occasion.programmePath) ||
@@ -97,7 +136,11 @@ export function readSnapshot(config: DataConfig, now = Date.now()): Snapshot {
     ids.add(occasion.id);
     try {
       const programmeContent = read(path);
-      const programme = parse(programmeContent, occasionProgrammeSchema, path);
+      const { raw: rawProgramme, data: programme } = parse(
+        programmeContent,
+        occasionProgrammeSchema,
+        path,
+      );
       if (
         programme.occasion.id !== occasion.id ||
         programme.occasion.slug !== occasion.slug ||
@@ -108,6 +151,23 @@ export function readSnapshot(config: DataConfig, now = Date.now()): Snapshot {
         throw error(
           path,
           'programme occasion identity or date range does not match manifest',
+        );
+      }
+      // Same rule as the Python writer (publication._programmes): a manifest
+      // whose summary differs from the programme's embedded summary is a torn
+      // or inconsistent publication, even when identity and dates agree.
+      if (
+        !sameJson(
+          rawSummaries[index],
+          (rawProgramme as { occasion: unknown }).occasion,
+        )
+      ) {
+        throw error(path, 'programme occasion summary does not match manifest');
+      }
+      if (programme.programme.length !== occasion.programmeCount) {
+        throw error(
+          path,
+          `programme has ${programme.programme.length} items but manifest programmeCount is ${occasion.programmeCount}`,
         );
       }
       programmes.set(occasion.programmePath, programme);

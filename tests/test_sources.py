@@ -29,6 +29,7 @@ from boringhannover.sources.concerts.kulturpalast_linden import (
     KulturpalastLindenSource,
 )
 from boringhannover.sources.concerts.lux import LuxSource
+from boringhannover.sources.concerts.pavillon import PavillonSource
 from boringhannover.sources.concerts.platzprojekt import PlatzprojektSource
 from boringhannover.sources.concerts.punkrock_konzerte import (
     PunkrockKonzerteSource,
@@ -212,7 +213,8 @@ def test_christmas_discovery_gaps_refuse_publication(
         "incomplete",
         {"listing": 0, "pagination": 10, "unreadable-card": 11}[failure],
     )
-    assert publication_refusal(result).startswith("incomplete occasion discovery:")
+    refusal = publication_refusal(result, expected_discovery={"christmas"})
+    assert refusal.startswith("incomplete occasion discovery:")
 
 
 # Real LUX description that used to publish as "...das ebenfalls de".
@@ -788,21 +790,37 @@ class TestPunkrockKonzerte:
 def test_lux_captured_programme() -> None:
     events = LuxSource()._parse_events(_soup("lux_programme.html"), now=NOW)
 
-    # Cancelled, unresolved, past and malformed entries are dropped.
+    # Unresolved, past and malformed entries are dropped. A cancelled card
+    # stays, labelled, so a programme that lists it learns of it (#134).
     assert [event.title for event in events] == [
         "DRIVEN BY CLOCKWORK /W SUMMER GLOOM",
         "PON DE BEATS X RAMUNE RAVE",
+        "TRAUMATIN",
+        "MICHÈL VON WUSSOW",
         "MC BOMBER",
         "JANUARY FUTURE",
     ]
-    concert, club_night, sold_out, future = events
+    concert, club_night, cancelled, postponed, sold_out, future = events
+
+    # "++ VERLEGT AUF 13.04.2027 ++": the original date stays, labelled.
+    assert postponed.metadata["status"] == "postponed"
+    assert postponed.date.date() == datetime(2026, 10, 13, tzinfo=BERLIN_TZ).date()
+    assert postponed.metadata["time_confidence"] == FALLBACK_TIME
+
+    # The notice is outside the title ("++ ABGESAGT ++") and the card has no
+    # start time; its date and URL still identify the performance.
+    assert cancelled.metadata["status"] == "cancelled"
+    assert cancelled.url.endswith("/konzerte/traumatin/")
+    assert cancelled.date.date() == datetime(2026, 9, 4, tzinfo=BERLIN_TZ).date()
+    assert cancelled.metadata["time_confidence"] == FALLBACK_TIME
 
     assert concert.date == datetime(2026, 8, 14, 20, 0, tzinfo=BERLIN_TZ)
     assert concert.url.endswith("/konzerte/driven-by-clockwork-w-summer-gloom/")
     assert concert.venue == "LUX"
     assert concert.metadata["time_confidence"] == CONFIRMED_TIME
     assert concert.metadata["event_type"] == "concert"
-    assert concert.metadata["status"] == "available"
+    # No sold-out notice is not evidence of availability (#134).
+    assert "status" not in concert.metadata
     assert concert.metadata["genre"] == "Punk / Hardcore"
     assert concert.metadata["genre_source"] == "programme_description"
     assert concert.metadata["price"] == "16 € zzgl. Geb."
@@ -821,6 +839,27 @@ def test_lux_captured_programme() -> None:
     assert future.metadata["genre"] == "Rock"
 
 
+@pytest.mark.parametrize(
+    ("now", "listed"),
+    [
+        (datetime(2026, 9, 4, 0, 0, tzinfo=BERLIN_TZ), True),
+        (datetime(2026, 9, 4, 19, 59, tzinfo=BERLIN_TZ), True),
+        # 20:00 is only a sorting placeholder for a card without a start time.
+        (datetime(2026, 9, 4, 20, 1, tzinfo=BERLIN_TZ), True),
+        (datetime(2026, 9, 4, 23, 59, tzinfo=BERLIN_TZ), True),
+        (datetime(2026, 9, 5, 0, 0, tzinfo=BERLIN_TZ), False),
+    ],
+)
+def test_lux_date_only_card_lasts_its_whole_day(now: datetime, listed: bool) -> None:
+    """The cancelled TRAUMATIN card (Fr. 04.09.) has no start time (#165 review)."""
+    events = LuxSource()._parse_events(_soup("lux_programme.html"), now=now)
+    card = [event for event in events if event.title == "TRAUMATIN"]
+    in_window = [event for event in card if event.is_within_next_days(14, now=now)]
+    assert bool(in_window) is listed
+    if listed:
+        assert card[0].date.date() == now.date()
+
+
 class TestPlatzprojekt:
     def test_captured_payload(self) -> None:
         source = PlatzprojektSource()
@@ -834,8 +873,12 @@ class TestPlatzprojekt:
             "PLATZkino – heute mit „Parasite“",  # noqa: RUF001
             "Blaue Zone Sommercamp",
             "Offenes Krökeln",
+            "FÄLLT AUS! Kickboxen",
         ]
-        timed, all_day, default_venue = events
+        timed, all_day, default_venue, cancelled = events
+        # Kept and labelled rather than dropped (#134).
+        assert cancelled.metadata["status"] == "cancelled"
+        assert "status" not in timed.metadata
 
         assert timed.date == datetime(2026, 7, 28, 20, 0, tzinfo=BERLIN_TZ)
         assert timed.venue == "OSCO – OpenSpace"  # noqa: RUF001
@@ -865,6 +908,28 @@ class TestPlatzprojekt:
     @pytest.mark.parametrize("payload", [[], {"events": "invalid"}])
     def test_malformed_payload_yields_nothing(self, payload: object) -> None:
         assert PlatzprojektSource()._parse_payload(payload, now=NOW) == []
+
+
+def test_pavillon_labels_cancelled_and_postponed_cards() -> None:
+    """Synthetic cards in Pavillon's text layout; the notice is outside the title."""
+    html = "".join(
+        f'<div class="event"><span>{day}</span><span>{date}</span>'
+        f'<span>{time} Uhr</span><a href="/event/details/{number}">{title}</a>'
+        f"<span>Konzert</span><span>{notice}</span></div>"
+        for number, (day, date, time, title, notice) in enumerate(
+            [
+                ("Sa", "12.12.2026", "20:00", "Erste Band", "Tickets"),
+                ("So", "13.12.2026", "19:00", "Zweite Band", "Entfällt"),
+                ("Mo", "14.12.2026", "20:00", "Dritte Band", "Wird verschoben"),
+            ]
+        )
+    )
+    events = PavillonSource()._parse_events(BeautifulSoup(html, "html.parser"))
+    assert [(e.title, e.metadata.get("status")) for e in events] == [
+        ("Erste Band", None),
+        ("Zweite Band", "cancelled"),
+        ("Dritte Band", "postponed"),
+    ]
 
 
 def test_hannover_96_captured_calendar() -> None:

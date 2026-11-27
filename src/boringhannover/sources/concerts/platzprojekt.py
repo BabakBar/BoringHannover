@@ -124,11 +124,7 @@ class PlatzprojektSource(BaseSource):
 
         title = sanitize_text(cast("str", raw_title), 200)
         url = sanitize_url(cast("str", raw_url))
-        if (
-            not title
-            or self._is_cancelled(title)
-            or not self._is_canonical_event_url(url)
-        ):
+        if not title or not self._is_canonical_event_url(url):
             return None
 
         event_date = self._parse_datetime(cast("str", raw_start))
@@ -160,7 +156,7 @@ class PlatzprojektSource(BaseSource):
         )
         end_time = "" if all_day else self._parse_end_time(data.get("end_date"))
 
-        return Event(
+        event = Event(
             title=title,
             date=event_date,
             venue=venue,
@@ -179,6 +175,11 @@ class PlatzprojektSource(BaseSource):
                 "source_name": self.source_name,
             },
         )
+        # A cancelled date stays published, labelled, so a programme that
+        # already lists it learns of the cancellation.
+        if self._is_cancelled(title):
+            event.metadata["status"] = "cancelled"
+        return event
 
     def _parse_venue(self, raw_venue: object) -> tuple[str, str]:
         if not isinstance(raw_venue, dict):

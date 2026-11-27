@@ -21,7 +21,7 @@ from typing import TYPE_CHECKING
 from boringhannover.config import SCRAPE_DELAY_SECONDS
 from boringhannover.constants import BERLIN_TZ, EVENT_LOOKAHEAD_DAYS
 from boringhannover.source_outcomes import IncompleteDiscoveryError, SourceOutcome
-from boringhannover.sources import get_all_sources
+from boringhannover.sources import get_all_sources, get_import_failures
 from boringhannover.sources.base import BaseSource
 
 
@@ -54,7 +54,10 @@ def fetch_all_events(
     Fetching and occasion discovery are separate operations: each records a
     SourceOutcome, and one failing does not skip the other. A source that
     only carries its own occasion definition discovers nothing, so it records
-    no discovery outcome. Disabled sources record nothing.
+    no discovery outcome. A disabled source records nothing, except that a
+    disabled discovering source records a "disabled" discovery outcome so the
+    publication gate can tell it from a missing one. Reading the registry also
+    reports each source module that failed to import.
 
     Args:
         sources: Sources to fetch from; defaults to every registered source.
@@ -78,6 +81,10 @@ def fetch_all_events(
 
     if sources is None:
         sources = get_all_sources()
+        outcomes.extend(
+            SourceOutcome.failed(module, "import", exc)
+            for module, exc in sorted(get_import_failures().items())
+        )
     logger.info("Found %d registered sources", len(sources))
 
     # Fetch from each enabled source with rate limiting
@@ -95,6 +102,9 @@ def fetch_all_events(
         # Skip disabled sources
         if not source.enabled:
             logger.debug("Skipping disabled source: %s", name)
+            if _discovers_occasions(source_cls):
+                logger.warning("Occasion discovery for source %s is disabled", name)
+                outcomes.append(SourceOutcome.disabled(name, "discover_occasions"))
             continue
 
         # Delay between sources to avoid IP blocks

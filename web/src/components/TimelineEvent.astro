@@ -2,6 +2,7 @@
 import { sanitizeUrl } from '../utils/sanitize';
 import { formatEventTime } from '../utils/displayLabels';
 import { getCanonicalGenre } from '../utils/genreFilter';
+import { eventStatusLabel, isCancelledStatus } from '../utils/eventStatus';
 
 interface Props {
   title: string;
@@ -41,7 +42,8 @@ const canonicalGenre = getCanonicalGenre(genre);
 const infoTag = canonicalGenre || radarCategory || (
   eventType && eventType !== 'concert' ? eventType : null
 );
-const isSoldOut = status === 'sold_out';
+const statusLabel = eventStatusLabel(status);
+const isCancelled = isCancelledStatus(status);
 ---
 
 <a
@@ -59,12 +61,18 @@ const isSoldOut = status === 'sold_out';
   <!-- Content -->
   <div class="timeline-content">
     <div class="flex items-center gap-2">
-      <h3 class="font-body text-base font-semibold text-text-primary truncate group-hover:text-accent transition-colors">
+      <h3 class:list={[
+        'font-body text-base font-semibold text-text-primary truncate group-hover:text-accent transition-colors',
+        { 'line-through': isCancelled },
+      ]}>
         {title}
       </h3>
-      {isSoldOut && (
-        <span class="font-display text-[10px] uppercase text-accent px-1.5 py-0.5 bg-accent-dim rounded-sm shrink-0">
-          Sold Out
+      {statusLabel && (
+        <span
+          class="font-display text-[10px] uppercase text-accent px-1.5 py-0.5 bg-accent-dim rounded-sm shrink-0"
+          data-event-status={status}
+        >
+          {statusLabel}
         </span>
       )}
     </div>

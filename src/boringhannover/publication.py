@@ -16,6 +16,7 @@ from urllib.parse import quote, urlsplit
 
 import httpx
 
+from boringhannover.availability import CHANGE_STATUSES, act_title
 from boringhannover.constants import (
     BERLIN_TZ,
     OCCASION_LOOKAHEAD_DAYS,
@@ -447,6 +448,60 @@ def _event_key(item: Record) -> tuple[str, ...]:
     )
 
 
+def _same_act(prior: Record, fresh: Record) -> bool:
+    """Whether two rows describe the same performance, allowing a status edit.
+
+    Venues announce a change by editing the row in place: ZAG Arena renamed
+    "KONSTANTINOS ARGIROS" to "KONSTANTINOS ARGIROS - ABGESAGT", and a
+    cancelled LUX card drops its start time. A shared listing URL alone is no
+    evidence (Weltspiele falls back to its programme URL for every act), so
+    the titles must also agree once status notices are removed. Times must
+    agree when both rows state one.
+    """
+    if not prior.get("url") or any(
+        prior.get(key) != fresh.get(key) for key in ("url", "dateISO", "venue")
+    ):
+        return False
+    act = act_title(_text(prior, "title"))
+    if not act or act != act_title(_text(fresh, "title")):
+        return False
+    time, other = fresh.get("time"), prior.get("time")
+    return not time or not other or time == other
+
+
+def _edited_performance(
+    items: list[Record],
+    fresh: Record,
+    fresh_rows: Sequence[Record],
+    fresh_keys: set[tuple[str, ...]],
+) -> Record | None:
+    """Return the one prior item this fresh row edits, or None.
+
+    Exact matches are settled first: a prior item some fresh row matches
+    exactly, or a fresh row added earlier in this run, is never a candidate.
+    The match must then be unique on both sides, so two performances of the
+    same act with unknown times are left side by side.
+    """
+    candidates = [
+        item
+        for item in items
+        if _event_key(item) not in fresh_keys and _same_act(item, fresh)
+    ]
+    if len(candidates) != 1:
+        return None
+    (prior,) = candidates
+    prior_keys = {_event_key(item) for item in items}
+    key = _event_key(fresh)
+    rivals = [
+        row
+        for row in fresh_rows
+        if (row_key := _event_key(row)) != key
+        and row_key not in prior_keys
+        and _same_act(prior, row)
+    ]
+    return None if rivals else prior
+
+
 def _partition_carried_programmes(
     manifest: Record,
     programmes: dict[str, Record],
@@ -458,6 +513,8 @@ def _partition_carried_programmes(
     year = _object(manifest["meta"]).get("year")
     if type(year) is not int:
         raise ValueError("Invalid export year for programme classification")
+    fresh_rows = [_occasion_programme_item(event, year) for event in events]
+    fresh_keys = {_event_key(row) for row in fresh_rows}
     for event in events:
         row = _format_web_event(event, year)
         if row not in radar:
@@ -487,21 +544,21 @@ def _partition_carried_programmes(
         fresh = _occasion_programme_item(event, year)
         key = _event_key(fresh)
         prior = next((item for item in items if _event_key(item) == key), None)
+        if prior is None:
+            prior = _edited_performance(items, fresh, fresh_rows, fresh_keys)
+        # A change once observed stays until the venue states another one: a
+        # vanished marker is no proof of reinstatement (#26), but a newer
+        # cancellation replaces an older postponement.
         if (
             prior is not None
             and "status" not in event.metadata
-            and prior.get("status")
-            in (
-                "cancelled",
-                "canceled",
-                "postponed",
-                "rescheduled",
-            )
+            and fresh.get("status") not in CHANGE_STATUSES
+            and prior.get("status") in CHANGE_STATUSES
         ):
             fresh["status"] = prior["status"]
-        programme["programme"] = [item for item in items if _event_key(item) != key] + [
-            fresh
-        ]
+        programme["programme"] = [
+            item for item in items if item is not prior and _event_key(item) != key
+        ] + [fresh]
         radar.remove(row)
     manifest["concerts"] = radar
     for identity in carried:

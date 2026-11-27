@@ -46,6 +46,7 @@ __all__ = [
     "parse_german_date",
     "parse_venue_date",
     "register_source",
+    "unregister_module",
 ]
 
 logger = logging.getLogger(__name__)
@@ -92,6 +93,19 @@ def get_all_sources() -> dict[str, type[BaseSource]]:
         Dictionary mapping source names to source classes.
     """
     return _REGISTRY.copy()
+
+
+def unregister_module(module: str) -> list[str]:
+    """Remove every source a module registered, and return their names.
+
+    @register_source runs while the module body executes, so a module that
+    raises after a class definition has already registered it. Nothing from a
+    module that failed to import may run.
+    """
+    names = [name for name, cls in _REGISTRY.items() if cls.__module__ == module]
+    for name in names:
+        del _REGISTRY[name]
+    return names
 
 
 class BaseSource(ABC):
