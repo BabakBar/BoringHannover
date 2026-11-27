@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-26",
+  "last_updated": "2026-11-27",
   "snapshots": [
     {
       "date": "2026-09-04",
@@ -4674,6 +4674,72 @@
           "uniques": 1
         }
       ]
+    },
+    {
+      "date": "2026-11-27",
+      "timestamp": "2026-11-27T00:00:00Z",
+      "paths": [
+        {
+          "path": "/BabakBar/BoringHannover/pulls",
+          "title": "/pulls",
+          "count": 22,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover",
+          "title": "Overview",
+          "count": 20,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/issues",
+          "title": "/issues",
+          "count": 15,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/pull/104",
+          "title": "/pull/104",
+          "count": 3,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/tree/master",
+          "title": "/tree/master",
+          "count": 3,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/pull/105",
+          "title": "/pull/105",
+          "count": 2,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/pull/109",
+          "title": "/pull/109",
+          "count": 2,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/blob/master/LICENSE",
+          "title": "/blob/master/LICENSE",
+          "count": 1,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/commit/1427f568c2232871e7ac347ca217bffed8b1869a",
+          "title": "/commit/1427f568c2232871e7ac347ca217bffed8b1869a",
+          "count": 1,
+          "uniques": 1
+        },
+        {
+          "path": "/BabakBar/BoringHannover/commits/master",
+          "title": "/commits/master",
+          "count": 1,
+          "uniques": 1
+        }
+      ]
     }
   ],
   "all_time": [
@@ -4685,7 +4751,7 @@
       "max_count": 27,
       "max_uniques": 1,
       "first_seen": "2026-09-18",
-      "last_seen": "2026-11-26"
+      "last_seen": "2026-11-27"
     },
     {
       "path": "/BabakBar/BoringHannover",
@@ -4695,7 +4761,7 @@
       "max_count": 23,
       "max_uniques": 2,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-11-26"
+      "last_seen": "2026-11-27"
     },
     {
       "path": "/BabakBar/BoringHannover/issues",
@@ -4705,7 +4771,7 @@
       "max_count": 15,
       "max_uniques": 1,
       "first_seen": "2026-10-16",
-      "last_seen": "2026-11-26"
+      "last_seen": "2026-11-27"
     },
     {
       "path": "/BabakBar/BoringHannover/pull/92",
@@ -4745,7 +4811,7 @@
       "max_count": 3,
       "max_uniques": 1,
       "first_seen": "2026-11-17",
-      "last_seen": "2026-11-26"
+      "last_seen": "2026-11-27"
     },
     {
       "path": "/BabakBar/BoringHannover/tree/master",
@@ -4755,7 +4821,7 @@
       "max_count": 3,
       "max_uniques": 1,
       "first_seen": "2026-11-22",
-      "last_seen": "2026-11-26"
+      "last_seen": "2026-11-27"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/.gitignore",
@@ -4815,7 +4881,7 @@
       "max_count": 2,
       "max_uniques": 1,
       "first_seen": "2026-11-17",
-      "last_seen": "2026-11-26"
+      "last_seen": "2026-11-27"
     },
     {
       "path": "/BabakBar/BoringHannover/pull/109",
@@ -4825,7 +4891,7 @@
       "max_count": 2,
       "max_uniques": 1,
       "first_seen": "2026-11-22",
-      "last_seen": "2026-11-26"
+      "last_seen": "2026-11-27"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/.dockerignore",
@@ -4865,7 +4931,7 @@
       "max_count": 1,
       "max_uniques": 1,
       "first_seen": "2026-09-04",
-      "last_seen": "2026-11-26"
+      "last_seen": "2026-11-27"
     },
     {
       "path": "/BabakBar/BoringHannover/blob/master/docker-compose.yml",
@@ -5025,7 +5091,7 @@
       "max_count": 1,
       "max_uniques": 1,
       "first_seen": "2026-11-25",
-      "last_seen": "2026-11-26"
+      "last_seen": "2026-11-27"
     },
     {
       "path": "/BabakBar/BoringHannover/commits/master",
@@ -5035,7 +5101,7 @@
       "max_count": 1,
       "max_uniques": 1,
       "first_seen": "2026-11-25",
-      "last_seen": "2026-11-26"
+      "last_seen": "2026-11-27"
     }
   ]
 }
