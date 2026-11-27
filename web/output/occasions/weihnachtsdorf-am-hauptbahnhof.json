@@ -19,21 +19,6 @@
     "preview": [],
     "occurrences": [
       {
-        "date": "2026-11-24",
-        "startTime": "11:00",
-        "endTime": "21:00"
-      },
-      {
-        "date": "2026-11-25",
-        "startTime": "11:00",
-        "endTime": "21:00"
-      },
-      {
-        "date": "2026-11-26",
-        "startTime": "11:00",
-        "endTime": "21:00"
-      },
-      {
         "date": "2026-11-27",
         "startTime": "11:00",
         "endTime": "21:00"
@@ -172,6 +157,16 @@
         "date": "2026-12-24",
         "startTime": "11:00",
         "endTime": "14:00"
+      },
+      {
+        "date": "2026-12-26",
+        "startTime": "11:00",
+        "endTime": "21:00"
+      },
+      {
+        "date": "2026-12-27",
+        "startTime": "11:00",
+        "endTime": "21:00"
       }
     ],
     "scheduleConfidence": "discrete",
