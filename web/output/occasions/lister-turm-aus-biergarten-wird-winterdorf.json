@@ -19,18 +19,6 @@
     "preview": [],
     "occurrences": [
       {
-        "date": "2026-11-24",
-        "startTime": "16:00"
-      },
-      {
-        "date": "2026-11-25",
-        "startTime": "16:00"
-      },
-      {
-        "date": "2026-11-26",
-        "startTime": "16:00"
-      },
-      {
         "date": "2026-11-27",
         "startTime": "16:00"
       },
@@ -137,6 +125,18 @@
       {
         "date": "2026-12-23",
         "startTime": "16:00"
+      },
+      {
+        "date": "2026-12-25",
+        "startTime": "16:00"
+      },
+      {
+        "date": "2026-12-26",
+        "startTime": "14:00"
+      },
+      {
+        "date": "2026-12-27",
+        "startTime": "12:00"
       }
     ],
     "scheduleConfidence": "discrete",
