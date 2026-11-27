@@ -1,13 +1,13 @@
 {
   "meta": {
-    "updatedAt": "Tue 24 Nov 10:00"
+    "updatedAt": "Fri 27 Nov 10:00"
   },
   "occasion": {
     "id": "hannover-festivals:weihnachtsmarkt-hannover",
     "slug": "weihnachtsmarkt-hannover",
     "name": "Weihnachtsmarkt Hannover",
     "kind": "festival",
-    "startDate": "2026-11-23",
+    "startDate": "2026-11-25",
     "endDate": "2026-12-22",
     "location": "Weihnachtsmarkt an der Marktkirche",
     "description": "Weihnachtsmarkt Hannover at Weihnachtsmarkt an der Marktkirche. See the source for details.",
@@ -18,21 +18,6 @@
     "programmePath": "occasions/weihnachtsmarkt-hannover.json",
     "preview": [],
     "occurrences": [
-      {
-        "date": "2026-11-24",
-        "startTime": "11:00",
-        "endTime": "21:00"
-      },
-      {
-        "date": "2026-11-25",
-        "startTime": "11:00",
-        "endTime": "21:00"
-      },
-      {
-        "date": "2026-11-26",
-        "startTime": "11:00",
-        "endTime": "21:00"
-      },
       {
         "date": "2026-11-27",
         "startTime": "11:00",
