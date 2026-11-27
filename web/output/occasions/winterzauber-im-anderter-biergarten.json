@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "Tue 24 Nov 10:00"
+    "updatedAt": "Fri 27 Nov 10:00"
   },
   "occasion": {
     "id": "hannover-festivals:winterzauber-im-anderter-biergarten",
@@ -12,7 +12,7 @@
     "location": "Anderter Erlebnisbiergarten \"Stampeders\"",
     "description": "Winterzauber im Anderter Biergarten at Anderter Erlebnisbiergarten \"Stampeders\". See the source for details.",
     "sourceUrl": "https://www.hannover.de/Kultur-Freizeit/Freizeit-Sport/Feste-Saisonales/Weihnachten-in-der-Region-Hannover/Weihnachtsmärkte-in-der-Stadt-Hannover/Winterzauber-im-Anderter-Biergarten",
-    "status": "upcoming",
+    "status": "happening_now",
     "programmeCount": 0,
     "locationCount": 0,
     "programmePath": "occasions/winterzauber-im-anderter-biergarten.json",
